@@ -59,6 +59,9 @@ class DailyLogs extends StatefulWidget {
 }
 
 class _DailyLogsState extends State<DailyLogs> {
+  int selectedWaterLevel = 0;
+  int selectedSleepHours = 0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -74,13 +77,13 @@ class _DailyLogsState extends State<DailyLogs> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // คอลัมน์แรก
+              // การดื่ม
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.blue[50], // สีพื้นหลังของคอลัมน์แรก
-                    borderRadius: BorderRadius.circular(15), // ทำขอบมน
+                    color: Colors.blue[50],
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   child: Column(
                     children: [
@@ -94,14 +97,48 @@ class _DailyLogsState extends State<DailyLogs> {
                       Row(
                         children: [
                           const SizedBox(width: 8),
-                          const Text('3 แก้ว'),
+                          Text('$selectedWaterLevel แก้ว'),
                         ],
                       ),
                       const SizedBox(height: 10),
                       Row(
                         children: [
                           const SizedBox(width: 8),
-                          Icon(Icons.water_drop_rounded, color: Colors.blue),
+                          Expanded(
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  int? result = await showDialog<int>(
+                                    context: context,
+                                    builder: (context) => WaterLevelDialog(
+                                      initialGlasses: selectedWaterLevel,
+                                    ),
+                                  );
+                                  if (result != null) {
+                                    setState(() {
+                                      selectedWaterLevel = result;
+                                    });
+                                  }
+                                },
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    Icon(
+                                      Icons.water_drop_rounded,
+                                      color: Colors.blue.withOpacity(0.2),
+                                      size: 50,
+                                    ),
+                                    Container(
+                                      width: 25,
+                                      height: 50 * (selectedWaterLevel / 8),
+                                      color: Colors.blue,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
                         ],
                       ),
                     ],
@@ -109,7 +146,7 @@ class _DailyLogsState extends State<DailyLogs> {
                 ),
               ),
               const SizedBox(width: 20), // ระยะห่างระหว่างคอลัมน์
-              // คอลัมน์ที่สอง
+              // การนอน
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(16),
@@ -129,14 +166,47 @@ class _DailyLogsState extends State<DailyLogs> {
                       Row(
                         children: [
                           const SizedBox(width: 8),
-                          const Text('12 ชั่วโมง'),
+                          Text('$selectedSleepHours ชั่วโมง'),
                         ],
                       ),
                       const SizedBox(height: 10),
                       Row(
                         children: [
                           const SizedBox(width: 8),
-                          Icon(Icons.mood, color: Colors.yellow),
+                          Expanded(
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () async {
+                                  int? result = await showDialog<int>(
+                                    context: context,
+                                    builder: (context) => SleepLevelDialog(
+                                      initialHours: selectedSleepHours,
+                                    ),
+                                  );
+                                  if (result != null) {
+                                    setState(() {
+                                      selectedSleepHours = result;
+                                    });
+                                  }
+                                },
+                                child: Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    Icon(
+                                      Icons.nights_stay,
+                                      color: Colors.yellow.withOpacity(0.2),
+                                      size: 50,
+                                    ),
+                                    Container(
+                                      width: 25,
+                                      height: 50 * (selectedSleepHours / 24),
+                                      color: Colors.yellow,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ],
@@ -167,7 +237,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
@@ -181,11 +251,16 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                 children: [
                   TextButton(
                     style: ButtonStyle(
-                      foregroundColor:
-                          WidgetStateProperty.all<Color>(Colors.blue),
-                    ),
+                        foregroundColor:
+                            WidgetStateProperty.all<Color>(Colors.white),
+                        backgroundColor: WidgetStatePropertyAll(Colors.blue)),
                     onPressed: () {},
-                    child: Text('บันทึกข้อมูล'),
+                    child: Row(
+                      children: [
+                        Icon(Icons.add),
+                        Text('บันทึกข้อมูล'),
+                      ],
+                    ),
                   ),
                 ],
               )
@@ -306,9 +381,196 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
               ),
             ],
           ),
-          
         ],
       ),
+    );
+  }
+}
+
+//water logs
+class WaterLevelDialog extends StatefulWidget {
+  final int initialGlasses;
+
+  const WaterLevelDialog({required this.initialGlasses});
+  @override
+  _WaterLevelDialogState createState() => _WaterLevelDialogState();
+}
+
+class _WaterLevelDialogState extends State<WaterLevelDialog> {
+  late int waterLevel;
+
+  @override
+  void initState() {
+    super.initState();
+    waterLevel = widget.initialGlasses;
+  }
+
+  void increaseWaterLevel() {
+    setState(() {
+      if (waterLevel < 8) {
+        waterLevel++;
+      }
+    });
+  }
+
+  void decreaseWaterLevel() {
+    setState(() {
+      if (waterLevel > 0) {
+        waterLevel--;
+      }
+    });
+  }
+
+  double calculateWaterHeight() {
+    return waterLevel / 8.0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('จำนวนน้ำ'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Icon(Icons.water_drop_rounded,
+                  color: Colors.blue.withOpacity(0.2),
+                  size: 100), // ไอคอนน้ำที่ว่างเปล่า
+              Container(
+                width: 50,
+                height: 100 *
+                    calculateWaterHeight(), // ความสูงของน้ำตามระดับที่กำหนด
+                color: Colors.blue,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.remove),
+                onPressed: decreaseWaterLevel,
+              ),
+              Text(
+                '$waterLevel',
+                style: const TextStyle(fontSize: 24),
+              ),
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: increaseWaterLevel,
+              ),
+            ],
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          style: ButtonStyle(
+            foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+            backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
+          ),
+          onPressed: () => Navigator.pop(context, waterLevel),
+          child: Center(child: const Text('ยืนยัน')),
+        ),
+      ],
+    );
+  }
+}
+
+//sleep logs
+class SleepLevelDialog extends StatefulWidget {
+  final int initialHours;
+
+  const SleepLevelDialog({required this.initialHours});
+
+  @override
+  _SleepLevelDialogState createState() => _SleepLevelDialogState();
+}
+
+class _SleepLevelDialogState extends State<SleepLevelDialog> {
+  late int sleepHours;
+
+  @override
+  void initState() {
+    super.initState();
+    sleepHours = widget.initialHours;
+  }
+
+  void increaseSleepHours() {
+    setState(() {
+      if (sleepHours < 24) {
+        sleepHours++;
+      }
+    });
+  }
+
+  void decreaseSleepHours() {
+    setState(() {
+      if (sleepHours > 0) {
+        sleepHours--;
+      }
+    });
+  }
+
+  double calculateSleepHeight() {
+    return sleepHours / 24.0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('ชั่วโมงการนอน'),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Icon(
+                Icons.nights_stay,
+                color: Colors.yellow.withOpacity(0.2),
+                size: 100,
+              ),
+              Container(
+                width: 50,
+                height: 100 * calculateSleepHeight(),
+                color: Colors.yellow,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.remove),
+                onPressed: decreaseSleepHours,
+              ),
+              Text(
+                '$sleepHours',
+                style: const TextStyle(fontSize: 24),
+              ),
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: increaseSleepHours,
+              ),
+            ],
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          style: ButtonStyle(
+            foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
+            backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
+          ),
+          onPressed: () => Navigator.pop(context, sleepHours),
+          child: const Text('ยืนยัน'),
+        ),
+      ],
     );
   }
 }
