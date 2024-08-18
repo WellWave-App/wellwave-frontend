@@ -4,11 +4,11 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import '../../config/constants/app_images.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
+class CustomNavigationBarItem extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  const CustomBottomNavigationBar({
+  const CustomNavigationBarItem({
     Key? key,
     required this.selectedIndex,
     required this.onItemTapped,
@@ -52,8 +52,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           ),
           if (isSelected && showDot)
             Container(
-              margin: const EdgeInsets.only(
-                  top: 4),
+              margin: const EdgeInsets.only(top: 4),
               width: 8,
               height: 8,
               decoration: const BoxDecoration(

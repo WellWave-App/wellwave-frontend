@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        AppPages.splashPath: (context) => const BottomNavigationBarExample(),
+        AppPages.splashPath: (context) => const CustomNavigationBar(),
         AppPages.homePage: (context) => const HomeScreen(),
       },
     );

@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar_item.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 
-class BottomNavigationBarExample extends StatefulWidget {
-  const BottomNavigationBarExample({super.key});
+class CustomNavigationBar extends StatefulWidget {
+  const CustomNavigationBar({super.key});
 
   @override
-  State<BottomNavigationBarExample> createState() =>
-      _BottomNavigationBarExampleState();
+  State<CustomNavigationBar> createState() => _CustomNavigationBarState();
 }
 
-class _BottomNavigationBarExampleState
-    extends State<BottomNavigationBarExample> {
+class _CustomNavigationBarState extends State<CustomNavigationBar> {
   int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -29,7 +27,7 @@ class _BottomNavigationBarExampleState
           HomeScreen(),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
+      bottomNavigationBar: CustomNavigationBarItem(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
       ),

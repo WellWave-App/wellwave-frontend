@@ -7,7 +7,7 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: AppPages.splashPath,
-      builder: (context, state) => const BottomNavigationBarExample(),
+      builder: (context, state) => const CustomNavigationBar(),
       routes: [
         GoRoute(
           path: AppPages.homePage,
