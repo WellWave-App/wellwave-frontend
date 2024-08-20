@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-class ToDoList extends StatefulWidget {
-  const ToDoList({super.key});
+class NoteScreen extends StatefulWidget {
+  NoteScreen({super.key});
 
   @override
-  State<ToDoList> createState() => _ToDoListState();
+  State<NoteScreen> createState() => _NoteScreenState();
 }
 
-class _ToDoListState extends State<ToDoList> {
+class _NoteScreenState extends State<NoteScreen> {
   @override
   Widget build(BuildContext context) {
-    const String appTitle = 'To do list';
+    String appTitle = 'To do list';
     return MaterialApp(
       title: appTitle,
       home: Scaffold(
-        appBar: AppBar(title: const TitleSection()),
-        body: const SingleChildScrollView(
+        appBar: AppBar(title: TitleSection()),
+        body: SingleChildScrollView(
           child: Column(
             children: [DailyLogs(), WeeklyLogs()],
           ),
@@ -26,14 +26,14 @@ class _ToDoListState extends State<ToDoList> {
 }
 
 class TitleSection extends StatelessWidget {
-  const TitleSection({
+  TitleSection({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.all(32),
       child: Row(
         mainAxisAlignment:
             MainAxisAlignment.end, // Aligns the content to the start (left)
@@ -43,8 +43,9 @@ class TitleSection extends StatelessWidget {
               foregroundColor: WidgetStateProperty.all<Color>(Colors.blue),
             ),
             onPressed: () {},
-            child: Text('ประวัติ'),
-          )
+            child: Text('ประวัติ',
+                style: Theme.of(context).textTheme.headlineLarge),
+          ),
         ],
       ),
     );
@@ -52,7 +53,7 @@ class TitleSection extends StatelessWidget {
 }
 
 class DailyLogs extends StatefulWidget {
-  const DailyLogs({super.key});
+  DailyLogs({super.key});
 
   @override
   State<DailyLogs> createState() => _DailyLogsState();
@@ -65,22 +66,20 @@ class _DailyLogsState extends State<DailyLogs> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(32.0),
+      padding: EdgeInsets.all(32.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'บันทึกสุขภาพประจำวัน',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
+          Text('บันทึกสุขภาพประจำวัน',
+              style: Theme.of(context).textTheme.headlineLarge),
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // การดื่ม
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.blue[50],
                     borderRadius: BorderRadius.circular(15),
@@ -89,21 +88,21 @@ class _DailyLogsState extends State<DailyLogs> {
                     children: [
                       Row(
                         children: [
-                          const SizedBox(width: 8),
-                          const Text('จำนวนน้ำ'),
+                          SizedBox(width: 8),
+                          Text('จำนวนน้ำ'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Text('$selectedWaterLevel แก้ว'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Expanded(
                             child: Center(
                               child: GestureDetector(
@@ -138,18 +137,18 @@ class _DailyLogsState extends State<DailyLogs> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                         ],
                       ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(width: 20), // ระยะห่างระหว่างคอลัมน์
+              SizedBox(width: 20), // ระยะห่างระหว่างคอลัมน์
               // การนอน
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.blue[50], // สีพื้นหลังของคอลัมน์แรก
                     borderRadius: BorderRadius.circular(15), // ทำขอบมน
@@ -158,21 +157,21 @@ class _DailyLogsState extends State<DailyLogs> {
                     children: [
                       Row(
                         children: [
-                          const SizedBox(width: 8),
-                          const Text('ชั่วโมงการนอน'),
+                          SizedBox(width: 8),
+                          Text('ชั่วโมงการนอน'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Text('$selectedSleepHours ชั่วโมง'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Expanded(
                             child: Center(
                               child: GestureDetector(
@@ -222,7 +221,7 @@ class _DailyLogsState extends State<DailyLogs> {
 }
 
 class WeeklyLogs extends StatefulWidget {
-  const WeeklyLogs({super.key});
+  WeeklyLogs({super.key});
 
   @override
   State<WeeklyLogs> createState() => _WeeklyLogsState();
@@ -232,7 +231,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(32.0),
+      padding: EdgeInsets.all(32.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -241,7 +240,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
             children: [
               Row(
                 children: [
-                  const Text(
+                  Text(
                     'ความก้าวหน้าประจำสัปดาห์',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
@@ -266,14 +265,14 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
               )
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // คอลัมน์แรก
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.blue[50], // สีพื้นหลังของคอลัมน์แรก
                     borderRadius: BorderRadius.circular(15), // ทำขอบมน
@@ -282,21 +281,21 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                     children: [
                       Row(
                         children: [
-                          const SizedBox(width: 8),
-                          const Text('น้ำหนัก'),
+                          SizedBox(width: 8),
+                          Text('น้ำหนัก'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
-                          const Text('50 กก.'),
+                          SizedBox(width: 8),
+                          Text('50 กก.'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Icon(Icons.water_drop_rounded, color: Colors.blue),
                         ],
                       ),
@@ -306,14 +305,14 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // คอลัมน์แรก
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.blue[50], // สีพื้นหลังของคอลัมน์แรก
                     borderRadius: BorderRadius.circular(15), // ทำขอบมน
@@ -322,21 +321,21 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                     children: [
                       Row(
                         children: [
-                          const SizedBox(width: 8),
-                          const Text('HDL'),
+                          SizedBox(width: 8),
+                          Text('HDL'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
-                          const Text('65 มก./ดล.'),
+                          SizedBox(width: 8),
+                          Text('65 มก./ดล.'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Icon(Icons.water_drop_rounded, color: Colors.blue),
                         ],
                       ),
@@ -344,11 +343,11 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                   ),
                 ),
               ),
-              const SizedBox(width: 20), // ระยะห่างระหว่างคอลัมน์
+              SizedBox(width: 20), // ระยะห่างระหว่างคอลัมน์
               // คอลัมน์ที่สอง
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.blue[50], // สีพื้นหลังของคอลัมน์แรก
                     borderRadius: BorderRadius.circular(15), // ทำขอบมน
@@ -357,21 +356,21 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                     children: [
                       Row(
                         children: [
-                          const SizedBox(width: 8),
-                          const Text('LDL'),
+                          SizedBox(width: 8),
+                          Text('LDL'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
-                          const Text('65 มก./ดล.'),
+                          SizedBox(width: 8),
+                          Text('65 มก./ดล.'),
                         ],
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         children: [
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8),
                           Icon(Icons.mood, color: Colors.yellow),
                         ],
                       ),
@@ -391,7 +390,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
 class WaterLevelDialog extends StatefulWidget {
   final int initialGlasses;
 
-  const WaterLevelDialog({required this.initialGlasses});
+  WaterLevelDialog({required this.initialGlasses});
   @override
   _WaterLevelDialogState createState() => _WaterLevelDialogState();
 }
@@ -428,7 +427,7 @@ class _WaterLevelDialogState extends State<WaterLevelDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('จำนวนน้ำ'),
+      title: Text('จำนวนน้ำ'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -446,20 +445,20 @@ class _WaterLevelDialogState extends State<WaterLevelDialog> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: const Icon(Icons.remove),
+                icon: Icon(Icons.remove),
                 onPressed: decreaseWaterLevel,
               ),
               Text(
                 '$waterLevel',
-                style: const TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24),
               ),
               IconButton(
-                icon: const Icon(Icons.add),
+                icon: Icon(Icons.add),
                 onPressed: increaseWaterLevel,
               ),
             ],
@@ -473,7 +472,7 @@ class _WaterLevelDialogState extends State<WaterLevelDialog> {
             backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
           ),
           onPressed: () => Navigator.pop(context, waterLevel),
-          child: Center(child: const Text('ยืนยัน')),
+          child: Center(child: Text('ยืนยัน')),
         ),
       ],
     );
@@ -484,7 +483,7 @@ class _WaterLevelDialogState extends State<WaterLevelDialog> {
 class SleepLevelDialog extends StatefulWidget {
   final int initialHours;
 
-  const SleepLevelDialog({required this.initialHours});
+  SleepLevelDialog({required this.initialHours});
 
   @override
   _SleepLevelDialogState createState() => _SleepLevelDialogState();
@@ -522,7 +521,7 @@ class _SleepLevelDialogState extends State<SleepLevelDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('ชั่วโมงการนอน'),
+      title: Text('ชั่วโมงการนอน'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -541,20 +540,20 @@ class _SleepLevelDialogState extends State<SleepLevelDialog> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: const Icon(Icons.remove),
+                icon: Icon(Icons.remove),
                 onPressed: decreaseSleepHours,
               ),
               Text(
                 '$sleepHours',
-                style: const TextStyle(fontSize: 24),
+                style: TextStyle(fontSize: 24),
               ),
               IconButton(
-                icon: const Icon(Icons.add),
+                icon: Icon(Icons.add),
                 onPressed: increaseSleepHours,
               ),
             ],
@@ -568,7 +567,7 @@ class _SleepLevelDialogState extends State<SleepLevelDialog> {
             backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
           ),
           onPressed: () => Navigator.pop(context, sleepHours),
-          child: const Text('ยืนยัน'),
+          child: Text('ยืนยัน'),
         ),
       ],
     );
