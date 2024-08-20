@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wellwave_frontend/config/routes/app_routes.dart';
+import 'package:wellwave_frontend/config/theme/app_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MainApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return MaterialApp.router(
+      routerConfig: goRouter,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: '/',
-      routes: {
-        AppPages.splashPath: (context) => const CustomNavigationBar(),
-        AppPages.homePage: (context) => const HomeScreen(),
-      },
+      debugShowCheckedModeBanner: false,
+      theme: appTheme(context),
     );
   }
 }

@@ -1,19 +1,17 @@
 class AppPages {
-  static const String splashPath = '/';
+  // ชื่อเส้นทาง
+  static const String splashPath = '/splash'; // ไม่มีสแลชที่ท้าย
+  static const String homePage = 'home'; // ไม่มีสแลชที่หน้า
+  static const String logPage = 'log'; // ไม่มีสแลชที่หน้า
+  static const String missionPage = 'mission'; // ไม่มีสแลชที่หน้า
+  static const String friendPage = 'friend'; // ไม่มีสแลชที่หน้า
+  static const String articlePage = 'article'; // ไม่มีสแลชที่หน้า
+
+  // ชื่อของเส้นทาง
   static const String splashName = 'splash';
-
-  static const String homePage = '/home';
-  static const String homeName = 'หน้าหลัก';
-
-  static const String logPage = 'สิ่งที่ต้องทำ';
-  static const String logName = 'สิ่งที่ต้องทำ';
-
-  static const String missionPage = 'ภารกิจ';
-  static const String missionName = 'ภารกิจ';
-
-  static const String friendPage = 'เพื่อน';
-  static const String friendName = 'เพื่อน';
-
-  static const String articlePage = 'บทความ';
-  static const String articleName = 'บทความ';
+  static const String homeName = 'home';
+  static const String logName = 'log';
+  static const String missionName = 'mission';
+  static const String friendName = 'friend';
+  static const String articleName = 'article';
 }
