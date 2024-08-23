@@ -10,12 +10,22 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            context.goNamed(AppPages.homeName);
-
-          },
-          child: Text('Go to Home'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                context.goNamed(AppPages.assessmentName);
+              },
+              child: Text('Go to Assessment'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.goNamed(AppPages.homeName);
+              },
+              child: Text('Go to Home'),
+            ),
+          ],
         ),
       ),
     );

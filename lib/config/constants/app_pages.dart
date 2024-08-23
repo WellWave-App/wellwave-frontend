@@ -6,6 +6,7 @@ class AppPages {
   static const String missionPage = 'mission'; // ไม่มีสแลชที่หน้า
   static const String friendPage = 'friend'; // ไม่มีสแลชที่หน้า
   static const String articlePage = 'article'; // ไม่มีสแลชที่หน้า
+  static const String assessmentPage = 'assessment';
 
   // ชื่อของเส้นทาง
   static const String splashName = 'splash';
@@ -14,4 +15,5 @@ class AppPages {
   static const String missionName = 'mission';
   static const String friendName = 'friend';
   static const String articleName = 'article';
+  static const String assessmentName = 'assessment';
 }

@@ -1,0 +1,146 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wellwave_frontend/common/widget/custom_nav_bar_item.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
+import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/article_screeen.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/note_screen.dart';
+
+class CustomNavigationBar extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onItemTapped;
+
+  const CustomNavigationBar({
+    Key? key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 10,
+            spreadRadius: 5,
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          CustomNavigationBarItem(
+            index: 0,
+            selectedIndex: selectedIndex,
+            iconAssetName: AppImages.homeIcon,
+            iconActiveAssetName: AppImages.homeIconActive,
+            width: 24,
+            height: 24,
+            showDot: true,
+            onItemTapped: onItemTapped,
+          ),
+          CustomNavigationBarItem(
+            index: 1,
+            selectedIndex: selectedIndex,
+            iconAssetName: AppImages.logIcon,
+            iconActiveAssetName: AppImages.logIconActive,
+            width: 24,
+            height: 24,
+            showDot: true,
+            onItemTapped: onItemTapped,
+          ),
+          CustomNavigationBarItem(
+            index: 2,
+            selectedIndex: selectedIndex,
+            iconAssetName: AppImages.missionIcon,
+            iconActiveAssetName: AppImages.missionIcon,
+            width: 56,
+            height: 56,
+            showDot: false,
+            onItemTapped: onItemTapped,
+          ),
+          CustomNavigationBarItem(
+            index: 3,
+            selectedIndex: selectedIndex,
+            iconAssetName: AppImages.friendIcon,
+            iconActiveAssetName: AppImages.friendIconActive,
+            width: 24,
+            height: 24,
+            showDot: true,
+            onItemTapped: onItemTapped,
+          ),
+          CustomNavigationBarItem(
+            index: 4,
+            selectedIndex: selectedIndex,
+            iconAssetName: AppImages.articleIcon,
+            iconActiveAssetName: AppImages.articleIconActive,
+            width: 24,
+            height: 24,
+            showDot: true,
+            onItemTapped: onItemTapped,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+// class CustomNavigationBar extends StatefulWidget {
+//   final GoRouter state;
+
+//   const CustomNavigationBar({super.key, required this.state});
+
+//   @override
+//   State<CustomNavigationBar> createState() => _CustomNavigationBarState();
+// }
+
+// class _CustomNavigationBarState extends State<CustomNavigationBar> {
+//   int _selectedIndex = 0;
+
+//   final List<String> _routes = [
+//     AppPages.homePage,
+//     AppPages.logPage,
+//     AppPages.missionPage,
+//     AppPages.friendPage,
+//     AppPages.articlePage,
+//   ];
+
+//   void _onItemTapped(int index) {
+//     setState(() {
+//       _selectedIndex = index;
+//       // นำทางไปยังเส้นทางที่เลือก
+//       widget.state.go(_routes[index]);
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: IndexedStack(
+//         index: _selectedIndex,
+//         children: const [
+//           HomeScreen(),
+//           NoteScreen(),
+//           MissionScreen(),
+//           FriendScreen(),
+//           ArticleScreen(),
+//         ],
+//       ),
+//       bottomNavigationBar: CustomNavigationBarItem(
+//         selectedIndex: _selectedIndex,
+//         onItemTapped: _onItemTapped,
+//       ),
+//     );
+//   }
+// }

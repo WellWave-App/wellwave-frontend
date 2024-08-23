@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
+import 'package:wellwave_frontend/config/routes/route_utils.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screeen.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/assessment_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
@@ -22,14 +24,17 @@ final GoRouter goRouter = GoRouter(
       routes: [
         ShellRoute(
           builder: (context, state, child) {
+            final bool isTargetPage = isTargetPageCheck(state.uri.toString());
             return Scaffold(
               body: child,
-              bottomNavigationBar: CustomNavigationBar(
-                selectedIndex: _getSelectedIndex(state),
-                onItemTapped: (index) {
-                  context.goNamed(NavigationPage.values[index].name);
-                },
-              ),
+              bottomNavigationBar: isTargetPage
+                  ? CustomNavigationBar(
+                      selectedIndex: _getSelectedIndex(state),
+                      onItemTapped: (index) {
+                        context.goNamed(NavigationPage.values[index].name);
+                      },
+                    )
+                  : null,
             );
           },
           routes: [
@@ -68,11 +73,17 @@ final GoRouter goRouter = GoRouter(
                 return const ArticleScreen();
               },
             ),
+            GoRoute(
+              path: AppPages.assessmentPage,
+              name: AppPages.assessmentName,
+              builder: (BuildContext context, GoRouterState state) {
+                return AssessmentScreen();
+              },
+            ),
           ],
         ),
       ],
     ),
-    
   ],
 );
 int _getSelectedIndex(GoRouterState state) {
@@ -82,6 +93,7 @@ int _getSelectedIndex(GoRouterState state) {
   if (path.contains(AppPages.missionPage)) return 2;
   if (path.contains(AppPages.friendPage)) return 3;
   if (path.contains(AppPages.articlePage)) return 4;
+  if (path.contains(AppPages.assessmentPage)) return 5;
   return 0; // Default to home page if path is not matched
 }
 // final GoRouter goRoute = GoRouter(
