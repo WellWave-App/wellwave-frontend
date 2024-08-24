@@ -1,13 +1,13 @@
 class AppPages {
-  // ชื่อเส้นทาง
-  static const String splashPath = '/splash'; // ไม่มีสแลชที่ท้าย
-  static const String homePage = 'home'; // ไม่มีสแลชที่หน้า
-  static const String logPage = 'log'; // ไม่มีสแลชที่หน้า
-  static const String missionPage = 'mission'; // ไม่มีสแลชที่หน้า
-  static const String friendPage = 'friend'; // ไม่มีสแลชที่หน้า
-  static const String articlePage = 'article'; // ไม่มีสแลชที่หน้า
+  // route name
+  static const String splashPath = '/splash'; 
+  static const String homePage = 'home'; 
+  static const String logPage = 'log'; 
+  static const String missionPage = 'mission'; 
+  static const String friendPage = 'friend'; 
+  static const String articlePage = 'article'; 
 
-  // ชื่อของเส้นทาง
+  // Name of the route
   static const String splashName = 'splash';
   static const String homeName = 'home';
   static const String logName = 'log';

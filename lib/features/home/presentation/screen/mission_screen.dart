@@ -8,7 +8,7 @@ class MissionScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          'ภารกิจ',
+          'mission',
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
