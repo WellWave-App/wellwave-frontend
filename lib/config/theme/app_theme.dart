@@ -16,7 +16,7 @@ AppBarTheme appBarTheme(BuildContext context) {
     color: Colors.transparent,
     elevation: 0,
     centerTitle: true,
-    iconTheme: const IconThemeData(color: AppColors.blackColor),
+    iconTheme: const IconThemeData(color: AppColors.whiteColor),
     titleTextStyle: Theme.of(context).textTheme.titleMedium!.copyWith(
           color: AppColors.primaryColor,
           fontSize: 20,

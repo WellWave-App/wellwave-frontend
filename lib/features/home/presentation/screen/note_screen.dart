@@ -845,7 +845,7 @@ class _DataEntryDialogState extends State<DataEntryDialog> {
                 });
               },
               ranges: const [
-                RulerRange(begin: 30, end: 150, scale: 1),
+                RulerRange(begin: 30, end: 150, scale: 0.5),
               ],
               width: MediaQuery.of(context).size.width * 0.8,
               height: 80,
@@ -888,7 +888,7 @@ class _DataEntryDialogState extends State<DataEntryDialog> {
                 });
               },
               ranges: const [
-                RulerRange(begin: 0, end: 150, scale: 1),
+                RulerRange(begin: 0, end: 100, scale: 1),
               ],
               width: MediaQuery.of(context).size.width * 0.8,
               height: 80,
@@ -931,7 +931,7 @@ class _DataEntryDialogState extends State<DataEntryDialog> {
                 });
               },
               ranges: const [
-                RulerRange(begin: 100, end: 300, scale: 1),
+                RulerRange(begin: 0, end: 200, scale: 1),
               ],
               width: MediaQuery.of(context).size.width * 0.8,
               height: 80,
