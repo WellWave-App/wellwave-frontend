@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: goRouter,
-      title: 'Flutter Demo',
+      title: 'WellWave Application',
       debugShowCheckedModeBanner: false,
       theme: appTheme(context),
     );

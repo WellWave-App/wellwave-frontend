@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar_item.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+<<<<<<< HEAD
 
+=======
+>>>>>>> ded05dfe7875e3f7a00db16745d3ac640fda2970
 class CustomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
@@ -84,53 +87,3 @@ class CustomNavigationBar extends StatelessWidget {
     );
   }
 }
-
-
-// class CustomNavigationBar extends StatefulWidget {
-//   final GoRouter state;
-
-//   const CustomNavigationBar({super.key, required this.state});
-
-//   @override
-//   State<CustomNavigationBar> createState() => _CustomNavigationBarState();
-// }
-
-// class _CustomNavigationBarState extends State<CustomNavigationBar> {
-//   int _selectedIndex = 0;
-
-//   final List<String> _routes = [
-//     AppPages.homePage,
-//     AppPages.logPage,
-//     AppPages.missionPage,
-//     AppPages.friendPage,
-//     AppPages.articlePage,
-//   ];
-
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//       // นำทางไปยังเส้นทางที่เลือก
-//       widget.state.go(_routes[index]);
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: IndexedStack(
-//         index: _selectedIndex,
-//         children: const [
-//           HomeScreen(),
-//           NoteScreen(),
-//           MissionScreen(),
-//           FriendScreen(),
-//           ArticleScreen(),
-//         ],
-//       ),
-//       bottomNavigationBar: CustomNavigationBarItem(
-//         selectedIndex: _selectedIndex,
-//         onItemTapped: _onItemTapped,
-//       ),
-//     );
-//   }
-// }

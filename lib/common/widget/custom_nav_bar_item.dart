@@ -33,89 +33,34 @@ class CustomNavigationBarItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(
-            isSelected ? iconActiveAssetName : iconAssetName,
+          SizedBox(
             width: width,
-            height: height,
-          ),
-          if (isSelected && showDot)
-            Container(
-              margin: const EdgeInsets.only(top: 4),
-              width: 8,
-              height: 8,
-              decoration: const BoxDecoration(
-                color: AppColors.primaryColor,
-                shape: BoxShape.circle,
-              ),
+            height: height + 20,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SvgPicture.asset(
+                  isSelected ? iconActiveAssetName : iconAssetName,
+                  width: width,
+                  height: height,
+                ),
+                if (isSelected && showDot)
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      width: 6,
+                      height: 6,
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+              ],
             ),
+          ),
         ],
       ),
     );
   }
 }
-
-
-// class CustomNavigationBarItem extends StatelessWidget {
-//   final int selectedIndex;
-//   final Function(int) onItemTapped;
-
-//   const CustomNavigationBarItem({
-//     Key? key,
-//     required this.selectedIndex,
-//     required this.onItemTapped,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.symmetric(vertical: 8),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         boxShadow: [
-//           BoxShadow(
-//             color: Colors.black12,
-//             blurRadius: 10,
-//             spreadRadius: 5,
-//           ),
-//         ],
-//       ),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//         children: [
-//           _buildNavItem(0, AppImages.homeIcon, AppImages.homeIconActive, 24, 24, true),
-//           _buildNavItem(1, AppImages.logIcon, AppImages.logIconActive, 24, 24, true),
-//           _buildNavItem(2, AppImages.missionIcon, AppImages.missionIcon, 56, 56, false),
-//           _buildNavItem(3, AppImages.friendIcon, AppImages.friendIconActive, 24, 24, true),
-//           _buildNavItem(4, AppImages.articleIcon, AppImages.articleIconActive, 24, 24, true),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget _buildNavItem(int index, String icon, String iconActive, double width, double height, bool showDot) {
-//     final isSelected = selectedIndex == index;
-//     return GestureDetector(
-//       onTap: () => onItemTapped(index),
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           SvgPicture.asset(
-//             isSelected ? iconActive : icon,
-//             width: width,
-//             height: height,
-//           ),
-//           if (isSelected && showDot)
-//             Container(
-//               margin: const EdgeInsets.only(top: 4),
-//               width: 8,
-//               height: 8,
-//               decoration: const BoxDecoration(
-//                 color: AppColors.primaryColor,
-//                 shape: BoxShape.circle,
-//               ),
-//             ),
-//         ],
-//       ),
-//     );
-//   }
-// }
