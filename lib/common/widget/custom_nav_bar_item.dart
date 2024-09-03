@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
 
 class CustomNavigationBarItem extends StatelessWidget {
   final int index;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -17,13 +16,13 @@ class SplashScreen extends StatelessWidget {
               onPressed: () {
                 context.goNamed(AppPages.assessmentName);
               },
-              child: Text('Go to Assessment'),
+              child: const Text('Go to Assessment'),
             ),
             ElevatedButton(
               onPressed: () {
                 context.goNamed(AppPages.homeName);
               },
-              child: Text('Go to Home'),
+              child: const Text('Go to Home'),
             ),
           ],
         ),
