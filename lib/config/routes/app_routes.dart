@@ -18,14 +18,14 @@ final GoRouter goRouter = GoRouter(
       path: AppPages.splashPath,
       name: AppPages.splashName,
       pageBuilder: (BuildContext context, GoRouterState state) {
-        return const MaterialPage(child: SplashScreen());
+        return NoTransitionPage(child: const SplashScreen());
       },
       routes: [
         GoRoute(
           path: AppPages.startPage,
           name: AppPages.startName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return MaterialPage(child: StartOverviewScreen());
+            return NoTransitionPage(child: StartOverviewScreen());
           },
         ),
         GoRoute(
@@ -70,7 +70,7 @@ final GoRouter goRouter = GoRouter(
 
 Page _buildPageWithNavBar(
     BuildContext context, GoRouterState state, Widget child) {
-  return MaterialPage(
+  return NoTransitionPage(
     child: Scaffold(
       body: child,
       bottomNavigationBar: CustomNavigationBar(
