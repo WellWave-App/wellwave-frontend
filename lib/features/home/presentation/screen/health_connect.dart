@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_health_connect/flutter_health_connect.dart';
 
 class HealthConnect extends StatefulWidget {
+  const HealthConnect({super.key});
+
   @override
   _HealthConnectState createState() => _HealthConnectState();
 }

@@ -7,7 +7,7 @@ import 'package:wellwave_frontend/features/home/presentation/screen/article_scre
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/note_screen.dart';
+import 'package:wellwave_frontend/features/note/presentation/screen/note_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
 
 final GoRouter goRouter = GoRouter(
