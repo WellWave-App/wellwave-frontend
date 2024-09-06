@@ -1,6 +1,19 @@
 part of 'start_overview_bloc.dart';
 
 @immutable
-sealed class StartOverviewState {}
+abstract class StartOverviewState {}
 
-final class StartOverviewInitial extends StartOverviewState {}
+class StartOverviewInitial extends StartOverviewState {}
+
+class PageNavigationState extends StartOverviewState {
+  final int currentIndex;
+
+  PageNavigationState({required this.currentIndex});
+}
+
+class PageNavigationErrorState extends StartOverviewState {
+  final int currentIndex;
+  final String errorMessage;
+
+  PageNavigationErrorState(this.currentIndex, this.errorMessage);
+}
