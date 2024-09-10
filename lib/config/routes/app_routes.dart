@@ -43,7 +43,7 @@ final GoRouter goRouter = GoRouter(
               path: AppPages.logPage,
               name: AppPages.logName,
               pageBuilder: (BuildContext context, GoRouterState state) {
-                return NoTransitionPage(child: NoteScreen());
+                return const NoTransitionPage(child: NoteScreen());
               },
             ),
             GoRoute(

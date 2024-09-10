@@ -25,7 +25,7 @@ class SplashScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => HealthConnect()),
+                      builder: (context) => const HealthConnect()),
                 );
               },
               child: const Text('Go to Health Connect'),

@@ -44,11 +44,9 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                   color: AppColors.blackColor, fontWeight: FontWeight.bold)),
       content: _buildStepContent(),
       actions: [
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: _buildActions(),
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: _buildActions(), 
         ),
       ],
       backgroundColor: AppColors.popupColor,

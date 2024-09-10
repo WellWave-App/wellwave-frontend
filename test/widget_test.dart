@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:wellwave_frontend/main.dart';
 import 'package:wellwave_frontend/test-api.dart';
 
 void main() {
