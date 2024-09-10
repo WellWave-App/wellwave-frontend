@@ -4,13 +4,23 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class CustomTextFormField extends StatefulWidget {
   final String labelText;
+  final String hintText;
   final String? suffixText;
   final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final Function(String)? onChanged;
+  final String initialValue;
+  final List<TextInputFormatter>? inputFormatters;
 
   CustomTextFormField({
     required this.labelText,
+    required this.hintText,
     this.suffixText,
     this.keyboardType,
+    this.validator,
+    this.onChanged,
+    this.initialValue = '',
+    this.inputFormatters,
   });
 
   @override
@@ -20,10 +30,12 @@ class CustomTextFormField extends StatefulWidget {
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
+  late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
+    _controller = TextEditingController(text: widget.initialValue);
     _focusNode.addListener(() {
       setState(() {
         _isFocused = _focusNode.hasFocus;
@@ -33,6 +45,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   void dispose() {
+    _controller.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -41,38 +54,44 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: _focusNode,
+      controller: _controller,
       keyboardType: widget.keyboardType,
-      inputFormatters: _getInputFormatters(),
+      inputFormatters: widget.inputFormatters,
+      style: Theme.of(context).textTheme.titleSmall,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
         labelText: widget.labelText,
+        hintText: widget.hintText,
+        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: AppColors.darkgrayColor,
+            ),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixText: widget.suffixText,
-        labelStyle: _isFocused
-            ? Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.bluegrayColor,
-                )
-            : Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.grayColor,
-                ),
+        labelStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
+              color: AppColors.bluegrayColor,
+            ),
+        suffixStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: AppColors.darkgrayColor,
+            ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.grayColor),
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor),
         ),
-        suffixStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.darkgrayColor,
-            ),
       ),
     );
   }
 
   List<TextInputFormatter>? _getInputFormatters() {
+    List<TextInputFormatter>? formatters = widget.inputFormatters;
+
     if (widget.keyboardType == TextInputType.number) {
-      return <TextInputFormatter>[
-        FilteringTextInputFormatter.digitsOnly,
-      ];
+      formatters = (formatters ?? [])
+        ..add(FilteringTextInputFormatter.digitsOnly);
     }
 
-    return null;
+    return formatters;
   }
 }

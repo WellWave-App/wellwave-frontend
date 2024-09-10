@@ -4,7 +4,7 @@ import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/routes/route_utils.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/assessment_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/screen/health_assessment_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
@@ -92,6 +92,6 @@ int _getSelectedIndex(GoRouterState state) {
   if (path.contains(AppPages.missionPage)) return 2;
   if (path.contains(AppPages.friendPage)) return 3;
   if (path.contains(AppPages.articlePage)) return 4;
-  if (path.contains(AppPages.assessmentPage)) return 5;
+
   return 0; // Default to home page if path is not matched
 }
