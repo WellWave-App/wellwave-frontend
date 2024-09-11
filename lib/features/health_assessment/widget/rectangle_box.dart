@@ -10,14 +10,14 @@ class RectangleBox extends StatelessWidget {
   final String title;
   final String? subtitle;
   final String icon;
-  final bool isMultiSelect; // ใช้ตรวจสอบว่าเป็นแบบ multiple หรือ single
+  final bool isMultiSelect;
 
   const RectangleBox({
     Key? key,
     required this.title,
     required this.icon,
     this.subtitle,
-    required this.isMultiSelect, // ส่งค่า true/false มาจาก widget
+    required this.isMultiSelect,
   }) : super(key: key);
 
   @override
@@ -26,17 +26,14 @@ class RectangleBox extends StatelessWidget {
 
     return BlocBuilder<AssessmentBloc, AssessmentState>(
       builder: (context, state) {
-        // ตรวจสอบว่าถ้าเป็น single choice หรือ multiple choice
         final isSelected = isMultiSelect
-            ? state.famhisChoose.contains(title) // สำหรับ multiple choice
-            : state.alcoholChoose == title; // สำหรับ single choice
+            ? state.famhisChoose.contains(title)
+            : state.alcoholChoose == title;
 
         return GestureDetector(
           onTap: () {
-            // Dispatch the ToggleSelectionEvent ไปยัง BLoC
             context.read<AssessmentBloc>().add(
-                  ToggleSelectionEvent(
-                      title, isMultiSelect), // ส่งค่า title และ mode
+                  ToggleSelectionEvent(title, isMultiSelect),
                 );
           },
           child: Stack(

@@ -10,17 +10,15 @@ class CustomAppBar extends AppBar {
     required BuildContext context,
     required bool onLeading,
     Color? textColor,
-    Function? onBackPressed, // Use this function to handle back step logic
+    Function? onBackPressed,
     Function? action,
     IconData? actionIcon,
   }) : super(
           title: Text(
             title ?? '',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: textColor ?? Colors.black,
-            ),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: AppColors.blackColor,
+                ),
           ),
           titleSpacing: 0,
           centerTitle: true,
@@ -29,9 +27,9 @@ class CustomAppBar extends AppBar {
               ? GestureDetector(
                   onTap: () {
                     if (onBackPressed != null) {
-                      onBackPressed(); // Call the back step function
+                      onBackPressed();
                     } else {
-                      Navigator.of(context).pop(); // Fallback to pop
+                      Navigator.of(context).pop();
                     }
                   },
                   child: Icon(

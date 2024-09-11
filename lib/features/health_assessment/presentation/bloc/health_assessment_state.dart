@@ -8,10 +8,10 @@ class AssessmentState extends Equatable {
   final File? selectedImage;
   final List<String> selectedItems;
   final bool isMultiSelect;
-  final String? alcoholChoose; // สำหรับ single choice
-  final List<String> famhisChoose; // สำหรับ multiple choice
+  final String? alcoholChoose;
+  final List<String> famhisChoose;
+  final bool isCompleted;
 
-  // Constructor
   AssessmentState({
     required this.currentStep,
     required this.formData,
@@ -21,9 +21,9 @@ class AssessmentState extends Equatable {
     this.isMultiSelect = false,
     this.alcoholChoose,
     this.famhisChoose = const [],
+    this.isCompleted = false,
   });
 
-  // Copy method for state management
   AssessmentState copyWith({
     int? currentStep,
     Map<String, String>? formData,
@@ -33,6 +33,7 @@ class AssessmentState extends Equatable {
     bool? isMultiSelect,
     String? alcoholChoose,
     List<String>? famhisChoose,
+    bool? isCompleted,
   }) {
     return AssessmentState(
       currentStep: currentStep ?? this.currentStep,
@@ -43,6 +44,7 @@ class AssessmentState extends Equatable {
       isMultiSelect: isMultiSelect ?? this.isMultiSelect,
       alcoholChoose: alcoholChoose ?? this.alcoholChoose,
       famhisChoose: famhisChoose ?? this.famhisChoose,
+      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 
@@ -55,6 +57,7 @@ class AssessmentState extends Equatable {
         selectedItems,
         isMultiSelect,
         alcoholChoose,
-        famhisChoose
+        famhisChoose,
+        isCompleted
       ];
 }
