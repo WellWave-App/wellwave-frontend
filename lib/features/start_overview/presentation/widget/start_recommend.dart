@@ -5,40 +5,40 @@ class StartRecommend extends StatelessWidget {
   final String title;
   final String description;
   final String imageUrl;
-  final int currentIndex; 
-  final int totalPages; 
+  final int currentIndex;
+  final int totalPages;
 
   const StartRecommend({
     Key? key,
     required this.title,
     required this.description,
     required this.imageUrl,
-    required this.currentIndex, 
-    required this.totalPages, 
+    required this.currentIndex,
+    required this.totalPages,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(24.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          const SizedBox(height: 72),
           Image.asset(imageUrl),
-          const SizedBox(height: 20),
+          const SizedBox(height: 48),
           Text(
             title,
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 12),
           Text(
             description,
             style: const TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 30),
-          
+          const SizedBox(height: 48),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(totalPages, (index) {

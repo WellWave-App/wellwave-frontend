@@ -116,33 +116,42 @@ class StartOverviewScreen extends StatelessWidget {
           if (state is PageNavigationState) {
             buttonText = _getButtonText(state.currentIndex, pages.length);
           }
-          return Align(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              width: 200,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: state is PageNavigationState
-                    ? () {
-                        if (state.currentIndex < 0) {
-                          context.goNamed(AppPages.splashName);
-                        } else if (state.currentIndex >= pages.length - 1) {
-                          context.goNamed(AppPages.homeName);
-                        } else {
-                          context
-                              .read<StartOverviewBloc>()
-                              .add(NextPageEvent());
+          return Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: 200,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: state is PageNavigationState
+                      ? () {
+                          if (state.currentIndex < 0) {
+                            context.goNamed(AppPages.splashName);
+                          } else if (state.currentIndex >= pages.length - 1) {
+                            context.goNamed(AppPages.homeName);
+                          } else {
+                            context
+                                .read<StartOverviewBloc>()
+                                .add(NextPageEvent());
+                          }
                         }
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: AppColors.whiteColor,
-                  backgroundColor: AppColors.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: AppColors.whiteColor,
+                    backgroundColor: AppColors.primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ),
+                  child: Text(
+                    buttonText,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: AppColors.whiteColor),
                   ),
                 ),
-                child: Text(buttonText),
               ),
             ),
           );
