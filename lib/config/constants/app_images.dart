@@ -36,4 +36,5 @@ class AppImages {
   static const smokeUsuallyIcon = 'assets/icons/smoke_usually.svg';
   static const healthassessmentImg =
       'assets/images/health_assessment_step1.svg';
+  static const checkmarkGradientIcon = 'assets/icons/checkmark_gradient.svg';
 }
