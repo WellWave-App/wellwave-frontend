@@ -79,83 +79,88 @@ class StartOverviewScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<StartOverviewBloc, StartOverviewState>(
-        builder: (context, state) {
-          if (state is PageNavigationErrorState) {
-            return Center(
-              child: Text(
-                AppStrings.errorShow + state.errorMessage,
-                style: const TextStyle(color: Colors.red, fontSize: 18),
-              ),
-            );
-          }
-          if (state is StartOverviewInitial) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is PageNavigationState) {
-            return IndexedStack(
-              index: state.currentIndex,
-              children: List.generate(pages.length, (index) {
-                return StartRecommend(
-                  title: pages[index].title,
-                  description: pages[index].description,
-                  imageUrl: pages[index].imageUrl,
-                  currentIndex: state.currentIndex,
-                  totalPages: pages.length,
+      body: Column(
+        children: [
+          BlocBuilder<StartOverviewBloc, StartOverviewState>(
+            builder: (context, state) {
+              if (state is PageNavigationErrorState) {
+                return Center(
+                  child: Text(
+                    AppStrings.errorShow + state.errorMessage,
+                    style: const TextStyle(color: Colors.red, fontSize: 18),
+                  ),
                 );
-              }),
-            );
-          }
+              }
+              if (state is StartOverviewInitial) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is PageNavigationState) {
+                return IndexedStack(
+                  index: state.currentIndex,
+                  children: List.generate(pages.length, (index) {
+                    return StartRecommend(
+                      title: pages[index].title,
+                      description: pages[index].description,
+                      imageUrl: pages[index].imageUrl,
+                      currentIndex: state.currentIndex,
+                      totalPages: pages.length,
+                    );
+                  }),
+                );
+              }
 
-          return Container();
-        },
-      ),
-      floatingActionButton: BlocBuilder<StartOverviewBloc, StartOverviewState>(
-        builder: (context, state) {
-          String buttonText = AppStrings.nextText;
+              return Container();
+            },
+          ),
+          BlocBuilder<StartOverviewBloc, StartOverviewState>(
+            builder: (context, state) {
+              String buttonText = AppStrings.nextText;
 
-          if (state is PageNavigationState) {
-            buttonText = _getButtonText(state.currentIndex, pages.length);
-          }
-          return Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: 200,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: state is PageNavigationState
-                      ? () {
-                          if (state.currentIndex < 0) {
-                            context.goNamed(AppPages.splashName);
-                          } else if (state.currentIndex >= pages.length - 1) {
-                            context.goNamed(AppPages.homeName);
-                          } else {
-                            context
-                                .read<StartOverviewBloc>()
-                                .add(NextPageEvent());
-                          }
-                        }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: AppColors.whiteColor,
-                    backgroundColor: AppColors.primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
+              if (state is PageNavigationState) {
+                buttonText = _getButtonText(state.currentIndex, pages.length);
+              }
+              return Padding(
+                padding: const EdgeInsets.only(top: 64),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: 250,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: state is PageNavigationState
+                          ? () {
+                              if (state.currentIndex < 0) {
+                                context.goNamed(AppPages.splashName);
+                              } else if (state.currentIndex >=
+                                  pages.length - 1) {
+                                context.goNamed(AppPages.homeName);
+                              } else {
+                                context
+                                    .read<StartOverviewBloc>()
+                                    .add(NextPageEvent());
+                              }
+                            }
+                          : null,
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: AppColors.whiteColor,
+                        backgroundColor: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                      ),
+                      child: Text(
+                        buttonText,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: AppColors.whiteColor),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    buttonText,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: AppColors.whiteColor),
-                  ),
                 ),
-              ),
-            ),
-          );
-        },
+              );
+            },
+          ),
+        ],
       ),
     );
   }

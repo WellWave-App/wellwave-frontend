@@ -24,13 +24,13 @@ class SplashScreen extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 20,
+            bottom: 48,
             right: 20,
             child: FloatingActionButton(
               onPressed: () {
                 context.goNamed(AppPages.startName);
               },
-              backgroundColor: Colors.blue,
+              backgroundColor: AppColors.primaryColor,
               shape: const CircleBorder(),
               child: const Icon(
                 Icons.arrow_forward,
