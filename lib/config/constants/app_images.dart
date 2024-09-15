@@ -17,4 +17,13 @@ class AppImages {
   static const hdlImage = 'assets/image/hdl_img.png';
   static const ldlImage = 'assets/image/ldl_img.png';
   static const completeIcon = 'assets/icons/complete_icon.svg';
+
+
+  //note screen
+  //grey mood
+  static const happyGreyIcon = 'assets/icons/moods_grey/happy_grey.svg';
+  static const veryHappyGreyIcon = 'assets/image/step_img.png';
+  static const neutralGreyIcon = 'assets/icons/moods_grey/neutral_grey.svg';
+  static const sadGreyIcon = 'assets/icons/moods_grey/sad_grey.svg';
+  static const verySadGreyIcon = 'assets/icons/moods_grey/very_sad_grey.svg';
 }

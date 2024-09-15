@@ -3,6 +3,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/note/presentation/widget/chart.dart';
 import 'package:wellwave_frontend/features/note/presentation/widget/daily_logs_card.dart';
+import 'package:wellwave_frontend/features/note/presentation/widget/input_button.dart';
 import 'package:wellwave_frontend/features/note/presentation/widget/input_daily_logs.dart';
 import 'package:wellwave_frontend/features/note/presentation/widget/weekly_logs_card.dart';
 import 'note_history_screen.dart';
@@ -152,40 +153,61 @@ class WeeklyLogs extends StatefulWidget {
 class _WeeklyLogsState extends State<WeeklyLogs> {
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-  children: [
-    WeeklyLogsCard(
-      title: AppStrings.weightText,
-      value: '50',
-      unit: AppStrings.kgText,
-      chart: LineChartSample2(), // Replace with actual chart widget
-    ),
-  ],
-),
-SizedBox(height: 16),
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    WeeklyLogsCard(
-      title: AppStrings.hdlText,
-      value: '65',
-      unit: AppStrings.mgPerDlText,
-      chart: LineChartSample2(), // Replace with actual chart widget
-    ),
-    SizedBox(width: 16),
-    WeeklyLogsCard(
-      title: AppStrings.ldlText,
-      value: '165',
-      unit: AppStrings.mgPerDlText,
-      chart: LineChartSample2(), // Replace with actual chart widget
-    ),
-  ],
-),
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Text(AppStrings.weeklyLogsText,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: AppColors.blackColor,
+                          fontWeight: FontWeight.bold)),
+                ],
+              ),
+              const Column(
+                children: [
+                  InputButton(
+                    buttonText: AppStrings.dataRecordingText,
+                  ),
+                ],
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
+          const Row(
+            children: [
+              WeeklyLogsCard(
+                title: AppStrings.weightText,
+                value: '50',
+                unit: AppStrings.kgText,
+                chart: LineChartSample2(), // Replace with actual chart widget
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              WeeklyLogsCard(
+                title: AppStrings.hdlText,
+                value: '65',
+                unit: AppStrings.mgPerDlText,
+                chart: LineChartSample2(), // Replace with actual chart widget
+              ),
+              SizedBox(width: 16),
+              WeeklyLogsCard(
+                title: AppStrings.ldlText,
+                value: '165',
+                unit: AppStrings.mgPerDlText,
+                chart: LineChartSample2(), // Replace with actual chart widget
+              ),
+            ],
+          ),
         ],
       ),
     );

@@ -13,7 +13,7 @@ class AppStrings {
   static const glassesText = 'แก้ว';
   static const hoursOfSleepText = 'ชั่วโมงการนอน';
   static const hoursText = 'ชั่วโมง';
-  static const weeklyLogsText = 'ความก้าวหน้าประจำสัปดาห์';
+  static const weeklyLogsText = 'บันทึกสุขภาพประจำสัปดาห์';
   static const hdlText = 'HDL';
   static const ldlText = 'LDL';
   static const mgPerDlText = 'มก./ดล';
@@ -29,6 +29,7 @@ class AppStrings {
   static const cancleText = 'ยกเลิก';
   static const completedText = 'เสร็จสิ้น';
   static const weightText = 'น้ำหนัก';
+  static const skipText = 'ข้าม';
 
   //note history screen
   static const healthHistoryText = 'ประวัติบันทึกสุขภาพ';

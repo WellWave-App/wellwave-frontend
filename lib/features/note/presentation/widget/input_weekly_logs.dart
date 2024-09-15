@@ -37,11 +37,33 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: currentStep == 4
-          ? const Text(AppStrings.emptyText)
-          : Text('ขั้นตอนที่ ${currentStep + 1}/4',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: AppColors.blackColor, fontWeight: FontWeight.bold)),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            currentStep == 4 ? '' : 'ขั้นตอนที่ ${currentStep + 1}/4',
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: AppColors.blackColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          if (currentStep == 1 || currentStep == 2)
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  currentStep++; // ไปยังขั้นตอนถัดไป
+                });
+              },
+              child: const Text(
+                AppStrings.skipText,
+                style: TextStyle(
+                  color: AppColors.greyColor, // สีเทาเข้ม
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+        ],
+      ),
       content: _buildStepContent(),
       actions: [
         Row(
