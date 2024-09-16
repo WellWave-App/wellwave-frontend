@@ -17,14 +17,22 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   num weight = 50.0;
   num hdl = 60.0;
   num ldl = 100.0;
-  int selectedMood = 0;
+  int selectedMood = 4;
 
-  final List<IconData> moodIcons = [
-    Icons.sentiment_very_dissatisfied,
-    Icons.sentiment_dissatisfied,
-    Icons.sentiment_neutral,
-    Icons.sentiment_satisfied,
-    Icons.sentiment_very_satisfied,
+  final List<String> moodIconsGrey = [
+    AppImages.verySadGreyIcon,
+    AppImages.sadGreyIcon,
+    AppImages.neutralGreyIcon,
+    AppImages.happyGreyIcon,
+    AppImages.veryHappyGreyIcon,
+  ];
+
+  final List<String> moodIconsColor = [
+    AppImages.verySadColorIcon,
+    AppImages.sadColorIcon,
+    AppImages.neutralColorIcon,
+    AppImages.happyColorIcon,
+    AppImages.veryHappyColorIcon,
   ];
 
   final RulerPickerController weightController =
@@ -43,9 +51,9 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
           Text(
             currentStep == 4 ? '' : 'ขั้นตอนที่ ${currentStep + 1}/4',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.blackColor,
-              fontWeight: FontWeight.bold,
-            ),
+                  color: AppColors.blackColor,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           if (currentStep == 1 || currentStep == 2)
             TextButton(
@@ -68,7 +76,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _buildActions(), 
+          children: _buildActions(),
         ),
       ],
       backgroundColor: AppColors.popupColor,
@@ -218,21 +226,24 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             ),
             const SizedBox(height: 24),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(moodIcons.length, (index) {
-                return IconButton(
-                  icon: Icon(
-                    moodIcons[index],
-                    color: selectedMood == index ? Colors.blue : Colors.grey,
-                  ),
-                  onPressed: () {
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(moodIconsGrey.length, (index) {
+                return GestureDetector(
+                  onTap: () {
                     setState(() {
                       selectedMood = index;
                     });
                   },
+                  child: SvgPicture.asset(
+                    selectedMood == index
+                        ? moodIconsColor[index] // Use color icon if selected
+                        : moodIconsGrey[index], // Use grey icon if not selected
+                    width: 48, // Adjust size of the SVG
+                    height: 48,
+                  ),
                 );
               }),
-            ),
+            )
           ],
         );
       case 4:

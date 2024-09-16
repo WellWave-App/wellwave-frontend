@@ -22,8 +22,16 @@ class AppImages {
   //note screen
   //grey mood
   static const happyGreyIcon = 'assets/icons/moods_grey/happy_grey.svg';
-  static const veryHappyGreyIcon = 'assets/image/step_img.png';
+  static const veryHappyGreyIcon = 'assets/icons/moods_grey/very_happy_grey.svg';
   static const neutralGreyIcon = 'assets/icons/moods_grey/neutral_grey.svg';
   static const sadGreyIcon = 'assets/icons/moods_grey/sad_grey.svg';
   static const verySadGreyIcon = 'assets/icons/moods_grey/very_sad_grey.svg';
+
+  //color mood 
+  static const happyColorIcon = 'assets/icons/moods_color/happy_color.svg';
+  static const veryHappyColorIcon = 'assets/icons/moods_color/very_happy_color.svg';
+  static const neutralColorIcon = 'assets/icons/moods_color/neutral_color.svg';
+  static const sadColorIcon = 'assets/icons/moods_color/sad_color.svg';
+  static const verySadColorIcon = 'assets/icons/moods_color/very_sad_color.svg';
+
 }

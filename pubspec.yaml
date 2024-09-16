@@ -36,6 +36,9 @@ flutter:
   assets:
      - assets/icons/
      - assets/image/
+     - assets/icons/moods_grey/
+     - assets/icons/moods_color/
+
 
   fonts:
     - family: NotoSansThai
