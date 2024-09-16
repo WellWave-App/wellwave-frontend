@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 class InputDailyLogs extends StatefulWidget {
   final int initialUnits;
-  final IconData inputIcon;
-  final Color inputColor;
+  final String title;
+  final String unitLabel;
   final int maxLevel;
+  final List<String> svgIcons; // List of SVG paths for each level
 
   const InputDailyLogs({
     super.key,
     required this.initialUnits,
-    this.inputIcon = Icons.water,
-    this.inputColor = Colors.blue,
-    this.maxLevel = 8
+    required this.title,
+    required this.unitLabel,
+    this.maxLevel = 11,
+    required this.svgIcons, // SVG icons need to be passed
   });
 
   @override
@@ -28,15 +31,15 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
     inputLevel = widget.initialUnits;
   }
 
-  void increaseinputLevel() {
+  void increaseInputLevel() {
     setState(() {
-      if (inputLevel < widget.maxLevel) {
+      if (inputLevel < widget.maxLevel - 1) {
         inputLevel++;
       }
     });
   }
 
-  void decreaseinputLevel() {
+  void decreaseInputLevel() {
     setState(() {
       if (inputLevel > 0) {
         inputLevel--;
@@ -44,34 +47,21 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
     });
   }
 
-  double calculateInputHeight() {
-    return inputLevel / widget.maxLevel;
-  }
-
   Widget buildInputIcon(double size) {
-  return Stack(
-    alignment: Alignment.bottomCenter,
-    children: [
-      Icon(
-        widget.inputIcon,
-        color: widget.inputColor.withOpacity(0.2),
-        size: size, // Empty input icon
-      ),
-      Container(
-        width: size/2,
-        height: size * calculateInputHeight(), // Adjust height based on input level
-        color: widget.inputColor,
-      ),
-    ],
-  );
-}
+    // Use the SVG based on the current level
+    return SvgPicture.asset(
+      widget.svgIcons[inputLevel], // Display the SVG for the current level
+      width: size,
+      height: size,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Center(
         child: Text(
-          AppStrings.amoutOfWaterText,
+          widget.title,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
@@ -81,7 +71,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          buildInputIcon(100),
+          buildInputIcon(100), // Display the SVG icon
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +79,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
               IconButton(
                 icon: const Icon(Icons.remove_circle_outline,
                     color: Colors.grey, size: 48),
-                onPressed: decreaseinputLevel,
+                onPressed: decreaseInputLevel,
               ),
               const SizedBox(width: 24.0),
               Text(
@@ -103,7 +93,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
               IconButton(
                 icon: const Icon(Icons.add_circle_outline,
                     color: Colors.grey, size: 48),
-                onPressed: increaseinputLevel,
+                onPressed: increaseInputLevel,
               ),
             ],
           ),
@@ -111,7 +101,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                AppStrings.glassesText,
+                widget.unitLabel,
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: Colors.grey,
                     ),
@@ -133,4 +123,3 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
     );
   }
 }
-

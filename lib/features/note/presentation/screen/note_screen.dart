@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/note/presentation/widget/chart.dart';
 import 'package:wellwave_frontend/features/note/presentation/widget/daily_logs_card.dart';
@@ -90,19 +91,44 @@ class _DailyLogsState extends State<DailyLogs> {
             children: [
               DailyLogCard(
                 title: AppStrings.amoutOfWaterText, // Water intake
-                unitLabel: AppStrings.glassesText, // Glasses
+                unitLabel: AppStrings.glassesText,
                 selectedLevel: selectedWaterLevel,
-                maxLevel: 8,
-                icon: Icons.water_drop_rounded,
-                iconColor: Colors.blue,
+                maxLevel: 11,
+                svgIcons: const [
+                  AppImages.water0Icon,
+                  AppImages.water1Icon,
+                  AppImages.water2Icon,
+                  AppImages.water3Icon,
+                  AppImages.water4Icon,
+                  AppImages.water5Icon,
+                  AppImages.water6Icon,
+                  AppImages.water7Icon,
+                  AppImages.water8Icon,
+                  AppImages.water9Icon,
+                  AppImages.water10Icon,
+                ],
                 onTap: () async {
                   int? result = await showDialog<int>(
-                    context: context,
-                    builder: (context) => InputDailyLogs(
-                      initialUnits: selectedWaterLevel,
-                      inputIcon: Icons.water_drop_rounded,
-                    ),
-                  );
+                      context: context,
+                      builder: (context) => InputDailyLogs(
+                            initialUnits: selectedWaterLevel,
+                            title: AppStrings.amoutOfWaterText,
+                            unitLabel: AppStrings.glassesText,
+                            maxLevel: 11,
+                            svgIcons: const [
+                              AppImages.water0Icon,
+                              AppImages.water1Icon,
+                              AppImages.water2Icon,
+                              AppImages.water3Icon,
+                              AppImages.water4Icon,
+                              AppImages.water5Icon,
+                              AppImages.water6Icon,
+                              AppImages.water7Icon,
+                              AppImages.water8Icon,
+                              AppImages.water9Icon,
+                              AppImages.water10Icon,
+                            ],
+                          ));
                   if (result != null) {
                     setState(() {
                       selectedWaterLevel = result;
@@ -115,19 +141,42 @@ class _DailyLogsState extends State<DailyLogs> {
                 title: AppStrings.hoursOfSleepText, // Sleep tracking
                 unitLabel: AppStrings.hoursText, // Hours
                 selectedLevel: selectedSleepHours,
-                maxLevel: 12,
-                icon: Icons.nights_stay,
-                iconColor: Colors.yellow,
+                maxLevel: 11,
+                svgIcons: const [
+                  AppImages.moon0Icon,
+                  AppImages.moon1Icon,
+                  AppImages.moon2Icon,
+                  AppImages.moon3Icon,
+                  AppImages.moon4Icon,
+                  AppImages.moon5Icon,
+                  AppImages.moon6Icon,
+                  AppImages.moon7Icon,
+                  AppImages.moon8Icon,
+                  AppImages.moon9Icon,
+                  AppImages.moon10Icon,
+                ],
                 onTap: () async {
                   int? result = await showDialog<int>(
-                    context: context,
-                    builder: (context) => InputDailyLogs(
-                      initialUnits: selectedSleepHours,
-                      inputIcon: Icons.nights_stay,
-                      inputColor: Colors.yellow,
-                      maxLevel: 12,
-                    ),
-                  );
+                      context: context,
+                      builder: (context) => InputDailyLogs(
+                            title: AppStrings.hoursOfSleepText,
+                            initialUnits: selectedSleepHours,
+                            unitLabel: AppStrings.hoursText,
+                            maxLevel: 11,
+                            svgIcons: const [
+                              AppImages.moon0Icon,
+                              AppImages.moon1Icon,
+                              AppImages.moon2Icon,
+                              AppImages.moon3Icon,
+                              AppImages.moon4Icon,
+                              AppImages.moon5Icon,
+                              AppImages.moon6Icon,
+                              AppImages.moon7Icon,
+                              AppImages.moon8Icon,
+                              AppImages.moon9Icon,
+                              AppImages.moon10Icon,
+                            ],
+                          ));
                   if (result != null) {
                     setState(() {
                       selectedSleepHours = result;

@@ -20,6 +20,8 @@ class AppImages {
 
 
   //note screen
+  static const addIcon = 'assets/icons/add_round_button.svg';
+
   //grey mood
   static const happyGreyIcon = 'assets/icons/moods_grey/happy_grey.svg';
   static const veryHappyGreyIcon = 'assets/icons/moods_grey/very_happy_grey.svg';
@@ -33,5 +35,30 @@ class AppImages {
   static const neutralColorIcon = 'assets/icons/moods_color/neutral_color.svg';
   static const sadColorIcon = 'assets/icons/moods_color/sad_color.svg';
   static const verySadColorIcon = 'assets/icons/moods_color/very_sad_color.svg';
+
+  //water
+  static const water0Icon = 'assets/icons/water_drop/water_0.svg';
+  static const water1Icon = 'assets/icons/water_drop/water_1.svg';
+  static const water2Icon = 'assets/icons/water_drop/water_2.svg';
+  static const water3Icon = 'assets/icons/water_drop/water_3.svg';
+  static const water4Icon = 'assets/icons/water_drop/water_4.svg';
+  static const water5Icon = 'assets/icons/water_drop/water_5.svg';
+  static const water6Icon = 'assets/icons/water_drop/water_6.svg';
+  static const water7Icon = 'assets/icons/water_drop/water_7.svg';
+  static const water8Icon = 'assets/icons/water_drop/water_8.svg';
+  static const water9Icon = 'assets/icons/water_drop/water_9.svg';
+  static const water10Icon = 'assets/icons/water_drop/water_10.svg';
+
+  static const moon0Icon = 'assets/icons/moon_icon/moon_0.svg';
+  static const moon1Icon = 'assets/icons/moon_icon/moon_1.svg';
+  static const moon2Icon = 'assets/icons/moon_icon/moon_2.svg';
+  static const moon3Icon = 'assets/icons/moon_icon/moon_3.svg';
+  static const moon4Icon = 'assets/icons/moon_icon/moon_4.svg';
+  static const moon5Icon = 'assets/icons/moon_icon/moon_5.svg';
+  static const moon6Icon = 'assets/icons/moon_icon/moon_6.svg';
+  static const moon7Icon = 'assets/icons/moon_icon/moon_7.svg';
+  static const moon8Icon = 'assets/icons/moon_icon/moon_8.svg';
+  static const moon9Icon = 'assets/icons/moon_icon/moon_9.svg';
+  static const moon10Icon = 'assets/icons/moon_icon/moon_10.svg';
 
 }

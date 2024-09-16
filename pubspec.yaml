@@ -38,6 +38,8 @@ flutter:
      - assets/image/
      - assets/icons/moods_grey/
      - assets/icons/moods_color/
+     - assets/icons/water_drop/
+     - assets/icons/moon_icon/
 
 
   fonts:

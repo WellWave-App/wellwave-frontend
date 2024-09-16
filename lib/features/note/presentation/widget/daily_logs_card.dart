@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_images.dart';
 
 class DailyLogCard extends StatelessWidget {
   final String title;
   final String unitLabel;
   final int selectedLevel;
   final int maxLevel;
-  final IconData icon;
-  final Color iconColor;
+  final List<String> svgIcons;
   final Function() onTap;
 
   const DailyLogCard({
@@ -16,8 +17,7 @@ class DailyLogCard extends StatelessWidget {
     required this.unitLabel,
     required this.selectedLevel,
     required this.maxLevel,
-    required this.icon,
-    required this.iconColor,
+    required this.svgIcons,
     required this.onTap,
   }) : super(key: key);
 
@@ -37,7 +37,8 @@ class DailyLogCard extends StatelessWidget {
                 Text(
                   title,
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppColors.primaryColor, fontWeight: FontWeight.bold),
+                      color: AppColors.primaryColor,
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -47,7 +48,7 @@ class DailyLogCard extends StatelessWidget {
                 Text(
                   '$selectedLevel $unitLabel',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                       color: AppColors.blackColor, fontWeight: FontWeight.bold),
+                      color: AppColors.blackColor, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -61,15 +62,21 @@ class DailyLogCard extends StatelessWidget {
                       child: Stack(
                         alignment: Alignment.bottomCenter,
                         children: [
-                          Icon(
-                            icon,
-                            color: iconColor.withOpacity(0.2),
-                            size: 86,
-                          ),
-                          Container(
+                          SvgPicture.asset(
+                            svgIcons[
+                                selectedLevel], // Display the SVG for the current level
                             width: 43,
-                            height: 86 * (selectedLevel / maxLevel),
-                            color: iconColor,
+                            height: 86,
+                          ),
+                          // Floating SVG at bottom-right corner
+                          Positioned(
+                            bottom: 0, // Align to the bottom
+                            right: 0, // Align to the right
+                            child: SvgPicture.asset(
+                              AppImages.addIcon, // Path to the floating SVG
+                              width: 32, // Desired size
+                              height: 32,
+                            ),
                           ),
                         ],
                       ),
