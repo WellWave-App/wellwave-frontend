@@ -6,53 +6,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
 
-class RectangleBox extends StatelessWidget {
+class GoalBox extends StatelessWidget {
   final String title;
-  final String? subtitle;
   final String icon;
   final bool isMultiSelect;
 
-  const RectangleBox({
+  const GoalBox({
     Key? key,
     required this.title,
     required this.icon,
-    this.subtitle,
     required this.isMultiSelect,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final currentStep = context.read<AssessmentBloc>().state.currentStep;
-    double containerWidth = MediaQuery.of(context).size.width / 2 - 32;
+    double containerWidth = MediaQuery.of(context).size.width;
 
     return BlocBuilder<AssessmentBloc, AssessmentState>(
       builder: (context, state) {
         bool isSelected;
-
-        final currentStep = context.read<AssessmentBloc>().state.currentStep;
-
-        if (currentStep == 4) {
-          isSelected = (state.alcoholChoose == title);
-        } else if (currentStep == 5) {
-          isSelected = (state.smokeChoose == title);
-        } else if (currentStep == 6) {
-          isSelected = (state.goalChoose == title);
-        } else {
-          isSelected = state.famhisChoose.contains(title);
-        }
+        isSelected = (state.goalChoose == title);
 
         return GestureDetector(
           onTap: () {
             String selectionType;
 
-            if (currentStep == 4) {
-              selectionType = 'alcohol';
-            } else if (currentStep == 5) {
-              selectionType = 'smoke';
-            } else {
-              selectionType = 'famhis';
-            }
-            debugPrint('SelectionType: $selectionType');
+            selectionType = 'goal';
+
             context.read<AssessmentBloc>().add(
                   ToggleSelectionEvent(title, isMultiSelect, selectionType),
                 );
@@ -82,34 +62,21 @@ class RectangleBox extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset(
-                      icon,
-                      height: 32,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
                     Text(
                       title,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: AppColors.blackColor,
                           ),
                     ),
-                    if (subtitle != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Text(
-                          subtitle ?? '',
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AppColors.darkgrayColor,
-                                  ),
-                        ),
-                      ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    SvgPicture.asset(
+                      icon,
+                    ),
                   ],
                 ),
               ),

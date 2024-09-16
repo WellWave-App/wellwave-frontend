@@ -98,7 +98,7 @@ TextTheme textTheme(BuildContext context) {
     labelSmall: TextStyle(
       fontFamily: 'NotoSansThai',
       fontWeight: FontWeight.w600,
-      fontSize: 14,
+      fontSize: 13,
       color: AppColors.blackColor,
     ),
   );

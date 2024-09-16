@@ -5,7 +5,8 @@ class DetailsHealthCard extends StatelessWidget {
   final String title;
   final String value;
 
-  DetailsHealthCard({required this.title, required this.value});
+  const DetailsHealthCard(
+      {super.key, required this.title, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class DetailsHealthCard extends StatelessWidget {
             color: Colors.grey.withOpacity(0.25),
             spreadRadius: 0,
             blurRadius: 5,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -33,7 +34,7 @@ class DetailsHealthCard extends StatelessWidget {
                   color: AppColors.darkblueColor,
                 ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             value,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(

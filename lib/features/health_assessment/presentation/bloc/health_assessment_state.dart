@@ -9,10 +9,12 @@ class AssessmentState extends Equatable {
   final List<String> selectedItems;
   final bool isMultiSelect;
   final String? alcoholChoose;
+  final String? smokeChoose;
+  final String? goalChoose;
   final List<String> famhisChoose;
   final bool isCompleted;
 
-  AssessmentState({
+  const AssessmentState({
     required this.currentStep,
     required this.formData,
     this.genderError = false,
@@ -20,6 +22,8 @@ class AssessmentState extends Equatable {
     this.selectedItems = const [],
     this.isMultiSelect = false,
     this.alcoholChoose,
+    this.smokeChoose,
+    this.goalChoose,
     this.famhisChoose = const [],
     this.isCompleted = false,
   });
@@ -32,6 +36,8 @@ class AssessmentState extends Equatable {
     List<String>? selectedItems,
     bool? isMultiSelect,
     String? alcoholChoose,
+    String? smokeChoose,
+    String? goalChoose,
     List<String>? famhisChoose,
     bool? isCompleted,
   }) {
@@ -43,6 +49,8 @@ class AssessmentState extends Equatable {
       selectedItems: selectedItems ?? this.selectedItems,
       isMultiSelect: isMultiSelect ?? this.isMultiSelect,
       alcoholChoose: alcoholChoose ?? this.alcoholChoose,
+      smokeChoose: smokeChoose ?? this.smokeChoose,
+      goalChoose: goalChoose ?? this.goalChoose,
       famhisChoose: famhisChoose ?? this.famhisChoose,
       isCompleted: isCompleted ?? this.isCompleted,
     );
@@ -57,6 +65,8 @@ class AssessmentState extends Equatable {
         selectedItems,
         isMultiSelect,
         alcoholChoose,
+        smokeChoose,
+        goalChoose,
         famhisChoose,
         isCompleted
       ];

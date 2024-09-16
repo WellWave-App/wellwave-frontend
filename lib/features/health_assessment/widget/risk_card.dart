@@ -6,8 +6,11 @@ class RiskCard extends StatelessWidget {
   final String title;
   final String riskText;
 
-  RiskCard(
-      {required this.progress, required this.title, required this.riskText});
+  const RiskCard(
+      {super.key,
+      required this.progress,
+      required this.title,
+      required this.riskText});
 
   @override
   Widget build(BuildContext context) {
@@ -21,29 +24,32 @@ class RiskCard extends StatelessWidget {
             color: Colors.grey.withOpacity(0.25),
             spreadRadius: 0,
             blurRadius: 5,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.darkblueColor,
-                ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: AppColors.blackColor,
+                    ),
+              ),
+              Text(
+                riskText,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.blackColor,
+                    ),
+              ),
+            ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 12),
           _buildProgressBar(progress),
-          SizedBox(height: 16),
-          Text(
-            riskText,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.darkblueColor,
-                ),
-          ),
         ],
       ),
     );
@@ -54,18 +60,25 @@ class RiskCard extends StatelessWidget {
     List<double> stops;
 
     if (value <= 0.4) {
-      colors = [Colors.blue, Colors.green];
+      colors = [
+        const Color.fromARGB(255, 56, 208, 190),
+        const Color.fromARGB(255, 155, 202, 146),
+      ];
       stops = [0.0, 1.0];
     } else if (value <= 0.7) {
-      colors = [Colors.blue, Colors.green, Colors.yellow];
+      colors = [
+        const Color.fromARGB(255, 56, 208, 190),
+        const Color.fromARGB(255, 155, 202, 146),
+        const Color.fromARGB(255, 255, 196, 102),
+      ];
       stops = [0.0, 0.5, 1.0];
     } else {
       colors = [
-        Colors.blue,
-        Colors.green,
-        Colors.yellow,
-        Colors.orange,
-        Colors.red
+        const Color.fromARGB(255, 56, 208, 190),
+        const Color.fromARGB(255, 155, 202, 146),
+        const Color.fromARGB(255, 255, 196, 102),
+        const Color.fromARGB(255, 255, 162, 135),
+        const Color.fromARGB(255, 255, 128, 169),
       ];
       stops = [0.0, 0.3, 0.6, 0.8, 1.0];
     }

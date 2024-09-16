@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
-import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
 
@@ -15,7 +13,6 @@ class HealthInfoStep extends StatelessWidget {
     final state = context.watch<AssessmentBloc>().state;
     return Expanded(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -24,11 +21,11 @@ class HealthInfoStep extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(
-              height: 8,
+              height: 12,
             ),
             Text(
-              "บอกข้อมูลของคุณให้เราทราบเพื่อผลลัพธ์ที่แม่นยำ",
-              style: Theme.of(context).textTheme.titleSmall,
+              "หากทราบข้อมูล โปรดระบุเพื่อผลลัพธ์ที่แม่นยำยิ่งขึ้น",
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(
               height: 48,

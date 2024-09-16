@@ -17,7 +17,6 @@ class PersonalInfoStep extends StatelessWidget {
 
     return Expanded(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -29,11 +28,11 @@ class PersonalInfoStep extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 12,
                   ),
                   Text(
-                    "บอกข้อมูลของคุณให้เราทราบเพื่อผลลัพธ์ที่แม่นยำ",
-                    style: Theme.of(context).textTheme.titleSmall,
+                    "บอกข้อมูลของคุณ เพื่อผลลัพธ์ที่แม่นยำ",
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                   const SizedBox(
                     height: 48,
@@ -43,7 +42,7 @@ class PersonalInfoStep extends StatelessWidget {
             ),
             Text(
               'เพศ*',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     color: AppColors.bluegrayColor,
                   ),
             ),
@@ -120,7 +119,7 @@ class PersonalInfoStep extends StatelessWidget {
                   Text(
                     'กรุณากรอกเพศของคุณ',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Color(0xFFBE4B43),
+                          color: const Color(0xFFBE4B43),
                         ),
                   ),
                 ],

@@ -6,71 +6,79 @@ import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/details_health_card.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/details_health_card%20notused.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/risk_arc.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/risk_card.dart';
 
 class ResultAssessment extends StatelessWidget {
+  const ResultAssessment({super.key});
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    return Expanded(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
+
+    return Scaffold(
+      appBar: CustomAppBar(
+        context: context,
+        onLeading: false,
+        title: 'สรุปผลการประเมิน',
+        textColor: Colors.black,
+        backgroundColor: Colors.transparent,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
+            GaugeWidget(),
             const SizedBox(
               height: 48,
             ),
-            Text(
-              "ผลการประเมิน",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            RiskCard(
+            const RiskCard(
               title: 'โรคเบาหวาน',
-              riskText: 'คุณมีความเสี่ยงโรคเบาหวานสูง',
+              riskText: 'เสี่ยงสูง',
               progress: 0.85,
             ),
             const SizedBox(
               height: 24,
             ),
-            RiskCard(
+            const RiskCard(
               title: 'โรคความดันโลหิตสูง',
-              riskText: 'คุณไม่มีความเสี่ยงโรคความดันโลหิตสูง',
+              riskText: 'ไม่มีความเสี่ยง',
               progress: 0.25,
             ),
             const SizedBox(
               height: 24,
             ),
-            RiskCard(
+            const RiskCard(
               title: 'โรคอ้วน',
-              riskText: 'คุณมีความเสี่ยงโรคอ้วนสูง',
+              riskText: 'เสี่ยงสูงมาก',
               progress: 1,
             ),
             const SizedBox(
               height: 24,
             ),
-            RiskCard(
+            const RiskCard(
               title: 'โรคไขมันในเลือดสูง',
-              riskText: 'คุณมีความเสี่ยงโรคไขมันในเลือดสูงขั้นต้น',
+              riskText: 'เสี่ยงขั้นต้น',
               progress: 0.4,
             ),
-            SizedBox(height: 48),
+            const SizedBox(height: 48),
             Positioned(
               bottom: screenHeight * 0.20,
               child: Center(
                 child: CustomButton(
+                  bgColor: AppColors.primaryColor,
+                  textColor: AppColors.backgroundColor,
                   width: 250,
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => _buildResultOverall(context)),
+                        builder: (context) => _buildRecommend(context),
+                      ),
                     );
                   },
-                  title: 'เสร็จสิ้น',
+                  title: 'ถัดไป',
                 ),
               ),
             ),
@@ -80,138 +88,156 @@ class ResultAssessment extends StatelessWidget {
     );
   }
 
-  Widget _buildResultOverall(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+  Widget _buildRecommend(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        context: context,
-        onLeading: false,
-        title: 'สรุปผลการประเมิน',
-        textColor: Colors.black,
-        backgroundColor: Colors.transparent,
-      ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 180),
-                SizedBox(height: 36),
-                DetailsHealthCard(
-                  title: 'ค่าน้ำตาลในเลือด',
-                  value: '150 dg/L',
-                ),
-                SizedBox(height: 24),
-                DetailsHealthCard(
-                  title: 'Cholesterol',
-                  value: '250 dg/L',
-                ),
-                SizedBox(height: 24),
-                DetailsHealthCard(
-                  title: 'Triglyceride',
-                  value: '210 dg/L',
-                ),
-                SizedBox(height: 48),
-                Text(
-                  "คำแนะนำสำหรับคุณ",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(color: AppColors.darkblueColor),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  "• ลดอาหารประเภทแป้ง และอาหารไขมันสูง \n• ออกกำลังกายอย่างสม่ำเสมอ โดยเน้นการคาร์ดิโอ ร่วมกับออกกำลังกายแบบเสริมสร้างกล้ามเนื้อด้วย โดยทำให้ได้อย่างน้อย 3 ครั้งต่อสัปดาห์ ครั้งละ 30-60 นาที ",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: AppColors.darkblueColor),
-                ),
-                SizedBox(height: 48),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(bottom: 20), // 20 units from bottom
-              child: CustomButton(
-                width: 250,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => _buildGoalWeight(context)),
-                  );
-                },
-                title: 'กำหนดเป้าหมาย',
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGoalWeight(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
-            child: Container(
-              width: double.infinity,
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Stack(
+          children: [
+            Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 108),
+                  SvgPicture.asset(AppImages.recommendPlanIcon),
+                  const SizedBox(height: 64),
                   Text(
-                    "กำหนดเป้าหมายน้ำหนักของคุณ",
+                    "คำแนะนำสำหรับคุณ",
+                    textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge
                         ?.copyWith(color: AppColors.blackColor),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   Text(
-                    "บอกให้เราทราบ เพื่อปรับแผนที่เหมาะสมกับคุณมากยิ่งขึ้น",
+                    "ลดอาหารประเภทแป้ง และอาหารไขมันสูง ออกกำลังกายอย่างสม่ำเสมอ อย่างน้อย 3 ครั้งต่อสัปดาห์ ครั้งละ 30-60 นาที",
+                    textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium
                         ?.copyWith(color: AppColors.blackColor),
                   ),
-                  SizedBox(height: 540),
+                  const SizedBox(height: 72),
                 ],
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(bottom: 20), // Adjust padding if needed
-              child: CustomButton(
-                width: 250,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => _buildFinishGoalWeight(context)),
-                  );
-                },
-                title: 'เสร็จสิ้น',
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CustomButton(
+                      width: 250,
+                      bgColor: AppColors.primaryColor,
+                      textColor: AppColors.backgroundColor,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  _buildHealthConnect(context)),
+                        );
+                      },
+                      title: 'ถัดไป',
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHealthConnect(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(AppImages.healthconnectIcon),
+                  const SizedBox(height: 64),
+                  Text(
+                    "ต้องการเชื่อมต่อข้อมูลสุขภาพหรือไม่?",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: AppColors.blackColor),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    "เชื่อมต่อกับ Google Fit เพื่อให้การติดตามสุขภาพของคุณแม่นยำยิ่งขึ้น",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: AppColors.blackColor),
+                  ),
+                  const SizedBox(height: 72),
+                ],
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CustomButton(
+                      width: 250,
+                      bgColor: AppColors.primaryColor,
+                      textColor: AppColors.backgroundColor,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  _buildFinishGoalWeight(context)),
+                        );
+                      },
+                      title: 'เชื่อมต่อทันที',
+                    ),
+                    const SizedBox(height: 12),
+                    CustomButton(
+                      bgColor: Colors.transparent,
+                      textColor: AppColors.darkgrayColor,
+                      width: 250,
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  _buildFinishGoalWeight(context)),
+                        );
+                      },
+                      title: 'ไว้ภายหลัง',
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildFinishGoalWeight(BuildContext context) {
+    Future.delayed(const Duration(seconds: 3), () {
+      context.goNamed(AppPages.homeName);
+    });
+
     return Scaffold(
       body: Stack(
         children: [
@@ -221,40 +247,28 @@ class ResultAssessment extends StatelessWidget {
               Center(
                 child: Column(
                   children: [
-                    SvgPicture.asset(AppImages.checkmarkGradientIcon),
-                    SizedBox(height: 48),
+                    SvgPicture.asset(AppImages.recommendIcon),
+                    const SizedBox(height: 48),
                     Text(
-                      "กำหนดเป้าหมายสำเร็จ",
+                      "ยินดีด้วย!",
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge
                           ?.copyWith(color: AppColors.blackColor),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Text(
-                      "แผนสุขภาพของคุณพร้อมแล้ว!",
+                      "แผนสุขภาพส่วนตัวของคุณพร้อมแล้ว \nเริ่มต้นการดูแลสุขภาพที่ดีที่สุดสำหรับคุณได้เลย",
+                      textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
-                          .titleSmall
+                          .bodyMedium
                           ?.copyWith(color: AppColors.blackColor),
                     ),
                   ],
                 ),
               ),
             ],
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: CustomButton(
-                width: 250,
-                onPressed: () {
-                  context.goNamed(AppPages.homeName);
-                },
-                title: 'เข้าสู่หน้าหลัก',
-              ),
-            ),
           ),
         ],
       ),

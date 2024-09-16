@@ -14,18 +14,17 @@ import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/h
 class AddPicUsernameStep extends StatelessWidget {
   final AssessmentState state;
 
-  AddPicUsernameStep({required this.state});
+  const AddPicUsernameStep({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        const SizedBox(height: 24),
         Text("ตั้งชื่อและรูปผู้ใช้",
             style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
         Text("ต้องการให้เราเรียกคุณว่าอะไรดี",
-            style: Theme.of(context).textTheme.titleSmall),
+            style: Theme.of(context).textTheme.bodySmall),
         const SizedBox(height: 64),
         Stack(
           children: [

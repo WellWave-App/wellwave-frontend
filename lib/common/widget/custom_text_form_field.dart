@@ -12,7 +12,8 @@ class CustomTextFormField extends StatefulWidget {
   final String initialValue;
   final List<TextInputFormatter>? inputFormatters;
 
-  CustomTextFormField({
+  const CustomTextFormField({
+    super.key,
     required this.labelText,
     required this.hintText,
     this.suffixText,
@@ -28,7 +29,7 @@ class CustomTextFormField extends StatefulWidget {
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
   late TextEditingController _controller;
 
@@ -74,12 +75,15 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         suffixStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: AppColors.darkgrayColor,
             ),
-        enabledBorder: UnderlineInputBorder(
+        enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.grayColor),
         ),
-        focusedBorder: UnderlineInputBorder(
+        focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor),
         ),
+        filled: true,
+        fillColor: AppColors.backgroundColor,
+        contentPadding: EdgeInsets.zero,
       ),
     );
   }

@@ -29,6 +29,9 @@ class AppImages {
   static const famhistoryHyperIcon = 'assets/icons/famhistory_hyper.svg';
   static const famhistoryParalysisIcon =
       'assets/icons/famhistory_paralysis.svg';
+  static const goalHealthyIcon = 'assets/icons/goal_healthy.svg';
+  static const goalLoseweightIcon = 'assets/icons/goal_loseweight.svg';
+  static const goalMuscleIcon = 'assets/icons/goal_muscle.svg';
 
   static const famhistoryVascularIcon = 'assets/icons/famhistory_vascular.svg';
   static const smokeUedtoIcon = 'assets/icons/smoke_usedto.svg';
@@ -36,5 +39,8 @@ class AppImages {
   static const smokeUsuallyIcon = 'assets/icons/smoke_usually.svg';
   static const healthassessmentImg =
       'assets/images/health_assessment_step1.svg';
-  static const checkmarkGradientIcon = 'assets/icons/checkmark_gradient.svg';
+  static const healthassessmentBG = 'assets/images/health_assessment_bg.png';
+  static const recommendIcon = 'assets/icons/recommend.svg';
+  static const recommendPlanIcon = 'assets/icons/recommend_plan.svg';
+  static const healthconnectIcon = 'assets/icons/health_connect.svg';
 }

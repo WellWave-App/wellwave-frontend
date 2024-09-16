@@ -9,19 +9,13 @@ class FamilyHistoryStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 24),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "ประวัติเจ็บป่วยในครอบครัว",
+              "คนในครอบครัวมีประวัติการเจ็บป่วยเหล่านี้ไหม?",
               style: Theme.of(context).textTheme.titleLarge,
-              textAlign: TextAlign.center,
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text("บอกข้อมูลของคุณให้เราทราบเพื่อผลลัพธ์ที่แม่นยำ",
-                style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(
               height: 48,
             ),
@@ -30,12 +24,12 @@ class FamilyHistoryStep extends StatelessWidget {
               children: [
                 RectangleBox(
                   icon: AppImages.famhistoryHyperIcon,
-                  title: "โรคความดัน\nโลหิตสูง",
+                  title: "โรคความดันโลหิตสูง",
                   isMultiSelect: true,
                 ),
                 RectangleBox(
                   icon: AppImages.famhistoryVascularIcon,
-                  title: "โรคไขมันใน\nหลอดเลือดผิดปกติ",
+                  title: "โรคไขมันในหลอดเลือดผิดปกติ",
                   isMultiSelect: true,
                 ),
               ],
@@ -66,12 +60,12 @@ class FamilyHistoryStep extends StatelessWidget {
               children: [
                 RectangleBox(
                   icon: AppImages.famhistoryArteryIcon,
-                  title: "โรคหลอดเลือด\nหัวใจ",
+                  title: "โรคหลอดเลือดหัวใจ",
                   isMultiSelect: true,
                 ),
                 RectangleBox(
                   icon: AppImages.famhistoryConfusedIcon,
-                  title: "ไม่ทราบ / \nไม่มีประวัติเจ็บป่วย",
+                  title: "ไม่ทราบ / ไม่มีประวัติเจ็บป่วย",
                   isMultiSelect: true,
                 ),
               ],

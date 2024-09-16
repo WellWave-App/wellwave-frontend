@@ -76,7 +76,7 @@ final GoRouter goRouter = GoRouter(
               path: AppPages.assessmentPage,
               name: AppPages.assessmentName,
               builder: (BuildContext context, GoRouterState state) {
-                return AssessmentScreen();
+                return const AssessmentScreen();
               },
             ),
           ],

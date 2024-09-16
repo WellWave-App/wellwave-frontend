@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/screen/health_assessment_screen.dart';
 import 'dart:io';
 
@@ -10,7 +11,7 @@ class ValidateGender extends AssessmentEvent {}
 
 class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   AssessmentBloc()
-      : super(AssessmentState(
+      : super(const AssessmentState(
           currentStep: 0,
           formData: {},
           selectedItems: [],
@@ -27,17 +28,17 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     on<ToggleSelectionEvent>(_onToggleSelection);
     on<SetSelectionMode>(_onSetSelectionMode);
     on<StepContinue>((event, emit) {
-      if (state.currentStep < 5) {
+      if (state.currentStep < 6) {
         emit(state.copyWith(currentStep: state.currentStep + 1));
       } else {
-        print('Setting isCompleted to true');
+        print('Success Step');
         emit(state.copyWith(isCompleted: true));
       }
     });
   }
 
   void _onStepContinue(StepContinue event, Emitter<AssessmentState> emit) {
-    if (state.currentStep < 5) {
+    if (state.currentStep < 6) {
       emit(state.copyWith(currentStep: state.currentStep + 1));
     }
   }
@@ -76,9 +77,19 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
       } else {
         updatedFamhisChoose.add(event.title);
       }
+      debugPrint('Updated famhisChoose: $updatedFamhisChoose');
       emit(state.copyWith(famhisChoose: updatedFamhisChoose));
     } else {
-      emit(state.copyWith(alcoholChoose: event.title));
+      if (event.selectionType == 'alcohol') {
+        debugPrint('Updated alcoholChoose: ${event.title}');
+        emit(state.copyWith(alcoholChoose: event.title));
+      } else if (event.selectionType == 'goal') {
+        debugPrint('Updated goalChoose: ${event.title}');
+        emit(state.copyWith(goalChoose: event.title));
+      } else if (event.selectionType == 'smoke') {
+        debugPrint('Updated smokeChoose: ${event.title}');
+        emit(state.copyWith(smokeChoose: event.title));
+      }
     }
   }
 
@@ -91,10 +102,12 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
 class ToggleSelectionEvent extends AssessmentEvent {
   final String title;
   final bool isMultiSelect;
-  ToggleSelectionEvent(this.title, this.isMultiSelect);
+  final String selectionType;
+
+  ToggleSelectionEvent(this.title, this.isMultiSelect, this.selectionType);
 
   @override
-  List<Object> get props => [title, isMultiSelect];
+  List<Object> get props => [title, isMultiSelect, selectionType];
 }
 
 class SetSelectionMode extends AssessmentEvent {
