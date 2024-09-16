@@ -1,10 +1,12 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:calendar_slider/calendar_slider.dart';
+
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/note/presentation/widget/calendar_slider.dart';
+
+import '../widget/logs_history_card.dart';
 
 class NoteHistoryScreen extends StatefulWidget {
   const NoteHistoryScreen({super.key});
@@ -47,58 +49,7 @@ class TitleSection extends StatelessWidget {
       AppStrings.healthHistoryText,
       style: Theme.of(context).textTheme.titleMedium?.copyWith(
             color: AppColors.whiteColor,
-            // fontWeight: FontWeight.bold,
           ),
-    );
-  }
-}
-
-// CalendarSilder widget
-class CalendarSilder extends StatefulWidget {
-  const CalendarSilder({Key? key}) : super(key: key);
-
-  @override
-  State<CalendarSilder> createState() => _CalendarSilderState();
-}
-
-class _CalendarSilderState extends State<CalendarSilder> {
-  final CalendarSliderController _firstController = CalendarSliderController();
-
-  Random random = Random();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CalendarSlider(
-          controller: _firstController,
-          selectedDayPosition: SelectedDayPosition.center,
-          fullCalendarScroll: FullCalendarScroll.horizontal,
-          backgroundColor: AppColors.primaryColor,
-          fullCalendarWeekDay: WeekDay.short,
-          selectedTileBackgroundColor: AppColors.mintColor,
-          monthYearButtonBackgroundColor: Colors.transparent,
-          monthYearTextColor: Colors.white,
-          tileBackgroundColor: AppColors.primaryColor,
-          selectedDateColor: Colors.white,
-          dateColor: Colors.white,
-          tileShadow: BoxShadow(
-            color: Colors.black.withOpacity(1),
-          ),
-          locale: 'th',
-          initialDate: DateTime.now(),
-          firstDate: DateTime.now().subtract(const Duration(days: 100)),
-          lastDate: DateTime.now().add(const Duration(days: 100)),
-          onDateSelected: (date) {
-            setState(() {});
-          },
-        ),
-      ],
     );
   }
 }
@@ -129,106 +80,28 @@ class _DailyLogsState extends State<DailyLogs> {
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    color: AppColors.tertiaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(AppImages.sleepLogsIcon,
-                          width: 64, // Set the width
-                          height: 64),
-                      const SizedBox(width: 8.0),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                AppStrings.sleepText,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                      color: AppColors.greyColor,
-                                    ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '$selectedWaterLevel ${AppStrings.hoursText}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                        color: AppColors.blackColor,
-                                        fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              LogsHistoryCard(
+                svgPath: AppImages.sleepLogsIcon, // Your SVG asset path
+                title: AppStrings.sleepText, // Main text
+                value: selectedSleepHours, // Value to display
+                isSvg: true,
+                unit: AppStrings.hoursText, // Unit for the value
+                svgWidth: 64, // Custom width
+                svgHeight: 64, // Custom height
               ),
             ],
           ),
           const SizedBox(height: 8.0),
           Row(
             children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    color: AppColors.tertiaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(AppImages.threeWaterIcon,
-                          width: 64, // Set the width
-                          height: 64),
-                      const SizedBox(width: 8.0),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                AppStrings.drinkText,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                      color: AppColors.greyColor,
-                                    ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '$selectedWaterLevel ${AppStrings.glassesText}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                        color: AppColors.blackColor,
-                                        fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              LogsHistoryCard(
+                svgPath: AppImages.threeWaterIcon, // Your SVG asset path
+                title: AppStrings.drinkText, // Main text
+                value: selectedWaterLevel, // Value to display
+                unit: AppStrings.glassesText, // Unit for the value
+                isSvg: true,
+                svgWidth: 64, // Custom width
+                svgHeight: 64, // Custom height
               ),
             ],
           ),
@@ -263,159 +136,42 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
           const SizedBox(height: 16),
           Row(
             children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    color: AppColors.tertiaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset(AppImages.stepCountImage,
-                          width: 64,
-                          height: 64),
-                      const SizedBox(width: 8.0),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                AppStrings.stepWalkText,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                      color: AppColors.greyColor,
-                                    ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '$stepCount ${AppStrings.stepText}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                        color: AppColors.blackColor,
-                                        fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              LogsHistoryCard(
+                pngPath: AppImages.stepCountImage, // Your SVG asset path
+                title: AppStrings.stepWalkText, // Main text
+                value: stepCount, // Value to display
+                unit: AppStrings.stepText, // Unit for the value
+                isSvg: false,
+                pngWidth: 64, // Custom width
+                pngHeight: 64, // Custom height
               ),
             ],
           ),
           const SizedBox(height: 8.0),
           Row(
             children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    color: AppColors.tertiaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset(AppImages.hdlImage,
-                          width: 64, 
-                          height: 64),
-                      const SizedBox(width: 8.0),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                AppStrings.hdlText,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                      color: AppColors.greyColor,
-                                    ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '$hdlCount ${AppStrings.mgPerDlText}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                        color: AppColors.blackColor,
-                                        fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              LogsHistoryCard(
+                pngPath: AppImages.hdlImage, // Your SVG asset path
+                title: AppStrings.hdlText, // Main text
+                value: hdlCount, // Value to display
+                unit: AppStrings.mgPerDlText, // Unit for the value
+                isSvg: false,
+                pngWidth: 64, // Custom width
+                pngHeight: 64, // Custom height
               ),
             ],
           ),
           const SizedBox(height: 8.0),
           Row(
             children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    color: AppColors.tertiaryColor,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Image.asset(AppImages.ldlImage,
-                          width: 64, 
-                          height: 64),
-                      const SizedBox(width: 8.0),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                AppStrings.ldlText,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(
-                                      color: AppColors.greyColor,
-                                    ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '$ldlCount ${AppStrings.mgPerDlText}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                        color: AppColors.blackColor,
-                                        fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              LogsHistoryCard(
+                pngPath: AppImages.ldlImage, // Your SVG asset path
+                title: AppStrings.ldlText, // Main text
+                value: ldlCount, // Value to display
+                unit: AppStrings.mgPerDlText, // Unit for the value
+                isSvg: false,
+                pngWidth: 64, // Custom width
+                pngHeight: 64, // Custom height
               ),
             ],
           ),
