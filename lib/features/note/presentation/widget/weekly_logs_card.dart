@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class WeeklyLogsCard extends StatelessWidget {
   final String title;
@@ -37,7 +38,7 @@ class WeeklyLogsCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
@@ -52,13 +53,29 @@ class WeeklyLogsCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
+                        fontSize: 20
                       ),
                 ),
+                const SizedBox(width: 4),
                 Text(
                   unit,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: Colors.black,
                       ),
+                ),
+                SizedBox(width: 2),
+                Row(
+                  children: [
+                    const Icon(Icons.arrow_downward,
+                        size: 10.0, color: AppColors.greenColor),
+                    Text(
+                      '0.5 $unit',
+                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: AppColors.greenColor,
+                            fontSize: 8
+                          ),
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -39,7 +39,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             });
           },
           child: Text(
-            'avg',
+            '',
             style: TextStyle(
               fontSize: 12,
               color: showAvg

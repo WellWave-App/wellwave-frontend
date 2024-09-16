@@ -12,4 +12,5 @@ class AppColors {
   static const blackColor = Colors.black;
   static const greyColor =  Color(0xFF919191);
   static const popupColor =  Color(0xFFE9E9E9);
+  static const greenColor =  Color(0xFF16A34A);
 }

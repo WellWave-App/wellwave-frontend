@@ -55,7 +55,6 @@ class TitleSection extends StatelessWidget {
             AppStrings.historyText,
             style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: AppColors.greyColor,
-                  // fontWeight: FontWeight.bold,
                 ),
           ),
         ),
@@ -246,14 +245,14 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                 title: AppStrings.hdlText,
                 value: '65',
                 unit: AppStrings.mgPerDlText,
-                chart: LineChartSample2(), // Replace with actual chart widget
+                chart: LineChartSample2(),
               ),
               SizedBox(width: 16),
               WeeklyLogsCard(
                 title: AppStrings.ldlText,
                 value: '165',
                 unit: AppStrings.mgPerDlText,
-                chart: LineChartSample2(), // Replace with actual chart widget
+                chart: LineChartSample2(), 
               ),
             ],
           ),
