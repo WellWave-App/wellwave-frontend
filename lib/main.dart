@@ -3,7 +3,6 @@ import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 

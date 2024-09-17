@@ -7,8 +7,6 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/details_health_card%20notused.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/risk_arc.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/risk_card.dart';
 
@@ -17,8 +15,6 @@ class ResultAssessment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: CustomAppBar(
         context: context,
@@ -63,24 +59,19 @@ class ResultAssessment extends StatelessWidget {
               progress: 0.4,
             ),
             const SizedBox(height: 48),
-            Positioned(
-              bottom: screenHeight * 0.20,
-              child: Center(
-                child: CustomButton(
-                  bgColor: AppColors.primaryColor,
-                  textColor: AppColors.backgroundColor,
-                  width: 250,
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => _buildRecommend(context),
-                      ),
-                    );
-                  },
-                  title: 'ถัดไป',
-                ),
-              ),
+            CustomButton(
+              bgColor: AppColors.primaryColor,
+              textColor: AppColors.backgroundColor,
+              width: 250,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => _buildRecommend(context),
+                  ),
+                );
+              },
+              title: 'ถัดไปร',
             ),
           ],
         ),

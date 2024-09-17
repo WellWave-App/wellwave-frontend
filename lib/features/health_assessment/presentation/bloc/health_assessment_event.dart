@@ -29,3 +29,9 @@ class UpdateField extends AssessmentEvent {
   @override
   List<Object?> get props => [fieldName, value];
 }
+
+class ShowRecommendEvent extends AssessmentEvent {}
+
+class ShowHealthConnectEvent extends AssessmentEvent {}
+
+class ShowFinishGoalWeightEvent extends AssessmentEvent {}

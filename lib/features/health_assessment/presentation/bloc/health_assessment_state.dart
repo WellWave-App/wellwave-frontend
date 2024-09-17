@@ -71,3 +71,21 @@ class AssessmentState extends Equatable {
         isCompleted
       ];
 }
+
+class InitialState extends AssessmentState {
+  const InitialState({required super.currentStep, required super.formData});
+}
+
+class RecommendState extends AssessmentState {
+  const RecommendState({required super.currentStep, required super.formData});
+}
+
+class HealthConnectState extends AssessmentState {
+  const HealthConnectState(
+      {required super.currentStep, required super.formData});
+}
+
+class FinishGoalWeightState extends AssessmentState {
+  const FinishGoalWeightState(
+      {required super.currentStep, required super.formData});
+}

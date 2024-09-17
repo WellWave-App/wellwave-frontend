@@ -7,48 +7,46 @@ class SmokeStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "คุณสูบบุหรี่หรือไม่?",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(
-              height: 48,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RectangleBox(
-                  icon: AppImages.smokeUsuallyIcon,
-                  title: "สูบเป็นประจำ",
-                  isMultiSelect: false,
-                ),
-                RectangleBox(
-                  icon: AppImages.smokeUedtoIcon,
-                  title: "เลิกสูบแล้ว",
-                  isMultiSelect: false,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                RectangleBox(
-                  icon: AppImages.smokeNeverIcon,
-                  title: "ไม่สูบ",
-                  isMultiSelect: false,
-                ),
-              ],
-            ),
-          ],
-        ),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "คุณสูบบุหรี่หรือไม่?",
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          const SizedBox(
+            height: 48,
+          ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RectangleBox(
+                icon: AppImages.smokeUsuallyIcon,
+                title: "สูบเป็นประจำ",
+                isMultiSelect: false,
+              ),
+              RectangleBox(
+                icon: AppImages.smokeUedtoIcon,
+                title: "เลิกสูบแล้ว",
+                isMultiSelect: false,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              RectangleBox(
+                icon: AppImages.smokeNeverIcon,
+                title: "ไม่สูบ",
+                isMultiSelect: false,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

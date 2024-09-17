@@ -1,9 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/screen/health_assessment_screen.dart';
-import 'dart:io';
-
 import 'health_assessment_event.dart';
 import 'health_assessment_state.dart';
 
@@ -31,7 +27,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
       if (state.currentStep < 6) {
         emit(state.copyWith(currentStep: state.currentStep + 1));
       } else {
-        print('Success Step');
+        debugPrint('Success Step');
         emit(state.copyWith(isCompleted: true));
       }
     });

@@ -30,7 +30,6 @@ class CustomTextFormField extends StatefulWidget {
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   final FocusNode _focusNode = FocusNode();
-  bool _isFocused = false;
   late TextEditingController _controller;
 
   @override
@@ -38,9 +37,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     super.initState();
     _controller = TextEditingController(text: widget.initialValue);
     _focusNode.addListener(() {
-      setState(() {
-        _isFocused = _focusNode.hasFocus;
-      });
+      setState(() {});
     });
   }
 
