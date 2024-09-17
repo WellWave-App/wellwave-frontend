@@ -11,9 +11,8 @@ class RiskArc extends CustomPainter {
     final paint = Paint()
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 12;
+      ..strokeWidth = 16;
 
-    // วาดเส้นสีเทาพื้นฐาน
     paint.color = Colors.grey[300]!;
     canvas.drawArc(
       Rect.fromCenter(
@@ -26,14 +25,13 @@ class RiskArc extends CustomPainter {
       paint,
     );
 
-    // กำหนด Gradient สีใหม่ตามเปอร์เซ็นต์
-    paint.shader = const LinearGradient(
+    paint.shader = LinearGradient(
       colors: [
-        Color.fromARGB(255, 56, 208, 190),
-        Color.fromARGB(255, 155, 202, 146),
-        Color.fromARGB(255, 255, 196, 102),
-        Color.fromARGB(255, 255, 162, 135),
-        Color.fromARGB(255, 255, 128, 169),
+        const Color.fromARGB(255, 56, 208, 190),
+        const Color.fromARGB(255, 155, 202, 146),
+        const Color.fromARGB(255, 255, 196, 102),
+        const Color.fromARGB(255, 255, 162, 135),
+        const Color.fromARGB(255, 255, 128, 169),
       ],
       stops: [0.0, 0.3, 0.6, 0.8, 1.0],
     ).createShader(Rect.fromCircle(
@@ -58,47 +56,54 @@ class RiskArc extends CustomPainter {
 }
 
 class GaugeWidget extends StatefulWidget {
-  const GaugeWidget({super.key});
+  final double percentage;
+
+  GaugeWidget({required this.percentage});
 
   @override
   _GaugeWidgetState createState() => _GaugeWidgetState();
 }
 
 class _GaugeWidgetState extends State<GaugeWidget> {
-  final double _percentage = 0.8;
-
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CustomPaint(
-          size: Size(MediaQuery.of(context).size.width,
-              MediaQuery.of(context).size.width / 2),
-          painter: RiskArc(percentage: _percentage),
-        ),
-        Positioned(
-          bottom: 24,
-          left: 0,
-          right: 0,
-          child: Column(
-            children: [
-              Text(
-                "ภาวะเมตาบอลิกซินโดรมของคุณ",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: Colors.black),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            CustomPaint(
+              size: Size(MediaQuery.of(context).size.width,
+                  MediaQuery.of(context).size.width / 2),
+              painter: RiskArc(percentage: widget.percentage),
+            ),
+            Positioned(
+              bottom: 24,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "ภาวะเมตาบอลิกซินโดรมของคุณ",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: Colors.black),
+                  ),
+                  SizedBox(height: 12),
+                  Text(
+                    "มีความเสี่ยงสูง",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: Colors.black),
+                  ),
+                ],
               ),
-              const SizedBox(height: 12),
-              Text(
-                "มีความเสี่ยงสูง",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge
-                    ?.copyWith(color: Colors.black),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

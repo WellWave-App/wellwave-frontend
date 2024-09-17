@@ -6,6 +6,8 @@ import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/details_health_card%20notused.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/risk_arc.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/risk_card.dart';
@@ -29,37 +31,35 @@ class ResultAssessment extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            GaugeWidget(),
+            GaugeWidget(
+              percentage: 0.5,
+            ),
             const SizedBox(
-              height: 48,
+              height: 36,
             ),
             const RiskCard(
-              title: 'โรคเบาหวาน',
-              riskText: 'เสี่ยงสูง',
+              title: AppStrings.diabetesText,
               progress: 0.85,
             ),
             const SizedBox(
-              height: 24,
+              height: 16,
             ),
             const RiskCard(
-              title: 'โรคความดันโลหิตสูง',
-              riskText: 'ไม่มีความเสี่ยง',
-              progress: 0.25,
+              title: AppStrings.hypertensionText,
+              progress: 0.6,
             ),
             const SizedBox(
-              height: 24,
+              height: 16,
             ),
             const RiskCard(
-              title: 'โรคอ้วน',
-              riskText: 'เสี่ยงสูงมาก',
+              title: AppStrings.obesityText,
               progress: 1,
             ),
             const SizedBox(
-              height: 24,
+              height: 16,
             ),
             const RiskCard(
-              title: 'โรคไขมันในเลือดสูง',
-              riskText: 'เสี่ยงขั้นต้น',
+              title: AppStrings.hyperlipidemiaText,
               progress: 0.4,
             ),
             const SizedBox(height: 48),

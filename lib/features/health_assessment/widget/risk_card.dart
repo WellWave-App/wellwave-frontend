@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 
 class RiskCard extends StatelessWidget {
   final double progress;
   final String title;
-  final String riskText;
 
-  const RiskCard(
-      {super.key,
-      required this.progress,
-      required this.title,
-      required this.riskText});
+  const RiskCard({
+    super.key,
+    required this.progress,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +36,14 @@ class RiskCard extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: AppColors.blackColor,
                     ),
               ),
               Text(
-                riskText,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.blackColor,
+                RiskTextCondition.getRiskText(progress)['text'],
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: RiskTextCondition.getRiskText(progress)['color'],
                     ),
               ),
             ],
@@ -61,24 +61,24 @@ class RiskCard extends StatelessWidget {
 
     if (value <= 0.4) {
       colors = [
-        const Color.fromARGB(255, 56, 208, 190),
-        const Color.fromARGB(255, 155, 202, 146),
+        AppColors.blueLevelColor,
+        AppColors.greenLevelColor,
       ];
       stops = [0.0, 1.0];
     } else if (value <= 0.7) {
       colors = [
-        const Color.fromARGB(255, 56, 208, 190),
-        const Color.fromARGB(255, 155, 202, 146),
-        const Color.fromARGB(255, 255, 196, 102),
+        AppColors.blueLevelColor,
+        AppColors.greenLevelColor,
+        AppColors.yellowLevelColor,
       ];
       stops = [0.0, 0.5, 1.0];
     } else {
       colors = [
-        const Color.fromARGB(255, 56, 208, 190),
-        const Color.fromARGB(255, 155, 202, 146),
-        const Color.fromARGB(255, 255, 196, 102),
-        const Color.fromARGB(255, 255, 162, 135),
-        const Color.fromARGB(255, 255, 128, 169),
+        AppColors.blueLevelColor,
+        AppColors.greenLevelColor,
+        AppColors.yellowLevelColor,
+        AppColors.orangeLevelColor,
+        AppColors.pinkLevelColor,
       ];
       stops = [0.0, 0.3, 0.6, 0.8, 1.0];
     }
