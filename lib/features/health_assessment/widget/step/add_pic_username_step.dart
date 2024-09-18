@@ -18,69 +18,71 @@ class AddPicUsernameStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text("ตั้งชื่อและรูปผู้ใช้",
-            style: Theme.of(context).textTheme.titleLarge),
-        const SizedBox(height: 8),
-        Text("ต้องการให้เราเรียกคุณว่าอะไรดี",
-            style: Theme.of(context).textTheme.bodySmall),
-        const SizedBox(height: 64),
-        Stack(
-          children: [
-            state.selectedImage != null
-                ? ClipOval(
-                    child: SizedBox(
-                      width: 180,
-                      height: 180,
-                      child: Image.file(
-                        state.selectedImage!,
-                        fit: BoxFit.cover,
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Text("ตั้งชื่อและรูปผู้ใช้",
+              style: Theme.of(context).textTheme.titleLarge),
+          const SizedBox(height: 8),
+          Text("ต้องการให้เราเรียกคุณว่าอะไรดี",
+              style: Theme.of(context).textTheme.bodySmall),
+          const SizedBox(height: 64),
+          Stack(
+            children: [
+              state.selectedImage != null
+                  ? ClipOval(
+                      child: SizedBox(
+                        width: 180,
+                        height: 180,
+                        child: Image.file(
+                          state.selectedImage!,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                  )
-                : SvgPicture.asset(AppImages.avatarDefaultIcon),
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: ElevatedButton(
-                onPressed: () async {
-                  final pickedFile = await ImagePicker()
-                      .pickImage(source: ImageSource.gallery);
-                  if (pickedFile != null) {
-                    context
-                        .read<AssessmentBloc>()
-                        .add(ImagePicked(File(pickedFile.path)));
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(12),
+                    )
+                  : SvgPicture.asset(AppImages.avatarDefaultIcon),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final pickedFile = await ImagePicker()
+                        .pickImage(source: ImageSource.gallery);
+                    if (pickedFile != null) {
+                      context
+                          .read<AssessmentBloc>()
+                          .add(ImagePicked(File(pickedFile.path)));
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(12),
+                  ),
+                  child: SvgPicture.asset(AppImages.cameraIcon),
                 ),
-                child: SvgPicture.asset(AppImages.cameraIcon),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 48),
-        CustomTextFormField(
-          labelText: 'ชื่อผู้ใช้*',
-          hintText: 'ชื่อผู้ใช้',
-          initialValue: state.formData['username'] ?? '',
-          inputFormatters: [
-            LengthLimitingTextInputFormatter(8),
-          ],
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'กรุณากรอกชื่อผู้ใช้งาน';
-            }
-            return null;
-          },
-          onChanged: (value) => context
-              .read<AssessmentBloc>()
-              .add(UpdateField('username', value)),
-        ),
-      ],
+            ],
+          ),
+          const SizedBox(height: 48),
+          CustomTextFormField(
+            labelText: 'ชื่อผู้ใช้*',
+            hintText: 'ชื่อผู้ใช้',
+            initialValue: state.formData['username'] ?? '',
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(16),
+            ],
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'กรุณากรอกชื่อผู้ใช้งาน';
+              }
+              return null;
+            },
+            onChanged: (value) => context
+                .read<AssessmentBloc>()
+                .add(UpdateField('username', value)),
+          ),
+        ],
+      ),
     );
   }
 }

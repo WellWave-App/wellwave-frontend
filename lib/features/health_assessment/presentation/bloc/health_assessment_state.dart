@@ -13,6 +13,9 @@ class AssessmentState extends Equatable {
   final String? goalChoose;
   final List<String> famhisChoose;
   final bool isCompleted;
+  final bool showHealthConnect;
+  final bool showRecommend;
+  final bool showFinish;
 
   const AssessmentState({
     required this.currentStep,
@@ -26,6 +29,9 @@ class AssessmentState extends Equatable {
     this.goalChoose,
     this.famhisChoose = const [],
     this.isCompleted = false,
+    this.showHealthConnect = false,
+    this.showRecommend = false,
+    this.showFinish = false,
   });
 
   AssessmentState copyWith({
@@ -40,6 +46,9 @@ class AssessmentState extends Equatable {
     String? goalChoose,
     List<String>? famhisChoose,
     bool? isCompleted,
+    bool? showHealthConnect,
+    bool? showRecommend,
+    bool? showFinish,
   }) {
     return AssessmentState(
       currentStep: currentStep ?? this.currentStep,
@@ -53,6 +62,9 @@ class AssessmentState extends Equatable {
       goalChoose: goalChoose ?? this.goalChoose,
       famhisChoose: famhisChoose ?? this.famhisChoose,
       isCompleted: isCompleted ?? this.isCompleted,
+      showHealthConnect: showHealthConnect ?? this.showHealthConnect,
+      showRecommend: showRecommend ?? this.showRecommend,
+      showFinish: showFinish ?? this.showFinish,
     );
   }
 
@@ -68,24 +80,9 @@ class AssessmentState extends Equatable {
         smokeChoose,
         goalChoose,
         famhisChoose,
-        isCompleted
+        isCompleted,
+        showHealthConnect,
+        showRecommend,
+        showFinish,
       ];
-}
-
-class InitialState extends AssessmentState {
-  const InitialState({required super.currentStep, required super.formData});
-}
-
-class RecommendState extends AssessmentState {
-  const RecommendState({required super.currentStep, required super.formData});
-}
-
-class HealthConnectState extends AssessmentState {
-  const HealthConnectState(
-      {required super.currentStep, required super.formData});
-}
-
-class FinishGoalWeightState extends AssessmentState {
-  const FinishGoalWeightState(
-      {required super.currentStep, required super.formData});
 }

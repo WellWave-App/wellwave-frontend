@@ -34,4 +34,4 @@ class ShowRecommendEvent extends AssessmentEvent {}
 
 class ShowHealthConnectEvent extends AssessmentEvent {}
 
-class ShowFinishGoalWeightEvent extends AssessmentEvent {}
+class ShowFinishEvent extends AssessmentEvent {}

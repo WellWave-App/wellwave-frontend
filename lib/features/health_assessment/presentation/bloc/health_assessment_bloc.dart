@@ -31,6 +31,16 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         emit(state.copyWith(isCompleted: true));
       }
     });
+
+    on<ShowHealthConnectEvent>((event, emit) {
+      emit(state.copyWith(showHealthConnect: true));
+    });
+    on<ShowRecommendEvent>((event, emit) {
+      emit(state.copyWith(showRecommend: true));
+    });
+    on<ShowFinishEvent>((event, emit) {
+      emit(state.copyWith(showFinish: true));
+    });
   }
 
   void _onStepContinue(StepContinue event, Emitter<AssessmentState> emit) {
