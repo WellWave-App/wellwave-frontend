@@ -13,6 +13,7 @@ class AssessmentState extends Equatable {
   final String? goalChoose;
   final List<String> famhisChoose;
   final bool isCompleted;
+  final bool showStartStep;
   final bool showHealthConnect;
   final bool showRecommend;
   final bool showFinish;
@@ -32,6 +33,7 @@ class AssessmentState extends Equatable {
     this.showHealthConnect = false,
     this.showRecommend = false,
     this.showFinish = false,
+    this.showStartStep = false,
   });
 
   AssessmentState copyWith({
@@ -49,6 +51,7 @@ class AssessmentState extends Equatable {
     bool? showHealthConnect,
     bool? showRecommend,
     bool? showFinish,
+    bool? showStartStep,
   }) {
     return AssessmentState(
       currentStep: currentStep ?? this.currentStep,
@@ -65,6 +68,7 @@ class AssessmentState extends Equatable {
       showHealthConnect: showHealthConnect ?? this.showHealthConnect,
       showRecommend: showRecommend ?? this.showRecommend,
       showFinish: showFinish ?? this.showFinish,
+      showStartStep: showStartStep ?? this.showStartStep,
     );
   }
 
@@ -84,5 +88,6 @@ class AssessmentState extends Equatable {
         showHealthConnect,
         showRecommend,
         showFinish,
+        showStartStep,
       ];
 }

@@ -48,62 +48,59 @@ class RiskCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          _buildProgressBar(progress),
         ],
       ),
     );
   }
 
-  Widget _buildProgressBar(double value) {
-    List<Color> colors;
-    List<double> stops;
+  // Widget _buildProgressBar(double value) {
+  //   List<Color> colors;
+  //   List<double> stops;
 
-    if (value <= 0.4) {
-      colors = [
-        AppColors.blueLevelColor,
-        AppColors.greenLevelColor,
-      ];
-      stops = [0.0, 1.0];
-    } else if (value <= 0.7) {
-      colors = [
-        AppColors.blueLevelColor,
-        AppColors.greenLevelColor,
-        AppColors.yellowLevelColor,
-      ];
-      stops = [0.0, 0.5, 1.0];
-    } else {
-      colors = [
-        AppColors.blueLevelColor,
-        AppColors.greenLevelColor,
-        AppColors.yellowLevelColor,
-        AppColors.orangeLevelColor,
-        AppColors.pinkLevelColor,
-      ];
-      stops = [0.0, 0.3, 0.6, 0.8, 1.0];
-    }
+  //   if (value <= 0.4) {
+  //     colors = [
+  //       AppColors.greenLevelColor,
+  //       AppColors.yellowLevelColor,
+  //     ];
+  //     stops = [0.0, 1.0];
+  //   } else if (value <= 0.7) {
+  //     colors = [
+  //       AppColors.greenLevelColor,
+  //       AppColors.yellowLevelColor,
+  //       AppColors.orangeLevelColor,
+  //     ];
+  //     stops = [0.0, 0.5, 1.0];
+  //   } else {
+  //     colors = [
+  //       AppColors.greenLevelColor,
+  //       AppColors.yellowLevelColor,
+  //       AppColors.orangeLevelColor,
+  //       AppColors.redLevelColor,
+  //     ];
+  //     stops = [0.0, 0.3, 0.6, 1.0];
+  //   }
 
-    return Stack(
-      children: [
-        Container(
-          height: 6,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: Colors.grey[300],
-          ),
-        ),
-        Container(
-          height: 6,
-          width: value * 300,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            gradient: LinearGradient(
-              colors: colors,
-              stops: stops,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  //   return Stack(
+  //     children: [
+  //       Container(
+  //         height: 6,
+  //         decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(4),
+  //           color: Colors.grey[300],
+  //         ),
+  //       ),
+  //       Container(
+  //         height: 6,
+  //         width: value * 300,
+  //         decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(4),
+  //           gradient: LinearGradient(
+  //             colors: colors,
+  //             stops: stops,
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 }

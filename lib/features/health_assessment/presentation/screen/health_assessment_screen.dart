@@ -87,18 +87,15 @@ class AssessmentScreenView extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 24.0),
-                    child: CustomButton(
-                      width: 250,
-                      bgColor: AppColors.primaryColor,
-                      textColor: AppColors.whiteColor,
-                      onPressed: () {
-                        context.read<AssessmentBloc>().add(StepContinue());
-                      },
-                      title: state.currentStep == 6 ? 'เสร็จสิ้น' : 'ถัดไป',
-                    ),
+                  padding: const EdgeInsets.all(24.0),
+                  child: CustomButton(
+                    width: 250,
+                    bgColor: AppColors.primaryColor,
+                    textColor: AppColors.whiteColor,
+                    onPressed: () {
+                      context.read<AssessmentBloc>().add(StepContinue());
+                    },
+                    title: state.currentStep == 6 ? 'เสร็จสิ้น' : 'ถัดไป',
                   ),
                 ),
               ],

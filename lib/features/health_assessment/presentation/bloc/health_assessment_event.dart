@@ -35,3 +35,5 @@ class ShowRecommendEvent extends AssessmentEvent {}
 class ShowHealthConnectEvent extends AssessmentEvent {}
 
 class ShowFinishEvent extends AssessmentEvent {}
+
+class NavigateToStartHealthStepState extends AssessmentEvent {}

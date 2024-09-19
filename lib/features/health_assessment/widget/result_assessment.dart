@@ -33,34 +33,44 @@ class ResultAssessment extends StatelessWidget {
             textColor: Colors.black,
             backgroundColor: Colors.transparent,
           ),
-          body: SingleChildScrollView(
+          body: Padding(
             padding: const EdgeInsets.all(24.0),
-            child: Column(
+            child: Stack(
               children: [
-                GaugeWidget(percentage: 0.5),
-                const SizedBox(height: 36),
-                const RiskCard(title: AppStrings.diabetesText, progress: 0.85),
-                const SizedBox(height: 16),
-                const RiskCard(
-                    title: AppStrings.hypertensionText, progress: 0.6),
-                const SizedBox(height: 16),
-                const RiskCard(title: AppStrings.obesityText, progress: 1),
-                const SizedBox(height: 16),
-                const RiskCard(
-                    title: AppStrings.hyperlipidemiaText, progress: 0.4),
-                const SizedBox(height: 48),
-                CustomButton(
-                  bgColor: AppColors.primaryColor,
-                  textColor: AppColors.backgroundColor,
-                  width: 250,
-                  onPressed: () {
-                    context
-                        .read<AssessmentBloc>()
-                        .add(ShowHealthConnectEvent());
-
-                    debugPrint('$ShowHealthConnectEvent');
-                  },
-                  title: 'ถัดไป',
+                Column(
+                  children: [
+                    GaugeWidget(percentage: 0.5),
+                    const SizedBox(height: 64),
+                    const RiskCard(
+                        title: AppStrings.diabetesText, progress: 0.85),
+                    const SizedBox(height: 24),
+                    const RiskCard(
+                        title: AppStrings.hypertensionText, progress: 0.6),
+                    const SizedBox(height: 24),
+                    const RiskCard(title: AppStrings.obesityText, progress: 1),
+                    const SizedBox(height: 24),
+                    const RiskCard(
+                        title: AppStrings.hyperlipidemiaText, progress: 0.4),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CustomButton(
+                        width: 250,
+                        bgColor: AppColors.primaryColor,
+                        textColor: AppColors.backgroundColor,
+                        onPressed: () {
+                          context
+                              .read<AssessmentBloc>()
+                              .add(ShowHealthConnectEvent());
+                        },
+                        title: 'ถัดไป',
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -115,7 +125,7 @@ class HealthConnectScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 24),
+                    padding: const EdgeInsets.only(bottom: 48.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -198,24 +208,19 @@ class RecommendScreen extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        CustomButton(
-                          width: 250,
-                          bgColor: AppColors.primaryColor,
-                          textColor: AppColors.backgroundColor,
-                          onPressed: () {
-                            context
-                                .read<AssessmentBloc>()
-                                .add(ShowFinishEvent());
-                          },
-                          title: 'ถัดไป',
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CustomButton(
+                        width: 250,
+                        bgColor: AppColors.primaryColor,
+                        textColor: AppColors.backgroundColor,
+                        onPressed: () {
+                          context.read<AssessmentBloc>().add(ShowFinishEvent());
+                        },
+                        title: 'ถัดไป',
+                      ),
+                    ],
                   ),
                 ),
               ],

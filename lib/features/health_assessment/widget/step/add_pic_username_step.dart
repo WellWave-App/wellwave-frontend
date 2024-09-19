@@ -11,6 +11,8 @@ import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/h
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
 
+import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
+
 class AddPicUsernameStep extends StatelessWidget {
   final AssessmentState state;
 
@@ -18,6 +20,15 @@ class AddPicUsernameStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (state.showStartStep) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pop(
+          context,
+          MaterialPageRoute(builder: (context) => StartHealthStep()),
+        );
+      });
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[

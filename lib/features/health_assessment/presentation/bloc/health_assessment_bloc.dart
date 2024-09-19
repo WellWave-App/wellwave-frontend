@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
 import 'health_assessment_event.dart';
 import 'health_assessment_state.dart';
 
@@ -14,9 +15,10 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
           isMultiSelect: false,
         )) {
     on<StepBack>((event, emit) {
-      if (state.currentStep > 0) {
+      if (state.currentStep == 0) {
+        emit(state.copyWith(showStartStep: true));
+      } else
         emit(state.copyWith(currentStep: state.currentStep - 1));
-      }
     });
     on<ImagePicked>(_onImagePicked);
     on<UpdateField>(_onUpdateField);

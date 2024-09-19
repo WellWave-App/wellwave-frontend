@@ -6,7 +6,7 @@ class RiskTextCondition {
     if (progress > 0.8) {
       return {
         'text': AppStrings.veryHighRiskText,
-        'color': AppColors.pinkLevelTextColor,
+        'color': AppColors.redLevelTextColor,
       };
     } else if (progress > 0.6) {
       return {
@@ -18,15 +18,10 @@ class RiskTextCondition {
         'text': AppStrings.moderateRiskText,
         'color': AppColors.yellowLevelTextColor,
       };
-    } else if (progress > 0.2) {
+    } else {
       return {
         'text': AppStrings.lowRiskText,
         'color': AppColors.greenLevelTextColor,
-      };
-    } else {
-      return {
-        'text': AppStrings.veryLowRiskText,
-        'color': AppColors.blueLevelTextColor,
       };
     }
   }
