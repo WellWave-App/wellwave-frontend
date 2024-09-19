@@ -13,9 +13,9 @@ class AppImages {
   //note history screen
   static const sleepLogsIcon = 'assets/icons/sleep_logs_img.svg';
   static const threeWaterIcon = 'assets/icons/three_water_img.svg';
-  static const stepCountImage = 'assets/image/step_img.png';
-  static const hdlImage = 'assets/image/hdl_img.png';
-  static const ldlImage = 'assets/image/ldl_img.png';
+  static const stepCountImage = 'assets/images/step_img.png';
+  static const hdlImage = 'assets/images/hdl_img.png';
+  static const ldlImage = 'assets/images/ldl_img.png';
   static const completeIcon = 'assets/icons/complete_icon.svg';
 
 

@@ -35,7 +35,7 @@ flutter:
 
   assets:
      - assets/icons/
-     - assets/image/
+     - assets/images/
      - assets/icons/moods_grey/
      - assets/icons/moods_color/
      - assets/icons/water_drop/
