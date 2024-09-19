@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/note/presentation/widget/scale_record_widget.dart';
 
 class InputWeeklyLogs extends StatefulWidget {
   const InputWeeklyLogs({super.key});
@@ -89,176 +90,55 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   Widget _buildStepContent() {
     switch (currentStep) {
       case 0:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(AppStrings.weightRecordText),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('$weight ',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppColors.blackColor,
-                        fontWeight: FontWeight.bold)),
-                Text(AppStrings.kgText,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: AppColors.greyColor,
-                        )),
-              ],
-            ),
-            RulerPicker(
-              controller: weightController,
-              onValueChanged: (value) {
-                setState(() {
-                  weight = value;
-                });
-              },
-              ranges: const [
-                RulerRange(begin: 0, end: 200, scale: 0.5),
-              ],
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 80,
-              rulerBackgroundColor: Colors.transparent,
-              onBuildRulerScaleText: (index, value) {
-                return value.toStringAsFixed(1);
-              },
-            ),
-          ],
+        return ScaleRecordWidget(
+          title: AppStrings.weightRecordText,
+          label: AppStrings.kgText,
+          initialValue: weight,
+          controller: weightController,
+          onValueChanged: (value) {
+            setState(() {
+              weight = value;
+            });
+          },
         );
+
       case 1:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(AppStrings.weightLineRecordText),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('$weightLine ',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppColors.blackColor,
-                        fontWeight: FontWeight.bold)),
-                Text(AppStrings.cmText,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: AppColors.greyColor,
-                        )),
-              ],
-            ),
-            RulerPicker(
-              controller: weightLineController,
-              onValueChanged: (value) {
-                setState(() {
-                  weightLine = value;
-                });
-              },
-              ranges: const [
-                RulerRange(begin: 0, end: 200, scale: 0.5),
-              ],
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 80,
-              rulerBackgroundColor: Colors.transparent,
-              onBuildRulerScaleText: (index, value) {
-                return value.toStringAsFixed(1);
-              },
-            ),
-          ],
+        return ScaleRecordWidget(
+          title: AppStrings.weightLineRecordText,
+          label: AppStrings.cmText,
+          initialValue: weightLine,
+          controller: weightLineController,
+          onValueChanged: (value) {
+            setState(() {
+              weightLine = value;
+            });
+          },
         );
+
       case 2:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(AppStrings.hdlRecordText),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('$hdl ',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppColors.blackColor,
-                        fontWeight: FontWeight.bold)),
-                Text(AppStrings.mgPerDlText,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: AppColors.greyColor,
-                        )),
-              ],
-            ),
-            RulerPicker(
-              controller: hdlController,
-              onValueChanged: (value) {
-                setState(() {
-                  hdl = value;
-                });
-              },
-              ranges: const [
-                RulerRange(begin: 0, end: 200, scale: 0.5),
-              ],
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 80,
-              rulerBackgroundColor: Colors.transparent,
-              onBuildRulerScaleText: (index, value) {
-                return value.toStringAsFixed(1);
-              },
-            ),
-          ],
+        return ScaleRecordWidget(
+          title: AppStrings.hdlRecordText,
+          label: AppStrings.mgPerDlText,
+          initialValue: hdl,
+          controller: hdlController,
+          onValueChanged: (value) {
+            setState(() {
+              hdl = value;
+            });
+          },
         );
+
       case 3:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(AppStrings.ldlRecordText),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('$ldl ',
-                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppColors.blackColor,
-                        fontWeight: FontWeight.bold)),
-                Text(AppStrings.mgPerDlText,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color: AppColors.greyColor,
-                        )),
-              ],
-            ),
-            RulerPicker(
-              controller: ldlController,
-              onValueChanged: (value) {
-                setState(() {
-                  ldl = value;
-                });
-              },
-              ranges: const [
-                RulerRange(begin: 0, end: 200, scale: 0.5),
-              ],
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 80,
-              rulerBackgroundColor: Colors.transparent,
-              onBuildRulerScaleText: (index, value) {
-                return value.toStringAsFixed(1);
-              },
-            ),
-          ],
+        return ScaleRecordWidget(
+          title: AppStrings.ldlRecordText,
+          label: AppStrings.mgPerDlText,
+          initialValue: ldl,
+          controller: ldlController,
+          onValueChanged: (value) {
+            setState(() {
+              ldl = value;
+            });
+          },
         );
       case 4:
         return Column(
@@ -296,7 +176,6 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Display the SVG
             SvgPicture.asset(
               AppImages.completeIcon,
               width: 80, // Set the width

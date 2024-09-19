@@ -1,16 +1,16 @@
 class NoteRequestModel {
-  final int lID;
+  final int lid;
   final String logName; 
   final DateTime date;
   final double value;
-  final int uID;
+  final int uid;
   
   NoteRequestModel({
-    required this.lID,
+    required this.lid,
     required this.logName,
     required this.date,
     required this.value,
-    required this.uID,
+    required this.uid,
   });
 
   NoteRequestModel copyWith({
@@ -21,31 +21,31 @@ class NoteRequestModel {
     int? uID,
   }) {
     return NoteRequestModel(
-      lID: lID ?? this.lID,
+      lid: lID ?? lid,
       logName: logName ?? this.logName,
       date: date ?? this.date,
       value: value ?? this.value,
-      uID: uID ?? this.uID,
+      uid: uID ?? uid,
     );
   }
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'lID': lID,
+      'lID': lid,
       'logName': logName,
       'date': date.millisecondsSinceEpoch,
       'value': value,
-      'uID': uID,
+      'uID': uid,
     };
   }
 
   Map<String, dynamic> toEditNoteRequestJson(String isShowToEmployee) {
     return {
-      'lID': lID, // Include id if needed
+      'lID': lid, // Include id if needed
       'logName': logName,
       'date': date.toIso8601String(), // Use ISO format for date
       'value': value,
-      'uID': uID,
+      'uID': uid,
       'ShowToEmployee': isShowToEmployee, // Similar to the previous function
     };
   }

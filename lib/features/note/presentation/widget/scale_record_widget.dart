@@ -1,0 +1,85 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
+
+class ScaleRecordWidget extends StatefulWidget {
+  final String title;
+  final String label;
+  final num initialValue;
+  final RulerPickerController controller;
+  final Function(num) onValueChanged;
+
+  const ScaleRecordWidget({
+    Key? key,
+    required this.title,
+    required this.label,
+    required this.initialValue,
+    required this.controller,
+    required this.onValueChanged,
+  }) : super(key: key);
+
+  @override
+  _ScaleRecordWidgetState createState() => _ScaleRecordWidgetState();
+}
+
+class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
+  late num _currentValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentValue = widget.initialValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(widget.title),
+          ],
+        ),
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$_currentValue ',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: AppColors.blackColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            Text(
+              widget.label,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: AppColors.greyColor,
+                  ),
+            ),
+          ],
+        ),
+        RulerPicker(
+          controller: widget.controller,
+          onValueChanged: (value) {
+            setState(() {
+              _currentValue = value;
+            });
+            widget.onValueChanged(value);
+          },
+          ranges: const [
+            RulerRange(begin: 0, end: 200, scale: 0.5),
+          ],
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 80,
+          rulerBackgroundColor: Colors.transparent,
+          onBuildRulerScaleText: (index, value) {
+            return value.toStringAsFixed(1);
+          },
+        ),
+      ],
+    );
+  }
+}
