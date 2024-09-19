@@ -63,7 +63,7 @@ class WeeklyLogsCard extends StatelessWidget {
                         color: Colors.black,
                       ),
                 ),
-                SizedBox(width: 2),
+                const SizedBox(width: 2),
                 Row(
                   children: [
                     const Icon(Icons.arrow_downward,

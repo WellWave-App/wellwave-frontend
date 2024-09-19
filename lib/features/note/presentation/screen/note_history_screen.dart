@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/note/presentation/widget/calendar_slider.dart';
-
 import '../widget/logs_history_card.dart';
 
 class NoteHistoryScreen extends StatefulWidget {
