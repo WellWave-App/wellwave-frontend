@@ -1,4 +1,6 @@
 class AppImages {
+  static const wellwaveLogo = 'assets/images/wellwave_logo.png';
+
   static const homeIcon = 'assets/icons/home_icon.svg';
   static const logIcon = 'assets/icons/log_icon.svg';
   static const missionIcon = 'assets/icons/mission_icon.svg';
@@ -61,4 +63,7 @@ class AppImages {
   static const moon9Icon = 'assets/icons/moon_icon/moon_9.svg';
   static const moon10Icon = 'assets/icons/moon_icon/moon_10.svg';
 
+  static const metabolicSyndromeImage = 'assets/images/metabolic.png';
+  static const metaEffectImage = 'assets/images/meta_effect.png';
+  static const metaBehaviorImage = 'assets/images/meta_behavior.png';
 }
