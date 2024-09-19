@@ -14,9 +14,10 @@ class InputWeeklyLogs extends StatefulWidget {
 
 class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   int currentStep = 0;
-  num weight = 50.0;
-  num hdl = 60.0;
-  num ldl = 100.0;
+  num weight = 50.5;
+  num weightLine = 65.4;
+  num hdl = 65.0;
+  num ldl = 165.0;
   int selectedMood = 4;
 
   final List<String> moodIconsGrey = [
@@ -36,11 +37,13 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   ];
 
   final RulerPickerController weightController =
-      RulerPickerController(value: 50.0);
+      RulerPickerController(value: 50.5);
+  final RulerPickerController weightLineController =
+      RulerPickerController(value: 65.4);
   final RulerPickerController hdlController =
-      RulerPickerController(value: 60.0);
+      RulerPickerController(value: 65.0);
   final RulerPickerController ldlController =
-      RulerPickerController(value: 100.0);
+      RulerPickerController(value: 165.0);
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +52,13 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            currentStep == 4 ? '' : 'ขั้นตอนที่ ${currentStep + 1}/4',
+            currentStep == 5 ? '' : 'ขั้นตอนที่ ${currentStep + 1}/5',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: AppColors.blackColor,
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          if (currentStep == 1 || currentStep == 2)
+          if (currentStep == 2 || currentStep == 3)
             TextButton(
               onPressed: () {
                 setState(() {
@@ -117,7 +120,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                 });
               },
               ranges: const [
-                RulerRange(begin: 30, end: 150, scale: 0.5),
+                RulerRange(begin: 0, end: 200, scale: 0.5),
               ],
               width: MediaQuery.of(context).size.width * 0.8,
               height: 80,
@@ -129,6 +132,49 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
           ],
         );
       case 1:
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(AppStrings.weightLineRecordText),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('$weightLine ',
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: AppColors.blackColor,
+                        fontWeight: FontWeight.bold)),
+                Text(AppStrings.cmText,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          color: AppColors.greyColor,
+                        )),
+              ],
+            ),
+            RulerPicker(
+              controller: weightLineController,
+              onValueChanged: (value) {
+                setState(() {
+                  weightLine = value;
+                });
+              },
+              ranges: const [
+                RulerRange(begin: 0, end: 200, scale: 0.5),
+              ],
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 80,
+              rulerBackgroundColor: Colors.transparent,
+              onBuildRulerScaleText: (index, value) {
+                return value.toStringAsFixed(1);
+              },
+            ),
+          ],
+        );
+      case 2:
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -160,7 +206,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                 });
               },
               ranges: const [
-                RulerRange(begin: 0, end: 100, scale: 1),
+                RulerRange(begin: 0, end: 200, scale: 0.5),
               ],
               width: MediaQuery.of(context).size.width * 0.8,
               height: 80,
@@ -171,7 +217,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             ),
           ],
         );
-      case 2:
+      case 3:
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -203,7 +249,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                 });
               },
               ranges: const [
-                RulerRange(begin: 0, end: 200, scale: 1),
+                RulerRange(begin: 0, end: 200, scale: 0.5),
               ],
               width: MediaQuery.of(context).size.width * 0.8,
               height: 80,
@@ -214,7 +260,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             ),
           ],
         );
-      case 3:
+      case 4:
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -246,7 +292,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             )
           ],
         );
-      case 4:
+      case 5:
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [

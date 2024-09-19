@@ -20,6 +20,8 @@ class AppStrings {
   static const confirmText = 'ยืนยัน';
   static const weightRecordText = 'บันทึกค่าน้ำหนัก';
   static const kgText = 'กก.';
+  static const weightLineRecordText = 'บันทึกรอบเอว';
+  static const cmText = 'ซม.';
   static const hdlRecordText = 'บันทึกค่า HDL';
   static const ldlRecordText = 'บันทึกค่า LDL';
   static const chooseMoodsText = 'เลือกอารมณ์';
