@@ -37,4 +37,16 @@ class AppStrings {
   static const stepText = 'ก้าว';
   static const stepWalkText = 'ก้าวเดิน';
   static const drinkText = 'ดื่มน้ำ';
+  static const errorShow = 'Error:';
+  static const enterText = 'เข้าสู่แอพ';
+
+  static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
+  static const metabolicDescriptionText =
+      'คือ ภาวะที่เกิดจากระบบการเผาผลาญของร่างกาย ทำงานผิดปกติไป ทำให้เกิดการอ้วนลงพุง น้ำหนักตัว เกินมาตรฐาน น้ำตาลในเลือดสูง ความดันโลหิตสูง';
+  static const metaEffectText = 'ผลกระทบของโรค';
+  static const metaEffectDescriptionText =
+      'ภาวะนี้ส่งผลกระทบต่อคุณภาพชีวิตของผู้ป่วยในหลากหลายด้าน เช่น ความเสี่ยงในการเกิดโรคหัวใจ และหลอดเลือด เนื่องจากทำให้หลอดเลือดแดงอุดตัน ';
+  static const metaBehaviorText = 'การปรับพฤติกรรม';
+  static const metaBehaviorDescriptionText =
+      'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
 }
