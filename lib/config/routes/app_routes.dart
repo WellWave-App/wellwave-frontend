@@ -18,7 +18,7 @@ final GoRouter goRouter = GoRouter(
       path: AppPages.splashPath,
       name: AppPages.splashName,
       pageBuilder: (BuildContext context, GoRouterState state) {
-        return NoTransitionPage(child: const SplashScreen());
+        return const NoTransitionPage(child: SplashScreen());
       },
       routes: [
         GoRoute(

@@ -42,6 +42,25 @@ class AppStrings {
   static const errorShow = 'Error:';
   static const enterText = 'เข้าสู่แอพ';
 
+  //profile screen
+  static const userNameText = 'ชื่อผู้ใช้';
+  static const idText = 'ไอดี';
+  static const leagueText = 'ระดับ';
+  static const bronzeLeaugeText = 'ทองแดง';
+  static const silverLeaugeText = 'เงิน';
+  static const goldLeaugeText = 'ทอง';
+  static const diamondLeaugeText = 'ไดมอนด์';
+  static const emeraldLeaugeText = 'มรกต';
+  static const gemText = 'gem';
+  static const expText = 'exp';
+  static const checkinText = 'เช็คอินเพื่อสะสมคะแนน';
+  static const xdayText = 'วันที่';
+  static const archeivementText = 'ความสำเร็จ';
+  static const seeAllText = 'ดูทั้งหมด';
+  static const dayText = 'วัน';
+  static const googleConnectText = 'Google Connect';
+  static const signOutText = 'ออกจากระบบ';
+
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
   static const metabolicDescriptionText =
       'คือ ภาวะที่เกิดจากระบบการเผาผลาญของร่างกาย ทำงานผิดปกติไป ทำให้เกิดการอ้วนลงพุง น้ำหนักตัว เกินมาตรฐาน น้ำตาลในเลือดสูง ความดันโลหิตสูง';

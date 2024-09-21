@@ -28,8 +28,8 @@ class CustomAppBar extends AppBar {
               ? GestureDetector(
                   onTap: () => context.pop(),
                   child: Icon(
-                    Icons.arrow_back_ios_new_sharp,
-                    size: 14.9,
+                    Icons.arrow_back,
+                    size: 24,
                     color: textColor ?? AppColors.blackColor,
                   ),
                 )

@@ -61,8 +61,9 @@ class DailyLogs extends StatefulWidget {
 }
 
 class _DailyLogsState extends State<DailyLogs> {
-  int selectedWaterLevel = 8;
-  int selectedSleepHours = 8;
+  int waterLevel = 8;
+  int sleepHours = 8;
+  int stepCount = 1002;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +81,7 @@ class _DailyLogsState extends State<DailyLogs> {
               LogsHistoryCard(
                 svgPath: AppImages.sleepLogsIcon, // Your SVG asset path
                 title: AppStrings.sleepText, // Main text
-                value: selectedSleepHours, // Value to display
+                value: sleepHours, // Value to display
                 isSvg: true,
                 unit: AppStrings.hoursText, // Unit for the value
                 svgWidth: 64, // Custom width
@@ -94,11 +95,25 @@ class _DailyLogsState extends State<DailyLogs> {
               LogsHistoryCard(
                 svgPath: AppImages.threeWaterIcon, // Your SVG asset path
                 title: AppStrings.drinkText, // Main text
-                value: selectedWaterLevel, // Value to display
+                value: waterLevel, // Value to display
                 unit: AppStrings.glassesText, // Unit for the value
                 isSvg: true,
                 svgWidth: 64, // Custom width
                 svgHeight: 64, // Custom height
+              ),
+            ],
+          ),
+          const SizedBox(height: 8.0),
+          Row(
+            children: [
+              LogsHistoryCard(
+                pngPath: AppImages.stepCountImage, // Your SVG asset path
+                title: AppStrings.stepWalkText, // Main text
+                value: stepCount, // Value to display
+                unit: AppStrings.stepText, // Unit for the value
+                isSvg: false,
+                pngWidth: 64, // Custom width
+                pngHeight: 64, // Custom height
               ),
             ],
           ),
