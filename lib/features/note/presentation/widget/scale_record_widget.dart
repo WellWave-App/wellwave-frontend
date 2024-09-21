@@ -48,14 +48,14 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
           children: [
             Text(
               '$_currentValue ',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: AppColors.blackColor,
+              style: Theme.of(context).textTheme.titleXL?.copyWith(
+                    
                     fontWeight: FontWeight.bold,
                   ),
             ),
             Text(
               widget.label,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     color: AppColors.greyColor,
                   ),
             ),

@@ -53,7 +53,7 @@ class TitleSection extends StatelessWidget {
           },
           child: Text(
             AppStrings.historyText,
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: AppColors.greyColor,
                 ),
           ),
@@ -82,8 +82,7 @@ class _DailyLogsState extends State<DailyLogs> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(AppStrings.dailyLogsText,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.blackColor, fontWeight: FontWeight.bold)),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -212,9 +211,10 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
               Column(
                 children: [
                   Text(AppStrings.weeklyLogsText,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: AppColors.blackColor,
-                          fontWeight: FontWeight.bold)),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.bold)),
                 ],
               ),
               const Column(
@@ -252,7 +252,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                 title: AppStrings.ldlText,
                 value: '165',
                 unit: AppStrings.mgPerDlText,
-                chart: LineChartSample2(), 
+                chart: LineChartSample2(),
               ),
             ],
           ),

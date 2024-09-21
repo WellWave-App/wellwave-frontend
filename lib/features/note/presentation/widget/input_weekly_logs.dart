@@ -66,12 +66,11 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                   currentStep++; // ไปยังขั้นตอนถัดไป
                 });
               },
-              child: const Text(
+              child: Text(
                 AppStrings.skipText,
-                style: TextStyle(
-                  color: AppColors.greyColor, // สีเทาเข้ม
-                  fontWeight: FontWeight.normal,
-                ),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppColors.greyColor,
+                    ),
               ),
             ),
         ],
@@ -144,10 +143,13 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(AppStrings.chooseMoodsText),
+                Text(
+                  AppStrings.chooseMoodsText,
+                  style: Theme.of(context).textTheme.title320?.copyWith(),
+                ),
               ],
             ),
             const SizedBox(height: 24),
@@ -183,8 +185,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             ),
             const SizedBox(height: 8), // Space between the SVG and text
             Text(AppStrings.dataRecordingCompletedText,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: AppColors.blackColor, fontWeight: FontWeight.bold))
+                style: Theme.of(context).textTheme.labelLarge?.copyWith())
           ],
         );
       default:
@@ -207,6 +208,9 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             }
           },
           style: ButtonStyle(
+            padding: WidgetStateProperty.all<EdgeInsets>(
+              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+            ),
             backgroundColor: WidgetStateProperty.all(currentStep == 4
                 ? AppColors.primaryColor
                 : Colors.transparent), // Blue if finished
@@ -219,13 +223,13 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             ),
           ),
           child: Text(
-            currentStep == 4 ? AppStrings.completedText : AppStrings.cancleText,
-            style: TextStyle(
-                color: currentStep == 4
-                    ? Colors.white
-                    : AppColors
-                        .primaryColor), // Change text color based on state
-          ),
+              currentStep == 4
+                  ? AppStrings.completedText
+                  : AppStrings.cancleText,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: currentStep == 4
+                      ? Colors.white
+                      : AppColors.primaryColor)),
         ),
       ),
       const SizedBox(width: 8),
@@ -239,6 +243,9 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
               });
             },
             style: ButtonStyle(
+              padding: WidgetStateProperty.all<EdgeInsets>(
+                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+              ),
               backgroundColor: WidgetStateProperty.all(
                   AppColors.primaryColor), // Blue background
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
@@ -249,7 +256,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             ),
             child: Text(
               currentStep == 3 ? AppStrings.confirmText : AppStrings.nextText,
-              style: const TextStyle(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.white), // White text color for blue buttons
             ),
           ),

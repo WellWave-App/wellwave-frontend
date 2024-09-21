@@ -38,9 +38,8 @@ class WeeklyLogsCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+
                       ),
                 ),
               ],
@@ -50,7 +49,7 @@ class WeeklyLogsCard extends StatelessWidget {
               children: [
                 Text(
                   value,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20
@@ -59,7 +58,7 @@ class WeeklyLogsCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   unit,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  style: Theme.of(context).textTheme.caption2?.copyWith(
                         color: Colors.black,
                       ),
                 ),
@@ -70,7 +69,7 @@ class WeeklyLogsCard extends StatelessWidget {
                         size: 10.0, color: AppColors.greenColor),
                     Text(
                       '0.5 $unit',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      style: Theme.of(context).textTheme.caption2?.copyWith(
                             color: AppColors.greenColor,
                             fontSize: 8
                           ),
