@@ -44,8 +44,9 @@ class TitleSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       AppStrings.healthHistoryText,
-      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             color: AppColors.whiteColor,
+            fontWeight: FontWeight.bold,
           ),
     );
   }
@@ -72,8 +73,10 @@ class _DailyLogsState extends State<DailyLogs> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(AppStrings.dailyLogsText,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.blackColor, fontWeight: FontWeight.bold)),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
           Row(
             children: [
@@ -128,8 +131,10 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(AppStrings.weeklyLogsText,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: AppColors.blackColor, fontWeight: FontWeight.bold)),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 16),
           Row(
             children: [

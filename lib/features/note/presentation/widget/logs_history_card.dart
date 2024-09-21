@@ -44,35 +44,33 @@ class LogsHistoryCard extends StatelessWidget {
         child: Row(
           children: [
             // Conditional rendering based on isSvg
-            isSvg 
-              ? SvgPicture.asset(
-                  svgPath,
-                  width: svgWidth,
-                  height: svgHeight,
-                )
-              : Image.asset(
-                  pngPath,
-                  width: pngWidth,
-                  height: pngHeight,
-                ),
+            isSvg
+                ? SvgPicture.asset(
+                    svgPath,
+                    width: svgWidth,
+                    height: svgHeight,
+                  )
+                : Image.asset(
+                    pngPath,
+                    width: pngWidth,
+                    height: pngHeight,
+                  ),
             const SizedBox(width: 16.0),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // Align text to the start
+              crossAxisAlignment:
+                  CrossAxisAlignment.start, // Align text to the start
               children: [
                 Text(
                   title,
                   style: mainTextStyle ??
-                      Theme.of(context).textTheme.labelMedium?.copyWith(
-                            color: Colors.grey,
+                      Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkGrayColor,
                           ),
                 ),
                 Text(
                   '$value $unit',
                   style: subTextStyle ??
-                      Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ],
             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 class InputDailyLogs extends StatefulWidget {
@@ -63,8 +64,6 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
         child: Text(
           widget.title,
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
               ),
         ),
       ),
@@ -84,10 +83,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
               const SizedBox(width: 24.0),
               Text(
                 '$inputLevel',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(context).textTheme.titleLargeBold?.copyWith(),
               ),
               const SizedBox(width: 24.0),
               IconButton(
@@ -102,8 +98,8 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
             children: [
               Text(
                 widget.unitLabel,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: Colors.grey,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.greyColor,
                     ),
               ),
             ],
@@ -112,14 +108,22 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
       ),
       actions: [
         TextButton(
-          style: ButtonStyle(
-            foregroundColor: WidgetStateProperty.all<Color>(Colors.white),
-            backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
-          ),
+  style: ButtonStyle(
+    padding: WidgetStateProperty.all<EdgeInsets>(
+      EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+    ),
+            foregroundColor: WidgetStateProperty.all<Color>(AppColors.backgroundColor),
+            backgroundColor: WidgetStateProperty.all<Color>(AppColors.primaryColor),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(40.0), // Adjust border radius for round corners
+      ),
+          ),),
           onPressed: () => Navigator.pop(context, inputLevel),
-          child: const Center(child: Text(AppStrings.confirmText)),
+          child: Center(child: Text(AppStrings.confirmText, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.backgroundColor)),
         ),
-      ],
+    )],
     );
   }
 }

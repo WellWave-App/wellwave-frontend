@@ -52,8 +52,8 @@ class InputButton extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 buttonText,
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppColors.whiteColor,
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: AppColors.backgroundColor,
                     ),
               ),
             ],

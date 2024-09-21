@@ -36,9 +36,9 @@ class DailyLogCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: AppColors.primaryColor,
-                      fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: AppColors.primaryColor,
+                      ),
                 ),
               ],
             ),
@@ -47,8 +47,7 @@ class DailyLogCard extends StatelessWidget {
               children: [
                 Text(
                   '$selectedLevel $unitLabel',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: AppColors.blackColor, fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
