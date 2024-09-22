@@ -19,4 +19,11 @@ class AppStrings {
   static const metaBehaviorText = 'การปรับพฤติกรรม';
   static const metaBehaviorDescriptionText =
       'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
+
+  static const iDoToday = 'วันนี้ทำอะไรดี?';
+  static const chooseActivity = 'เลือกกิจกรรมที่คุณต้องการทำได้เลย!';
+  static const dailyTask = 'ภารกิจ\nประจำวัน';
+  static const habitChallenge = 'ภารกิจ\nปรับนิสัย';
+  static const quest = 'เควส';
+  static const history = 'ประวัติ';
 }

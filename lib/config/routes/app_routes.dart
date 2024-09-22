@@ -6,7 +6,7 @@ import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/mission_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/note_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';

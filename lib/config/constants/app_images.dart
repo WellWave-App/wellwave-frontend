@@ -15,4 +15,6 @@ class AppImages {
   static const metabolicSyndromeImage = 'assets/images/metabolic.png';
   static const metaEffectImage = 'assets/images/meta_effect.png';
   static const metaBehaviorImage = 'assets/images/meta_behavior.png';
+
+  static const emptyComponentImage = 'assets/images/empty_component.png';
 }

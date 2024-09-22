@@ -1,7 +1,4 @@
 {
-  "cSpell.words": [
-    "DetailหScreen",
-    "Noto",
-    "wellwave"
-  ]
+  "cSpell.words": ["DetailScreen", "LTRB", "Noto", "wellwave"],
+  "cmake.sourceDirectory": "D:/Year 4/WellWave-Project/wellwave_frontend/linux"
 }
