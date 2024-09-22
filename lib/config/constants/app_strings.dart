@@ -20,10 +20,17 @@ class AppStrings {
   static const metaBehaviorDescriptionText =
       'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
 
-  static const iDoToday = 'วันนี้ทำอะไรดี?';
-  static const chooseActivity = 'เลือกกิจกรรมที่คุณต้องการทำได้เลย!';
-  static const dailyTask = 'ภารกิจ\nประจำวัน';
-  static const habitChallenge = 'ภารกิจ\nปรับนิสัย';
-  static const quest = 'เควส';
-  static const history = 'ประวัติ';
+  static const iDoTodayText = 'วันนี้ทำอะไรดี?';
+  static const chooseActivityText = 'เลือกกิจกรรมที่คุณต้องการทำได้เลย!';
+  static const dailyTaskEnterText = 'ภารกิจ\nประจำวัน';
+  static const habitChallengeEnterText = 'ภารกิจ\nปรับนิสัย';
+  static const dailyTaskText = 'ภารกิจประจำวัน';
+  static const habitChallengeText = 'ภารกิจปรับนิสัย';
+  static const questText = 'เควส';
+  static const historyText = 'ประวัติ';
+
+  static const guideText = 'แนะนำ';
+  static const eatingText = 'การทานอาหาร';
+  static const exerciseText = 'การออกกำลังกาย';
+  static const sleepText = 'การนอน';
 }

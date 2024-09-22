@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/daily_task_page.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/habit_challenge_page.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/quest_page.dart';
 import '../../../../common/widget/app_bar.dart';
 
 class MissionScreen extends StatelessWidget {
@@ -15,31 +18,30 @@ class MissionScreen extends StatelessWidget {
         title: AppStrings.emptyText,
         backgroundColor: AppColors.backgroundColor,
         onLeading: false,
-        rightText: AppStrings.history,
+        rightText: AppStrings.historyText,
         onRightPressed: () {},
       ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // Vertically center the content
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(AppStrings.iDoToday,
+              Text(AppStrings.iDoTodayText,
                   style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 12),
-              Text(AppStrings.chooseActivity,
+              Text(AppStrings.chooseActivityText,
                   style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(height: 36),
-              _buildActivityButton(
-                  context, AppStrings.dailyTask, AppImages.emptyComponentImage),
+              _buildActivityButton(context, AppStrings.dailyTaskEnterText,
+                  AppImages.emptyComponentImage, const DailyTaskPage()),
               const SizedBox(height: 24),
-              _buildActivityButton(context, AppStrings.habitChallenge,
-                  AppImages.emptyComponentImage),
+              _buildActivityButton(context, AppStrings.habitChallengeEnterText,
+                  AppImages.emptyComponentImage, const HabitChallengePage()),
               const SizedBox(height: 24),
-              _buildActivityButton(
-                  context, AppStrings.quest, AppImages.emptyComponentImage),
+              _buildActivityButton(context, AppStrings.questText,
+                  AppImages.emptyComponentImage, const QuestPage()),
             ],
           ),
         ),
@@ -47,8 +49,8 @@ class MissionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActivityButton(
-      BuildContext context, String title, String imagePath) {
+  Widget _buildActivityButton(BuildContext context, String title,
+      String imagePath, Widget destinationPage) {
     double containerWidth = MediaQuery.of(context).size.width;
     return Container(
       width: containerWidth,
@@ -69,7 +71,10 @@ class MissionScreen extends StatelessWidget {
           ),
           title: Text(title, style: Theme.of(context).textTheme.labelLarge),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => destinationPage));
+          },
         ),
       ),
     );
