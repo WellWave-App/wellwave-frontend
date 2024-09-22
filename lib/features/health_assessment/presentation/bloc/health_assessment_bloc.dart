@@ -1,12 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
+import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 import 'health_assessment_event.dart';
 import 'health_assessment_state.dart';
 
 class ValidateGender extends AssessmentEvent {}
 
 class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
+  final ScoreCalculator scoreCalculator = ScoreCalculator();
   AssessmentBloc()
       : super(const AssessmentState(
           currentStep: 0,
@@ -64,11 +65,18 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   void _onUpdateField(UpdateField event, Emitter<AssessmentState> emit) {
     final updatedFormData = Map<String, String>.from(state.formData);
     updatedFormData[event.fieldName] = event.value;
-    if (event.fieldName == 'gender') {
-      emit(state.copyWith(formData: updatedFormData, genderError: false));
-    } else {
-      emit(state.copyWith(formData: updatedFormData));
-    }
+
+    int calculatedScore = scoreCalculator.calculateScore(updatedFormData);
+
+    emit(state.copyWith(formData: updatedFormData, riskScore: calculatedScore));
+  }
+
+  void _onUpdateRiskScore(
+      UpdateRiskScoreEvent event, Emitter<AssessmentState> emit) {
+    int updatedPoints = state.riskScore + event.scoreToAdd;
+
+    emit(state.copyWith(riskScore: updatedPoints));
+    debugPrint('updatedPoints: $updatedPoints');
   }
 
   void _onValidateGender(ValidateGender event, Emitter<AssessmentState> emit) {
@@ -85,17 +93,17 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
       } else {
         updatedFamhisChoose.add(event.title);
       }
-      debugPrint('Updated famhisChoose: $updatedFamhisChoose');
+      // debugPrint('Updated famhisChoose: $updatedFamhisChoose');
       emit(state.copyWith(famhisChoose: updatedFamhisChoose));
     } else {
       if (event.selectionType == 'alcohol') {
-        debugPrint('Updated alcoholChoose: ${event.title}');
+        // debugPrint('Updated alcoholChoose: ${event.title}');
         emit(state.copyWith(alcoholChoose: event.title));
       } else if (event.selectionType == 'goal') {
-        debugPrint('Updated goalChoose: ${event.title}');
+        // debugPrint('Updated goalChoose: ${event.title}');
         emit(state.copyWith(goalChoose: event.title));
       } else if (event.selectionType == 'smoke') {
-        debugPrint('Updated smokeChoose: ${event.title}');
+        // debugPrint('Updated smokeChoose: ${event.title}');
         emit(state.copyWith(smokeChoose: event.title));
       }
     }

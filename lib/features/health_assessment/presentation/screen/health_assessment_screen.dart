@@ -48,11 +48,11 @@ class AssessmentScreenView extends StatelessWidget {
 
     return BlocBuilder<AssessmentBloc, AssessmentState>(
       builder: (context, state) {
-        debugPrint('Current famhisChoose in UI: ${state.famhisChoose}');
-        debugPrint('Current goalChoose in UI: ${state.goalChoose}');
-        debugPrint('Current alcoholChoose in UI: ${state.alcoholChoose}');
-        debugPrint('Current smokeChoose in UI: ${state.smokeChoose}');
-        debugPrint('-------------');
+        // debugPrint('Current famhisChoose in UI: ${state.famhisChoose}');
+        // debugPrint('Current goalChoose in UI: ${state.goalChoose}');
+        // debugPrint('Current alcoholChoose in UI: ${state.alcoholChoose}');
+        // debugPrint('Current smokeChoose in UI: ${state.smokeChoose}');
+        // debugPrint('-------------');
         if (state.isCompleted) {
           return const ResultAssessment();
         }

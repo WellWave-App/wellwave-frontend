@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
 
@@ -142,11 +143,17 @@ class PersonalInfoStep extends StatelessWidget {
                 int birthYear = int.tryParse(value) ?? 0;
                 int currentYear = DateTime.now().year + 543;
                 int minYear = currentYear - 120;
+
                 if (birthYear < minYear || birthYear > currentYear) {
                   return 'กรุณากรอกปีพุทธศักราช';
+                } else {
+                  context
+                      .read<AssessmentBloc>()
+                      .add(UpdateField('birthYear', value));
+
+                  return null;
                 }
               }
-              return null;
             },
             onChanged: (value) => context
                 .read<AssessmentBloc>()

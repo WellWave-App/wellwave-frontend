@@ -17,6 +17,7 @@ class AssessmentState extends Equatable {
   final bool showHealthConnect;
   final bool showRecommend;
   final bool showFinish;
+  final int riskScore;
 
   const AssessmentState({
     required this.currentStep,
@@ -34,6 +35,7 @@ class AssessmentState extends Equatable {
     this.showRecommend = false,
     this.showFinish = false,
     this.showStartStep = false,
+    this.riskScore = 0,
   });
 
   AssessmentState copyWith({
@@ -52,6 +54,7 @@ class AssessmentState extends Equatable {
     bool? showRecommend,
     bool? showFinish,
     bool? showStartStep,
+    int? riskScore,
   }) {
     return AssessmentState(
       currentStep: currentStep ?? this.currentStep,
@@ -69,6 +72,7 @@ class AssessmentState extends Equatable {
       showRecommend: showRecommend ?? this.showRecommend,
       showFinish: showFinish ?? this.showFinish,
       showStartStep: showStartStep ?? this.showStartStep,
+      riskScore: riskScore ?? this.riskScore,
     );
   }
 
