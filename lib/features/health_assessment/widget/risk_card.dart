@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
 
 class RiskCard extends StatelessWidget {
-  final double progress;
   final String title;
+  final int riskScore;
+  final Function(int) getRiskTextMethod;
 
   const RiskCard({
     super.key,
-    required this.progress,
     required this.title,
+    required this.riskScore,
+    required this.getRiskTextMethod,
   });
 
   @override
   Widget build(BuildContext context) {
+    var riskInfo = getRiskTextMethod(riskScore);
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -28,79 +34,61 @@ class RiskCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.blackColor,
-                    ),
-              ),
-              Text(
-                RiskTextCondition.getRiskText(progress)['text'],
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: RiskTextCondition.getRiskText(progress)['color'],
-                    ),
-              ),
-            ],
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title, style: Theme.of(context).textTheme.bodyMedium),
+            Text(
+              riskInfo['text'],
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(color: riskInfo['color']),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
 
-  // Widget _buildProgressBar(double value) {
-  //   List<Color> colors;
-  //   List<double> stops;
+class ResultAssessment extends StatelessWidget {
+  const ResultAssessment({super.key});
 
-  //   if (value <= 0.4) {
-  //     colors = [
-  //       AppColors.greenLevelColor,
-  //       AppColors.yellowLevelColor,
-  //     ];
-  //     stops = [0.0, 1.0];
-  //   } else if (value <= 0.7) {
-  //     colors = [
-  //       AppColors.greenLevelColor,
-  //       AppColors.yellowLevelColor,
-  //       AppColors.orangeLevelColor,
-  //     ];
-  //     stops = [0.0, 0.5, 1.0];
-  //   } else {
-  //     colors = [
-  //       AppColors.greenLevelColor,
-  //       AppColors.yellowLevelColor,
-  //       AppColors.orangeLevelColor,
-  //       AppColors.redLevelColor,
-  //     ];
-  //     stops = [0.0, 0.3, 0.6, 1.0];
-  //   }
-
-  //   return Stack(
-  //     children: [
-  //       Container(
-  //         height: 6,
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(4),
-  //           color: Colors.grey[300],
-  //         ),
-  //       ),
-  //       Container(
-  //         height: 6,
-  //         width: value * 300,
-  //         decoration: BoxDecoration(
-  //           borderRadius: BorderRadius.circular(4),
-  //           gradient: LinearGradient(
-  //             colors: colors,
-  //             stops: stops,
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AssessmentBloc, AssessmentState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(title: Text('สรุปผลการประเมิน')),
+          body: Column(
+            children: [
+              RiskCard(
+                title: "เบาหวาน",
+                riskScore: state.riskDiabetesScore,
+                getRiskTextMethod: RiskDiseaseCondition.getRiskText,
+              ),
+              RiskCard(
+                title: "ความดันโลหิต",
+                riskScore: state.riskHypertensionScore,
+                getRiskTextMethod: RiskHypertensionCondition.getRiskText,
+              ),
+              RiskCard(
+                title: "ไขมันในเลือด",
+                riskScore: state.riskDyslipidemiaScore,
+                getRiskTextMethod: RiskDyslipidemiaCondition.getRiskText,
+              ),
+              RiskCard(
+                title: "โรคอ้วน",
+                riskScore: state.riskObesityScore,
+                getRiskTextMethod: RiskObesityCondition.getRiskText,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

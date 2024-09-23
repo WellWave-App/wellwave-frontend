@@ -62,6 +62,38 @@ class HealthInfoStep extends StatelessWidget {
             height: 24,
           ),
           CustomTextFormField(
+            labelText: 'คอเลสเตอรอลชนิดดี (HDL)',
+            hintText: 'คอเลสเตอรอลชนิดดี (HDL)',
+            suffixText: 'มก./ดล.',
+            keyboardType: TextInputType.number,
+            initialValue: state.formData['hdl'] ?? '',
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(3),
+            ],
+            onChanged: (value) =>
+                context.read<AssessmentBloc>().add(UpdateField('hdl', value)),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          CustomTextFormField(
+            labelText: 'คอเลสเตอรอลชนิดไม่ดี (LDL)',
+            hintText: 'คอเลสเตอรอลชนิดไม่ดี (LDL)',
+            suffixText: 'มก./ดล.',
+            keyboardType: TextInputType.number,
+            initialValue: state.formData['ldl'] ?? '',
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              LengthLimitingTextInputFormatter(3),
+            ],
+            onChanged: (value) =>
+                context.read<AssessmentBloc>().add(UpdateField('ldl', value)),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          CustomTextFormField(
             labelText: 'รอบเอว',
             hintText: 'รอบเอว',
             suffixText: 'ซม.',
@@ -73,57 +105,6 @@ class HealthInfoStep extends StatelessWidget {
             ],
             onChanged: (value) =>
                 context.read<AssessmentBloc>().add(UpdateField('waist', value)),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          CustomTextFormField(
-            labelText: 'น้ำตาลในเลือด',
-            hintText: 'น้ำตาลในเลือด',
-            suffixText: 'มก./ดล.',
-            keyboardType: TextInputType.number,
-            initialValue: state.formData['glucose'] ?? '',
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(3),
-            ],
-            onChanged: (value) => context
-                .read<AssessmentBloc>()
-                .add(UpdateField('glucose', value)),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          CustomTextFormField(
-            labelText: 'ไขมันในเลือด Cholesterol',
-            hintText: 'ไขมันในเลือด Cholesterol',
-            suffixText: 'มก./ดล.',
-            keyboardType: TextInputType.number,
-            initialValue: state.formData['cholesterol'] ?? '',
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(3),
-            ],
-            onChanged: (value) => context
-                .read<AssessmentBloc>()
-                .add(UpdateField('cholesterol', value)),
-          ),
-          const SizedBox(
-            height: 24,
-          ),
-          CustomTextFormField(
-            labelText: 'ไขมันในเลือด Triglyceride',
-            hintText: 'ไขมันในเลือด Triglyceride',
-            suffixText: 'มก./ดล.',
-            keyboardType: TextInputType.number,
-            initialValue: state.formData['triglyceride'] ?? '',
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(3),
-            ],
-            onChanged: (value) => context
-                .read<AssessmentBloc>()
-                .add(UpdateField('triglyceride', value)),
           ),
         ],
       ),

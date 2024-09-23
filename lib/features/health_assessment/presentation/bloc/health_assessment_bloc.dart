@@ -66,17 +66,54 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     final updatedFormData = Map<String, String>.from(state.formData);
     updatedFormData[event.fieldName] = event.value;
 
-    int calculatedScore = scoreCalculator.calculateScore(updatedFormData);
+    ScoreCalculator scoreCalculator = ScoreCalculator();
+    RiskScores riskScores =
+        scoreCalculator.calculateScore(updatedFormData, state.famhisChoose);
 
-    emit(state.copyWith(formData: updatedFormData, riskScore: calculatedScore));
+    emit(state.copyWith(
+      formData: updatedFormData,
+      riskDiabetesScore: riskScores.riskDiabetesScore,
+      riskHypertensionScore: riskScores.riskHypertensionScore,
+      riskDyslipidemiaScore: riskScores.riskDyslipidemiaScore,
+      riskObesityScore: riskScores.riskObesityScore,
+    ));
   }
 
   void _onUpdateRiskScore(
       UpdateRiskScoreEvent event, Emitter<AssessmentState> emit) {
-    int updatedPoints = state.riskScore + event.scoreToAdd;
+    int updatedDiabetesScore = state.riskDiabetesScore;
+    int updatedHypertensionScore = state.riskHypertensionScore;
+    int updatedDyslipidemiaScore = state.riskDyslipidemiaScore;
+    int updatedObesityScore = state.riskObesityScore;
 
-    emit(state.copyWith(riskScore: updatedPoints));
-    debugPrint('updatedPoints: $updatedPoints');
+    switch (event.scoreType) {
+      case 'diabetes':
+        updatedDiabetesScore += event.scoreToAdd;
+        break;
+      case 'hypertension':
+        updatedHypertensionScore += event.scoreToAdd;
+        break;
+      case 'dyslipidemia':
+        updatedDyslipidemiaScore += event.scoreToAdd;
+        break;
+      case 'obesity':
+        updatedObesityScore += event.scoreToAdd;
+        break;
+    }
+
+    // อัปเดต state ใหม่พร้อมคะแนนที่แก้ไขแล้ว
+    emit(state.copyWith(
+      riskDiabetesScore: updatedDiabetesScore,
+      riskHypertensionScore: updatedHypertensionScore,
+      riskDyslipidemiaScore: updatedDyslipidemiaScore,
+      riskObesityScore: updatedObesityScore,
+    ));
+
+    // แสดงค่า updatedPoints สำหรับดีบัก
+    debugPrint('Updated Diabetes Score: $updatedDiabetesScore');
+    debugPrint('Updated Hypertension Score: $updatedHypertensionScore');
+    debugPrint('Updated Dyslipidemia Score: $updatedDyslipidemiaScore');
+    debugPrint('Updated Obesity Score: $updatedObesityScore');
   }
 
   void _onValidateGender(ValidateGender event, Emitter<AssessmentState> emit) {
@@ -93,6 +130,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
       } else {
         updatedFamhisChoose.add(event.title);
       }
+
       // debugPrint('Updated famhisChoose: $updatedFamhisChoose');
       emit(state.copyWith(famhisChoose: updatedFamhisChoose));
     } else {

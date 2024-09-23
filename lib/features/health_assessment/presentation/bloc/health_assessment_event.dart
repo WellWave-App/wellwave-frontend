@@ -38,8 +38,9 @@ class ShowFinishEvent extends AssessmentEvent {}
 
 class NavigateToStartHealthStepState extends AssessmentEvent {}
 
-class UpdateRiskScoreEvent extends AssessmentEvent {
+class UpdateRiskScoreEvent {
+  final String scoreType;
   final int scoreToAdd;
 
-  UpdateRiskScoreEvent.UpdateRiskScoreEvent(this.scoreToAdd);
+  UpdateRiskScoreEvent(this.scoreType, this.scoreToAdd);
 }

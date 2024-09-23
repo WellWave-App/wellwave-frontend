@@ -6,6 +6,7 @@ class AppStrings {
 
   static const emptyText = '';
 
+  static const RiskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';
   static const highRiskText = 'เสี่ยงสูง';

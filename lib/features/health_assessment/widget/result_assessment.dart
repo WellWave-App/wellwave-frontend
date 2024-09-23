@@ -8,6 +8,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
@@ -21,6 +22,12 @@ class ResultAssessment extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AssessmentBloc, AssessmentState>(
       builder: (context, state) {
+        double averageRiskScore = ((state.riskObesityScore / 1) +
+                (state.riskDyslipidemiaScore / 4) +
+                (state.riskHypertensionScore / 2) +
+                (state.riskDiabetesScore / 16)) /
+            4;
+
         if (state.showHealthConnect) {
           return HealthConnectScreen();
         }
@@ -39,18 +46,31 @@ class ResultAssessment extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    GaugeWidget(percentage: 0.5),
+                    GaugeWidget(averageRiskScore: averageRiskScore),
                     const SizedBox(height: 64),
-                    const RiskCard(
-                        title: AppStrings.diabetesText, progress: 0.85),
+                    RiskCard(
+                      title: "เบาหวาน",
+                      riskScore: state.riskDiabetesScore,
+                      getRiskTextMethod: RiskDiseaseCondition.getRiskText,
+                    ),
                     const SizedBox(height: 24),
-                    const RiskCard(
-                        title: AppStrings.hypertensionText, progress: 0.6),
+                    RiskCard(
+                      title: "ความดันโลหิต",
+                      riskScore: state.riskHypertensionScore,
+                      getRiskTextMethod: RiskHypertensionCondition.getRiskText,
+                    ),
                     const SizedBox(height: 24),
-                    const RiskCard(title: AppStrings.obesityText, progress: 1),
+                    RiskCard(
+                      title: "ไขมันในเลือด",
+                      riskScore: state.riskDyslipidemiaScore,
+                      getRiskTextMethod: RiskDyslipidemiaCondition.getRiskText,
+                    ),
                     const SizedBox(height: 24),
-                    const RiskCard(
-                        title: AppStrings.hyperlipidemiaText, progress: 0.4),
+                    RiskCard(
+                      title: "โรคอ้วน",
+                      riskScore: state.riskObesityScore,
+                      getRiskTextMethod: RiskObesityCondition.getRiskText,
+                    ),
                   ],
                 ),
                 Align(

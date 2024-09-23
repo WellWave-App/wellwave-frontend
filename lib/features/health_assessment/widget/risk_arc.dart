@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
+
 class RiskArc extends CustomPainter {
-  final double percentage;
+  final double percentage; // ควรอยู่ระหว่าง 0.0 ถึง 1.0
 
   RiskArc({required this.percentage});
 
@@ -27,13 +29,13 @@ class RiskArc extends CustomPainter {
 
     paint.shader = LinearGradient(
       colors: [
-        const Color.fromARGB(255, 56, 208, 190),
-        const Color.fromARGB(255, 155, 202, 146),
-        const Color.fromARGB(255, 255, 196, 102),
-        const Color.fromARGB(255, 255, 162, 135),
-        const Color.fromARGB(255, 255, 128, 169),
+        Color.fromARGB(255, 56, 208, 190),
+        Color.fromARGB(255, 155, 202, 146),
+        Color.fromARGB(255, 255, 196, 102),
+        Color.fromARGB(255, 255, 162, 135),
+        Color.fromARGB(255, 255, 128, 169),
       ],
-      stops: [0.0, 0.3, 0.6, 0.8, 1.0],
+      stops: [0.0, 0.25, 0.5, 0.75, 1.0],
     ).createShader(Rect.fromCircle(
         center: Offset(size.width / 2, size.height), radius: size.width / 2));
 
@@ -56,9 +58,9 @@ class RiskArc extends CustomPainter {
 }
 
 class GaugeWidget extends StatefulWidget {
-  final double percentage;
+  final double averageRiskScore;
 
-  GaugeWidget({required this.percentage});
+  GaugeWidget({required this.averageRiskScore});
 
   @override
   _GaugeWidgetState createState() => _GaugeWidgetState();
@@ -67,6 +69,9 @@ class GaugeWidget extends StatefulWidget {
 class _GaugeWidgetState extends State<GaugeWidget> {
   @override
   Widget build(BuildContext context) {
+    final riskText =
+        RiskTextCondition.getRiskTextFromAverage(widget.averageRiskScore);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -76,7 +81,7 @@ class _GaugeWidgetState extends State<GaugeWidget> {
             CustomPaint(
               size: Size(MediaQuery.of(context).size.width,
                   MediaQuery.of(context).size.width / 2),
-              painter: RiskArc(percentage: widget.percentage),
+              painter: RiskArc(percentage: widget.averageRiskScore),
             ),
             Positioned(
               bottom: 24,
@@ -93,7 +98,7 @@ class _GaugeWidgetState extends State<GaugeWidget> {
                   ),
                   SizedBox(height: 12),
                   Text(
-                    "มีความเสี่ยงสูง",
+                    riskText['text'],
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme

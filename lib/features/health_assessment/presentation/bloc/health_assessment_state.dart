@@ -17,7 +17,10 @@ class AssessmentState extends Equatable {
   final bool showHealthConnect;
   final bool showRecommend;
   final bool showFinish;
-  final int riskScore;
+  final int riskDiabetesScore;
+  final int riskHypertensionScore;
+  final int riskDyslipidemiaScore;
+  final int riskObesityScore;
 
   const AssessmentState({
     required this.currentStep,
@@ -35,7 +38,10 @@ class AssessmentState extends Equatable {
     this.showRecommend = false,
     this.showFinish = false,
     this.showStartStep = false,
-    this.riskScore = 0,
+    this.riskDiabetesScore = 0,
+    this.riskHypertensionScore = 0,
+    this.riskDyslipidemiaScore = 0,
+    this.riskObesityScore = 0,
   });
 
   AssessmentState copyWith({
@@ -54,7 +60,10 @@ class AssessmentState extends Equatable {
     bool? showRecommend,
     bool? showFinish,
     bool? showStartStep,
-    int? riskScore,
+    int? riskDiabetesScore,
+    int? riskHypertensionScore,
+    int? riskDyslipidemiaScore,
+    int? riskObesityScore,
   }) {
     return AssessmentState(
       currentStep: currentStep ?? this.currentStep,
@@ -72,7 +81,12 @@ class AssessmentState extends Equatable {
       showRecommend: showRecommend ?? this.showRecommend,
       showFinish: showFinish ?? this.showFinish,
       showStartStep: showStartStep ?? this.showStartStep,
-      riskScore: riskScore ?? this.riskScore,
+      riskDiabetesScore: riskDiabetesScore ?? this.riskDiabetesScore,
+      riskHypertensionScore:
+          riskHypertensionScore ?? this.riskHypertensionScore,
+      riskDyslipidemiaScore:
+          riskDyslipidemiaScore ?? this.riskDyslipidemiaScore,
+      riskObesityScore: riskObesityScore ?? this.riskObesityScore,
     );
   }
 
