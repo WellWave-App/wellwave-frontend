@@ -101,19 +101,12 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         break;
     }
 
-    // อัปเดต state ใหม่พร้อมคะแนนที่แก้ไขแล้ว
     emit(state.copyWith(
       riskDiabetesScore: updatedDiabetesScore,
       riskHypertensionScore: updatedHypertensionScore,
       riskDyslipidemiaScore: updatedDyslipidemiaScore,
       riskObesityScore: updatedObesityScore,
     ));
-
-    // แสดงค่า updatedPoints สำหรับดีบัก
-    debugPrint('Updated Diabetes Score: $updatedDiabetesScore');
-    debugPrint('Updated Hypertension Score: $updatedHypertensionScore');
-    debugPrint('Updated Dyslipidemia Score: $updatedDyslipidemiaScore');
-    debugPrint('Updated Obesity Score: $updatedObesityScore');
   }
 
   void _onValidateGender(ValidateGender event, Emitter<AssessmentState> emit) {
