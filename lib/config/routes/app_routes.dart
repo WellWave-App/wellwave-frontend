@@ -46,12 +46,38 @@ final GoRouter goRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: AppPages.missionPage,
-          name: AppPages.missionName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const MissionScreen());
-          },
-        ),
+            path: AppPages.missionPage,
+            name: AppPages.missionName,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _buildPageWithNavBar(
+                  context, state, const MissionScreen());
+            },
+            routes: [
+              GoRoute(
+                path: AppPages.dailyTaskPage,
+                name: AppPages.dailyTaskName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return _buildPageWithNavBar(
+                      context, state, const DailyTaskPage());
+                },
+              ),
+              GoRoute(
+                path: AppPages.habitChallengePage,
+                name: AppPages.habitChallengeName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return _buildPageWithNavBar(
+                      context, state, const HabitChallengePage());
+                },
+              ),
+              GoRoute(
+                path: AppPages.questPage,
+                name: AppPages.questName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return _buildPageWithNavBar(
+                      context, state, const QuestPage());
+                },
+              ),
+            ]),
         GoRoute(
           path: AppPages.friendPage,
           name: AppPages.friendName,
@@ -64,27 +90,6 @@ final GoRouter goRouter = GoRouter(
           name: AppPages.articleName,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _buildPageWithNavBar(context, state, const ArticleScreen());
-          },
-        ),
-        GoRoute(
-          path: AppPages.dailyTaskPage,
-          name: AppPages.dailyTaskName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const DailyTaskPage());
-          },
-        ),
-        GoRoute(
-          path: AppPages.habitChallengePage,
-          name: AppPages.habitChallengeName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const HabitChallengePage());
-          },
-        ),
-        GoRoute(
-          path: AppPages.questPage,
-          name: AppPages.questName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const QuestPage());
           },
         ),
       ],

@@ -96,7 +96,7 @@ class TaskListView extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(32, 4, 32, 4),
                           child: Text(
-                            'x 10',
+                            AppStrings.taskInProgressText,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ),
