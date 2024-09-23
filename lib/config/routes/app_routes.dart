@@ -9,6 +9,9 @@ import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.
 import 'package:wellwave_frontend/features/mission/presentation/screen/mission_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/note_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/daily_task_page.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/habit_challenge_page.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/quest_page.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
 final GoRouter goRouter = GoRouter(
@@ -18,7 +21,7 @@ final GoRouter goRouter = GoRouter(
       path: AppPages.splashPath,
       name: AppPages.splashName,
       pageBuilder: (BuildContext context, GoRouterState state) {
-        return NoTransitionPage(child: const SplashScreen());
+        return const NoTransitionPage(child: SplashScreen());
       },
       routes: [
         GoRoute(
@@ -61,6 +64,27 @@ final GoRouter goRouter = GoRouter(
           name: AppPages.articleName,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _buildPageWithNavBar(context, state, const ArticleScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.dailyTaskPage,
+          name: AppPages.dailyTaskName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return _buildPageWithNavBar(context, state, const DailyTaskPage());
+          },
+        ),
+        GoRoute(
+          path: AppPages.habitChallengePage,
+          name: AppPages.habitChallengeName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return _buildPageWithNavBar(context, state, const HabitChallengePage());
+          },
+        ),
+        GoRoute(
+          path: AppPages.questPage,
+          name: AppPages.questName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return _buildPageWithNavBar(context, state, const QuestPage());
           },
         ),
       ],

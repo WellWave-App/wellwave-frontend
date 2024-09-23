@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/mission/presentation/screen/page/daily_task_page.dart';
-import 'package:wellwave_frontend/features/mission/presentation/screen/page/habit_challenge_page.dart';
-import 'package:wellwave_frontend/features/mission/presentation/screen/page/quest_page.dart';
 import '../../../../common/widget/app_bar.dart';
 
 class MissionScreen extends StatelessWidget {
@@ -35,13 +34,13 @@ class MissionScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(height: 36),
               _buildActivityButton(context, AppStrings.dailyTaskEnterText,
-                  AppImages.emptyComponentImage, const DailyTaskPage()),
+                  AppImages.emptyComponentImage, AppPages.dailyTaskName),
               const SizedBox(height: 24),
               _buildActivityButton(context, AppStrings.habitChallengeEnterText,
-                  AppImages.emptyComponentImage, const HabitChallengePage()),
+                  AppImages.emptyComponentImage, AppPages.habitChallengeName),
               const SizedBox(height: 24),
               _buildActivityButton(context, AppStrings.questText,
-                  AppImages.emptyComponentImage, const QuestPage()),
+                  AppImages.emptyComponentImage, AppPages.questName),
             ],
           ),
         ),
@@ -49,8 +48,8 @@ class MissionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActivityButton(BuildContext context, String title,
-      String imagePath, Widget destinationPage) {
+  Widget _buildActivityButton(
+      BuildContext context, String title, String imagePath, String routeName) {
     double containerWidth = MediaQuery.of(context).size.width;
     return Container(
       width: containerWidth,
@@ -72,8 +71,7 @@ class MissionScreen extends StatelessWidget {
           title: Text(title, style: Theme.of(context).textTheme.labelLarge),
           trailing: const Icon(Icons.chevron_right),
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => destinationPage));
+            context.goNamed(routeName);
           },
         ),
       ),
