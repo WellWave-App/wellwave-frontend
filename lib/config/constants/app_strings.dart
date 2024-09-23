@@ -33,4 +33,8 @@ class AppStrings {
   static const eatingText = 'การทานอาหาร';
   static const exerciseText = 'การออกกำลังกาย';
   static const sleepText = 'การนอน';
+
+  static const taskInProgressText = 'ทำกิจกรรมนี้';
+  static const taskDoing = 'กำลังทำกิจกรรม';
+  static const taskCompletedText = 'ทำสำเร็จ';
 }
