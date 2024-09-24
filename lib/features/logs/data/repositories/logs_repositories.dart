@@ -53,29 +53,26 @@ class LogsRequestRepository {
   }
 
   // Get a specific Logs by ID
-  Future<List<LogsRequestModel?>> getLogsById(String uID) async {
-  try {
-    String baseUrl = 'http://10.0.2.2:3000';
-    final response = await http.get(
-      Uri.parse(
-          "$baseUrl/logs/user/$uID?startDate=2024-09-23&endDate=2024-09-23"),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    );
+  Future<List<LogsRequestModel?>> getLogsById(String uID, DateTime date) async {
+    try {
+      String baseUrl = 'http://10.0.2.2:3000';
+      final response = await http.get(
+        Uri.parse(
+            "$baseUrl/logs/user/$uID?startDate=${date.toIso8601String()}&endDate=${date.toIso8601String()}"),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
 
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      List<dynamic> logsJson = jsonData['LOGS'];
-      
-      // Convert the list of JSON objects into a list of LogsRequestModel objects
-      return logsJson
-          .map((log) => LogsRequestModel.fromJson(log))
-          .toList();
-    }
-    return [];
-  } catch (e) {
-    debugPrint('Error: $e');
-    return [];
-  }
-}}
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        List<dynamic> logsJson = jsonData['LOGS'];
+        debugPrint('Fetched Logs: ${response.body}'); 
+        // Convert the list of JSON objects into a list of LogsRequestModel objects
+        return logsJson.map((log) => LogsRequestModel.fromJson(log)).toList();
+      }
+      return [];
+    } catch (e) {
+      debugPrint('Error: $e');
+      return [];
+}}}

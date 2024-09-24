@@ -7,123 +7,141 @@ import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc
 import 'package:wellwave_frontend/features/logs/presentation/widget/calendar_slider.dart';
 import '../widget/logs_history_card.dart';
 
-class LogsHistoryScreen extends StatelessWidget {
+class LogsHistoryScreen extends StatefulWidget {
   const LogsHistoryScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Dispatch the event to fetch logs as soon as the screen is loaded
-    context.read<LogsBloc>().add(LogsFetched());
-
-    return BlocBuilder<LogsBloc, LogsState>(
-      builder: (context, state) {
-        if (state is LogsLoadInProgress) {
-          // Show a loading indicator while the logs are being fetched
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        } else if (state is LogsLoadSuccess) {
-          // Extract log values from the API response
-          double? selectedSleepHours;
-          double? selectedDrinkLogs;
-
-          for (var log in state.logslist) {
-            if (log?.logName == 'SLEEP_LOG') {
-              selectedSleepHours = log?.value;
-            } else if (log?.logName == 'DRINK_LOG') {
-              selectedDrinkLogs = log?.value;
-            }
-          }
-
-          return Scaffold(
-            extendBodyBehindAppBar: true,
-            appBar: AppBar(title: const TitleSection()),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    width: double.infinity,
-                    height: 16.0,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(color: AppColors.primaryColor),
-                    ),
-                  ),
-                  const CalendarSilder(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0, vertical: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppStrings.dailyLogsText,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            LogsHistoryCard(
-                              svgPath: AppImages.sleepLogsIcon,
-                              title: AppStrings.sleepText,
-                              value: selectedSleepHours ?? 0, // Use sleep log value
-                              isSvg: true,
-                              unit: AppStrings.hoursText,
-                              svgWidth: 64,
-                              svgHeight: 64,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8.0),
-                        Row(
-                          children: [
-                            LogsHistoryCard(
-                              svgPath: AppImages.threeWaterIcon,
-                              title: AppStrings.drinkText,
-                              value: selectedDrinkLogs ?? 0, // Use drink log value
-                              unit: AppStrings.glassesText,
-                              isSvg: true,
-                              svgWidth: 64,
-                              svgHeight: 64,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const WeeklyLogs(),
-                ],
-              ),
-            ),
-          );
-        } else if (state is LogsError) {
-          return const Scaffold(
-            body: Center(child: Text('Error loading logs.')),
-          );
-        }
-
-        // Default state if no logs are available
-        return const Scaffold(
-          body: Center(child: Text('No logs available.')),
-        );
-      },
-    );
-  }
+  _LogsHistoryScreenState createState() => _LogsHistoryScreenState();
 }
 
+class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
+  DateTime _selectedDate = DateTime.now();
 
-class TitleSection extends StatelessWidget {
-  const TitleSection({super.key});
   @override
   Widget build(BuildContext context) {
-    return Text(
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(title: Text(
       AppStrings.healthHistoryText,
       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
             color: AppColors.whiteColor,
             fontWeight: FontWeight.bold,
           ),
+    )),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              width: double.infinity,
+              height: 16.0,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: AppColors.primaryColor),
+              ),
+            ),
+            CalendarSilder(
+              onDateSelected: (date) {
+                setState(() {
+                  _selectedDate = date; // Update the selected date
+                });
+                context.read<LogsBloc>().add(LogsFetched(
+                    date: _selectedDate)); // Refetch logs with new date
+              },
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppStrings.dailyLogsText,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+
+                  BlocBuilder<LogsBloc, LogsState>(
+                    builder: (context, state) {
+                      if (state is LogsLoadInProgress) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state is LogsLoadSuccess) {
+                        double? selectedSleepHours;
+                        double? selectedDrinkLogs;
+
+                        for (var log in state.logslist) {
+                          if (log?.logName == 'SLEEP_LOG') {
+                            selectedSleepHours = log?.value;
+                          } else if (log?.logName == 'DRINK_LOG') {
+                            selectedDrinkLogs = log?.value;
+                          }
+                        }
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (selectedSleepHours != null)
+                              Row(
+                                children: [
+                                  LogsHistoryCard(
+                                    svgPath: AppImages.sleepLogsIcon,
+                                    title: AppStrings.sleepText,
+                                    value: selectedSleepHours,
+                                    isSvg: true,
+                                    unit: AppStrings.hoursText,
+                                    svgWidth: 64,
+                                    svgHeight: 64,
+                                  ),
+                                ],
+                              ),
+                            const SizedBox(height: 8.0),
+                            if (selectedDrinkLogs != null)
+                              Row(
+                                children: [
+                                  LogsHistoryCard(
+                                    svgPath: AppImages.threeWaterIcon,
+                                    title: AppStrings.drinkText,
+                                    value: selectedDrinkLogs,
+                                    unit: AppStrings.glassesText,
+                                    isSvg: true,
+                                    svgWidth: 64,
+                                    svgHeight: 64,
+                                  ),
+                                ],
+                              ),
+                            if (selectedSleepHours == null &&
+                                selectedDrinkLogs == null)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'ไม่มีข้อมูลสำหรับวันนี้',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: AppColors.darkGrayColor,
+                                        ),
+                                  )
+                                ],
+                              ),
+                          ],
+                        );
+                      } else if (state is LogsError) {
+                        return const Center(child: Text('Error loading logs.'));
+                      }
+
+                      return const Center(child: Text('No logs available.'));
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const WeeklyLogs(),
+          ],
+        ),
+      ),
     );
   }
 }

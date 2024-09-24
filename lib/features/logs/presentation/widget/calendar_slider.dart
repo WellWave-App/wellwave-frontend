@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:calendar_slider/calendar_slider.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class CalendarSilder extends StatefulWidget {
-  const CalendarSilder({Key? key}) : super(key: key);
+  final ValueChanged<DateTime> onDateSelected; // Add callback
+
+  const CalendarSilder({Key? key, required this.onDateSelected}) : super(key: key);
 
   @override
   State<CalendarSilder> createState() => _CalendarSilderState();
@@ -12,13 +13,7 @@ class CalendarSilder extends StatefulWidget {
 
 class _CalendarSilderState extends State<CalendarSilder> {
   final CalendarSliderController _firstController = CalendarSliderController();
-
-  Random random = Random();
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  DateTime? selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +39,10 @@ class _CalendarSilderState extends State<CalendarSilder> {
           firstDate: DateTime.now().subtract(const Duration(days: 100)),
           lastDate: DateTime.now().add(const Duration(days: 100)),
           onDateSelected: (date) {
-            setState(() {});
+            setState(() {
+              selectedDate = date; // Store selected date
+            });
+            widget.onDateSelected(date); // Pass selected date to parent
           },
         ),
       ],
