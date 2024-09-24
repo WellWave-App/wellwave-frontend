@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/scale_record_widget.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/scale_record_widget.dart';
 
 class InputWeeklyLogs extends StatefulWidget {
   const InputWeeklyLogs({super.key});

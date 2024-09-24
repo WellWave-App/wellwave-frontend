@@ -6,7 +6,7 @@ class AppStrings {
 
   static const emptyText = '';
 
-  //note screen
+  //logs screen
   static const historyText = 'ประวัติ';
   static const dailyLogsText = 'บันทึกสุขภาพประจำวัน';
   static const amoutOfWaterText = 'จำนวนน้ำ';
@@ -33,7 +33,7 @@ class AppStrings {
   static const weightText = 'น้ำหนัก';
   static const skipText = 'ข้าม';
 
-  //note history screen
+  //logs history screen
   static const healthHistoryText = 'ประวัติบันทึกสุขภาพ';
   static const sleepText = 'การนอน';
   static const stepText = 'ก้าว';

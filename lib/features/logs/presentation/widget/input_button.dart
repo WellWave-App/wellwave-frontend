@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/input_weekly_logs.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/input_weekly_logs.dart';
 
 class InputButton extends StatelessWidget {
   final String buttonText;

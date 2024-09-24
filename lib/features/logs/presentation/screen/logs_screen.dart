@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/chart.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/daily_logs_card.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/input_button.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/input_daily_logs.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/weekly_logs_card.dart';
-import 'note_history_screen.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/chart.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/daily_logs_card.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/input_button.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/input_daily_logs.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/weekly_logs_card.dart';
+import '../../../logs/presentation/screen/logs_history_screen.dart';
 
-class NoteScreen extends StatefulWidget {
-  const NoteScreen({super.key});
+class LogsScreen extends StatefulWidget {
+  const LogsScreen({super.key});
 
   @override
-  State<NoteScreen> createState() => _NoteScreenState();
+  State<LogsScreen> createState() => _LogsScreenState();
 }
 
-class _NoteScreenState extends State<NoteScreen> {
+class _LogsScreenState extends State<LogsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +48,8 @@ class TitleSection extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const NoteHistoryScreen()),
+              
+                  builder: (context) => LogsHistoryScreen()),
             );
           },
           child: Text(

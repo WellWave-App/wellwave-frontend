@@ -6,7 +6,7 @@ class LogsHistoryCard extends StatelessWidget {
   final String svgPath; // Path for SVG asset
   final String pngPath; // Path for PNG asset
   final String title; // Main text to display
-  final int value; // Value to display
+  final double value; // Value to display
   final String unit; // Unit for the value
   final double svgWidth; // Width for the SVG
   final double svgHeight; // Height for the SVG
