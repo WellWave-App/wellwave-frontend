@@ -3,7 +3,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 ThemeData appTheme(BuildContext context) {
   return ThemeData(
-      scaffoldBackgroundColor: AppColors.backgroundColor,
+      scaffoldBackgroundColor: AppColors.whiteColor,
       appBarTheme: appBarTheme(context),
       navigationBarTheme: navigationBarThemeData(context),
       primaryColor: AppColors.primaryColor,

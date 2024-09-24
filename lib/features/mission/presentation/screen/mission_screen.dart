@@ -15,7 +15,7 @@ class MissionScreen extends StatelessWidget {
       appBar: CustomAppBar(
         context: context,
         title: AppStrings.emptyText,
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.whiteColor,
         onLeading: false,
         rightText: AppStrings.historyText,
         onRightPressed: () {},
@@ -27,20 +27,39 @@ class MissionScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(AppStrings.iDoTodayText,
-                  style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                AppStrings.iDoTodayText,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               const SizedBox(height: 12),
-              Text(AppStrings.chooseActivityText,
-                  style: Theme.of(context).textTheme.headlineSmall),
+              Text(
+                AppStrings.chooseActivityText,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
               const SizedBox(height: 36),
-              _buildActivityButton(context, AppStrings.dailyTaskEnterText,
-                  AppImages.emptyComponentImage, AppPages.dailyTaskName),
+              _buildActivityButton(
+                context,
+                AppStrings.dailyTaskText,
+                AppImages.dailyTaskImage,
+                AppPages.dailyTaskName,
+                AppColors.secondaryDarkColor,
+              ),
               const SizedBox(height: 24),
-              _buildActivityButton(context, AppStrings.habitChallengeEnterText,
-                  AppImages.emptyComponentImage, AppPages.habitChallengeName),
+              _buildActivityButton(
+                context,
+                AppStrings.habitChallengeText,
+                AppImages.habitChallengeImage,
+                AppPages.habitChallengeName,
+                AppColors.mintColor,
+              ),
               const SizedBox(height: 24),
-              _buildActivityButton(context, AppStrings.questText,
-                  AppImages.emptyComponentImage, AppPages.questName),
+              _buildActivityButton(
+                context,
+                AppStrings.questText,
+                AppImages.questImage,
+                AppPages.questName,
+                AppColors.pinkColor,
+              ),
             ],
           ),
         ),
@@ -48,31 +67,43 @@ class MissionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildActivityButton(
-      BuildContext context, String title, String imagePath, String routeName) {
-    double containerWidth = MediaQuery.of(context).size.width;
-    return Container(
-      width: containerWidth,
-      decoration: BoxDecoration(
-        color: AppColors.baseGrayColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 24.0),
-        child: ListTile(
-          leading: Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Image.asset(
+  Widget _buildActivityButton(BuildContext context, String title,
+      String imagePath, String routeName, Color color) {
+    return GestureDetector(
+      onTap: () {
+        context.goNamed(routeName); // Use goNamed to navigate by route name
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        height: 100,
+        child: Row(
+          children: [
+            Image.asset(
               imagePath,
-              width: 60,
-              height: 60,
+              width: 80, // Ensure consistent image width
+              height: 80,
+              fit: BoxFit.cover, // Adjust image fit for better display
             ),
-          ),
-          title: Text(title, style: Theme.of(context).textTheme.labelLarge),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () {
-            context.goNamed(routeName);
-          },
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: AppColors.whiteColor,
+                    ),
+                overflow: TextOverflow.ellipsis, // Handle text overflow
+                maxLines: 2,
+              ),
+            ),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: 50,
+              color: AppColors.whiteColor,
+            ),
+          ],
         ),
       ),
     );
