@@ -1,3 +1,5 @@
+import 'package:wellwave_frontend/config/constants/app_images.dart';
+
 class AppStrings {
   static String uppercaseFirst(String text) {
     if (text.isEmpty) return text; // Handle empty string case
@@ -37,4 +39,7 @@ class AppStrings {
   static const taskInProgressText = 'ทำกิจกรรมนี้';
   static const taskDoing = 'กำลังทำกิจกรรม';
   static const taskCompletedText = 'ทำสำเร็จ';
+
+  static const taskCompletedWithGemText = 'ทำภารกิจให้ครบเพื่อรับ ';
+  static const startText = 'เริ่ม ';
 }

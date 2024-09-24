@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import '../../widgets/task_list_view.dart';
+import 'package:wellwave_frontend/features/mission/presentation/widgets/overview_daily.dart';
+import '../../../../../config/constants/app_images.dart';
 
 class DailyTaskPage extends StatelessWidget {
   const DailyTaskPage({super.key});
@@ -13,21 +14,53 @@ class DailyTaskPage extends StatelessWidget {
       appBar: CustomAppBar(
         context: context,
         title: AppStrings.dailyTaskText,
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.secondaryDarkColor,
+        titleColor: AppColors.whiteColor,
+        textColor: AppColors.whiteColor,
         onLeading: true,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Expanded(
-            child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return const Padding(
-                    padding: EdgeInsets.fromLTRB(0, 12, 0, 12),
-                    child: TaskListView(),
-                  );
-                }),
+          Container(
+            decoration: const BoxDecoration(
+              color: AppColors.secondaryDarkColor,
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(
+                    100), // Set the desired radius for the bottom corners
+              ),
+            ),
+            height: MediaQuery.of(context).size.height * 0.18,
           ),
+          Column(
+            children: [
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.center, // Center items horizontally
+                children: [
+                  Text(
+                    AppStrings.taskCompletedWithGemText,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.whiteColor,
+                        ),
+                  ),
+                  Image.asset(
+                    AppImages.gemImage, // Show image
+                    width: 24, // Set image size
+                    height: 24,
+                  ),
+                  Text(
+                    ' x15',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.whiteColor,
+                        ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const OverviewDaily()
+            ],
+          )
         ],
       ),
     );

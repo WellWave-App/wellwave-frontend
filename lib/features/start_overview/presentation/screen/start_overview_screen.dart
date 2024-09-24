@@ -39,7 +39,7 @@ class StartOverviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.backgroundColor,
+        backgroundColor: AppColors.whiteColor,
         elevation: 0,
         leading: BlocBuilder<StartOverviewBloc, StartOverviewState>(
           builder: (context, state) {

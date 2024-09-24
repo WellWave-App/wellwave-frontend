@@ -57,24 +57,21 @@ final GoRouter goRouter = GoRouter(
                 path: AppPages.dailyTaskPage,
                 name: AppPages.dailyTaskName,
                 pageBuilder: (BuildContext context, GoRouterState state) {
-                  return _buildPageWithNavBar(
-                      context, state, const DailyTaskPage());
+                  return const NoTransitionPage(child: DailyTaskPage());
                 },
               ),
               GoRoute(
                 path: AppPages.habitChallengePage,
                 name: AppPages.habitChallengeName,
                 pageBuilder: (BuildContext context, GoRouterState state) {
-                  return _buildPageWithNavBar(
-                      context, state, const HabitChallengePage());
+                  return const NoTransitionPage(child: HabitChallengePage());
                 },
               ),
               GoRoute(
                 path: AppPages.questPage,
                 name: AppPages.questName,
                 pageBuilder: (BuildContext context, GoRouterState state) {
-                  return _buildPageWithNavBar(
-                      context, state, const QuestPage());
+                  return const NoTransitionPage(child: QuestPage());
                 },
               ),
             ]),

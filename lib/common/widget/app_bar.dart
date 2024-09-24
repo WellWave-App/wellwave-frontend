@@ -13,6 +13,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final IconData? rightIcon;
   final Function? onRightPressed;
   final Color? backgroundColor;
+  final Color? titleColor;
   final PreferredSizeWidget? bottom;
 
   const CustomAppBar(
@@ -28,6 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.rightIcon,
       this.onRightPressed,
       this.backgroundColor,
+      this.titleColor,
       this.bottom});
 
   @override
@@ -37,7 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title ?? '',
         style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppColors.blackColor,
+              color: titleColor,
             ),
       ),
       titleSpacing: 0,

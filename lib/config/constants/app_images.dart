@@ -20,4 +20,6 @@ class AppImages {
   static const dailyTaskImage = 'assets/images/daily_task.png';
   static const habitChallengeImage = 'assets/images/habit_challenge.png';
   static const questImage = 'assets/images/quest.png';
+  static const gemImage = 'assets/images/gem.png';
+  static const expImage = 'assets/images/exp.png';
 }

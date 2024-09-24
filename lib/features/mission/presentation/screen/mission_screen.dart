@@ -71,37 +71,48 @@ class MissionScreen extends StatelessWidget {
       String imagePath, String routeName, Color color) {
     return GestureDetector(
       onTap: () {
-        context.goNamed(routeName); // Use goNamed to navigate by route name
+        context.goNamed(routeName);
       },
       child: Container(
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(12),
         ),
-        height: 100,
         child: Row(
+          mainAxisAlignment:
+              MainAxisAlignment.spaceBetween, // จัดตำแหน่งให้ชิดขอบ
           children: [
-            Image.asset(
-              imagePath,
-              width: 80, // Ensure consistent image width
-              height: 80,
-              fit: BoxFit.cover, // Adjust image fit for better display
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 28.0),
+                  child: Image.asset(
+                    imagePath,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: AppColors.whiteColor,
+                      ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  textAlign: TextAlign.left, // ให้ text ชิดซ้าย
+                ),
+              ],
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(
-                title,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: AppColors.whiteColor,
-                    ),
-                overflow: TextOverflow.ellipsis, // Handle text overflow
-                maxLines: 2,
+            const Padding(
+              padding:
+                  EdgeInsets.only(right: 16.0), // เพิ่ม padding ขวาให้กับไอคอน
+              child: Icon(
+                Icons.chevron_right_rounded,
+                size: 50,
+                color: AppColors.whiteColor,
               ),
-            ),
-            Icon(
-              Icons.chevron_right_rounded,
-              size: 50,
-              color: AppColors.whiteColor,
             ),
           ],
         ),
