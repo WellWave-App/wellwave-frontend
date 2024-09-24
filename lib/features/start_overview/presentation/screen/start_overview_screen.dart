@@ -70,8 +70,10 @@ class StartOverviewScreen extends StatelessWidget {
                       },
                       child: Text(
                         AppStrings.skipText,
-                        style: Theme.of(context).textTheme.titleSmall,
-                        selectionColor: AppColors.darkGrayColor,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: AppColors.darkGrayColor),
                       ),
                     )
                   : const SizedBox.shrink();
