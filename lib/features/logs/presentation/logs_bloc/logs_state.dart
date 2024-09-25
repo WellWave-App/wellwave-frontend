@@ -14,6 +14,5 @@ class LogsError extends LogsState {
 
 class LogsLoadSuccess extends LogsState {
   final List<LogsRequestModel?> logslist;
-
   LogsLoadSuccess({required this.logslist});
 }

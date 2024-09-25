@@ -11,6 +11,10 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
 
   LogsBloc(this._logsRequestRepository) : super(LogsInitial()) {
     on<LogsFetched>(_onLogsFetches);
+    on<SubmitLogEvent>((event, emit) async {
+      await submitLog(event.logName, event.value, event.selectedDate,
+          _logsRequestRepository);
+    });
   }
 
   Future<void> _onLogsFetches(
@@ -18,12 +22,31 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     emit(LogsLoadInProgress());
 
     try {
-      final logsList = await _logsRequestRepository.getLogsById('1', event.date);
-      
+      final logsList =
+          await _logsRequestRepository.getLogsById('1', event.date);
 
       emit(LogsLoadSuccess(logslist: logsList));
     } catch (e) {
       emit(LogsError(message: e.toString()));
+    }
+  }
+
+  Future<void> submitLog(String logName, int value, String selectedDate,
+      LogsRequestRepository logsRepository) async {
+    try {
+      bool success = await logsRepository.createLogsRequest(
+        value: value,
+        logName: logName,
+        uid: 1, 
+        date: selectedDate,
+      );
+      if (success) {
+        debugPrint('Log submission successful');
+      } else {
+        debugPrint('Log submission failed');
+      }
+    } catch (error) {
+      debugPrint('Error submitting log: $error');
     }
   }
 }

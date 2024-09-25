@@ -5,15 +5,25 @@ import '../../../logs/data/models/logs_request_model.dart';
 
 class LogsRequestRepository {
   // Create new Logs request
-  Future<bool> createLogsRequest(LogsRequestModel LogsRequest) async {
-    String baseUrl = 'http://localhost:3000';
+  Future<bool> createLogsRequest({
+    required int value,
+    required String logName,
+    required int uid,
+    required String date,
+  }) async {
+    String baseUrl = 'http://10.0.2.2:3000/logs';
     try {
       final response = await http.post(
-        Uri.parse("$baseUrl/users"),
+        Uri.parse(baseUrl),
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonEncode(LogsRequest.toJson()),
+        body: jsonEncode({
+          "VALUE": value,
+          "LOG_NAME": logName,
+          "UID": uid,
+          "DATE": date,
+        }),
       );
 
       if (response.statusCode == 201) {
@@ -27,7 +37,7 @@ class LogsRequestRepository {
     }
   }
 
-  // Edit Logs request
+  // Edit Logs request //not used
   Future<bool> editLogsRequest(String LogsId, LogsRequestModel LogsRequest,
       String isShowToEmployee) async {
     try {
@@ -41,7 +51,6 @@ class LogsRequestRepository {
       );
 
       if (response.statusCode == 200) {
-        
         // Successfully edited
         return true;
       }
@@ -67,12 +76,13 @@ class LogsRequestRepository {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         List<dynamic> logsJson = jsonData['LOGS'];
-        debugPrint('Fetched Logs: ${response.body}'); 
-        // Convert the list of JSON objects into a list of LogsRequestModel objects
+        debugPrint('Fetched Logs: ${response.body}');
         return logsJson.map((log) => LogsRequestModel.fromJson(log)).toList();
       }
       return [];
     } catch (e) {
       debugPrint('Error: $e');
       return [];
-}}}
+    }
+  }
+}

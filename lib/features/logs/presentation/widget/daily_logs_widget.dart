@@ -94,7 +94,6 @@ class DailyLogsWidget extends StatelessWidget {
                       } else if (state is LogsError) {
                         return const Center(child: Text('Error loading logs.'));
                       }
-
                       return const Center(child: Text('No logs available.'));
                     },
                   ),

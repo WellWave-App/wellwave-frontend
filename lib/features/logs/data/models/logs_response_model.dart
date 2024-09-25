@@ -1,34 +1,43 @@
 class LogsResponseModel {
-  final int lID;
+  final int lid;
   final String logName; // Assuming this is a string, but can change to enum
   final DateTime date;
   final double value;
-  final int uID;
+  final int uid;
 
   LogsResponseModel({
-    required this.lID,
+    required this.lid,
     required this.logName,
     required this.date,
     required this.value,
-    required this.uID,
+    required this.uid,
   });
 
-  factory LogsResponseModel.fromJson(Map<String, dynamic> json) =>
-      LogsResponseModel(
-        lID: json['LID'] ?? 0, // Provide a default value
-        logName: json['LOG_NAME'] ?? "", // Provide a default value
-        date: DateTime.fromMillisecondsSinceEpoch(json['DATE'] ?? 0), // Handle potential null values
-        value: (json['VALUE'] as num?)?.toDouble() ?? 0.0, // Safely convert to double
-        uID: json['UID'] ?? 0, // Provide a default value
-      );
+  factory LogsResponseModel.fromJson(Map<String, dynamic> json) {
+  return LogsResponseModel(
+    lid: json['LID'] is int
+        ? json['LID'] as int
+        : int.tryParse(json['LID'] ?? '0') ?? 0, // Handle String to int conversion
+    logName: json['LOG_NAME'] ?? "", 
+    date: json['DATE'] is int 
+        ? DateTime.fromMillisecondsSinceEpoch(json['DATE']) 
+        : DateTime.tryParse(json['DATE']) ?? DateTime.now(), // Handle date as String
+    value: (json['VALUE'] is num) 
+        ? (json['VALUE'] as num).toDouble() 
+        : double.tryParse(json['VALUE'] ?? '0.0') ?? 0.0, // Handle String to double
+    uid: json['UID'] is int
+        ? json['UID'] as int
+        : int.tryParse(json['UID'] ?? '0') ?? 0, // Handle String to int conversion
+  );
+}
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'LID': lID,
+      'LID': lid,
       'LOG_NAME': logName,
       'DATE': date.millisecondsSinceEpoch,
       'VALUE': value,
-      'UID': uID,
+      'UID': uid,
     };
   }
 }

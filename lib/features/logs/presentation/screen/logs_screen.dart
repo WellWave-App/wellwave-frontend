@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/chart.dart';
-import 'package:wellwave_frontend/features/logs/presentation/widget/daily_logs_card.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/daily_logs.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/history_button.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/input_button.dart';
-import 'package:wellwave_frontend/features/logs/presentation/widget/input_daily_logs.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/weekly_logs_card.dart';
-import '../../../logs/presentation/screen/logs_history_screen.dart';
 
 class LogsScreen extends StatefulWidget {
   const LogsScreen({super.key});
@@ -20,172 +17,16 @@ class _LogsScreenState extends State<LogsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const TitleSection()),
+      appBar: AppBar(title: const Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        HistoryButton()
+      ],
+    )),
       body: const SingleChildScrollView(
         child: Column(
           children: [DailyLogs(), WeeklyLogs()],
         ),
-      ),
-    );
-  }
-}
-
-class TitleSection extends StatelessWidget {
-  const TitleSection({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        TextButton(
-          style: ButtonStyle(
-            foregroundColor: WidgetStateProperty.all<Color>(Colors.grey),
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-              
-                  builder: (context) => LogsHistoryScreen()),
-            );
-          },
-          child: Text(
-            AppStrings.historyText,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.greyColor,
-                ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class DailyLogs extends StatefulWidget {
-  const DailyLogs({super.key});
-
-  @override
-  State<DailyLogs> createState() => _DailyLogsState();
-}
-
-class _DailyLogsState extends State<DailyLogs> {
-  int selectedWaterLevel = 0;
-  int selectedSleepHours = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(AppStrings.dailyLogsText,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              DailyLogCard(
-                title: AppStrings.amoutOfWaterText, // Water intake
-                unitLabel: AppStrings.glassesText,
-                selectedLevel: selectedWaterLevel,
-                maxLevel: 11,
-                svgIcons: const [
-                  AppImages.water0Icon,
-                  AppImages.water1Icon,
-                  AppImages.water2Icon,
-                  AppImages.water3Icon,
-                  AppImages.water4Icon,
-                  AppImages.water5Icon,
-                  AppImages.water6Icon,
-                  AppImages.water7Icon,
-                  AppImages.water8Icon,
-                  AppImages.water9Icon,
-                  AppImages.water10Icon,
-                ],
-                onTap: () async {
-                  int? result = await showDialog<int>(
-                      context: context,
-                      builder: (context) => InputDailyLogs(
-                            initialUnits: selectedWaterLevel,
-                            title: AppStrings.amoutOfWaterText,
-                            unitLabel: AppStrings.glassesText,
-                            maxLevel: 11,
-                            svgIcons: const [
-                              AppImages.water0Icon,
-                              AppImages.water1Icon,
-                              AppImages.water2Icon,
-                              AppImages.water3Icon,
-                              AppImages.water4Icon,
-                              AppImages.water5Icon,
-                              AppImages.water6Icon,
-                              AppImages.water7Icon,
-                              AppImages.water8Icon,
-                              AppImages.water9Icon,
-                              AppImages.water10Icon,
-                            ],
-                          ));
-                  if (result != null) {
-                    setState(() {
-                      selectedWaterLevel = result;
-                    });
-                  }
-                },
-              ),
-              const SizedBox(width: 20),
-              DailyLogCard(
-                title: AppStrings.hoursOfSleepText, // Sleep tracking
-                unitLabel: AppStrings.hoursText, // Hours
-                selectedLevel: selectedSleepHours,
-                maxLevel: 11,
-                svgIcons: const [
-                  AppImages.moon0Icon,
-                  AppImages.moon1Icon,
-                  AppImages.moon2Icon,
-                  AppImages.moon3Icon,
-                  AppImages.moon4Icon,
-                  AppImages.moon5Icon,
-                  AppImages.moon6Icon,
-                  AppImages.moon7Icon,
-                  AppImages.moon8Icon,
-                  AppImages.moon9Icon,
-                  AppImages.moon10Icon,
-                ],
-                onTap: () async {
-                  int? result = await showDialog<int>(
-                      context: context,
-                      builder: (context) => InputDailyLogs(
-                            title: AppStrings.hoursOfSleepText,
-                            initialUnits: selectedSleepHours,
-                            unitLabel: AppStrings.hoursText,
-                            maxLevel: 11,
-                            svgIcons: const [
-                              AppImages.moon0Icon,
-                              AppImages.moon1Icon,
-                              AppImages.moon2Icon,
-                              AppImages.moon3Icon,
-                              AppImages.moon4Icon,
-                              AppImages.moon5Icon,
-                              AppImages.moon6Icon,
-                              AppImages.moon7Icon,
-                              AppImages.moon8Icon,
-                              AppImages.moon9Icon,
-                              AppImages.moon10Icon,
-                            ],
-                          ));
-                  if (result != null) {
-                    setState(() {
-                      selectedSleepHours = result;
-                    });
-                  }
-                },
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
