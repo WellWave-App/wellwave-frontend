@@ -9,6 +9,7 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
@@ -83,6 +84,59 @@ class ResultAssessment extends StatelessWidget {
                         bgColor: AppColors.primaryColor,
                         textColor: AppColors.backgroundColor,
                         onPressed: () {
+                          final healthAssessmentModel =
+                              HealthAssessmentRequestModel(
+                            diastolicBloodPressure:
+                                double.tryParse(state.formData['dbp'] ?? '0') ??
+                                    0.0,
+                            systolicBloodPressure:
+                                double.tryParse(state.formData['sbp'] ?? '0') ??
+                                    0.0,
+                            hdl:
+                                double.tryParse(state.formData['hdl'] ?? '0') ??
+                                    0.0,
+                            ldl:
+                                double.tryParse(state.formData['ldl'] ?? '0') ??
+                                    0.0,
+                            waistLine: double.tryParse(
+                                    state.formData['waistLine'] ?? '0') ??
+                                0.0,
+                            hasHypertension:
+                                state.riskHypertensionScore > 0 ? true : false,
+                            hasDiabetes:
+                                state.riskDiabetesScore > 0 ? true : false,
+                            hasDyslipidemia:
+                                state.riskDyslipidemiaScore > 0 ? true : false,
+                            hasObesity:
+                                state.riskObesityScore > 0 ? true : false,
+                            imageUrl: state.formData['imageUrl'] ?? '',
+                            username: state.formData['username'] ?? '',
+                            yearOfBirth: int.tryParse(
+                                    state.formData['birthYear'] ?? '0') ??
+                                0,
+                            gender: (state.formData['gender'] == 'male')
+                                ? 0
+                                : (state.formData['gender'] == 'female')
+                                    ? 1
+                                    : -1,
+                            height: double.tryParse(
+                                    state.formData['height'] ?? '0') ??
+                                0.0,
+                            weight: double.tryParse(
+                                    state.formData['weight'] ?? '0') ??
+                                0.0,
+                            userGoal: (state.formData['userGoal'] ==
+                                    'สร้างกล้ามเนื้อ')
+                                ? 0
+                                : (state.formData['userGoal'] == 'ลดน้ำหนัก')
+                                    ? 1
+                                    : (state.formData['userGoal'] == 'สุขภาพดี')
+                                        ? 2
+                                        : -1,
+                          );
+                          context.read<AssessmentBloc>().add(
+                              SendHealthAssessmentData(healthAssessmentModel));
+
                           context
                               .read<AssessmentBloc>()
                               .add(ShowHealthConnectEvent());
