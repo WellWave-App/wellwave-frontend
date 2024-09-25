@@ -15,37 +15,53 @@ class HabitChallengePage extends StatelessWidget {
         appBar: CustomAppBar(
           context: context,
           title: AppStrings.habitChallengeText,
-          backgroundColor: AppColors.backgroundColor,
+          backgroundColor: AppColors.mintColor,
+          titleColor: AppColors.whiteColor,
+          textColor: AppColors.whiteColor,
           onLeading: true,
         ),
-        body: Column(
+        body: Stack(
           children: [
-            TabBar(
-              tabAlignment: TabAlignment.start,
-              isScrollable: true,
-              labelPadding: const EdgeInsets.symmetric(horizontal: 10),
-              padding: const EdgeInsets.only(left: 10),
-              dividerColor: Colors.transparent,
-              labelColor: AppColors.blackColor,
-              unselectedLabelColor: AppColors.tabTextGrayColor,
-              indicatorColor: AppColors.blackColor,
-              labelStyle: Theme.of(context).textTheme.titleSmall,
-              tabs: const [
-                Tab(text: AppStrings.suggestText),
-                Tab(text: AppStrings.eatingText),
-                Tab(text: AppStrings.exerciseText),
-                Tab(text: AppStrings.sleepText),
-              ],
-            ),
-            const Expanded(
-              child:  TabBarView(
-                children: [
-                  OverviewHabitChallenge(),
-                  OverviewHabitChallenge(),
-                  OverviewHabitChallenge(),
-                  OverviewHabitChallenge(),
-                ],
+            Container(
+              decoration: const BoxDecoration(
+                color: AppColors.mintColor,
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(
+                      100), // Set the desired radius for the bottom corners
+                ),
               ),
+              height: MediaQuery.of(context).size.height * 0.18,
+            ),
+            Column(
+              children: [
+                TabBar(
+                  tabAlignment: TabAlignment.start,
+                  isScrollable: true,
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.only(left: 10),
+                  dividerColor: Colors.transparent,
+                  labelColor: AppColors.whiteColor,
+                  unselectedLabelColor: AppColors.mintTabTextGrayColor,
+                  indicatorColor: AppColors.whiteColor,
+                  labelStyle: Theme.of(context).textTheme.titleSmall,
+                  tabs: const [
+                    Tab(text: AppStrings.suggestText),
+                    Tab(text: AppStrings.eatingText),
+                    Tab(text: AppStrings.exerciseText),
+                    Tab(text: AppStrings.sleepText),
+                  ],
+                ),
+                const Expanded(
+                  child: TabBarView(
+                    children: [
+                      OverviewHabitChallenge(),
+                      OverviewHabitChallenge(),
+                      OverviewHabitChallenge(),
+                      OverviewHabitChallenge(),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),

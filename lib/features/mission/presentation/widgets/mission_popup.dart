@@ -31,7 +31,7 @@ class MissionPopup extends StatelessWidget {
     return AlertDialog(
       title: Text(missionName, style: Theme.of(context).textTheme.titleLarge),
       content: SizedBox(
-        width: 300, // Set your desired width
+        width: 300, 
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -75,10 +75,10 @@ class MissionPopup extends StatelessWidget {
             children: [SvgPicture.asset(AppImages.arrowForwardIcon)],
           ),
           onSubmit: () {
-            // Close the MissionPopup
+          
             Navigator.of(context).pop();
 
-            // Show the SuccessPopup dialog
+            
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -92,7 +92,7 @@ class MissionPopup extends StatelessWidget {
             Future.delayed(
               const Duration(seconds: 1),
               () {
-                // Check if currentState is not null before calling reset
+            
                 if (_key.currentState != null) {
                   _key.currentState!.reset();
                 }

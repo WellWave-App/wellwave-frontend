@@ -10,24 +10,24 @@ class SuccessPopup extends StatefulWidget {
 }
 
 class _SuccessPopupState extends State<SuccessPopup> {
-  bool _isClosed = false; 
+  bool _isClosed = false;
 
   @override
   void initState() {
     super.initState();
-    
+
     Future.delayed(const Duration(seconds: 3), () {
       if (!_isClosed) {
-        Navigator.of(context).pop(); 
+        Navigator.of(context).pop();
       }
     });
   }
 
   void _closePopup() {
     setState(() {
-      _isClosed = true; 
+      _isClosed = true;
     });
-    Navigator.of(context).pop(); 
+    Navigator.of(context).pop();
   }
 
   @override
@@ -93,14 +93,15 @@ class _SuccessPopupState extends State<SuccessPopup> {
                     Padding(
                       padding: const EdgeInsets.only(top: 36.0),
                       child: GestureDetector(
-                        onTap: _closePopup, 
+                        onTap: _closePopup,
                         child: const Text(
                           AppStrings.closeWindowText,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.black87,
+                            color: Colors.white,
                             decoration: TextDecoration.underline,
+                            decorationColor: Colors.white,
                           ),
                         ),
                       ),
