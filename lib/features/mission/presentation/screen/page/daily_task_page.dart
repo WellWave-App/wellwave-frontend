@@ -24,9 +24,8 @@ class DailyTaskPage extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               color: AppColors.secondaryDarkColor,
-              borderRadius: const BorderRadius.vertical(
-                bottom: Radius.circular(
-                    100), // Set the desired radius for the bottom corners
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(100),
               ),
             ),
             height: MediaQuery.of(context).size.height * 0.18,
@@ -35,8 +34,7 @@ class DailyTaskPage extends StatelessWidget {
             children: [
               const SizedBox(height: 16),
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // Center items horizontally
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     AppStrings.taskCompletedWithGemText,
@@ -45,8 +43,8 @@ class DailyTaskPage extends StatelessWidget {
                         ),
                   ),
                   Image.asset(
-                    AppImages.gemImage, // Show image
-                    width: 24, // Set image size
+                    AppImages.gemImage,
+                    width: 24,
                     height: 24,
                   ),
                   Text(

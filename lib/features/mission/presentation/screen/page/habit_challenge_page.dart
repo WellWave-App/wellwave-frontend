@@ -27,7 +27,7 @@ class HabitChallengePage extends StatelessWidget {
                 color: AppColors.mintColor,
                 borderRadius: const BorderRadius.vertical(
                   bottom: Radius.circular(
-                      100), // Set the desired radius for the bottom corners
+                      100), 
                 ),
               ),
               height: MediaQuery.of(context).size.height * 0.18,

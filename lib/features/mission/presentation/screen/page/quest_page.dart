@@ -26,7 +26,7 @@ class QuestPage extends StatelessWidget {
               color: AppColors.pinkColor,
               borderRadius: const BorderRadius.vertical(
                 bottom: Radius.circular(
-                    100), // Set the desired radius for the bottom corners
+                    100), 
               ),
             ),
             height: MediaQuery.of(context).size.height * 0.18,
@@ -36,7 +36,7 @@ class QuestPage extends StatelessWidget {
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment:
-                    MainAxisAlignment.center, // Center items horizontally
+                    MainAxisAlignment.center, 
                 children: [
                   Text(
                     AppStrings.taskCompletedWithGemText,
@@ -45,8 +45,8 @@ class QuestPage extends StatelessWidget {
                         ),
                   ),
                   Image.asset(
-                    AppImages.gemImage, // Show image
-                    width: 24, // Set image size
+                    AppImages.gemImage, 
+                    width: 24, 
                     height: 24,
                   ),
                   Text(
