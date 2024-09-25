@@ -22,4 +22,9 @@ class AppImages {
   static const questImage = 'assets/images/quest.png';
   static const gemImage = 'assets/images/gem.png';
   static const expImage = 'assets/images/exp.png';
+
+  static const calendarIcon = 'assets/icons/calendar.svg';
+  static const clockIcon = 'assets/icons/clock.svg';
+  static const arrowForwardIcon = 'assets/icons/arrow_forward.svg';
+  static const barSuccessImage = 'assets/images/bar_success.png';
 }

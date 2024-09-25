@@ -4,7 +4,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
-import 'package:wellwave_frontend/features/mission/presentation/widgets/task_goal_bottom_sheet.dart';
+import 'package:wellwave_frontend/features/mission/presentation/widgets/mission_popup.dart';
 
 class TaskListView extends StatelessWidget {
   final String? imagePath;
@@ -51,23 +51,32 @@ class TaskListView extends StatelessWidget {
             padding: const EdgeInsets.only(right: 12.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Image.asset(AppImages.expImage),
-                  const Text(' x10'),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Image.asset(AppImages.expImage),
+                    const Text(' x10'),
+                  ],
+                ),
               ),
               BlocProvider(
                 create: (context) => MissionBloc(),
                 child: ElevatedButton(
                   onPressed: () {
-                    showModalBottomSheet(
+                    showDialog(
                       context: context,
-                      isScrollControlled: true,
-                      barrierColor: Colors.black.withOpacity(0.3),
                       builder: (BuildContext context) {
-                        return const TaskGoalBottomSheet();
+                        return MissionPopup(
+                          missionName: 'Mission 1',
+                          completedDays: ['Day 1', 'Day 2'],
+                          reward: 15,
+                          receiveText: Text(
+                            AppStrings.prizesToBeReceivedText,
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
+                        );
                       },
                     );
                   },

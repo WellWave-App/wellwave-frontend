@@ -43,7 +43,14 @@ class AppStrings {
 
   static const setGoalText = 'กำหนดเป้าหมายภารกิจ ';
   static const tellGoalText = 'บอกให้เรารู้ถึงเป้าหมายของคุณ ';
-  static const  setDayText = 'จำนวนวัน ';
+  static const setDayText = 'จำนวนวัน ';
   static const setTimeText = 'จำนวนนาทีในแต่ละวัน ';
   static const confirmText = 'ยืนยัน ';
+
+  static const joinDateText = 'วันที่เข้าร่วม ';
+  static const prizesToBeReceivedText = 'รางวัลที่จะได้รับ ';
+  static const slideForSuccessText = 'สไลด์เมื่อเสร็จสิ้น ';
+
+  static const youReceivedText = 'คุณได้รับ';
+  static const closeWindowText = 'ปิดหน้าต่างนี้';
 }

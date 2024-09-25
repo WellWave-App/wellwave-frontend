@@ -16,7 +16,7 @@ class TaskGoalBottomSheet extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.5,
       padding: const EdgeInsets.all(16.0),
       decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 239, 231, 231),
+        color: AppColors.whiteColor,
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: Column(
@@ -82,7 +82,7 @@ class TaskGoalBottomSheet extends StatelessWidget {
             },
           ),
           const SizedBox(height: 12),
-          Divider(color: Colors.grey),
+          const Divider(color: Colors.grey),
           Padding(
             padding: const EdgeInsets.only(right: 22.0),
             child: Align(
@@ -172,3 +172,13 @@ class TaskGoalBottomSheet extends StatelessWidget {
     );
   }
 }
+
+
+//  showModalBottomSheet(
+//                       context: context,
+//                       isScrollControlled: true,
+//                       barrierColor: Colors.black.withOpacity(0.3),
+//                       builder: (BuildContext context) {
+//                         return const TaskGoalBottomSheet();
+//                       },
+//                     );
