@@ -1,5 +1,3 @@
-import 'package:wellwave_frontend/config/constants/app_images.dart';
-
 class AppStrings {
   static String uppercaseFirst(String text) {
     if (text.isEmpty) return text; // Handle empty string case
@@ -31,7 +29,7 @@ class AppStrings {
   static const questText = 'เควส';
   static const historyText = 'ประวัติ';
 
-  static const guideText = 'แนะนำ';
+  static const suggestText = 'แนะนำ';
   static const eatingText = 'การทานอาหาร';
   static const exerciseText = 'การออกกำลังกาย';
   static const sleepText = 'การนอน';
@@ -42,4 +40,10 @@ class AppStrings {
 
   static const taskCompletedWithGemText = 'ทำภารกิจให้ครบเพื่อรับ ';
   static const startText = 'เริ่ม ';
+
+  static const setGoalText = 'กำหนดเป้าหมายภารกิจ ';
+  static const tellGoalText = 'บอกให้เรารู้ถึงเป้าหมายของคุณ ';
+  static const  setDayText = 'จำนวนวัน ';
+  static const setTimeText = 'จำนวนนาทีในแต่ละวัน ';
+  static const confirmText = 'ยืนยัน ';
 }

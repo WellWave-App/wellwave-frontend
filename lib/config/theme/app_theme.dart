@@ -63,8 +63,8 @@ TextTheme textTheme(BuildContext context) {
     ),
     titleMedium: TextStyle(
       fontFamily: 'NotoSansThai',
-      fontWeight: FontWeight.w700,
-      fontSize: 22,
+      fontWeight: FontWeight.w400,
+      fontSize: 20,
       color: AppColors.blackColor,
     ),
     titleSmall: TextStyle(

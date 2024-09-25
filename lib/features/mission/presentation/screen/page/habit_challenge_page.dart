@@ -31,7 +31,7 @@ class HabitChallengePage extends StatelessWidget {
               indicatorColor: AppColors.blackColor,
               labelStyle: Theme.of(context).textTheme.titleSmall,
               tabs: const [
-                Tab(text: AppStrings.guideText),
+                Tab(text: AppStrings.suggestText),
                 Tab(text: AppStrings.eatingText),
                 Tab(text: AppStrings.exerciseText),
                 Tab(text: AppStrings.sleepText),

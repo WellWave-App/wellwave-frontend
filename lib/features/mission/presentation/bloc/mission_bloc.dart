@@ -1,65 +1,81 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 part 'mission_event.dart';
 part 'mission_state.dart';
 
 class MissionBloc extends Bloc<MissionEvent, MissionState> {
   MissionBloc() : super(MissionInitial()) {
-    // Habit Challenge Logic
-    on<IncrementDailyCount>((event, emit) {
-      if (state is HabitChallengeState) {
-        final currentState = state as HabitChallengeState;
+    on<IncrementDailyCountEvent>(_onIncreaseDailyCount);
+    on<DecrementDailyCountEvent>(_onDecreaseDailyCount);
+    on<IncrementMinuteCountEvent>(_onIncreaseMinuteCount);
+    on<DecrementMinuteCountEvent>(_onDecreaseMinuteCount);
+    on<ConfirmGoalEvent>(_onConfirmGoal);
+    on<ResetGoalEvent>(_onResetGoal);
+  }
+
+  void _onIncreaseDailyCount(
+      IncrementDailyCountEvent event, Emitter<MissionState> emit) {
+    if (state is HabitChallengeState) {
+      final currentState = state as HabitChallengeState;
+      if (currentState.dailyCount < 7) {
         emit(HabitChallengeState(
           dailyCount: currentState.dailyCount + 1,
           minuteCount: currentState.minuteCount,
         ));
-      } else {
-        emit( HabitChallengeState(dailyCount: 2, minuteCount: 1));
       }
-    });
+    } else {
+      emit(HabitChallengeState(dailyCount: 1, minuteCount: 5));
+    }
+  }
 
-    on<DecrementDailyCount>((event, emit) {
-      if (state is HabitChallengeState) {
-        final currentState = state as HabitChallengeState;
-        if (currentState.dailyCount > 1) {
-          emit(HabitChallengeState(
-            dailyCount: currentState.dailyCount - 1,
-            minuteCount: currentState.minuteCount,
-          ));
-        }
-      }
-    });
-
-    on<IncrementMinuteCount>((event, emit) {
-      if (state is HabitChallengeState) {
-        final currentState = state as HabitChallengeState;
+  void _onDecreaseDailyCount(
+      DecrementDailyCountEvent event, Emitter<MissionState> emit) {
+    if (state is HabitChallengeState) {
+      final currentState = state as HabitChallengeState;
+      if (currentState.dailyCount > 1) {
         emit(HabitChallengeState(
-          dailyCount: currentState.dailyCount,
-          minuteCount: currentState.minuteCount + 1,
+          dailyCount: currentState.dailyCount - 1,
+          minuteCount: currentState.minuteCount,
         ));
       }
-    });
+    }
+  }
 
-    on<DecrementMinuteCount>((event, emit) {
-      if (state is HabitChallengeState) {
-        final currentState = state as HabitChallengeState;
-        if (currentState.minuteCount > 1) {
-          emit(HabitChallengeState(
-            dailyCount: currentState.dailyCount,
-            minuteCount: currentState.minuteCount - 1,
-          ));
-        }
-      }
-    });
+  void _onIncreaseMinuteCount(
+      IncrementMinuteCountEvent event, Emitter<MissionState> emit) {
+    if (state is HabitChallengeState) {
+      final currentState = state as HabitChallengeState;
+      emit(HabitChallengeState(
+        dailyCount: currentState.dailyCount,
+        minuteCount: currentState.minuteCount + event.incrementBy,
+      ));
+    } else {
+      emit(HabitChallengeState(dailyCount: 1, minuteCount: 5));
+    }
+  }
 
-    // Daily Task Logic
-    on<CompleteTaskEvent>((event, emit) {
-      try {
-        emit(TaskCompletedState());
-      } catch (e) {
-        emit(MissionInitial());
+  void _onDecreaseMinuteCount(
+      DecrementMinuteCountEvent event, Emitter<MissionState> emit) {
+    if (state is HabitChallengeState) {
+      final currentState = state as HabitChallengeState;
+      if (currentState.minuteCount > event.decrementBy) {
+        emit(HabitChallengeState(
+          dailyCount: currentState.dailyCount,
+          minuteCount: currentState.minuteCount - event.decrementBy,
+        ));
       }
-    });
+    }
+  }
+
+  void _onConfirmGoal(ConfirmGoalEvent event, Emitter<MissionState> emit) {
+    emit(HabitChallengeState(
+      dailyCount: event.dailyCount,
+      minuteCount: event.minuteCount,
+    ));
+  }
+
+  void _onResetGoal(ResetGoalEvent event, Emitter<MissionState> emit) {
+    emit(HabitChallengeState(
+        dailyCount: 1, minuteCount: 5)); // Reset to defaults
   }
 }
