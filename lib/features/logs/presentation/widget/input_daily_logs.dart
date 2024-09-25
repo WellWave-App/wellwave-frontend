@@ -15,7 +15,7 @@ class InputDailyLogs extends StatefulWidget {
     required this.initialUnits,
     required this.title,
     required this.unitLabel,
-    this.maxLevel = 11,
+    this.maxLevel = 0,
     required this.svgIcons, // SVG icons need to be passed
   });
 
@@ -26,16 +26,13 @@ class InputDailyLogs extends StatefulWidget {
 class _InputDailyLogsState extends State<InputDailyLogs> {
   late int inputLevel;
 
-  @override
-  void initState() {
-    super.initState();
-    inputLevel = widget.initialUnits;
-  }
-
   void increaseInputLevel() {
     setState(() {
       if (inputLevel < widget.maxLevel - 1) {
+        // Ensure it doesn't exceed max level
         inputLevel++;
+      } else {
+        print('Max level reached');
       }
     });
   }
@@ -46,6 +43,13 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
         inputLevel--;
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    inputLevel = widget.initialUnits
+        .clamp(0, widget.maxLevel - 1); // Ensure it starts within range
   }
 
   Widget buildInputIcon(double size) {
@@ -63,8 +67,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
       title: Center(
         child: Text(
           widget.title,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              ),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(),
         ),
       ),
       content: Column(
@@ -108,22 +111,31 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
       ),
       actions: [
         TextButton(
-  style: ButtonStyle(
-    padding: WidgetStateProperty.all<EdgeInsets>(
-      EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-    ),
-            foregroundColor: WidgetStateProperty.all<Color>(AppColors.backgroundColor),
-            backgroundColor: WidgetStateProperty.all<Color>(AppColors.primaryColor),
+          style: ButtonStyle(
+            padding: WidgetStateProperty.all<EdgeInsets>(
+              EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+            ),
+            foregroundColor:
+                WidgetStateProperty.all<Color>(AppColors.backgroundColor),
+            backgroundColor:
+                WidgetStateProperty.all<Color>(AppColors.primaryColor),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-      RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40.0), // Adjust border radius for round corners
-      ),
-          ),),
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    40.0), // Adjust border radius for round corners
+              ),
+            ),
+          ),
           onPressed: () => Navigator.pop(context, inputLevel),
-          child: Center(child: Text(AppStrings.confirmText, style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.backgroundColor)),
-        ),
-    )],
+          child: Center(
+            child: Text(AppStrings.confirmText,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: AppColors.backgroundColor)),
+          ),
+        )
+      ],
     );
   }
 }
