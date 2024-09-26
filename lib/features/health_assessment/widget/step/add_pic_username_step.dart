@@ -84,7 +84,7 @@ class AddPicUsernameStep extends StatelessWidget {
             ],
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'กรุณากรอกชื่อผู้ใช้งาน';
+                return 'กรุณากรอกชื่อผู้ใช้';
               }
               return null;
             },

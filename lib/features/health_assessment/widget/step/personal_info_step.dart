@@ -4,11 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
 
 class PersonalInfoStep extends StatelessWidget {
+  // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   const PersonalInfoStep({Key? key}) : super(key: key);
 
   @override
@@ -118,7 +118,7 @@ class PersonalInfoStep extends StatelessWidget {
                 ),
                 Text(
                   'กรุณากรอกเพศของคุณ',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
                         color: const Color(0xFFBE4B43),
                       ),
                 ),

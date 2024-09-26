@@ -64,6 +64,7 @@ class AssessmentState extends Equatable {
     int? riskHypertensionScore,
     int? riskDyslipidemiaScore,
     int? riskObesityScore,
+    bool? isLoading,
   }) {
     return AssessmentState(
       currentStep: currentStep ?? this.currentStep,

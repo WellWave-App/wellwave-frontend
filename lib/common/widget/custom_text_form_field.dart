@@ -54,9 +54,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       focusNode: _focusNode,
       controller: _controller,
       keyboardType: widget.keyboardType,
-      inputFormatters: widget.inputFormatters,
+      inputFormatters: _getInputFormatters(),
       style: Theme.of(context).textTheme.titleSmall,
-      validator: widget.validator,
+      validator: (value) {
+        if (widget.validator != null) {
+          return widget.validator!(value);
+        }
+        return null;
+      },
       onChanged: widget.onChanged,
       decoration: InputDecoration(
         labelText: widget.labelText,

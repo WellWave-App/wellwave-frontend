@@ -154,7 +154,7 @@ class RiskHypertensionCondition {
       };
     } else {
       return {
-        'text': AppStrings.RiskText,
+        'text': AppStrings.riskText,
         'color': AppColors.redLevelTextColor,
       };
     }
@@ -170,7 +170,7 @@ class RiskDyslipidemiaCondition {
       };
     } else {
       return {
-        'text': AppStrings.RiskText,
+        'text': AppStrings.riskText,
         'color': AppColors.redLevelTextColor,
       };
     }
@@ -191,7 +191,7 @@ class RiskObesityCondition {
       };
     } else {
       return {
-        'text': AppStrings.RiskText,
+        'text': AppStrings.riskText,
         'color': AppColors.redLevelTextColor,
       };
     }
@@ -203,7 +203,7 @@ class RiskTextCondition {
     debugPrint('averageRiskScore: $averageRiskScore');
     if (averageRiskScore > 0.8) {
       return {
-        'text': AppStrings.RiskText,
+        'text': AppStrings.riskText,
         'color': AppColors.redLevelTextColor,
       };
     } else if (averageRiskScore > 0.6) {

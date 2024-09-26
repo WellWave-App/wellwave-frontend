@@ -48,12 +48,3 @@ class UpdateRiskScoreEvent {
 
   UpdateRiskScoreEvent(this.scoreType, this.scoreToAdd);
 }
-
-class SendHealthAssessmentData extends AssessmentEvent {
-  final HealthAssessmentRequestModel requestModel;
-
-  SendHealthAssessmentData(this.requestModel);
-
-  @override
-  List<Object> get props => [requestModel];
-}

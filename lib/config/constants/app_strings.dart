@@ -6,7 +6,7 @@ class AppStrings {
 
   static const emptyText = '';
 
-  static const RiskText = 'เสี่ยง';
+  static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';
   static const highRiskText = 'เสี่ยงสูง';
@@ -16,4 +16,7 @@ class AppStrings {
   static const hypertensionText = 'โรคความดันโลหิตสูง';
   static const obesityText = 'โรคอ้วน';
   static const hyperlipidemiaText = 'โรคไขมันในเลือดสูง';
+  static const coronaryArteryText = 'โรคหลอดเลือดหัวใจ';
+  static const paralysisText = 'โรคอัมพาต';
+  static const unknownDiseaseText = 'ไม่ทราบ / ไม่มีประวัติเจ็บป่วย';
 }

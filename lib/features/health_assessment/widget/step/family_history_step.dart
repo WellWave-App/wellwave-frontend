@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/rectangle_box.dart';
 
 class FamilyHistoryStep extends StatelessWidget {
@@ -23,12 +24,12 @@ class FamilyHistoryStep extends StatelessWidget {
             children: [
               RectangleBox(
                 icon: AppImages.famhistoryHyperIcon,
-                title: "โรคความดันโลหิตสูง",
+                title: AppStrings.hypertensionText,
                 isMultiSelect: true,
               ),
               RectangleBox(
-                icon: AppImages.famhistoryVascularIcon,
-                title: "โรคไขมันในหลอดเลือดผิดปกติ",
+                icon: AppImages.famhistoryArteryIcon,
+                title: AppStrings.coronaryArteryText,
                 isMultiSelect: true,
               ),
             ],
@@ -41,12 +42,12 @@ class FamilyHistoryStep extends StatelessWidget {
             children: [
               RectangleBox(
                 icon: AppImages.famhistoryDiabetesIcon,
-                title: "โรคเบาหวาน",
+                title: AppStrings.diabetesText,
                 isMultiSelect: true,
               ),
               RectangleBox(
-                icon: AppImages.famhistoryParalysisIcon,
-                title: "โรคอัมพาต",
+                icon: AppImages.famhistoryVascularIcon,
+                title: AppStrings.hyperlipidemiaText,
                 isMultiSelect: true,
               ),
             ],
@@ -58,13 +59,13 @@ class FamilyHistoryStep extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               RectangleBox(
-                icon: AppImages.famhistoryArteryIcon,
-                title: "โรคหลอดเลือดหัวใจ",
+                icon: AppImages.famhistoryParalysisIcon,
+                title: AppStrings.paralysisText,
                 isMultiSelect: true,
               ),
               RectangleBox(
                 icon: AppImages.famhistoryConfusedIcon,
-                title: "ไม่ทราบ / ไม่มีประวัติเจ็บป่วย",
+                title: AppStrings.unknownDiseaseText,
                 isMultiSelect: true,
               ),
             ],

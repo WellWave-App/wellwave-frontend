@@ -29,8 +29,8 @@ class ResultAssessment extends StatelessWidget {
                 (state.riskDiabetesScore / 16)) /
             4;
 
-        if (state.showHealthConnect) {
-          return HealthConnectScreen();
+        if (state.showRecommend) {
+          return RecommendScreen();
         }
 
         return Scaffold(
@@ -48,25 +48,25 @@ class ResultAssessment extends StatelessWidget {
                 Column(
                   children: [
                     GaugeWidget(averageRiskScore: averageRiskScore),
-                    const SizedBox(height: 64),
+                    const SizedBox(height: 48),
                     RiskCard(
                       title: "เบาหวาน",
                       riskScore: state.riskDiabetesScore,
                       getRiskTextMethod: RiskDiseaseCondition.getRiskText,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
                     RiskCard(
                       title: "ความดันโลหิต",
                       riskScore: state.riskHypertensionScore,
                       getRiskTextMethod: RiskHypertensionCondition.getRiskText,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
                     RiskCard(
                       title: "ไขมันในเลือด",
                       riskScore: state.riskDyslipidemiaScore,
                       getRiskTextMethod: RiskDyslipidemiaCondition.getRiskText,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
                     RiskCard(
                       title: "โรคอ้วน",
                       riskScore: state.riskObesityScore,
@@ -84,59 +84,75 @@ class ResultAssessment extends StatelessWidget {
                         bgColor: AppColors.primaryColor,
                         textColor: AppColors.backgroundColor,
                         onPressed: () {
-                          final healthAssessmentModel =
-                              HealthAssessmentRequestModel(
-                            diastolicBloodPressure:
-                                double.tryParse(state.formData['dbp'] ?? '0') ??
-                                    0.0,
-                            systolicBloodPressure:
-                                double.tryParse(state.formData['sbp'] ?? '0') ??
-                                    0.0,
-                            hdl:
-                                double.tryParse(state.formData['hdl'] ?? '0') ??
-                                    0.0,
-                            ldl:
-                                double.tryParse(state.formData['ldl'] ?? '0') ??
-                                    0.0,
-                            waistLine: double.tryParse(
-                                    state.formData['waistLine'] ?? '0') ??
-                                0.0,
-                            hasHypertension:
-                                state.riskHypertensionScore > 0 ? true : false,
-                            hasDiabetes:
-                                state.riskDiabetesScore > 0 ? true : false,
-                            hasDyslipidemia:
-                                state.riskDyslipidemiaScore > 0 ? true : false,
-                            hasObesity:
-                                state.riskObesityScore > 0 ? true : false,
-                            imageUrl: state.formData['imageUrl'] ?? '',
-                            username: state.formData['username'] ?? '',
-                            yearOfBirth: int.tryParse(
-                                    state.formData['birthYear'] ?? '0') ??
-                                0,
-                            gender: (state.formData['gender'] == 'male')
-                                ? 0
-                                : (state.formData['gender'] == 'female')
-                                    ? 1
-                                    : -1,
-                            height: double.tryParse(
-                                    state.formData['height'] ?? '0') ??
-                                0.0,
-                            weight: double.tryParse(
-                                    state.formData['weight'] ?? '0') ??
-                                0.0,
-                            userGoal: (state.formData['userGoal'] ==
-                                    'สร้างกล้ามเนื้อ')
-                                ? 0
-                                : (state.formData['userGoal'] == 'ลดน้ำหนัก')
-                                    ? 1
-                                    : (state.formData['userGoal'] == 'สุขภาพดี')
-                                        ? 2
-                                        : -1,
-                          );
-                          context.read<AssessmentBloc>().add(
-                              SendHealthAssessmentData(healthAssessmentModel));
+                          context
+                              .read<AssessmentBloc>()
+                              .add(ShowRecommendEvent());
+                        },
+                        title: 'ถัดไป',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
 
+class RecommendScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AssessmentBloc, AssessmentState>(
+      builder: (context, state) {
+        if (state.showHealthConnect) {
+          return HealthConnectScreen();
+        }
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Stack(
+              children: [
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(AppImages.recommendPlanIcon),
+                      const SizedBox(height: 64),
+                      Text(
+                        "คำแนะนำสำหรับคุณ",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(color: AppColors.blackColor),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        "ลดอาหารประเภทแป้ง และอาหารไขมันสูง ออกกำลังกายอย่างสม่ำเสมอ อย่างน้อย 3 ครั้งต่อสัปดาห์ ครั้งละ 30-60 นาที",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: AppColors.blackColor),
+                      ),
+                      const SizedBox(height: 72),
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CustomButton(
+                        width: 250,
+                        bgColor: AppColors.primaryColor,
+                        textColor: AppColors.backgroundColor,
+                        onPressed: () {
                           context
                               .read<AssessmentBloc>()
                               .add(ShowHealthConnectEvent());
@@ -160,8 +176,8 @@ class HealthConnectScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AssessmentBloc, AssessmentState>(
       builder: (context, state) {
-        if (state.showRecommend) {
-          return RecommendScreen();
+        if (state.showFinish) {
+          return FinishScreen();
         }
         return Scaffold(
           body: Padding(
@@ -210,7 +226,7 @@ class HealthConnectScreen extends StatelessWidget {
                           onPressed: () {
                             context
                                 .read<AssessmentBloc>()
-                                .add(ShowRecommendEvent());
+                                .add(ShowFinishEvent());
                           },
                           title: 'เชื่อมต่อทันที',
                         ),
@@ -222,79 +238,12 @@ class HealthConnectScreen extends StatelessWidget {
                           onPressed: () {
                             context
                                 .read<AssessmentBloc>()
-                                .add(ShowRecommendEvent());
+                                .add(ShowFinishEvent());
                           },
                           title: 'ไว้ภายหลัง',
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class RecommendScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AssessmentBloc, AssessmentState>(
-      builder: (context, state) {
-        if (state.showFinish) {
-          return FinishScreen();
-        }
-        return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Stack(
-              children: [
-                Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(AppImages.recommendPlanIcon),
-                      const SizedBox(height: 64),
-                      Text(
-                        "คำแนะนำสำหรับคุณ",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.copyWith(color: AppColors.blackColor),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        "ลดอาหารประเภทแป้ง และอาหารไขมันสูง ออกกำลังกายอย่างสม่ำเสมอ อย่างน้อย 3 ครั้งต่อสัปดาห์ ครั้งละ 30-60 นาที",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppColors.blackColor),
-                      ),
-                      const SizedBox(height: 72),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CustomButton(
-                        width: 250,
-                        bgColor: AppColors.primaryColor,
-                        textColor: AppColors.backgroundColor,
-                        onPressed: () {
-                          context.read<AssessmentBloc>().add(ShowFinishEvent());
-                        },
-                        title: 'ถัดไป',
-                      ),
-                    ],
                   ),
                 ),
               ],

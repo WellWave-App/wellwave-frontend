@@ -5,6 +5,8 @@ import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_request_model.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
@@ -88,15 +90,67 @@ class AssessmentScreenView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
-                  child: CustomButton(
-                    width: 250,
-                    bgColor: AppColors.primaryColor,
-                    textColor: AppColors.whiteColor,
-                    onPressed: () {
-                      context.read<AssessmentBloc>().add(StepContinue());
-                    },
-                    title: state.currentStep == 6 ? 'เสร็จสิ้น' : 'ถัดไป',
-                  ),
+                  child: !((state.currentStep == 3 &&
+                              state.famhisChoose.isEmpty) ||
+                          (state.currentStep == 4 &&
+                              state.alcoholChoose == null) ||
+                          (state.currentStep == 5 &&
+                              state.smokeChoose == null) ||
+                          (state.currentStep == 6 && state.goalChoose == null))
+                      ? CustomButton(
+                          width: 250,
+                          bgColor: AppColors.primaryColor,
+                          textColor: AppColors.whiteColor,
+                          onPressed: () {
+                            if (state.currentStep == 0) {
+                              if (formKey.currentState!.validate()) {
+                                context
+                                    .read<AssessmentBloc>()
+                                    .add(StepContinue());
+                              }
+                            } else if (state.currentStep == 1) {
+                              context
+                                  .read<AssessmentBloc>()
+                                  .add(ValidateGender());
+                              if (formKey.currentState!.validate() &&
+                                  !state.genderError) {
+                                context
+                                    .read<AssessmentBloc>()
+                                    .add(StepContinue());
+                              }
+                            } else if (state.currentStep == 3) {
+                              if (state.famhisChoose.isNotEmpty) {
+                                context
+                                    .read<AssessmentBloc>()
+                                    .add(StepContinue());
+                              }
+                            } else if (state.currentStep == 4) {
+                              if (state.alcoholChoose != null) {
+                                context
+                                    .read<AssessmentBloc>()
+                                    .add(StepContinue());
+                              }
+                            } else if (state.currentStep == 5) {
+                              if (state.smokeChoose != null) {
+                                context
+                                    .read<AssessmentBloc>()
+                                    .add(StepContinue());
+                              }
+                            } else if (state.currentStep == 6) {
+                              if (state.goalChoose != null) {
+                                context
+                                    .read<AssessmentBloc>()
+                                    .add(StepContinue());
+                              }
+                            } else {
+                              context
+                                  .read<AssessmentBloc>()
+                                  .add(StepContinue());
+                            }
+                          },
+                          title: state.currentStep == 6 ? 'เสร็จสิ้น' : 'ถัดไป',
+                        )
+                      : Container(),
                 ),
               ],
             ),
