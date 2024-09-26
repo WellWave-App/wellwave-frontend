@@ -7,6 +7,11 @@ class LogsFetched extends LogsEvent{
   LogsFetched({required this.date});
 }
 
+class LogsFetchedWeekly extends LogsEvent{
+  final DateTime date;
+  LogsFetchedWeekly({required this.date});
+}
+
 class SubmitLogEvent extends LogsEvent {
   final String logName;
   final int value;

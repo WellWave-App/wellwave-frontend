@@ -14,13 +14,14 @@ class WeeklyLogsWidget extends StatelessWidget {
     required this.selectedDate,
   }) : super(key: key);
 
+
   
 
   @override
   Widget build(BuildContext context) {
-    context.read<LogsBloc>().add(
-  LogsFetched(date: selectedDate),);
-  
+    context.read<LogsBloc>().add(LogsFetchedWeekly(date: selectedDate));
+
+
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

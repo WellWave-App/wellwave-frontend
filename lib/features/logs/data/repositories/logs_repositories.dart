@@ -85,4 +85,31 @@ class LogsRequestRepository {
       return [];
     }
   }
+
+  Future<List<LogsRequestModel?>> getWeeklyLogs(String uID, DateTime date) async {
+  try {
+
+    String baseUrl = 'http://10.0.2.2:3000';
+    final response = await http.get(
+      Uri.parse(
+        "$baseUrl/logs/user/$uID?startDate=${date.toIso8601String()}",
+      ),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      List<dynamic> logsJson = jsonData['LOGS'];
+      debugPrint('Fetched Weekly Logs: ${response.body}');
+      return logsJson.map((log) => LogsRequestModel.fromJson(log)).toList();
+    }
+    return [];
+  } catch (e) {
+    debugPrint('Error: $e');
+    return [];
+  }
+}
+
 }

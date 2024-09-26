@@ -11,6 +11,8 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
 
   LogsBloc(this._logsRequestRepository) : super(LogsInitial()) {
     on<LogsFetched>(_onLogsFetches);
+    on<LogsFetchedWeekly>(
+        _onWeeklyLogsFetches); // Ensure this is properly registered
     on<SubmitLogEvent>((event, emit) async {
       await submitLog(event.logName, event.value, event.selectedDate,
           _logsRequestRepository);
@@ -31,13 +33,26 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     }
   }
 
+  Future<void> _onWeeklyLogsFetches(
+      LogsFetchedWeekly event, Emitter<LogsState> emit) async {
+    emit(LogsLoadInProgress());
+
+    try {
+      final logsList =
+          await _logsRequestRepository.getWeeklyLogs('1', event.date);
+      emit(LogsLoadSuccess(logslist: logsList));
+    } catch (e) {
+      emit(LogsError(message: e.toString()));
+    }
+  }
+
   Future<void> submitLog(String logName, int value, String selectedDate,
       LogsRequestRepository logsRepository) async {
     try {
       bool success = await logsRepository.createLogsRequest(
         value: value,
         logName: logName,
-        uid: 1, 
+        uid: 1,
         date: selectedDate,
       );
       if (success) {
