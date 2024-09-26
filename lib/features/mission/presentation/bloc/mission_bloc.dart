@@ -11,6 +11,8 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     on<DecrementMinuteCountEvent>(_onDecreaseMinuteCount);
     on<ConfirmGoalEvent>(_onConfirmGoal);
     on<ResetGoalEvent>(_onResetGoal);
+    // on<EnableButtonEvent>(_onEnableButton);
+    // on<DisableButtonEvent>(_onDisableButton);
   }
 
   void _onIncreaseDailyCount(
@@ -78,4 +80,28 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     emit(HabitChallengeState(
         dailyCount: 1, minuteCount: 5)); // Reset to defaults
   }
+
+  // void _onEnableButton(EnableButtonEvent event, Emitter<MissionState> emit) {
+  //   if (state is HabitChallengeState) {
+  //     final currentState = state as HabitChallengeState;
+  //     emit(HabitChallengeState(
+  //       dailyCount: currentState.dailyCount,
+  //       minuteCount: currentState.minuteCount,
+  //       isButtonEnabled: true,
+  //     ));
+  //   }
+  // }
+
+  // void _onDisableButton(DisableButtonEvent event, Emitter<MissionState> emit) {
+  //   if (state is HabitChallengeState) {
+  //     final currentState = state as HabitChallengeState;
+  //     // Print statement to check if this function is being triggered
+  //     debugPrint('Disabling button...');
+  //     emit(HabitChallengeState(
+  //       dailyCount: currentState.dailyCount,
+  //       minuteCount: currentState.minuteCount,
+  //       isButtonEnabled: false, // Set button to disabled (gray)
+  //     ));
+  //   }
+  // }
 }

@@ -25,7 +25,7 @@ class HabitChallengePage extends StatelessWidget {
             Container(
               decoration: const BoxDecoration(
                 color: AppColors.mintColor,
-                borderRadius: const BorderRadius.vertical(
+                borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(
                       100), 
                 ),

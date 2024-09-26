@@ -34,3 +34,7 @@ class ResetGoalEvent extends MissionEvent {}
 
 // Daily Task Events
 class CompleteTaskEvent extends MissionEvent {}
+
+class EnableButtonEvent extends MissionEvent {}
+
+class DisableButtonEvent extends MissionEvent {}

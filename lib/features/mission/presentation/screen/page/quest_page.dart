@@ -3,7 +3,6 @@ import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/presentation/widgets/overview_daily.dart';
-import '../../../../../config/constants/app_images.dart';
 
 class QuestPage extends StatelessWidget {
   const QuestPage({super.key});
@@ -13,7 +12,7 @@ class QuestPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         context: context,
-        title: AppStrings.dailyTaskText,
+        title: AppStrings.questText,
         backgroundColor: AppColors.pinkColor,
         titleColor: AppColors.whiteColor,
         textColor: AppColors.whiteColor,
@@ -24,42 +23,14 @@ class QuestPage extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               color: AppColors.pinkColor,
-              borderRadius: const BorderRadius.vertical(
-                bottom: Radius.circular(
-                    100), 
+              borderRadius:  BorderRadius.vertical(
+                bottom: Radius.circular(100),
               ),
             ),
-            height: MediaQuery.of(context).size.height * 0.18,
+            height: MediaQuery.of(context).size.height * 0.15,
           ),
-          Column(
-            children: [
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, 
-                children: [
-                  Text(
-                    AppStrings.taskCompletedWithGemText,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.whiteColor,
-                        ),
-                  ),
-                  Image.asset(
-                    AppImages.gemImage, 
-                    width: 24, 
-                    height: 24,
-                  ),
-                  Text(
-                    ' x15',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.whiteColor,
-                        ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              const OverviewDaily()
-            ],
+          const Column(
+            children: [SizedBox(height: 16), OverviewDaily()],
           )
         ],
       ),

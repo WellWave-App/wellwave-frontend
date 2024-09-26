@@ -26,7 +26,7 @@ class MissionPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<SlideActionState> _key = GlobalKey();
+    final GlobalKey<SlideActionState> key = GlobalKey();
 
     return AlertDialog(
       title: Text(missionName, style: Theme.of(context).textTheme.titleLarge),
@@ -65,7 +65,7 @@ class MissionPopup extends StatelessWidget {
       ),
       actions: <Widget>[
         SlideAction(
-          key: _key,
+          key: key,
           outerColor: AppColors.secondaryDarkColor,
           text: AppStrings.slideForSuccessText,
           textStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -93,8 +93,8 @@ class MissionPopup extends StatelessWidget {
               const Duration(seconds: 1),
               () {
             
-                if (_key.currentState != null) {
-                  _key.currentState!.reset();
+                if (key.currentState != null) {
+                  key.currentState!.reset();
                 }
               },
             );

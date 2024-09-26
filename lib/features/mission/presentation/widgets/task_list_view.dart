@@ -61,45 +61,57 @@ class TaskListView extends StatelessWidget {
                   ],
                 ),
               ),
-              BlocProvider(
-                create: (context) => MissionBloc(),
-                child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return MissionPopup(
-                          missionName: 'Mission 1',
-                          completedDays: ['Day 1', 'Day 2'],
-                          reward: 15,
-                          receiveText: Text(
-                            AppStrings.prizesToBeReceivedText,
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
-                    foregroundColor: AppColors.whiteColor,
-                    minimumSize: const Size(64, 28),
-                    side: const BorderSide(
-                      color: AppColors.whiteColor,
-                      width: 2.0,
+              BlocBuilder<MissionBloc, MissionState>(
+                builder: (context, state) {
+                  
+                  bool isButtonDisabled =
+                      state is HabitChallengeState && state.dailyCount > 0;
+
+                  return ElevatedButton(
+                    onPressed: isButtonDisabled
+                        ? null 
+                        : () {
+                            context.read<MissionBloc>().add(ConfirmGoalEvent(
+                                dailyCount: 1,
+                                minuteCount:
+                                    5)); 
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return MissionPopup(
+                                  missionName: 'Mission 1',
+                                  completedDays: ['Day 1', 'Day 2'],
+                                  reward: 15,
+                                  receiveText: Text(
+                                    AppStrings.prizesToBeReceivedText,
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge,
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryColor,
+                      foregroundColor: AppColors.whiteColor,
+                      minimumSize: const Size(64, 28),
+                      side: const BorderSide(
+                        color: AppColors.whiteColor,
+                        width: 2.0,
+                      ),
+                      elevation: 2,
+                      shadowColor: AppColors.darkGrayColor,
                     ),
-                    elevation: 2,
-                    shadowColor: AppColors.darkGrayColor,
-                  ),
-                  child: Text(
-                    AppStrings.startText,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall
-                        ?.copyWith(color: AppColors.whiteColor),
-                  ),
-                ),
+                    child: Text(
+                      AppStrings.startText,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.copyWith(color: AppColors.whiteColor),
+                    ),
+                  );
+                },
               ),
             ]),
           ),
