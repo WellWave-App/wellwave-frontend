@@ -7,10 +7,20 @@ import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc
 import 'package:wellwave_frontend/features/logs/presentation/widget/logs_history_card.dart';
 
 class DailyLogsWidget extends StatelessWidget {
-  const DailyLogsWidget({super.key});
+  final DateTime selectedDate;
+
+  const DailyLogsWidget({
+    Key? key,
+    required this.selectedDate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    context.read<LogsBloc>().add(
+  LogsFetched(date: selectedDate),
+);
+
+
     return Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -30,6 +40,7 @@ class DailyLogsWidget extends StatelessWidget {
                       if (state is LogsLoadInProgress) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (state is LogsLoadSuccess) {
+                        debugPrint('Received LogsLoadDailySuccess with ${state.logslist.length} logs');
                         double? selectedSleepHours;
                         double? selectedDrinkLogs;
 

@@ -21,7 +21,7 @@ class _DailyLogsState extends State<DailyLogs> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<LogsBloc>(context).add(LogsFetched(date: selectedDate));
+    BlocProvider.of<LogsBloc>(context).add(LogsFetched(date: DateTime.now()));
   }
 
   @override

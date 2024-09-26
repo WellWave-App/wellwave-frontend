@@ -20,7 +20,7 @@ class AppStrings {
   static const confirmText = 'ยืนยัน';
   static const weightRecordText = 'บันทึกค่าน้ำหนัก';
   static const kgText = 'กก.';
-  static const weightLineRecordText = 'บันทึกรอบเอว';
+  static const waistLineRecordText = 'บันทึกรอบเอว';
   static const cmText = 'ซม.';
   static const hdlRecordText = 'บันทึกค่า HDL';
   static const ldlRecordText = 'บันทึกค่า LDL';
@@ -41,6 +41,7 @@ class AppStrings {
   static const drinkText = 'ดื่มน้ำ';
   static const errorShow = 'Error:';
   static const enterText = 'เข้าสู่แอพ';
+  static const waistLineText = 'รอบเอว';
 
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
   static const metabolicDescriptionText =

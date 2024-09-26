@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/scale_record_widget.dart';
 
 class InputWeeklyLogs extends StatefulWidget {
@@ -20,6 +22,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   num hdl = 65.0;
   num ldl = 165.0;
   int selectedMood = 4;
+  DateTime selectedDate = DateTime.now();
 
   final List<String> moodIconsGrey = [
     AppImages.verySadGreyIcon,
@@ -103,7 +106,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
 
       case 1:
         return ScaleRecordWidget(
-          title: AppStrings.weightLineRecordText,
+          title: AppStrings.waistLineRecordText,
           label: AppStrings.cmText,
           initialValue: weightLine,
           controller: weightLineController,
@@ -198,12 +201,33 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
       Expanded(
         child: TextButton(
           onPressed: () {
-            if (currentStep == 4) {
-              Navigator.pop(context);
-            } else {
-              setState(() {
-                currentStep = 0;
-              });
+            if (currentStep == 5) {
+              BlocProvider.of<LogsBloc>(context).add(
+                SubmitLogEvent(
+                  logName:
+                      'WEIGHT_LOG', // or HDL_LOG, LDL_LOG etc. depending on the step
+                  value: weight.toInt(), // Send the selected weight value
+                  selectedDate: selectedDate.toIso8601String(),
+                ),
+              );
+
+              BlocProvider.of<LogsBloc>(context).add(
+                SubmitLogEvent(
+                  logName: 'HDL_LOG', // for HDL
+                  value: hdl.toInt(), // Send the selected HDL value
+                  selectedDate: selectedDate.toIso8601String(),
+                ),
+              );
+
+              BlocProvider.of<LogsBloc>(context).add(
+                SubmitLogEvent(
+                  logName: 'LDL_LOG', // for LDL
+                  value: ldl.toInt(), // Send the selected LDL value
+                  selectedDate: selectedDate.toIso8601String(),
+                ),
+              );
+
+              // Once submission is done, you can navigate or show a confirmation message
               Navigator.pop(context);
             }
           },
@@ -211,7 +235,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             padding: WidgetStateProperty.all<EdgeInsets>(
               const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
             ),
-            backgroundColor: WidgetStateProperty.all(currentStep == 4
+            backgroundColor: WidgetStateProperty.all(currentStep == 5
                 ? AppColors.primaryColor
                 : Colors.transparent), // Blue if finished
             side: WidgetStateProperty.all(
@@ -223,23 +247,39 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             ),
           ),
           child: Text(
-              currentStep == 4
+              currentStep == 5
                   ? AppStrings.completedText
                   : AppStrings.cancleText,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: currentStep == 4
+                  color: currentStep == 5
                       ? Colors.white
                       : AppColors.primaryColor)),
         ),
       ),
       const SizedBox(width: 8),
+
       // Next or Confirm Button
-      if (currentStep < 4)
+      if (currentStep < 5)
         Expanded(
           child: TextButton(
             onPressed: () {
               setState(() {
-                currentStep++;
+                // Save the controller values when the "Next" button is pressed
+                if (currentStep == 0) {
+                  weight = weightController.value; // Save updated weight value
+                  debugPrint("Selected weight: $weight");
+                } else if (currentStep == 1) {
+                  weightLine =
+                      weightLineController.value; // Save weight line value
+                  debugPrint("Selected weight line: $weightLine");
+                } else if (currentStep == 2) {
+                  hdl = hdlController.value; // Save updated HDL value
+                  debugPrint("Selected HDL: $hdl");
+                } else if (currentStep == 3) {
+                  ldl = ldlController.value; // Save updated LDL value
+                  debugPrint("Selected LDL: $ldl");
+                }
+                currentStep++; // Move to the next step
               });
             },
             style: ButtonStyle(
@@ -255,7 +295,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
               ),
             ),
             child: Text(
-              currentStep == 3 ? AppStrings.confirmText : AppStrings.nextText,
+              currentStep == 4 ? AppStrings.confirmText : AppStrings.nextText,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Colors.white), // White text color for blue buttons
             ),

@@ -7,15 +7,23 @@ import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc
 import 'package:wellwave_frontend/features/logs/presentation/widget/logs_history_card.dart';
 
 class WeeklyLogsWidget extends StatelessWidget {
-  const WeeklyLogsWidget({super.key});
+  final DateTime selectedDate;
+
+  const WeeklyLogsWidget({
+    Key? key,
+    required this.selectedDate,
+  }) : super(key: key);
+
+  
 
   @override
   Widget build(BuildContext context) {
+    context.read<LogsBloc>().add(
+  LogsFetched(date: selectedDate),);
+  
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, 
-          children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             AppStrings.weeklyLogsText,
             style: Theme.of(context)
@@ -24,8 +32,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
-          BlocBuilder<LogsBloc, LogsState>(
-            builder: (context, state) {
+          BlocBuilder<LogsBloc, LogsState>(builder: (context, state) {
             if (state is LogsLoadInProgress) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is LogsLoadSuccess) {
@@ -58,9 +65,9 @@ class WeeklyLogsWidget extends StatelessWidget {
                           pngWidth: 64,
                           pngHeight: 64,
                         ),
-                        const SizedBox(height: 8.0),
                       ],
                     ),
+                  const SizedBox(height: 8.0),
                   if (hdlCount != null)
                     Row(
                       children: [
@@ -73,9 +80,9 @@ class WeeklyLogsWidget extends StatelessWidget {
                           pngWidth: 64,
                           pngHeight: 64,
                         ),
-                        const SizedBox(height: 8.0),
                       ],
                     ),
+                  const SizedBox(height: 8.0),
                   if (ldlCount != null)
                     Row(
                       children: [
@@ -88,9 +95,9 @@ class WeeklyLogsWidget extends StatelessWidget {
                           pngWidth: 64,
                           pngHeight: 64,
                         ),
-                        const SizedBox(height: 8.0),
                       ],
                     ),
+                  const SizedBox(height: 8.0),
                   if (stepCount == null && hdlCount == null && ldlCount == null)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

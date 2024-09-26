@@ -28,7 +28,7 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.initialValue;
+    _currentValue = widget.controller.value;
   }
 
   @override
@@ -66,6 +66,7 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
           onValueChanged: (value) {
             setState(() {
               _currentValue = value;
+               widget.controller.value = value;
             });
             widget.onValueChanged(value);
           },

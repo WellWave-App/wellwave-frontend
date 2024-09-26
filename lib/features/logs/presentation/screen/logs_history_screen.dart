@@ -44,12 +44,11 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
                 setState(() {
                   _selectedDate = date; // Update the selected date
                 });
-                context.read<LogsBloc>().add(LogsFetched(
-                    date: _selectedDate)); // Refetch logs with new date
+                
               },
             ),
-            const DailyLogsWidget(),
-            const WeeklyLogsWidget(),
+            DailyLogsWidget(selectedDate: _selectedDate),
+            WeeklyLogsWidget(selectedDate: _selectedDate),
           ],
         ),
       ),
