@@ -18,7 +18,7 @@ class InputWeeklyLogs extends StatefulWidget {
 class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   int currentStep = 0;
   num weight = 50.5;
-  num weightLine = 65.4;
+  num waistLine = 65.4;
   num hdl = 65.0;
   num ldl = 165.0;
   int selectedMood = 4;
@@ -42,7 +42,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
 
   final RulerPickerController weightController =
       RulerPickerController(value: 50.5);
-  final RulerPickerController weightLineController =
+  final RulerPickerController waistLineController =
       RulerPickerController(value: 65.4);
   final RulerPickerController hdlController =
       RulerPickerController(value: 65.0);
@@ -108,11 +108,11 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
         return ScaleRecordWidget(
           title: AppStrings.waistLineRecordText,
           label: AppStrings.cmText,
-          initialValue: weightLine,
-          controller: weightLineController,
+          initialValue: waistLine,
+          controller: waistLineController,
           onValueChanged: (value) {
             setState(() {
-              weightLine = value;
+              waistLine = value;
             });
           },
         );
@@ -205,16 +205,24 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
               BlocProvider.of<LogsBloc>(context).add(
                 SubmitLogEvent(
                   logName:
-                      'WEIGHT_LOG', // or HDL_LOG, LDL_LOG etc. depending on the step
-                  value: weight.toInt(), // Send the selected weight value
+                      'WEIGHT_LOG', 
+                  value: weight.toInt(), 
+                  selectedDate: selectedDate.toIso8601String(),
+                ),
+              );
+              BlocProvider.of<LogsBloc>(context).add(
+                SubmitLogEvent(
+                  logName:
+                      'WAIST_LINE_LOG', 
+                  value: waistLine.toInt(), 
                   selectedDate: selectedDate.toIso8601String(),
                 ),
               );
 
               BlocProvider.of<LogsBloc>(context).add(
                 SubmitLogEvent(
-                  logName: 'HDL_LOG', // for HDL
-                  value: hdl.toInt(), // Send the selected HDL value
+                  logName: 'HDL_LOG', 
+                  value: hdl.toInt(), 
                   selectedDate: selectedDate.toIso8601String(),
                 ),
               );
@@ -269,9 +277,9 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                   weight = weightController.value; // Save updated weight value
                   debugPrint("Selected weight: $weight");
                 } else if (currentStep == 1) {
-                  weightLine =
-                      weightLineController.value; // Save weight line value
-                  debugPrint("Selected weight line: $weightLine");
+                  waistLine =
+                      waistLineController.value; // Save weight line value
+                  debugPrint("Selected waist line: $waistLine");
                 } else if (currentStep == 2) {
                   hdl = hdlController.value; // Save updated HDL value
                   debugPrint("Selected HDL: $hdl");
