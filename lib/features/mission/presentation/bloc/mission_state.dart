@@ -24,6 +24,9 @@ class HabitChallengeState extends MissionState {
 }
 
 // Daily Task State
-class TaskCompletedState extends MissionState {}
 
-class TaskInProgressState extends MissionState {}
+class TaskCompletedState extends MissionState {
+  final bool isCompleted;
+
+  TaskCompletedState({this.isCompleted = true});
+}

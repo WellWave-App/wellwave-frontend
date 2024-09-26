@@ -7,17 +7,10 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
-class TaskListView extends StatefulWidget {
+class TaskListView extends StatelessWidget {
   final String? imagePath;
 
   const TaskListView({super.key, this.imagePath});
-
-  @override
-  _TaskListViewState createState() => _TaskListViewState();
-}
-
-class _TaskListViewState extends State<TaskListView> {
-  bool isButtonGray = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +38,8 @@ class _TaskListViewState extends State<TaskListView> {
                 height: 100,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: widget.imagePath != null
-                        ? AssetImage(widget.imagePath!)
+                    image: imagePath != null
+                        ? AssetImage(imagePath!)
                         : const AssetImage(AppImages.emptyComponentImage),
                   ),
                 ),
@@ -76,17 +69,16 @@ class _TaskListViewState extends State<TaskListView> {
                   ),
                   BlocBuilder<MissionBloc, MissionState>(
                     builder: (context, state) {
-                      bool isButtonDisabled =
-                          state is HabitChallengeState && state.dailyCount > 0;
+                      bool isButtonDisabled = state is TaskCompletedState;
 
                       return ElevatedButton(
-                        onPressed: isButtonDisabled || isButtonGray
+                        onPressed: isButtonDisabled
                             ? null
                             : () {
                                 _showMissionDialog(context);
                               },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isButtonGray
+                          backgroundColor: isButtonDisabled
                               ? Colors.grey
                               : AppColors.primaryColor,
                           foregroundColor: AppColors.whiteColor,
@@ -161,6 +153,7 @@ class _TaskListViewState extends State<TaskListView> {
               ),
               onSubmit: () {
                 Navigator.of(context).pop();
+
                 _showSuccessDialog(context);
                 return null;
               },
@@ -176,11 +169,13 @@ class _TaskListViewState extends State<TaskListView> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        // ตั้งค่าการปิด Dialog หลังจาก 3 วินาที
+        bool isDialogClosed = false;
+
         Future.delayed(const Duration(seconds: 3), () {
-          if (Navigator.canPop(context)) {
+          if (!isDialogClosed) {
             Navigator.of(context).pop();
-            _setButtonGray(); // เปลี่ยนปุ่มเป็นสีเทาหลังจากปิด popup
+            context.read<MissionBloc>().add(CompleteTaskEvent());
+            isDialogClosed = true;
           }
         });
 
@@ -248,8 +243,13 @@ class _TaskListViewState extends State<TaskListView> {
                             padding: const EdgeInsets.only(top: 36.0),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).pop();
-                                _setButtonGray(); // ปรับปุ่มเป็นสีเทาหลังจากกดปิด popup
+                                if (!isDialogClosed) {
+                                  Navigator.of(context).pop();
+                                  context
+                                      .read<MissionBloc>()
+                                      .add(CompleteTaskEvent());
+                                  isDialogClosed = true;
+                                }
                               },
                               child: const Text(
                                 AppStrings.closeWindowText,
@@ -275,11 +275,5 @@ class _TaskListViewState extends State<TaskListView> {
         );
       },
     );
-  }
-
-  void _setButtonGray() {
-    setState(() {
-      isButtonGray = true;
-    });
   }
 }
