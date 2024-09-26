@@ -3,7 +3,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class WeeklyLogsCard extends StatelessWidget {
   final String title;
-  final String value;
+  final double value;
   final String unit;
   final Widget chart;
 
@@ -48,7 +48,7 @@ class WeeklyLogsCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  value,
+                  '$value',
                   style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
