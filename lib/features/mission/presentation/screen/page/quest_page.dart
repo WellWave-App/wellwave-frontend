@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/mission/presentation/widgets/overview_daily.dart';
 
 class QuestPage extends StatelessWidget {
   const QuestPage({super.key});
@@ -23,15 +22,15 @@ class QuestPage extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               color: AppColors.pinkColor,
-              borderRadius:  BorderRadius.vertical(
+              borderRadius: BorderRadius.vertical(
                 bottom: Radius.circular(100),
               ),
             ),
             height: MediaQuery.of(context).size.height * 0.15,
           ),
           const Column(
-            children: [SizedBox(height: 16), OverviewDaily()],
-          )
+              // children: [SizedBox(height: 16), OverviewDaily()],
+              )
         ],
       ),
     );

@@ -54,10 +54,10 @@ class HabitChallengePage extends StatelessWidget {
                 const Expanded(
                   child: TabBarView(
                     children: [
-                      OverviewHabitChallenge(),
-                      OverviewHabitChallenge(),
-                      OverviewHabitChallenge(),
-                      OverviewHabitChallenge(),
+                      // OverviewHabitChallenge(),
+                      // OverviewHabitChallenge(),
+                      // OverviewHabitChallenge(),
+                      // OverviewHabitChallenge(),
                     ],
                   ),
                 ),

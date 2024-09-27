@@ -4,7 +4,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import '../../../../../config/constants/app_images.dart';
 import '../../../data/mockup_data.dart';
-import '../../widgets/task_list_view.dart';
+import '../../widgets/daily_task_list.dart';
 
 class DailyTaskPage extends StatelessWidget {
   final List<Map<String, dynamic>> tasks = mockTasks;
@@ -67,7 +67,7 @@ class DailyTaskPage extends StatelessWidget {
                   itemCount: selectedTasks.length,
                   itemBuilder: (context, index) {
                     final task = selectedTasks[index];
-                    return TaskListView(
+                    return DailyTaskList(
                       imagePath: task['imagePath'],
                       taskId: task['taskId'],
                       taskName: task['taskName'],

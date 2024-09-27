@@ -8,12 +8,12 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/data/mockup_data.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
-class TaskListView extends StatelessWidget {
+class DailyTaskList extends StatelessWidget {
   final String imagePath;
   final int taskId;
   final String taskName;
 
-  const TaskListView({
+  const DailyTaskList({
     super.key,
     required this.imagePath,
     required this.taskId,
@@ -132,7 +132,7 @@ class TaskListView extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pop(); 
+                      Navigator.of(context).pop();
                     },
                     child: SvgPicture.asset(AppImages.closeBTIcon),
                   ),
@@ -192,7 +192,7 @@ class TaskListView extends StatelessWidget {
                 children: [SvgPicture.asset(AppImages.arrowForwardIcon)],
               ),
               onSubmit: () {
-                Navigator.of(context).pop(); 
+                Navigator.of(context).pop();
                 _showSuccessDialog(context);
                 context.read<MissionBloc>().add(CompleteTaskEvent(taskId));
                 return null;
@@ -245,30 +245,30 @@ class TaskListView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             padding: const EdgeInsets.all(30.0),
-                            child: const Padding(
-                              padding: EdgeInsets.only(top: 36.0),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 36.0),
                               child: Column(
                                 children: [
-                                  Text(
+                                  const Text(
                                     AppStrings.youReceivedText,
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.monetization_on,
                                         color: Colors.amber,
                                         size: 30,
                                       ),
-                                      SizedBox(width: 8),
+                                      const SizedBox(width: 8),
                                       Text(
-                                        'x15',
-                                        style: TextStyle(
+                                        ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
+                                        style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                         ),
