@@ -64,7 +64,7 @@ final GoRouter goRouter = GoRouter(
                 path: AppPages.habitChallengePage,
                 name: AppPages.habitChallengeName,
                 pageBuilder: (BuildContext context, GoRouterState state) {
-                  return const NoTransitionPage(child: HabitChallengePage());
+                  return NoTransitionPage(child: HabitChallengePage());
                 },
               ),
               GoRoute(

@@ -2,7 +2,7 @@ final List<Map<String, dynamic>> mockTasks = [
   {
     'taskId': 1,
     'imagePath': 'assets/images/quest.png',
-    'taskName': 'Task 1: Collect Coins',
+    'taskName': ' Collect Coins',
     'exp': 10,
   },
   {

@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/mission/presentation/widgets/overview_habit_challenge.dart';
+
+import '../../../data/mockup_data.dart';
+import '../../widgets/daily_task_list.dart';
+import '../../widgets/task_list.dart';
 
 class HabitChallengePage extends StatelessWidget {
-  const HabitChallengePage({super.key});
+  final List<Map<String, dynamic>> tasks = mockTasks;
+
+  HabitChallengePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +31,7 @@ class HabitChallengePage extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: AppColors.mintColor,
                 borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(
-                      100), 
+                  bottom: Radius.circular(100),
                 ),
               ),
               height: MediaQuery.of(context).size.height * 0.18,
@@ -35,7 +39,6 @@ class HabitChallengePage extends StatelessWidget {
             Column(
               children: [
                 TabBar(
-                  tabAlignment: TabAlignment.start,
                   isScrollable: true,
                   labelPadding: const EdgeInsets.symmetric(horizontal: 10),
                   padding: const EdgeInsets.only(left: 10),
@@ -51,13 +54,23 @@ class HabitChallengePage extends StatelessWidget {
                     Tab(text: AppStrings.sleepText),
                   ],
                 ),
-                const Expanded(
+                Expanded(
                   child: TabBarView(
                     children: [
-                      // OverviewHabitChallenge(),
-                      // OverviewHabitChallenge(),
-                      // OverviewHabitChallenge(),
-                      // OverviewHabitChallenge(),
+                      ListView.builder(
+                        itemCount: tasks.length,
+                        itemBuilder: (context, index) {
+                          final task = tasks[index];
+                          return TaskList(
+                            imagePath: task['imagePath'],
+                            taskId: task['taskId'],
+                            taskName: task['taskName'],
+                          );
+                        },
+                      ),
+                      Center(child: Text(AppStrings.eatingText)),
+                      Center(child: Text(AppStrings.exerciseText)),
+                      Center(child: Text(AppStrings.sleepText)),
                     ],
                   ),
                 ),
