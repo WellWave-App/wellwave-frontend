@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/mission/presentation/widgets/overview_daily.dart';
 import '../../../../../config/constants/app_images.dart';
+import '../../../data/mockup_data.dart';
+import '../../widgets/task_list_view.dart';
 
 class DailyTaskPage extends StatelessWidget {
-  const DailyTaskPage({super.key});
+  final List<Map<String, dynamic>> tasks = mockTasks;
+
+  DailyTaskPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final randomTasks = List<Map<String, dynamic>>.from(tasks)..shuffle();
+    final selectedTasks = randomTasks.take(4).toList();
+
     return Scaffold(
       appBar: CustomAppBar(
         context: context,
@@ -56,9 +62,21 @@ class DailyTaskPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              const OverviewDaily()
+              Expanded(
+                child: ListView.builder(
+                  itemCount: selectedTasks.length,
+                  itemBuilder: (context, index) {
+                    final task = selectedTasks[index];
+                    return TaskListView(
+                      imagePath: task['imagePath'],
+                      taskId: task['taskId'],
+                      taskName: task['taskName'],
+                    );
+                  },
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
