@@ -1,6 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
-
 part 'mission_event.dart';
 part 'mission_state.dart';
 
@@ -77,13 +75,23 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
   }
 
   void _onResetGoal(ResetGoalEvent event, Emitter<MissionState> emit) {
-    emit(HabitChallengeState(
-        dailyCount: 1, minuteCount: 5)); // Reset to defaults
+    emit(HabitChallengeState(dailyCount: 1, minuteCount: 5));
   }
 
   void _onCompleteTaskEvent(
       CompleteTaskEvent event, Emitter<MissionState> emit) {
-    emit(TaskCompletedState(isCompleted: true));
-    debugPrint("Task completed. Emitting TaskCompletedState");
+    if (state is DailyTaskState) {
+      final currentState = state as DailyTaskState;
+      final updatedCompletedTaskIds =
+          List<int>.from(currentState.completedTaskIds);
+
+      if (!updatedCompletedTaskIds.contains(event.taskId)) {
+        updatedCompletedTaskIds.add(event.taskId);
+      }
+
+      emit(DailyTaskState(completedTaskIds: updatedCompletedTaskIds));
+    } else {
+      emit(DailyTaskState(completedTaskIds: [event.taskId]));
+    }
   }
 }

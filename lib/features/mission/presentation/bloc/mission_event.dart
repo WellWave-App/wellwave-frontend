@@ -33,5 +33,11 @@ class ConfirmGoalEvent extends MissionEvent {
 class ResetGoalEvent extends MissionEvent {}
 
 // Daily Task Events
-class CompleteTaskEvent extends MissionEvent {}
+class CompleteTaskEvent extends MissionEvent {
+  final int taskId; 
 
+  CompleteTaskEvent(this.taskId);
+
+  @override
+  List<Object> get props => [taskId];
+}
