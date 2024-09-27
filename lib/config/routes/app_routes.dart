@@ -57,7 +57,7 @@ final GoRouter goRouter = GoRouter(
                 path: AppPages.dailyTaskPage,
                 name: AppPages.dailyTaskName,
                 pageBuilder: (BuildContext context, GoRouterState state) {
-                  return const NoTransitionPage(child: DailyTaskPage());
+                  return NoTransitionPage(child: DailyTaskPage());
                 },
               ),
               GoRoute(

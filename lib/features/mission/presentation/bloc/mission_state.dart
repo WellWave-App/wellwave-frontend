@@ -25,8 +25,12 @@ class HabitChallengeState extends MissionState {
 
 // Daily Task State
 
-class TaskCompletedState extends MissionState {
-  final bool isCompleted;
+class DailyTaskState extends MissionState {
+  final List<int> completedTaskIds; 
 
-  TaskCompletedState({this.isCompleted = true});
+  DailyTaskState({this.completedTaskIds = const []});
+
+  @override
+  List<Object> get props => [completedTaskIds];
 }
+
