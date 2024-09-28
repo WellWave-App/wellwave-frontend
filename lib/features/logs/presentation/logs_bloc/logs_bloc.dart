@@ -17,6 +17,8 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
       await submitLog(event.logName, event.value, event.selectedDate,
           _logsRequestRepository);
     });
+    on<LogsFetchedWaistLine>(_onSpecificLogsFetches);
+    on<LogsFetchedWeight>(_onSpecificLogsFetches);
   }
 
   Future<void> _onLogsFetches(
@@ -26,8 +28,7 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     try {
       final logsList =
           await _logsRequestRepository.getLogsById('1', event.date);
-
-      emit(LogsLoadSuccess(logslist: logsList));
+      emit(LogsLoadSuccess(logslist: logsList, isDaily: true, isWeekly: false));
     } catch (e) {
       emit(LogsError(message: e.toString()));
     }
@@ -40,11 +41,42 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     try {
       final logsList =
           await _logsRequestRepository.getWeeklyLogs('1', event.date);
-      emit(LogsLoadSuccess(logslist: logsList));
+      emit(LogsLoadSuccess(logslist: logsList, isWeekly: true, isDaily: false));
     } catch (e) {
       emit(LogsError(message: e.toString()));
     }
   }
+
+  // Refactor to handle both weight and waist logs using the same function
+ Future<void> _onSpecificLogsFetches(LogsEvent event, Emitter<LogsState> emit) async {
+  emit(LogsLoadInProgress());
+  try {
+    String logType;
+    DateTime today;
+
+    if (event is LogsFetchedWeight) {
+      logType = "WEIGHT_LOG";
+      today = event.date;
+      debugPrint('Fetching weight logs for 4 weeks until date: $today');
+    } else {
+      throw Exception("Unknown event type");
+    }
+
+    final logsList = await _logsRequestRepository.getWeeklyLogsToGraph('1', today, logType);
+    debugPrint('Logs fetched: $logsList');
+
+    emit(LogsLoadSuccess(logslist: logsList, isWeekly: true, isDaily: false));
+  } catch (e) {
+    emit(LogsError(message: e.toString()));
+    debugPrint('Error fetching logs: $e');
+  }
+}
+
+
+}
+
+
+  
 
   Future<void> submitLog(String logName, int value, String selectedDate,
       LogsRequestRepository logsRepository) async {
@@ -64,4 +96,4 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
       debugPrint('Error submitting log: $error');
     }
   }
-}
+

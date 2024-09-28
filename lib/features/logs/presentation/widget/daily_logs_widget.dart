@@ -37,7 +37,7 @@ class DailyLogsWidget extends StatelessWidget {
                   const SizedBox(height: 16),
                   BlocBuilder<LogsBloc, LogsState>(
                     builder: (context, state) {
-                      if (state is LogsLoadInProgress) {
+                      if (state is LogsLoadSuccess && state.isDaily) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (state is LogsLoadSuccess) {
                         debugPrint('Received LogsLoadDailySuccess with ${state.logslist.length} logs');

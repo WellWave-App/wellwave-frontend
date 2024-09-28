@@ -32,7 +32,7 @@ class WeeklyLogsWidget extends StatelessWidget {
           BlocBuilder<LogsBloc, LogsState>(builder: (context, state) {
             if (state is LogsLoadInProgress) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is LogsLoadSuccess) {
+            } else if (state is LogsLoadSuccess && state.isWeekly) {
               double? stepCount;
               double? weightCount;
               double? waistLineCount;

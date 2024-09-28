@@ -25,7 +25,11 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
             builder: (context, state) {
               bool logsRecorded = false;
               if (state is LogsLoadSuccess) {
-                logsRecorded = state.logslist.isNotEmpty;
+                for (var log in state.logslist) {
+                  if (log?.logName == 'WEIGHT_LOG' && log?.value != null) {
+                    logsRecorded = true;
+                  }
+                }
               }
 
               return Row(
@@ -49,12 +53,12 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                             borderRadius: BorderRadius.circular(16.0),
                           ),
                           child: Text(
-                            AppStrings.dataRecordingCompletedText, // Already recorded text
-                            style: Theme.of(context)
-                              .textTheme
-                              .titleSmall
-                              ?.copyWith(color: Colors.white)),
-                          
+                              AppStrings
+                                  .dataRecordingCompletedText, // Already recorded text
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(color: Colors.white)),
                         )
                       : const InputButton(
                           buttonText: AppStrings.dataRecordingText,
@@ -71,21 +75,13 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
               } else if (state is LogsLoadSuccess) {
                 double weight = 0.0;
                 double waistLine = 0.0;
-                // double hdl = 0.0;
-                // double ldl = 0.0;
 
                 for (var log in state.logslist) {
                   if (log?.logName == 'WEIGHT_LOG') {
                     weight = log?.value ?? 0.0;
                   } else if (log?.logName == 'WAIST_LINE_LOG') {
                     waistLine = log?.value ?? 0.0;
-                  } 
-                  
-                  // else if (log?.logName == 'HDL_LOG') {
-                  //   hdl = log?.value ?? 0.0;
-                  // } else if (log?.logName == 'LDL_LOG') {
-                  //   ldl = log?.value ?? 0.0;
-                  // }
+                  }
                 }
 
                 return Column(
@@ -112,24 +108,6 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                         ),
                       ],
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     WeeklyLogsCard(
-                    //       title: AppStrings.hdlText,
-                    //       value: hdl,
-                    //       unit: AppStrings.mgPerDlText,
-                    //       chart: const LineChartSample2(),
-                    //     ),
-                    //     const SizedBox(width: 16),
-                    //     WeeklyLogsCard(
-                    //       title: AppStrings.ldlText,
-                    //       value: ldl,
-                    //       unit: AppStrings.mgPerDlText,
-                    //       chart: const LineChartSample2(),
-                    //     ),
-                    //   ],
-                    // ),
                   ],
                 );
               } else if (state is LogsError) {

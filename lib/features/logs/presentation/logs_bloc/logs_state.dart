@@ -14,5 +14,12 @@ class LogsError extends LogsState {
 
 class LogsLoadSuccess extends LogsState {
   final List<LogsRequestModel?> logslist;
-  LogsLoadSuccess({required this.logslist});
+  final bool isDaily ;
+  final bool isWeekly;
+
+  LogsLoadSuccess({
+    required this.logslist,
+    this.isDaily = false,
+    this.isWeekly = false,
+  });
 }
