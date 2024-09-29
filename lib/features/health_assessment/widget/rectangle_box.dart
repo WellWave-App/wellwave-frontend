@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
 
 class RectangleBox extends StatelessWidget {
   final String title;
@@ -25,7 +25,7 @@ class RectangleBox extends StatelessWidget {
     final currentStep = context.read<AssessmentBloc>().state.currentStep;
     double containerWidth = MediaQuery.of(context).size.width / 2 - 32;
 
-    return BlocBuilder<AssessmentBloc, AssessmentState>(
+    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
       builder: (context, state) {
         bool isSelected;
 

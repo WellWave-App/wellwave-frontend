@@ -5,11 +5,11 @@ import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_request_model.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/result_assessment.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/step/add_pic_username_step.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/step/family_history_step.dart';
@@ -48,13 +48,8 @@ class AssessmentScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
 
-    return BlocBuilder<AssessmentBloc, AssessmentState>(
+    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
       builder: (context, state) {
-        // debugPrint('Current famhisChoose in UI: ${state.famhisChoose}');
-        // debugPrint('Current goalChoose in UI: ${state.goalChoose}');
-        // debugPrint('Current alcoholChoose in UI: ${state.alcoholChoose}');
-        // debugPrint('Current smokeChoose in UI: ${state.smokeChoose}');
-        // debugPrint('-------------');
         if (state.isCompleted) {
           return const ResultAssessment();
         }

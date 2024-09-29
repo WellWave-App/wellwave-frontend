@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
-import 'health_assessment_event.dart';
-import 'health_assessment_state.dart';
+import 'health_assessment_page_event.dart';
+import 'health_assessment_page_state.dart';
 
 class ValidateGender extends AssessmentEvent {}
 
-class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
+class AssessmentBloc extends Bloc<AssessmentEvent, HealthAssessmentState> {
   final ScoreCalculator scoreCalculator = ScoreCalculator();
 
   AssessmentBloc()
-      : super(const AssessmentState(
+      : super(const HealthAssessmentState(
           currentStep: 0,
           formData: {},
           selectedItems: [],
@@ -24,7 +24,9 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
       } else
         emit(state.copyWith(currentStep: state.currentStep - 1));
     });
-    void _onImagePicked(ImagePicked event, Emitter<AssessmentState> emit) {
+
+    void _onImagePicked(
+        ImagePicked event, Emitter<HealthAssessmentState> emit) {
       final updatedFormData = Map<String, String>.from(state.formData);
       updatedFormData['imageUrl'] = event.imageFile.path;
 
@@ -58,19 +60,20 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     });
   }
 
-  void _onStepContinue(StepContinue event, Emitter<AssessmentState> emit) {
+  void _onStepContinue(
+      StepContinue event, Emitter<HealthAssessmentState> emit) {
     if (state.currentStep < 6) {
       emit(state.copyWith(currentStep: state.currentStep + 1));
     }
   }
 
-  void _onStepBack(StepBack event, Emitter<AssessmentState> emit) {
+  void _onStepBack(StepBack event, Emitter<HealthAssessmentState> emit) {
     if (state.currentStep > 0) {
       emit(state.copyWith(currentStep: state.currentStep - 1));
     }
   }
 
-  void _onUpdateField(UpdateField event, Emitter<AssessmentState> emit) {
+  void _onUpdateField(UpdateField event, Emitter<HealthAssessmentState> emit) {
     final updatedFormData = Map<String, String>.from(state.formData);
     updatedFormData[event.fieldName] = event.value;
 
@@ -88,7 +91,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   }
 
   void _onUpdateRiskScore(
-      UpdateRiskScoreEvent event, Emitter<AssessmentState> emit) {
+      UpdateRiskScoreEvent event, Emitter<HealthAssessmentState> emit) {
     int updatedDiabetesScore = state.riskDiabetesScore;
     int updatedHypertensionScore = state.riskHypertensionScore;
     int updatedDyslipidemiaScore = state.riskDyslipidemiaScore;
@@ -117,14 +120,15 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     ));
   }
 
-  void _onValidateGender(ValidateGender event, Emitter<AssessmentState> emit) {
+  void _onValidateGender(
+      ValidateGender event, Emitter<HealthAssessmentState> emit) {
     final isGenderSelected = state.formData['gender'] != null;
 
     emit(state.copyWith(genderError: !isGenderSelected));
   }
 
   void _onToggleSelection(
-      ToggleSelectionEvent event, Emitter<AssessmentState> emit) {
+      ToggleSelectionEvent event, Emitter<HealthAssessmentState> emit) {
     if (event.selectionType == 'famhis') {
       var updatedFamhisChoose = List<String>.from(state.famhisChoose);
       if (event.title == AppStrings.unknownDiseaseText) {
@@ -159,7 +163,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   }
 
   void _onSetSelectionMode(
-      SetSelectionMode event, Emitter<AssessmentState> emit) {
+      SetSelectionMode event, Emitter<HealthAssessmentState> emit) {
     emit(state.copyWith(isMultiSelect: event.isMultiSelect));
   }
 }

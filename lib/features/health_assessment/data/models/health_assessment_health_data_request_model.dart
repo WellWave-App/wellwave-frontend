@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-class HealthAssessmentRequestModel {
+class HealthAssessmentHealthDataRequestModel {
   // health data
   final double diastolicBloodPressure;
   final double systolicBloodPressure;
@@ -13,16 +13,7 @@ class HealthAssessmentRequestModel {
   final bool hasDyslipidemia;
   final bool hasObesity;
 
-  // personal data
-  final String imageUrl;
-  final String username;
-  final int yearOfBirth;
-  final int gender;
-  final double height;
-  final double weight;
-  final int userGoal;
-
-  HealthAssessmentRequestModel({
+  HealthAssessmentHealthDataRequestModel({
     required this.diastolicBloodPressure,
     required this.systolicBloodPressure,
     required this.hdl,
@@ -32,16 +23,9 @@ class HealthAssessmentRequestModel {
     required this.hasDiabetes,
     required this.hasDyslipidemia,
     required this.hasObesity,
-    required this.imageUrl,
-    required this.username,
-    required this.yearOfBirth,
-    required this.gender,
-    required this.height,
-    required this.weight,
-    required this.userGoal,
   });
 
-  HealthAssessmentRequestModel copyWith({
+  HealthAssessmentHealthDataRequestModel copyWith({
     double? diastolicBloodPressure,
     double? systolicBloodPressure,
     double? hdl,
@@ -51,15 +35,8 @@ class HealthAssessmentRequestModel {
     bool? hasDiabetes,
     bool? hasDyslipidemia,
     bool? hasObesity,
-    String? imageUrl,
-    String? username,
-    int? yearOfBirth,
-    int? gender,
-    double? height,
-    double? weight,
-    int? userGoal,
   }) {
-    return HealthAssessmentRequestModel(
+    return HealthAssessmentHealthDataRequestModel(
       diastolicBloodPressure:
           diastolicBloodPressure ?? this.diastolicBloodPressure,
       systolicBloodPressure:
@@ -71,13 +48,6 @@ class HealthAssessmentRequestModel {
       hasDiabetes: hasDiabetes ?? this.hasDiabetes,
       hasDyslipidemia: hasDyslipidemia ?? this.hasDyslipidemia,
       hasObesity: hasObesity ?? this.hasObesity,
-      imageUrl: imageUrl ?? this.imageUrl,
-      username: username ?? this.username,
-      yearOfBirth: yearOfBirth ?? this.yearOfBirth,
-      gender: gender ?? this.gender,
-      height: height ?? this.height,
-      weight: weight ?? this.weight,
-      userGoal: userGoal ?? this.userGoal,
     );
   }
 
@@ -92,18 +62,12 @@ class HealthAssessmentRequestModel {
       'HAS_DIABETES': hasDiabetes,
       'HAS_DYSLIPIDEMIA': hasDyslipidemia,
       'HAS_OBESITY': hasObesity,
-      'IMAGE_PATH': imageUrl,
-      'USERNAME': username,
-      'YEAR_OF_BIRTH': yearOfBirth,
-      'GENDER': gender,
-      'HEIGHT': height,
-      'WEIGHT': weight,
-      'USER_GOAL': userGoal,
     };
   }
 
-  factory HealthAssessmentRequestModel.fromJson(Map<String, dynamic> json) {
-    return HealthAssessmentRequestModel(
+  factory HealthAssessmentHealthDataRequestModel.fromJson(
+      Map<String, dynamic> json) {
+    return HealthAssessmentHealthDataRequestModel(
       diastolicBloodPressure:
           (json['diastolicBloodPressure'] as num?)?.toDouble() ?? 0.0,
       systolicBloodPressure:
@@ -115,13 +79,6 @@ class HealthAssessmentRequestModel {
       hasDiabetes: json['hasDiabetes'] as bool? ?? false,
       hasDyslipidemia: json['hasDyslipidemia'] as bool? ?? false,
       hasObesity: json['hasObesity'] as bool? ?? false,
-      imageUrl: json['imageUrl'] as String? ?? "",
-      username: json['username'] as String? ?? "",
-      yearOfBirth: json['yearOfBirth'] as int? ?? 0,
-      gender: json['gender'] as int? ?? 0,
-      height: (json['height'] as num?)?.toDouble() ?? 0.0,
-      weight: (json['weight'] as num?)?.toDouble() ?? 0.0,
-      userGoal: json['userGoal'] as int? ?? 0,
     );
   }
 
@@ -137,13 +94,6 @@ class HealthAssessmentRequestModel {
       'HAS_DIABETES': hasDiabetes,
       'HAS_DYSLIPIDEMIA': hasDyslipidemia,
       'HAS_OBESITY': hasObesity,
-      'IMAGE_PATH': imageUrl,
-      'USERNAME': username,
-      'YEAR_OF_BIRTH': yearOfBirth,
-      'GENDER': gender,
-      'HEIGHT': height,
-      'WEIGHT': weight,
-      'USER_GOAL': userGoal,
     };
   }
 }

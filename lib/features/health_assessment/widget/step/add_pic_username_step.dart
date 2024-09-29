@@ -7,20 +7,34 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
 
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
 
-class AddPicUsernameStep extends StatelessWidget {
-  final AssessmentState state;
+class AddPicUsernameStep extends StatefulWidget {
+  final HealthAssessmentState state;
 
   const AddPicUsernameStep({super.key, required this.state});
 
   @override
+  State<AddPicUsernameStep> createState() => _AddPicUsernameStepState();
+}
+
+class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null && mounted) {
+      context.read<AssessmentBloc>().add(ImagePicked(File(pickedFile.path)));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (state.showStartStep) {
+    if (widget.state.showStartStep) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pop(
           context,
@@ -40,13 +54,13 @@ class AddPicUsernameStep extends StatelessWidget {
           const SizedBox(height: 64),
           Stack(
             children: [
-              state.selectedImage != null
+              widget.state.selectedImage != null
                   ? ClipOval(
                       child: SizedBox(
-                        width: 180,
-                        height: 180,
+                        width: 176,
+                        height: 176,
                         child: Image.file(
-                          state.selectedImage!,
+                          widget.state.selectedImage!,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -56,15 +70,7 @@ class AddPicUsernameStep extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    final pickedFile = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
-                    if (pickedFile != null) {
-                      context
-                          .read<AssessmentBloc>()
-                          .add(ImagePicked(File(pickedFile.path)));
-                    }
-                  },
+                  onPressed: _pickImage,
                   style: ElevatedButton.styleFrom(
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(12),
@@ -78,7 +84,7 @@ class AddPicUsernameStep extends StatelessWidget {
           CustomTextFormField(
             labelText: 'ชื่อผู้ใช้*',
             hintText: 'ชื่อผู้ใช้',
-            initialValue: state.formData['username'] ?? '',
+            initialValue: widget.state.formData['username'] ?? '',
             inputFormatters: [
               LengthLimitingTextInputFormatter(16),
             ],

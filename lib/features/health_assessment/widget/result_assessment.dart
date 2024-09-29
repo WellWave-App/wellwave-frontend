@@ -9,10 +9,10 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
-import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_request_model.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_event.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/risk_arc.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/risk_card.dart';
 
@@ -21,8 +21,11 @@ class ResultAssessment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AssessmentBloc, AssessmentState>(
+    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
       builder: (context, state) {
+        debugPrint(
+            'Current formData: ${context.read<AssessmentBloc>().state.formData}');
+
         double averageRiskScore = ((state.riskObesityScore / 1) +
                 (state.riskDyslipidemiaScore / 4) +
                 (state.riskHypertensionScore / 2) +
@@ -105,7 +108,7 @@ class ResultAssessment extends StatelessWidget {
 class RecommendScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AssessmentBloc, AssessmentState>(
+    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
       builder: (context, state) {
         if (state.showHealthConnect) {
           return HealthConnectScreen();
@@ -174,7 +177,7 @@ class RecommendScreen extends StatelessWidget {
 class HealthConnectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AssessmentBloc, AssessmentState>(
+    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
       builder: (context, state) {
         if (state.showFinish) {
           return FinishScreen();
@@ -262,7 +265,7 @@ class FinishScreen extends StatelessWidget {
       context.goNamed(AppPages.homeName);
     });
 
-    return BlocBuilder<AssessmentBloc, AssessmentState>(
+    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
       builder: (context, state) {
         return Scaffold(
           body: Stack(

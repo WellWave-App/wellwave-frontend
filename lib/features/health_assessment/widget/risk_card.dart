@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment_state.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
 
 class RiskCard extends StatelessWidget {
   final String title;
@@ -59,7 +59,7 @@ class ResultAssessment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AssessmentBloc, AssessmentState>(
+    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(title: Text('สรุปผลการประเมิน')),
