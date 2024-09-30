@@ -19,11 +19,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
     super.initState();
     final today = DateTime.now();
 
-    // Dispatch the LogsFetchedWeight event when the widget initializes
     context.read<LogsBloc>().add(LogsFetchedGraph(today));
-
-    // Or if you're fetching WaistLine logs:
-    // context.read<LogsBloc>().add(LogsFetchedWaistLine(date: today));
 
     debugPrint('Dispatched LogsFetchedWeight event');
   }
@@ -38,9 +34,9 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
           BlocBuilder<LogsBloc, LogsState>(
             builder: (context, state) {
               bool logsRecorded = false;
-              if (state is LogsLoadSuccess) {
-                for (var log in state.logslist) {
-                  if (log?.logName == 'WEIGHT_LOG' && log?.value != null) {
+              if (state is LogsLoadGraphSuccess) {
+                for (var log in state.logsWeightlist) {
+                  if ((log?.logName == 'WEIGHT_LOG' || log?.logName == 'WAIST_LINE_LOG') && log?.value != null) {
                     logsRecorded = true;
                   }
                 }
