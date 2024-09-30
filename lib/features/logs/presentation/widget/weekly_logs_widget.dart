@@ -16,7 +16,7 @@ class WeeklyLogsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<LogsBloc>().add(LogsFetchedWeekly(date: selectedDate));
+    context.read<LogsBloc>().add(LogsFetched(date: selectedDate));
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),
@@ -32,14 +32,14 @@ class WeeklyLogsWidget extends StatelessWidget {
           BlocBuilder<LogsBloc, LogsState>(builder: (context, state) {
             if (state is LogsLoadInProgress) {
               return const Center(child: CircularProgressIndicator());
-            } else if (state is LogsLoadSuccess && state.isWeekly) {
+            } else if (state is LogsLoadSuccess) {
               double? stepCount;
               double? weightCount;
               double? waistLineCount;
               double? hdlCount;
               double? ldlCount;
 
-              for (var log in state.logslist) {
+              for (var log in state.logsWeeklyList) {
                 if (log?.logName == 'STEP_LOG') {
                   stepCount = log?.value;
                 } else if (log?.logName == 'WEIGHT_LOG') {

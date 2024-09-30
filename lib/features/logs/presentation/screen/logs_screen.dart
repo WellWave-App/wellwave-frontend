@@ -22,7 +22,11 @@ class _LogsScreenState extends State<LogsScreen> {
     )),
       body: const SingleChildScrollView(
         child: Column(
-          children: [DailyLogs(), WeeklyLogs()],
+          children: 
+          [
+            DailyLogs(), 
+            // WeeklyLogs()
+            ],
         ),
       ),
     );
