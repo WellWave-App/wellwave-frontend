@@ -25,11 +25,12 @@ class LogsLoadSuccess extends LogsState {
 
 
 class LogsLoadGraphSuccess extends LogsState {
-
-  final List<LogsWeightRequestModel?> logsGraphlist;
+  final List<LogsWeightRequestModel?> logsWeightlist;
+  final List<LogsWaistLineRequestModel?> logsWaistLinelist;
 
   LogsLoadGraphSuccess({
-    required this.logsGraphlist,
+    this.logsWeightlist = const [], 
+    this.logsWaistLinelist = const [], 
   });
 }
 

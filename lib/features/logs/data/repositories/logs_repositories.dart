@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_waistline.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weekly.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weight.dart';
 import '../../../logs/data/models/logs_request_model.dart';
@@ -121,37 +122,80 @@ class LogsRequestRepository {
     }
   }
 
-  Future<List<LogsWeightRequestModel?>> getWeeklyLogsToGraph(String uID, DateTime today, String logName) async {
-  try {
-    String baseUrl = 'http://10.0.2.2:3000';
-    List<LogsWeightRequestModel?> logsList = [];
+  Future<List<LogsWeightRequestModel?>> getWeightLogs(
+      String uID, DateTime today) async {
+    try {
+      String baseUrl = 'http://10.0.2.2:3000';
+      List<LogsWeightRequestModel?> logsList = [];
 
-    // Fetch logs for the past 4 weeks, one for each week
-    for (int i = 0; i < 4; i++) {
-      final dateBegin = today.subtract(const Duration(days: 21));
-      final DateTime targetDate = dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
-      final response = await http.get(
-        Uri.parse(
-          '$baseUrl/logs/user/$uID/weekly?date=${targetDate.toIso8601String()}&&logName=$logName',
-        ),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
+      // Fetch logs for the past 4 weeks, one for each week
+      for (int i = 0; i < 4; i++) {
+        final dateBegin = today.subtract(const Duration(days: 21));
+        final DateTime targetDate =
+            dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
+        final response = await http.get(
+          Uri.parse(
+            '$baseUrl/logs/user/$uID/weekly?date=${targetDate.toIso8601String()}&&logName=WEIGHT_LOG',
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        );
 
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body);
-        List<dynamic> logsJson = jsonData['LOGS'];
-        debugPrint('Filtered weekly logs for week ${i + 1}: ${response.body}');
-        logsList.addAll(logsJson.map((log) => LogsWeightRequestModel.fromJson(log)).toList());
+        if (response.statusCode == 200) {
+          final jsonData = jsonDecode(response.body);
+          List<dynamic> logsJson = jsonData['LOGS'];
+          debugPrint(
+              'Filtered weight logs for week ${i + 1}: ${response.body}');
+          logsList.addAll(logsJson
+              .map((log) => LogsWeightRequestModel.fromJson(log))
+              .toList());
+        }
       }
+
+      return logsList;
+    } catch (e) {
+      debugPrint('Error fetching logs: $e');
+      return [];
     }
-
-    return logsList;
-  } catch (e) {
-    debugPrint('Error fetching logs: $e');
-    return [];
   }
+
+  Future<List<LogsWaistLineRequestModel?>> getWaistLineLogs(
+      String uID, DateTime today) async {
+    try {
+      String baseUrl = 'http://10.0.2.2:3000';
+      List<LogsWaistLineRequestModel?> logsList = [];
+
+      // Fetch logs for the past 4 weeks, one for each week
+      for (int i = 0; i < 4; i++) {
+        final dateBegin = today.subtract(const Duration(days: 21));
+        final DateTime targetDate =
+            dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
+        final response = await http.get(
+          Uri.parse(
+            '$baseUrl/logs/user/$uID/weekly?date=${targetDate.toIso8601String()}&&logName=WAIST_LINE_LOG',
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        );
+
+        if (response.statusCode == 200) {
+          final jsonData = jsonDecode(response.body);
+          List<dynamic> logsJson = jsonData['LOGS'];
+          debugPrint(
+              'Filtered waist line logs for week ${i + 1}: ${response.body}');
+          logsList.addAll(logsJson
+              .map((log) => LogsWaistLineRequestModel.fromJson(log))
+              .toList());
+        }
+      }
+
+      return logsList;
+    } catch (e) {
+      debugPrint('Error fetching logs: $e');
+      return [];
+    }
+  }
+
 }
-  }
-

@@ -20,7 +20,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
     final today = DateTime.now();
 
     // Dispatch the LogsFetchedWeight event when the widget initializes
-    context.read<LogsBloc>().add(LogsFetchedWeight(date: today));
+    context.read<LogsBloc>().add(LogsFetchedGraph(today));
 
     // Or if you're fetching WaistLine logs:
     // context.read<LogsBloc>().add(LogsFetchedWaistLine(date: today));
@@ -90,12 +90,11 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                 double weight = 0.0;
                 double waistLine = 0.0;
 
-                for (var log in state.logsGraphlist) {
-                  if (log?.logName == 'WEIGHT_LOG') {
-                    weight = log?.value ?? 0.0;
-                  } else if (log?.logName == 'WAIST_LINE_LOG') {
-                    waistLine = log?.value ?? 0.0;
-                  }
+                for (var log in state.logsWeightlist) {
+                  weight = log?.value ?? 0.0;
+                }
+                for (var log in state.logsWaistLinelist) {
+                  waistLine = log?.value ?? 0.0;
                 }
 
                 return Column(
@@ -107,7 +106,9 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                           title: AppStrings.weightText,
                           value: weight,
                           unit: AppStrings.kgText,
-                          chart: const LineChartSample2(),
+                          chart: const LineChartSample2(
+                            logType: "WEIGHT_LOG",
+                          ),
                         ),
                       ],
                     ),
@@ -118,7 +119,8 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                           title: AppStrings.waistLineText,
                           value: waistLine,
                           unit: AppStrings.cmText,
-                          chart: const LineChartSample2(),
+                          chart:
+                              const LineChartSample2(logType: 'WAIST_LINE_LOG'),
                         ),
                       ],
                     ),

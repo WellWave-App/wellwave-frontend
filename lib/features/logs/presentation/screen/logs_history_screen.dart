@@ -21,6 +21,7 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        
           title: Text(
         AppStrings.healthHistoryText,
         style: Theme.of(context).textTheme.headlineMedium?.copyWith(

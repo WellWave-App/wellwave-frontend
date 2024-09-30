@@ -8,22 +8,21 @@ class LogsFetched extends LogsEvent {
   LogsFetched(this.date);
 }
 
-// class LogsFetchedGraph extends LogsEvent {
-//   final DateTime date;
-//   final String logType;
+class LogsFetchedGraph extends LogsEvent {
+  final DateTime date;
 
-//   LogsFetchedGraph({required this.date,required this.logType});
+  LogsFetchedGraph(this.date);
+}
+
+// class LogsFetchedWeight extends LogsEvent{
+//   final DateTime date;
+//   LogsFetchedWeight({required this.date});
 // }
 
-class LogsFetchedWeight extends LogsEvent{
-  final DateTime date;
-  LogsFetchedWeight({required this.date});
-}
-
-class LogsFetchedWaistLine extends LogsEvent{
-  final DateTime date;
-  LogsFetchedWaistLine({required this.date});
-}
+// class LogsFetchedWaistLine extends LogsEvent{
+//   final DateTime date;
+//   LogsFetchedWaistLine({required this.date});
+// }
 
 
 class SubmitLogEvent extends LogsEvent {

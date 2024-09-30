@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model.dart';
+import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_waistline.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weekly.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weight.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
@@ -13,12 +14,13 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
 
   LogsBloc(this._logsRequestRepository) : super(LogsInitial()) {
     on<LogsFetched>(_onLogsFetches);
+    on<LogsFetchedGraph>(_onGraphLogsFetches);
     on<SubmitLogEvent>((event, emit) async {
       await submitLog(event.logName, event.value, event.selectedDate,
           _logsRequestRepository);
     });
-    on<LogsFetchedWaistLine>(_onSpecificLogsFetches);
-    on<LogsFetchedWeight>(_onSpecificLogsFetches);
+    // on<LogsFetchedWaistLine>(_onSpecificLogsFetches);
+    // on<LogsFetchedWeight>(_onSpecificLogsFetches);
   }
 
   Future<void> _onLogsFetches(
@@ -30,55 +32,76 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
           await _logsRequestRepository.getLogsById('1', event.date);
       final logsWeeklyList =
           await _logsRequestRepository.getWeeklyLogs('1', event.date);
-
+   
       emit(LogsLoadSuccess(
         logslist: logsList,
         logsWeeklyList: logsWeeklyList,
+
       ));
     } catch (e) {
       emit(LogsError(message: e.toString()));
     }
   }
 
-  Future<void> _onSpecificLogsFetches(
-    LogsEvent event, Emitter<LogsState> emit) async {
-  emit(LogsLoadInProgress()); // Emitting loading state
-  try {
-    String logType;
-    DateTime today;
+  Future<void> _onGraphLogsFetches(
+      LogsFetchedGraph event, Emitter<LogsState> emit) async {
+    emit(LogsLoadInProgress());
 
-    // Determine which log type based on the event
-    if (event is LogsFetchedWeight) {
-      logType = "WEIGHT_LOG";
-      today = event.date;
-      debugPrint('Fetching weight logs for 4 weeks until date: $today');
-    } else if (event is LogsFetchedWaistLine) {
-      logType = "WAIST_LINE_LOG";
-      today = event.date;
-      debugPrint('Fetching waist line logs for 4 weeks until date: $today');
-    } else {
-      throw Exception("Unknown event type");
+    try {
+     
+      final logsWeightList =
+          await _logsRequestRepository.getWeightLogs('1', event.date);
+      final logsWaistLineList =
+          await _logsRequestRepository.getWaistLineLogs('1', event.date);
+
+      emit(LogsLoadGraphSuccess(
+        logsWeightlist: logsWeightList,
+        logsWaistLinelist: logsWaistLineList,
+      ));
+    } catch (e) {
+      emit(LogsError(message: e.toString()));
     }
-
-    // Fetch the logs from the repository
-    final logsGraphList = await _logsRequestRepository.getWeeklyLogsToGraph(
-        '1', today, logType);
-    
-    if (logsGraphList.isEmpty) {
-      throw Exception('No logs found for $logType');
-    }
-
-    // Debugging logs to check if the data is correct
-    debugPrint('Logs fetched: $logsGraphList');
-
-    // Emit the success state with the fetched logs
-    emit(LogsLoadGraphSuccess(logsGraphlist: logsGraphList));
-    debugPrint('Emitted LogsLoadGraphSuccess state');
-  } catch (e) {
-    emit(LogsError(message: e.toString()));
-    debugPrint('Error fetching logs: $e');
   }
-}
+
+//   Future<void> _onSpecificLogsFetches(
+//     LogsEvent event, Emitter<LogsState> emit) async {
+//   emit(LogsLoadInProgress()); // Emitting loading state
+//   try {
+//     String logType;
+//     DateTime today;
+
+//     // Determine which log type based on the event
+//     if (event is LogsFetchedWeight) {
+//       logType = "WEIGHT_LOG";
+//       today = event.date;
+//       debugPrint('Fetching weight logs for 4 weeks until date: $today');
+//     } else if (event is LogsFetchedWaistLine) {
+//       logType = "WAIST_LINE_LOG";
+//       today = event.date;
+//       debugPrint('Fetching waist line logs for 4 weeks until date: $today');
+//     } else {
+//       throw Exception("Unknown event type");
+//     }
+
+//     // Fetch the logs from the repository
+//     final logsGraphList = await _logsRequestRepository.getWeeklyLogsToGraph(
+//         '1', today, logType);
+    
+//     if (logsGraphList.isEmpty) {
+//       throw Exception('No logs found for $logType');
+//     }
+
+//     // Debugging logs to check if the data is correct
+//     debugPrint('Logs fetched: $logsGraphList');
+
+//     // Emit the success state with the fetched logs
+//     emit(LogsLoadGraphSuccess(logsGraphlist: logsGraphList));
+//     debugPrint('Emitted LogsLoadGraphSuccess state');
+//   } catch (e) {
+//     emit(LogsError(message: e.toString()));
+//     debugPrint('Error fetching logs: $e');
+//   }
+// }
 
 
   Future<void> submitLog(String logName, int value, String selectedDate,
