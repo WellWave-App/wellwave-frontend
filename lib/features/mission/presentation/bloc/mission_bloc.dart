@@ -11,6 +11,7 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     on<ConfirmGoalEvent>(_onConfirmGoal);
     on<ResetGoalEvent>(_onResetGoal);
     on<CompleteTaskEvent>(_onCompleteTaskEvent);
+    on<StartProgressEvent>(_onStartProgress);
   }
 
   void _onIncreaseDailyCount(
@@ -93,5 +94,9 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     } else {
       emit(DailyTaskState(completedTaskIds: [event.taskId]));
     }
+  }
+
+  void _onStartProgress(StartProgressEvent event, Emitter<MissionState> emit) {
+    emit(ProgressState());
   }
 }

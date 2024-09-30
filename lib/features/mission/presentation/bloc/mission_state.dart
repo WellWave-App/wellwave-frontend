@@ -23,6 +23,8 @@ class HabitChallengeState extends MissionState {
   List<Object> get props => [dailyCount, minuteCount];
 }
 
+class ProgressState extends MissionState {} 
+
 // Daily Task State
 
 class DailyTaskState extends MissionState {

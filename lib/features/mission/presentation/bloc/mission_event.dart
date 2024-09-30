@@ -32,9 +32,11 @@ class ConfirmGoalEvent extends MissionEvent {
 
 class ResetGoalEvent extends MissionEvent {}
 
+class StartProgressEvent extends MissionEvent {}
+
 // Daily Task Events
 class CompleteTaskEvent extends MissionEvent {
-  final int taskId; 
+  final int taskId;
 
   CompleteTaskEvent(this.taskId);
 
