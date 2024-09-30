@@ -17,7 +17,7 @@ class DailyLogsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<LogsBloc>().add(
-          LogsFetched(date: selectedDate),
+          LogsFetched(selectedDate),
         );
 
     return Padding(

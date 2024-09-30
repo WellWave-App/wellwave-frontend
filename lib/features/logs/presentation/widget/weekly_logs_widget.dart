@@ -16,7 +16,7 @@ class WeeklyLogsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<LogsBloc>().add(LogsFetched(date: selectedDate));
+    context.read<LogsBloc>().add(LogsFetched(selectedDate));
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),

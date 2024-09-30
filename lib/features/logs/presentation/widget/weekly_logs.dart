@@ -15,6 +15,20 @@ class WeeklyLogs extends StatefulWidget {
 
 class _WeeklyLogsState extends State<WeeklyLogs> {
   @override
+  void initState() {
+    super.initState();
+    final today = DateTime.now();
+
+    // Dispatch the LogsFetchedWeight event when the widget initializes
+    context.read<LogsBloc>().add(LogsFetchedWeight(date: today));
+
+    // Or if you're fetching WaistLine logs:
+    // context.read<LogsBloc>().add(LogsFetchedWaistLine(date: today));
+
+    debugPrint('Dispatched LogsFetchedWeight event');
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -72,11 +86,11 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
             builder: (context, state) {
               if (state is LogsLoadInProgress) {
                 return const Center(child: CircularProgressIndicator());
-              } else if (state is LogsLoadSuccess) {
+              } else if (state is LogsLoadGraphSuccess) {
                 double weight = 0.0;
                 double waistLine = 0.0;
 
-                for (var log in state.logslist) {
+                for (var log in state.logsGraphlist) {
                   if (log?.logName == 'WEIGHT_LOG') {
                     weight = log?.value ?? 0.0;
                   } else if (log?.logName == 'WAIST_LINE_LOG') {
@@ -93,7 +107,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                           title: AppStrings.weightText,
                           value: weight,
                           unit: AppStrings.kgText,
-                          chart: const LineChartSample2(logType: "WEIGHT_LOG"),
+                          chart: const LineChartSample2(),
                         ),
                       ],
                     ),
@@ -104,7 +118,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                           title: AppStrings.waistLineText,
                           value: waistLine,
                           unit: AppStrings.cmText,
-                          chart: const LineChartSample2(logType: "WAIST_LINE_LOG"),
+                          chart: const LineChartSample2(),
                         ),
                       ],
                     ),

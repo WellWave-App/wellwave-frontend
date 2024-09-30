@@ -4,23 +4,27 @@ sealed class LogsEvent {}
 
 class LogsFetched extends LogsEvent {
   final DateTime date;
-  LogsFetched({required this.date});
+
+  LogsFetched(this.date);
 }
 
-class LogsFetchedWeekly extends LogsEvent {
-  final DateTime date;
-  LogsFetchedWeekly({required this.date});
-}
+// class LogsFetchedGraph extends LogsEvent {
+//   final DateTime date;
+//   final String logType;
 
-class LogsFetchedWeight extends LogsEvent {
+//   LogsFetchedGraph({required this.date,required this.logType});
+// }
+
+class LogsFetchedWeight extends LogsEvent{
   final DateTime date;
   LogsFetchedWeight({required this.date});
 }
 
-class LogsFetchedWaistLine extends LogsEvent {
+class LogsFetchedWaistLine extends LogsEvent{
   final DateTime date;
   LogsFetchedWaistLine({required this.date});
 }
+
 
 class SubmitLogEvent extends LogsEvent {
   final String logName;

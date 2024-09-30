@@ -25,7 +25,7 @@ class _LogsScreenState extends State<LogsScreen> {
           children: 
           [
             DailyLogs(), 
-            // WeeklyLogs()
+            WeeklyLogs()
             ],
         ),
       ),

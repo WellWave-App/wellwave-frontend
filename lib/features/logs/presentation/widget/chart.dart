@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wellwave_frontend/features/logs/data/models/logs_request_model.dart';
-import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weekly.dart';
+import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weight.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 
 class LineChartSample2 extends StatefulWidget {
-  final String logType; // logType: "WEIGHT_LOG" or "WAIST_LINE_LOG"
-  
-  const LineChartSample2({super.key, required this.logType});
+  const LineChartSample2({super.key});
 
   @override
   State<LineChartSample2> createState() => _LineChartSample2State();
 }
 
-
 class _LineChartSample2State extends State<LineChartSample2> {
   List<Color> gradientColors = [
     const Color(0xFFADB7F9),
-    const Color.fromARGB(0, 177, 185, 248),// Calculate minY and maxY based on the fetched log values
-        
+    const Color.fromARGB(0, 177, 185, 248),
   ];
 
-  List<LogsWeeklyRequestModel?> weeklyLogs = [];
+  List<LogsWeightRequestModel?> weeklyLogs = [];
 
   @override
   void initState() {
     super.initState();
     // Dispatch the LogsFetchedWeight event to fetch the weight logs
     final today = DateTime.now();
-    // context.read<LogsBloc>().add(LogsFetchedWeight(date: today));
+    context.read<LogsBloc>().add(LogsFetchedWeight(date: today));
   }
 
   @override
@@ -41,8 +36,8 @@ class _LineChartSample2State extends State<LineChartSample2> {
           return const Center(child: CircularProgressIndicator());
         } else if (state is LogsError) {
           return Center(child: Text('Error: ${state.message}'));
-        } else if (state is LogsLoadSuccess) {
-          // weeklyLogs = state.logsWeeklylist;
+        } else if (state is LogsLoadGraphSuccess) {
+          weeklyLogs = state.logsGraphlist;
 
           return Stack(
             children: <Widget>[
@@ -126,7 +121,6 @@ class _LineChartSample2State extends State<LineChartSample2> {
         right: BorderSide(color: Color(0xFFB1B1B1), width: 0.5),
       ),
     ),
-    
     minX: 0,
     maxX: 3,  // Limit to 4 points (0, 1, 2, 3 for 4 weeks)
     minY: 0,
