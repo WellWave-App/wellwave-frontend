@@ -52,30 +52,50 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      title: Column(
         children: [
-          Text(
-            currentStep == 5 ? '' : 'ขั้นตอนที่ ${currentStep + 1}/5',
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: AppColors.blackColor,
-                  fontWeight: FontWeight.bold,
-                ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           ),
-          if (currentStep == 2 || currentStep == 3)
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  currentStep++; // ไปยังขั้นตอนถัดไป
-                });
-              },
-              child: Text(
-                AppStrings.skipText,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.greyColor,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                currentStep == 5 ? '' : 'ขั้นตอนที่ ${currentStep + 1}/5',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: AppColors.blackColor,
+                      fontWeight: FontWeight.bold,
                     ),
               ),
+          if (currentStep == 2 || currentStep == 3)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      currentStep++;
+                    });
+                  },
+                  child: Text(
+                    AppStrings.skipText,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.greyColor,
+                        ),
+                  ),
+                ),
+              ],
             ),
+            ],
+          ),
         ],
       ),
       content: _buildStepContent(),
@@ -198,114 +218,133 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
 
   List<Widget> _buildActions() {
     return [
-      Expanded(
-        child: TextButton(
-          onPressed: () {
-            if (currentStep == 5) {
-              BlocProvider.of<LogsBloc>(context).add(
-                SubmitLogEvent(
-                  logName:
-                      'WEIGHT_LOG', 
-                  value: weight.toInt(), 
-                  selectedDate: selectedDate.toIso8601String(),
+      if (currentStep < 5) // Show navigation buttons for steps 0 to 4
+        ...[
+          if (currentStep > 0) // Show "Back" button only after the first step
+            Expanded(
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    currentStep--; // Go back to the previous step
+                  });
+                },
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(
+                      Colors.transparent), // Transparent background for Back button
+                  side: MaterialStateProperty.all(
+                    const BorderSide(color: AppColors.primaryColor),
+                  ),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                  ),
                 ),
-              );
-              BlocProvider.of<LogsBloc>(context).add(
-                SubmitLogEvent(
-                  logName:
-                      'WAIST_LINE_LOG', 
-                  value: waistLine.toInt(), 
-                  selectedDate: selectedDate.toIso8601String(),
+                child: Text(
+                  AppStrings.backText,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.primaryColor,
+                      ),
                 ),
-              );
-
-              BlocProvider.of<LogsBloc>(context).add(
-                SubmitLogEvent(
-                  logName: 'HDL_LOG', 
-                  value: hdl.toInt(), 
-                  selectedDate: selectedDate.toIso8601String(),
-                ),
-              );
-
-              BlocProvider.of<LogsBloc>(context).add(
-                SubmitLogEvent(
-                  logName: 'LDL_LOG', // for LDL
-                  value: ldl.toInt(), // Send the selected LDL value
-                  selectedDate: selectedDate.toIso8601String(),
-                ),
-              );
-
-              // Once submission is done, you can navigate or show a confirmation message
-              Navigator.pop(context);
-            }
-          },
-          style: ButtonStyle(
-            padding: WidgetStateProperty.all<EdgeInsets>(
-              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+              ),
             ),
-            backgroundColor: WidgetStateProperty.all(currentStep == 5
-                ? AppColors.primaryColor
-                : Colors.transparent), // Blue if finished
-            side: WidgetStateProperty.all(
-                const BorderSide(color: AppColors.primaryColor)), // Blue border
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40), // Rounded corners
+          const SizedBox(width: 8), // Add space between the buttons
+
+          Expanded(
+            child: TextButton(
+              onPressed: () {
+                setState(() {
+                  // Save the data when the "Next" button is pressed
+                  if (currentStep == 0) {
+                    weight = weightController.value;
+                    debugPrint("Selected weight: $weight");
+                  } else if (currentStep == 1) {
+                    waistLine = waistLineController.value;
+                    debugPrint("Selected waist line: $waistLine");
+                  } else if (currentStep == 2) {
+                    hdl = hdlController.value;
+                    debugPrint("Selected HDL: $hdl");
+                  } else if (currentStep == 3) {
+                    ldl = ldlController.value;
+                    debugPrint("Selected LDL: $ldl");
+                  }
+                  currentStep++;
+                });
+              },
+              style: ButtonStyle(
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+                ),
+                backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                ),
+              ),
+              child: Text(
+                AppStrings.nextText, // "Next" button for steps 0-4
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.white),
               ),
             ),
           ),
-          child: Text(
-              currentStep == 5
-                  ? AppStrings.completedText
-                  : AppStrings.cancleText,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: currentStep == 5
-                      ? Colors.white
-                      : AppColors.primaryColor)),
-        ),
-      ),
-      const SizedBox(width: 8),
-
-      // Next or Confirm Button
-      if (currentStep < 5)
+        ]
+      else // Show only the "Complete" button on step 5
         Expanded(
           child: TextButton(
             onPressed: () {
-              setState(() {
-                // Save the controller values when the "Next" button is pressed
-                if (currentStep == 0) {
-                  weight = weightController.value; // Save updated weight value
-                  debugPrint("Selected weight: $weight");
-                } else if (currentStep == 1) {
-                  waistLine =
-                      waistLineController.value; // Save weight line value
-                  debugPrint("Selected waist line: $waistLine");
-                } else if (currentStep == 2) {
-                  hdl = hdlController.value; // Save updated HDL value
-                  debugPrint("Selected HDL: $hdl");
-                } else if (currentStep == 3) {
-                  ldl = ldlController.value; // Save updated LDL value
-                  debugPrint("Selected LDL: $ldl");
-                }
-                currentStep++; // Move to the next step
-              });
+              // Log submission actions for step 5
+              BlocProvider.of<LogsBloc>(context).add(
+                SubmitLogEvent(
+                  logName: 'WEIGHT_LOG',
+                  value: weight.toInt(),
+                  selectedDate: selectedDate.toIso8601String(),
+                ),
+              );
+              BlocProvider.of<LogsBloc>(context).add(
+                SubmitLogEvent(
+                  logName: 'WAIST_LINE_LOG',
+                  value: waistLine.toInt(),
+                  selectedDate: selectedDate.toIso8601String(),
+                ),
+              );
+              BlocProvider.of<LogsBloc>(context).add(
+                SubmitLogEvent(
+                  logName: 'HDL_LOG',
+                  value: hdl.toInt(),
+                  selectedDate: selectedDate.toIso8601String(),
+                ),
+              );
+              BlocProvider.of<LogsBloc>(context).add(
+                SubmitLogEvent(
+                  logName: 'LDL_LOG',
+                  value: ldl.toInt(),
+                  selectedDate: selectedDate.toIso8601String(),
+                ),
+              );
+              // Close dialog after submission
+              Navigator.pop(context);
             },
             style: ButtonStyle(
               padding: WidgetStateProperty.all<EdgeInsets>(
                 const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
               ),
-              backgroundColor: WidgetStateProperty.all(
-                  AppColors.primaryColor), // Blue background
+              backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
               shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40), // Rounded corners
+                  borderRadius: BorderRadius.circular(40),
                 ),
               ),
             ),
             child: Text(
-              currentStep == 4 ? AppStrings.confirmText : AppStrings.nextText,
+              AppStrings.completedText, // Show "Complete" button in step 5
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Colors.white), // White text color for blue buttons
+                    color: Colors.white,
+                  ),
             ),
           ),
         ),

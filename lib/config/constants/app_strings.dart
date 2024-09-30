@@ -32,6 +32,7 @@ class AppStrings {
   static const completedText = 'เสร็จสิ้น';
   static const weightText = 'น้ำหนัก';
   static const skipText = 'ข้าม';
+  static const backText = 'ย้อนกลับ';
 
   //logs history screen
   static const healthHistoryText = 'ประวัติบันทึกสุขภาพ';
