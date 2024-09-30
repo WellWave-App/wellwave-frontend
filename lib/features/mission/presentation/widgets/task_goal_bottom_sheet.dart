@@ -5,8 +5,6 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
-import 'mission_dialog.dart';
-
 class TaskGoalBottomSheet extends StatelessWidget {
   const TaskGoalBottomSheet({super.key});
 
@@ -128,9 +126,12 @@ class TaskGoalBottomSheet extends StatelessWidget {
                         dailyCount: state.dailyCount,
                         minuteCount: state.minuteCount,
                       ));
-                  Navigator.of(context).pop();
+                  debugPrint(
+                      'day : ${state.dailyCount} , minute : ${state.minuteCount} ');
+                  debugPrint('state is : ${state} ');
                 }
-                // MissionDialog();
+                Navigator.of(context).pop();
+                context.read<MissionBloc>().add(StartProgressEvent());
               },
             ),
           )

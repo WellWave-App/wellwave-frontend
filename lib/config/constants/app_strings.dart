@@ -36,10 +36,11 @@ class AppStrings {
 
   static const taskInProgressText = 'ทำกิจกรรมนี้';
   static const taskDoing = 'กำลังทำกิจกรรม';
-  static const taskCompletedText = 'ทำสำเร็จ';
+  static const taskCompletedText = 'สำเร็จ';
 
   static const taskCompletedWithGemText = 'ทำภารกิจให้ครบเพื่อรับ ';
-  static const startText = 'เริ่ม ';
+  static const chooseText = 'เลือก ';
+  static const collectRewards = 'เก็บรางวัล ';
 
   static const setGoalText = 'กำหนดเป้าหมายภารกิจ ';
   static const tellGoalText = 'บอกให้เรารู้ถึงเป้าหมายของคุณ ';

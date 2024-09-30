@@ -14,4 +14,6 @@ class AppColors {
   static const darkGrayColor = Color(0xFF707070);
   static const baseGrayColor = Color(0xFFD9D9D9);
   static const mintTabTextGrayColor = Color(0xFF179B8B);
+  static const skyBlueColor = Color(0xFF53C7FE);
+  static const grayProgressColor = Color(0xFFD8D8D8);
 }

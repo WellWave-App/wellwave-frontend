@@ -59,6 +59,44 @@ class DailyTaskPage extends StatelessWidget {
                           color: AppColors.whiteColor,
                         ),
                   ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  Container(
+                    height: 28,
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      border:
+                          Border.all(color: AppColors.whiteColor, width: 2.0),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          offset: const Offset(0, 2),
+                          blurRadius: 0,
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        side: const BorderSide(
+                          color: AppColors.whiteColor,
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        AppStrings.collectRewards,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(color: AppColors.whiteColor),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),

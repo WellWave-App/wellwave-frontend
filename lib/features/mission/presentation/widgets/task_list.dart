@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
 import '../../../../config/constants/app_colors.dart';
@@ -19,17 +20,27 @@ class TaskList extends StatelessWidget {
       required this.taskId,
       required this.taskName});
 
+  Color _getProgressColor(double progress) {
+    if (progress <= 0.3) {
+      return Colors.red;
+    } else if (progress <= 0.6) {
+      return Colors.yellow;
+    } else {
+      return Colors.green;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    double progressValue = 0.3;
+    double progressBarWidth = MediaQuery.of(context).size.width - 40;
+
     return BlocBuilder<MissionBloc, MissionState>(
       builder: (context, state) {
-        final isTaskCompleted =
-            state is DailyTaskState && state.completedTaskIds.contains(taskId);
-
+        bool isProgressVisible = state is ProgressState;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.15,
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
               borderRadius: BorderRadius.circular(12),
@@ -43,41 +54,38 @@ class TaskList extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Row(
+              child: Column(
                 children: [
-                  // First Column for Image
-                  Expanded(
-                    flex: 1,
-                    child: Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover, // Adjust the image size
-                    ),
-                  ),
-                  // Second Column for Task Name and Experience
-                  Expanded(
-                    flex: 2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Row(
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        child: Image.asset(
+                          imagePath,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(width: 8), // Add spacing if needed
+                      Flexible(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.start, // Align to start
                           children: [
-                            Flexible(
-                              child: Text(
-                                taskName,
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
-                                maxLines: 2, // Set the maximum number of lines
-                                overflow:
-                                    TextOverflow.visible, // Prevent overflow
-                              ),
-                            ),
-                            SizedBox(
-                              width: 80,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    taskName,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                Row(
                                   children: [
                                     Image.asset(AppImages.expImage),
                                     Text(
@@ -87,19 +95,77 @@ class TaskList extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              height: 28,
-                              width: 210,
-                              child: ElevatedButton(
-                                onPressed: isTaskCompleted
-                                    ? null
-                                    : () {
+                            SizedBox(height: 8),
+                            isProgressVisible
+                                ? Container(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                                width: 16,
+                                                AppImages.calendarIcon),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              '5 วัน',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                            SizedBox(width: 12),
+                                            SvgPicture.asset(
+                                                width: 16, AppImages.clockIcon),
+                                            SizedBox(width: 4),
+                                            Text(
+                                              '10 นาที',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 12),
+                                        Stack(
+                                          clipBehavior: Clip.none,
+                                          children: [
+                                            // Progress bar
+                                            Container(
+                                              width: progressBarWidth,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: LinearProgressIndicator(
+                                                  backgroundColor: AppColors
+                                                      .grayProgressColor,
+                                                  color: AppColors.skyBlueColor,
+                                                  minHeight: 16,
+                                                  value: progressValue,
+                                                ),
+                                              ),
+                                            ),
+                                            // Icon ด้านบน progress bar
+                                            Positioned(
+                                              left: progressValue + 42,
+                                              top: -8,
+                                              child: Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                                size: 32,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: 28,
+                                    width: double
+                                        .infinity, // Adjusts to available space
+                                    child: ElevatedButton(
+                                      onPressed: () {
                                         showModalBottomSheet(
                                           context: context,
                                           isScrollControlled: true,
@@ -110,33 +176,32 @@ class TaskList extends StatelessWidget {
                                           },
                                         );
                                       },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: isTaskCompleted
-                                      ? Colors.grey
-                                      : AppColors.primaryColor,
-                                  foregroundColor: AppColors.whiteColor,
-                                  minimumSize: const Size(64, 28),
-                                  side: const BorderSide(
-                                    color: AppColors.whiteColor,
-                                    width: 2.0,
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.primaryColor,
+                                        foregroundColor: AppColors.whiteColor,
+                                        minimumSize: const Size(64, 28),
+                                        side: const BorderSide(
+                                          color: AppColors.whiteColor,
+                                          width: 2.0,
+                                        ),
+                                        elevation: 2,
+                                        shadowColor: AppColors.darkGrayColor,
+                                      ),
+                                      child: Text(
+                                        AppStrings.chooseText,
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall
+                                            ?.copyWith(
+                                                color: AppColors.whiteColor),
+                                      ),
+                                    ),
                                   ),
-                                  elevation: 2,
-                                  shadowColor: AppColors.darkGrayColor,
-                                ),
-                                child: Text(
-                                  AppStrings.startText,
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall
-                                      ?.copyWith(color: AppColors.whiteColor),
-                                ),
-                              ),
-                            ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -147,148 +212,3 @@ class TaskList extends StatelessWidget {
     );
   }
 }
-
-// child: Row(
-//   children: [
-//     // คอลัมน์แรก: กำหนดขนาดเป็น 1/3 ของแถว
-//     Expanded(
-//       flex: 1, // flex = 1 ให้สัดส่วนเท่ากันกับคอลัมน์อื่น
-//       child: Column(
-//         children: [
-//           // เนื้อหาของคอลัมน์แรก
-//           Image.asset(imagePath),
-//         ],
-//       ),
-//     ),
-
-//     // คอลัมน์ที่สอง: กำหนดขนาดเป็น 1/3 ของแถว
-//     Expanded(
-//       flex: ,
-//       child: Column(
-//         children: [
-//           // เนื้อหาของคอลัมน์ที่สอง
-//           Text(
-//             taskName,
-//             style: Theme.of(context).textTheme.headlineSmall,
-//           ),
-//         ],
-//       ),
-//     ),
-
-//     // คอลัมน์ที่สาม: กำหนดขนาดเป็น 1/3 ของแถว
-//     Expanded(
-//       flex: 1,
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.end,
-//         children: [
-//           // เนื้อหาของคอลัมน์ที่สาม
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.end,
-//             children: [
-//               Image.asset(AppImages.expImage),
-//               Text(
-//                 ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
-//                 style: Theme.of(context).textTheme.bodySmall,
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     ),
-//   ],
-// ),
-// child: Row(
-//   children: [
-//     Image.asset(imagePath),
-//     Text(
-//       taskName,
-//       style: Theme.of(context).textTheme.headlineSmall,
-//     ),
-//     Image.asset(AppImages.expImage),
-//     Text(
-//       ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
-//       style: Theme.of(context).textTheme.bodySmall,
-//     ),
-//   ],
-// ),
-// child: Row(
-//   children: [
-//     Row(
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.all(5.0),
-//           child: Container(
-//             width: 100,
-//             height: 100,
-//             decoration: BoxDecoration(
-//               image: DecorationImage(
-//                 image: AssetImage(imagePath),
-//               ),
-//             ),
-//           ),
-//         ),
-//         Expanded(
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Text(
-//                 taskName,
-//                 style: Theme.of(context).textTheme.headlineSmall,
-//                 // // maxLines: 2,
-//                 // overflow: TextOverflow.ellipsis,
-//                 // softWrap: true,
-//               ),
-//             ],
-//           ),
-//         ),
-//         Column(
-//           children: [
-//             Image.asset(AppImages.expImage),
-//             Text(
-//               ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
-//               style: Theme.of(context).textTheme.bodySmall,
-//             ),
-//           ],
-//         ),
-//       ],
-//     ),
-//   ],
-// ),
-
-//  Container(
-//                   color: Colors.black87,
-//                   child: ElevatedButton(
-//                     onPressed: isTaskCompleted
-//                         ? null
-//                         : () {
-//                             showDialog(
-//                               context: context,
-//                               builder: (_) => MissionDialog(
-//                                 taskName: taskName,
-//                                 taskId: taskId,
-//                               ),
-//                             );
-//                           },
-//                     style: ElevatedButton.styleFrom(
-//                       backgroundColor: isTaskCompleted
-//                           ? Colors.grey
-//                           : AppColors.primaryColor,
-//                       foregroundColor: AppColors.whiteColor,
-//                       minimumSize: const Size(64, 28),
-//                       side: const BorderSide(
-//                         color: AppColors.whiteColor,
-//                         width: 2.0,
-//                       ),
-//                       elevation: 2,
-//                       shadowColor: AppColors.darkGrayColor,
-//                     ),
-//                     child: Text(
-//                       AppStrings.startText,
-//                       textAlign: TextAlign.center,
-//                       style: Theme.of(context)
-//                           .textTheme
-//                           .titleSmall
-//                           ?.copyWith(color: AppColors.whiteColor),
-//                     ),
-//                   ),
-//                 ),

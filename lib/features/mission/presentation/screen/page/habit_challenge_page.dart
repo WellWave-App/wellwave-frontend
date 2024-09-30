@@ -57,20 +57,54 @@ class HabitChallengePage extends StatelessWidget {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      ListView.builder(
-                        itemCount: tasks.length,
-                        itemBuilder: (context, index) {
-                          final task = tasks[index];
-                          return TaskList(
-                            imagePath: task['imagePath'],
-                            taskId: task['taskId'],
-                            taskName: task['taskName'],
-                          );
-                        },
+                      Center(
+                        child: ListView.builder(
+                          itemCount: tasks.length,
+                          itemBuilder: (context, index) {
+                            final task = tasks[index];
+                            return TaskList(
+                              imagePath: task['imagePath'],
+                              taskId: task['taskId'],
+                              taskName: task['taskName'],
+                            );
+                          },
+                        ),
                       ),
-                      Center(child: Text(AppStrings.eatingText)),
-                      Center(child: Text(AppStrings.exerciseText)),
-                      Center(child: Text(AppStrings.sleepText)),
+                      Center(
+                        child: ListView.builder(
+                          itemCount: tasks.length,
+                          itemBuilder: (context, index) {
+                            final task = tasks[index];
+                            return TaskList(
+                              imagePath: task['imagePath'],
+                              taskId: task['taskId'],
+                              taskName: task['taskName'],
+                            );
+                          },
+                        ),
+                      ),
+                      Center(  child: ListView.builder(
+                          itemCount: tasks.length,
+                          itemBuilder: (context, index) {
+                            final task = tasks[index];
+                            return TaskList(
+                              imagePath: task['imagePath'],
+                              taskId: task['taskId'],
+                              taskName: task['taskName'],
+                            );
+                          },
+                        ),),
+                      Center(  child: ListView.builder(
+                          itemCount: tasks.length,
+                          itemBuilder: (context, index) {
+                            final task = tasks[index];
+                            return TaskList(
+                              imagePath: task['imagePath'],
+                              taskId: task['taskId'],
+                              taskName: task['taskName'],
+                            );
+                          },
+                        ),),
                     ],
                   ),
                 ),

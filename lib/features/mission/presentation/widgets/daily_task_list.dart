@@ -80,38 +80,59 @@ class DailyTaskList extends StatelessWidget {
                               style: Theme.of(context).textTheme.bodySmall),
                         ],
                       ),
-                      ElevatedButton(
-                        onPressed: isTaskCompleted
-                            ? null
-                            : () {
-                                showDialog(
-                                  context: context,
-                                  builder: (_) => MissionDialog(
-                                    taskName: taskName,
-                                    taskId: taskId,
-                                  ),
-                                );
-                              },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isTaskCompleted
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: 28,
+                        decoration: BoxDecoration(
+                          color: isTaskCompleted
                               ? Colors.grey
                               : AppColors.primaryColor,
-                          foregroundColor: AppColors.whiteColor,
-                          minimumSize: const Size(64, 28),
-                          side: const BorderSide(
-                            color: AppColors.whiteColor,
-                            width: 2.0,
-                          ),
-                          elevation: 2,
-                          shadowColor: AppColors.darkGrayColor,
+                          border: Border.all(
+                              color: AppColors.whiteColor, width: 2.0),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              offset: const Offset(0, 2),
+                              blurRadius: 0,
+                              spreadRadius: 0,
+                            ),
+                          ],
                         ),
-                        child: Text(
-                          AppStrings.startText,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall
-                              ?.copyWith(color: AppColors.whiteColor),
+                        child: ElevatedButton(
+                          onPressed: isTaskCompleted
+                              ? null
+                              : () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => MissionDialog(
+                                      taskName: taskName,
+                                      taskId: taskId,
+                                    ),
+                                  );
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isTaskCompleted
+                                ? Colors.grey
+                                : AppColors.primaryColor,
+                            minimumSize: const Size(64, 28),
+                            side: const BorderSide(
+                              color: AppColors.whiteColor,
+                            ),
+                            elevation: 0,
+                          ),
+                          child: Text(
+                            isTaskCompleted
+                                ? AppStrings.taskCompletedText
+                                : AppStrings.chooseText,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(color: AppColors.whiteColor),
+                          ),
                         ),
                       ),
                     ],
