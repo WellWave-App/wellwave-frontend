@@ -5,6 +5,7 @@ sealed class LogsState {}
 final class LogsInitial extends LogsState {}
 
 class LogsLoadInProgress extends LogsState {}
+class LogsLoadGraphInProgress extends LogsState {}
 
 class LogsError extends LogsState {
   final String message;
@@ -29,8 +30,10 @@ class LogsLoadGraphSuccess extends LogsState {
   final List<LogsWaistLineRequestModel?> logsWaistLinelist;
 
   LogsLoadGraphSuccess({
-    this.logsWeightlist = const [], 
-    this.logsWaistLinelist = const [], 
+    required this.logsWeightlist ,
+    required this.logsWaistLinelist ,
   });
 }
+
+
 

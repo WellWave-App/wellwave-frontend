@@ -14,6 +14,7 @@ class LogsFetchedGraph extends LogsEvent {
   LogsFetchedGraph(this.date);
 }
 
+
 // class LogsFetchedWeight extends LogsEvent{
 //   final DateTime date;
 //   LogsFetchedWeight({required this.date});

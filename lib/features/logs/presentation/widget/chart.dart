@@ -1,70 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_waistline.dart';
-import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weight.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 
-class LineChartSample2 extends StatefulWidget {
-  final String logType; // logType: "WEIGHT_LOG" or "WAIST_LINE_LOG"
+class LineChartSample2 extends StatelessWidget {
+  final String logType;
 
   const LineChartSample2({super.key, required this.logType});
-
-  @override
-  State<LineChartSample2> createState() => _LineChartSample2State();
-}
-
-class _LineChartSample2State extends State<LineChartSample2> {
-  List<Color> gradientColors = [
-    const Color(0xFFADB7F9),
-    const Color.fromARGB(0, 177, 185, 248),
-  ];
-
-  List<dynamic> weeklyLogs = []; // Use dynamic to hold both types of logs
-
-  @override
-  void initState() {
-    super.initState();
-    final today = DateTime.now();
-    context.read<LogsBloc>().add(LogsFetchedGraph(today)); // Pass logType to fetch method
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LogsBloc, LogsState>(
       builder: (context, state) {
-        if (state is LogsLoadInProgress) {
-          return const Center(child: CircularProgressIndicator());
+        if (state is LogsLoadGraphInProgress) {
+          // Remove this loading indicator to avoid multiple spinners
+          return Container(); // You can display something else here if needed
         } else if (state is LogsError) {
           return Center(child: Text('Error: ${state.message}'));
         } else if (state is LogsLoadGraphSuccess) {
-          // Determine which logs to use based on the logType
-          if (widget.logType == "WEIGHT_LOG") {
-            weeklyLogs = state.logsWeightlist; // Fetch weight logs
-          } else if (widget.logType == "WAIST_LINE_LOG") {
-            weeklyLogs = state.logsWaistLinelist; // Fetch waistline logs
-          }
+          // Fetch logs based on logType
+          List<dynamic> logs = logType == "WEIGHT_LOG"
+              ? state.logsWeightlist
+              : state.logsWaistLinelist;
 
-          // Ensure weeklyLogs is not empty before accessing its values
-          if (weeklyLogs.isEmpty) {
+          if (logs.isEmpty) {
             return const Center(child: Text('No logs available'));
           }
 
-          // Calculate minY and maxY based on the fetched log values
-          double minY = weeklyLogs
+          double minY = logs
               .where((log) => log != null)
               .map((log) => log!.value)
               .reduce((a, b) => a < b ? a : b)
               .toDouble();
-          double maxY = weeklyLogs
+          double maxY = logs
               .where((log) => log != null)
               .map((log) => log!.value)
               .reduce((a, b) => a > b ? a : b)
               .toDouble();
 
-          // Adjust minY and maxY with some padding for better display
-          minY = minY - (minY * 0.1); // Add 10% padding to the min
-          maxY = maxY + (maxY * 0.1); // Add 10% padding to the max
+          minY = minY - (minY * 0.1);
+          maxY = maxY + (maxY * 0.1);
 
           return Stack(
             children: <Widget>[
@@ -73,7 +48,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
                   child: LineChart(
-                    mainData(minY, maxY),
+                    mainData(logs, minY, maxY),
                   ),
                 ),
               ),
@@ -81,66 +56,46 @@ class _LineChartSample2State extends State<LineChartSample2> {
           );
         }
 
-        return Container(); // Return an empty container if no relevant state
+        return Container(); // Return an empty container by default
       },
     );
   }
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontSize: 10,
-    );
-
-    // Check if we have enough data for the requested index
-    if (value.toInt() < weeklyLogs.length) {
-      final log = weeklyLogs[value.toInt()];
-      if (log != null) {
-        final date = DateTime.parse(
-            log.date.toIso8601String()); // Parse the date from the log
-        final formattedDate =
-            '${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}'; // Format to MM-DD
-        return SideTitleWidget(
-          axisSide: meta.axisSide,
-          child: Text(formattedDate, style: style),
-        );
-      }
-    }
-    return const Text('-', style: style);
-  }
-
-  LineChartData mainData(double minY, double maxY) {
+  LineChartData mainData(List<dynamic> logs, double minY, double maxY) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
         drawVerticalLine: true,
         drawHorizontalLine: false,
         verticalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xFFB1B1B1),
-            strokeWidth: 0.5,
-          );
-        },
+        getDrawingVerticalLine: (value) => const FlLine(color: Color(0xFFB1B1B1), strokeWidth: 0.5),
       ),
       titlesData: FlTitlesData(
         show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
+        
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: (value, meta) => bottomTitleWidgets(logs, value, meta),
           ),
         ),
-        leftTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
+            leftTitles: const AxisTitles(
+        sideTitles: SideTitles(
+          showTitles: false,
         ),
+      ),
+      rightTitles: const AxisTitles(
+        sideTitles: SideTitles(
+          showTitles: false, 
+        ),
+      ),
+      topTitles: const AxisTitles(
+        sideTitles: SideTitles(
+          showTitles: false,  
+        ),
+      ),
       ),
       borderData: FlBorderData(
         show: true,
@@ -150,30 +105,25 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ),
       minX: 0,
-      maxX: (weeklyLogs.length - 1).toDouble(), // Adjust based on the number of logs
+      maxX: (logs.length - 1).toDouble(),
       minY: minY,
-      maxY: maxY, // Use dynamic minY and maxY
+      maxY: maxY,
       lineBarsData: [
         LineChartBarData(
-          spots: weeklyLogs.asMap().entries.map((entry) {
+          spots: logs.asMap().entries.map((entry) {
             final index = entry.key;
             final log = entry.value;
-            if (log != null) {
-              return FlSpot(index.toDouble(), log.value.toDouble());
-            }
-            return FlSpot(index.toDouble(), 0); // Default value if log is null
+            return FlSpot(index.toDouble(), log != null ? log.value.toDouble() : 0);
           }).toList(),
           isCurved: true,
           color: const Color(0xFF001DFF),
           barWidth: 1,
           isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
+          dotData: const FlDotData(show: false),
           belowBarData: BarAreaData(
             show: true,
-            gradient: LinearGradient(
-              colors: gradientColors,
+            gradient: const LinearGradient(
+              colors: [Color(0xFFADB7F9), Color.fromARGB(0, 177, 185, 248)],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -181,5 +131,16 @@ class _LineChartSample2State extends State<LineChartSample2> {
         ),
       ],
     );
+  }
+
+  Widget bottomTitleWidgets(List<dynamic> logs, double value, TitleMeta meta) {
+    const style = TextStyle(fontSize: 10);
+    if (value.toInt() < logs.length) {
+      final log = logs[value.toInt()];
+      final date = DateTime.parse(log.date.toIso8601String());
+      final formattedDate = '${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+      return SideTitleWidget(axisSide: meta.axisSide, child: Text(formattedDate, style: style));
+    }
+    return const Text('-', style: style);
   }
 }

@@ -21,11 +21,14 @@ class _DailyLogsState extends State<DailyLogs> {
   @override
   void initState() {
     super.initState();
+    debugPrint('Sending LogsFetched event');
     BlocProvider.of<LogsBloc>(context).add(LogsFetched(DateTime.now()));
   }
 
   @override
   Widget build(BuildContext context) {
+            debugPrint('WeeklyLogs build called');
+
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -38,6 +41,8 @@ class _DailyLogsState extends State<DailyLogs> {
           BlocBuilder<LogsBloc, LogsState>(
             builder: (context, state) {
               if (state is LogsLoadInProgress) {
+                                          // debugPrint('daily log ');
+
                 return const Center(child: CircularProgressIndicator());
               } else if (state is LogsLoadSuccess) {
                 // Check if we have logs for water and sleep for today

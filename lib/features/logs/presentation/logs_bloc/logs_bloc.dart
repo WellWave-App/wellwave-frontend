@@ -45,7 +45,7 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
 
   Future<void> _onGraphLogsFetches(
       LogsFetchedGraph event, Emitter<LogsState> emit) async {
-    emit(LogsLoadInProgress());
+    emit(LogsLoadGraphInProgress());
 
     try {
      
