@@ -5,6 +5,7 @@ class WeeklyLogsCard extends StatelessWidget {
   final String title;
   final double value;
   final String unit;
+  final double lastWeekValue;
   final Widget chart;
 
   const WeeklyLogsCard({
@@ -12,11 +13,15 @@ class WeeklyLogsCard extends StatelessWidget {
     required this.title,
     required this.value,
     required this.unit,
+    required this.lastWeekValue,
     required this.chart,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double difference = value - lastWeekValue;
+    bool isPositive = difference >= 0;
+
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -38,9 +43,7 @@ class WeeklyLogsCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-
-                      ),
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(),
                 ),
               ],
             ),
@@ -50,10 +53,9 @@ class WeeklyLogsCard extends StatelessWidget {
                 Text(
                   '$value',
                   style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20
-                      ),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
                 ),
                 const SizedBox(width: 4),
                 Text(
@@ -65,13 +67,21 @@ class WeeklyLogsCard extends StatelessWidget {
                 const SizedBox(width: 2),
                 Row(
                   children: [
-                    const Icon(Icons.arrow_downward,
-                        size: 10.0, color: AppColors.greenColor),
+                    Icon(
+                      isPositive
+                          ? Icons.arrow_upward
+                          : Icons.arrow_downward,
+                      size: 16,
+                      color: isPositive
+                          ? Colors.red
+                          : AppColors.greenColor,
+                    ),
                     Text(
-                      '0.5 $unit',
+                      '${difference.abs()} $unit',
                       style: Theme.of(context).textTheme.caption2?.copyWith(
-                            color: AppColors.greenColor,
-                            fontSize: 8
+                            color: isPositive
+                                ? Colors.red
+                                : AppColors.greenColor,
                           ),
                     ),
                   ],

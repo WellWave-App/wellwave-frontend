@@ -8,7 +8,7 @@ class InputDailyLogs extends StatefulWidget {
   final String title;
   final String unitLabel;
   final int maxLevel;
-  final List<String> svgIcons; // List of SVG paths for each level
+  final List<String> svgIcons;
 
   const InputDailyLogs({
     super.key,
@@ -16,7 +16,7 @@ class InputDailyLogs extends StatefulWidget {
     required this.title,
     required this.unitLabel,
     this.maxLevel = 0,
-    required this.svgIcons, // SVG icons need to be passed
+    required this.svgIcons,
   });
 
   @override
@@ -29,10 +29,9 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
   void increaseInputLevel() {
     setState(() {
       if (inputLevel < widget.maxLevel - 1) {
-        // Ensure it doesn't exceed max level
         inputLevel++;
       } else {
-        print('Max level reached');
+        debugPrint('Max level reached');
       }
     });
   }
@@ -48,14 +47,12 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
   @override
   void initState() {
     super.initState();
-    inputLevel = widget.initialUnits
-        .clamp(0, widget.maxLevel - 1); // Ensure it starts within range
+    inputLevel = widget.initialUnits.clamp(0, widget.maxLevel - 1);
   }
 
   Widget buildInputIcon(double size) {
-    // Use the SVG based on the current level
     return SvgPicture.asset(
-      widget.svgIcons[inputLevel], // Display the SVG for the current level
+      widget.svgIcons[inputLevel],
       width: size,
       height: size,
     );
@@ -73,7 +70,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          buildInputIcon(100), // Display the SVG icon
+          buildInputIcon(100),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

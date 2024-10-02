@@ -15,7 +15,7 @@ class InputButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 32, // Set the height
+      height: 32, 
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
