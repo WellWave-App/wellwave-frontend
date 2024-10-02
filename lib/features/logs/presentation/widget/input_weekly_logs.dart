@@ -17,29 +17,6 @@ class InputWeeklyLogs extends StatefulWidget {
 
 class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   int currentStep = 0;
-  num weight = 50.5;
-  num waistLine = 65.4;
-  num hdl = 65.0;
-  num ldl = 165.0;
-  int selectedMood = 4;
-  DateTime selectedDate = DateTime.now();
-
-  final List<String> moodIconsGrey = [
-    AppImages.verySadGreyIcon,
-    AppImages.sadGreyIcon,
-    AppImages.neutralGreyIcon,
-    AppImages.happyGreyIcon,
-    AppImages.veryHappyGreyIcon,
-  ];
-
-  final List<String> moodIconsColor = [
-    AppImages.verySadColorIcon,
-    AppImages.sadColorIcon,
-    AppImages.neutralColorIcon,
-    AppImages.happyColorIcon,
-    AppImages.veryHappyColorIcon,
-  ];
-
   final RulerPickerController weightController =
       RulerPickerController(value: 50.5);
   final RulerPickerController waistLineController =
@@ -49,305 +26,257 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   final RulerPickerController ldlController =
       RulerPickerController(value: 165.0);
 
+  num weight = 50.5, waistLine = 65.4, hdl = 65.0, ldl = 165.0;
+  int selectedMood = 4;
+  DateTime selectedDate = DateTime.now();
+
+  final List<String> moodIconsGrey = [
+    AppImages.verySadGreyIcon,
+    AppImages.sadGreyIcon,
+    AppImages.neutralGreyIcon,
+    AppImages.happyGreyIcon,
+    AppImages.veryHappyGreyIcon
+  ];
+
+  final List<String> moodIconsColor = [
+    AppImages.verySadColorIcon,
+    AppImages.sadColorIcon,
+    AppImages.neutralColorIcon,
+    AppImages.happyColorIcon,
+    AppImages.veryHappyColorIcon
+  ];
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                currentStep == 5 ? '' : '${AppStrings.stepNumber} ${currentStep + 1}/5',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: AppColors.blackColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-          if (currentStep == 2 || currentStep == 3)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      currentStep++;
-                    });
-                  },
-                  child: Text(
-                    AppStrings.skipText,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppColors.greyColor,
-                        ),
-                  ),
-                ),
-              ],
-            ),
-            ],
-          ),
-        ],
-      ),
+      title: _buildDialogTitle(),
       content: _buildStepContent(),
-      actions: [
+      actions: [_buildDialogActions()],
+      backgroundColor: AppColors.popupColor,
+    );
+  }
+
+  Widget _buildDialogTitle() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: _buildActions(),
+          children: [
+            Text(
+              currentStep < 5
+                  ? '${AppStrings.stepNumber} ${currentStep + 1}/5'
+                  : '',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: AppColors.blackColor, fontWeight: FontWeight.bold),
+            ),
+            if (currentStep == 2 || currentStep == 3) _buildSkipButton(),
+          ],
         ),
       ],
-      backgroundColor: AppColors.popupColor,
+    );
+  }
+
+  Widget _buildSkipButton() {
+    return TextButton(
+      onPressed: () => setState(() => currentStep++),
+      child: Text(
+        AppStrings.skipText,
+        style: Theme.of(context)
+            .textTheme
+            .bodySmall
+            ?.copyWith(color: AppColors.greyColor),
+      ),
     );
   }
 
   Widget _buildStepContent() {
     switch (currentStep) {
       case 0:
-        return ScaleRecordWidget(
-          title: AppStrings.weightRecordText,
-          label: AppStrings.kgText,
-          initialValue: weight,
-          controller: weightController,
-          onValueChanged: (value) {
-            setState(() {
-              weight = value;
-            });
-          },
-        );
-
+        return _buildScaleRecord(AppStrings.weightRecordText, AppStrings.kgText,
+            weightController, (value) => weight = value);
       case 1:
-        return ScaleRecordWidget(
-          title: AppStrings.waistLineRecordText,
-          label: AppStrings.cmText,
-          initialValue: waistLine,
-          controller: waistLineController,
-          onValueChanged: (value) {
-            setState(() {
-              waistLine = value;
-            });
-          },
-        );
-
+        return _buildScaleRecord(
+            AppStrings.waistLineRecordText,
+            AppStrings.cmText,
+            waistLineController,
+            (value) => waistLine = value);
       case 2:
-        return ScaleRecordWidget(
-          title: AppStrings.hdlRecordText,
-          label: AppStrings.mgPerDlText,
-          initialValue: hdl,
-          controller: hdlController,
-          onValueChanged: (value) {
-            setState(() {
-              hdl = value;
-            });
-          },
-        );
-
+        return _buildScaleRecord(AppStrings.hdlRecordText,
+            AppStrings.mgPerDlText, hdlController, (value) => hdl = value);
       case 3:
-        return ScaleRecordWidget(
-          title: AppStrings.ldlRecordText,
-          label: AppStrings.mgPerDlText,
-          initialValue: ldl,
-          controller: ldlController,
-          onValueChanged: (value) {
-            setState(() {
-              ldl = value;
-            });
-          },
-        );
+        return _buildScaleRecord(AppStrings.ldlRecordText,
+            AppStrings.mgPerDlText, ldlController, (value) => ldl = value);
       case 4:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  AppStrings.chooseMoodsText,
-                  style: Theme.of(context).textTheme.title320?.copyWith(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(moodIconsGrey.length, (index) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedMood = index;
-                    });
-                  },
-                  child: SvgPicture.asset(
-                    selectedMood == index
-                        ? moodIconsColor[index] 
-                        : moodIconsGrey[index], 
-                    width: 48, 
-                    height: 48,
-                  ),
-                );
-              }),
-            )
-          ],
-        );
+        return _buildMoodSelection();
       case 5:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              AppImages.completeIcon,
-              width: 80, 
-              height: 80, 
-            ),
-            const SizedBox(height: 8), 
-            Text(AppStrings.dataRecordingCompletedText,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith())
-          ],
-        );
+        return _buildCompletionStep();
       default:
         return Container();
     }
   }
 
-  List<Widget> _buildActions() {
-    return [
-      if (currentStep < 5) 
-        ...[
-          if (currentStep > 0) 
-            Expanded(
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    currentStep--; 
-                  });
-                },
-                style: ButtonStyle(
-                  padding: WidgetStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
-                  ),
-                  backgroundColor: WidgetStateProperty.all(
-                      Colors.transparent), 
-                  side: WidgetStateProperty.all(
-                    const BorderSide(color: AppColors.primaryColor),
-                  ),
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                  ),
-                ),
-                child: Text(
-                  AppStrings.backText,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.primaryColor,
-                      ),
-                ),
-              ),
-            ),
-          const SizedBox(width: 8), 
+  Widget _buildScaleRecord(String title, String label,
+      RulerPickerController controller, Function(num) onValueChanged) {
+    return ScaleRecordWidget(
+      title: title,
+      label: label,
+      initialValue: controller.value,
+      controller: controller,
+      onValueChanged: onValueChanged,
+    );
+  }
 
-          Expanded(
-            child: TextButton(
-              onPressed: () {
-                setState(() {
-                  
-                  if (currentStep == 0) {
-                    weight = weightController.value;
-                    debugPrint("Selected weight: $weight");
-                  } else if (currentStep == 1) {
-                    waistLine = waistLineController.value;
-                    debugPrint("Selected waist line: $waistLine");
-                  } else if (currentStep == 2) {
-                    hdl = hdlController.value;
-                    debugPrint("Selected HDL: $hdl");
-                  } else if (currentStep == 3) {
-                    ldl = ldlController.value;
-                    debugPrint("Selected LDL: $ldl");
-                  }
-                  currentStep++;
-                });
-              },
-              style: ButtonStyle(
-                padding: WidgetStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
-                ),
-                backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
-                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                ),
-              ),
-              child: Text(
-                AppStrings.nextText, 
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.white),
-              ),
-            ),
-          ),
-        ]
-      else 
-        Expanded(
-          child: TextButton(
-            onPressed: () {
-              
-              BlocProvider.of<LogsBloc>(context).add(
-                SubmitLogEvent(
-                  logName: AppStrings.weightLogText,
-                  value: weight.toInt(),
-                  selectedDate: selectedDate.toIso8601String(),
-                ),
-              );
-              BlocProvider.of<LogsBloc>(context).add(
-                SubmitLogEvent(
-                  logName: AppStrings.waistLineLogText,
-                  value: waistLine.toInt(),
-                  selectedDate: selectedDate.toIso8601String(),
-                ),
-              );
-              BlocProvider.of<LogsBloc>(context).add(
-                SubmitLogEvent(
-                  logName: AppStrings.hdlLogText,
-                  value: hdl.toInt(),
-                  selectedDate: selectedDate.toIso8601String(),
-                ),
-              );
-              BlocProvider.of<LogsBloc>(context).add(
-                SubmitLogEvent(
-                  logName: AppStrings.ldlLogText,
-                  value: ldl.toInt(),
-                  selectedDate: selectedDate.toIso8601String(),
-                ),
-              );
-              
-              Navigator.pop(context);
-            },
-            style: ButtonStyle(
-              padding: WidgetStateProperty.all<EdgeInsets>(
-                const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
-              ),
-              backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
-              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ),
-            ),
-            child: Text(
-              AppStrings.completedText, 
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.white,
-                  ),
-            ),
-          ),
+  Widget _buildMoodSelection() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(AppStrings.chooseMoodsText,
+              style: Theme.of(context).textTheme.titleLarge),
         ),
+        const SizedBox(height: 24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: List.generate(moodIconsGrey.length, (index) {
+            return GestureDetector(
+              onTap: () => setState(() => selectedMood = index),
+              child: SvgPicture.asset(
+                selectedMood == index
+                    ? moodIconsColor[index]
+                    : moodIconsGrey[index],
+                width: 48,
+                height: 48,
+              ),
+            );
+          }),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCompletionStep() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(AppImages.completeIcon, width: 80, height: 80),
+        const SizedBox(height: 8),
+        Text(AppStrings.dataRecordingCompletedText,
+            style: Theme.of(context).textTheme.labelLarge),
+      ],
+    );
+  }
+
+  Widget _buildDialogActions() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: currentStep < 5
+          ? [_buildBackButton(), _buildNextButton()]
+          : [_buildCompleteButton()],
+    );
+  }
+
+  Widget _buildBackButton() {
+    return currentStep > 0
+        ? Expanded(
+            child: TextButton(
+              onPressed: () => setState(() => currentStep--),
+              child: Text(AppStrings.backText,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: AppColors.primaryColor)),
+            ),
+          )
+        : const SizedBox.shrink();
+  }
+
+  Widget _buildNextButton() {
+    return Expanded(
+      child: TextButton(
+        onPressed: () {
+          setState(() {
+            _updateStepValues();
+            currentStep++;
+          });
+        },
+        style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(AppColors.primaryColor)),
+        child: Text(AppStrings.nextText,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: Colors.white)),
+      ),
+    );
+  }
+
+  Widget _buildCompleteButton() {
+    return Expanded(
+      child: TextButton(
+        onPressed: _submitLogs,
+        style: ButtonStyle(
+            backgroundColor: WidgetStateProperty.all(AppColors.primaryColor)),
+        child: Text(AppStrings.completedText,
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(color: Colors.white)),
+      ),
+    );
+  }
+
+  void _updateStepValues() {
+    switch (currentStep) {
+      case 0:
+        weight = weightController.value;
+        break;
+      case 1:
+        waistLine = waistLineController.value;
+        break;
+      case 2:
+        hdl = hdlController.value;
+        break;
+      case 3:
+        ldl = ldlController.value;
+        break;
+    }
+  }
+
+  void _submitLogs() {
+    final logsBloc = BlocProvider.of<LogsBloc>(context);
+    final logEvents = [
+      SubmitLogEvent(
+          logName: AppStrings.weightLogText,
+          value: weight.toInt(),
+          selectedDate: selectedDate.toIso8601String()),
+      SubmitLogEvent(
+          logName: AppStrings.waistLineLogText,
+          value: waistLine.toInt(),
+          selectedDate: selectedDate.toIso8601String()),
+      SubmitLogEvent(
+          logName: AppStrings.hdlLogText,
+          value: hdl.toInt(),
+          selectedDate: selectedDate.toIso8601String()),
+      SubmitLogEvent(
+          logName: AppStrings.ldlLogText,
+          value: ldl.toInt(),
+          selectedDate: selectedDate.toIso8601String()),
     ];
+
+    for (var event in logEvents) {
+      logsBloc.add(event);
+    }
+
+    Navigator.pop(context);
   }
 }
