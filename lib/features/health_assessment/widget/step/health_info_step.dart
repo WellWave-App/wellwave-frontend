@@ -10,7 +10,7 @@ class HealthInfoStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<AssessmentBloc>().state;
+    final state = context.watch<HealthAssessmentPageBloc>().state;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,8 +39,9 @@ class HealthInfoStep extends StatelessWidget {
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(3),
             ],
-            onChanged: (value) =>
-                context.read<AssessmentBloc>().add(UpdateField('sbp', value)),
+            onChanged: (value) => context
+                .read<HealthAssessmentPageBloc>()
+                .add(UpdateField('sbp', value)),
           ),
           const SizedBox(
             height: 24,
@@ -55,8 +56,9 @@ class HealthInfoStep extends StatelessWidget {
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(3),
             ],
-            onChanged: (value) =>
-                context.read<AssessmentBloc>().add(UpdateField('dbp', value)),
+            onChanged: (value) => context
+                .read<HealthAssessmentPageBloc>()
+                .add(UpdateField('dbp', value)),
           ),
           const SizedBox(
             height: 24,
@@ -71,8 +73,9 @@ class HealthInfoStep extends StatelessWidget {
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(3),
             ],
-            onChanged: (value) =>
-                context.read<AssessmentBloc>().add(UpdateField('hdl', value)),
+            onChanged: (value) => context
+                .read<HealthAssessmentPageBloc>()
+                .add(UpdateField('hdl', value)),
           ),
           const SizedBox(
             height: 24,
@@ -87,8 +90,9 @@ class HealthInfoStep extends StatelessWidget {
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(3),
             ],
-            onChanged: (value) =>
-                context.read<AssessmentBloc>().add(UpdateField('ldl', value)),
+            onChanged: (value) => context
+                .read<HealthAssessmentPageBloc>()
+                .add(UpdateField('ldl', value)),
           ),
           const SizedBox(
             height: 24,
@@ -103,8 +107,9 @@ class HealthInfoStep extends StatelessWidget {
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(3),
             ],
-            onChanged: (value) =>
-                context.read<AssessmentBloc>().add(UpdateField('waist', value)),
+            onChanged: (value) => context
+                .read<HealthAssessmentPageBloc>()
+                .add(UpdateField('waist', value)),
           ),
         ],
       ),

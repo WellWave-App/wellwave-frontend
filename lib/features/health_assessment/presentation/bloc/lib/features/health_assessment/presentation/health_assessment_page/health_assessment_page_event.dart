@@ -3,16 +3,16 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 
-abstract class AssessmentEvent extends Equatable {
+abstract class HealthAssessmentPageEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class StepContinue extends AssessmentEvent {}
+class StepContinue extends HealthAssessmentPageEvent {}
 
-class StepBack extends AssessmentEvent {}
+class StepBack extends HealthAssessmentPageEvent {}
 
-class ImagePicked extends AssessmentEvent {
+class ImagePicked extends HealthAssessmentPageEvent {
   final File imageFile;
 
   ImagePicked(this.imageFile);
@@ -21,9 +21,9 @@ class ImagePicked extends AssessmentEvent {
   List<Object> get props => [imageFile];
 }
 
-class UpdateField extends AssessmentEvent {
+class UpdateField extends HealthAssessmentPageEvent {
   final String fieldName;
-  final String value;
+  final dynamic value;
 
   UpdateField(this.fieldName, this.value);
 
@@ -31,16 +31,16 @@ class UpdateField extends AssessmentEvent {
   List<Object?> get props => [fieldName, value];
 }
 
-class ShowRecommendEvent extends AssessmentEvent {}
+class ShowRecommendEvent extends HealthAssessmentPageEvent {}
 
-class ShowHealthConnectEvent extends AssessmentEvent {
+class ShowHealthConnectEvent extends HealthAssessmentPageEvent {
   @override
   List<Object?> get props => [];
 }
 
-class ShowFinishEvent extends AssessmentEvent {}
+class ShowFinishEvent extends HealthAssessmentPageEvent {}
 
-class NavigateToStartHealthStepState extends AssessmentEvent {}
+class NavigateToStartHealthStepState extends HealthAssessmentPageEvent {}
 
 class UpdateRiskScoreEvent {
   final String scoreType;

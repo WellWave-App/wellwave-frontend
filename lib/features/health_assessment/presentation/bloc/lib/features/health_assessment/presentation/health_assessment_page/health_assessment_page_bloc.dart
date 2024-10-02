@@ -6,13 +6,15 @@ import 'package:wellwave_frontend/features/health_assessment/data/repositories/h
 import 'health_assessment_page_event.dart';
 import 'health_assessment_page_state.dart';
 
-class ValidateGender extends AssessmentEvent {}
+class ValidateGender extends HealthAssessmentPageEvent {}
 
-class AssessmentBloc extends Bloc<AssessmentEvent, HealthAssessmentState> {
+class HealthAssessmentPageBloc
+    extends Bloc<HealthAssessmentPageEvent, HealthAssessmentPageState> {
   final ScoreCalculator scoreCalculator = ScoreCalculator();
 
-  AssessmentBloc()
-      : super(const HealthAssessmentState(
+  HealthAssessmentPageBloc(
+      HealthAssessmentRepository healthAssessmentRepository)
+      : super(const HealthAssessmentPageState(
           currentStep: 0,
           formData: {},
           selectedItems: [],
@@ -26,7 +28,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, HealthAssessmentState> {
     });
 
     void _onImagePicked(
-        ImagePicked event, Emitter<HealthAssessmentState> emit) {
+        ImagePicked event, Emitter<HealthAssessmentPageState> emit) {
       final updatedFormData = Map<String, String>.from(state.formData);
       updatedFormData['imageUrl'] = event.imageFile.path;
 
@@ -61,20 +63,23 @@ class AssessmentBloc extends Bloc<AssessmentEvent, HealthAssessmentState> {
   }
 
   void _onStepContinue(
-      StepContinue event, Emitter<HealthAssessmentState> emit) {
+      StepContinue event, Emitter<HealthAssessmentPageState> emit) {
     if (state.currentStep < 6) {
       emit(state.copyWith(currentStep: state.currentStep + 1));
     }
   }
 
-  void _onStepBack(StepBack event, Emitter<HealthAssessmentState> emit) {
+  void _onStepBack(StepBack event, Emitter<HealthAssessmentPageState> emit) {
     if (state.currentStep > 0) {
       emit(state.copyWith(currentStep: state.currentStep - 1));
     }
   }
 
-  void _onUpdateField(UpdateField event, Emitter<HealthAssessmentState> emit) {
+  void _onUpdateField(
+      UpdateField event, Emitter<HealthAssessmentPageState> emit) {
     final updatedFormData = Map<String, String>.from(state.formData);
+
+    // debugPrint('Field Name: ${event.fieldName}, Value: ${event.value}');
     updatedFormData[event.fieldName] = event.value;
 
     ScoreCalculator scoreCalculator = ScoreCalculator();
@@ -91,7 +96,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, HealthAssessmentState> {
   }
 
   void _onUpdateRiskScore(
-      UpdateRiskScoreEvent event, Emitter<HealthAssessmentState> emit) {
+      UpdateRiskScoreEvent event, Emitter<HealthAssessmentPageState> emit) {
     int updatedDiabetesScore = state.riskDiabetesScore;
     int updatedHypertensionScore = state.riskHypertensionScore;
     int updatedDyslipidemiaScore = state.riskDyslipidemiaScore;
@@ -121,14 +126,14 @@ class AssessmentBloc extends Bloc<AssessmentEvent, HealthAssessmentState> {
   }
 
   void _onValidateGender(
-      ValidateGender event, Emitter<HealthAssessmentState> emit) {
+      ValidateGender event, Emitter<HealthAssessmentPageState> emit) {
     final isGenderSelected = state.formData['gender'] != null;
 
     emit(state.copyWith(genderError: !isGenderSelected));
   }
 
   void _onToggleSelection(
-      ToggleSelectionEvent event, Emitter<HealthAssessmentState> emit) {
+      ToggleSelectionEvent event, Emitter<HealthAssessmentPageState> emit) {
     if (event.selectionType == 'famhis') {
       var updatedFamhisChoose = List<String>.from(state.famhisChoose);
       if (event.title == AppStrings.unknownDiseaseText) {
@@ -163,12 +168,12 @@ class AssessmentBloc extends Bloc<AssessmentEvent, HealthAssessmentState> {
   }
 
   void _onSetSelectionMode(
-      SetSelectionMode event, Emitter<HealthAssessmentState> emit) {
+      SetSelectionMode event, Emitter<HealthAssessmentPageState> emit) {
     emit(state.copyWith(isMultiSelect: event.isMultiSelect));
   }
 }
 
-class ToggleSelectionEvent extends AssessmentEvent {
+class ToggleSelectionEvent extends HealthAssessmentPageEvent {
   final String title;
   final bool isMultiSelect;
   final String selectionType;
@@ -179,7 +184,7 @@ class ToggleSelectionEvent extends AssessmentEvent {
   List<Object> get props => [title, isMultiSelect, selectionType];
 }
 
-class SetSelectionMode extends AssessmentEvent {
+class SetSelectionMode extends HealthAssessmentPageEvent {
   final bool isMultiSelect;
 
   SetSelectionMode(this.isMultiSelect);

@@ -9,16 +9,14 @@ sealed class HealthAssessmentState extends Equatable {
 
 final class HealthAssessmentInitial extends HealthAssessmentState {}
 
-class LeaveRequestLoading extends HealthAssessmentState {}
+class HealthAssessmentLoading extends HealthAssessmentState {}
 
-class LeaveRequestSuccess extends HealthAssessmentState {
-  const LeaveRequestSuccess();
+class HealthAssessmentSuccess extends HealthAssessmentState {
+  const HealthAssessmentSuccess();
 }
 
-class LeaveRequestFail extends HealthAssessmentState {
+class HealthAssessmentFail extends HealthAssessmentState {
   final String message;
 
-  const LeaveRequestFail({
-    required this.message,
-  });
+  HealthAssessmentFail(this.message);
 }

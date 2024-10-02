@@ -59,7 +59,7 @@ class ResultAssessment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
+    return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(title: Text('สรุปผลการประเมิน')),

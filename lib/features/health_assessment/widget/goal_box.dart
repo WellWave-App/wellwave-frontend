@@ -22,7 +22,7 @@ class GoalBox extends StatelessWidget {
   Widget build(BuildContext context) {
     double containerWidth = MediaQuery.of(context).size.width;
 
-    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
+    return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         bool isSelected;
         isSelected = (state.goalChoose == title);
@@ -33,7 +33,7 @@ class GoalBox extends StatelessWidget {
 
             selectionType = 'goal';
 
-            context.read<AssessmentBloc>().add(
+            context.read<HealthAssessmentPageBloc>().add(
                   ToggleSelectionEvent(title, isMultiSelect, selectionType),
                 );
           },

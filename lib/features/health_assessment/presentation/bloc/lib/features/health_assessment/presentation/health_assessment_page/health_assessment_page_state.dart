@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'dart:io';
 
-class HealthAssessmentState extends Equatable {
+class HealthAssessmentPageState extends Equatable {
   final int currentStep;
   final Map<String, String> formData;
   final bool genderError;
@@ -22,7 +22,7 @@ class HealthAssessmentState extends Equatable {
   final int riskDyslipidemiaScore;
   final int riskObesityScore;
 
-  const HealthAssessmentState({
+  const HealthAssessmentPageState({
     required this.currentStep,
     required this.formData,
     this.genderError = false,
@@ -44,7 +44,7 @@ class HealthAssessmentState extends Equatable {
     this.riskObesityScore = 0,
   });
 
-  HealthAssessmentState copyWith({
+  HealthAssessmentPageState copyWith({
     int? currentStep,
     Map<String, String>? formData,
     bool? genderError,
@@ -66,7 +66,7 @@ class HealthAssessmentState extends Equatable {
     int? riskObesityScore,
     bool? isLoading,
   }) {
-    return HealthAssessmentState(
+    return HealthAssessmentPageState(
       currentStep: currentStep ?? this.currentStep,
       formData: formData ?? this.formData,
       genderError: genderError ?? this.genderError,

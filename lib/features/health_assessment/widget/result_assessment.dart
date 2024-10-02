@@ -21,10 +21,10 @@ class ResultAssessment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
+    return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         debugPrint(
-            'Current formData: ${context.read<AssessmentBloc>().state.formData}');
+            'Current formData: ${context.read<HealthAssessmentPageBloc>().state.formData}');
 
         double averageRiskScore = ((state.riskObesityScore / 1) +
                 (state.riskDyslipidemiaScore / 4) +
@@ -88,7 +88,7 @@ class ResultAssessment extends StatelessWidget {
                         textColor: AppColors.backgroundColor,
                         onPressed: () {
                           context
-                              .read<AssessmentBloc>()
+                              .read<HealthAssessmentPageBloc>()
                               .add(ShowRecommendEvent());
                         },
                         title: 'ถัดไป',
@@ -108,7 +108,7 @@ class ResultAssessment extends StatelessWidget {
 class RecommendScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
+    return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         if (state.showHealthConnect) {
           return HealthConnectScreen();
@@ -157,7 +157,7 @@ class RecommendScreen extends StatelessWidget {
                         textColor: AppColors.backgroundColor,
                         onPressed: () {
                           context
-                              .read<AssessmentBloc>()
+                              .read<HealthAssessmentPageBloc>()
                               .add(ShowHealthConnectEvent());
                         },
                         title: 'ถัดไป',
@@ -177,7 +177,7 @@ class RecommendScreen extends StatelessWidget {
 class HealthConnectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
+    return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         if (state.showFinish) {
           return FinishScreen();
@@ -228,7 +228,7 @@ class HealthConnectScreen extends StatelessWidget {
                           textColor: AppColors.backgroundColor,
                           onPressed: () {
                             context
-                                .read<AssessmentBloc>()
+                                .read<HealthAssessmentPageBloc>()
                                 .add(ShowFinishEvent());
                           },
                           title: 'เชื่อมต่อทันที',
@@ -240,7 +240,7 @@ class HealthConnectScreen extends StatelessWidget {
                           width: 250,
                           onPressed: () {
                             context
-                                .read<AssessmentBloc>()
+                                .read<HealthAssessmentPageBloc>()
                                 .add(ShowFinishEvent());
                           },
                           title: 'ไว้ภายหลัง',
@@ -265,7 +265,7 @@ class FinishScreen extends StatelessWidget {
       context.goNamed(AppPages.homeName);
     });
 
-    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
+    return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         return Scaffold(
           body: Stack(

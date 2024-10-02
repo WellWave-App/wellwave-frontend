@@ -5,10 +5,11 @@ class HealthAssessmentPersonalDataRequestModel {
   final String imageUrl;
   final String username;
   final int yearOfBirth;
-  final int gender;
+  final bool gender;
   final double height;
   final double weight;
   final int userGoal;
+  final String email;
 
   HealthAssessmentPersonalDataRequestModel({
     required this.imageUrl,
@@ -18,16 +19,18 @@ class HealthAssessmentPersonalDataRequestModel {
     required this.height,
     required this.weight,
     required this.userGoal,
+    required this.email,
   });
 
   HealthAssessmentPersonalDataRequestModel copyWith({
     String? imageUrl,
     String? username,
     int? yearOfBirth,
-    int? gender,
+    bool? gender,
     double? height,
     double? weight,
     int? userGoal,
+    String? email,
   }) {
     return HealthAssessmentPersonalDataRequestModel(
       imageUrl: imageUrl ?? this.imageUrl,
@@ -37,18 +40,20 @@ class HealthAssessmentPersonalDataRequestModel {
       height: height ?? this.height,
       weight: weight ?? this.weight,
       userGoal: userGoal ?? this.userGoal,
+      email: email ?? this.email,
     );
   }
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'IMAGE_PATH': imageUrl,
+      'IMAGE_URL': imageUrl,
       'USERNAME': username,
       'YEAR_OF_BIRTH': yearOfBirth,
       'GENDER': gender,
       'HEIGHT': height,
       'WEIGHT': weight,
       'USER_GOAL': userGoal,
+      'EMAIL': email,
     };
   }
 
@@ -58,23 +63,25 @@ class HealthAssessmentPersonalDataRequestModel {
       imageUrl: json['imageUrl'] as String? ?? "",
       username: json['username'] as String? ?? "",
       yearOfBirth: json['yearOfBirth'] as int? ?? 0,
-      gender: json['gender'] as int? ?? 0,
+      gender: json['gender'] as bool? ?? false,
       height: (json['height'] as num?)?.toDouble() ?? 0.0,
       weight: (json['weight'] as num?)?.toDouble() ?? 0.0,
       userGoal: json['userGoal'] as int? ?? 0,
+      email: json['email'] as String? ?? "",
     );
   }
 
   // Method for editing logs request
   Map<String, dynamic> toEditLogsRequestJson(String isShowToEmployee) {
     return {
-      'IMAGE_PATH': imageUrl,
+      'IMAGE_URL': imageUrl,
       'USERNAME': username,
       'YEAR_OF_BIRTH': yearOfBirth,
       'GENDER': gender,
       'HEIGHT': height,
       'WEIGHT': weight,
       'USER_GOAL': userGoal,
+      'EMAIL': email,
     };
   }
 }

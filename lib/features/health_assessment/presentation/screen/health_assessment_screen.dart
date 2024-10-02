@@ -26,7 +26,7 @@ class AssessmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AssessmentBloc(),
+      create: (_) => HealthAssessmentPageBloc(HealthAssessmentRepository()),
       child: const AssessmentScreenStart(),
     );
   }
@@ -48,7 +48,7 @@ class AssessmentScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
 
-    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
+    return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         if (state.isCompleted) {
           return const ResultAssessment();
@@ -64,7 +64,7 @@ class AssessmentScreenView extends StatelessWidget {
                   currentStep: state.currentStep,
                   textColor: AppColors.blackColor,
                   onBackPressed: () =>
-                      context.read<AssessmentBloc>().add(StepBack()),
+                      context.read<HealthAssessmentPageBloc>().add(StepBack()),
                 ),
           body: Container(
             decoration: const BoxDecoration(
@@ -100,46 +100,47 @@ class AssessmentScreenView extends StatelessWidget {
                             if (state.currentStep == 0) {
                               if (formKey.currentState!.validate()) {
                                 context
-                                    .read<AssessmentBloc>()
+                                    .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
                             } else if (state.currentStep == 1) {
                               context
-                                  .read<AssessmentBloc>()
+                                  .read<HealthAssessmentPageBloc>()
                                   .add(ValidateGender());
+
                               if (formKey.currentState!.validate() &&
                                   !state.genderError) {
                                 context
-                                    .read<AssessmentBloc>()
+                                    .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
                             } else if (state.currentStep == 3) {
                               if (state.famhisChoose.isNotEmpty) {
                                 context
-                                    .read<AssessmentBloc>()
+                                    .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
                             } else if (state.currentStep == 4) {
                               if (state.alcoholChoose != null) {
                                 context
-                                    .read<AssessmentBloc>()
+                                    .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
                             } else if (state.currentStep == 5) {
                               if (state.smokeChoose != null) {
                                 context
-                                    .read<AssessmentBloc>()
+                                    .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
                             } else if (state.currentStep == 6) {
                               if (state.goalChoose != null) {
                                 context
-                                    .read<AssessmentBloc>()
+                                    .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
                             } else {
                               context
-                                  .read<AssessmentBloc>()
+                                  .read<HealthAssessmentPageBloc>()
                                   .add(StepContinue());
                             }
                           },
@@ -163,7 +164,7 @@ class StepContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<AssessmentBloc>().state;
+    final state = context.watch<HealthAssessmentPageBloc>().state;
 
     return Padding(
       padding: const EdgeInsets.all(24.0),

@@ -14,7 +14,7 @@ import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/l
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
 
 class AddPicUsernameStep extends StatefulWidget {
-  final HealthAssessmentState state;
+  final HealthAssessmentPageState state;
 
   const AddPicUsernameStep({super.key, required this.state});
 
@@ -28,7 +28,9 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null && mounted) {
-      context.read<AssessmentBloc>().add(ImagePicked(File(pickedFile.path)));
+      context
+          .read<HealthAssessmentPageBloc>()
+          .add(ImagePicked(File(pickedFile.path)));
     }
   }
 
@@ -95,7 +97,7 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
               return null;
             },
             onChanged: (value) => context
-                .read<AssessmentBloc>()
+                .read<HealthAssessmentPageBloc>()
                 .add(UpdateField('username', value)),
           ),
         ],

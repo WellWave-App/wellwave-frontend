@@ -22,14 +22,16 @@ class RectangleBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentStep = context.read<AssessmentBloc>().state.currentStep;
+    final currentStep =
+        context.read<HealthAssessmentPageBloc>().state.currentStep;
     double containerWidth = MediaQuery.of(context).size.width / 2 - 32;
 
-    return BlocBuilder<AssessmentBloc, HealthAssessmentState>(
+    return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         bool isSelected;
 
-        final currentStep = context.read<AssessmentBloc>().state.currentStep;
+        final currentStep =
+            context.read<HealthAssessmentPageBloc>().state.currentStep;
 
         if (currentStep == 4) {
           isSelected = (state.alcoholChoose == title);
@@ -53,7 +55,7 @@ class RectangleBox extends StatelessWidget {
               selectionType = 'famhis';
             }
             debugPrint('SelectionType: $selectionType');
-            context.read<AssessmentBloc>().add(
+            context.read<HealthAssessmentPageBloc>().add(
                   ToggleSelectionEvent(title, isMultiSelect, selectionType),
                 );
           },

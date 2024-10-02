@@ -1,8 +1,15 @@
 part of 'health_assessment_bloc.dart';
 
-sealed class HealthAssessmentEvent extends Equatable {
-  const HealthAssessmentEvent();
+abstract class HealthAssessmentEvent {}
 
-  @override
-  List<Object> get props => [];
+// class SubmitHealthDataEvent extends HealthAssessmentEvent {
+//   final HealthAssessmentHealthDataRequestModel model;
+
+//   SubmitHealthDataEvent(this.model);
+// }
+
+class SubmitPersonalDataEvent extends HealthAssessmentEvent {
+  final HealthAssessmentPersonalDataRequestModel model;
+
+  SubmitPersonalDataEvent(this.model);
 }
