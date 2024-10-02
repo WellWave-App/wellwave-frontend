@@ -31,7 +31,7 @@ class WeeklyLogsWidget extends StatelessWidget {
           const SizedBox(height: 16),
           BlocBuilder<LogsBloc, LogsState>(builder: (context, state) {
             if (state is LogsLoadInProgress) {
-                                        debugPrint('weekly log widget');
+              debugPrint('weekly log widget');
 
               return const Center(child: CircularProgressIndicator());
             } else if (state is LogsLoadSuccess) {
@@ -42,15 +42,15 @@ class WeeklyLogsWidget extends StatelessWidget {
               double? ldlCount;
 
               for (var log in state.logsWeeklyList) {
-                if (log?.logName == 'STEP_LOG') {
+                if (log?.logName == AppStrings.stepLogText) {
                   stepCount = log?.value;
-                } else if (log?.logName == 'WEIGHT_LOG') {
+                } else if (log?.logName == AppStrings.weightLogText) {
                   weightCount = log?.value;
-                }else if (log?.logName == 'WAIST_LINE_LOG') {
+                } else if (log?.logName == AppStrings.waistLineLogText) {
                   waistLineCount = log?.value;
-                }else if (log?.logName == 'HDL_LOG') {
+                } else if (log?.logName == AppStrings.hdlLogText) {
                   hdlCount = log?.value;
-                } else if (log?.logName == 'LDL_LOG') {
+                } else if (log?.logName == AppStrings.ldlLogText) {
                   ldlCount = log?.value;
                 }
               }
@@ -133,12 +133,16 @@ class WeeklyLogsWidget extends StatelessWidget {
                       ],
                     ),
                   const SizedBox(height: 8.0),
-                  if (stepCount == null && weightCount == null&& waistLineCount == null&& hdlCount == null && ldlCount == null)
+                  if (stepCount == null &&
+                      weightCount == null &&
+                      waistLineCount == null &&
+                      hdlCount == null &&
+                      ldlCount == null)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'ไม่มีข้อมูลสำหรับสัปดาห์นี้',
+                          AppStrings.noDataForWeekText,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
@@ -149,10 +153,10 @@ class WeeklyLogsWidget extends StatelessWidget {
                 ],
               );
             } else if (state is LogsError) {
-              return const Center(child: Text('Error loading weekly logs.'));
+              return const Center(child: Text(AppStrings.errorLoadingLogsText));
             }
 
-            return const Center(child: Text('No weekly logs available.'));
+            return const Center(child: Text(AppStrings.noLogsAvailableText));
           })
         ]));
   }

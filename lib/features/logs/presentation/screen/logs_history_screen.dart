@@ -21,7 +21,6 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        
           title: Text(
         AppStrings.healthHistoryText,
         style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -42,10 +41,9 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
             CalendarSilder(
               onDateSelected: (date) {
                 setState(() {
-                  _selectedDate = date; // Update the selected date
-                  _selectedDateWeek = date; // Update the selected date
+                  _selectedDate = date;
+                  _selectedDateWeek = date;
                 });
-                
               },
             ),
             DailyLogsWidget(selectedDate: _selectedDate),
@@ -56,5 +54,3 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
     );
   }
 }
-
-

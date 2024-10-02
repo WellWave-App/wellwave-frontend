@@ -18,7 +18,7 @@ class LogsRequestModel {
     return <String, dynamic>{
       'LID': lid,
       'LOG_NAME': logName,
-      'DATE': date.millisecondsSinceEpoch, // Assuming the API uses milliseconds
+      'DATE': date.millisecondsSinceEpoch, 
       'VALUE': value,
       'UID': uid,
     };

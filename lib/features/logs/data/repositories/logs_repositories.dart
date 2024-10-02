@@ -7,7 +7,6 @@ import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_w
 import '../../../logs/data/models/logs_request_model.dart';
 
 class LogsRequestRepository {
-  // Create new Logs request
   Future<bool> createLogsRequest({
     required int value,
     required String logName,
@@ -54,7 +53,6 @@ class LogsRequestRepository {
       );
 
       if (response.statusCode == 200) {
-        // Successfully edited
         return true;
       }
       return false;
@@ -64,7 +62,6 @@ class LogsRequestRepository {
     }
   }
 
-  // Get a specific Logs by ID
   Future<List<LogsRequestModel?>> getLogsById(String uID, DateTime date) async {
     try {
       String baseUrl = 'http://10.0.2.2:3000';

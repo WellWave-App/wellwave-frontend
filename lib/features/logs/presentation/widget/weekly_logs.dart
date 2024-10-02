@@ -14,20 +14,18 @@ class WeeklyLogs extends StatefulWidget {
 }
 
 class _WeeklyLogsState extends State<WeeklyLogs> {
-  
   @override
   void initState() {
     super.initState();
     final today = DateTime.now();
 
-    // Dispatch the event here once
     context.read<LogsBloc>().add(LogsFetchedGraph(today));
     debugPrint('Dispatched LogsFetchedGraph event');
   }
 
   @override
   Widget build(BuildContext context) {
-        debugPrint('WeeklyLogs build called');
+    debugPrint('WeeklyLogs build called');
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -40,7 +38,6 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
               double weight = 0.0;
               double waistLine = 0.0;
 
-              // Only one CircularProgressIndicator will be shown during the loading state
               if (state is LogsLoadGraphInProgress) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is LogsLoadGraphSuccess) {
@@ -51,8 +48,8 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                   waistLine = log?.value ?? 0.0;
                 }
                 for (var log in state.logsWeightlist) {
-                  if ((log?.logName == 'WEIGHT_LOG' ||
-                          log?.logName == 'WAIST_LINE_LOG') &&
+                  if ((log?.logName == AppStrings.weightLogText ||
+                          log?.logName == AppStrings.waistLineLogText) &&
                       log?.value != null) {
                     logsRecorded = true;
                   }
@@ -67,20 +64,27 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                           children: [
                             Text(
                               AppStrings.weeklyLogsText,
-                              style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                         logsRecorded
                             ? Container(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 16.0),
                                 decoration: BoxDecoration(
                                   color: Colors.grey[400],
                                   borderRadius: BorderRadius.circular(16.0),
                                 ),
                                 child: Text(
                                   AppStrings.dataRecordingCompletedText,
-                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall
+                                      ?.copyWith(color: Colors.white),
                                 ),
                               )
                             : const InputButton(
@@ -99,7 +103,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                               value: weight,
                               unit: AppStrings.kgText,
                               chart: const LineChartSample2(
-                                logType: "WEIGHT_LOG",
+                                logType: AppStrings.weightLogText,
                               ),
                             ),
                           ],
@@ -112,7 +116,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                               value: waistLine,
                               unit: AppStrings.cmText,
                               chart: const LineChartSample2(
-                                logType: 'WAIST_LINE_LOG',
+                                logType: AppStrings.waistLineLogText,
                               ),
                             ),
                           ],
@@ -122,7 +126,8 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                   ],
                 );
               } else if (state is LogsError) {
-                return const Center(child: Text('Error loading logs.'));
+                return const Center(
+                    child: Text(AppStrings.errorLoadingLogsText));
               }
 
               return Container();

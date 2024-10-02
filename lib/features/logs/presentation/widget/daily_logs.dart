@@ -27,7 +27,7 @@ class _DailyLogsState extends State<DailyLogs> {
 
   @override
   Widget build(BuildContext context) {
-            debugPrint('WeeklyLogs build called');
+    debugPrint('WeeklyLogs build called');
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -41,8 +41,6 @@ class _DailyLogsState extends State<DailyLogs> {
           BlocBuilder<LogsBloc, LogsState>(
             builder: (context, state) {
               if (state is LogsLoadInProgress) {
-                                          // debugPrint('daily log ');
-
                 return const Center(child: CircularProgressIndicator());
               } else if (state is LogsLoadSuccess) {
                 // Check if we have logs for water and sleep for today
@@ -55,7 +53,8 @@ class _DailyLogsState extends State<DailyLogs> {
                 }
               } else if (state is LogsError) {
                 return Center(
-                    child: Text('Error loading logs: ${state.message}'));
+                    child: Text(
+                        '${AppStrings.errorLoadingLogsText}: ${state.message}'));
               }
 
               return Row(
@@ -107,7 +106,6 @@ class _DailyLogsState extends State<DailyLogs> {
                           selectedWaterLevel = result;
                         });
 
-                        // Submit the water log to BLoC
                         BlocProvider.of<LogsBloc>(context).add(
                           SubmitLogEvent(
                             logName: 'DRINK_LOG',
@@ -165,7 +163,6 @@ class _DailyLogsState extends State<DailyLogs> {
                           selectedSleepHours = result;
                         });
 
-                        // Submit the sleep log to BLoC
                         BlocProvider.of<LogsBloc>(context).add(
                           SubmitLogEvent(
                             logName: 'SLEEP_LOG',

@@ -69,7 +69,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                currentStep == 5 ? '' : 'ขั้นตอนที่ ${currentStep + 1}/5',
+                currentStep == 5 ? '' : '${AppStrings.stepNumber} ${currentStep + 1}/5',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       color: AppColors.blackColor,
                       fontWeight: FontWeight.bold,
@@ -187,9 +187,9 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                   },
                   child: SvgPicture.asset(
                     selectedMood == index
-                        ? moodIconsColor[index] // Use color icon if selected
-                        : moodIconsGrey[index], // Use grey icon if not selected
-                    width: 48, // Adjust size of the SVG
+                        ? moodIconsColor[index] 
+                        : moodIconsGrey[index], 
+                    width: 48, 
                     height: 48,
                   ),
                 );
@@ -203,10 +203,10 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
           children: [
             SvgPicture.asset(
               AppImages.completeIcon,
-              width: 80, // Set the width
-              height: 80, // Set the height
+              width: 80, 
+              height: 80, 
             ),
-            const SizedBox(height: 8), // Space between the SVG and text
+            const SizedBox(height: 8), 
             Text(AppStrings.dataRecordingCompletedText,
                 style: Theme.of(context).textTheme.labelLarge?.copyWith())
           ],
@@ -218,26 +218,26 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
 
   List<Widget> _buildActions() {
     return [
-      if (currentStep < 5) // Show navigation buttons for steps 0 to 4
+      if (currentStep < 5) 
         ...[
-          if (currentStep > 0) // Show "Back" button only after the first step
+          if (currentStep > 0) 
             Expanded(
               child: TextButton(
                 onPressed: () {
                   setState(() {
-                    currentStep--; // Go back to the previous step
+                    currentStep--; 
                   });
                 },
                 style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
+                  padding: WidgetStateProperty.all<EdgeInsets>(
                     const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
                   ),
-                  backgroundColor: MaterialStateProperty.all(
-                      Colors.transparent), // Transparent background for Back button
-                  side: MaterialStateProperty.all(
+                  backgroundColor: WidgetStateProperty.all(
+                      Colors.transparent), 
+                  side: WidgetStateProperty.all(
                     const BorderSide(color: AppColors.primaryColor),
                   ),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40),
                     ),
@@ -251,13 +251,13 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                 ),
               ),
             ),
-          const SizedBox(width: 8), // Add space between the buttons
+          const SizedBox(width: 8), 
 
           Expanded(
             child: TextButton(
               onPressed: () {
                 setState(() {
-                  // Save the data when the "Next" button is pressed
+                  
                   if (currentStep == 0) {
                     weight = weightController.value;
                     debugPrint("Selected weight: $weight");
@@ -275,58 +275,58 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                 });
               },
               style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
+                padding: WidgetStateProperty.all<EdgeInsets>(
                   const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
                 ),
-                backgroundColor: MaterialStateProperty.all(AppColors.primaryColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(40),
                   ),
                 ),
               ),
               child: Text(
-                AppStrings.nextText, // "Next" button for steps 0-4
+                AppStrings.nextText, 
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white),
               ),
             ),
           ),
         ]
-      else // Show only the "Complete" button on step 5
+      else 
         Expanded(
           child: TextButton(
             onPressed: () {
-              // Log submission actions for step 5
+              
               BlocProvider.of<LogsBloc>(context).add(
                 SubmitLogEvent(
-                  logName: 'WEIGHT_LOG',
+                  logName: AppStrings.weightLogText,
                   value: weight.toInt(),
                   selectedDate: selectedDate.toIso8601String(),
                 ),
               );
               BlocProvider.of<LogsBloc>(context).add(
                 SubmitLogEvent(
-                  logName: 'WAIST_LINE_LOG',
+                  logName: AppStrings.waistLineLogText,
                   value: waistLine.toInt(),
                   selectedDate: selectedDate.toIso8601String(),
                 ),
               );
               BlocProvider.of<LogsBloc>(context).add(
                 SubmitLogEvent(
-                  logName: 'HDL_LOG',
+                  logName: AppStrings.hdlLogText,
                   value: hdl.toInt(),
                   selectedDate: selectedDate.toIso8601String(),
                 ),
               );
               BlocProvider.of<LogsBloc>(context).add(
                 SubmitLogEvent(
-                  logName: 'LDL_LOG',
+                  logName: AppStrings.ldlLogText,
                   value: ldl.toInt(),
                   selectedDate: selectedDate.toIso8601String(),
                 ),
               );
-              // Close dialog after submission
+              
               Navigator.pop(context);
             },
             style: ButtonStyle(
@@ -341,7 +341,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
               ),
             ),
             child: Text(
-              AppStrings.completedText, // Show "Complete" button in step 5
+              AppStrings.completedText, 
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Colors.white,
                   ),

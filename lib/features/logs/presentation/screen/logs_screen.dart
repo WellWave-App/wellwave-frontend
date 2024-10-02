@@ -17,16 +17,14 @@ class _LogsScreenState extends State<LogsScreen> {
   @override
   void initState() {
     super.initState();
-    // Load initial data
     BlocProvider.of<LogsBloc>(context).add(LogsFetched(DateTime.now()));
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Reload data when returning to this screen
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<LogsBloc>(context).add(LogsFetched(DateTime.now())); 
+      BlocProvider.of<LogsBloc>(context).add(LogsFetched(DateTime.now()));
       BlocProvider.of<LogsBloc>(context).add(LogsFetchedGraph(DateTime.now()));
     });
   }
@@ -34,7 +32,8 @@ class _LogsScreenState extends State<LogsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LogsBloc(LogsRequestRepository()), // Pass the repository here
+      create: (context) =>
+          LogsBloc(LogsRequestRepository()), // Pass the repository here
       child: Scaffold(
         appBar: AppBar(
           title: const Row(
@@ -47,7 +46,7 @@ class _LogsScreenState extends State<LogsScreen> {
         body: const SingleChildScrollView(
           child: Column(
             children: [
-              DailyLogs(), 
+              DailyLogs(),
               WeeklyLogs(),
             ],
           ),

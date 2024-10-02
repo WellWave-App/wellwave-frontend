@@ -3,31 +3,31 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class LogsHistoryCard extends StatelessWidget {
-  final String svgPath; // Path for SVG asset
-  final String pngPath; // Path for PNG asset
-  final String title; // Main text to display
-  final double value; // Value to display
-  final String unit; // Unit for the value
-  final double svgWidth; // Width for the SVG
-  final double svgHeight; // Height for the SVG
-  final double pngWidth; // Width for the PNG
-  final double pngHeight; // Height for the PNG
-  final bool isSvg; // Flag to determine if the image is SVG
-  final TextStyle? mainTextStyle; // Style for the main text
-  final TextStyle? subTextStyle; // Style for the subtext
+  final String svgPath; 
+  final String pngPath; 
+  final String title; 
+  final double value; 
+  final String unit; 
+  final double svgWidth; 
+  final double svgHeight; 
+  final double pngWidth; 
+  final double pngHeight; 
+  final bool isSvg; 
+  final TextStyle? mainTextStyle; 
+  final TextStyle? subTextStyle; 
 
   const LogsHistoryCard({
     Key? key,
     required this.title,
     required this.value,
     required this.unit,
-    required this.isSvg, // New parameter to determine image type
-    this.svgPath = '', // SVG path (default empty)
-    this.pngPath = '', // PNG path (default empty)
-    this.svgWidth = 64.0, // Default SVG width
-    this.svgHeight = 64.0, // Default SVG height
-    this.pngWidth = 64.0, // Default PNG width
-    this.pngHeight = 64.0, // Default PNG height
+    required this.isSvg, 
+    this.svgPath = '', 
+    this.pngPath = '', 
+    this.svgWidth = 64.0, 
+    this.svgHeight = 64.0, 
+    this.pngWidth = 64.0, 
+    this.pngHeight = 64.0, 
     this.mainTextStyle,
     this.subTextStyle,
   }) : super(key: key);
@@ -43,7 +43,7 @@ class LogsHistoryCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Conditional rendering based on isSvg
+            
             isSvg
                 ? SvgPicture.asset(
                     svgPath,
@@ -58,7 +58,7 @@ class LogsHistoryCard extends StatelessWidget {
             const SizedBox(width: 16.0),
             Column(
               crossAxisAlignment:
-                  CrossAxisAlignment.start, // Align text to the start
+                  CrossAxisAlignment.start, 
               children: [
                 Text(
                   title,

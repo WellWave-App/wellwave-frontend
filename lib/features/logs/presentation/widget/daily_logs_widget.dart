@@ -91,7 +91,7 @@ class DailyLogsWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'ไม่มีข้อมูลสำหรับวันนี้',
+                            AppStrings.noDataForTodayText,
                             style:
                                 Theme.of(context).textTheme.bodySmall?.copyWith(
                                       color: AppColors.darkGrayColor,
@@ -102,9 +102,9 @@ class DailyLogsWidget extends StatelessWidget {
                   ],
                 );
               } else if (state is LogsError) {
-                return const Center(child: Text('Error loading logs.'));
+                return const Center(child: Text(AppStrings.errorLoadingLogsText));
               }
-              return const Center(child: Text('No logs available.'));
+              return const Center(child: Text(AppStrings.noLogsAvailableText));
             },
           ),
         ],

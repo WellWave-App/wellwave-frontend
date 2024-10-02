@@ -14,18 +14,6 @@ class LogsFetchedGraph extends LogsEvent {
   LogsFetchedGraph(this.date);
 }
 
-
-// class LogsFetchedWeight extends LogsEvent{
-//   final DateTime date;
-//   LogsFetchedWeight({required this.date});
-// }
-
-// class LogsFetchedWaistLine extends LogsEvent{
-//   final DateTime date;
-//   LogsFetchedWaistLine({required this.date});
-// }
-
-
 class SubmitLogEvent extends LogsEvent {
   final String logName;
   final int value;

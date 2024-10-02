@@ -3,9 +3,10 @@ import 'package:calendar_slider/calendar_slider.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class CalendarSilder extends StatefulWidget {
-  final ValueChanged<DateTime> onDateSelected; // Add callback
+  final ValueChanged<DateTime> onDateSelected;
 
-  const CalendarSilder({Key? key, required this.onDateSelected}) : super(key: key);
+  const CalendarSilder({Key? key, required this.onDateSelected})
+      : super(key: key);
 
   @override
   State<CalendarSilder> createState() => _CalendarSilderState();
@@ -40,9 +41,9 @@ class _CalendarSilderState extends State<CalendarSilder> {
           lastDate: DateTime.now().add(const Duration(days: 100)),
           onDateSelected: (date) {
             setState(() {
-              selectedDate = date; // Store selected date
+              selectedDate = date; 
             });
-            widget.onDateSelected(date); // Pass selected date to parent
+            widget.onDateSelected(date); 
           },
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 
 class LineChartSample2 extends StatelessWidget {
@@ -13,18 +14,17 @@ class LineChartSample2 extends StatelessWidget {
     return BlocBuilder<LogsBloc, LogsState>(
       builder: (context, state) {
         if (state is LogsLoadGraphInProgress) {
-          // Remove this loading indicator to avoid multiple spinners
-          return Container(); // You can display something else here if needed
+          return Container();
         } else if (state is LogsError) {
-          return Center(child: Text('Error: ${state.message}'));
+          return Center(
+              child: Text('${AppStrings.errorShow}: ${state.message}'));
         } else if (state is LogsLoadGraphSuccess) {
-          // Fetch logs based on logType
-          List<dynamic> logs = logType == "WEIGHT_LOG"
+          List<dynamic> logs = logType == AppStrings.weightLogText
               ? state.logsWeightlist
               : state.logsWaistLinelist;
 
           if (logs.isEmpty) {
-            return const Center(child: Text('No logs available'));
+            return const Center(child: Text(AppStrings.noLogsAvailableText));
           }
 
           double minY = logs
@@ -46,7 +46,8 @@ class LineChartSample2 extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 1.70,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 0.0, vertical: 0.0),
                   child: LineChart(
                     mainData(logs, minY, maxY),
                   ),
@@ -56,7 +57,7 @@ class LineChartSample2 extends StatelessWidget {
           );
         }
 
-        return Container(); // Return an empty container by default
+        return Container();
       },
     );
   }
@@ -68,34 +69,35 @@ class LineChartSample2 extends StatelessWidget {
         drawVerticalLine: true,
         drawHorizontalLine: false,
         verticalInterval: 1,
-        getDrawingVerticalLine: (value) => const FlLine(color: Color(0xFFB1B1B1), strokeWidth: 0.5),
+        getDrawingVerticalLine: (value) =>
+            const FlLine(color: Color(0xFFB1B1B1), strokeWidth: 0.5),
       ),
       titlesData: FlTitlesData(
         show: true,
-        
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: (value, meta) => bottomTitleWidgets(logs, value, meta),
+            getTitlesWidget: (value, meta) =>
+                bottomTitleWidgets(logs, value, meta),
           ),
         ),
-            leftTitles: const AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: false,
+        leftTitles: const AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
-      ),
-      rightTitles: const AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: false, 
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
-      ),
-      topTitles: const AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: false,  
+        topTitles: const AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
         ),
-      ),
       ),
       borderData: FlBorderData(
         show: true,
@@ -113,7 +115,8 @@ class LineChartSample2 extends StatelessWidget {
           spots: logs.asMap().entries.map((entry) {
             final index = entry.key;
             final log = entry.value;
-            return FlSpot(index.toDouble(), log != null ? log.value.toDouble() : 0);
+            return FlSpot(
+                index.toDouble(), log != null ? log.value.toDouble() : 0);
           }).toList(),
           isCurved: true,
           color: const Color(0xFF001DFF),
@@ -138,8 +141,10 @@ class LineChartSample2 extends StatelessWidget {
     if (value.toInt() < logs.length) {
       final log = logs[value.toInt()];
       final date = DateTime.parse(log.date.toIso8601String());
-      final formattedDate = '${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
-      return SideTitleWidget(axisSide: meta.axisSide, child: Text(formattedDate, style: style));
+      final formattedDate =
+          '${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+      return SideTitleWidget(
+          axisSide: meta.axisSide, child: Text(formattedDate, style: style));
     }
     return const Text('-', style: style);
   }

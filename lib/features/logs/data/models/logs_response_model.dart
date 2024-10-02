@@ -1,6 +1,6 @@
 class LogsResponseModel {
   final int lid;
-  final String logName; // Assuming this is a string, but can change to enum
+  final String logName; 
   final DateTime date;
   final double value;
   final int uid;

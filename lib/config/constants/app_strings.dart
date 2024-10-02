@@ -40,7 +40,6 @@ class AppStrings {
   static const stepText = 'ก้าว';
   static const stepWalkText = 'ก้าวเดิน';
   static const drinkText = 'ดื่มน้ำ';
-  static const errorShow = 'Error:';
   static const enterText = 'เข้าสู่แอพ';
   static const waistLineText = 'รอบเอว';
 
@@ -53,4 +52,17 @@ class AppStrings {
   static const metaBehaviorText = 'การปรับพฤติกรรม';
   static const metaBehaviorDescriptionText =
       'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
+
+  //Chart
+  static const errorShow = 'Error';
+  static const noLogsAvailableText = 'No logs available';
+  static const errorLoadingLogsText ='Error loading logs.';
+  static const noDataForTodayText = 'ไม่มีข้อมูลสำหรับวันนี้';
+  static const noDataForWeekText = 'ไม่มีข้อมูลสำหรับสัปดาห์นี้';
+  static const stepNumber = 'ขั้นตอนที่';
+  static const weightLogText = 'WEIGHT_LOG';
+  static const waistLineLogText = 'WAIST_LINE_LOG';
+  static const hdlLogText = 'HDL_LOG';
+  static const ldlLogText = 'LDL_LOG';
+  static const stepLogText = 'STEP_LOG';
 }
