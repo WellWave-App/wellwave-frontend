@@ -17,7 +17,26 @@ class WeeklyLogsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<LogsBloc>().add(LogsFetched(selectedDate));
-    context.read<LogsBloc>().add(LogsFetched(selectedDate));
+
+    DateTime startOfWeek(DateTime date) {
+  // Adjust the start of the week (Monday)
+  int difference = date.weekday - DateTime.monday;
+  return date.subtract(Duration(days: difference));
+}
+
+DateTime endOfWeek(DateTime date) {
+  // Adjust the end of the week (Sunday)
+  int difference = DateTime.sunday - date.weekday;
+  return date.add(Duration(days: difference));
+}
+
+final start = startOfWeek(selectedDate);
+  final end = endOfWeek(selectedDate);
+
+  // Format the dates
+  String formattedStart = formatDateThai(start);
+  String formattedEnd = formatDateThai(end);
+
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),
@@ -83,7 +102,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'วันที่ 14 กันยายน 2567 - 21 กันยายน 2567',
+                        'วันที่ $formattedStart - $formattedEnd',
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
@@ -203,5 +222,20 @@ class WeeklyLogsWidget extends StatelessWidget {
             return const Center(child: Text(AppStrings.noLogsAvailableText));
           })
         ]));
+
+        
   }
+}
+
+String formatDateThai(DateTime date) {
+  final thaiMonths = [
+    'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 
+    'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+  ];
+  
+  int day = date.day;
+  String month = thaiMonths[date.month - 1];
+  int year = date.year + 543; // Buddhist calendar
+
+  return '$day $month $year';
 }
