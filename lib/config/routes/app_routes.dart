@@ -80,7 +80,7 @@ final GoRouter goRouter = GoRouter(
                       path: AppPages.questDetailPage,
                       name: AppPages.questDetailName,
                       pageBuilder: (BuildContext context, GoRouterState state) {
-                        return NoTransitionPage(child: QuestDetailPage());
+                        return const NoTransitionPage(child: QuestDetailPage());
                       },
                     )
                   ]),

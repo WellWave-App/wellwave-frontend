@@ -2,18 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/mission/presentation/widgets/success_dialog.dart';
 import '../../../../../config/constants/app_images.dart';
 import '../../../data/daily_mockup_data.dart';
 import '../../widgets/daily_task_list.dart';
 
 class DailyTaskPage extends StatelessWidget {
   final List<Map<String, dynamic>> tasks = mockTasks;
-
   DailyTaskPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final selectedTasks = List<Map<String, dynamic>>.from(tasks);
+
+    bool allTasksCompleted() {
+      return selectedTasks.every((task) => task['isCompleted'] == true);
+    }
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -58,15 +62,17 @@ class DailyTaskPage extends StatelessWidget {
                           color: AppColors.whiteColor,
                         ),
                   ),
-                  const SizedBox(
-                    width: 12,
-                  ),
+                  const SizedBox(width: 12),
                   Container(
                     height: 28,
                     decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      border:
-                          Border.all(color: AppColors.whiteColor, width: 2.0),
+                      color: allTasksCompleted()
+                          ? AppColors.purpleGemColor
+                          : AppColors.primaryColor,
+                      border: Border.all(
+                        color: AppColors.whiteColor,
+                        width: 2.0,
+                      ),
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
@@ -78,9 +84,20 @@ class DailyTaskPage extends StatelessWidget {
                       ],
                     ),
                     child: ElevatedButton(
-                      onPressed: () {} ,
+                      onPressed: allTasksCompleted()
+                          ? () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => SuccessDialog(
+                                  // taskId: taskId,
+                                  reward: 15,
+                                  iconPath: Image.asset(AppImages.gemIcon),
+                                ),
+                              );
+                            }
+                          : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryColor,
+                        backgroundColor: Colors.transparent,
                         elevation: 0,
                       ),
                       child: Text(
@@ -105,6 +122,8 @@ class DailyTaskPage extends StatelessWidget {
                       imagePath: task['imagePath'],
                       taskId: task['taskId'],
                       taskName: task['taskName'],
+                      exp: task['exp'],
+                      isCompleted: task['isCompleted'],
                     );
                   },
                 ),

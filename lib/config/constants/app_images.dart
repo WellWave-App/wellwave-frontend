@@ -28,4 +28,5 @@ class AppImages {
   static const arrowForwardIcon = 'assets/icons/arrow_forward.svg';
   static const barSuccessImage = 'assets/images/bar_success.png';
   static const closeBTIcon = 'assets/icons/close_btn.svg';
+  static const taskSuccessIcon = 'assets/icons/task_success_icon.svg';
 }

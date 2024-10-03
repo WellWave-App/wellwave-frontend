@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/mission/data/daily_mockup_data.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
 import 'mission_dialog.dart';
@@ -12,12 +12,16 @@ class DailyTaskList extends StatelessWidget {
   final String imagePath;
   final int taskId;
   final String taskName;
+  final int exp;
+  final bool isCompleted;
 
   const DailyTaskList({
     super.key,
     required this.imagePath,
     required this.taskId,
     required this.taskName,
+    required this.exp,
+    required this.isCompleted,
   });
 
   @override
@@ -70,41 +74,39 @@ class DailyTaskList extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 12.0, left: 4),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Image.asset(AppImages.expIcon),
-                          Text(
-                              ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
-                              style: Theme.of(context).textTheme.bodySmall),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: 28,
-                        decoration: BoxDecoration(
-                          color: isTaskCompleted
-                              ? Colors.grey
-                              : AppColors.primaryColor,
-                          border: Border.all(
-                              color: AppColors.whiteColor, width: 2.0),
-                          borderRadius: BorderRadius.circular(16),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.15),
-                              offset: const Offset(0, 2),
-                              blurRadius: 0,
-                              spreadRadius: 0,
+                  child: isTaskCompleted
+                      ? SvgPicture.asset(AppImages.taskSuccessIcon)
+                      : Column(
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(AppImages.expIcon),
+                                Text(' x $exp',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: ElevatedButton(
-                          onPressed: isTaskCompleted
-                              ? null
-                              : () {
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              height: 28,
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryColor,
+                                border: Border.all(
+                                    color: AppColors.whiteColor, width: 2.0),
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.15),
+                                    offset: const Offset(0, 2),
+                                    blurRadius: 0,
+                                    spreadRadius: 0,
+                                  ),
+                                ],
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () {
                                   showDialog(
                                     context: context,
                                     builder: (_) => MissionDialog(
@@ -113,30 +115,26 @@ class DailyTaskList extends StatelessWidget {
                                     ),
                                   );
                                 },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: isTaskCompleted
-                                ? Colors.grey
-                                : AppColors.primaryColor,
-                            minimumSize: const Size(64, 28),
-                            side: const BorderSide(
-                              color: AppColors.whiteColor,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primaryColor,
+                                  minimumSize: const Size(64, 28),
+                                  side: const BorderSide(
+                                    color: AppColors.whiteColor,
+                                  ),
+                                  elevation: 0,
+                                ),
+                                child: Text(
+                                  AppStrings.chooseText,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall
+                                      ?.copyWith(color: AppColors.whiteColor),
+                                ),
+                              ),
                             ),
-                            elevation: 0,
-                          ),
-                          child: Text(
-                            isTaskCompleted
-                                ? AppStrings.taskCompletedText
-                                : AppStrings.chooseText,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(color: AppColors.whiteColor),
-                          ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                 ),
               ],
             ),

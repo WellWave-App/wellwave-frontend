@@ -66,7 +66,7 @@ class QuestDetailPage extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            SvgPicture.asset(AppImages.calendarIcon),
+                            SvgPicture.asset(AppImages.gemIcon),
                             const SizedBox(width: 12),
                             Text(
                               questLabel,

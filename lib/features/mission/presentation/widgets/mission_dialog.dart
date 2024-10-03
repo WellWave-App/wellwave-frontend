@@ -93,7 +93,10 @@ class MissionDialog extends StatelessWidget {
             Navigator.of(context).pop();
             showDialog(
               context: context,
-              builder: (_) => SuccessDialog(taskId: taskId),
+              builder: (_) => SuccessDialog(
+                // taskId: taskId,
+                reward: 15, iconPath: Image.asset(AppImages.gemIcon),
+              ),
             );
             context.read<MissionBloc>().add(CompleteTaskEvent(taskId));
             return null;

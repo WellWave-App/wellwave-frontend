@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 import 'package:wellwave_frontend/features/mission/data/daily_mockup_data.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 
 class SuccessDialog extends StatelessWidget {
-  final int taskId;
+  final Image iconPath;
+  final int reward;
 
-  const SuccessDialog({Key? key, required this.taskId}) : super(key: key);
+  const SuccessDialog({
+    Key? key,
+    required this.reward,
+    required this.iconPath,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     bool isDialogClosed = false;
 
-    Future.delayed(const Duration(seconds: 3), () {
-      if (!isDialogClosed) {
-        Navigator.of(context).pop();
-        context.read<MissionBloc>().add(CompleteTaskEvent(taskId));
-        isDialogClosed = true;
-      }
-    });
+    // Future.delayed(const Duration(seconds: 3), () {
+    //   if (!isDialogClosed) {
+    //     Navigator.of(context).pop();
+    //     context.read<MissionBloc>().add(CompleteTaskEvent(taskId));
+    //     isDialogClosed = true;
+    //   }
+    // });
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -63,14 +69,11 @@ class SuccessDialog extends StatelessWidget {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(
-                                    Icons.monetization_on,
-                                    color: Colors.amber,
-                                    size: 30,
-                                  ),
+                                  iconPath,
+                                  // Image.asset(AppImages.gemIcon),
                                   const SizedBox(width: 8),
                                   Text(
-                                    ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
+                                    reward.toString(),
                                     style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -89,9 +92,9 @@ class SuccessDialog extends StatelessWidget {
                             if (!isDialogClosed) {
                               Navigator.of(context).pop();
                               isDialogClosed = true;
-                              context
-                                  .read<MissionBloc>()
-                                  .add(CompleteTaskEvent(taskId));
+                              // context
+                              //     .read<MissionBloc>()
+                              //     .add(CompleteTaskEvent(taskId));
                             }
                           },
                           child: const Text(
