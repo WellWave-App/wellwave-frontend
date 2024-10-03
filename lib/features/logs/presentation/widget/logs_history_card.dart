@@ -18,6 +18,7 @@ class LogsHistoryCard extends StatelessWidget {
   final bool isShowCriteria;
   final double upperBand;
   final double lowerBand;
+  final bool isOpposite;
   final TextStyle? mainTextStyle;
   final TextStyle? subTextStyle;
 
@@ -38,8 +39,10 @@ class LogsHistoryCard extends StatelessWidget {
     this.subTextStyle,
     required this.isShow,
     this.isShowCriteria = false,
+    this.isOpposite = false,
     this.upperBand = 0.0,
     this.lowerBand = 0.0,
+    
   }) : super(key: key);
 
   @override
@@ -96,41 +99,64 @@ class LogsHistoryCard extends StatelessWidget {
             isShow
                 ? Column(
                     children: [
-                      Icon(
-                        isPositive ? Icons.arrow_upward : Icons.arrow_downward,
-                        size: 16,
-                        color: isPositive ? Colors.red : AppColors.greenColor,
-                      ),
-                      Text(
+                      isOpposite
+    ? Row(
+                        children: [
+                          Icon(
+                            isPositive ? Icons.arrow_downward : Icons.arrow_upward,
+                            size: 16,
+                            color: isPositive ? Colors.red : AppColors.greenColor,
+                          ),
+                          Text(
                         '${difference.abs()} $unit',
-                        style: Theme.of(context).textTheme.caption2?.copyWith(
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               color: isPositive
                                   ? Colors.red
                                   : AppColors.greenColor,
                             ),
                       ),
+                        ],
+                      )
+                      : Row(
+                        children: [
+                          Icon(
+                            isPositive ? Icons.arrow_upward : Icons.arrow_downward,
+                            size: 16,
+                            color: isPositive ? Colors.red : AppColors.greenColor,
+                          ),
+                          Text(
+                        '${difference.abs()} $unit',
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: isPositive
+                                  ? Colors.red
+                                  : AppColors.greenColor,
+                            ),
+                      ),
+                        ],
+                      ),
+                      
                       isShowCriteria
-                          ? value > upperBand
+                          ? value > upperBand && upperBand != 0.0
                               ? Text(
-                                  '$titleเกินเกณฑ์ ${value - upperBand} $unit',
+                                  'ค่าเกินเกณฑ์ ${value - upperBand} $unit',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .caption2
+                                      .labelSmall
                                       ?.copyWith(color: Colors.red),
                                 )
-                              : value < upperBand
+                              : value < lowerBand && lowerBand != 0.0
                                   ? Text(
-                                      '$titleต่ำกว่าเกณฑ์ ${lowerBand - value} $unit',
+                                      'ค่าต่ำกว่าเกณฑ์ ${lowerBand - value} $unit',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .caption2
+                                          .labelSmall
                                           ?.copyWith(color: Colors.red),
                                     )
                                   : Text(
-                                      '$titleตามเกณฑ์',
+                                      'ค่าตามเกณฑ์',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .caption2
+                                          .labelSmall
                                           ?.copyWith(
                                               color: AppColors.greenColor),
                                     )
