@@ -15,7 +15,9 @@ class AppImages {
   //logs history screen
   static const sleepLogsIcon = 'assets/icons/sleep_logs_img.svg';
   static const threeWaterIcon = 'assets/icons/three_water_img.svg';
-  static const stepCountImage = 'assets/images/step_img.png';
+  static const weightIcon = 'assets/icons/weight_log_icon.svg';
+  static const waistLineIcon = 'assets/icons/waist_line_log_icon.svg';
+  static const stepCountImage = 'assets/icons/step_log_icon.svg';
   static const hdlImage = 'assets/images/hdl_img.png';
   static const ldlImage = 'assets/images/ldl_img.png';
   static const completeIcon = 'assets/icons/complete_icon.svg';

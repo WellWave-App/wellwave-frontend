@@ -17,12 +17,15 @@ class LogsError extends LogsState {
 class LogsLoadSuccess extends LogsState {
   final List<LogsRequestModel?> logslist;
   final List<LogsWeeklyRequestModel?> logsWeeklyList;
+  final List<LogsWeeklyRequestModel?> logsLastWeekList;
 
   LogsLoadSuccess({
     required this.logslist,
     required this.logsWeeklyList,
+    this.logsLastWeekList = const [], // Add this for last week's data
   });
 }
+
 
 class LogsLoadGraphSuccess extends LogsState {
   final List<LogsWeightRequestModel?> logsWeightlist;

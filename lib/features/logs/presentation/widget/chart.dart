@@ -118,7 +118,7 @@ class LineChartSample2 extends StatelessWidget {
             return FlSpot(
                 index.toDouble(), log != null ? log.value.toDouble() : 0);
           }).toList(),
-          isCurved: true,
+          isCurved: false,
           color: const Color(0xFF001DFF),
           barWidth: 1,
           isStrokeCapRound: true,
@@ -142,10 +142,10 @@ class LineChartSample2 extends StatelessWidget {
       final log = logs[value.toInt()];
       final date = DateTime.parse(log.date.toIso8601String());
       final formattedDate =
-          '${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+          '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}';
       return SideTitleWidget(
           axisSide: meta.axisSide, child: Text(formattedDate, style: style));
     }
-    return const Text('-', style: style);
+    return const Text('/', style: style);
   }
 }

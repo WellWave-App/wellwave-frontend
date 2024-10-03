@@ -7,12 +7,14 @@ class LogsHistoryCard extends StatelessWidget {
   final String pngPath; 
   final String title; 
   final double value; 
+  final double lastWeekValue;
   final String unit; 
   final double svgWidth; 
   final double svgHeight; 
   final double pngWidth; 
   final double pngHeight; 
   final bool isSvg; 
+  final bool isShow; 
   final TextStyle? mainTextStyle; 
   final TextStyle? subTextStyle; 
 
@@ -20,6 +22,7 @@ class LogsHistoryCard extends StatelessWidget {
     Key? key,
     required this.title,
     required this.value,
+    this.lastWeekValue = 0.0,
     required this.unit,
     required this.isSvg, 
     this.svgPath = '', 
@@ -29,11 +32,14 @@ class LogsHistoryCard extends StatelessWidget {
     this.pngWidth = 64.0, 
     this.pngHeight = 64.0, 
     this.mainTextStyle,
-    this.subTextStyle,
+    this.subTextStyle, required this.isShow,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double difference = value - lastWeekValue;
+    bool isPositive = difference >= 0;
+
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -42,20 +48,23 @@ class LogsHistoryCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             
-            isSvg
-                ? SvgPicture.asset(
-                    svgPath,
-                    width: svgWidth,
-                    height: svgHeight,
-                  )
-                : Image.asset(
-                    pngPath,
-                    width: pngWidth,
-                    height: pngHeight,
-                  ),
-            const SizedBox(width: 16.0),
+            Row(
+              children: [
+                isSvg
+                    ? SvgPicture.asset(
+                        svgPath,
+                        width: svgWidth,
+                        height: svgHeight,
+                      )
+                    : Image.asset(
+                        pngPath,
+                        width: pngWidth,
+                        height: pngHeight,
+                      ),
+                      const SizedBox(width: 16.0),
             Column(
               crossAxisAlignment:
                   CrossAxisAlignment.start, 
@@ -74,6 +83,33 @@ class LogsHistoryCard extends StatelessWidget {
                 ),
               ],
             ),
+              ],
+            ),
+            
+            isShow
+            ?Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(
+                      isPositive
+                          ? Icons.arrow_upward
+                          : Icons.arrow_downward,
+                      size: 16,
+                      color: isPositive
+                          ? Colors.red
+                          : AppColors.greenColor,
+                    ),
+                    Text(
+                      '${difference.abs()} $unit',
+                      style: Theme.of(context).textTheme.caption2?.copyWith(
+                            color: isPositive
+                                ? Colors.red
+                                : AppColors.greenColor,
+                          ),
+                    ),
+                  ],
+                )
+                : Container()
           ],
         ),
       ),

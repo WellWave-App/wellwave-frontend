@@ -21,24 +21,24 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     });
   }
 
-  Future<void> _onLogsFetches(
-      LogsFetched event, Emitter<LogsState> emit) async {
-    emit(LogsLoadInProgress());
+  Future<void> _onLogsFetches(LogsFetched event, Emitter<LogsState> emit) async {
+  emit(LogsLoadInProgress());
 
-    try {
-      final logsList =
-          await _logsRequestRepository.getLogsById('1', event.date);
-      final logsWeeklyList =
-          await _logsRequestRepository.getWeeklyLogs('1', event.date);
+  try {
+    final logsList = await _logsRequestRepository.getLogsById('1', event.date);
+    final logsWeeklyList = await _logsRequestRepository.getWeeklyLogs('1', event.date);
+    final logsLastWeekList = await _logsRequestRepository.getWeeklyLogs('1', event.date.subtract(const Duration(days: 7)));
 
-      emit(LogsLoadSuccess(
-        logslist: logsList,
-        logsWeeklyList: logsWeeklyList,
-      ));
-    } catch (e) {
-      emit(LogsError(message: e.toString()));
-    }
+    emit(LogsLoadSuccess(
+      logslist: logsList,
+      logsWeeklyList: logsWeeklyList,
+      logsLastWeekList: logsLastWeekList, 
+    ));
+  } catch (e) {
+    emit(LogsError(message: e.toString()));
   }
+}
+
 
   Future<void> _onGraphLogsFetches(
       LogsFetchedGraph event, Emitter<LogsState> emit) async {

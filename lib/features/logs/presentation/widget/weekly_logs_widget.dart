@@ -17,6 +17,7 @@ class WeeklyLogsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<LogsBloc>().add(LogsFetched(selectedDate));
+    context.read<LogsBloc>().add(LogsFetched(selectedDate));
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 36.0),
@@ -35,40 +36,75 @@ class WeeklyLogsWidget extends StatelessWidget {
 
               return const Center(child: CircularProgressIndicator());
             } else if (state is LogsLoadSuccess) {
+              final currentWeekLogs = state.logsWeeklyList;  
+            final lastWeekLogs = state.logsLastWeekList;   
               double? stepCount;
               double? weightCount;
               double? waistLineCount;
               double? hdlCount;
               double? ldlCount;
+              double lastWeekStep = 0.0;
+              double lastWeekWeight = 0.0;
+              double lastWeekWaistLine = 0.0;
+              double lastWeekHdl = 0.0;
+              double lastWeekLdl = 0.0;
 
-              for (var log in state.logsWeeklyList) {
-                if (log?.logName == AppStrings.stepLogText) {
-                  stepCount = log?.value;
-                } else if (log?.logName == AppStrings.weightLogText) {
-                  weightCount = log?.value;
-                } else if (log?.logName == AppStrings.waistLineLogText) {
-                  waistLineCount = log?.value;
-                } else if (log?.logName == AppStrings.hdlLogText) {
-                  hdlCount = log?.value;
-                } else if (log?.logName == AppStrings.ldlLogText) {
-                  ldlCount = log?.value;
-                }
+              for (var log in currentWeekLogs) {
+              if (log?.logName == AppStrings.stepLogText) {
+                stepCount = log?.value;
+              } else if (log?.logName == AppStrings.weightLogText) {
+                weightCount = log?.value;
+              } else if (log?.logName == AppStrings.waistLineLogText) {
+                waistLineCount = log?.value;
+              } else if (log?.logName == AppStrings.hdlLogText) {
+                hdlCount = log?.value;
+              } else if (log?.logName == AppStrings.ldlLogText) {
+                ldlCount = log?.value;
               }
+            }
+
+              for (var log in lastWeekLogs) {
+              if (log?.logName == AppStrings.stepLogText) {
+                lastWeekStep = log?.value ?? 0.0;
+              } else if (log?.logName == AppStrings.weightLogText) {
+                lastWeekWeight = log?.value ?? 0.0;
+              } else if (log?.logName == AppStrings.waistLineLogText) {
+                lastWeekWaistLine = log?.value ?? 0.0;
+              } else if (log?.logName == AppStrings.hdlLogText) {
+                lastWeekHdl = log?.value ?? 0.0;
+              } else if (log?.logName == AppStrings.ldlLogText) {
+                lastWeekLdl = log?.value ?? 0.0;
+              }
+            }
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      Text(
+                        'วันที่ 14 กันยายน 2567 - 21 กันยายน 2567',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(color: AppColors.darkGrayColor),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
                   if (stepCount != null)
                     Row(
                       children: [
                         LogsHistoryCard(
-                          pngPath: AppImages.stepCountImage,
+                          svgPath: AppImages.stepCountImage,
                           title: AppStrings.stepWalkText,
+                          isShow: true,
                           value: stepCount,
+                          lastWeekValue: lastWeekStep,
                           unit: AppStrings.stepText,
-                          isSvg: false,
-                          pngWidth: 64,
-                          pngHeight: 64,
+                          isSvg: true,
+                          svgWidth: 64,
+                          svgHeight: 64,
                         ),
                       ],
                     ),
@@ -77,13 +113,15 @@ class WeeklyLogsWidget extends StatelessWidget {
                     Row(
                       children: [
                         LogsHistoryCard(
-                          pngPath: AppImages.hdlImage,
+                          svgPath: AppImages.weightIcon,
                           title: AppStrings.weightText,
+                          isShow: true,
                           value: weightCount,
+                          lastWeekValue: lastWeekWeight,
                           unit: AppStrings.kgText,
-                          isSvg: false,
-                          pngWidth: 64,
-                          pngHeight: 64,
+                          isSvg: true,
+                          svgWidth: 64,
+                          svgHeight: 64,
                         ),
                       ],
                     ),
@@ -92,13 +130,15 @@ class WeeklyLogsWidget extends StatelessWidget {
                     Row(
                       children: [
                         LogsHistoryCard(
-                          pngPath: AppImages.hdlImage,
+                          svgPath: AppImages.waistLineIcon,
                           title: AppStrings.waistLineText,
+                          isShow: true,
                           value: waistLineCount,
+                          lastWeekValue: lastWeekWaistLine,
                           unit: AppStrings.cmText,
-                          isSvg: false,
-                          pngWidth: 64,
-                          pngHeight: 64,
+                          isSvg: true,
+                          svgWidth: 64,
+                          svgHeight: 64,
                         ),
                       ],
                     ),
@@ -109,7 +149,9 @@ class WeeklyLogsWidget extends StatelessWidget {
                         LogsHistoryCard(
                           pngPath: AppImages.hdlImage,
                           title: AppStrings.hdlText,
+                          isShow: true,
                           value: hdlCount,
+                          lastWeekValue: lastWeekHdl,
                           unit: AppStrings.mgPerDlText,
                           isSvg: false,
                           pngWidth: 64,
@@ -124,7 +166,9 @@ class WeeklyLogsWidget extends StatelessWidget {
                         LogsHistoryCard(
                           pngPath: AppImages.ldlImage,
                           title: AppStrings.ldlText,
+                          isShow: true,
                           value: ldlCount,
+                          lastWeekValue: lastWeekLdl,
                           unit: AppStrings.mgPerDlText,
                           isSvg: false,
                           pngWidth: 64,

@@ -64,6 +64,7 @@ class DailyLogsWidget extends StatelessWidget {
                             svgPath: AppImages.sleepLogsIcon,
                             title: AppStrings.sleepText,
                             value: selectedSleepHours,
+                            isShow: false,
                             isSvg: true,
                             unit: AppStrings.hoursText,
                             svgWidth: 64,
@@ -78,6 +79,7 @@ class DailyLogsWidget extends StatelessWidget {
                           LogsHistoryCard(
                             svgPath: AppImages.threeWaterIcon,
                             title: AppStrings.drinkText,
+                            isShow: false,
                             value: selectedDrinkLogs,
                             unit: AppStrings.glassesText,
                             isSvg: true,
