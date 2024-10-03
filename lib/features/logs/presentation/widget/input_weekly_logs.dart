@@ -190,6 +190,16 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
         ? Expanded(
             child: TextButton(
               onPressed: () => setState(() => currentStep--),
+              style: ButtonStyle(
+            
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    16.0
+                  ), 
+                  side: const BorderSide(color: AppColors.primaryColor, width: 1),
+                           ),
+            ),),
               child: Text(AppStrings.backText,
                   style: Theme.of(context)
                       .textTheme
@@ -210,7 +220,14 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
           });
         },
         style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(AppColors.primaryColor)),
+            backgroundColor:
+                WidgetStateProperty.all<Color>(AppColors.primaryColor),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    16.0), // Adjust border radius for round corners
+              ),
+            ),),
         child: Text(AppStrings.nextText,
             style: Theme.of(context)
                 .textTheme
@@ -225,7 +242,14 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
       child: TextButton(
         onPressed: _submitLogs,
         style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(AppColors.primaryColor)),
+            backgroundColor:
+                WidgetStateProperty.all<Color>(AppColors.primaryColor),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    16.0), 
+              ),
+            ),),
         child: Text(AppStrings.completedText,
             style: Theme.of(context)
                 .textTheme

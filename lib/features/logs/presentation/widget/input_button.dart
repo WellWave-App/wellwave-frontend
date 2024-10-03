@@ -34,7 +34,7 @@ class InputButton extends StatelessWidget {
                 WidgetStateProperty.all<Color>(AppColors.primaryColor),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(8.0),
                 side: const BorderSide(color: Colors.white, width: 2),
               ),
             ),

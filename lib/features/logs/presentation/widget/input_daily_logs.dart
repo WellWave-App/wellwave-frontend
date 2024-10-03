@@ -119,7 +119,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                    40.0), // Adjust border radius for round corners
+                    16.0), // Adjust border radius for round corners
               ),
             ),
           ),

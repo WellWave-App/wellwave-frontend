@@ -57,7 +57,7 @@ Widget build(BuildContext context) {
                     : 0.0;
               }
 
-              logsRecorded = weight != 0.0 || waistLine != 0.0;
+              logsRecorded = state.logsWaistLinelist.length == 4 || state.logsWeightlist.length == 4;
 
               return Column(
                 children: [
