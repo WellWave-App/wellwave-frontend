@@ -8,6 +8,7 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/scale_record_widget.dart';
 
+
 class InputWeeklyLogs extends StatefulWidget {
   const InputWeeklyLogs({super.key});
 
@@ -180,7 +181,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: currentStep < 5
-          ? [_buildBackButton(), _buildNextButton()]
+          ? [_buildBackButton(),const SizedBox(width: 10), _buildNextButton()]
           : [_buildCompleteButton()],
     );
   }
