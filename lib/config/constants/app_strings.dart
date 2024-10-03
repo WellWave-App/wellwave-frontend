@@ -54,4 +54,5 @@ class AppStrings {
 
   static const youReceivedText = 'คุณได้รับ';
   static const closeWindowText = 'ปิดหน้าต่างนี้';
+  static const joinProgram = 'เข้าร่วมโปรแกรม';
 }

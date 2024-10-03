@@ -10,6 +10,7 @@ class AppPages {
   static const String dailyTaskPage = 'dailyTask';
   static const String habitChallengePage = 'habitChallenge';
   static const String questPage = 'quest';
+  static const String questDetailPage = 'questDetail';
 
   // Name of the route
   static const String splashName = 'splash';
@@ -21,5 +22,6 @@ class AppPages {
   static const String startName = 'start';
   static const String dailyTaskName = 'dailyTask';
   static const String habitChallengeName = 'habitChallenge';
+  static const String questDetailName = 'questDetail';
   static const String questName = 'quest';
 }

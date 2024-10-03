@@ -14,6 +14,8 @@ import 'package:wellwave_frontend/features/mission/presentation/screen/page/habi
 import 'package:wellwave_frontend/features/mission/presentation/screen/page/quest_page.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
+import '../../features/mission/presentation/screen/page/quest_detail_page.dart';
+
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
   routes: [
@@ -68,12 +70,20 @@ final GoRouter goRouter = GoRouter(
                 },
               ),
               GoRoute(
-                path: AppPages.questPage,
-                name: AppPages.questName,
-                pageBuilder: (BuildContext context, GoRouterState state) {
-                  return const NoTransitionPage(child: QuestPage());
-                },
-              ),
+                  path: AppPages.questPage,
+                  name: AppPages.questName,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    return const NoTransitionPage(child: QuestPage());
+                  },
+                  routes: [
+                    GoRoute(
+                      path: AppPages.questDetailPage,
+                      name: AppPages.questDetailName,
+                      pageBuilder: (BuildContext context, GoRouterState state) {
+                        return NoTransitionPage(child: QuestDetailPage());
+                      },
+                    )
+                  ]),
             ]),
         GoRoute(
           path: AppPages.friendPage,

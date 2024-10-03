@@ -3,8 +3,7 @@ import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
-import '../../../data/mockup_data.dart';
-import '../../widgets/daily_task_list.dart';
+import '../../../data/daily_mockup_data.dart';
 import '../../widgets/task_list.dart';
 
 class HabitChallengePage extends StatelessWidget {

@@ -6,7 +6,7 @@ import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_blo
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
 import '../../../../config/constants/app_strings.dart';
-import '../../data/mockup_data.dart';
+import '../../data/daily_mockup_data.dart';
 import 'mission_dialog.dart';
 import 'task_goal_bottom_sheet.dart';
 
@@ -87,7 +87,7 @@ class TaskList extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Image.asset(AppImages.expImage),
+                                    Image.asset(AppImages.expIcon),
                                     Text(
                                       ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
                                       style:

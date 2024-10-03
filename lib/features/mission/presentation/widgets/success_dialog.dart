@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
-import 'package:wellwave_frontend/features/mission/data/mockup_data.dart';
+import 'package:wellwave_frontend/features/mission/data/daily_mockup_data.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 
 class SuccessDialog extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import '../../../../../config/constants/app_images.dart';
-import '../../../data/mockup_data.dart';
+import '../../../data/daily_mockup_data.dart';
 import '../../widgets/daily_task_list.dart';
 
 class DailyTaskPage extends StatelessWidget {
@@ -13,8 +13,7 @@ class DailyTaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final randomTasks = List<Map<String, dynamic>>.from(tasks)..shuffle();
-    final selectedTasks = randomTasks.take(4).toList();
+    final selectedTasks = List<Map<String, dynamic>>.from(tasks);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -49,7 +48,7 @@ class DailyTaskPage extends StatelessWidget {
                         ),
                   ),
                   Image.asset(
-                    AppImages.gemImage,
+                    AppImages.gemIcon,
                     width: 24,
                     height: 24,
                   ),
@@ -68,7 +67,7 @@ class DailyTaskPage extends StatelessWidget {
                       color: AppColors.primaryColor,
                       border:
                           Border.all(color: AppColors.whiteColor, width: 2.0),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(0.15),
@@ -79,12 +78,9 @@ class DailyTaskPage extends StatelessWidget {
                       ],
                     ),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {} ,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryColor,
-                        side: const BorderSide(
-                          color: AppColors.whiteColor,
-                        ),
                         elevation: 0,
                       ),
                       child: Text(

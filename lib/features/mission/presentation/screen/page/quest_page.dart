@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/mission/data/mockup_data.dart';
+import 'package:wellwave_frontend/features/mission/data/daily_mockup_data.dart';
 import 'package:wellwave_frontend/features/mission/presentation/widgets/task_list.dart';
 
 class QuestPage extends StatelessWidget {

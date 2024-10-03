@@ -57,7 +57,7 @@ class MissionScreen extends StatelessWidget {
                 context,
                 AppStrings.questText,
                 AppImages.questImage,
-                AppPages.questName,
+                AppPages.questDetailName,
                 AppColors.pinkColor,
               ),
             ],

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/mission/data/mockup_data.dart';
+import 'package:wellwave_frontend/features/mission/data/daily_mockup_data.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
 import 'mission_dialog.dart';
@@ -74,7 +74,7 @@ class DailyTaskList extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Image.asset(AppImages.expImage),
+                          Image.asset(AppImages.expIcon),
                           Text(
                               ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
                               style: Theme.of(context).textTheme.bodySmall),
