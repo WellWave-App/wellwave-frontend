@@ -3,20 +3,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class LogsHistoryCard extends StatelessWidget {
-  final String svgPath; 
-  final String pngPath; 
-  final String title; 
-  final double value; 
+  final String svgPath;
+  final String pngPath;
+  final String title;
+  final double value;
   final double lastWeekValue;
-  final String unit; 
-  final double svgWidth; 
-  final double svgHeight; 
-  final double pngWidth; 
-  final double pngHeight; 
-  final bool isSvg; 
-  final bool isShow; 
-  final TextStyle? mainTextStyle; 
-  final TextStyle? subTextStyle; 
+  final String unit;
+  final double svgWidth;
+  final double svgHeight;
+  final double pngWidth;
+  final double pngHeight;
+  final bool isSvg;
+  final bool isShow;
+  final bool isShowCriteria;
+  final double upperBand;
+  final double lowerBand;
+  final TextStyle? mainTextStyle;
+  final TextStyle? subTextStyle;
 
   const LogsHistoryCard({
     Key? key,
@@ -24,15 +27,19 @@ class LogsHistoryCard extends StatelessWidget {
     required this.value,
     this.lastWeekValue = 0.0,
     required this.unit,
-    required this.isSvg, 
-    this.svgPath = '', 
-    this.pngPath = '', 
-    this.svgWidth = 64.0, 
-    this.svgHeight = 64.0, 
-    this.pngWidth = 64.0, 
-    this.pngHeight = 64.0, 
+    required this.isSvg,
+    this.svgPath = '',
+    this.pngPath = '',
+    this.svgWidth = 64.0,
+    this.svgHeight = 64.0,
+    this.pngWidth = 64.0,
+    this.pngHeight = 64.0,
     this.mainTextStyle,
-    this.subTextStyle, required this.isShow,
+    this.subTextStyle,
+    required this.isShow,
+    this.isShowCriteria = false,
+    this.upperBand = 0.0,
+    this.lowerBand = 0.0,
   }) : super(key: key);
 
   @override
@@ -50,7 +57,6 @@ class LogsHistoryCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            
             Row(
               children: [
                 isSvg
@@ -64,51 +70,73 @@ class LogsHistoryCard extends StatelessWidget {
                         width: pngWidth,
                         height: pngHeight,
                       ),
-                      const SizedBox(width: 16.0),
-            Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, 
-              children: [
-                Text(
-                  title,
-                  style: mainTextStyle ??
-                      Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.darkGrayColor,
-                          ),
-                ),
-                Text(
-                  '$value $unit',
-                  style: subTextStyle ??
-                      Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-              ],
-            ),
-            
-            isShow
-            ?Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+                const SizedBox(width: 16.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      isPositive
-                          ? Icons.arrow_upward
-                          : Icons.arrow_downward,
-                      size: 16,
-                      color: isPositive
-                          ? Colors.red
-                          : AppColors.greenColor,
+                    Text(
+                      title,
+                      style: mainTextStyle ??
+                          Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: AppColors.darkGrayColor,
+                              ),
                     ),
                     Text(
-                      '${difference.abs()} $unit',
-                      style: Theme.of(context).textTheme.caption2?.copyWith(
-                            color: isPositive
-                                ? Colors.red
-                                : AppColors.greenColor,
-                          ),
+                      '$value $unit',
+                      style: subTextStyle ??
+                          Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ],
-                )
+                ),
+              ],
+            ),
+            isShow
+                ? Column(
+                    children: [
+                      Icon(
+                        isPositive ? Icons.arrow_upward : Icons.arrow_downward,
+                        size: 16,
+                        color: isPositive ? Colors.red : AppColors.greenColor,
+                      ),
+                      Text(
+                        '${difference.abs()} $unit',
+                        style: Theme.of(context).textTheme.caption2?.copyWith(
+                              color: isPositive
+                                  ? Colors.red
+                                  : AppColors.greenColor,
+                            ),
+                      ),
+                      isShowCriteria
+                          ? value > upperBand
+                              ? Text(
+                                  '$titleเกินเกณฑ์ ${value - upperBand} $unit',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption2
+                                      ?.copyWith(color: Colors.red),
+                                )
+                              : value < upperBand
+                                  ? Text(
+                                      '$titleต่ำกว่าเกณฑ์ ${lowerBand - value} $unit',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption2
+                                          ?.copyWith(color: Colors.red),
+                                    )
+                                  : Text(
+                                      '$titleตามเกณฑ์',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption2
+                                          ?.copyWith(
+                                              color: AppColors.greenColor),
+                                    )
+                          : Container()
+                    ],
+                  )
                 : Container()
           ],
         ),

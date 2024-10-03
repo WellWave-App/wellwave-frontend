@@ -36,10 +36,9 @@ class DailyLogsWidget extends StatelessWidget {
           BlocBuilder<LogsBloc, LogsState>(
             builder: (context, state) {
               if (state is LogsLoadInProgress) {
-                          debugPrint('daily log widget');
+                debugPrint('daily log widget');
 
                 return const Center(child: CircularProgressIndicator());
-
               } else if (state is LogsLoadSuccess) {
                 debugPrint(
                     'Received LogsLoadDailySuccess with ${state.logslist.length} logs');
@@ -57,22 +56,6 @@ class DailyLogsWidget extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (selectedSleepHours != null)
-                      Row(
-                        children: [
-                          LogsHistoryCard(
-                            svgPath: AppImages.sleepLogsIcon,
-                            title: AppStrings.sleepText,
-                            value: selectedSleepHours,
-                            isShow: false,
-                            isSvg: true,
-                            unit: AppStrings.hoursText,
-                            svgWidth: 64,
-                            svgHeight: 64,
-                          ),
-                        ],
-                      ),
-                    const SizedBox(height: 8.0),
                     if (selectedDrinkLogs != null)
                       Row(
                         children: [
@@ -83,6 +66,22 @@ class DailyLogsWidget extends StatelessWidget {
                             value: selectedDrinkLogs,
                             unit: AppStrings.glassesText,
                             isSvg: true,
+                            svgWidth: 64,
+                            svgHeight: 64,
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 8.0),
+                    if (selectedSleepHours != null)
+                      Row(
+                        children: [
+                          LogsHistoryCard(
+                            svgPath: AppImages.sleepLogsIcon,
+                            title: AppStrings.sleepText,
+                            value: selectedSleepHours,
+                            isShow: false,
+                            isSvg: true,
+                            unit: AppStrings.hoursText,
                             svgWidth: 64,
                             svgHeight: 64,
                           ),
@@ -104,7 +103,8 @@ class DailyLogsWidget extends StatelessWidget {
                   ],
                 );
               } else if (state is LogsError) {
-                return const Center(child: Text(AppStrings.errorLoadingLogsText));
+                return const Center(
+                    child: Text(AppStrings.errorLoadingLogsText));
               }
               return const Center(child: Text(AppStrings.noLogsAvailableText));
             },

@@ -110,7 +110,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
         TextButton(
           style: ButtonStyle(
             padding: WidgetStateProperty.all<EdgeInsets>(
-              EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
             ),
             foregroundColor:
                 WidgetStateProperty.all<Color>(AppColors.backgroundColor),

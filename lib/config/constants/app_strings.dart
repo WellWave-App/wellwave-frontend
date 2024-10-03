@@ -42,6 +42,7 @@ class AppStrings {
   static const drinkText = 'ดื่มน้ำ';
   static const enterText = 'เข้าสู่แอพ';
   static const waistLineText = 'รอบเอว';
+  static const xdateText = 'วันที่';
 
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
   static const metabolicDescriptionText =
