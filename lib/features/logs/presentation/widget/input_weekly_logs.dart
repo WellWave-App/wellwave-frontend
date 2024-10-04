@@ -49,26 +49,22 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: _buildDialogTitle(),
-      content: _buildStepContent(),
-      actions: [_buildDialogActions()],
-      backgroundColor: AppColors.popupColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _buildDialogTitle(),_buildStepContent(),const SizedBox(height: 24,), _buildDialogActions(),
+        ],
+      ),
     );
+
   }
 
   Widget _buildDialogTitle() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ],
-        ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -155,8 +151,8 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                 selectedMood == index
                     ? moodIconsColor[index]
                     : moodIconsGrey[index],
-                width: 48,
-                height: 48,
+                width: 72,
+                height: 72,
               ),
             );
           }),
@@ -189,23 +185,27 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   Widget _buildBackButton() {
     return currentStep > 0
         ? Expanded(
-            child: TextButton(
-              onPressed: () => setState(() => currentStep--),
-              style: ButtonStyle(
-            
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    16.0
-                  ), 
-                  side: const BorderSide(color: AppColors.primaryColor, width: 1),
-                           ),
-            ),),
-              child: Text(AppStrings.backText,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: AppColors.primaryColor)),
+            child: SizedBox(
+              width: 170,
+              height: 60,
+              child: TextButton(
+                onPressed: () => setState(() => currentStep--),
+                style: ButtonStyle(
+              
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      16.0
+                    ), 
+                    side: const BorderSide(color: AppColors.primaryColor, width: 1),
+                             ),
+              ),),
+                child: Text(AppStrings.backText,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: AppColors.primaryColor)),
+              ),
             ),
           )
         : const SizedBox.shrink();
@@ -213,49 +213,56 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
 
   Widget _buildNextButton() {
     return Expanded(
-      child: TextButton(
-        onPressed: () {
-          setState(() {
-            _updateStepValues();
-            currentStep++;
-          });
-        },
-        style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(AppColors.primaryColor),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    16.0), // Adjust border radius for round corners
-              ),
-            ),),
-        child: Text(AppStrings.nextText,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: Colors.white)),
+      child: SizedBox(
+        width: 170,
+        height: 60,
+        child: TextButton(
+          onPressed: () {
+            setState(() {
+              _updateStepValues();
+              currentStep++;
+            });
+          },
+          style: ButtonStyle(
+              backgroundColor:
+                  WidgetStateProperty.all<Color>(AppColors.primaryColor),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      16.0), // Adjust border radius for round corners
+                ),
+              ),),
+          child: Text(AppStrings.nextText,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.white)),
+        ),
       ),
     );
   }
 
   Widget _buildCompleteButton() {
     return Expanded(
-      child: TextButton(
-        onPressed: _submitLogs,
-        style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(AppColors.primaryColor),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    16.0), 
-              ),
-            ),),
-        child: Text(AppStrings.completedText,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium
-                ?.copyWith(color: Colors.white)),
+      child: SizedBox(
+        height: 60,
+        child: TextButton(
+          onPressed: _submitLogs,
+          style: ButtonStyle(
+              backgroundColor:
+                  WidgetStateProperty.all<Color>(AppColors.primaryColor),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      16.0), 
+                ),
+              ),),
+          child: Text(AppStrings.completedText,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.white)),
+        ),
       ),
     );
   }

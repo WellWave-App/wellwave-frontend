@@ -41,9 +41,10 @@ class InputButton extends StatelessWidget {
           ),
           onPressed: onPressed ??
               () {
-                showDialog(
-                  context: context,
-                  builder: (context) => const InputWeeklyLogs(),
+                showModalBottomSheet<int>(
+                        backgroundColor: AppColors.whiteColor,
+                        context: context,
+                        builder: (context) => const InputWeeklyLogs(),
                 );
               },
           child: Row(
