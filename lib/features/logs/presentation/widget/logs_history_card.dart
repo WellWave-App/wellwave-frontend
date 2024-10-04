@@ -50,8 +50,7 @@ class LogsHistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double difference = value - lastWeekValue;
-    bool isPositive = difference >= 0;
-
+    bool isPositive = difference > 0;
     String displayValue = isDecimal ? value.toString() : value.toInt().toString();
 
     return Expanded(
@@ -85,8 +84,8 @@ class LogsHistoryCard extends StatelessWidget {
                       '$title $displayValue $unit',
                       style: mainTextStyle ??
                           Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold
-                          ),
+                                fontWeight: FontWeight.bold,
+                              ),
                     ),
                     isShowCriteria
                         ? value > upperBand && upperBand != 0.0
@@ -103,16 +102,18 @@ class LogsHistoryCard extends StatelessWidget {
                                     style: Theme.of(context)
                                         .textTheme
                                         .caption2
-                                        ?.copyWith(color: AppColors.darkGrayColor),
+                                        ?.copyWith(
+                                            color: AppColors.darkGrayColor),
                                   )
                                 : Text(
                                     AppStrings.goodCriteria,
                                     style: Theme.of(context)
                                         .textTheme
                                         .caption2
-                                        ?.copyWith(color: AppColors.darkGrayColor),
+                                        ?.copyWith(
+                                            color: AppColors.darkGrayColor),
                                   )
-                        : Container()
+                        : Container(),
                   ],
                 ),
               ],
@@ -120,58 +121,62 @@ class LogsHistoryCard extends StatelessWidget {
             isShow
                 ? Column(
                     children: [
-                      isOpposite
+                      lastWeekValue == 0
                           ? Row(
                               children: [
-                                Icon(
-                                  isPositive
-                                      ? Icons.arrow_downward
-                                      : Icons.arrow_upward,
-                                  size: 16,
-                                  color: isPositive
-                                      ? Colors.red
-                                      : AppColors.greenColor,
-                                ),
                                 Text(
-                                  '${difference.abs()} $unit',
+                                  '',
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelSmall
                                       ?.copyWith(
-                                        color: isPositive
-                                            ? Colors.red
-                                            : AppColors.greenColor,
-                                      ),
+                                          color: AppColors.greyColor),
                                 ),
                               ],
                             )
-                          : Row(
-                              children: [
-                                Icon(
-                                  isPositive
-                                      ? Icons.arrow_upward
-                                      : Icons.arrow_downward,
-                                  size: 16,
-                                  color: isPositive
-                                      ? Colors.red
-                                      : AppColors.greenColor,
+                          : difference == 0
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      '${difference.abs()} $unit',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall
+                                          ?.copyWith(
+                                              color: AppColors.greyColor),
+                                    ),
+                                  ],
+                                )
+                              : Row(
+                                  children: [
+                                    Icon(
+                                      isOpposite
+                                          ? (isPositive
+                                              ? Icons.arrow_downward
+                                              : Icons.arrow_upward)
+                                          : (isPositive
+                                              ? Icons.arrow_upward
+                                              : Icons.arrow_downward),
+                                      size: 16,
+                                      color: isPositive
+                                          ? Colors.red
+                                          : AppColors.greenColor,
+                                    ),
+                                    Text(
+                                      '${difference.abs()} $unit',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall
+                                          ?.copyWith(
+                                              color: isPositive
+                                                  ? Colors.red
+                                                  : AppColors.greenColor),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  '${difference.abs()} $unit',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall
-                                      ?.copyWith(
-                                        color: isPositive
-                                            ? Colors.red
-                                            : AppColors.greenColor,
-                                      ),
-                                ),
-                              ],
-                            ),
                     ],
                   )
-                : Container()
+                : Container(),
           ],
         ),
       ),
