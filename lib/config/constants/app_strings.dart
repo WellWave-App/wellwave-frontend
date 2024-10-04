@@ -43,6 +43,9 @@ class AppStrings {
   static const enterText = 'เข้าสู่แอพ';
   static const waistLineText = 'รอบเอว';
   static const xdateText = 'วันที่';
+  static const goodCriteria = 'ค่าตามเกณฑ์';
+  static const aboveCriteria = 'ค่าเกินเกณฑ์';
+  static const underCriteria = 'ค่าต่ำกว่าเกณฑ์';
 
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
   static const metabolicDescriptionText =

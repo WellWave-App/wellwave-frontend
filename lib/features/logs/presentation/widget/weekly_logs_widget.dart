@@ -124,6 +124,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                           svgWidth: 64,
                           svgHeight: 64,
                           isOpposite: true,
+                          isDecimal: false,
                         ),
                       ],
                     ),

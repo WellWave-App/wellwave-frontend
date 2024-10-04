@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 class LogsHistoryCard extends StatelessWidget {
   final String svgPath;
@@ -19,6 +20,7 @@ class LogsHistoryCard extends StatelessWidget {
   final double upperBand;
   final double lowerBand;
   final bool isOpposite;
+  final bool isDecimal;
   final TextStyle? mainTextStyle;
   final TextStyle? subTextStyle;
 
@@ -42,13 +44,15 @@ class LogsHistoryCard extends StatelessWidget {
     this.isOpposite = false,
     this.upperBand = 0.0,
     this.lowerBand = 0.0,
-    
+    this.isDecimal = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double difference = value - lastWeekValue;
     bool isPositive = difference >= 0;
+
+    String displayValue = isDecimal ? value.toString() : value.toInt().toString();
 
     return Expanded(
       child: Container(
@@ -78,46 +82,37 @@ class LogsHistoryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '$title $value $unit',
+                      '$title $displayValue $unit',
                       style: mainTextStyle ??
                           Theme.of(context).textTheme.titleSmall?.copyWith(
-                                
-                              ),
+                            fontWeight: FontWeight.bold
+                          ),
                     ),
-                    // Text(
-                    //   '$value $unit',
-                    //   style: subTextStyle ??
-                    //       Theme.of(context)
-                    //           .textTheme
-                    //           .headlineMedium
-                    //           ?.copyWith(fontWeight: FontWeight.bold),
-                    // ),
                     isShowCriteria
-                          ? value > upperBand && upperBand != 0.0
-                              ? Text(
-                                  'ค่าเกินเกณฑ์ ${value - upperBand} $unit',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption2
-                                      ?.copyWith(color: AppColors.greyColor),
-                                )
-                              : value < lowerBand && lowerBand != 0.0
-                                  ? Text(
-                                      'ค่าต่ำกว่าเกณฑ์ ${lowerBand - value} $unit',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .caption2
-                                          ?.copyWith(color: AppColors.greyColor),
-                                    )
-                                  : Text(
-                                      'ค่าตามเกณฑ์',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .caption2
-                                          ?.copyWith(
-                                              color: AppColors.greyColor),
-                                    )
-                          : Container()
+                        ? value > upperBand && upperBand != 0.0
+                            ? Text(
+                                '${AppStrings.aboveCriteria} ${value - upperBand} $unit',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption2
+                                    ?.copyWith(color: AppColors.darkGrayColor),
+                              )
+                            : value < lowerBand && lowerBand != 0.0
+                                ? Text(
+                                    '${AppStrings.underCriteria} ${lowerBand - value} $unit',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption2
+                                        ?.copyWith(color: AppColors.darkGrayColor),
+                                  )
+                                : Text(
+                                    AppStrings.goodCriteria,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption2
+                                        ?.copyWith(color: AppColors.darkGrayColor),
+                                  )
+                        : Container()
                   ],
                 ),
               ],
@@ -126,42 +121,54 @@ class LogsHistoryCard extends StatelessWidget {
                 ? Column(
                     children: [
                       isOpposite
-    ? Row(
-                        children: [
-                          Icon(
-                            isPositive ? Icons.arrow_downward : Icons.arrow_upward,
-                            size: 16,
-                            color: isPositive ? Colors.red : AppColors.greenColor,
-                          ),
-                          Text(
-                        '${difference.abs()} $unit',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: isPositive
-                                  ? Colors.red
-                                  : AppColors.greenColor,
+                          ? Row(
+                              children: [
+                                Icon(
+                                  isPositive
+                                      ? Icons.arrow_downward
+                                      : Icons.arrow_upward,
+                                  size: 16,
+                                  color: isPositive
+                                      ? Colors.red
+                                      : AppColors.greenColor,
+                                ),
+                                Text(
+                                  '${difference.abs()} $unit',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(
+                                        color: isPositive
+                                            ? Colors.red
+                                            : AppColors.greenColor,
+                                      ),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Icon(
+                                  isPositive
+                                      ? Icons.arrow_upward
+                                      : Icons.arrow_downward,
+                                  size: 16,
+                                  color: isPositive
+                                      ? Colors.red
+                                      : AppColors.greenColor,
+                                ),
+                                Text(
+                                  '${difference.abs()} $unit',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(
+                                        color: isPositive
+                                            ? Colors.red
+                                            : AppColors.greenColor,
+                                      ),
+                                ),
+                              ],
                             ),
-                      ),
-                        ],
-                      )
-                      : Row(
-                        children: [
-                          Icon(
-                            isPositive ? Icons.arrow_upward : Icons.arrow_downward,
-                            size: 16,
-                            color: isPositive ? Colors.red : AppColors.greenColor,
-                          ),
-                          Text(
-                        '${difference.abs()} $unit',
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: isPositive
-                                  ? Colors.red
-                                  : AppColors.greenColor,
-                            ),
-                      ),
-                        ],
-                      ),
-                      
-                      
                     ],
                   )
                 : Container()
