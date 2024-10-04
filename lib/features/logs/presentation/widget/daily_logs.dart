@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
@@ -79,7 +80,8 @@ class _DailyLogsState extends State<DailyLogs> {
                       AppImages.water10Icon,
                     ],
                     onTap: () async {
-                      int? result = await showDialog<int>(
+                      int? result = await showModalBottomSheet<int>(
+                        backgroundColor: AppColors.whiteColor,
                         context: context,
                         builder: (context) => InputDailyLogs(
                           initialUnits: selectedWaterLevel.toInt(),
@@ -136,7 +138,8 @@ class _DailyLogsState extends State<DailyLogs> {
                       AppImages.moon10Icon,
                     ],
                     onTap: () async {
-                      int? result = await showDialog<int>(
+                      int? result = await showModalBottomSheet<int>(
+                        backgroundColor: AppColors.whiteColor,
                         context: context,
                         builder: (context) => InputDailyLogs(
                           title: AppStrings.hoursOfSleepText,

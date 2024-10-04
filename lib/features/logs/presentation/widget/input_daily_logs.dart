@@ -60,53 +60,56 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Center(
-        child: Text(
-          widget.title,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(),
-        ),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          buildInputIcon(100),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.remove_circle_outline,
-                    color: Colors.grey, size: 48),
-                onPressed: decreaseInputLevel,
-              ),
-              const SizedBox(width: 24.0),
-              Text(
-                '$inputLevel',
-                style: Theme.of(context).textTheme.titleLargeBold?.copyWith(),
-              ),
-              const SizedBox(width: 24.0),
-              IconButton(
-                icon: const Icon(Icons.add_circle_outline,
-                    color: Colors.grey, size: 48),
-                onPressed: increaseInputLevel,
-              ),
-            ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Center(
+          child: Text(
+            widget.title,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                widget.unitLabel,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.greyColor,
-                    ),
-              ),
-            ],
-          )
-        ],
-      ),
-      actions: [
+        ),
+        const SizedBox(height: 24),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            buildInputIcon(100),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove_circle_outline,
+                      color: Colors.grey, size: 48),
+                  onPressed: decreaseInputLevel,
+                ),
+                const SizedBox(width: 24.0),
+                Text(
+                  '$inputLevel',
+                  style: Theme.of(context).textTheme.titleLargeBold?.copyWith(),
+                ),
+                const SizedBox(width: 24.0),
+                IconButton(
+                  icon: const Icon(Icons.add_circle_outline,
+                      color: Colors.grey, size: 48),
+                  onPressed: increaseInputLevel,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.unitLabel,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.greyColor,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24)
+          ],
+        ),
         TextButton(
           style: ButtonStyle(
             padding: WidgetStateProperty.all<EdgeInsets>(
@@ -118,20 +121,24 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
                 WidgetStateProperty.all<Color>(AppColors.primaryColor),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    16.0), // Adjust border radius for round corners
+                borderRadius: BorderRadius.circular(16.0),
               ),
             ),
           ),
           onPressed: () => Navigator.pop(context, inputLevel),
-          child: Center(
-            child: Text(AppStrings.confirmText,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: AppColors.backgroundColor)),
+          child: SizedBox(
+            width: 240,
+            height: 60,
+            child: Center(
+              child: Text(AppStrings.confirmText,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: AppColors.backgroundColor)),
+            ),
           ),
-        )
+        ),
+        const SizedBox(height: 24)
       ],
     );
   }
