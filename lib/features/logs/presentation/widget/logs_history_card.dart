@@ -78,20 +78,46 @@ class LogsHistoryCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      title,
+                      '$title $value $unit',
                       style: mainTextStyle ??
-                          Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: AppColors.darkGrayColor,
+                          Theme.of(context).textTheme.titleSmall?.copyWith(
+                                
                               ),
                     ),
-                    Text(
-                      '$value $unit',
-                      style: subTextStyle ??
-                          Theme.of(context)
-                              .textTheme
-                              .headlineMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
+                    // Text(
+                    //   '$value $unit',
+                    //   style: subTextStyle ??
+                    //       Theme.of(context)
+                    //           .textTheme
+                    //           .headlineMedium
+                    //           ?.copyWith(fontWeight: FontWeight.bold),
+                    // ),
+                    isShowCriteria
+                          ? value > upperBand && upperBand != 0.0
+                              ? Text(
+                                  'ค่าเกินเกณฑ์ ${value - upperBand} $unit',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption2
+                                      ?.copyWith(color: AppColors.greyColor),
+                                )
+                              : value < lowerBand && lowerBand != 0.0
+                                  ? Text(
+                                      'ค่าต่ำกว่าเกณฑ์ ${lowerBand - value} $unit',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption2
+                                          ?.copyWith(color: AppColors.greyColor),
+                                    )
+                                  : Text(
+                                      'ค่าตามเกณฑ์',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption2
+                                          ?.copyWith(
+                                              color: AppColors.greyColor),
+                                    )
+                          : Container()
                   ],
                 ),
               ],
@@ -135,32 +161,7 @@ class LogsHistoryCard extends StatelessWidget {
                         ],
                       ),
                       
-                      isShowCriteria
-                          ? value > upperBand && upperBand != 0.0
-                              ? Text(
-                                  'ค่าเกินเกณฑ์ ${value - upperBand} $unit',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelSmall
-                                      ?.copyWith(color: Colors.red),
-                                )
-                              : value < lowerBand && lowerBand != 0.0
-                                  ? Text(
-                                      'ค่าต่ำกว่าเกณฑ์ ${lowerBand - value} $unit',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall
-                                          ?.copyWith(color: Colors.red),
-                                    )
-                                  : Text(
-                                      'ค่าตามเกณฑ์',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall
-                                          ?.copyWith(
-                                              color: AppColors.greenColor),
-                                    )
-                          : Container()
+                      
                     ],
                   )
                 : Container()
