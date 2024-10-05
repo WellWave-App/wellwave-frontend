@@ -15,8 +15,8 @@ class DailyLogs extends StatefulWidget {
 }
 
 class _DailyLogsState extends State<DailyLogs> {
-  num selectedWaterLevel = 0;
-  num selectedSleepHours = 0;
+  num selectedWaterLevel = 1;
+  num selectedSleepHours = 1;
   DateTime selectedDate = DateTime.now();
 
   @override
@@ -87,9 +87,9 @@ class _DailyLogsState extends State<DailyLogs> {
                           initialUnits: selectedWaterLevel.toInt(),
                           title: AppStrings.amoutOfWaterText,
                           unitLabel: AppStrings.glassesText,
-                          maxLevel: 11,
+                          maxLevel: 10,
                           svgIcons: const [
-                            AppImages.water0Icon,
+                            // AppImages.water0Icon,
                             AppImages.water1Icon,
                             AppImages.water2Icon,
                             AppImages.water3Icon,
@@ -145,9 +145,9 @@ class _DailyLogsState extends State<DailyLogs> {
                           title: AppStrings.hoursOfSleepText,
                           initialUnits: selectedSleepHours.toInt(),
                           unitLabel: AppStrings.hoursText,
-                          maxLevel: 11,
+                          maxLevel: 10,
                           svgIcons: const [
-                            AppImages.moon0Icon,
+                            // AppImages.moon0Icon,
                             AppImages.moon1Icon,
                             AppImages.moon2Icon,
                             AppImages.moon3Icon,

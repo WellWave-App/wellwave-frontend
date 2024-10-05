@@ -24,7 +24,7 @@ class AppStrings {
   static const cmText = 'ซม.';
   static const hdlRecordText = 'บันทึกค่า HDL';
   static const ldlRecordText = 'บันทึกค่า LDL';
-  static const chooseMoodsText = 'เลือกอารมณ์';
+  static const chooseMoodsText = 'คุณรู้สึกอย่างไรกับภารกิจ';
   static const dataRecordingText = 'บันทึกข้อมูล';
   static const dataRecordingCompletedText = 'บันทึกข้อมูลเสร็จสิ้น';
   static const nextText = 'ถัดไป';

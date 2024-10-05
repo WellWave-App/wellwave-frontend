@@ -12,7 +12,7 @@ class InputDailyLogs extends StatefulWidget {
 
   const InputDailyLogs({
     super.key,
-    required this.initialUnits,
+    this.initialUnits = 1,
     required this.title,
     required this.unitLabel,
     this.maxLevel = 0,
@@ -61,8 +61,19 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        const SizedBox(height: 24),
+        Container(
+            height: 3,
+            width: 140,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.only(bottom: 8),
+          ),
+          const SizedBox(height: 24),
         Center(
           child: Text(
             widget.title,

@@ -8,7 +8,6 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/scale_record_widget.dart';
 
-
 class InputWeeklyLogs extends StatefulWidget {
   const InputWeeklyLogs({super.key});
 
@@ -52,19 +51,33 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildDialogTitle(),_buildStepContent(),const SizedBox(height: 24,), _buildDialogActions(),
+          // const SizedBox(height: 24),
+          Container(
+            height: 3,
+            width: 140,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            margin: const EdgeInsets.only(bottom: 8),
+          ),
+          const SizedBox(height: 40),
+          _buildDialogTitle(),
+          _buildStepContent(),
+          const SizedBox(
+            height: 24,
+          ),
+          _buildDialogActions(),
         ],
       ),
     );
-
   }
 
   Widget _buildDialogTitle() {
     return Column(
       children: [
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -75,6 +88,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: AppColors.blackColor, fontWeight: FontWeight.bold),
             ),
+            const SizedBox(height: 24),
             if (currentStep == 2 || currentStep == 3) _buildSkipButton(),
           ],
         ),
@@ -136,12 +150,13 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Align(
+        const Align(
           alignment: Alignment.centerLeft,
           child: Text(AppStrings.chooseMoodsText,
-              style: Theme.of(context).textTheme.titleLarge),
+          
+             ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 48),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(moodIconsGrey.length, (index) {
@@ -157,6 +172,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             );
           }),
         ),
+        const SizedBox(height: 48),
       ],
     );
   }
@@ -164,9 +180,10 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   Widget _buildCompletionStep() {
     return Column(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgPicture.asset(AppImages.completeIcon, width: 80, height: 80),
-        const SizedBox(height: 8),
+        const SizedBox(height: 24),
         Text(AppStrings.dataRecordingCompletedText,
             style: Theme.of(context).textTheme.labelLarge),
       ],
@@ -177,7 +194,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: currentStep < 5
-          ? [_buildBackButton(),const SizedBox(width: 10), _buildNextButton()]
+          ? [_buildBackButton(), const SizedBox(width: 10), _buildNextButton()]
           : [_buildCompleteButton()],
     );
   }
@@ -191,15 +208,14 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
               child: TextButton(
                 onPressed: () => setState(() => currentStep--),
                 style: ButtonStyle(
-              
-              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      16.0
-                    ), 
-                    side: const BorderSide(color: AppColors.primaryColor, width: 1),
-                             ),
-              ),),
+                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                      side: const BorderSide(
+                          color: AppColors.primaryColor, width: 1),
+                    ),
+                  ),
+                ),
                 child: Text(AppStrings.backText,
                     style: Theme.of(context)
                         .textTheme
@@ -224,14 +240,15 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             });
           },
           style: ButtonStyle(
-              backgroundColor:
-                  WidgetStateProperty.all<Color>(AppColors.primaryColor),
-              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      16.0), // Adjust border radius for round corners
-                ),
-              ),),
+            backgroundColor:
+                WidgetStateProperty.all<Color>(AppColors.primaryColor),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                    16.0), // Adjust border radius for round corners
+              ),
+            ),
+          ),
           child: Text(AppStrings.nextText,
               style: Theme.of(context)
                   .textTheme
@@ -249,14 +266,14 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
         child: TextButton(
           onPressed: _submitLogs,
           style: ButtonStyle(
-              backgroundColor:
-                  WidgetStateProperty.all<Color>(AppColors.primaryColor),
-              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      16.0), 
-                ),
-              ),),
+            backgroundColor:
+                WidgetStateProperty.all<Color>(AppColors.primaryColor),
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
+          ),
           child: Text(AppStrings.completedText,
               style: Theme.of(context)
                   .textTheme

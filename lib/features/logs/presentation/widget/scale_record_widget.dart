@@ -39,7 +39,11 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(widget.title),
+            Text(widget.title,
+            style: Theme.of(context).textTheme.title320?.copyWith(
+                    
+                   
+                  ),),
           ],
         ),
         const SizedBox(height: 24),
