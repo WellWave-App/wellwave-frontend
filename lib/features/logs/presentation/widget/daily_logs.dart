@@ -15,8 +15,8 @@ class DailyLogs extends StatefulWidget {
 }
 
 class _DailyLogsState extends State<DailyLogs> {
-  num selectedWaterLevel = 1;
-  num selectedSleepHours = 1;
+  num selectedWaterLevel = 0;
+  num selectedSleepHours = 0;
   DateTime selectedDate = DateTime.now();
 
   @override

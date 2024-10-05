@@ -24,7 +24,7 @@ class InputDailyLogs extends StatefulWidget {
 }
 
 class _InputDailyLogsState extends State<InputDailyLogs> {
-  late int inputLevel;
+  late int inputLevel = 1;
 
   void increaseInputLevel() {
     setState(() {
@@ -38,7 +38,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
 
   void decreaseInputLevel() {
     setState(() {
-      if (inputLevel > 0) {
+      if (inputLevel > 1) {
         inputLevel--;
       }
     });
@@ -47,7 +47,7 @@ class _InputDailyLogsState extends State<InputDailyLogs> {
   @override
   void initState() {
     super.initState();
-    inputLevel = widget.initialUnits.clamp(0, widget.maxLevel - 1);
+    inputLevel = widget.initialUnits.clamp(1, widget.maxLevel - 1);
   }
 
   Widget buildInputIcon(double size) {

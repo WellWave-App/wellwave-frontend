@@ -28,6 +28,9 @@ class LogsRequestRepository {
         }),
       );
 
+      debugPrint(
+          'Create Log Response: ${response.statusCode}, Body: ${response.body}');
+
       if (response.statusCode == 201) {
         debugPrint('Success: ${response.body}');
         return true;
@@ -39,18 +42,26 @@ class LogsRequestRepository {
     }
   }
 
-  // Edit Logs request //not used
-  Future<bool> editLogsRequest(String LogsId, LogsRequestModel LogsRequest,
-      String isShowToEmployee) async {
+  Future<bool> editLogsRequest({
+    required num uid,
+    required int value,
+    required String logName,
+    required String date,
+  }) async {
+    String baseUrl = 'http://10.0.2.2:3000';
     try {
-      String baseUrl = 'http://localhost:3000';
-      final response = await http.put(
-        Uri.parse("$baseUrl/logss/$LogsId"),
+      final response = await http.patch(
+        Uri.parse("$baseUrl/logs/$uid/$logName/$date"),
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonEncode(LogsRequest.toEditLogsRequestJson(isShowToEmployee)),
+        body: jsonEncode({
+          "VALUE": value,
+        }),
       );
+
+      debugPrint(
+          'Edit Log Response: ${response.statusCode}, Body: ${response.body}');
 
       if (response.statusCode == 200) {
         return true;
@@ -62,7 +73,32 @@ class LogsRequestRepository {
     }
   }
 
-  Future<List<LogsRequestModel?>> getLogsById(String uID, DateTime date) async {
+  Future<bool> logExists({
+  required String logName,
+  required int uid,
+  required String date,
+}) async {
+  String baseUrl = 'http://10.0.2.2:3000/logs';
+  try {
+    final response = await http.get(
+      Uri.parse('$baseUrl/$uid/$logName/$date'),
+    );
+
+    debugPrint('Log Exists Check Response: ${response.statusCode}, Body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      return true; 
+    } else if (response.statusCode == 404) {
+      return false; 
+    }
+    return false;
+  } catch (e) {
+    debugPrint('Error checking log existence: $e');
+    return false;
+  }
+}
+
+  Future<List<LogsRequestModel?>> getLogsById(num uID, DateTime date) async {
     try {
       String baseUrl = 'http://10.0.2.2:3000';
       final response = await http.get(
@@ -90,12 +126,12 @@ class LogsRequestRepository {
   }
 
   Future<List<LogsWeeklyRequestModel?>> getWeeklyLogs(
-      String uID, DateTime date) async {
+      num uID, DateTime date) async {
     try {
       String baseUrl = 'http://10.0.2.2:3000';
       final response = await http.get(
         Uri.parse(
-          "$baseUrl/logs/user/$uID/weekly?date=${date.toIso8601String()}",
+          "$baseUrl/logs/userWeekly/$uID?date=${date.toIso8601String()}",
         ),
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +143,7 @@ class LogsRequestRepository {
         List<dynamic> logsJson = jsonData['LOGS'];
         debugPrint('week Fetched Weekly Logs: ${response.body}');
         debugPrint(
-            "$baseUrl/logs/user/$uID/weekly?date=${date.toIso8601String()}");
+            "$baseUrl/logs/userWeekly/$uID?date=${date.toIso8601String()}");
         return logsJson
             .map((log) => LogsWeeklyRequestModel.fromJson(log))
             .toList();
@@ -120,7 +156,7 @@ class LogsRequestRepository {
   }
 
   Future<List<LogsWeightRequestModel?>> getWeightLogs(
-      String uID, DateTime today) async {
+      num uID, DateTime today) async {
     try {
       String baseUrl = 'http://10.0.2.2:3000';
       List<LogsWeightRequestModel?> logsList = [];
@@ -132,7 +168,7 @@ class LogsRequestRepository {
             dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
         final response = await http.get(
           Uri.parse(
-            '$baseUrl/logs/user/$uID/weekly?date=${targetDate.toIso8601String()}&&logName=WEIGHT_LOG',
+            '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WEIGHT_LOG',
           ),
           headers: {
             'Content-Type': 'application/json',
@@ -158,7 +194,7 @@ class LogsRequestRepository {
   }
 
   Future<List<LogsWaistLineRequestModel?>> getWaistLineLogs(
-      String uID, DateTime today) async {
+      num uID, DateTime today) async {
     try {
       String baseUrl = 'http://10.0.2.2:3000';
       List<LogsWaistLineRequestModel?> logsList = [];
@@ -170,7 +206,7 @@ class LogsRequestRepository {
             dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
         final response = await http.get(
           Uri.parse(
-            '$baseUrl/logs/user/$uID/weekly?date=${targetDate.toIso8601String()}&&logName=WAIST_LINE_LOG',
+            '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WAIST_LINE_LOG',
           ),
           headers: {
             'Content-Type': 'application/json',
@@ -194,5 +230,4 @@ class LogsRequestRepository {
       return [];
     }
   }
-
 }
