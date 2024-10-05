@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
-import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 
 abstract class HealthAssessmentPageEvent extends Equatable {
   @override

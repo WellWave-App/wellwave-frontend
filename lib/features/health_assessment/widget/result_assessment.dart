@@ -7,9 +7,7 @@ import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
-import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
@@ -33,7 +31,7 @@ class ResultAssessment extends StatelessWidget {
             4;
 
         if (state.showRecommend) {
-          return RecommendScreen();
+          return const RecommendScreen();
         }
 
         return Scaffold(
@@ -106,12 +104,14 @@ class ResultAssessment extends StatelessWidget {
 }
 
 class RecommendScreen extends StatelessWidget {
+  const RecommendScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         if (state.showHealthConnect) {
-          return HealthConnectScreen();
+          return const HealthConnectScreen();
         }
         return Scaffold(
           body: Padding(
@@ -175,12 +175,14 @@ class RecommendScreen extends StatelessWidget {
 }
 
 class HealthConnectScreen extends StatelessWidget {
+  const HealthConnectScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         if (state.showFinish) {
-          return FinishScreen();
+          return const FinishScreen();
         }
         return Scaffold(
           body: Padding(
@@ -259,6 +261,8 @@ class HealthConnectScreen extends StatelessWidget {
 }
 
 class FinishScreen extends StatelessWidget {
+  const FinishScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 3), () {

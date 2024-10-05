@@ -27,17 +27,6 @@ class HealthAssessmentPageBloc
         emit(state.copyWith(currentStep: state.currentStep - 1));
     });
 
-    void _onImagePicked(
-        ImagePicked event, Emitter<HealthAssessmentPageState> emit) {
-      final updatedFormData = Map<String, String>.from(state.formData);
-      updatedFormData['imageUrl'] = event.imageFile.path;
-
-      emit(state.copyWith(
-        formData: updatedFormData,
-        selectedImage: event.imageFile,
-      ));
-    }
-
     on<UpdateField>(_onUpdateField);
     on<ValidateGender>(_onValidateGender);
     on<ToggleSelectionEvent>(_onToggleSelection);
@@ -60,6 +49,19 @@ class HealthAssessmentPageBloc
     on<ShowFinishEvent>((event, emit) {
       emit(state.copyWith(showFinish: true));
     });
+    on<ImagePicked>(_onImagePicked);
+  }
+
+  void _onImagePicked(
+      ImagePicked event, Emitter<HealthAssessmentPageState> emit) {
+    final updatedFormData = Map<String, String>.from(state.formData);
+    updatedFormData['imageUrl'] = event.imageFile.path;
+    // debugPrint('Image URL: ${event.imageFile.path}');
+
+    emit(state.copyWith(
+      formData: updatedFormData,
+      selectedImage: event.imageFile,
+    ));
   }
 
   void _onStepContinue(

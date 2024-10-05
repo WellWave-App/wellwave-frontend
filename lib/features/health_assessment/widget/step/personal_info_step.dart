@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -239,7 +237,7 @@ class PersonalInfoStep extends StatelessWidget {
                 weight: double.tryParse(
                         state.formData['weight']?.toString() ?? '') ??
                     0,
-                email: "test@gmail.com",
+                email: state.formData['email'] ?? '',
                 userGoal: state.formData['userGoal'] == 'สร้างกล้ามเนื้อ'
                     ? 0
                     : state.formData['userGoal'] == 'ลดน้ำหนัก'
@@ -252,7 +250,7 @@ class PersonalInfoStep extends StatelessWidget {
                   .read<HealthAssessmentBloc>()
                   .add(SubmitPersonalDataEvent(model));
             },
-            child: Text('Submit Data'),
+            child: const Text('Submit Data'),
           )
         ],
       ),

@@ -10,7 +10,7 @@ class AppColors {
   static const backgroundColor = Color(0xFFF6F8FC);
   static const whiteColor = Colors.white;
   static const blackColor = Colors.black;
-  static const skyblueColor = Color(0xfff53c7fe);
+  static const skyblueColor = Color(0xFFF53c7fe);
   static const lightgrayColor = Color(0xfffd9d9d9);
   static const grayColor = Color(0xfff919191);
   static const darkgrayColor = Color(0xfff707070);
@@ -18,13 +18,13 @@ class AppColors {
   static const darkblueColor = Color(0xfff16006d);
   static const orangeColor = Color(0xffff8623f);
 
-  static const greenLevelColor = Color(0xfff38D0BE);
-  static const yellowLevelColor = Color(0xfffFFC466);
-  static const orangeLevelColor = Color(0xfffFFA287);
-  static const redLevelColor = Color(0xffffFF5C5F);
+  static const greenLevelColor = Color(0xfff38d0be);
+  static const yellowLevelColor = Color(0xfffffc466);
+  static const orangeLevelColor = Color(0xfffffa287);
+  static const redLevelColor = Color(0xffffff5c5f);
 
-  static const greenLevelTextColor = Color(0xfff3AAE78);
-  static const yellowLevelTextColor = Color(0xfffFFAB38);
-  static const orangeLevelTextColor = Color(0xfffFF7B2E);
-  static const redLevelTextColor = Color(0xffffCB1A1A);
+  static const greenLevelTextColor = Color(0xfff3aae78);
+  static const yellowLevelTextColor = Color(0xfffffab38);
+  static const orangeLevelTextColor = Color(0xfffff7b2e);
+  static const redLevelTextColor = Color(0xffffcb1a1a);
 }

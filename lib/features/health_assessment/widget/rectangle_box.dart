@@ -22,8 +22,6 @@ class RectangleBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentStep =
-        context.read<HealthAssessmentPageBloc>().state.currentStep;
     double containerWidth = MediaQuery.of(context).size.width / 2 - 32;
 
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(

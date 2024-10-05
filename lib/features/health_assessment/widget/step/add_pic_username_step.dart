@@ -24,13 +24,13 @@ class AddPicUsernameStep extends StatefulWidget {
 
 class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
   Future<void> _pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final ImagePicker _picker = ImagePicker();
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null && mounted) {
-      context
-          .read<HealthAssessmentPageBloc>()
-          .add(ImagePicked(File(pickedFile.path)));
+    if (pickedFile != null) {
+      final File imageFile = File(pickedFile.path);
+      context.read<HealthAssessmentPageBloc>().add(ImagePicked(imageFile));
     }
   }
 
@@ -40,7 +40,7 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pop(
           context,
-          MaterialPageRoute(builder: (context) => StartHealthStep()),
+          MaterialPageRoute(builder: (context) => const StartHealthStep()),
         );
       });
     }

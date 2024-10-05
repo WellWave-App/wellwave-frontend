@@ -8,9 +8,9 @@ class HealthAssessmentRepository {
   HealthAssessmentRepository();
 
   String baseUrl = 'http://10.0.2.2:3000';
+  String userID = '40';
   Future<bool> sendHealthAssessmentHealthData(
       HealthAssessmentHealthDataRequestModel model) async {
-    // ใช้ baseUrl ที่ถูกส่งเข้ามาแทนการฮาร์ดโค้ด URL
     final url = Uri.parse('$baseUrl/risk-assessment/');
     final body = jsonEncode(model.toJson());
 
@@ -35,23 +35,24 @@ class HealthAssessmentRepository {
 
   Future<bool> sendHealthAssessmentPersonalData(
       HealthAssessmentPersonalDataRequestModel model) async {
-    // ใช้ baseUrl ที่ถูกส่งเข้ามาแทนการฮาร์ดโค้ด URL
-    final url = Uri.parse('$baseUrl/users');
+    final url = Uri.parse('$baseUrl/users/$userID');
     final body = jsonEncode(model.toJson());
     debugPrint('Sending request to $url');
     debugPrint('Request body: $body');
     try {
-      final response = await http.post(
+      final response = await http.patch(
         url,
         headers: {'Content-Type': 'application/json'},
         body: body,
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         debugPrint('Success: ${response.body}');
         return true;
+      } else {
+        debugPrint('Failed to send data: ${response.statusCode}');
+        return false;
       }
-      return false;
     } catch (e) {
       debugPrint('Error sending data: $e');
       return false;

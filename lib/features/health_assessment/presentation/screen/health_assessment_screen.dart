@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
+
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
