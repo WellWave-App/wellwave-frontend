@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
@@ -16,6 +17,8 @@ class InputWeeklyLogs extends StatefulWidget {
 }
 
 class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
+  bool isRecordHDL = true;
+  bool isRecordLDL = true;
   int currentStep = 0;
   final RulerPickerController weightController =
       RulerPickerController(value: 50.5);
@@ -98,7 +101,19 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
 
   Widget _buildSkipButton() {
     return TextButton(
-      onPressed: () => setState(() => currentStep++),
+      onPressed: () {
+        setState(() {
+          if (currentStep == 2) {
+            isRecordHDL = false;
+          }
+
+          if (currentStep == 3) {
+            isRecordLDL = false;
+          }
+
+          currentStep++;
+        });
+      },
       child: Text(
         AppStrings.skipText,
         style: Theme.of(context)
@@ -152,9 +167,9 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
       children: [
         const Align(
           alignment: Alignment.centerLeft,
-          child: Text(AppStrings.chooseMoodsText,
-          
-             ),
+          child: Text(
+            AppStrings.chooseMoodsText,
+          ),
         ),
         const SizedBox(height: 48),
         Row(
@@ -245,7 +260,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
-                    16.0), // Adjust border radius for round corners
+                    16.0), 
               ),
             ),
           ),
@@ -301,31 +316,40 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
     }
   }
 
-  void _submitLogs() {
-    final logsBloc = BlocProvider.of<LogsBloc>(context);
-    final logEvents = [
+void _submitLogs() {
+  final logsBloc = BlocProvider.of<LogsBloc>(context);
+  
+  String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+  
+  final logEvents = [
+    SubmitLogEvent(
+      logName: AppStrings.weightLogText,
+      value: weight.toInt(),
+      selectedDate: formattedDate,  
+    ),
+    SubmitLogEvent(
+      logName: AppStrings.waistLineLogText,
+      value: waistLine.toInt(),
+      selectedDate: formattedDate,  
+    ),
+    if (isRecordHDL) 
       SubmitLogEvent(
-          logName: AppStrings.weightLogText,
-          value: weight.toInt(),
-          selectedDate: selectedDate.toIso8601String()),
+        logName: AppStrings.hdlLogText,
+        value: hdl.toInt(),
+        selectedDate: formattedDate,
+      ),
+    if (isRecordLDL) 
       SubmitLogEvent(
-          logName: AppStrings.waistLineLogText,
-          value: waistLine.toInt(),
-          selectedDate: selectedDate.toIso8601String()),
-      SubmitLogEvent(
-          logName: AppStrings.hdlLogText,
-          value: hdl.toInt(),
-          selectedDate: selectedDate.toIso8601String()),
-      SubmitLogEvent(
-          logName: AppStrings.ldlLogText,
-          value: ldl.toInt(),
-          selectedDate: selectedDate.toIso8601String()),
-    ];
+        logName: AppStrings.ldlLogText,
+        value: ldl.toInt(),
+        selectedDate: formattedDate,
+      ),
+  ];
 
-    for (var event in logEvents) {
-      logsBloc.add(event);
-    }
-
-    Navigator.pop(context);
+  for (var event in logEvents) {
+    logsBloc.add(event);
   }
+
+  Navigator.pop(context);
+}
 }
