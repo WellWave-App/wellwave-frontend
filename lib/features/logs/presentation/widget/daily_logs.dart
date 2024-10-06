@@ -44,7 +44,7 @@ class _DailyLogsState extends State<DailyLogs> {
               if (state is LogsLoadInProgress) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is LogsLoadSuccess) {
-                // Check if we have logs for water and sleep for today
+                
                 for (var log in state.logslist) {
                   if (log?.logName == 'DRINK_LOG') {
                     selectedWaterLevel = log?.value ?? 0;
