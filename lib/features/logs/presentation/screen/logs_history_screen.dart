@@ -21,6 +21,7 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: AppColors.primaryColor,
           title: Text(
         AppStrings.healthHistoryText,
         style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -33,7 +34,7 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
           children: [
             const SizedBox(
               width: double.infinity,
-              height: 16.0,
+              height: 20.0,
               child: DecoratedBox(
                 decoration: BoxDecoration(color: AppColors.primaryColor),
               ),

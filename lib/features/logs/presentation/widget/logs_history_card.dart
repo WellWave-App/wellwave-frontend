@@ -51,7 +51,8 @@ class LogsHistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     double difference = value - lastWeekValue;
     bool isPositive = difference > 0;
-    String displayValue = isDecimal ? value.toString() : value.toInt().toString();
+    String displayValue =
+        isDecimal ? value.toString() : value.toInt().toString();
 
     return Expanded(
       child: Container(
@@ -129,8 +130,7 @@ class LogsHistoryCard extends StatelessWidget {
                                   style: Theme.of(context)
                                       .textTheme
                                       .labelSmall
-                                      ?.copyWith(
-                                          color: AppColors.greyColor),
+                                      ?.copyWith(color: AppColors.greyColor),
                                 ),
                               ],
                             )
@@ -150,27 +150,30 @@ class LogsHistoryCard extends StatelessWidget {
                               : Row(
                                   children: [
                                     Icon(
-                                      isOpposite
-                                          ? (isPositive
-                                              ? Icons.arrow_downward
-                                              : Icons.arrow_upward)
-                                          : (isPositive
-                                              ? Icons.arrow_upward
-                                              : Icons.arrow_downward),
-                                      size: 16,
-                                      color: isPositive
-                                          ? Colors.red
-                                          : AppColors.greenColor,
-                                    ),
+                                        isPositive
+                                            ? Icons.arrow_upward
+                                            : Icons.arrow_downward,
+                                        size: 16,
+                                        color: isOpposite
+                                            ? isPositive
+                                                ? AppColors.greenColor
+                                                : Colors.red
+                                            : isPositive
+                                                ? Colors.red
+                                                : AppColors.greenColor),
                                     Text(
                                       '${difference.abs()} $unit',
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelSmall
                                           ?.copyWith(
-                                              color: isPositive
-                                                  ? Colors.red
-                                                  : AppColors.greenColor),
+                                              color: isOpposite
+                                                  ? isPositive
+                                                      ? AppColors.greenColor
+                                                      : Colors.red
+                                                  : isPositive
+                                                      ? Colors.red
+                                                      : AppColors.greenColor),
                                     ),
                                   ],
                                 ),

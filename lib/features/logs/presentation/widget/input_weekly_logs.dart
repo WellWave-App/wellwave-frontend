@@ -7,6 +7,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
+import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/scale_record_widget.dart';
 
 class InputWeeklyLogs extends StatefulWidget {
@@ -181,8 +182,8 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                 selectedMood == index
                     ? moodIconsColor[index]
                     : moodIconsGrey[index],
-                width: 72,
-                height: 72,
+                width: 70,
+                height: 70,
               ),
             );
           }),
@@ -349,7 +350,9 @@ void _submitLogs() {
   for (var event in logEvents) {
     logsBloc.add(event);
   }
+Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (BuildContext context) => const LogsScreen()),
+  );
+}}
 
-  Navigator.pop(context);
-}
-}
