@@ -8,20 +8,26 @@ class HealthAssessmentRepository {
   HealthAssessmentRepository();
 
   String baseUrl = 'http://10.0.2.2:3000';
-  String userID = '40';
-  Future<bool> sendHealthAssessmentHealthData(
-      HealthAssessmentHealthDataRequestModel model) async {
-    final url = Uri.parse('$baseUrl/risk-assessment/');
+  String userID = '43';
+
+  Future<bool> sendHealthAssessmentPersonalData(
+      HealthAssessmentPersonalDataRequestModel model) async {
+    final url = Uri.parse('$baseUrl/users/$userID');
     final body = jsonEncode(model.toJson());
+    debugPrint('Sending request to $url');
+    debugPrint('Request body: $body');
 
     try {
-      final response = await http.post(
+      final response = await http.patch(
         url,
         headers: {'Content-Type': 'application/json'},
         body: body,
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
+        final responseData = jsonDecode(response.body);
+        userID = responseData['UID'].toString();
+        debugPrint('Success: ${response.body}');
         return true;
       } else {
         debugPrint('Failed to send data: ${response.statusCode}');
@@ -33,21 +39,22 @@ class HealthAssessmentRepository {
     }
   }
 
-  Future<bool> sendHealthAssessmentPersonalData(
-      HealthAssessmentPersonalDataRequestModel model) async {
-    final url = Uri.parse('$baseUrl/users/$userID');
+  Future<bool> sendHealthAssessmentHealthData(
+      HealthAssessmentHealthDataRequestModel model) async {
+    final url = Uri.parse('$baseUrl/risk-assessment/$userID');
     final body = jsonEncode(model.toJson());
-    debugPrint('Sending request to $url');
+
+    debugPrint('Sending POST request to: $url');
     debugPrint('Request body: $body');
+
     try {
-      final response = await http.patch(
+      final response = await http.put(
         url,
         headers: {'Content-Type': 'application/json'},
         body: body,
       );
 
       if (response.statusCode == 200) {
-        debugPrint('Success: ${response.body}');
         return true;
       } else {
         debugPrint('Failed to send data: ${response.statusCode}');

@@ -109,7 +109,7 @@ class HealthInfoStep extends StatelessWidget {
             ],
             onChanged: (value) => context
                 .read<HealthAssessmentPageBloc>()
-                .add(UpdateField('waist', value)),
+                .add(UpdateField('waistline', value)),
           ),
         ],
       ),

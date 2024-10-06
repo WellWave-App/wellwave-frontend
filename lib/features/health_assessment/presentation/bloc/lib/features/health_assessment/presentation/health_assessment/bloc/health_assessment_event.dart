@@ -2,14 +2,14 @@ part of 'health_assessment_bloc.dart';
 
 abstract class HealthAssessmentEvent {}
 
-// class SubmitHealthDataEvent extends HealthAssessmentEvent {
-//   final HealthAssessmentHealthDataRequestModel model;
+class SubmitHealthDataEvent extends HealthAssessmentEvent {
+  final HealthAssessmentHealthDataRequestModel modelHealthData;
 
-//   SubmitHealthDataEvent(this.model);
-// }
+  SubmitHealthDataEvent(this.modelHealthData);
+}
 
 class SubmitPersonalDataEvent extends HealthAssessmentEvent {
-  final HealthAssessmentPersonalDataRequestModel model;
+  final HealthAssessmentPersonalDataRequestModel modelPersonaData;
 
-  SubmitPersonalDataEvent(this.model);
+  SubmitPersonalDataEvent(this.modelPersonaData);
 }

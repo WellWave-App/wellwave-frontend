@@ -42,7 +42,7 @@ class PersonalInfoStep extends StatelessWidget {
             ),
           ),
           Text(
-            'เพศ*',
+            'เพศกำเนิด*',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: AppColors.bluegrayColor,
                 ),
@@ -222,36 +222,6 @@ class PersonalInfoStep extends StatelessWidget {
                 .read<HealthAssessmentPageBloc>()
                 .add(UpdateField('weight', value)),
           ),
-          ElevatedButton(
-            onPressed: () {
-              final model = HealthAssessmentPersonalDataRequestModel(
-                imageUrl: state.formData['imageUrl'] ?? '',
-                username: state.formData['username'] ?? '',
-                yearOfBirth: int.tryParse(
-                        state.formData['birthYear']?.toString() ?? '') ??
-                    0,
-                gender: state.formData['gender'] == 'female' ? false : true,
-                height: double.tryParse(
-                        state.formData['height']?.toString() ?? '') ??
-                    0,
-                weight: double.tryParse(
-                        state.formData['weight']?.toString() ?? '') ??
-                    0,
-                email: state.formData['email'] ?? '',
-                userGoal: state.formData['userGoal'] == 'สร้างกล้ามเนื้อ'
-                    ? 0
-                    : state.formData['userGoal'] == 'ลดน้ำหนัก'
-                        ? 1
-                        : state.formData['userGoal'] == 'สุขภาพดี'
-                            ? 2
-                            : -1,
-              );
-              context
-                  .read<HealthAssessmentBloc>()
-                  .add(SubmitPersonalDataEvent(model));
-            },
-            child: const Text('Submit Data'),
-          )
         ],
       ),
     );

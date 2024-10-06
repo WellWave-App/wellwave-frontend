@@ -5,7 +5,10 @@ import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment/bloc/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
@@ -109,10 +112,79 @@ class AssessmentScreenView extends StatelessWidget {
 
                               if (formKey.currentState!.validate() &&
                                   !state.genderError) {
+                                final modelPersonalData =
+                                    HealthAssessmentPersonalDataRequestModel(
+                                  imageUrl: state.formData['imageUrl'] ?? '',
+                                  username: state.formData['username'] ?? '',
+                                  yearOfBirth: int.tryParse(state
+                                              .formData['birthYear']
+                                              ?.toString() ??
+                                          '') ??
+                                      0,
+                                  gender: state.formData['gender'] == 'female'
+                                      ? false
+                                      : true,
+                                  height: double.tryParse(state
+                                              .formData['height']
+                                              ?.toString() ??
+                                          '') ??
+                                      0,
+                                  weight: double.tryParse(state
+                                              .formData['weight']
+                                              ?.toString() ??
+                                          '') ??
+                                      0,
+                                  email: state.formData['email'] ?? '',
+                                  userGoal: state.formData['userGoal'] ==
+                                          'สร้างกล้ามเนื้อ'
+                                      ? 0
+                                      : state.formData['userGoal'] ==
+                                              'ลดน้ำหนัก'
+                                          ? 1
+                                          : state.formData['userGoal'] ==
+                                                  'สุขภาพดี'
+                                              ? 2
+                                              : -1,
+                                );
+                                context.read<HealthAssessmentBloc>().add(
+                                    SubmitPersonalDataEvent(modelPersonalData));
+
                                 context
                                     .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
+                            } else if (state.currentStep == 2) {
+                              final modelHealthData =
+                                  HealthAssessmentHealthDataRequestModel(
+                                diastolicBloodPressure: double.tryParse(
+                                        state.formData['dbp']?.toString() ??
+                                            '') ??
+                                    0,
+                                systolicBloodPressure: double.tryParse(
+                                        state.formData['sbp']?.toString() ??
+                                            '') ??
+                                    0,
+                                hdl: double.tryParse(
+                                        state.formData['hdl']?.toString() ??
+                                            '') ??
+                                    0,
+                                ldl: double.tryParse(
+                                        state.formData['ldl']?.toString() ??
+                                            '') ??
+                                    0,
+                                waistLine: double.tryParse(state
+                                            .formData['waistline']
+                                            ?.toString() ??
+                                        '') ??
+                                    0,
+                                hasHypertension: true,
+                                hasDiabetes: true,
+                                hasDyslipidemia: true,
+                                hasObesity: true,
+                              );
+                              context
+                                  .read<HealthAssessmentBloc>()
+                                  .add(SubmitHealthDataEvent(modelHealthData));
                             } else if (state.currentStep == 3) {
                               if (state.famhisChoose.isNotEmpty) {
                                 context
