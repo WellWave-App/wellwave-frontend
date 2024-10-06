@@ -118,7 +118,8 @@ class DailyTaskPage extends StatelessWidget {
                   itemCount: selectedTasks.length,
                   itemBuilder: (context, index) {
                     final task = selectedTasks[index];
-                    return DailyTaskList(
+                    return 
+                    DailyTaskList(
                       imagePath: task['imagePath'],
                       taskId: task['taskId'],
                       taskName: task['taskName'],

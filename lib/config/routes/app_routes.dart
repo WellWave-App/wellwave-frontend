@@ -11,6 +11,7 @@ import 'package:wellwave_frontend/features/home/presentation/screen/note_screen.
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
 import 'package:wellwave_frontend/features/mission/presentation/screen/page/daily_task_page.dart';
 import 'package:wellwave_frontend/features/mission/presentation/screen/page/habit_challenge_page.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/mission_record_page.dart';
 import 'package:wellwave_frontend/features/mission/presentation/screen/page/quest_page.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
@@ -56,12 +57,20 @@ final GoRouter goRouter = GoRouter(
             },
             routes: [
               GoRoute(
-                path: AppPages.dailyTaskPage,
-                name: AppPages.dailyTaskName,
-                pageBuilder: (BuildContext context, GoRouterState state) {
-                  return NoTransitionPage(child: DailyTaskPage());
-                },
-              ),
+                  path: AppPages.dailyTaskPage,
+                  name: AppPages.dailyTaskName,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    return NoTransitionPage(child: DailyTaskPage());
+                  },
+                  routes: [
+                    GoRoute(
+                      path: AppPages.missionPage,
+                      name: AppPages.missionRecordName,
+                      pageBuilder: (BuildContext context, GoRouterState state) {
+                        return NoTransitionPage(child: MissionRecordPage());
+                      },
+                    )
+                  ]),
               GoRoute(
                 path: AppPages.habitChallengePage,
                 name: AppPages.habitChallengeName,

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/mission_record_page.dart';
 
 import 'mission_dialog.dart';
 
@@ -107,13 +111,16 @@ class DailyTaskList extends StatelessWidget {
                               ),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) => MissionDialog(
-                                      taskName: taskName,
-                                      taskId: taskId,
-                                    ),
-                                  );
+                                  context.goNamed(AppPages.missionRecordName);
+                                  print('press');
+
+                                  // showDialog(
+                                  //   context: context,
+                                  //   builder: (_) => MissionDialog(
+                                  //     taskName: taskName,
+                                  //     taskId: taskId,
+                                  //   ),
+                                  // );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.primaryColor,
