@@ -8,7 +8,7 @@ class HealthAssessmentRepository {
   HealthAssessmentRepository();
 
   String baseUrl = 'http://10.0.2.2:3000';
-  String userID = '43';
+  String userID = '15';
 
   Future<bool> sendHealthAssessmentPersonalData(
       HealthAssessmentPersonalDataRequestModel model) async {
@@ -24,7 +24,7 @@ class HealthAssessmentRepository {
         body: body,
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         userID = responseData['UID'].toString();
         debugPrint('Success: ${response.body}');

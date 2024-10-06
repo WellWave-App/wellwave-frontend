@@ -1,24 +1,24 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class HealthAssessmentPersonalDataRequestModel {
-  final String imageUrl;
-  final String username;
-  final int yearOfBirth;
-  final bool gender;
-  final double height;
-  final double weight;
-  final int userGoal;
-  final String email;
+  final String? imageUrl;
+  final String? username;
+  final int? yearOfBirth;
+  final bool? gender;
+  final double? height;
+  final double? weight;
+  final int? userGoal;
+  final String? email;
 
   HealthAssessmentPersonalDataRequestModel({
-    required this.imageUrl,
-    required this.username,
-    required this.yearOfBirth,
-    required this.gender,
-    required this.height,
-    required this.weight,
-    required this.userGoal,
-    required this.email,
+    this.imageUrl,
+    this.username,
+    this.yearOfBirth,
+    this.gender,
+    this.height,
+    this.weight,
+    this.userGoal,
+    this.email,
   });
 
   HealthAssessmentPersonalDataRequestModel copyWith({

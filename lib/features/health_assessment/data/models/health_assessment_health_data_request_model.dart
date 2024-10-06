@@ -2,26 +2,26 @@
 
 class HealthAssessmentHealthDataRequestModel {
   // health data
-  final double diastolicBloodPressure;
-  final double systolicBloodPressure;
-  final double hdl;
-  final double ldl;
-  final double waistLine;
-  final bool hasHypertension;
-  final bool hasDiabetes;
-  final bool hasDyslipidemia;
-  final bool hasObesity;
+  final double? diastolicBloodPressure;
+  final double? systolicBloodPressure;
+  final double? hdl;
+  final double? ldl;
+  final double? waistLine;
+  final int? hasHypertension;
+  final int? hasDiabetes;
+  final int? hasDyslipidemia;
+  final int? hasObesity;
 
   HealthAssessmentHealthDataRequestModel({
-    required this.diastolicBloodPressure,
-    required this.systolicBloodPressure,
-    required this.hdl,
-    required this.ldl,
-    required this.waistLine,
-    required this.hasHypertension,
-    required this.hasDiabetes,
-    required this.hasDyslipidemia,
-    required this.hasObesity,
+    this.diastolicBloodPressure,
+    this.systolicBloodPressure,
+    this.hdl,
+    this.ldl,
+    this.waistLine,
+    this.hasHypertension,
+    this.hasDiabetes,
+    this.hasDyslipidemia,
+    this.hasObesity,
   });
 
   HealthAssessmentHealthDataRequestModel copyWith({
@@ -30,10 +30,10 @@ class HealthAssessmentHealthDataRequestModel {
     double? hdl,
     double? ldl,
     double? waistLine,
-    bool? hasHypertension,
-    bool? hasDiabetes,
-    bool? hasDyslipidemia,
-    bool? hasObesity,
+    int? hasHypertension,
+    int? hasDiabetes,
+    int? hasDyslipidemia,
+    int? hasObesity,
   }) {
     return HealthAssessmentHealthDataRequestModel(
       diastolicBloodPressure:
@@ -74,14 +74,13 @@ class HealthAssessmentHealthDataRequestModel {
       hdl: (json['hdl'] as num?)?.toDouble() ?? 0.0,
       ldl: (json['ldl'] as num?)?.toDouble() ?? 0.0,
       waistLine: (json['waistLine'] as num?)?.toDouble() ?? 0.0,
-      hasHypertension: json['hasHypertension'] as bool? ?? false,
-      hasDiabetes: json['hasDiabetes'] as bool? ?? false,
-      hasDyslipidemia: json['hasDyslipidemia'] as bool? ?? false,
-      hasObesity: json['hasObesity'] as bool? ?? false,
+      hasHypertension: json['hasHypertension'] as int? ?? 0,
+      hasDiabetes: json['hasDiabetes'] as int? ?? 0,
+      hasDyslipidemia: json['hasDyslipidemia'] as int? ?? 0,
+      hasObesity: json['hasObesity'] as int? ?? 0,
     );
   }
 
-  // Method for editing logs request
   Map<String, dynamic> toEditLogsRequestJson(String isShowToEmployee) {
     return {
       'DIASTOLIC_BLOOD_PRESSURE': diastolicBloodPressure,

@@ -2,18 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
-int mapGoalToUserGoal(String goalChoose) {
-  if (goalChoose == 'สร้างกล้ามเนื้อ') {
-    return 0;
-  } else if (goalChoose == 'ลดน้ำหนัก') {
-    return 1;
-  } else if (goalChoose == 'สุขภาพดี') {
-    return 2;
-  } else {
-    return -1;
-  }
-}
-
 class RiskScores {
   final int riskDiabetesScore;
   final int riskHypertensionScore;

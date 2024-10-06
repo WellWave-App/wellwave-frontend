@@ -158,9 +158,7 @@ class HealthAssessmentPageBloc
         // debugPrint('Updated alcoholChoose: ${event.title}');
         emit(state.copyWith(alcoholChoose: event.title));
       } else if (event.selectionType == 'goal') {
-        // debugPrint('Updated goalChoose: ${event.title}');
-        int userGoal = mapGoalToUserGoal(event.title);
-        debugPrint('userGoal: $userGoal');
+        debugPrint('Updated goalChoose: ${event.title}');
         emit(state.copyWith(goalChoose: event.title));
       } else if (event.selectionType == 'smoke') {
         // debugPrint('Updated smokeChoose: ${event.title}');
