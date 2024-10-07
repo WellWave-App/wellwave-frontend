@@ -4,10 +4,12 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
@@ -111,6 +113,19 @@ class RecommendScreen extends StatelessWidget {
         if (state.showHealthConnect) {
           return const HealthConnectScreen();
         }
+
+        String recommendText = '';
+        if (state.goalChoose == 'สร้างกล้ามเนื้อ') {
+          recommendText =
+              "เพิ่มโปรตีนในแต่ละมื้อ เช่น เนื้อไม่ติดมัน ไข่ หรือผลิตภัณฑ์นม ออกกำลังกายสม่ำเสมอ 3-4 ครั้งต่อสัปดาห์ ครั้งละ 45-60 นาที";
+        } else if (state.goalChoose == 'ลดน้ำหนัก') {
+          recommendText =
+              "ลดอาหารไขมันสูงและคาร์โบไฮเดรตขัดสี เช่น ขนมปังขาว ขนมหวาน ร่วมกับการออกกำลังกาย 3 ครั้งต่อสัปดาห์ ครั้งละ 30-60 นาที";
+        } else {
+          recommendText =
+              "รับประทานอาหารที่มีคุณค่าทางโภชนาการครบถ้วน เน้นผัก ผลไม้ โปรตีนที่ดี และไขมันดี พร้อมทั้งออกกำลังกายอย่างสม่ำเสมอ";
+        }
+
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -133,7 +148,7 @@ class RecommendScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        "ลดอาหารประเภทแป้ง และอาหารไขมันสูง ออกกำลังกายอย่างสม่ำเสมอ อย่างน้อย 3 ครั้งต่อสัปดาห์ ครั้งละ 30-60 นาที",
+                        recommendText,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -285,6 +300,9 @@ class _FinishScreenState extends State<FinishScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 3), () {
+      context.goNamed(AppPages.homeName);
+    });
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
         return Scaffold(
@@ -319,7 +337,6 @@ class _FinishScreenState extends State<FinishScreen> {
                   ),
                 ],
               ),
-              // Star-shaped confetti widget
               Align(
                 alignment: Alignment.topCenter,
                 child: RepaintBoundary(
