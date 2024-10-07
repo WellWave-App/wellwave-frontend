@@ -93,7 +93,10 @@ class AssessmentScreenView extends StatelessWidget {
                               state.alcoholChoose == null) ||
                           (state.currentStep == 5 &&
                               state.smokeChoose == null) ||
-                          (state.currentStep == 6 && state.goalChoose == null))
+                          (state.currentStep == 6 &&
+                              (state.goalChoose != 'สร้างกล้ามเนื้อ' &&
+                                  state.goalChoose != 'สุขภาพดี' &&
+                                  state.goalChoose != 'ลดน้ำหนัก')))
                       ? CustomButton(
                           width: 250,
                           bgColor: AppColors.primaryColor,
@@ -192,7 +195,7 @@ class AssessmentScreenView extends StatelessWidget {
                                     .add(StepContinue());
                               }
                             } else if (state.currentStep == 6) {
-                              if (state.goalChoose != null) {
+                              if ((state.goalChoose != null)) {
                                 final modelPersonalData =
                                     HealthAssessmentPersonalDataRequestModel(
                                         imageUrl:
@@ -204,9 +207,10 @@ class AssessmentScreenView extends StatelessWidget {
                                                     ?.toString() ??
                                                 '') ??
                                             0,
-                                        gender: state.formData['gender'] == 'female'
-                                            ? false
-                                            : true,
+                                        gender:
+                                            state.formData['gender'] == 'female'
+                                                ? false
+                                                : true,
                                         height: double.tryParse(state
                                                     .formData['height']
                                                     ?.toString() ??
@@ -218,14 +222,13 @@ class AssessmentScreenView extends StatelessWidget {
                                         email: state.formData['email'] ?? '',
                                         userGoal: state.goalChoose == 'สร้างกล้ามเนื้อ'
                                             ? 0
-                                            : state.goalChoose == 'ลดน้ำหนัก'
+                                            : state.goalChoose == 'สุขภาพดี'
                                                 ? 1
-                                                : state.goalChoose == 'สุขภาพดี'
+                                                : state.goalChoose == 'ลดน้ำหนัก'
                                                     ? 2
                                                     : -1);
                                 context.read<HealthAssessmentBloc>().add(
                                     SubmitPersonalDataEvent(modelPersonalData));
-
                                 context
                                     .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
