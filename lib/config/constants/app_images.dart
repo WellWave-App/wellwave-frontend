@@ -37,8 +37,7 @@ class AppImages {
   static const smokeUedtoIcon = 'assets/icons/smoke_usedto.svg';
   static const smokeNeverIcon = 'assets/icons/smoke_never.svg';
   static const smokeUsuallyIcon = 'assets/icons/smoke_usually.svg';
-  static const healthassessmentImg =
-      'assets/images/health_assessment_step1.svg';
+  static const healthassessmentIMG = 'assets/icons/health_assessment_step1.svg';
   static const healthassessmentBG = 'assets/images/health_assessment_bg.png';
   static const recommendIcon = 'assets/icons/recommend.svg';
   static const recommendPlanIcon = 'assets/icons/recommend_plan.svg';

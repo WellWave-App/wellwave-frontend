@@ -22,7 +22,7 @@ class StartHealthStep extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               SvgPicture.asset(
-                AppImages.healthassessmentImg,
+                AppImages.healthassessmentIMG,
                 width: MediaQuery.of(context).size.width - 100,
               ),
               const SizedBox(
