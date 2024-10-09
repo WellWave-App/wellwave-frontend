@@ -23,7 +23,7 @@ class GoalStep extends StatelessWidget {
 
         // debugPrint('BMI ของคุณคือ: ${bmi.toStringAsFixed(2)}');
 
-        if (bmi < 22.9 && state.goalChoose == 'ลดน้ำหนัก') {
+        if (bmi < 18.5 && state.goalChoose == 'ลดน้ำหนัก') {
           context.read<HealthAssessmentPageBloc>().add(
                 ToggleSelectionEvent('', false, 'goal'),
               );
@@ -52,7 +52,7 @@ class GoalStep extends StatelessWidget {
                 title: "สุขภาพดี",
                 isMultiSelect: false,
               ),
-              if (bmi > 22.9) ...[
+              if (bmi > 18.5) ...[
                 const SizedBox(
                   height: 24,
                 ),
