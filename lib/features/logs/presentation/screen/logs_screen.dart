@@ -33,7 +33,7 @@ class _LogsScreenState extends State<LogsScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          LogsBloc(LogsRequestRepository()), // Pass the repository here
+          LogsBloc(LogsRequestRepository()), 
       child: Scaffold(
         appBar: AppBar(
           title: const Row(

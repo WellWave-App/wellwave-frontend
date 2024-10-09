@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
@@ -350,9 +352,13 @@ void _submitLogs() {
   for (var event in logEvents) {
     logsBloc.add(event);
   }
-Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (BuildContext context) => const LogsScreen()),
-  );
-}}
-
+  
+  
+  // context.goNamed(AppPages.logName);
+  Navigator.pop(context);
+  // Navigator.(
+  //   context,
+  //   MaterialPageRoute(builder: (BuildContext context) => const LogsScreen()),
+  // );
+}
+}
