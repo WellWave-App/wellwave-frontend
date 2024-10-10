@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
+import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
+import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
 void main() {
@@ -12,20 +14,32 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
+  
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider<StartOverviewBloc>(
-          create: (context) => StartOverviewBloc(),
+        RepositoryProvider<LogsRequestRepository>(
+          create: (context) => LogsRequestRepository(),
         ),
-        // BlocProvider is required to continue using bloc.
       ],
-      child: MaterialApp.router(
-        routerConfig: goRouter,
-        title: 'WellWave Application',
-        debugShowCheckedModeBanner: false,
-        theme: appTheme(context),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<StartOverviewBloc>(
+            create: (context) => StartOverviewBloc(),
+          ),
+          BlocProvider<LogsBloc>(
+            create: (context) =>
+                LogsBloc(context.read<LogsRequestRepository>()),
+            lazy: false,
+          ),
+        ],
+        child: MaterialApp.router(
+          routerConfig: goRouter,
+          title: 'WellWave Application',
+          debugShowCheckedModeBanner: false,
+          theme: appTheme(context),
+        ),
       ),
     );
   }

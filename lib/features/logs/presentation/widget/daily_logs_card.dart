@@ -62,18 +62,17 @@ class DailyLogCard extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         children: [
                           SvgPicture.asset(
-                            svgIcons[
-                                selectedLevel], // Display the SVG for the current level
+                            svgIcons[selectedLevel.clamp(0, svgIcons.length - 1)],
                             width: 43,
                             height: 86,
                           ),
                           // Floating SVG at bottom-right corner
                           Positioned(
-                            bottom: 0, // Align to the bottom
-                            right: 0, // Align to the right
+                            bottom: 0, 
+                            right: 0, 
                             child: SvgPicture.asset(
-                              AppImages.addIcon, // Path to the floating SVG
-                              width: 32, // Desired size
+                              AppImages.addIcon, 
+                              width: 32, 
                               height: 32,
                             ),
                           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/input_weekly_logs.dart';
+import 'package:wellwave_frontend/features/logs/presentation/widget/input_weekly_logs.dart';
 
 class InputButton extends StatelessWidget {
   final String buttonText;
@@ -15,7 +15,7 @@ class InputButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 32, // Set the height
+      height: 32, 
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
@@ -34,16 +34,17 @@ class InputButton extends StatelessWidget {
                 WidgetStateProperty.all<Color>(AppColors.primaryColor),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
+                borderRadius: BorderRadius.circular(8.0),
                 side: const BorderSide(color: Colors.white, width: 2),
               ),
             ),
           ),
           onPressed: onPressed ??
               () {
-                showDialog(
-                  context: context,
-                  builder: (context) => const InputWeeklyLogs(),
+                showModalBottomSheet<int>(
+                        backgroundColor: AppColors.whiteColor,
+                        context: context,
+                        builder: (context) => const InputWeeklyLogs(),
                 );
               },
           child: Row(

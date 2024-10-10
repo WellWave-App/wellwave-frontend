@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
-import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/chart.dart';
-import 'package:wellwave_frontend/features/note/presentation/widget/weekly_logs_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/check_in_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/user_info.dart';
 

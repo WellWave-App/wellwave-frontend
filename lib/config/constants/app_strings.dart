@@ -6,7 +6,7 @@ class AppStrings {
 
   static const emptyText = '';
 
-  //note screen
+  //logs screen
   static const historyText = 'ประวัติ';
   static const dailyLogsText = 'บันทึกสุขภาพประจำวัน';
   static const amoutOfWaterText = 'จำนวนน้ำ';
@@ -20,11 +20,11 @@ class AppStrings {
   static const confirmText = 'ยืนยัน';
   static const weightRecordText = 'บันทึกค่าน้ำหนัก';
   static const kgText = 'กก.';
-  static const weightLineRecordText = 'บันทึกรอบเอว';
+  static const waistLineRecordText = 'บันทึกรอบเอว';
   static const cmText = 'ซม.';
   static const hdlRecordText = 'บันทึกค่า HDL';
   static const ldlRecordText = 'บันทึกค่า LDL';
-  static const chooseMoodsText = 'เลือกอารมณ์';
+  static const chooseMoodsText = 'คุณรู้สึกอย่างไรกับภารกิจ';
   static const dataRecordingText = 'บันทึกข้อมูล';
   static const dataRecordingCompletedText = 'บันทึกข้อมูลเสร็จสิ้น';
   static const nextText = 'ถัดไป';
@@ -32,15 +32,20 @@ class AppStrings {
   static const completedText = 'เสร็จสิ้น';
   static const weightText = 'น้ำหนัก';
   static const skipText = 'ข้าม';
+  static const backText = 'ย้อนกลับ';
 
-  //note history screen
+  //logs history screen
   static const healthHistoryText = 'ประวัติบันทึกสุขภาพ';
   static const sleepText = 'การนอน';
   static const stepText = 'ก้าว';
   static const stepWalkText = 'ก้าวเดิน';
   static const drinkText = 'ดื่มน้ำ';
-  static const errorShow = 'Error:';
   static const enterText = 'เข้าสู่แอพ';
+  static const waistLineText = 'รอบเอว';
+  static const xdateText = 'วันที่';
+  static const goodCriteria = 'ค่าตามเกณฑ์';
+  static const aboveCriteria = 'ค่าเกินเกณฑ์';
+  static const underCriteria = 'ค่าต่ำกว่าเกณฑ์';
 
   //profile screen
   static const userNameText = 'ชื่อผู้ใช้';
@@ -70,4 +75,17 @@ class AppStrings {
   static const metaBehaviorText = 'การปรับพฤติกรรม';
   static const metaBehaviorDescriptionText =
       'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
+
+  //Chart
+  static const errorShow = 'Error';
+  static const noLogsAvailableText = 'No logs available';
+  static const errorLoadingLogsText ='Error loading logs.';
+  static const noDataForTodayText = 'ไม่มีข้อมูลสำหรับวันนี้';
+  static const noDataForWeekText = 'ไม่มีข้อมูลสำหรับสัปดาห์นี้';
+  static const stepNumber = 'ขั้นตอนที่';
+  static const weightLogText = 'WEIGHT_LOG';
+  static const waistLineLogText = 'WAIST_LINE_LOG';
+  static const hdlLogText = 'HDL_LOG';
+  static const ldlLogText = 'LDL_LOG';
+  static const stepLogText = 'STEP_LOG';
 }

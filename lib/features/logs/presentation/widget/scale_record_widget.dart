@@ -28,7 +28,7 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.initialValue;
+    _currentValue = widget.controller.value;
   }
 
   @override
@@ -39,7 +39,11 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(widget.title),
+            Text(widget.title,
+            style: Theme.of(context).textTheme.title320?.copyWith(
+                    
+                   
+                  ),),
           ],
         ),
         const SizedBox(height: 24),
@@ -66,6 +70,7 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
           onValueChanged: (value) {
             setState(() {
               _currentValue = value;
+               widget.controller.value = value;
             });
             widget.onValueChanged(value);
           },
