@@ -69,4 +69,9 @@ class AppStrings {
   static const hdlLogText = 'HDL_LOG';
   static const ldlLogText = 'LDL_LOG';
   static const stepLogText = 'STEP_LOG';
+
+  //authentication
+  static const registerText = 'สมัครสมาชิก';
+  static const loginText = 'เข้าสู่ระบบ';
+
 }

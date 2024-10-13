@@ -11,7 +11,6 @@ class StartRecommend extends StatelessWidget {
   final List<String> descriptions;
   final List<String> imageUrls;
 
-  
   final PageController pageController = PageController();
 
   StartRecommend({
@@ -36,7 +35,6 @@ class StartRecommend extends StatelessWidget {
               final currentIndex =
                   context.read<StartRecommendBloc>().state.currentIndex;
               if (currentIndex > 0) {
-                
                 pageController.animateToPage(
                   currentIndex - 1,
                   duration: const Duration(milliseconds: 300),
@@ -75,7 +73,6 @@ class StartRecommend extends StatelessWidget {
                 child: BlocBuilder<StartRecommendBloc, StartRecommendState>(
                   builder: (context, state) {
                     return PageView.builder(
-                      
                       controller: pageController,
                       onPageChanged: (index) {
                         if (index > state.currentIndex) {
@@ -143,7 +140,6 @@ class StartRecommend extends StatelessWidget {
                       final currentIndex =
                           context.read<StartRecommendBloc>().state.currentIndex;
                       if (currentIndex < titles.length - 1) {
-                        
                         pageController.animateToPage(
                           currentIndex + 1,
                           duration: const Duration(milliseconds: 300),
@@ -151,7 +147,7 @@ class StartRecommend extends StatelessWidget {
                         );
                         context.read<StartRecommendBloc>().add(NextPageEvent());
                       } else {
-                        context.goNamed(AppPages.homeName);
+                        context.goNamed(AppPages.authenticationName);
                       }
                     },
                     style: ElevatedButton.styleFrom(
