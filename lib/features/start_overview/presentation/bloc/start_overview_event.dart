@@ -1,7 +1,6 @@
 part of 'start_overview_bloc.dart';
+abstract class StartRecommendEvent {}
 
-abstract class StartOverviewEvent {}
+class NextPageEvent extends StartRecommendEvent {}
 
-class NextPageEvent extends StartOverviewEvent {}
-
-class PreviousPageEvent extends StartOverviewEvent {}
+class PreviousPageEvent extends StartRecommendEvent {}

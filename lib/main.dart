@@ -14,7 +14,6 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -25,8 +24,8 @@ class MainApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<StartOverviewBloc>(
-            create: (context) => StartOverviewBloc(),
+          BlocProvider<StartRecommendBloc>(
+            create: (context) => StartRecommendBloc(totalPages: 3),
           ),
           BlocProvider<LogsBloc>(
             create: (context) =>

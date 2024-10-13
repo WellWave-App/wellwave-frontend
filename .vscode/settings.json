@@ -3,5 +3,6 @@
     "DetailหScreen",
     "Noto",
     "wellwave"
-  ]
+  ],
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
