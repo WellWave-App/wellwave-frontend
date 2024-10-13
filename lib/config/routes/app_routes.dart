@@ -36,7 +36,7 @@ final GoRouter goRouter = GoRouter(
           path: AppPages.registerPage,
           name: AppPages.registerName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return const NoTransitionPage(child: RegisterScreen());
+            return NoTransitionPage(child: RegisterScreen());
           },
         ),
         GoRoute(
