@@ -10,6 +10,7 @@ class AppPages {
   static const String startPage = 'start';
   static const String logHistoryPage = 'loghistory';
   static const String editProfilePage = 'editprofile';
+  static const String reminderPage = 'reminder';
 
   // Name of the route
   static const String splashName = 'splash';
@@ -22,5 +23,6 @@ class AppPages {
   static const String startName = 'start';
   static const String logHistoryName = 'loghistory';
   static const String editProfileName = 'editprofile';
+  static const String reminderName = 'reminder';
 
 }

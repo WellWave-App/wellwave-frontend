@@ -77,7 +77,9 @@ class AppImages {
   static const expIcon = 'assets/icons/exp_icon.svg';
   static const editProfileIcon = 'assets/icons/edit_profile_icon.svg';
   static const giftIcon = 'assets/icons/gift_icon.svg';
-
+  static const progressBgSvg = 'assets/icons/progress_background.svg';
+  static const medalSvg = 'assets/icons/medal_icon.svg';
+  static const alarmIcon = 'assets/icons/alarm_icon.svg';
 
   static const diamondLeagueIcon = 'assets/icons/league/diamond_league.svg';
   static const bronzeLeaugeIcon = 'assets/icons/league/bronze_league.svg';

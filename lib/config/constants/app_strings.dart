@@ -71,6 +71,7 @@ class AppStrings {
   static const taskProgressText = 'จำนวนทำภารกิจ';
   static const taskText = 'ภารกิจ';
   static const minuteText = 'นาที';
+  static const alertText = 'แจ้งเตือน';
 
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
   static const metabolicDescriptionText =
@@ -85,7 +86,7 @@ class AppStrings {
   //Chart
   static const errorShow = 'Error';
   static const noLogsAvailableText = 'No logs available';
-  static const errorLoadingLogsText ='Error loading logs.';
+  static const errorLoadingLogsText = 'Error loading logs.';
   static const noDataForTodayText = 'ไม่มีข้อมูลสำหรับวันนี้';
   static const noDataForWeekText = 'ไม่มีข้อมูลสำหรับสัปดาห์นี้';
   static const stepNumber = 'ขั้นตอนที่';

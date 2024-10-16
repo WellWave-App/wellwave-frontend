@@ -12,6 +12,7 @@ import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/edit_profile_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/profile_screen.dart';
+import 'package:wellwave_frontend/features/profile/presentation/screen/reminder_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
 final GoRouter goRouter = GoRouter(
@@ -87,6 +88,13 @@ final GoRouter goRouter = GoRouter(
           name: AppPages.editProfileName,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _buildPageWithNavBar(context, state, const EditProfileScreen());
+          },
+        ),
+         GoRoute(
+          path: AppPages.reminderPage,
+          name: AppPages.reminderName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return _buildPageWithNavBar(context, state, const ReminderScreen());
           },
         ),
       ],

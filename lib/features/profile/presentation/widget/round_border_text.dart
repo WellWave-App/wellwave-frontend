@@ -8,6 +8,11 @@ class RoundedText extends StatelessWidget {
   final String svgPath;
   final bool isShowNavi;
   final String appPages;
+  final double horizontal;
+  final double vertical;
+  final double iconSize;
+  final bool isBold;
+  final double radius;
 
   const RoundedText({
     Key? key,
@@ -15,27 +20,39 @@ class RoundedText extends StatelessWidget {
     required this.svgPath,
     this.isShowNavi = false,
     this.appPages = '',
+    this.horizontal = 16,
+    this.vertical = 4,
+    this.iconSize = 24,
+    this.isBold =false, this.radius = 8,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(radius),
         color: AppColors.whiteColor,
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgPicture.asset(
-            svgPath,
-            height: 24,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            text,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+          Row(
+            children: [
+              SvgPicture.asset(
+                svgPath,
+                height: iconSize,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                text,
+                style: 
+                isBold
+                ? Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)
+                : Theme.of(context).textTheme.bodySmall?.copyWith(),
+              ),
+            ],
           ),
           isShowNavi
               ? Row(
@@ -45,9 +62,10 @@ class RoundedText extends StatelessWidget {
                       onTap: () {
                         context.goNamed(appPages);
                       },
-                      child: const Icon(
+                      child: Icon(
                         Icons.navigate_next_rounded,
                         color: AppColors.greyColor,
+                        size: iconSize,
                       ),
                     ),
                   ],
