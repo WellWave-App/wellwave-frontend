@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 class CheckInWidget extends StatefulWidget {
-  final int currentDay; 
+  final int currentDay;
   const CheckInWidget({Key? key, required this.currentDay}) : super(key: key);
 
   @override
@@ -15,7 +17,6 @@ class _CheckInWidgetState extends State<CheckInWidget> {
   final List<int> gemPoints = [20, 20, 20, 20, 20, 20, 100];
 
   void _checkIn(int dayIndex) {
-    
     if (dayIndex == widget.currentDay && !checkedInDays[dayIndex]) {
       setState(() {
         checkedInDays[dayIndex] = true;
@@ -48,34 +49,52 @@ class _CheckInWidgetState extends State<CheckInWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(7, (index) {
-              
               return Column(
                 children: [
                   GestureDetector(
                     onTap: () => _checkIn(index),
-                    child: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: checkedInDays[index] 
-                          ? AppColors.primaryColor
-                          : const Color.fromARGB(255, 190, 190, 190),
-                      child: checkedInDays[index]
-                          ? const Icon(
-                              Icons.check,
-                              color: Colors.white,
-                            )
-                          : Text(
-                              '${gemPoints[index]}',
-                              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold, color: index == widget.currentDay
-                                    ? Colors.blue
-                                    : Colors.black,
-                ),
-                              
-                            ),
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: checkedInDays[index]
+                            ? AppColors.primaryColor
+                            : const Color.fromARGB(255, 227, 227, 227),
+                      ),
+                      child: Column(
+                        children: [
+                          Text('${AppStrings.xdayText} ${index + 1}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption2
+                                  ?.copyWith(
+                                      color: checkedInDays[index]
+                                          ? AppColors.blackColor
+                                          : AppColors.darkGrayColor)),
+                          const SizedBox(height: 4),
+                          checkedInDays[index]
+                              ? const Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                )
+                              : SvgPicture.asset(
+                                  AppImages.gemIcon,
+                                  height: 24,
+                                ),
+                          const SizedBox(height: 4),
+                          Text('สำเร็จ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption2
+                                  ?.copyWith(
+                                      color: checkedInDays[index]
+                                          ? AppColors.blackColor
+                                          : AppColors.darkGrayColor)),
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text('${AppStrings.xdayText} ${index + 1}', style: Theme.of(context).textTheme.caption2?.copyWith()),
                 ],
               );
             }),

@@ -30,13 +30,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   gemAmount: 123,
                   expAmount: 123,
                 ),
-            //     CheckInWidget(currentDay: currentDay),
-            //     // const WeeklyLogsCard(
-            //     //   title: AppStrings.stepWalkText,
-            //     //   value: '4500',
-            //     //   unit: AppStrings.stepText,
-            //     //   chart: LineChartSample2(),
-            //     // ),
+          
               ],
             ),
           ),
