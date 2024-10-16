@@ -22,8 +22,11 @@ class _CheckInWidgetState extends State<CheckInWidget> {
         checkedInDays[dayIndex] = true;
       });
       // Reward the user gems
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('You earned ${gemPoints[dayIndex]} gems!')),
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const CheckInSuccessPopup();
+        },
       );
     }
   }
@@ -59,7 +62,7 @@ class _CheckInWidgetState extends State<CheckInWidget> {
                         borderRadius: BorderRadius.circular(4),
                         color: checkedInDays[index]
                             ? AppColors.primaryColor
-                            : const Color.fromARGB(255, 227, 227, 227),
+                            : const Color(0xFFF2F2F2),
                       ),
                       child: Column(
                         children: [
@@ -101,6 +104,92 @@ class _CheckInWidgetState extends State<CheckInWidget> {
           ),
           const SizedBox(height: 8),
         ],
+      ),
+    );
+  }
+}
+
+class CheckInSuccessPopup extends StatelessWidget {
+  const CheckInSuccessPopup({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Header
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 32),
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                'เช็คอินสำเร็จ',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Body text
+            Text(
+              'คุณได้รับ',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.black,
+                    fontSize: 18,
+                  ),
+            ),
+            const SizedBox(height: 12),
+
+            // Reward row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  AppImages.gemIcon,
+                  
+                  height: 36,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'x15',
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+
+            // Close button
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text(
+                'ปิดหน้าต่างนี้',
+                style: Theme.of(context).textTheme.caption2?.copyWith(
+                      color: Colors.grey,
+                      decoration: TextDecoration.underline,
+                    ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
