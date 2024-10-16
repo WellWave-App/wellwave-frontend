@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wellwave_frontend/features/profile/presentation/screen/profile_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import './health_connect.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,10 +25,11 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                // );
+                context.goNamed(AppPages.profileName);
               },
               child: const Text('Go to Profile'),
             ),

@@ -22,20 +22,21 @@ class AppImages {
   static const ldlImage = 'assets/images/ldl_img.png';
   static const completeIcon = 'assets/icons/complete_icon.svg';
 
-
   //logs screen
   static const addIcon = 'assets/icons/add_round_button.svg';
 
   //grey mood
   static const happyGreyIcon = 'assets/icons/moods_grey/happy_grey.svg';
-  static const veryHappyGreyIcon = 'assets/icons/moods_grey/very_happy_grey.svg';
+  static const veryHappyGreyIcon =
+      'assets/icons/moods_grey/very_happy_grey.svg';
   static const neutralGreyIcon = 'assets/icons/moods_grey/neutral_grey.svg';
   static const sadGreyIcon = 'assets/icons/moods_grey/sad_grey.svg';
   static const verySadGreyIcon = 'assets/icons/moods_grey/very_sad_grey.svg';
 
-  //color mood 
+  //color mood
   static const happyColorIcon = 'assets/icons/moods_color/happy_color.svg';
-  static const veryHappyColorIcon = 'assets/icons/moods_color/very_happy_color.svg';
+  static const veryHappyColorIcon =
+      'assets/icons/moods_color/very_happy_color.svg';
   static const neutralColorIcon = 'assets/icons/moods_color/neutral_color.svg';
   static const sadColorIcon = 'assets/icons/moods_color/sad_color.svg';
   static const verySadColorIcon = 'assets/icons/moods_color/very_sad_color.svg';
@@ -71,4 +72,16 @@ class AppImages {
 
   //profile
   static const copyIcon = 'assets/icons/copy_icon.svg';
+  static const crabImg = 'assets/images/crab.png';
+  static const gemIcon = 'assets/icons/gem_icon.svg';
+  static const expIcon = 'assets/icons/exp_icon.svg';
+  static const editProfileIcon = 'assets/icons/edit_profile_icon.svg';
+  static const giftIcon = 'assets/icons/gift_icon.svg';
+
+
+  static const diamondLeagueIcon = 'assets/icons/league/diamond_league.svg';
+  static const bronzeLeaugeIcon = 'assets/icons/league/bronze_league.svg';
+  static const silverLeaugeIcon = 'assets/icons/league/silver_league.svg';
+  static const goldLeaugeIcon = 'assets/icons/league/gold_league.svg';
+  static const emeraldLeaugeIcon = 'assets/icons/league/emerald_league.svg';
 }

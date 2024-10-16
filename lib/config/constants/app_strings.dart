@@ -65,6 +65,12 @@ class AppStrings {
   static const dayText = 'วัน';
   static const googleConnectText = 'Google Connect';
   static const signOutText = 'ออกจากระบบ';
+  static const rewardRedeemText = 'แลกรางวัล';
+  static const progressText = 'ความก้าวหน้า';
+  static const exerciseProgressText = 'ออกกำลังกายไปแล้ว';
+  static const taskProgressText = 'จำนวนทำภารกิจ';
+  static const taskText = 'ภารกิจ';
+  static const minuteText = 'นาที';
 
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
   static const metabolicDescriptionText =

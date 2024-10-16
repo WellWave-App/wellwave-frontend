@@ -10,6 +10,8 @@ import 'package:wellwave_frontend/features/home/presentation/screen/mission_scre
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
+import 'package:wellwave_frontend/features/profile/presentation/screen/edit_profile_screen.dart';
+import 'package:wellwave_frontend/features/profile/presentation/screen/profile_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
 final GoRouter goRouter = GoRouter(
@@ -71,6 +73,20 @@ final GoRouter goRouter = GoRouter(
           name: AppPages.articleName,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _buildPageWithNavBar(context, state, const ArticleScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.profilePage,
+          name: AppPages.profileName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return _buildPageWithNavBar(context, state, const ProfileScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.editProfilePage,
+          name: AppPages.editProfileName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return _buildPageWithNavBar(context, state, const EditProfileScreen());
           },
         ),
       ],

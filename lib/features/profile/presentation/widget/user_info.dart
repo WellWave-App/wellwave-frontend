@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/reward_card.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/round_border_text.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 
 class UserInformation extends StatelessWidget {
   final String userID;
   final String userName;
-  final int
-      leagueIndex; // Use leagueIndex instead of passing league name directly
   final int gemAmount;
   final int expAmount;
 
@@ -19,79 +16,102 @@ class UserInformation extends StatelessWidget {
     Key? key,
     required this.userID,
     required this.userName,
-    required this.leagueIndex, // New leagueIndex parameter
     required this.gemAmount,
     required this.expAmount,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<String> leagueList = [
-      AppStrings.bronzeLeaugeText,
-      AppStrings.silverLeaugeText,
-      AppStrings.goldLeaugeText,
-      AppStrings.diamondLeaugeText,
-      AppStrings.emeraldLeaugeText,
-    ];
 
-    return Column(
+    return Row(
       children: [
-        const SizedBox(height: 16),
-        const CircleAvatar(
-          radius: 64,
-          backgroundColor: AppColors.mintColor,
+        // const SizedBox(height: 16),
+        Stack(
+  alignment: Alignment.bottomRight,
+  children: [
+    const CircleAvatar(
+      radius: 52,
+      backgroundImage: AssetImage(AppImages.crabImg),
+    ),
+    Positioned(
+      bottom: 0,
+      right: 0,
+      child: GestureDetector(
+        onTap: () {
+          context.goNamed(AppPages.editProfileName);
+        },
+        child: SvgPicture.asset(
+          AppImages.editProfileIcon,
+          width: 32,
+          height: 32,
         ),
-        const SizedBox(height: 24),
-        Text(
-          userName,
-          style: Theme.of(context).textTheme.titleLargeBold?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+      ),
+    ),
+  ],
+),
+
+        const SizedBox(width: 24),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${AppStrings.idText}: $userID',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+              userName,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(),
             ),
-            IconButton(
-              onPressed: () {
-                Clipboard.setData(ClipboardData(text: userID));
-                // Optionally, you can show a confirmation message (like a Snackbar)
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('User ID copied to clipboard'),
-                  duration: Duration(seconds: 2),
-                ));
-              },
-              icon: SvgPicture.asset(AppImages.copyIcon),
-            )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '#$userID',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: userID));
+
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('User ID copied to clipboard'),
+                      duration: Duration(seconds: 2),
+                    ));
+                  },
+                  icon: SvgPicture.asset(AppImages.copyIcon),
+                )
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: AppColors.whiteColor,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SvgPicture.asset(
+                    AppImages.gemIcon,
+                    height: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '$gemAmount',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                  ),
+                  const SizedBox(width: 16),
+                  SvgPicture.asset(
+                    AppImages.expIcon,
+                    height: 20,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '$expAmount',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-        const SizedBox(height: 24),
-        RoundedText(
-          text: '${AppStrings.leagueText} ${leagueList[leagueIndex]}',
-        ),
-        const SizedBox(height: 24),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            RewardCard(
-              iconPath: AppImages.articleIcon,
-              amount: '$gemAmount',
-              unitLabel: AppStrings.gemText,
-            ),
-            const SizedBox(width: 16),
-            RewardCard(
-              iconPath: AppImages.articleIcon,
-              amount: '$expAmount',
-              unitLabel: AppStrings.expText,
-            ),
-          ],
-        ),
-        const SizedBox(height: 24),
-        const Divider(color: Colors.black),
-        const SizedBox(height: 24),
       ],
     );
   }

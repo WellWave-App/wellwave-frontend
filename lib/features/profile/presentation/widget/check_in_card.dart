@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 class CheckInWidget extends StatefulWidget {
@@ -32,7 +32,7 @@ class _CheckInWidgetState extends State<CheckInWidget> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -56,8 +56,8 @@ class _CheckInWidgetState extends State<CheckInWidget> {
                     child: CircleAvatar(
                       radius: 20,
                       backgroundColor: checkedInDays[index] 
-                          ? Colors.black
-                          : Colors.white,
+                          ? AppColors.primaryColor
+                          : const Color.fromARGB(255, 190, 190, 190),
                       child: checkedInDays[index]
                           ? const Icon(
                               Icons.check,
