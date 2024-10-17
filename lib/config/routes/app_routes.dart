@@ -4,6 +4,7 @@ import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/authentication_screen.dart';
+import 'package:wellwave_frontend/features/authentication/presentation/screen/page/forgot_password_sceen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/login_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/register_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/widget/register_success.dart';
@@ -52,6 +53,13 @@ final GoRouter goRouter = GoRouter(
           name: AppPages.loginName,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return NoTransitionPage(child: LoginScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.forgotPasswordPage,
+          name: AppPages.forgetPasswordName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: ForgotPasswordScreen());
           },
         ),
         GoRoute(

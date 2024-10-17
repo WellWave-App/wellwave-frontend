@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
+import 'package:wellwave_frontend/features/authentication/presentation/bloc/forgot_password_bloc.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
@@ -26,6 +27,9 @@ class MainApp extends StatelessWidget {
         providers: [
           BlocProvider<StartRecommendBloc>(
             create: (context) => StartRecommendBloc(totalPages: 3),
+          ),
+          BlocProvider<ForgotPasswordBloc>(
+            create: (context) => ForgotPasswordBloc(),
           ),
           BlocProvider<LogsBloc>(
             create: (context) =>

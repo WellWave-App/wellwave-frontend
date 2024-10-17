@@ -107,6 +107,7 @@ class LoginScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           print('forget password!!');
+                          context.goNamed(AppPages.forgetPasswordName);
                         },
                         child: Text(
                           'ลืมรหัสผ่าน',
