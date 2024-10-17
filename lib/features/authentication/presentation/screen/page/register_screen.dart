@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -178,11 +180,9 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    
                     if (_emailController.text.isEmpty ||
                         _passwordController.text.isEmpty ||
                         _confirmPasswordController.text.isEmpty) {
-                      
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
@@ -191,7 +191,6 @@ class RegisterScreen extends StatelessWidget {
                       );
                     } else if (_passwordController.text !=
                         _confirmPasswordController.text) {
-                      
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('รหัสผ่านไม่ตรงกัน'),
@@ -199,7 +198,7 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       );
                     } else {
-                      
+                      context.goNamed(AppPages.registerSuccessName);
                       print('สมัครสมาชิกเรียบร้อย');
                     }
                   },
@@ -269,6 +268,7 @@ class RegisterScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     print('เข้าสู่ระบบ clicked!');
+                    context.goNamed(AppPages.loginName);
                   },
                   child: RichText(
                     text: TextSpan(
@@ -278,14 +278,14 @@ class RegisterScreen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall!
-                              .copyWith(color: AppColors.blackColor),
+                              .copyWith(color: AppColors.darkGrayColor),
                         ),
                         TextSpan(
                           text: 'เข้าสู่ระบบ',
                           style:
                               Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: AppColors.primaryColor,
-                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.darkGrayColor,
+                                    decoration: TextDecoration.underline,
                                   ),
                         ),
                       ],

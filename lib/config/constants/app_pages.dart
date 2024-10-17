@@ -11,6 +11,7 @@ class AppPages {
   static const String authenticationPage = 'authentication';
   static const String registerPage = 'register';
   static const String loginPage = 'login';
+  static const String registerSuccessPage = 'registerSuccess';
 
   // Name of the route
   static const String splashName = 'splash';
@@ -24,4 +25,5 @@ class AppPages {
   static const String authenticationName = 'authentication';
   static const String registerName = 'register';
   static const String loginName = 'login';
+  static const String registerSuccessName = 'registerSuccess';
 }

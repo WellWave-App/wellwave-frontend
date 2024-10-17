@@ -69,7 +69,8 @@ class StartRecommend extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 72),
-              Expanded(
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.55,
                 child: BlocBuilder<StartRecommendBloc, StartRecommendState>(
                   builder: (context, state) {
                     return PageView.builder(
@@ -89,39 +90,25 @@ class StartRecommend extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            Image.asset(imageUrls[index]),
-                            const SizedBox(height: 48),
-                            Text(
-                              titles[index],
-                              style: const TextStyle(
-                                  fontSize: 24, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              descriptions[index],
-                              style: const TextStyle(fontSize: 16),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 48),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(titles.length, (index) {
-                                return AnimatedContainer(
-                                  duration: const Duration(milliseconds: 200),
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 4.0),
-                                  width:
-                                      index == state.currentIndex ? 29.0 : 6.0,
-                                  height: 6.0,
-                                  decoration: BoxDecoration(
-                                    color: index == state.currentIndex
-                                        ? AppColors.secondaryDarkColor
-                                        : AppColors.blueGrayColor,
-                                    borderRadius: BorderRadius.circular(5.0),
-                                  ),
-                                );
-                              }),
+                            Column(
+                              children: [
+                                Image.asset(imageUrls[index]),
+                                const SizedBox(height: 48),
+                                Text(
+                                  titles[index],
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 12),
+                                Text(
+                                  descriptions[index],
+                                  style: const TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 48),
+                              ],
                             ),
                           ],
                         );
@@ -130,45 +117,74 @@ class StartRecommend extends StatelessWidget {
                   },
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  width: 250,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      final currentIndex =
-                          context.read<StartRecommendBloc>().state.currentIndex;
-                      if (currentIndex < titles.length - 1) {
-                        pageController.animateToPage(
-                          currentIndex + 1,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                        context.read<StartRecommendBloc>().add(NextPageEvent());
-                      } else {
-                        context.goNamed(AppPages.authenticationName);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: AppColors.whiteColor,
-                      backgroundColor: AppColors.primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: BlocBuilder<StartRecommendBloc, StartRecommendState>(
-                      builder: (context, state) {
-                        return Text(
-                          state.currentIndex == titles.length - 1
-                              ? AppStrings.enterText
-                              : AppStrings.nextText,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(color: AppColors.whiteColor),
-                        );
+              BlocBuilder<StartRecommendBloc, StartRecommendState>(
+                builder: (context, state) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(titles.length, (index) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                        width: index == state.currentIndex ? 29.0 : 6.0,
+                        height: 6.0,
+                        decoration: BoxDecoration(
+                          color: index == state.currentIndex
+                              ? AppColors.secondaryDarkColor
+                              : AppColors.blueGrayColor,
+                          borderRadius: BorderRadius.circular(5.0),
+                        ),
+                      );
+                    }),
+                  );
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 100.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: SizedBox(
+                    width: 250,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        final currentIndex = context
+                            .read<StartRecommendBloc>()
+                            .state
+                            .currentIndex;
+                        if (currentIndex < titles.length - 1) {
+                          pageController.animateToPage(
+                            currentIndex + 1,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                          context
+                              .read<StartRecommendBloc>()
+                              .add(NextPageEvent());
+                        } else {
+                          context.goNamed(AppPages.authenticationName);
+                        }
                       },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: AppColors.whiteColor,
+                        backgroundColor: AppColors.primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      child:
+                          BlocBuilder<StartRecommendBloc, StartRecommendState>(
+                        builder: (context, state) {
+                          return Text(
+                            state.currentIndex == titles.length - 1
+                                ? AppStrings.enterText
+                                : AppStrings.nextText,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: AppColors.whiteColor),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),

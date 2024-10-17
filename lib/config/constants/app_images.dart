@@ -74,4 +74,5 @@ class AppImages {
   static const skyBgImage = 'assets/icons/sky.svg';
   static const seaBgImage = 'assets/icons/sea.svg';
   static const googleIcon = 'assets/icons/google_Icon.svg';
+  static const sunnyIcon = 'assets/icons/sunny.svg';
 }

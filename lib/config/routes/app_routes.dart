@@ -6,6 +6,7 @@ import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/authentication_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/login_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/register_screen.dart';
+import 'package:wellwave_frontend/features/authentication/presentation/widget/register_success.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
@@ -40,10 +41,17 @@ final GoRouter goRouter = GoRouter(
           },
         ),
         GoRoute(
+          path: AppPages.registerSuccessPage,
+          name: AppPages.registerSuccessName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: RegisterSuccess());
+          },
+        ),
+        GoRoute(
           path: AppPages.loginPage,
           name: AppPages.loginName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return const NoTransitionPage(child: LoginScreen());
+            return NoTransitionPage(child: LoginScreen());
           },
         ),
         GoRoute(
