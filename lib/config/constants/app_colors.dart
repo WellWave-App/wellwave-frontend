@@ -27,4 +27,15 @@ class AppColors {
   static const yellowLevelTextColor = Color(0xfffffab38);
   static const orangeLevelTextColor = Color(0xfffff7b2e);
   static const redLevelTextColor = Color(0xffffcb1a1a);
+
+  static const graphLevelMintColor = Color.fromARGB(255, 56, 208, 190);
+  static const graphLevelGreenColor = Color.fromARGB(255, 155, 202, 146);
+  static const graphLevelYellowColor = Color.fromARGB(255, 255, 196, 102);
+  static const graphLevelOrangeColor = Color.fromARGB(255, 255, 162, 135);
+  static const graphLevelPinkColor = Color.fromARGB(255, 255, 128, 169);
+
+  static const blackShadow12Color = Colors.black12;
+  static const transparentColor = Colors.transparent;
+
+  static const errorColor = Color(0xFFBE4B43);
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'dart:math' as math;
 
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
@@ -27,13 +28,13 @@ class RiskArc extends CustomPainter {
       paint,
     );
 
-    paint.shader = LinearGradient(
+    paint.shader = const LinearGradient(
       colors: [
-        Color.fromARGB(255, 56, 208, 190),
-        Color.fromARGB(255, 155, 202, 146),
-        Color.fromARGB(255, 255, 196, 102),
-        Color.fromARGB(255, 255, 162, 135),
-        Color.fromARGB(255, 255, 128, 169),
+        AppColors.graphLevelMintColor,
+        AppColors.graphLevelGreenColor,
+        AppColors.graphLevelYellowColor,
+        AppColors.graphLevelOrangeColor,
+        AppColors.graphLevelPinkColor,
       ],
       stops: [0.0, 0.25, 0.5, 0.75, 1.0],
     ).createShader(Rect.fromCircle(
@@ -94,7 +95,7 @@ class _GaugeWidgetState extends State<GaugeWidget> {
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
-                        ?.copyWith(color: Colors.black),
+                        ?.copyWith(color: AppColors.blackColor),
                   ),
                   SizedBox(height: 12),
                   Text(
@@ -103,7 +104,7 @@ class _GaugeWidgetState extends State<GaugeWidget> {
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge
-                        ?.copyWith(color: Colors.black),
+                        ?.copyWith(color: AppColors.blackColor),
                   ),
                 ],
               ),

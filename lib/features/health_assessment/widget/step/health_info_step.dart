@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
 
@@ -16,23 +17,23 @@ class HealthInfoStep extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Text(
-            "ข้อมูลสุขภาพ",
+            AppStrings.healthDataText,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(
             height: 12,
           ),
           Text(
-            "หากทราบข้อมูล โปรดระบุเพื่อผลลัพธ์ที่แม่นยำยิ่งขึ้น",
+            AppStrings.ifYouKnowText,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(
             height: 48,
           ),
           CustomTextFormField(
-            labelText: 'ความดันโลหิตขณะบีบตัว',
-            hintText: 'ความดันโลหิตขณะบีบตัว',
-            suffixText: 'มิลลิเมตรปรอท',
+            labelText: AppStrings.systolicBloodPressureText,
+            hintText: AppStrings.systolicBloodPressureText,
+            suffixText: AppStrings.suffixMillimetersText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['sbp'] ?? '',
             inputFormatters: [
@@ -47,9 +48,9 @@ class HealthInfoStep extends StatelessWidget {
             height: 24,
           ),
           CustomTextFormField(
-            labelText: 'ความดันโลหิตขณะคลายตัว',
-            hintText: 'ความดันโลหิตขณะคลายตัว',
-            suffixText: 'มิลลิเมตรปรอท',
+            labelText: AppStrings.diastolicBloodPressureText,
+            hintText: AppStrings.diastolicBloodPressureText,
+            suffixText: AppStrings.suffixMillimetersText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['dbp'] ?? '',
             inputFormatters: [
@@ -64,9 +65,9 @@ class HealthInfoStep extends StatelessWidget {
             height: 24,
           ),
           CustomTextFormField(
-            labelText: 'คอเลสเตอรอลชนิดดี (HDL)',
-            hintText: 'คอเลสเตอรอลชนิดดี (HDL)',
-            suffixText: 'มก./ดล.',
+            labelText: AppStrings.hdlText,
+            hintText: AppStrings.hdlText,
+            suffixText: AppStrings.suffixmgPerdLText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['hdl'] ?? '',
             inputFormatters: [
@@ -81,9 +82,9 @@ class HealthInfoStep extends StatelessWidget {
             height: 24,
           ),
           CustomTextFormField(
-            labelText: 'คอเลสเตอรอลชนิดไม่ดี (LDL)',
-            hintText: 'คอเลสเตอรอลชนิดไม่ดี (LDL)',
-            suffixText: 'มก./ดล.',
+            labelText: AppStrings.ldlText,
+            hintText: AppStrings.ldlText,
+            suffixText: AppStrings.suffixmgPerdLText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['ldl'] ?? '',
             inputFormatters: [
@@ -98,9 +99,9 @@ class HealthInfoStep extends StatelessWidget {
             height: 24,
           ),
           CustomTextFormField(
-            labelText: 'รอบเอว',
-            hintText: 'รอบเอว',
-            suffixText: 'ซม.',
+            labelText: AppStrings.waistLineText,
+            hintText: AppStrings.waistLineText,
+            suffixText: AppStrings.suffixcmText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['waist'] ?? '',
             inputFormatters: [

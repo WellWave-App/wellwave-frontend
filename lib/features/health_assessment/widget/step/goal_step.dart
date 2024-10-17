@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/goal_box.dart';
@@ -31,7 +32,7 @@ class GoalStep extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                "สุดท้ายแล้ว! บอกเป้าหมายของคุณให้เรารู้หน่อยได้ไหม?",
+                AppStrings.goalAskText,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(
@@ -39,7 +40,7 @@ class GoalStep extends StatelessWidget {
               ),
               const GoalBox(
                 icon: AppImages.goalMuscleIcon,
-                title: "สร้างกล้ามเนื้อ",
+                title: AppStrings.goalMuscleText,
                 isMultiSelect: false,
               ),
               const SizedBox(
@@ -47,7 +48,7 @@ class GoalStep extends StatelessWidget {
               ),
               const GoalBox(
                 icon: AppImages.goalHealthyIcon,
-                title: "สุขภาพดี",
+                title: AppStrings.goalHealthyText,
                 isMultiSelect: false,
               ),
               if (bmi > 18.5) ...[
@@ -56,7 +57,7 @@ class GoalStep extends StatelessWidget {
                 ),
                 const GoalBox(
                   icon: AppImages.goalLoseweightIcon,
-                  title: "ลดน้ำหนัก",
+                  title: AppStrings.goalLoseweightText,
                   isMultiSelect: false,
                 ),
               ],

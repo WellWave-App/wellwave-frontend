@@ -13,7 +13,7 @@ class FamilyHistoryStep extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "คนในครอบครัวมีประวัติการเจ็บป่วยเหล่านี้ไหม?",
+            AppStrings.famhisAskText,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(

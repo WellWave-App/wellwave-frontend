@@ -8,6 +8,7 @@ import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
@@ -37,8 +38,8 @@ class ResultAssessment extends StatelessWidget {
             context: context,
             onLeading: false,
             title: 'สรุปผลการประเมิน',
-            textColor: Colors.black,
-            backgroundColor: Colors.transparent,
+            textColor: AppColors.blackColor,
+            backgroundColor: AppColors.transparentColor,
           ),
           body: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -49,25 +50,25 @@ class ResultAssessment extends StatelessWidget {
                     GaugeWidget(averageRiskScore: averageRiskScore),
                     const SizedBox(height: 48),
                     RiskCard(
-                      title: "เบาหวาน",
+                      title: AppStrings.diabetesText,
                       riskScore: state.riskDiabetesScore,
                       getRiskTextMethod: RiskDiseaseCondition.getRiskText,
                     ),
                     const SizedBox(height: 16),
                     RiskCard(
-                      title: "ความดันโลหิต",
+                      title: AppStrings.hypertensionText,
                       riskScore: state.riskHypertensionScore,
                       getRiskTextMethod: RiskHypertensionCondition.getRiskText,
                     ),
                     const SizedBox(height: 16),
                     RiskCard(
-                      title: "ไขมันในเลือด",
+                      title: AppStrings.hyperlipidemiaText,
                       riskScore: state.riskDyslipidemiaScore,
                       getRiskTextMethod: RiskDyslipidemiaCondition.getRiskText,
                     ),
                     const SizedBox(height: 16),
                     RiskCard(
-                      title: "โรคอ้วน",
+                      title: AppStrings.obesityText,
                       riskScore: state.riskObesityScore,
                       getRiskTextMethod: RiskObesityCondition.getRiskText,
                     ),
@@ -114,14 +115,11 @@ class RecommendScreen extends StatelessWidget {
 
         String recommendText = '';
         if (state.goalChoose == 'สร้างกล้ามเนื้อ') {
-          recommendText =
-              "เพิ่มโปรตีนในแต่ละมื้อ เช่น เนื้อไม่ติดมัน ไข่ หรือผลิตภัณฑ์นม ออกกำลังกายสม่ำเสมอ 3-4 ครั้งต่อสัปดาห์ ครั้งละ 45-60 นาที";
+          recommendText = AppStrings.recommendMuscleText;
         } else if (state.goalChoose == 'ลดน้ำหนัก') {
-          recommendText =
-              "ลดอาหารไขมันสูงและคาร์โบไฮเดรตขัดสี เช่น ขนมปังขาว ขนมหวาน ร่วมกับการออกกำลังกาย 3 ครั้งต่อสัปดาห์ ครั้งละ 30-60 นาที";
+          recommendText = AppStrings.recommendLoseWeightText;
         } else {
-          recommendText =
-              "รับประทานอาหารที่มีคุณค่าทางโภชนาการครบถ้วน เน้นผัก ผลไม้ โปรตีนที่ดี และไขมันดี พร้อมทั้งออกกำลังกายอย่างสม่ำเสมอ";
+          recommendText = AppStrings.recommendHealthyText;
         }
 
         return Scaffold(
@@ -208,7 +206,7 @@ class HealthConnectScreen extends StatelessWidget {
                       SvgPicture.asset(AppImages.healthconnectIcon),
                       const SizedBox(height: 64),
                       Text(
-                        "ต้องการเชื่อมต่อข้อมูลสุขภาพหรือไม่?",
+                        AppStrings.connectHealthAskText,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -217,7 +215,7 @@ class HealthConnectScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        "เชื่อมต่อกับ Google Fit เพื่อให้การติดตามสุขภาพของคุณแม่นยำยิ่งขึ้น",
+                        AppStrings.connectHealthDetailsText,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -323,7 +321,7 @@ class _FinishScreenState extends State<FinishScreen> {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          "แผนสุขภาพส่วนตัวของคุณพร้อมแล้ว \nเริ่มต้นการดูแลสุขภาพที่ดีที่สุดสำหรับคุณได้เลย",
+                          AppStrings.healthPlanDetailsText,
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme

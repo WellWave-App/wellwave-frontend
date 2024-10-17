@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
 
@@ -23,14 +24,14 @@ class PersonalInfoStep extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "ข้อมูลส่วนตัว",
+                  AppStrings.personalDataText,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(
                   height: 12,
                 ),
                 Text(
-                  "บอกข้อมูลของคุณ เพื่อผลลัพธ์ที่แม่นยำ",
+                  AppStrings.ifYouKnowText,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(
@@ -40,7 +41,7 @@ class PersonalInfoStep extends StatelessWidget {
             ),
           ),
           Text(
-            'เพศกำเนิด*',
+            "เพศกำเนิด*",
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: AppColors.bluegrayColor,
                 ),
@@ -69,10 +70,10 @@ class PersonalInfoStep extends StatelessWidget {
                       height: 12,
                     ),
                     Text(
-                      'ชาย',
+                      AppStrings.genderMaleText,
                       style: TextStyle(
                         color: state.formData['gender'] == 'male'
-                            ? Colors.black
+                            ? AppColors.blackColor
                             : AppColors.grayColor,
                       ),
                     ),
@@ -97,10 +98,10 @@ class PersonalInfoStep extends StatelessWidget {
                       height: 12,
                     ),
                     Text(
-                      'หญิง',
+                      AppStrings.genderFemaleText,
                       style: TextStyle(
                         color: state.formData['gender'] == 'female'
-                            ? Colors.black
+                            ? AppColors.blackColor
                             : AppColors.grayColor,
                       ),
                     ),
@@ -117,9 +118,10 @@ class PersonalInfoStep extends StatelessWidget {
                 ),
                 Text(
                   'กรุณากรอกเพศของคุณ',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: const Color(0xFFBE4B43),
-                      ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall
+                      ?.copyWith(color: AppColors.errorColor),
                 ),
               ],
             ),
@@ -128,7 +130,7 @@ class PersonalInfoStep extends StatelessWidget {
           ),
           CustomTextFormField(
             labelText: 'ปีเกิด (พ.ศ.)*',
-            hintText: 'ปีเกิด',
+            hintText: AppStrings.yearOfBirthText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['birthYear'] ?? '',
             inputFormatters: [
@@ -163,8 +165,8 @@ class PersonalInfoStep extends StatelessWidget {
           ),
           CustomTextFormField(
             labelText: 'ส่วนสูง*',
-            hintText: 'ส่วนสูง',
-            suffixText: 'ซม.',
+            hintText: AppStrings.highText,
+            suffixText: AppStrings.suffixcmText,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(3),
@@ -194,8 +196,8 @@ class PersonalInfoStep extends StatelessWidget {
           ),
           CustomTextFormField(
             labelText: 'น้ำหนัก*',
-            hintText: 'น้ำหนัก',
-            suffixText: 'กก.',
+            hintText: AppStrings.weightText,
+            suffixText: AppStrings.suffixkgText,
             keyboardType: TextInputType.number,
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,

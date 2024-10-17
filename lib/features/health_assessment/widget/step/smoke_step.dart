@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/rectangle_box.dart';
 
 class SmokeStep extends StatelessWidget {
@@ -23,12 +24,12 @@ class SmokeStep extends StatelessWidget {
             children: [
               RectangleBox(
                 icon: AppImages.smokeUsuallyIcon,
-                title: "สูบเป็นประจำ",
+                title: AppStrings.smokeUsuallyText,
                 isMultiSelect: false,
               ),
               RectangleBox(
                 icon: AppImages.smokeUedtoIcon,
-                title: "เลิกสูบแล้ว",
+                title: AppStrings.smokeUedtoText,
                 isMultiSelect: false,
               ),
             ],
@@ -41,7 +42,7 @@ class SmokeStep extends StatelessWidget {
             children: [
               RectangleBox(
                 icon: AppImages.smokeNeverIcon,
-                title: "ไม่สูบ",
+                title: AppStrings.smokeNeverText,
                 isMultiSelect: false,
               ),
             ],

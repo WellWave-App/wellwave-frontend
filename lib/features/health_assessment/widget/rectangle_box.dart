@@ -75,7 +75,7 @@ class RectangleBox extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.15),
+                      color: AppColors.blackShadow12Color,
                       blurRadius: 4.0,
                       spreadRadius: 0.0,
                       offset: const Offset(0, 0),

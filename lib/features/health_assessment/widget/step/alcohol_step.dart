@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/rectangle_box.dart';
 
 class AlcoholStep extends StatelessWidget {
@@ -12,7 +13,7 @@ class AlcoholStep extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "คุณดื่มเครื่องดื่มแอลกอฮอล์หรือไม่?",
+            AppStrings.drinkalcoholAskText,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(
@@ -23,14 +24,14 @@ class AlcoholStep extends StatelessWidget {
             children: [
               RectangleBox(
                 icon: AppImages.alcoholUsuallyIcon,
-                title: "ดื่มเป็นประจำ",
-                subtitle: "(เกิน 5 ครั้ง / สัปดาห์)",
+                title: AppStrings.drinkUsuallyText,
+                subtitle: AppStrings.more5timesText,
                 isMultiSelect: false,
               ),
               RectangleBox(
                 icon: AppImages.alcoholSometimesIcon,
-                title: "ดื่มเป็นครั้งคราว",
-                subtitle: "(ไม่เกิน 5 ครั้ง / สัปดาห์)",
+                title: AppStrings.drinkSometimesText,
+                subtitle: AppStrings.less5timesText,
                 isMultiSelect: false,
               ),
             ],
@@ -43,12 +44,12 @@ class AlcoholStep extends StatelessWidget {
             children: [
               RectangleBox(
                 icon: AppImages.alcoholUsedtoIcon,
-                title: "เคยดื่มแต่เลิกแล้ว",
+                title: AppStrings.drinkUsedtoText,
                 isMultiSelect: false,
               ),
               RectangleBox(
                 icon: AppImages.alcoholNeverIcon,
-                title: "ไม่ดื่มแอลกอฮอล์",
+                title: AppStrings.drinkNeverText,
                 isMultiSelect: false,
               ),
             ],

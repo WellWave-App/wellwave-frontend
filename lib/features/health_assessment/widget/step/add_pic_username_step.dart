@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
@@ -48,10 +49,10 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Text("ตั้งชื่อและรูปผู้ใช้",
+          Text(AppStrings.setNameandPicText,
               style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 8),
-          Text("ต้องการให้เราเรียกคุณว่าอะไรดี",
+          Text(AppStrings.callNameAskText,
               style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(height: 64),
           Stack(
@@ -84,8 +85,8 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
           ),
           const SizedBox(height: 48),
           CustomTextFormField(
-            labelText: 'ชื่อผู้ใช้*',
-            hintText: 'ชื่อผู้ใช้',
+            labelText: "ชื่อผู้ใช้*",
+            hintText: AppStrings.usernameText,
             initialValue: widget.state.formData['username'] ?? '',
             inputFormatters: [
               LengthLimitingTextInputFormatter(16),
