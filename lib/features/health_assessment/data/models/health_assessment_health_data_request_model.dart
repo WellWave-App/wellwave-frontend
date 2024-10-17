@@ -1,7 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 class HealthAssessmentHealthDataRequestModel {
-  // health data
   final double? diastolicBloodPressure;
   final double? systolicBloodPressure;
   final double? hdl;

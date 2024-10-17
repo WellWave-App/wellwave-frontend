@@ -4,7 +4,7 @@ import 'dart:math' as math;
 import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
 
 class RiskArc extends CustomPainter {
-  final double percentage; // ควรอยู่ระหว่าง 0.0 ถึง 1.0
+  final double percentage;
 
   RiskArc({required this.percentage});
 

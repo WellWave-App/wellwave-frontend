@@ -8,7 +8,7 @@ class HealthAssessmentRepository {
   HealthAssessmentRepository();
 
   String baseUrl = 'http://10.0.2.2:3000';
-  String userID = '15';
+  String userID = '3';
 
   Future<bool> sendHealthAssessmentPersonalData(
       HealthAssessmentPersonalDataRequestModel model) async {
@@ -48,13 +48,13 @@ class HealthAssessmentRepository {
     debugPrint('Request body: $body');
 
     try {
-      final response = await http.put(
+      final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: body,
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return true;
       } else {
         debugPrint('Failed to send data: ${response.statusCode}');

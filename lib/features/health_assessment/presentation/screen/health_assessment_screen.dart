@@ -163,30 +163,35 @@ class AssessmentScreenView extends StatelessWidget {
                                   diastolicBloodPressure: double.tryParse(
                                           state.formData['dbp']?.toString() ??
                                               '') ??
-                                      0,
+                                      0.0,
                                   systolicBloodPressure: double.tryParse(
                                           state.formData['sbp']?.toString() ??
                                               '') ??
-                                      0,
+                                      0.0,
                                   hdl: double.tryParse(
                                           state.formData['hdl']?.toString() ??
                                               '') ??
-                                      0,
+                                      0.0,
                                   ldl: double.tryParse(
                                           state.formData['ldl']?.toString() ??
                                               '') ??
-                                      0,
+                                      0.0,
                                   waistLine: double.tryParse(state
                                               .formData['waistline']
                                               ?.toString() ??
                                           '') ??
-                                      0,
-                                  hasHypertension: state.riskHypertensionScore,
-                                  hasDiabetes: state.riskDiabetesScore,
-                                  hasDyslipidemia: state.riskDyslipidemiaScore,
-                                  hasObesity: state.riskObesityScore,
+                                      0.0,
+                                  hypertension: state.riskHypertensionScore,
+                                  diabetes: state.riskDiabetesScore,
+                                  dyslipidemia: state.riskDyslipidemiaScore,
+                                  obesity: state.riskObesityScore,
+                                  hasSmoke: state.smokeChoose != 'ไม่สูบ',
+                                  hasDrink: state.alcoholChoose ==
+                                              'ไม่ดื่มแอลกอฮอลล์' ||
+                                          state.alcoholChoose == 'เคยดื่ม'
+                                      ? false
+                                      : true,
                                 );
-
                                 context.read<HealthAssessmentBloc>().add(
                                     SubmitHealthDataEvent(modelHealthData));
 

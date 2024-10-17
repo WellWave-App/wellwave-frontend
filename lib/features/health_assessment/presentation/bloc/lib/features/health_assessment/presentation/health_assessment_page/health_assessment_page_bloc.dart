@@ -56,7 +56,6 @@ class HealthAssessmentPageBloc
       ImagePicked event, Emitter<HealthAssessmentPageState> emit) {
     final updatedFormData = Map<String, String>.from(state.formData);
     updatedFormData['imageUrl'] = event.imageFile.path;
-    // debugPrint('Image URL: ${event.imageFile.path}');
 
     emit(state.copyWith(
       formData: updatedFormData,
@@ -81,7 +80,6 @@ class HealthAssessmentPageBloc
       UpdateField event, Emitter<HealthAssessmentPageState> emit) {
     final updatedFormData = Map<String, String>.from(state.formData);
 
-    // debugPrint('Field Name: ${event.fieldName}, Value: ${event.value}');
     updatedFormData[event.fieldName] = event.value;
 
     ScoreCalculator scoreCalculator = ScoreCalculator();
@@ -155,13 +153,11 @@ class HealthAssessmentPageBloc
       emit(state.copyWith(famhisChoose: updatedFamhisChoose));
     } else {
       if (event.selectionType == 'alcohol') {
-        // debugPrint('Updated alcoholChoose: ${event.title}');
         emit(state.copyWith(alcoholChoose: event.title));
       } else if (event.selectionType == 'goal') {
         debugPrint('Updated goalChoose: ${event.title}');
         emit(state.copyWith(goalChoose: event.title));
       } else if (event.selectionType == 'smoke') {
-        // debugPrint('Updated smokeChoose: ${event.title}');
         emit(state.copyWith(smokeChoose: event.title));
       }
     }

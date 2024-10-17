@@ -8,15 +8,3 @@ sealed class HealthAssessmentState extends Equatable {
 }
 
 final class HealthAssessmentInitial extends HealthAssessmentState {}
-
-class HealthAssessmentLoading extends HealthAssessmentState {}
-
-class HealthAssessmentSuccess extends HealthAssessmentState {
-  const HealthAssessmentSuccess();
-}
-
-class HealthAssessmentFail extends HealthAssessmentState {
-  final String message;
-
-  HealthAssessmentFail(this.message);
-}

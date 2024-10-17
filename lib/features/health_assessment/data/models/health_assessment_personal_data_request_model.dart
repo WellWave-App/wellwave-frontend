@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 class HealthAssessmentPersonalDataRequestModel {
   final String? imageUrl;
   final String? username;
@@ -70,7 +68,6 @@ class HealthAssessmentPersonalDataRequestModel {
     );
   }
 
-  // Method for editing logs request
   Map<String, dynamic> toEditLogsRequestJson(String isShowToEmployee) {
     return {
       'IMAGE_URL': imageUrl,

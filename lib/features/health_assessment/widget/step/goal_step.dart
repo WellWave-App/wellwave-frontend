@@ -21,8 +21,6 @@ class GoalStep extends StatelessWidget {
 
         double bmi = (height > 0) ? (weight / (height * height)) : 0.0;
 
-        // debugPrint('BMI ของคุณคือ: ${bmi.toStringAsFixed(2)}');
-
         if (bmi < 18.5 && state.goalChoose == 'ลดน้ำหนัก') {
           context.read<HealthAssessmentPageBloc>().add(
                 ToggleSelectionEvent('', false, 'goal'),
