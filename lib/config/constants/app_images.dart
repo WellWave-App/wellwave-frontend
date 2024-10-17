@@ -86,4 +86,5 @@ class AppImages {
   static const silverLeaugeIcon = 'assets/icons/league/silver_league.svg';
   static const goldLeaugeIcon = 'assets/icons/league/gold_league.svg';
   static const emeraldLeaugeIcon = 'assets/icons/league/emerald_league.svg';
+  static const barSuccessImage = 'assets/images/success_bar.png';
 }

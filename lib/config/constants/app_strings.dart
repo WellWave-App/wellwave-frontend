@@ -72,6 +72,9 @@ class AppStrings {
   static const taskText = 'ภารกิจ';
   static const minuteText = 'นาที';
   static const alertText = 'แจ้งเตือน';
+  static const youReceivedText = 'คุณได้รับ';
+  static const closeWindowText = 'ปิดหน้าต่างนี้';
+
 
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
   static const metabolicDescriptionText =
