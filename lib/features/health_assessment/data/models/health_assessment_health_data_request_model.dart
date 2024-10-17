@@ -7,22 +7,25 @@ class HealthAssessmentHealthDataRequestModel {
   final double? hdl;
   final double? ldl;
   final double? waistLine;
-  final int? hasHypertension;
-  final int? hasDiabetes;
-  final int? hasDyslipidemia;
-  final int? hasObesity;
+  final int? hypertension;
+  final int? diabetes;
+  final int? dyslipidemia;
+  final int? obesity;
+  final bool? hasSmoke;
+  final bool? hasDrink;
 
-  HealthAssessmentHealthDataRequestModel({
-    this.diastolicBloodPressure,
-    this.systolicBloodPressure,
-    this.hdl,
-    this.ldl,
-    this.waistLine,
-    this.hasHypertension,
-    this.hasDiabetes,
-    this.hasDyslipidemia,
-    this.hasObesity,
-  });
+  HealthAssessmentHealthDataRequestModel(
+      {this.diastolicBloodPressure,
+      this.systolicBloodPressure,
+      this.hdl,
+      this.ldl,
+      this.waistLine,
+      this.hypertension,
+      this.diabetes,
+      this.dyslipidemia,
+      this.obesity,
+      this.hasDrink,
+      this.hasSmoke});
 
   HealthAssessmentHealthDataRequestModel copyWith({
     double? diastolicBloodPressure,
@@ -30,10 +33,12 @@ class HealthAssessmentHealthDataRequestModel {
     double? hdl,
     double? ldl,
     double? waistLine,
-    int? hasHypertension,
-    int? hasDiabetes,
-    int? hasDyslipidemia,
-    int? hasObesity,
+    int? hypertension,
+    int? diabetes,
+    int? dyslipidemia,
+    int? obesity,
+    bool? hasSmoke,
+    bool? hasDrink,
   }) {
     return HealthAssessmentHealthDataRequestModel(
       diastolicBloodPressure:
@@ -43,10 +48,12 @@ class HealthAssessmentHealthDataRequestModel {
       hdl: hdl ?? this.hdl,
       ldl: ldl ?? this.ldl,
       waistLine: waistLine ?? this.waistLine,
-      hasHypertension: hasHypertension ?? this.hasHypertension,
-      hasDiabetes: hasDiabetes ?? this.hasDiabetes,
-      hasDyslipidemia: hasDyslipidemia ?? this.hasDyslipidemia,
-      hasObesity: hasObesity ?? this.hasObesity,
+      hypertension: hypertension ?? this.hypertension,
+      diabetes: diabetes ?? this.diabetes,
+      dyslipidemia: dyslipidemia ?? this.dyslipidemia,
+      obesity: obesity ?? this.obesity,
+      hasSmoke: hasSmoke ?? this.hasSmoke,
+      hasDrink: hasDrink ?? this.hasDrink,
     );
   }
 
@@ -57,10 +64,12 @@ class HealthAssessmentHealthDataRequestModel {
       'HDL': hdl,
       'LDL': ldl,
       'WAIST_LINE': waistLine,
-      'HAS_HYPERTENSION': hasHypertension,
-      'HAS_DIABETES': hasDiabetes,
-      'HAS_DYSLIPIDEMIA': hasDyslipidemia,
-      'HAS_OBESITY': hasObesity,
+      'HYPERTENSION': hypertension,
+      'DIABETES': diabetes,
+      'DYSLIPIDEMIA': dyslipidemia,
+      'OBESITY': obesity,
+      'HAS_SMOKE': hasSmoke,
+      'HAS_DRINK': hasDrink,
     };
   }
 
@@ -74,10 +83,12 @@ class HealthAssessmentHealthDataRequestModel {
       hdl: (json['hdl'] as num?)?.toDouble() ?? 0.0,
       ldl: (json['ldl'] as num?)?.toDouble() ?? 0.0,
       waistLine: (json['waistLine'] as num?)?.toDouble() ?? 0.0,
-      hasHypertension: json['hasHypertension'] as int? ?? 0,
-      hasDiabetes: json['hasDiabetes'] as int? ?? 0,
-      hasDyslipidemia: json['hasDyslipidemia'] as int? ?? 0,
-      hasObesity: json['hasObesity'] as int? ?? 0,
+      hypertension: json['hypertension'] as int? ?? 0,
+      diabetes: json['diabetes'] as int? ?? 0,
+      dyslipidemia: json['dyslipidemia'] as int? ?? 0,
+      obesity: json['obesity'] as int? ?? 0,
+      hasSmoke: json['HAS_SMOKE'] as bool? ?? false,
+      hasDrink: json['HAS_DRINK'] as bool? ?? false,
     );
   }
 
@@ -88,10 +99,12 @@ class HealthAssessmentHealthDataRequestModel {
       'HDL': hdl,
       'LDL': ldl,
       'WAIST_LINE': waistLine,
-      'HAS_HYPERTENSION': hasHypertension,
-      'HAS_DIABETES': hasDiabetes,
-      'HAS_DYSLIPIDEMIA': hasDyslipidemia,
-      'HAS_OBESITY': hasObesity,
+      'HYPERTENSION': hypertension,
+      'DIABETES': diabetes,
+      'DYSLIPIDEMIA': dyslipidemia,
+      'OBESITY': obesity,
+      'HAS_SMOKE': hasSmoke,
+      'HAS_DRINK': hasDrink,
     };
   }
 }
