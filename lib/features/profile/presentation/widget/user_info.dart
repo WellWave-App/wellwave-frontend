@@ -25,7 +25,7 @@ class UserInformation extends StatelessWidget {
 
     return Row(
       children: [
-        // const SizedBox(height: 16),
+        
         Stack(
   alignment: Alignment.bottomRight,
   children: [

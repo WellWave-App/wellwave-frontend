@@ -6,7 +6,6 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/presentation/screen/reminder_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/check_in_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/progress_card.dart';

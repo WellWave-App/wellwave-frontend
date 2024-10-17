@@ -74,6 +74,9 @@ class AppStrings {
   static const alertText = 'แจ้งเตือน';
   static const youReceivedText = 'คุณได้รับ';
   static const closeWindowText = 'ปิดหน้าต่างนี้';
+  static const genderText = 'เพศ';
+  static const birthYearText = 'ปีเกิด';
+  static const heightText = 'ส่วนสูง';
 
 
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
