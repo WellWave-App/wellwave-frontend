@@ -56,7 +56,6 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // const SizedBox(height: 24),
           Container(
             height: 3,
             width: 140,
@@ -350,12 +349,6 @@ void _submitLogs() {
     logsBloc.add(event);
   }
   
-  
-  // context.goNamed(AppPages.logName);
   Navigator.pop(context);
-  // Navigator.(
-  //   context,
-  //   MaterialPageRoute(builder: (BuildContext context) => const LogsScreen()),
-  // );
 }
 }

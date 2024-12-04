@@ -8,6 +8,8 @@ class ScaleRecordWidget extends StatefulWidget {
   final num initialValue;
   final RulerPickerController controller;
   final Function(num) onValueChanged;
+  final TextStyle? titleStyle;
+  final MainAxisAlignment? titleAlign;
 
   const ScaleRecordWidget({
     Key? key,
@@ -15,7 +17,7 @@ class ScaleRecordWidget extends StatefulWidget {
     required this.label,
     required this.initialValue,
     required this.controller,
-    required this.onValueChanged,
+    required this.onValueChanged, this.titleStyle,  this.titleAlign,
   }) : super(key: key);
 
   @override
@@ -37,13 +39,12 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: widget.titleAlign ?? MainAxisAlignment.start,
           children: [
-            Text(widget.title,
-            style: Theme.of(context).textTheme.title320?.copyWith(
-                    
-                   
-                  ),),
+            Text(
+              widget.title,
+              style: widget.titleStyle ?? Theme.of(context).textTheme.title320?.copyWith(),
+            ),
           ],
         ),
         const SizedBox(height: 24),
@@ -53,7 +54,6 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
             Text(
               '$_currentValue ',
               style: Theme.of(context).textTheme.titleXL?.copyWith(
-                    
                     fontWeight: FontWeight.bold,
                   ),
             ),
@@ -70,7 +70,7 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
           onValueChanged: (value) {
             setState(() {
               _currentValue = value;
-               widget.controller.value = value;
+              widget.controller.value = value;
             });
             widget.onValueChanged(value);
           },
