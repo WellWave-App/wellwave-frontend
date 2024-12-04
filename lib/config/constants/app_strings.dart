@@ -89,6 +89,10 @@ class AppStrings {
   static const metaBehaviorDescriptionText =
       'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
 
+  //arcievement
+  static const yourRecordText = 'สถิติของคุณ';
+  static const medalText = 'เหรียญรางวัล';
+
   //Chart
   static const errorShow = 'Error';
   static const noLogsAvailableText = 'No logs available';

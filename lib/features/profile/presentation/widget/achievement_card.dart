@@ -35,7 +35,7 @@ class AchievementCard extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        context.goNamed(AppPages.logHistoryName);
+                        context.goNamed(AppPages.achievementName);
                       },
                       child: Text(
                         AppStrings.seeAllText,
