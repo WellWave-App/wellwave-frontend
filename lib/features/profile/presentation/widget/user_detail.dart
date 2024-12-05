@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../logs/presentation/widget/scale_record_widget.dart';

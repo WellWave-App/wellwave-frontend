@@ -72,7 +72,7 @@ class AchievementScreen extends StatelessWidget {
               Column(
                 children: [
                   Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 22.5),
+                    padding:  const EdgeInsets.symmetric(horizontal: 22.5),
                     child: Wrap(
                       spacing: 45.0, // Horizontal spacing between items
                       runSpacing: 16.0, // Vertical spacing between rows

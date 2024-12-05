@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class ArchievementRecordCard extends StatelessWidget {
   final Color backgroundColor;
@@ -15,8 +16,8 @@ class ArchievementRecordCard extends StatelessWidget {
     this.svgWidth = 72,
     this.svgHeight,
     required this.archievementName,
-    this.backgroundColor = const Color(0x33FFC466),
-    this.borderColor = const Color.fromARGB(68, 196, 102, 51),
+    this.backgroundColor = AppColors.backgroundColor,
+    this.borderColor = const Color.fromARGB(64, 145, 145, 145),
   });
 
   @override
