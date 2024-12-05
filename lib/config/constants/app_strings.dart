@@ -93,6 +93,16 @@ class AppStrings {
   static const yourRecordText = 'สถิติของคุณ';
   static const medalText = 'เหรียญรางวัล';
 
+  //notification
+  static const selectAllText = 'เลือกทั้งหมด';
+  static const drinkingText = 'การดื่มน้ำ';
+  static const setTimeText = 'ตั้งเวลา';
+  static const startTimeText = 'เวลาเริ่ม';
+  static const endTimeText = 'เวลาจบ';
+  static const notiEveryText = 'แจ้งเตือนทุก';
+  static const drinkPlanText = 'กำหนดแผนดื่มน้ำโดยละเอียด >';
+  static const sleepingText = 'การเข้านอน';
+
   //Chart
   static const errorShow = 'Error';
   static const noLogsAvailableText = 'No logs available';

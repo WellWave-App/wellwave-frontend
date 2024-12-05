@@ -88,4 +88,7 @@ class AppImages {
   static const goldLeaugeIcon = 'assets/icons/league/gold_league.svg';
   static const emeraldLeaugeIcon = 'assets/icons/league/emerald_league.svg';
   static const barSuccessImage = 'assets/images/success_bar.png';
+  static const fireIcon = 'assets/icons/fire_icon.svg';
+  static const waterIcon = 'assets/icons/water_icon.svg';
+  static const sleepingIcon = 'assets/icons/sleeping_icon.svg';
 }
