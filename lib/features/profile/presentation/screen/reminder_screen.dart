@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/notification/noti_drinking.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/notification/noti_mission.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/notification/noti_sleeping.dart';
 
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
@@ -13,28 +15,22 @@ class ReminderScreen extends StatefulWidget {
 }
 
 class _ReminderScreenState extends State<ReminderScreen> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: CustomAppBar(
           title: AppStrings.alertText, context: context, onLeading: true),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 36),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 36),
           child: Column(
             children: [
-              // Mission section
               NotificationMission(),
-
-              const SizedBox(height: 24),
-              // Water section
-
-              const SizedBox(height: 36),
-              // Sleep section
-              
+              SizedBox(height: 24),
+              NotificationDrinking(),
+              SizedBox(height: 36),
+              NotificationSleeping()
             ],
           ),
         ),
