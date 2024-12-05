@@ -16,6 +16,7 @@ class CustomAppBar extends AppBar {
           title: Text(
             title,
             style: TextStyle(
+              fontFamily: 'NotoSansThai',
               fontWeight: FontWeight.bold,
               fontSize: 20,
               color: textColor ?? AppColors.blackColor,
