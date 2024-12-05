@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../config/constants/app_images.dart';
-import '../../../../config/constants/app_pages.dart';
+import '../../../../../config/constants/app_images.dart';
+import '../../../../../config/constants/app_pages.dart';
 
 class EditProfileImage extends StatefulWidget {
   const EditProfileImage({Key? key}) : super(key: key);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/achievement_record_card.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_record_card.dart';
 
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';

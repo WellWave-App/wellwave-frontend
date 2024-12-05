@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/edit_profile_pic.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/user_detail.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/edit_profile/edit_profile_pic.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/edit_profile/user_detail.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});

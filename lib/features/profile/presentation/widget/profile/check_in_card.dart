@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/success_dialog.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/profile/success_dialog.dart';
 
 class CheckInWidget extends StatefulWidget {
   final int currentDay;

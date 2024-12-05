@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
-import '../../../../config/constants/app_images.dart';
-import '../../../../config/constants/app_pages.dart';
+import '../../../../../config/constants/app_images.dart';
+import '../../../../../config/constants/app_pages.dart';
 
 class AchievementCard extends StatelessWidget {
   const AchievementCard({super.key});

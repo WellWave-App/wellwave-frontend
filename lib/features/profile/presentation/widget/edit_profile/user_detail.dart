@@ -4,7 +4,7 @@ import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
-import '../../../logs/presentation/widget/scale_record_widget.dart';
+import '../../../../logs/presentation/widget/scale_record_widget.dart';
 
 class UserDetailCard extends StatefulWidget {
   const UserDetailCard({super.key});

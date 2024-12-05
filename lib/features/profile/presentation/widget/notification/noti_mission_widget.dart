@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../config/constants/app_colors.dart';
+import '../../../../../config/constants/app_colors.dart';
 
 class NotiMissionWidget extends StatefulWidget {
   final String time;
