@@ -23,8 +23,9 @@ class HealthAssessmentPageBloc
     on<StepBack>((event, emit) {
       if (state.currentStep == 0) {
         emit(state.copyWith(showStartStep: true));
-      } else
+      } else {
         emit(state.copyWith(currentStep: state.currentStep - 1));
+      }
     });
 
     on<UpdateField>(_onUpdateField);

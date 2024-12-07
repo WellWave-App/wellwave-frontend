@@ -25,9 +25,9 @@ class AddPicUsernameStep extends StatefulWidget {
 
 class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     final XFile? pickedFile =
-        await _picker.pickImage(source: ImageSource.gallery);
+        await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       final File imageFile = File(pickedFile.path);

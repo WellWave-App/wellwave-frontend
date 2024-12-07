@@ -53,12 +53,12 @@ class GoalBox extends StatelessWidget {
                         : AppColors.transparentColor,
                     width: 2.0,
                   ),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: AppColors.blackShadow12Color,
                       blurRadius: 4.0,
                       spreadRadius: 0.0,
-                      offset: const Offset(0, 0),
+                      offset: Offset(0, 0),
                     ),
                   ],
                 ),

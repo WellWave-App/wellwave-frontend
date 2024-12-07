@@ -61,7 +61,7 @@ class RiskArc extends CustomPainter {
 class GaugeWidget extends StatefulWidget {
   final double averageRiskScore;
 
-  GaugeWidget({required this.averageRiskScore});
+  const GaugeWidget({super.key, required this.averageRiskScore});
 
   @override
   _GaugeWidgetState createState() => _GaugeWidgetState();
@@ -97,7 +97,7 @@ class _GaugeWidgetState extends State<GaugeWidget> {
                         .bodySmall
                         ?.copyWith(color: AppColors.blackColor),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   Text(
                     riskText['text'],
                     textAlign: TextAlign.center,
