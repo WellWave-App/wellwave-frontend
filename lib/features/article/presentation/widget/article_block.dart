@@ -53,51 +53,72 @@ class RecommendationCard extends StatelessWidget {
       elevation: 5,
       child: Column(
         children: [
-          
-          ClipRRect(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10), 
-              topRight: Radius.circular(10), 
-            ),
-            child: Image.network(
-              'https://cdn.discordapp.com/attachments/887344508726022164/1288545644532727818/image.png?ex=675527e5&is=6753d665&hm=aace91163696c8dec91a0edd899e35667b70a259c35b3760f3391ecee0485cd8&',
-              width: double.infinity,
-              height: 86,
-              fit: BoxFit.cover,
-            ),
+          Stack(
+            children: [
+              // รูปภาพ
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                child: Image.network(
+                  'https://cdn.discordapp.com/attachments/887344508726022164/1288545644532727818/image.png?ex=675527e5&is=6753d665&hm=aace91163696c8dec91a0edd899e35667b70a259c35b3760f3391ecee0485cd8&',
+                  width: double.infinity,
+                  height: 86,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              // Icon Bookmark
+              Positioned(
+                top: 5,
+                right: 5,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8), // พื้นหลังโปร่งใส
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.bookmark_border, // ไอคอน Bookmark
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      // Action เมื่อกด Bookmark
+                      print("Bookmark pressed!");
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
-          
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(10), 
-                bottomRight: Radius.circular(10), 
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10),
               ),
-              
             ),
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                
                 Text(
                   'title',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black, 
+                    color: Colors.black,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 5),
-                
                 Text(
                   '7 นาที',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.black, 
+                    color: Colors.black,
                   ),
                 ),
               ],

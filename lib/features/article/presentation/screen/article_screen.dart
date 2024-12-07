@@ -25,7 +25,6 @@ class ArticleScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Row(
                 children: [
-                  
                   Expanded(
                     child: TextField(
                       decoration: InputDecoration(
@@ -83,19 +82,30 @@ class ArticleScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 36),
-                  Text(
-                    'แนะนำสำหรับคุณ',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'แนะนำสำหรับคุณ',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 12.0),
+                        child: Text(
+                          'ดูทั้งหมด',
+                          style: TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-
-                  
                   GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      
-                      
                     ),
                     itemCount: articles.length,
                     itemBuilder: (context, index) {
