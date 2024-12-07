@@ -55,7 +55,6 @@ class RecommendationCard extends StatelessWidget {
         children: [
           Stack(
             children: [
-              // รูปภาพ
               ClipRRect(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
@@ -68,22 +67,21 @@ class RecommendationCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              // Icon Bookmark
               Positioned(
                 top: 5,
                 right: 5,
                 child: Container(
+                  width: 38,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8), // พื้นหลังโปร่งใส
+                    color: Colors.white.withOpacity(0.8),
                     shape: BoxShape.circle,
                   ),
                   child: IconButton(
                     icon: Icon(
-                      Icons.bookmark_border, // ไอคอน Bookmark
+                      Icons.bookmark_border,
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      // Action เมื่อกด Bookmark
                       print("Bookmark pressed!");
                     },
                   ),
