@@ -49,6 +49,7 @@ flutter:
      - assets/icons/moods_color/
      - assets/icons/water_drop/
      - assets/icons/moon_icon/
+     - assets/icons/disease/
 
 
   fonts:
