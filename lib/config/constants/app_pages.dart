@@ -13,6 +13,8 @@ class AppPages {
   static const String loginPage = 'login';
   static const String registerSuccessPage = 'registerSuccess';
   static const String forgotPasswordPage = 'forgotPassword';
+  static const String articleDetailPage = 'articleDetail';
+
 
   // Name of the route
   static const String splashName = 'splash';
@@ -28,4 +30,6 @@ class AppPages {
   static const String loginName = 'login';
   static const String registerSuccessName = 'registerSuccess';
   static const String forgetPasswordName = 'forgotPassword';
+  static const String articleDetailName = 'articleDetail';
+
 }

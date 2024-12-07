@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
+import 'package:wellwave_frontend/features/article/presentation/screen/article_detail_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/authentication_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/forgot_password_sceen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/login_screen.dart';
@@ -100,7 +101,6 @@ final GoRouter goRouter = GoRouter(
             return _buildPageWithNavBar(context, state, const MissionScreen());
           },
         ),
-        
         GoRoute(
           path: AppPages.friendPage,
           name: AppPages.friendName,
@@ -109,12 +109,20 @@ final GoRouter goRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: AppPages.articlePage,
-          name: AppPages.articleName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const ArticleScreen());
-          },
-        ),
+            path: AppPages.articlePage,
+            name: AppPages.articleName,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _buildPageWithNavBar(
+                  context, state, const ArticleScreen());
+            },
+            routes: [
+              GoRoute(
+                  path: AppPages.articleDetailPage,
+                  name: AppPages.articleDetailName,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    return const NoTransitionPage(child: ArticleDetailScreen());
+                  })
+            ]),
       ],
     ),
   ],
