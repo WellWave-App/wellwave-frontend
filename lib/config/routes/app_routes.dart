@@ -8,7 +8,6 @@ import 'package:wellwave_frontend/features/authentication/presentation/screen/pa
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/login_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/register_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/widget/register_success.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
@@ -16,6 +15,8 @@ import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
+
+import '../../features/article/presentation/screen/article_screen.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
@@ -99,6 +100,7 @@ final GoRouter goRouter = GoRouter(
             return _buildPageWithNavBar(context, state, const MissionScreen());
           },
         ),
+        
         GoRoute(
           path: AppPages.friendPage,
           name: AppPages.friendName,
