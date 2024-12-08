@@ -42,4 +42,8 @@ class AppImages {
   static const recommendIcon = 'assets/icons/recommend.svg';
   static const recommendPlanIcon = 'assets/icons/recommend_plan.svg';
   static const healthconnectIcon = 'assets/icons/health_connect.svg';
+
+  static const gemIcon = 'assets/icons/Gem.svg';
+  static const expIcon = 'assets/icons/EXP.svg';
+  static const notiIcon = 'assets/icons/noti.svg';
 }
