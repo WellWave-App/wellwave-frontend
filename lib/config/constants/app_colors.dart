@@ -13,6 +13,7 @@ class AppColors {
   static const skyblueColor = Color(0xFFF53c7fe);
   static const lightgrayColor = Color(0xFFFd9d9d9);
   static const grayColor = Color(0xFFF919191);
+  static const gray50Color = Color(0xFFFECECEC);
   static const darkgrayColor = Color(0xFFF707070);
   static const bluegrayColor = Color(0xFFF5a6684);
   static const darkblueColor = Color(0xFFF16006d);
