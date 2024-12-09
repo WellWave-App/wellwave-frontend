@@ -74,4 +74,8 @@ class AppStrings {
   static const goalMuscleText = 'สร้างกล้ามเนื้อ';
   static const goalHealthyText = 'สุขภาพดี';
   static const goalLoseweightText = 'ลดน้ำหนัก';
+
+  static const progressText = 'ความคืบหน้า';
+  static const challengeText = 'พิสูจน์ฝีมือ';
+  static const healthdataText = 'ข้อมูลสุขภาพ';
 }

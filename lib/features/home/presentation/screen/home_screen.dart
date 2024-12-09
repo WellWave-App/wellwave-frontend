@@ -1,10 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/showpoint.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/greeting_widget.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/progress_widget.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -12,51 +12,27 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
+      body: SingleChildScrollView(
+        child: Stack(
           children: [
-            const SizedBox(
-              height: 16,
+            Positioned(
+              top: 48.0,
+              left: -16.0,
+              child: SvgPicture.asset(
+                AppImages.cloudImage,
+              ),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Positioned(
+              top: 108.0,
+              right: -24.0,
+              child: SvgPicture.asset(
+                AppImages.cloudImage,
+              ),
+            ),
+            Column(
               children: [
-                Row(
-                  children: [
-                    CoinDisplay(
-                      pointText: '150',
-                      icon: AppImages.expIcon,
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    CoinDisplay(
-                      pointText: '150',
-                      icon: AppImages.gemIcon,
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      AppImages.notiIcon,
-                      height: 32.0,
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Container(
-                      width: 24.0,
-                      height: 24.0,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                    )
-                  ],
-                ),
+                GreetingWidget(),
+                ProgressWidget(),
               ],
             ),
           ],
@@ -65,4 +41,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-

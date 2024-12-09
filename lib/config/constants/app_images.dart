@@ -46,4 +46,8 @@ class AppImages {
   static const gemIcon = 'assets/icons/Gem.svg';
   static const expIcon = 'assets/icons/EXP.svg';
   static const notiIcon = 'assets/icons/noti.svg';
+  static const fireIcon = 'assets/icons/fire.svg';
+
+  static const cloudImage = 'assets/images/cloud.svg';
+  static const avatarImage = 'assets/avatar/default.svg';
 }
