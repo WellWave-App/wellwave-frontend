@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
@@ -8,14 +9,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   ProfileBloc({required this.profileRepositories}) : super(ProfileInitial()) {
     on<FetchUserProfile>((event, emit) async {
-      emit(ProfileLoading());
-      try {
-        final userProfile = await profileRepositories.getUserById(event.uid);
-        emit(ProfileLoaded(userProfile));
-      } catch (e) {
-        emit(ProfileError(e.toString()));
-      }
-    });
+  emit(ProfileLoading());
+  try {
+    final userProfile = await profileRepositories.getUserById(event.uid);
+    if (userProfile == null) {
+      emit(ProfileError('User profile not found for UID: ${event.uid}'));
+    } else {
+      emit(ProfileLoaded(userProfile));
+    }
+  } catch (e) {
+    emit(ProfileError(e.toString()));
+  }
+});
+
 
     on<EditUserProfile>((event, emit) async {
       emit(ProfileLoading());

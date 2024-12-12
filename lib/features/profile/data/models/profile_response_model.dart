@@ -62,12 +62,12 @@ class ProfileResponseModel {
       Map<String, dynamic> json) {
     return ProfileResponseModel(
       uid: json['UID'] as int, 
-      imageUrl: json['imageUrl'] as String? ?? "",
-      username: json['username'] as String? ?? "",
-      yearOfBirth: json['yearOfBirth'] as int? ?? 0,
-      gender: json['gender'] as bool? ?? false,
-      height: (json['height'] as num?)?.toDouble() ?? 0.0,
-      weight: (json['weight'] as num?)?.toDouble() ?? 0.0,
+      imageUrl: json['IMAGE_URL'] as String? ?? "",
+      username: json['USERNAME'] as String? ?? "",
+      yearOfBirth: json['YEAR_OF_BIRTH'] as int? ?? 0,
+      gender: json['GENDER'] as bool? ?? false,
+      height: (json['HEIGHT'] as num?)?.toDouble() ?? 0.0,
+      weight: (json['WEIGHT'] as num?)?.toDouble() ?? 0.0,
       exp: json['EXP'] as int, 
       gem: json['GEM'] as int, 
       

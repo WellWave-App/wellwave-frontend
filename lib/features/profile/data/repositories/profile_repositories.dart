@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_waistline.dart';
-import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weekly.dart';
-import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weight.dart';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
-import '../../../logs/data/models/logs_request_model.dart';
 
 class ProfileRepositories {
+  String baseUrl = 'http://10.0.2.2:3000';
+
   Future<bool> editUserRequest({
     required int uid,
     required String imageUrl,
@@ -17,7 +15,7 @@ class ProfileRepositories {
     required double height,
     required double weight,
   }) async {
-    String baseUrl = 'http://10.0.2.2:3000';
+    // String baseUrl = 'http://10.0.2.2:3000';
     try {
       final response = await http.patch(
         Uri.parse("$baseUrl/users/$uid"),
@@ -47,30 +45,20 @@ class ProfileRepositories {
     }
   }
 
-  Future<List<ProfileRequestModel?>> getUserById(num uid) async {
+  Future<ProfileRequestModel?> getUserById(int uid) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
-      final response = await http.get(
-        Uri.parse("$baseUrl/users/$uid"),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
+      final response = await http.get(Uri.parse("$baseUrl/users/$uid"));
+      debugPrint('Response status: ${response.statusCode}');
+      debugPrint('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        List<dynamic> userJson = jsonData['USERS'];
-
-        debugPrint("$baseUrl/users/$uid");
-        return userJson
-            .map((user) =>
-                ProfileRequestModel.fromJson(user as Map<String, dynamic>))
-            .toList();
+        return ProfileRequestModel.fromJson(jsonData);
       }
-      return [];
+      return null;
     } catch (e) {
       debugPrint('Error: $e');
-      return [];
+      return null;
     }
   }
 }

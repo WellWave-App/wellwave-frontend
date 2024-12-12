@@ -22,34 +22,31 @@ class UserInformation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Row(
       children: [
-        
         Stack(
-  alignment: Alignment.bottomRight,
-  children: [
-    const CircleAvatar(
-      radius: 52,
-      backgroundImage: AssetImage(AppImages.crabImg),
-    ),
-    Positioned(
-      bottom: 0,
-      right: 0,
-      child: GestureDetector(
-        onTap: () {
-          context.goNamed(AppPages.editProfileName);
-        },
-        child: SvgPicture.asset(
-          AppImages.editProfileIcon,
-          width: 32,
-          height: 32,
+          alignment: Alignment.bottomRight,
+          children: [
+            const CircleAvatar(
+              radius: 52,
+              backgroundImage: AssetImage(AppImages.crabImg),
+            ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: GestureDetector(
+                onTap: () {
+                  context.goNamed(AppPages.editProfileName);
+                },
+                child: SvgPicture.asset(
+                  AppImages.editProfileIcon,
+                  width: 32,
+                  height: 32,
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-    ),
-  ],
-),
-
         const SizedBox(width: 24),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
