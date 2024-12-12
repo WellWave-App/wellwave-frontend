@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
@@ -15,6 +16,9 @@ import 'package:wellwave_frontend/features/profile/presentation/screen/edit_prof
 import 'package:wellwave_frontend/features/profile/presentation/screen/profile_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/reminder_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
+
+import '../../features/profile/data/repositories/profile_repositories.dart';
+import '../../features/profile/presentation/bloc/profile_bloc.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
@@ -41,21 +45,21 @@ final GoRouter goRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: AppPages.logPage,
-          name: AppPages.logName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const LogsScreen());
-          },
-          routes: [
-            GoRoute(
-          path: AppPages.logHistoryPage,
-          name: AppPages.logHistoryName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const LogsHistoryScreen());
-          },
-        ),
-          ]
-        ),
+            path: AppPages.logPage,
+            name: AppPages.logName,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _buildPageWithNavBar(context, state, const LogsScreen());
+            },
+            routes: [
+              GoRoute(
+                path: AppPages.logHistoryPage,
+                name: AppPages.logHistoryName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return _buildPageWithNavBar(
+                      context, state, const LogsHistoryScreen());
+                },
+              ),
+            ]),
         GoRoute(
           path: AppPages.missionPage,
           name: AppPages.missionName,
@@ -81,17 +85,32 @@ final GoRouter goRouter = GoRouter(
           path: AppPages.profilePage,
           name: AppPages.profileName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const ProfileScreen());
+            return _buildPageWithNavBar(
+              context,
+              state,
+              BlocProvider(
+                create: (context) =>
+                    ProfileBloc(profileRepositories: ProfileRepositories()),
+                child: const ProfileScreen(),
+              ),
+            );
           },
         ),
         GoRoute(
           path: AppPages.editProfilePage,
           name: AppPages.editProfileName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const EditProfileScreen());
+            return _buildPageWithNavBar(
+                context,
+                state,
+                BlocProvider(
+                  create: (context) =>
+                      ProfileBloc(profileRepositories: ProfileRepositories()),
+                  child: const EditProfileScreen(),
+                ));
           },
         ),
-         GoRoute(
+        GoRoute(
           path: AppPages.reminderPage,
           name: AppPages.reminderName,
           pageBuilder: (BuildContext context, GoRouterState state) {
@@ -102,7 +121,8 @@ final GoRouter goRouter = GoRouter(
           path: AppPages.achievementPage,
           name: AppPages.achievementName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const AchievementScreen());
+            return _buildPageWithNavBar(
+                context, state, const AchievementScreen());
           },
         ),
       ],

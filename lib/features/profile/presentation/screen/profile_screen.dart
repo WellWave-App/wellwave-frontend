@@ -61,7 +61,6 @@ class ProfileScreen extends StatelessWidget {
               if (state is ProfileLoaded) {
                 final profile = state.userProfile;
                 debugPrint('Loaded profile: ${profile.username}');
-                
                 return Column(
                   children: [
                     const SizedBox(height: 24),
