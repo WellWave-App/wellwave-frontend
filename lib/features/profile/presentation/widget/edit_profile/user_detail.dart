@@ -21,8 +21,8 @@ class _UserDetailCardState extends State<UserDetailCard> {
   String userName = '';
   String gender = 'หญิง';
   int birthYear = 2545;
-  double height = 155.0;
-  double weight = 50.5;
+  num height = 155.0;
+  num weight = 50.5;
 
   @override
   void initState() {
@@ -146,8 +146,8 @@ Widget build(BuildContext context) {
           userName = state.userProfile.username;  
           gender = state.userProfile.gender ? 'ชาย' : 'หญิง'; 
           birthYear = state.userProfile.yearOfBirth;
-          height = state.userProfile.height.toDouble();  
-          weight = state.userProfile.weight.toDouble();  
+          height = state.userProfile.height;  
+          weight = state.userProfile.weight;  
         });
       }
     },
@@ -412,7 +412,7 @@ Widget build(BuildContext context) {
                                         AppStrings.weightText,
                                         AppStrings.kgText,
                                         weightController,
-                                        (value) => height = value.toDouble()),
+                                        (value) => height = value),
                                     const SizedBox(height: 24),
                                     Row(
                                         mainAxisAlignment:
@@ -427,7 +427,7 @@ Widget build(BuildContext context) {
                               ));
                       if (result != null) {
                         setState(() {
-                          weight = result.toDouble();
+                          weight = result;
                         });
                       }
                     },
@@ -485,7 +485,7 @@ Widget build(BuildContext context) {
                                         AppStrings.heightText,
                                         AppStrings.cmText,
                                         heightController,
-                                        (value) => height = value.toDouble()),
+                                        (value) => height = value),
                                     const SizedBox(height: 24),
                                     Row(
                                         mainAxisAlignment:
@@ -500,7 +500,7 @@ Widget build(BuildContext context) {
                               ));
                       if (result != null) {
                         setState(() {
-                          height = result.toDouble();
+                          height = result;
                         });
                       }
                     },

@@ -12,8 +12,8 @@ class ProfileRepositories {
     required String username,
     required int yearOfBirth,
     required bool gender,
-    required double height,
-    required double weight,
+    required num height,
+    required num weight,
   }) async {
     // String baseUrl = 'http://10.0.2.2:3000';
     try {

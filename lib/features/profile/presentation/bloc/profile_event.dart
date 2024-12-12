@@ -20,8 +20,8 @@ class EditUserProfile extends ProfileEvent {
   final String username;
   final int yearOfBirth;
   final bool gender;
-  final double height;
-  final double weight;
+  final num height;
+  final num weight;
 
   EditUserProfile({
     required this.uid,
