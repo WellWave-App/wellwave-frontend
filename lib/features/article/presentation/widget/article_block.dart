@@ -61,7 +61,7 @@ class RecommendationCard extends StatelessWidget {
                   topRight: Radius.circular(10),
                 ),
                 child: Image.network(
-                  'https://cdn.discordapp.com/attachments/887344508726022164/1288545644532727818/image.png?ex=675527e5&is=6753d665&hm=aace91163696c8dec91a0edd899e35667b70a259c35b3760f3391ecee0485cd8&',
+                  'https://i0.wp.com/www.michigandaily.com/wp-content/uploads/2021/03/0-1.jpg?fit=1200%2C960&ssl=1',
                   width: double.infinity,
                   height: 86,
                   fit: BoxFit.cover,

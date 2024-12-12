@@ -9,19 +9,16 @@ class ArticleDetailScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          
           Image.network(
-            'https://cdn.discordapp.com/attachments/1139256680174067827/1314853868353359922/IMG_1957.jpg?ex=67554897&is=6753f717&hm=d7ca051176f641e2e7119fcf4218d411fbd965883f06cc4a1a26deb09cac618c&',
+            'https://i0.wp.com/www.michigandaily.com/wp-content/uploads/2021/03/0-1.jpg?fit=1200%2C960&ssl=1',
             width: double.infinity,
             height: 250,
             fit: BoxFit.cover,
           ),
-
-          
           Align(
-            alignment: Alignment.topCenter, 
+            alignment: Alignment.topCenter,
             child: Container(
-              margin: EdgeInsets.only(top: 230), 
+              margin: EdgeInsets.only(top: 230),
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -33,8 +30,6 @@ class ArticleDetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  
-
                   SizedBox(height: 16),
                   Text(
                     'title title title title title title title title title title',
@@ -58,7 +53,6 @@ class ArticleDetailScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -70,8 +64,6 @@ class ArticleDetailScreen extends StatelessWidget {
               ),
             ),
           ),
-
-          
           Positioned(
             top: 40,
             left: 8,
@@ -87,9 +79,7 @@ class ArticleDetailScreen extends StatelessWidget {
             right: 48,
             child: IconButton(
               icon: Icon(Icons.bookmark_border, color: Colors.white),
-              onPressed: () {
-                
-              },
+              onPressed: () {},
             ),
           ),
           Positioned(
@@ -97,9 +87,7 @@ class ArticleDetailScreen extends StatelessWidget {
             right: 16,
             child: IconButton(
               icon: Icon(Icons.share, color: Colors.white),
-              onPressed: () {
-                
-              },
+              onPressed: () {},
             ),
           ),
         ],
