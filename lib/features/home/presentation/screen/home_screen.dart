@@ -25,10 +25,6 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const ProfileScreen()),
-                // );
                 context.goNamed(AppPages.profileName);
               },
               child: const Text('Go to Profile'),
