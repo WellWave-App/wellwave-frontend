@@ -76,7 +76,7 @@ TextTheme textTheme(BuildContext context) {
     titleSmall: TextStyle(
       fontFamily: 'NotoSansThai',
       fontWeight: FontWeight.w700,
-      fontSize: 22,
+      fontSize: 13,
       color: AppColors.blackColor,
     ),
     titleXL: TextStyle(
