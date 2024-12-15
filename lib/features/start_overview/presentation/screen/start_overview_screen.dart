@@ -8,7 +8,6 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/widget/start_recommend.dart';
 
-import '../../../health_assessment/presentation/screen/health_assessment_screen.dart';
 
 class StartOverviewScreen extends StatelessWidget {
   final List<StartRecommend> pages = [
