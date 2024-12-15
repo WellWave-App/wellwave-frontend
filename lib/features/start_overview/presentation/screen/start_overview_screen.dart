@@ -8,7 +8,6 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/widget/start_recommend.dart';
 
-
 class StartOverviewScreen extends StatelessWidget {
   final List<StartRecommend> pages = [
     const StartRecommend(
@@ -145,7 +144,7 @@ class StartOverviewScreen extends StatelessWidget {
                         foregroundColor: AppColors.whiteColor,
                         backgroundColor: AppColors.primaryColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
                       child: Text(
