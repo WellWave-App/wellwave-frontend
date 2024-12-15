@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar_item.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -17,10 +18,10 @@ class CustomNavigationBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: AppColors.whiteColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black12,
+            color: AppColors.blackShadow12Color,
             blurRadius: 10,
             spreadRadius: 5,
           ),

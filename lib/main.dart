@@ -5,9 +5,10 @@ import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment/bloc/health_assessment_bloc.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 
@@ -22,6 +23,9 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<LogsRequestRepository>(
           create: (context) => LogsRequestRepository(),
         ),
+        RepositoryProvider<HealthAssessmentRepository>(
+            create: (context) => HealthAssessmentRepository(),
+          ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -33,6 +37,10 @@ class MainApp extends StatelessWidget {
                 LogsBloc(context.read<LogsRequestRepository>()),
             lazy: false,
           ),
+           BlocProvider<HealthAssessmentBloc>(
+                create: (context) =>
+                    HealthAssessmentBloc(HealthAssessmentRepository()),
+              ),
         ],
         child: MaterialApp.router(
           routerConfig: goRouter,
@@ -42,5 +50,6 @@ class MainApp extends StatelessWidget {
         ),
       ),
     );
+    
   }
 }

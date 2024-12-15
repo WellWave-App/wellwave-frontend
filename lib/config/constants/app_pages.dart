@@ -7,9 +7,9 @@ class AppPages {
   static const String friendPage = 'friend';
   static const String articlePage = 'article';
   static const String startPage = 'start';
-  static const String logHistoryPage = 'loghistory';
+  static const String logHistoryPage = 'logHistory';
+  static const String assessmentPage = 'assessment';
 
-  // Name of the route
   static const String splashName = 'splash';
   static const String homeName = 'home';
   static const String logName = 'log';
@@ -17,6 +17,7 @@ class AppPages {
   static const String friendName = 'friend';
   static const String articleName = 'article';
   static const String startName = 'start';
-  static const String logHistoryName = 'logloghistory';
-
+  static const String logHistoryName = 'logHistory';
+  static const String assessmentName = 'assessment';
 }
+
