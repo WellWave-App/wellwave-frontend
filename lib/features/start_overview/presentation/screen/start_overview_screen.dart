@@ -8,6 +8,8 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/widget/start_recommend.dart';
 
+import '../../../health_assessment/presentation/screen/health_assessment_screen.dart';
+
 class StartOverviewScreen extends StatelessWidget {
   final List<StartRecommend> pages = [
     const StartRecommend(
@@ -66,11 +68,11 @@ class StartOverviewScreen extends StatelessWidget {
               return shouldShowSkip
                   ? TextButton(
                       onPressed: () {
-                        context.goNamed(AppPages.homeName);
+                        context.goNamed(AppPages.assessmentName);
                       },
                       child: Text(
                         AppStrings.skipText,
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: Theme.of(context).textTheme.bodySmall,
                         selectionColor: AppColors.darkGrayColor,
                       ),
                     )
@@ -132,7 +134,7 @@ class StartOverviewScreen extends StatelessWidget {
                                 context.goNamed(AppPages.splashName);
                               } else if (state.currentIndex >=
                                   pages.length - 1) {
-                                context.goNamed(AppPages.homeName);
+                                context.goNamed(AppPages.assessmentName);
                               } else {
                                 context
                                     .read<StartOverviewBloc>()

@@ -29,7 +29,7 @@ class StartRecommend extends StatelessWidget {
           const SizedBox(height: 48),
           Text(
             title,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: Theme.of(context).textTheme.titleLarge,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 12),

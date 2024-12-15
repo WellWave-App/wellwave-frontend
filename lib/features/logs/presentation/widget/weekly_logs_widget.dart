@@ -168,7 +168,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                       children: [
                         LogsHistoryCard(
                           pngPath: AppImages.hdlImage,
-                          title: AppStrings.hdlText,
+                          title: AppStrings.hdlmoreText,
                           isShow: true,
                           value: hdlCount,
                           lastWeekValue: lastWeekHdl,
@@ -188,7 +188,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                       children: [
                         LogsHistoryCard(
                           pngPath: AppImages.ldlImage,
-                          title: AppStrings.ldlText,
+                          title: AppStrings.ldlmoreText,
                           isShow: true,
                           value: ldlCount,
                           lastWeekValue: lastWeekLdl,

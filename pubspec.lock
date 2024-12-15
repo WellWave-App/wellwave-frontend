@@ -73,14 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
-  crypto:
-    dependency: transitive
+  confetti:
+    dependency: "direct main"
     description:
-      name: crypto
-      sha256: ec30d999af904f33454ba22ed9a86162b35e52b44ac4807d1d93c288041d7d27
+      name: confetti
+      sha256: "8690fb3f138ff42958d419ef7dd0f0bb192895bea3c921214cb5c3fa82e597b1"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.5"
+    version: "0.6.0"
   cross_file:
     dependency: transitive
     description:
@@ -89,6 +89,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.4+2"
+  crypto:
+    dependency: transitive
+    description:
+      name: crypto
+      sha256: ec30d999af904f33454ba22ed9a86162b35e52b44ac4807d1d93c288041d7d27
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.5"
   csslib:
     dependency: transitive
     description:
@@ -106,7 +114,6 @@ packages:
     source: hosted
     version: "1.0.8"
   equatable:
-    dependency: transitive
     dependency: "direct main"
     description:
       name: equatable
@@ -122,14 +129,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
-  fl_chart:
-    dependency: "direct main"
-    description:
-      name: fl_chart
-      sha256: "94307bef3a324a0d329d3ab77b2f0c6e5ed739185ffc029ed28c0f9b019ea7ef"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.69.0"
   file_selector_linux:
     dependency: transitive
     description:
@@ -162,6 +161,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+2"
+  fl_chart:
+    dependency: "direct main"
+    description:
+      name: fl_chart
+      sha256: "94307bef3a324a0d329d3ab77b2f0c6e5ed739185ffc029ed28c0f9b019ea7ef"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.69.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -199,14 +206,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
-  flutter_ruler_picker:
-    dependency: "direct main"
-    description:
-      name: flutter_ruler_picker
-      sha256: ce4069e6487a3cbc7bdbb18332977dd0ea99dd50c61a9162bc97f47bba182b99
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.6"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -215,6 +214,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.22"
+  flutter_ruler_picker:
+    dependency: "direct main"
+    description:
+      name: flutter_ruler_picker
+      sha256: ce4069e6487a3cbc7bdbb18332977dd0ea99dd50c61a9162bc97f47bba182b99
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.6"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -233,6 +240,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  form_field_validator:
+    dependency: "direct main"
+    description:
+      name: form_field_validator
+      sha256: c1fc6c89b5525288c02fe989a88c6f30bb6072da4f9dded17a04cf68c4abfb87
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   go_router:
     dependency: "direct main"
     description:
@@ -241,8 +256,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.2.3"
-  http:
-    dependency: "direct main"
   html:
     dependency: transitive
     description:
@@ -252,7 +265,7 @@ packages:
     source: hosted
     version: "0.15.4"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       sha256: b9c29a161230ee03d3ccf545097fccd9b87a5264228c5d348202e0f0c28f9010
@@ -275,14 +288,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
-  intl:
-    dependency: "direct main"
-    description:
-      name: intl
-      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.19.0"
   image_picker:
     dependency: "direct main"
     description:
@@ -347,6 +352,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -656,9 +669,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-sdks:
-  dart: ">=3.4.0 <4.0.0"
-  flutter: ">=3.18.0-18.0.pre.54"
 sdks:
   dart: ">=3.5.0 <4.0.0"
   flutter: ">=3.24.0"

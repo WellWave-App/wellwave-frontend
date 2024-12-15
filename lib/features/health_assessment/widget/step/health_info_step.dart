@@ -65,8 +65,8 @@ class HealthInfoStep extends StatelessWidget {
             height: 24,
           ),
           CustomTextFormField(
-            labelText: AppStrings.hdlText,
-            hintText: AppStrings.hdlText,
+            labelText: AppStrings.hdlmoreText,
+            hintText: AppStrings.hdlmoreText,
             suffixText: AppStrings.suffixmgPerdLText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['hdl'] ?? '',
@@ -82,8 +82,8 @@ class HealthInfoStep extends StatelessWidget {
             height: 24,
           ),
           CustomTextFormField(
-            labelText: AppStrings.ldlText,
-            hintText: AppStrings.ldlText,
+            labelText: AppStrings.ldlmoreText,
+            hintText: AppStrings.ldlmoreText,
             suffixText: AppStrings.suffixmgPerdLText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['ldl'] ?? '',
