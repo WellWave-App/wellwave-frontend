@@ -44,6 +44,17 @@ final GoRouter goRouter = GoRouter(
             return _buildPageWithNavBar(context, state, const HomeScreen());
           },
           routes: [
+            GoRoute(
+          path: AppPages.profilePage,
+          name: AppPages.profileName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(
+                child: BlocProvider(
+                    create: (context) =>
+                        ProfileBloc(profileRepositories: ProfileRepositories()),
+                    child: const ProfileScreen()));
+          },
+          routes: [
              GoRoute(
           path: AppPages.editProfilePage,
           name: AppPages.editProfileName,
@@ -54,6 +65,8 @@ final GoRouter goRouter = GoRouter(
                         ProfileBloc(profileRepositories: ProfileRepositories()),
                     child: const EditProfileScreen()));
           },
+        ),
+          ]
         ),
           ]
         ),
@@ -93,17 +106,7 @@ final GoRouter goRouter = GoRouter(
             return _buildPageWithNavBar(context, state, const ArticleScreen());
           },
         ),
-        GoRoute(
-          path: AppPages.profilePage,
-          name: AppPages.profileName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return NoTransitionPage(
-                child: BlocProvider(
-                    create: (context) =>
-                        ProfileBloc(profileRepositories: ProfileRepositories()),
-                    child: const ProfileScreen()));
-          },
-        ),
+        
        
         GoRoute(
           path: AppPages.reminderPage,
