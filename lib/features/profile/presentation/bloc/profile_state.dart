@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
-abstract class ProfileState {}
+abstract class ProfileState {
+  
+}
 
 class ProfileInitial extends ProfileState {}
 
@@ -23,23 +25,23 @@ class ProfileError extends ProfileState {
 }
 
 class ProfileSelectImageState extends ProfileState {
-  final Map<String, String> formData;
+  // final Map<String, String> formData;
   final File? selectedImage;
 
   ProfileSelectImageState({
-    required this.formData,
+    // required this.formData,
     this.selectedImage,
   });
 
   ProfileSelectImageState copyWith({
-    Map<String, String>? formData,
+    // Map<String, String>? formData,
     File? selectedImage,
   }) {
     return ProfileSelectImageState(
-      formData: formData ?? this.formData,
+      // formData: formData ?? this.formData,
       selectedImage: selectedImage ?? this.selectedImage,
     );
   }
 
-  List<Object?> get props => [formData, selectedImage];
+  List<Object?> get props => [ selectedImage];
 }

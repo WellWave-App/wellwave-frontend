@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 import 'profile_event.dart';
@@ -46,20 +47,10 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
 
-    // on<ImagePicked>(_onImagePicked);
+    on<ImagePicked>(_onImagePicked);
   }
 
-  // void _onImagePicked(ImagePicked event, Emitter<ProfileState> emit) {
-  //   if (state is ProfileSelectImageState) {
-  //     final currentState = state as ProfileSelectImageState;
-
-  //     final updatedFormData = Map<String, String>.from(currentState.formData);
-  //     updatedFormData['imageUrl'] = event.imageFile.path;
-
-  //     emit(ProfileSelectImageState(
-  //       formData: updatedFormData,
-  //       selectedImage: event.imageFile,
-  //     ));
-  //   }
-  // }
+  void _onImagePicked(ImagePicked event, Emitter<ProfileState> emit) {
+    emit(ProfileSelectImageState(selectedImage: event.imageFile));
+  }
 }
