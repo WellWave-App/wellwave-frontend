@@ -43,6 +43,19 @@ final GoRouter goRouter = GoRouter(
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _buildPageWithNavBar(context, state, const HomeScreen());
           },
+          routes: [
+             GoRoute(
+          path: AppPages.editProfilePage,
+          name: AppPages.editProfileName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(
+                child: BlocProvider(
+                    create: (context) =>
+                        ProfileBloc(profileRepositories: ProfileRepositories()),
+                    child: const EditProfileScreen()));
+          },
+        ),
+          ]
         ),
         GoRoute(
             path: AppPages.logPage,
@@ -55,8 +68,7 @@ final GoRouter goRouter = GoRouter(
                 path: AppPages.logHistoryPage,
                 name: AppPages.logHistoryName,
                 pageBuilder: (BuildContext context, GoRouterState state) {
-                  return _buildPageWithNavBar(
-                      context, state, const LogsHistoryScreen());
+                  return const NoTransitionPage(child: LogsHistoryScreen());
                 },
               ),
             ]),
@@ -85,31 +97,14 @@ final GoRouter goRouter = GoRouter(
           path: AppPages.profilePage,
           name: AppPages.profileName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(
-              context,
-              state,
-              BlocProvider(
-                create: (context) =>
-                    ProfileBloc(profileRepositories: ProfileRepositories()),
-                child: const ProfileScreen(),
-              ),
-            );
+            return NoTransitionPage(
+                child: BlocProvider(
+                    create: (context) =>
+                        ProfileBloc(profileRepositories: ProfileRepositories()),
+                    child: const ProfileScreen()));
           },
         ),
-        GoRoute(
-          path: AppPages.editProfilePage,
-          name: AppPages.editProfileName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(
-                context,
-                state,
-                BlocProvider(
-                  create: (context) =>
-                      ProfileBloc(profileRepositories: ProfileRepositories()),
-                  child: const EditProfileScreen(),
-                ));
-          },
-        ),
+       
         GoRoute(
           path: AppPages.reminderPage,
           name: AppPages.reminderName,

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
+
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
@@ -8,21 +8,22 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepositories profileRepositories;
 
   ProfileBloc({required this.profileRepositories}) : super(ProfileInitial()) {
+    // Fetch user profile
     on<FetchUserProfile>((event, emit) async {
-  emit(ProfileLoading());
-  try {
-    final userProfile = await profileRepositories.getUserById(event.uid);
-    if (userProfile == null) {
-      emit(ProfileError('User profile not found for UID: ${event.uid}'));
-    } else {
-      emit(ProfileLoaded(userProfile));
-    }
-  } catch (e) {
-    emit(ProfileError(e.toString()));
-  }
-});
+      emit(ProfileLoading());
+      try {
+        final userProfile = await profileRepositories.getUserById(event.uid);
+        if (userProfile == null) {
+          emit(ProfileError('User profile not found for UID: ${event.uid}'));
+        } else {
+          emit(ProfileLoaded(userProfile));
+        }
+      } catch (e) {
+        emit(ProfileError(e.toString()));
+      }
+    });
 
-
+    // Edit user profile
     on<EditUserProfile>((event, emit) async {
       emit(ProfileLoading());
       try {
@@ -44,5 +45,21 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileError(e.toString()));
       }
     });
+
+    // on<ImagePicked>(_onImagePicked);
   }
+
+  // void _onImagePicked(ImagePicked event, Emitter<ProfileState> emit) {
+  //   if (state is ProfileSelectImageState) {
+  //     final currentState = state as ProfileSelectImageState;
+
+  //     final updatedFormData = Map<String, String>.from(currentState.formData);
+  //     updatedFormData['imageUrl'] = event.imageFile.path;
+
+  //     emit(ProfileSelectImageState(
+  //       formData: updatedFormData,
+  //       selectedImage: event.imageFile,
+  //     ));
+  //   }
+  // }
 }

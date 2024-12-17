@@ -85,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 16),
                         const Expanded(
-                          child: const RoundedText(
+                          child: RoundedText(
                             text: AppStrings.rewardRedeemText,
                             svgPath: AppImages.giftIcon,
                             isShowNavi: true,

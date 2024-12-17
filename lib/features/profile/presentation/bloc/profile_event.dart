@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 
 abstract class ProfileEvent extends Equatable {
@@ -43,4 +45,13 @@ class EditUserProfile extends ProfileEvent {
         height,
         weight,
       ];
+}
+
+class ImagePicked extends ProfileEvent {
+  final File imageFile;
+
+  ImagePicked(this.imageFile);
+
+  @override
+  List<Object> get props => [imageFile];
 }
