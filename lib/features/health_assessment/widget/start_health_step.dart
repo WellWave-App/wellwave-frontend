@@ -47,7 +47,7 @@ class StartHealthStep extends StatelessWidget {
               CustomButton(
                 width: 250,
                 bgColor: AppColors.primaryColor,
-                textColor: AppColors.backgroundColor,
+                textColor: AppColors.whiteColor,
                 onPressed: () {
                   Navigator.push(
                     context,

@@ -82,7 +82,7 @@ class ResultAssessment extends StatelessWidget {
                       CustomButton(
                         width: 250,
                         bgColor: AppColors.primaryColor,
-                        textColor: AppColors.backgroundColor,
+                        textColor: AppColors.whiteColor,
                         onPressed: () {
                           context
                               .read<HealthAssessmentPageBloc>()
@@ -163,7 +163,7 @@ class RecommendScreen extends StatelessWidget {
                       CustomButton(
                         width: 250,
                         bgColor: AppColors.primaryColor,
-                        textColor: AppColors.backgroundColor,
+                        textColor: AppColors.whiteColor,
                         onPressed: () {
                           context
                               .read<HealthAssessmentPageBloc>()
@@ -236,7 +236,7 @@ class HealthConnectScreen extends StatelessWidget {
                         CustomButton(
                           width: 250,
                           bgColor: AppColors.primaryColor,
-                          textColor: AppColors.backgroundColor,
+                          textColor: AppColors.whiteColor,
                           onPressed: () {
                             context
                                 .read<HealthAssessmentPageBloc>()

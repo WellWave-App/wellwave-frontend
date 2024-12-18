@@ -63,9 +63,9 @@ TextTheme textTheme(BuildContext context) {
     ),
     titleLarge: TextStyle(
       fontFamily: 'NotoSansThai',
-      fontWeight: FontWeight.w700,
-      color: AppColors.blackColor,
+      fontWeight: FontWeight.w600,
       fontSize: 28,
+      color: AppColors.blackColor,
     ),
     titleMedium: TextStyle(
       fontFamily: 'NotoSansThai',
@@ -75,8 +75,14 @@ TextTheme textTheme(BuildContext context) {
     ),
     titleSmall: TextStyle(
       fontFamily: 'NotoSansThai',
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w600,
       fontSize: 13,
+      color: AppColors.blackColor,
+    ),
+    title320: TextStyle(
+      fontFamily: 'NotoSansThai',
+      fontWeight: FontWeight.w400,
+      fontSize: 20,
       color: AppColors.blackColor,
     ),
     titleXL: TextStyle(
@@ -93,24 +99,36 @@ TextTheme textTheme(BuildContext context) {
     ),
     bodyMedium: TextStyle(
       fontFamily: 'NotoSansThai',
-      fontWeight: FontWeight.w500,
       fontSize: 17,
+      fontWeight: FontWeight.w400,
     ),
     bodySmall: TextStyle(
       fontFamily: 'NotoSansThai',
-      fontWeight: FontWeight.w500,
       fontSize: 13,
+      fontWeight: FontWeight.w400,
     ),
     labelLarge: TextStyle(
       fontFamily: 'NotoSansThai',
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w600,
+      fontSize: 22,
+      color: AppColors.blackColor,
+    ),
+    labelMedium: TextStyle(
+      fontFamily: 'NotoSansThai',
+      fontWeight: FontWeight.w600,
       fontSize: 22,
       color: AppColors.blackColor,
     ),
     labelSmall: TextStyle(
       fontFamily: 'NotoSansThai',
       fontWeight: FontWeight.w600,
-      fontSize: 13,
+      fontSize: 11,
+      color: AppColors.blackColor,
+    ),
+    caption2: TextStyle(
+      fontFamily: 'NotoSansThai',
+      fontWeight: FontWeight.w400,
+      fontSize: 11,
       color: AppColors.blackColor,
     ),
   );
