@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data/bar_chart_painter.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/daily_bar_chart_painter.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/health_data/mock_data.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/weekly_bar_chart_painter.dart';
 
-class WeeklyBarChart extends StatelessWidget {
+class BarChart extends StatelessWidget {
   final List<Map<String, dynamic>> data;
-  const WeeklyBarChart({Key? key, required this.data}) : super(key: key);
+  const BarChart({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,18 @@ class WeeklyBarChart extends StatelessWidget {
     return Column(
       children: [
         CustomPaint(
-          size: Size(double.infinity, 128),
+          size: Size(double.infinity, 64),
+          painter: mockData.length >= 28
+              ? WeeklyBarChartPainter(
+                  data: mockData,
+                  weeklyAverages: weeklyAverages,
+                  context: context,
+                )
+              : DailyBarChartPainter(
+                  data: mockData,
+                  weeklyAverages: weeklyAverages,
+                  context: context,
+                ),
         ),
       ],
     );

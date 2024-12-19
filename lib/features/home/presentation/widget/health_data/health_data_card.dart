@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data/daily_bar_chart.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data/weekly_bar_chart.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/bar_chart.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/health_data/mock_data.dart';
 
 class HealthDataCard extends StatelessWidget {
@@ -30,11 +29,6 @@ class HealthDataCard extends StatelessWidget {
 
     List<int> weeklyAverages = calculateWeeklyAverages(mockData);
 
-    int totalValue =
-        mockData.fold<int>(0, (sum, item) => sum + (item['value'] as int));
-
-    print(totalValue);
-
     return Container(
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
@@ -59,9 +53,7 @@ class HealthDataCard extends StatelessWidget {
                 ),
           ),
           SizedBox(height: 16),
-          totalValue >= 28
-              ? WeeklyBarChart(data: mockData)
-              : DailyBarChart(data: mockData),
+          BarChart(data: mockData),
           SizedBox(height: 16),
         ],
       ),

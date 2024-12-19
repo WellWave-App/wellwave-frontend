@@ -3,12 +3,12 @@ import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'dart:ui' as ui;
 
-class BarChartPainter extends CustomPainter {
+class DailyBarChartPainter extends CustomPainter {
   final List<Map<String, dynamic>> data;
   final List<int> weeklyAverages;
   final BuildContext context;
 
-  BarChartPainter({
+  DailyBarChartPainter({
     required this.data,
     required this.weeklyAverages,
     required this.context,
@@ -174,7 +174,7 @@ class BarChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    if (oldDelegate is BarChartPainter) {
+    if (oldDelegate is DailyBarChartPainter) {
       return oldDelegate.data != data ||
           oldDelegate.weeklyAverages != weeklyAverages;
     }
