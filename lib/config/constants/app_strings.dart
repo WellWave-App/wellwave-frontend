@@ -135,4 +135,8 @@ class AppStrings {
   static const goalMuscleText = 'สร้างกล้ามเนื้อ';
   static const goalHealthyText = 'สุขภาพดี';
   static const goalLoseweightText = 'ลดน้ำหนัก';
+
+  //exchange
+  static const randomBoxText = 'กล่องสุ่ม';
+  static const exchangeItemText = 'แลกไอเทม';
 }

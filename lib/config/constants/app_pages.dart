@@ -9,6 +9,7 @@ class AppPages {
   static const String startPage = 'start';
   static const String logHistoryPage = 'logHistory';
   static const String assessmentPage = 'assessment';
+  static const String exchangePage = 'exchange';
 
   static const String splashName = 'splash';
   static const String homeName = 'home';
@@ -19,5 +20,5 @@ class AppPages {
   static const String startName = 'start';
   static const String logHistoryName = 'logHistory';
   static const String assessmentName = 'assessment';
+  static const String exchangeName = 'exchange';
 }
-

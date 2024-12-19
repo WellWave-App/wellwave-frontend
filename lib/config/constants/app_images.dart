@@ -22,20 +22,21 @@ class AppImages {
   static const ldlImage = 'assets/images/ldl_img.png';
   static const completeIcon = 'assets/icons/complete_icon.svg';
 
-
   //logs screen
   static const addIcon = 'assets/icons/add_round_button.svg';
 
   //grey mood
   static const happyGreyIcon = 'assets/icons/moods_grey/happy_grey.svg';
-  static const veryHappyGreyIcon = 'assets/icons/moods_grey/very_happy_grey.svg';
+  static const veryHappyGreyIcon =
+      'assets/icons/moods_grey/very_happy_grey.svg';
   static const neutralGreyIcon = 'assets/icons/moods_grey/neutral_grey.svg';
   static const sadGreyIcon = 'assets/icons/moods_grey/sad_grey.svg';
   static const verySadGreyIcon = 'assets/icons/moods_grey/very_sad_grey.svg';
 
-  //color mood 
+  //color mood
   static const happyColorIcon = 'assets/icons/moods_color/happy_color.svg';
-  static const veryHappyColorIcon = 'assets/icons/moods_color/very_happy_color.svg';
+  static const veryHappyColorIcon =
+      'assets/icons/moods_color/very_happy_color.svg';
   static const neutralColorIcon = 'assets/icons/moods_color/neutral_color.svg';
   static const sadColorIcon = 'assets/icons/moods_color/sad_color.svg';
   static const verySadColorIcon = 'assets/icons/moods_color/very_sad_color.svg';
@@ -100,4 +101,9 @@ class AppImages {
   static const recommendIcon = 'assets/icons/recommend.svg';
   static const recommendPlanIcon = 'assets/icons/recommend_plan.svg';
   static const healthconnectIcon = 'assets/icons/health_connect.svg';
+
+  //exchange
+  static const expCoinSvg = 'assets/icons/exp_coin_svg.svg';
+  static const gemSvg = 'assets/icons/gem_svg.svg';
+  static const giftSvg = 'assets/icons/gift_svg.svg';
 }

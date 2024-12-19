@@ -4,6 +4,7 @@ import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
 import 'package:wellwave_frontend/config/routes/route_utils.dart';
+import 'package:wellwave_frontend/features/exchange/presentation/screen/exchange_screen.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/screen/health_assessment_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
@@ -63,7 +64,16 @@ final GoRouter goRouter = GoRouter(
                 name: AppPages.homeName,
                 pageBuilder: (BuildContext context, GoRouterState state) {
                   return const NoTransitionPage(child: HomeScreen());
-                }),
+                },
+                routes: [
+                  GoRoute(
+                    path: AppPages.exchangePage,
+                    name: AppPages.exchangeName,
+                    pageBuilder: (BuildContext context, GoRouterState state) {
+                      return const NoTransitionPage(child: ExchangeScreen());
+                    },
+                  ),
+                ]),
             GoRoute(
                 path: AppPages.logPage,
                 name: AppPages.logName,
