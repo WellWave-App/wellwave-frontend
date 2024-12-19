@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data_monthly_card.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/health_data_card.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/input_button.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data_weekly_card.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/health_data_card.dart';
 
 class ProgressWidget extends StatelessWidget {
   const ProgressWidget({super.key});
@@ -83,7 +83,7 @@ class ProgressWidget extends StatelessWidget {
             const SizedBox(height: 16),
             // health data section
             Container(
-              child: HealthDataMonthlyCard(),
+              child: HealthDataCard(),
             ),
           ],
         ),
