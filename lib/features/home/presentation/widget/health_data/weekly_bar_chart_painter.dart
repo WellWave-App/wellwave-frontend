@@ -126,7 +126,7 @@ class WeeklyBarChartPainter extends CustomPainter {
     DateTime lastDateOfRecentWeek =
         DateFormat('dd-MM-yyyy').parse(data[data.length - 1]['date']);
     String recentWeekDateRange =
-        "${DateFormat('d').format(firstDateOfRecentWeek)}-${DateFormat('d MMM', 'th').format(lastDateOfRecentWeek)}";
+        "${DateFormat('d').format(firstDateOfRecentWeek)}-${DateFormat('d MMM').format(lastDateOfRecentWeek)}";
 
     TextPainter recentWeekDateTextPainter = TextPainter(
       text: TextSpan(
