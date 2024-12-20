@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
@@ -59,6 +60,35 @@ class ProfileRepositories {
     } catch (e) {
       debugPrint('Error: $e');
       return null;
+    }
+  }
+
+  Future<String> uploadImage(File imageFile, int uid) async {
+    try {
+      const String uploadedImageUrl = "";
+
+      final response = await http.patch(
+        Uri.parse("$baseUrl/users/$uid"),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'IMAGE_URL': uploadedImageUrl,
+        }),
+      );
+
+      debugPrint(
+          'Patch Response: ${response.statusCode}, Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return uploadedImageUrl;
+      } else {
+        throw Exception(
+            'Failed to update IMAGE_URL. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error updating IMAGE_URL: $e');
+      throw Exception('Error updating IMAGE_URL: $e');
     }
   }
 }

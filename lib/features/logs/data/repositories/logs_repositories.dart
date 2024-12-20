@@ -28,8 +28,8 @@ class LogsRequestRepository {
         }),
       );
 
-      debugPrint(
-          'Create Log Response: ${response.statusCode}, Body: ${response.body}');
+      // debugPrint(
+      //     'Create Log Response: ${response.statusCode}, Body: ${response.body}');
 
       if (response.statusCode == 201) {
         debugPrint('Success: ${response.body}');
@@ -112,11 +112,11 @@ class LogsRequestRepository {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         List<dynamic> logsJson = jsonData['LOGS'];
-        debugPrint('--------------------');
-        debugPrint('daily Fetched Logs: ${response.body}');
-        debugPrint(
-            "$baseUrl/logs/user/$uID?startDate=${date.toIso8601String()}&&endDate=${date.toIso8601String()}");
-        return logsJson.map((log) => LogsRequestModel.fromJson(log)).toList();
+        // debugPrint('--------------------');
+        // debugPrint('daily Fetched Logs: ${response.body}');
+        // debugPrint(
+        //     "$baseUrl/logs/user/$uID?startDate=${date.toIso8601String()}&&endDate=${date.toIso8601String()}");
+        // return logsJson.map((log) => LogsRequestModel.fromJson(log)).toList();
       }
       return [];
     } catch (e) {
@@ -141,9 +141,9 @@ class LogsRequestRepository {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         List<dynamic> logsJson = jsonData['LOGS'];
-        debugPrint('week Fetched Weekly Logs: ${response.body}');
-        debugPrint(
-            "$baseUrl/logs/userWeekly/$uID?date=${date.toIso8601String()}");
+        // debugPrint('week Fetched Weekly Logs: ${response.body}');
+        // debugPrint(
+        //     "$baseUrl/logs/userWeekly/$uID?date=${date.toIso8601String()}");
         return logsJson
             .map((log) => LogsWeeklyRequestModel.fromJson(log))
             .toList();
@@ -216,8 +216,8 @@ class LogsRequestRepository {
         if (response.statusCode == 200) {
           final jsonData = jsonDecode(response.body);
           List<dynamic> logsJson = jsonData['LOGS'];
-          debugPrint(
-              'Filtered waist line logs for week ${i + 1}: ${response.body}');
+          // debugPrint(
+          //     'Filtered waist line logs for week ${i + 1}: ${response.body}');
           logsList.addAll(logsJson
               .map((log) => LogsWaistLineRequestModel.fromJson(log))
               .toList());

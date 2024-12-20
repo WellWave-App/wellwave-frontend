@@ -75,7 +75,7 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
             widget.onValueChanged(value);
           },
           ranges: const [
-            RulerRange(begin: 0, end: 200, scale: 0.5),
+            RulerRange(begin: 0, end: 200),
           ],
           width: MediaQuery.of(context).size.width * 0.8,
           height: 80,

@@ -8,7 +8,6 @@ import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_blo
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_event.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_state.dart';
 
-
 import '../../../../logs/presentation/widget/scale_record_widget.dart';
 
 class UserDetailCard extends StatefulWidget {
@@ -23,7 +22,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
   late TextEditingController _controller;
   bool _isEditing = false;
   String gender = 'หญิง';
-  int birthYear = 2004;
+  int birthYear = 2546;
   num height = 155.0;
   num weight = 50.5;
 
@@ -36,7 +35,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
 
   void _loadUserProfile() {
     final profileBloc = context.read<ProfileBloc>();
-    profileBloc.add(FetchUserProfile(3)); // Fetch user with uid 3
+    profileBloc.add(FetchUserProfile(3));
   }
 
   @override
@@ -55,7 +54,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
   ];
   final List<int> yearList = List.generate(
     DateTime.now().year - 1900 + 1,
-    (index) => 1900 + index,
+    (index) => 2440 + index,
   );
 
   Widget _buildScaleRecord(
@@ -102,31 +101,6 @@ class _UserDetailCardState extends State<UserDetailCard> {
                   .textTheme
                   .bodyMedium
                   ?.copyWith(color: Colors.white)),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCancleButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: () => setState(() => Navigator.pop(context)),
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                side: const BorderSide(color: AppColors.primaryColor, width: 1),
-              ),
-            ),
-          ),
-          child: Text(AppStrings.backText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppColors.primaryColor)),
         ),
       ),
     );
@@ -300,11 +274,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _buildCancleButton(),
-                                            const SizedBox(width: 10),
-                                            _buildConfirmButton()
-                                          ])
+                                          children: [_buildConfirmButton()])
                                     ],
                                   ),
                                 ));
@@ -403,11 +373,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _buildCancleButton(),
-                                            const SizedBox(width: 10),
-                                            _buildConfirmButton()
-                                          ])
+                                          children: [_buildConfirmButton()])
                                     ],
                                   ),
                                 ));
@@ -483,11 +449,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _buildCancleButton(),
-                                            const SizedBox(width: 10),
-                                            _buildConfirmButton()
-                                          ])
+                                          children: [_buildConfirmButton()])
                                     ],
                                   ),
                                 ));
@@ -561,11 +523,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _buildCancleButton(),
-                                            const SizedBox(width: 10),
-                                            _buildConfirmButton()
-                                          ])
+                                          children: [_buildConfirmButton()])
                                     ],
                                   ),
                                 ));
