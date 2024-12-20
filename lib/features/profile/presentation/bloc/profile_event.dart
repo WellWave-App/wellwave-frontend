@@ -51,7 +51,4 @@ class ImagePicked extends ProfileEvent {
   final File imageFile;
 
   ImagePicked(this.imageFile);
-
-  @override
-  List<Object> get props => [imageFile];
 }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,7 +8,6 @@ import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/profile_bloc.dart';
-import '../../bloc/profile_event.dart';
 import '../../bloc/profile_state.dart';
 
 class UserInformation extends StatefulWidget {
@@ -41,7 +38,8 @@ class _UserInformationState extends State<UserInformation> {
             Stack(
               alignment: Alignment.bottomRight,
               children: [
-                if (state is ProfileSelectImageState && state.selectedImage != null)
+                if (state is ProfileSelectImageState &&
+                    state.selectedImage != null)
                   ClipOval(
                     child: SizedBox(
                       width: 104,
@@ -96,7 +94,8 @@ class _UserInformationState extends State<UserInformation> {
                       onPressed: () {
                         Clipboard.setData(ClipboardData(text: widget.userID));
 
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
                           content: Text('User ID copied to clipboard'),
                           duration: Duration(seconds: 2),
                         ));
@@ -106,7 +105,8 @@ class _UserInformationState extends State<UserInformation> {
                   ],
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
                     color: AppColors.whiteColor,
@@ -121,7 +121,8 @@ class _UserInformationState extends State<UserInformation> {
                       const SizedBox(width: 8),
                       Text(
                         '${widget.gemAmount}',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                        style:
+                            Theme.of(context).textTheme.bodySmall?.copyWith(),
                       ),
                       const SizedBox(width: 16),
                       SvgPicture.asset(
@@ -131,7 +132,8 @@ class _UserInformationState extends State<UserInformation> {
                       const SizedBox(width: 8),
                       Text(
                         '${widget.expAmount}',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+                        style:
+                            Theme.of(context).textTheme.bodySmall?.copyWith(),
                       ),
                     ],
                   ),

@@ -16,7 +16,6 @@ class ProfileRepositories {
     required num height,
     required num weight,
   }) async {
-    // String baseUrl = 'http://10.0.2.2:3000';
     try {
       final response = await http.patch(
         Uri.parse("$baseUrl/users/$uid"),
@@ -65,30 +64,24 @@ class ProfileRepositories {
 
   Future<String> uploadImage(File imageFile, int uid) async {
     try {
-      const String uploadedImageUrl = "";
+      final uri = Uri.parse("$baseUrl/users/$uid");
+      final request = http.MultipartRequest('PATCH', uri)
+        ..fields['uid'] = uid.toString()
+        ..files.add(await http.MultipartFile.fromPath('file', imageFile.path));
 
-      final response = await http.patch(
-        Uri.parse("$baseUrl/users/$uid"),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'IMAGE_URL': uploadedImageUrl,
-        }),
-      );
-
-      debugPrint(
-          'Patch Response: ${response.statusCode}, Body: ${response.body}');
+      final response = await request.send();
 
       if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseData = jsonDecode(responseBody);
+        final uploadedImageUrl = responseData['IMAGE_URL'];
         return uploadedImageUrl;
       } else {
         throw Exception(
-            'Failed to update IMAGE_URL. Status code: ${response.statusCode}');
+            'Failed to upload image. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      debugPrint('Error updating IMAGE_URL: $e');
-      throw Exception('Error updating IMAGE_URL: $e');
+      throw Exception('Error uploading image: $e');
     }
   }
 }

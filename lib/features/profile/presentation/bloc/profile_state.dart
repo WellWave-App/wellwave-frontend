@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
-// abstract class ProfileState {
-  
-// }
 
 class ProfileState {
   final File? selectedImage;
@@ -16,7 +13,6 @@ class ProfileState {
     );
   }
 }
-
 
 class ProfileInitial extends ProfileState {}
 
@@ -50,9 +46,10 @@ class ProfileSelectImageState extends ProfileState {
     File? selectedImage,
   }) {
     return ProfileSelectImageState(
-      selectedImage: selectedImage ?? this.selectedImage,
+      selectedImage:
+          selectedImage != null ? File(selectedImage.path) : this.selectedImage,
     );
   }
 
-  List<Object?> get props => [ selectedImage];
+  List<Object?> get props => [selectedImage];
 }

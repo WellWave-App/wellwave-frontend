@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-
+import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
@@ -46,27 +46,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
 
-    on<ImagePicked>((event, emit) async {
-      if (state is ProfileLoaded) {
-        final userProfile = (state as ProfileLoaded).userProfile;
-        emit(ProfileLoading());
-        try {
-        
-          final updatedProfile =
-              await profileRepositories.getUserById(userProfile.uid);
-
-          if (updatedProfile != null) {
-            emit(ProfileLoaded(updatedProfile));
-          } else {
-            emit(ProfileError("Failed to refresh profile after image upload."));
-          }
-        } catch (e) {
-          emit(ProfileError("Error updating image: ${e.toString()}"));
-        }
-      } else {
-        emit(ProfileError("Cannot update image. User profile is not loaded."));
-      }
-    });
+    on<ImagePicked>(_onImagePicked);
   }
 
+  void _onImagePicked(ImagePicked event, Emitter<ProfileState> emit) {
+    debugPrint('Image picked: ${event.imageFile.path}');
+    emit(state.copyWith(selectedImage: event.imageFile));
+  }
 }
