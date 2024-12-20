@@ -29,6 +29,13 @@ class HealthDataCard extends StatelessWidget {
 
     List<int> weeklyAverages = calculateWeeklyAverages(mockData);
 
+    bool isLessThanPrevious = weeklyAverages.length > 1 &&
+        weeklyAverages.last < weeklyAverages[weeklyAverages.length - 2];
+
+    String message = isLessThanPrevious
+        ? 'คุณใช้เวลาออกกำลังกายเฉลี่ย ${weeklyAverages.last} นาทีในสัปดาห์นี้ หยุดพักแล้วอย่าลืมกลับมาสู้ต่อ!'
+        : 'คุณใช้เวลาออกกำลังกายเฉลี่ย ${weeklyAverages.last} นาทีในสัปดาห์นี้ อย่าลืมรักษาความต่อเนื่องนี้ไว้!';
+
     return Container(
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
@@ -47,7 +54,7 @@ class HealthDataCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'คุณใช้เวลาออกกำลังกายเฉลี่ย ${weeklyAverages.last} นาทีในสัปดาห์นี้\nอย่าลืมรักษาความต่อเนื่องนี้ไว้!',
+            message,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: AppColors.blackColor,
                 ),
