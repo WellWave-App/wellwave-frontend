@@ -17,37 +17,55 @@ class ProfileRepositories {
     required num weight,
   }) async {
     try {
-      final response = await http.patch(
-        Uri.parse("$baseUrl/users/$uid"),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          'IMAGE_URL': imageUrl,
-          'USERNAME': username,
-          'YEAR_OF_BIRTH': yearOfBirth,
-          'GENDER': gender,
-          'HEIGHT': height,
-          'WEIGHT': weight,
-        }),
-      );
+      const String token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM0ODA3Mjc2LCJleHAiOjE3MzQ4OTM2NzZ9.NO3rq_wbPQao-zuvVA90AKbDkMGm6cDRJLg3mp-ScnY";
 
-      debugPrint(
-          'Edit Profile: ${response.statusCode}, Body: ${response.body}');
+      final uri = Uri.parse("$baseUrl/users/$uid");
+
+      final Map<String, String> userDetails = {
+        'USERNAME': username,
+        'YEAR_OF_BIRTH': yearOfBirth.toString(),
+        'GENDER': gender.toString(),
+        'HEIGHT': height.toString(),
+        'WEIGHT': weight.toString(),
+        'IMAGE_URL': imageUrl,
+      };
+
+      final request = http.MultipartRequest('PATCH', uri)
+        ..headers['Authorization'] = 'Bearer $token'
+        ..fields.addAll(userDetails);
+
+      // request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+
+      debugPrint('Edit Profile: ${response.statusCode}');
+      debugPrint('Response Body: $responseBody');
 
       if (response.statusCode == 200) {
         return true;
+      } else {
+        throw Exception(
+            'Failed to edit user. Status code: ${response.statusCode}');
       }
-      return false;
     } catch (e) {
       debugPrint('Error: $e');
-      return false;
+      throw Exception('Error editing user: $e');
     }
   }
 
-  Future<ProfileRequestModel?> getUserById(int uid) async {
+  Future<ProfileRequestModel?> getUSer() async {
     try {
-      final response = await http.get(Uri.parse("$baseUrl/users/$uid"));
+      const String token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM0ODA3Mjc2LCJleHAiOjE3MzQ4OTM2NzZ9.NO3rq_wbPQao-zuvVA90AKbDkMGm6cDRJLg3mp-ScnY";
+
+      final response = await http.get(
+        Uri.parse("$baseUrl/users/profile"),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
       debugPrint('Response status: ${response.statusCode}');
       debugPrint('Response body: ${response.body}');
 
@@ -62,23 +80,30 @@ class ProfileRepositories {
     }
   }
 
-  Future<String> uploadImage(File imageFile, int uid) async {
+  Future<String?> uploadProfileImage(
+    File imageFile,
+    int uid,
+  ) async {
     try {
+      const String token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM0ODA3Mjc2LCJleHAiOjE3MzQ4OTM2NzZ9.NO3rq_wbPQao-zuvVA90AKbDkMGm6cDRJLg3mp-ScnY";
+
       final uri = Uri.parse("$baseUrl/users/$uid");
       final request = http.MultipartRequest('PATCH', uri)
-        ..fields['uid'] = uid.toString()
-        ..files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+        ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+
+      // Add headers if necessary
+      request.headers['Authorization'] = 'Bearer $token';
 
       final response = await request.send();
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
-        final responseData = jsonDecode(responseBody);
-        final uploadedImageUrl = responseData['IMAGE_URL'];
-        return uploadedImageUrl;
+        final responseJson = jsonDecode(responseBody);
+        final imageUrl = responseJson['IMAGE_URL'] as String?;
+        return imageUrl;
       } else {
-        throw Exception(
-            'Failed to upload image. Status code: ${response.statusCode}');
+        throw Exception('Failed to upload image');
       }
     } catch (e) {
       throw Exception('Error uploading image: $e');

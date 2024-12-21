@@ -35,7 +35,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
 
   void _loadUserProfile() {
     final profileBloc = context.read<ProfileBloc>();
-    profileBloc.add(FetchUserProfile(3));
+    profileBloc.add(FetchUserProfile(5));
   }
 
   @override
@@ -112,7 +112,6 @@ class _UserDetailCardState extends State<UserDetailCard> {
     final profileBloc = BlocProvider.of<ProfileBloc>(context);
 
     profileBloc.add(EditUserProfile(
-      uid: 3,
       imageUrl: imageUrl,
       username: userName,
       yearOfBirth: birthYear,

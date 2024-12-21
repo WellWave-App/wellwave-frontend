@@ -41,9 +41,10 @@ class _EditProfileImageState extends State<EditProfileImage> {
         Widget profileImage;
 
         if (state is ProfileLoaded && state.userProfile.imageUrl.isNotEmpty) {
+          final imageUrl = "http://10.0.2.2:3000${state.userProfile.imageUrl}";
           profileImage = ClipOval(
             child: Image.network(
-              state.userProfile.imageUrl,
+              imageUrl,
               width: 128,
               height: 128,
               fit: BoxFit.cover,

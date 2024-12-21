@@ -120,9 +120,9 @@ class ProfileScreen extends StatelessWidget {
                             weight = state.logsWeightlist.last?.value ?? 0.0;
                             lastWeekWeight = state.logsWeightlist.length > 1
                                 ? state
-                                    .logsWeightlist[
-                                        state.logsWeightlist.length - 2]
-                                    ?.value ??
+                                        .logsWeightlist[
+                                            state.logsWeightlist.length - 2]
+                                        ?.value ??
                                     0.0
                                 : 0.0;
                           }

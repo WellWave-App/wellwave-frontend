@@ -17,7 +17,7 @@ class FetchUserProfile extends ProfileEvent {
 }
 
 class EditUserProfile extends ProfileEvent {
-  final int uid;
+  // final int uid;
   final String imageUrl;
   final String username;
   final int yearOfBirth;
@@ -26,7 +26,7 @@ class EditUserProfile extends ProfileEvent {
   final num weight;
 
   EditUserProfile({
-    required this.uid,
+    // required this.uid,
     required this.imageUrl,
     required this.username,
     required this.yearOfBirth,
@@ -37,7 +37,7 @@ class EditUserProfile extends ProfileEvent {
 
   @override
   List<Object?> get props => [
-        uid,
+        // uid,
         imageUrl,
         username,
         yearOfBirth,

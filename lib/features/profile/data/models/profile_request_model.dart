@@ -52,25 +52,23 @@ class ProfileRequestModel {
       'GENDER': gender,
       'HEIGHT': height,
       'WEIGHT': weight,
-      'UID' : uid,
-      'EXP' : exp,
-      'GEM' : gem,
+      'UID': uid,
+      'EXP': exp,
+      'GEM': gem,
     };
   }
 
-  factory ProfileRequestModel.fromJson(
-      Map<String, dynamic> json) {
+  factory ProfileRequestModel.fromJson(Map<String, dynamic> json) {
     return ProfileRequestModel(
-      uid: json['UID'] as int, 
-      imageUrl: json['IMAGE_URL'] as String? ?? "",
-      username: json['USERNAME'] as String? ?? "",
-      yearOfBirth: json['YEAR_OF_BIRTH'] as int? ?? 0,
-      gender: json['GENDER'] as bool? ?? false,
-      height: (json['HEIGHT'] as num?)?.toDouble() ?? 0.0,
-      weight: (json['WEIGHT'] as num?)?.toDouble() ?? 0.0,
-      exp: json['EXP'] as int, 
-      gem: json['GEM'] as int, 
-      
+      uid: json['userInfo']['UID'] as int,
+      imageUrl: json['userInfo']['IMAGE_URL'] as String? ?? "",
+      username: json['userInfo']['USERNAME'] as String? ?? "",
+      yearOfBirth: json['userInfo']['YEAR_OF_BIRTH'] as int? ?? 0,
+      gender: json['userInfo']['GENDER'] as bool? ?? false,
+      height: (json['userInfo']['HEIGHT'] as num?)?.toDouble() ?? 0.0,
+      weight: (json['userInfo']['WEIGHT'] as num?)?.toDouble() ?? 0.0,
+      exp: json['userInfo']['EXP'] as int,
+      gem: json['userInfo']['GEM'] as int,
     );
   }
 
@@ -82,9 +80,9 @@ class ProfileRequestModel {
       'GENDER': gender,
       'HEIGHT': height,
       'WEIGHT': weight,
-      'UID' : uid,
-      'EXP' : exp,
-      'GEM' : gem,
+      'UID': uid,
+      'EXP': exp,
+      'GEM': gem,
     };
   }
 }

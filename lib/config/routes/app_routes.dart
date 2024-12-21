@@ -38,38 +38,45 @@ final GoRouter goRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: AppPages.homePage,
-          name: AppPages.homeName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const HomeScreen());
-          },
-          routes: [
-            GoRoute(
-          path: AppPages.profilePage,
-          name: AppPages.profileName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return NoTransitionPage(
-                child: BlocProvider(
-                    create: (context) =>
-                        ProfileBloc(profileRepositories: ProfileRepositories()),
-                    child: const ProfileScreen()));
-          },
-          routes: [
-             GoRoute(
-          path: AppPages.editProfilePage,
-          name: AppPages.editProfileName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return NoTransitionPage(
-                child: BlocProvider(
-                    create: (context) =>
-                        ProfileBloc(profileRepositories: ProfileRepositories()),
-                    child: const EditProfileScreen()));
-          },
-        ),
-          ]
-        ),
-          ]
-        ),
+            path: AppPages.homePage,
+            name: AppPages.homeName,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _buildPageWithNavBar(context, state, const HomeScreen());
+            },
+            routes: [
+              GoRoute(
+                  path: AppPages.profilePage,
+                  name: AppPages.profileName,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    return const NoTransitionPage(child: ProfileScreen());
+                  },
+                  routes: [
+                    GoRoute(
+                      path: AppPages.editProfilePage,
+                      name: AppPages.editProfileName,
+                      pageBuilder: (BuildContext context, GoRouterState state) {
+                        return const NoTransitionPage(
+                            child: EditProfileScreen());
+                      },
+                    ),
+                    GoRoute(
+                      path: AppPages.achievementPage,
+                      name: AppPages.achievementName,
+                      pageBuilder: (BuildContext context, GoRouterState state) {
+                        return _buildPageWithNavBar(
+                            context, state, const AchievementScreen());
+                      },
+                    ),
+                    GoRoute(
+                      path: AppPages.reminderPage,
+                      name: AppPages.reminderName,
+                      pageBuilder: (BuildContext context, GoRouterState state) {
+                        return _buildPageWithNavBar(
+                            context, state, const ReminderScreen());
+                      },
+                    ),
+                  ]),
+            ]),
         GoRoute(
             path: AppPages.logPage,
             name: AppPages.logName,
@@ -104,23 +111,6 @@ final GoRouter goRouter = GoRouter(
           name: AppPages.articleName,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _buildPageWithNavBar(context, state, const ArticleScreen());
-          },
-        ),
-        
-       
-        GoRoute(
-          path: AppPages.reminderPage,
-          name: AppPages.reminderName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const ReminderScreen());
-          },
-        ),
-        GoRoute(
-          path: AppPages.achievementPage,
-          name: AppPages.achievementName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(
-                context, state, const AchievementScreen());
           },
         ),
       ],
