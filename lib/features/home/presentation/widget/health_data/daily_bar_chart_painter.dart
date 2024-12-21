@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'dart:ui' as ui;
 
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/thai_date_formatter.dart';
+
 class DailyBarChartPainter extends CustomPainter {
   final List<Map<String, dynamic>> data;
   final List<int> weeklyAverages;
@@ -75,7 +77,7 @@ class DailyBarChartPainter extends CustomPainter {
         DateFormat('dd-MM-yyyy').parse(data[data.length - 1]['date']);
 
     String dateRangeText =
-        "${DateFormat('d').format(firstDate)}-${DateFormat('d MMM').format(lastDate)}";
+        ThaiDateFormatter.formatDateRange(firstDate, lastDate);
 
     TextPainter dateTextPainter = TextPainter(
       text: TextSpan(
@@ -111,39 +113,6 @@ class DailyBarChartPainter extends CustomPainter {
     double recentTextY = size.height - recentAverageHeight - 20;
 
     recentTextPainter.paint(canvas, Offset(recentTextX, recentTextY));
-
-    // วาดช่วงวันที่ของแท่งที่เหลือ
-    if (data.length > 7) {
-      DateTime firstDateOfRemaining =
-          DateFormat('dd-MM-yyyy').parse(data[0]['date']);
-      DateTime lastDateOfRemaining =
-          DateFormat('dd-MM-yyyy').parse(data[data.length - 8]['date']);
-
-      String remainingDateRangeText =
-          "${DateFormat('d').format(firstDateOfRemaining)}-${DateFormat('d MMM').format(lastDateOfRemaining)}";
-
-      TextPainter remainingDateTextPainter = TextPainter(
-        text: TextSpan(
-          text: remainingDateRangeText,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.grayColor,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        textDirection: ui.TextDirection.ltr,
-      )..layout(minWidth: 0, maxWidth: double.infinity);
-
-      // คำนวณตำแหน่งกลางของแท่งที่เหลือ
-      double remainingStartX = 0;
-      double remainingEndX = (data.length - 7) * barWidth;
-
-      double remainingCenterX = remainingStartX +
-          ((remainingEndX - remainingStartX) / 2) -
-          (remainingDateTextPainter.width / 2);
-
-      remainingDateTextPainter.paint(canvas,
-          Offset(remainingCenterX, size.height + 4)); // ตำแหน่งวางข้อความ
-    }
 
     double overallAverageHeight = (overallAverage / maxData) * maxHeight;
     double overallStartX = 0;

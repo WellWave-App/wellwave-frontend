@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'dart:ui' as ui;
 
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/thai_date_formatter.dart';
+
 class WeeklyBarChartPainter extends CustomPainter {
   final List<Map<String, dynamic>> data;
   final List<int> weeklyAverages;
@@ -125,8 +127,8 @@ class WeeklyBarChartPainter extends CustomPainter {
         DateFormat('dd-MM-yyyy').parse(data[data.length - 7]['date']);
     DateTime lastDateOfRecentWeek =
         DateFormat('dd-MM-yyyy').parse(data[data.length - 1]['date']);
-    String recentWeekDateRange =
-        "${DateFormat('d').format(firstDateOfRecentWeek)}-${DateFormat('d MMM').format(lastDateOfRecentWeek)}";
+    String recentWeekDateRange = ThaiDateFormatter.formatDateRange(
+        firstDateOfRecentWeek, lastDateOfRecentWeek);
 
     TextPainter recentWeekDateTextPainter = TextPainter(
       text: TextSpan(
@@ -150,8 +152,8 @@ class WeeklyBarChartPainter extends CustomPainter {
           DateFormat('dd-MM-yyyy').parse(data[0]['date']);
       DateTime lastDateOfRemaining =
           DateFormat('dd-MM-yyyy').parse(data[data.length - 8]['date']);
-      String remainingDateRange =
-          "${DateFormat('d').format(firstDateOfRemaining)}-${DateFormat('d MMM').format(lastDateOfRemaining)}";
+      String remainingDateRange = ThaiDateFormatter.formatDateRange(
+          firstDateOfRemaining, lastDateOfRemaining);
 
       TextPainter remainingDateTextPainter = TextPainter(
         text: TextSpan(
