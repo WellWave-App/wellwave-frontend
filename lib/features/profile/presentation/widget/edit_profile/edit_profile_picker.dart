@@ -36,7 +36,7 @@ class _EditProfileImageState extends State<EditProfileImage> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
-        debugPrint("Current state: $state");
+        // debugPrint("Current state: $state");
 
         Widget profileImage;
 

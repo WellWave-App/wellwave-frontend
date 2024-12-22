@@ -8,12 +8,12 @@ abstract class ProfileEvent extends Equatable {
 }
 
 class FetchUserProfile extends ProfileEvent {
-  final int uid;
+  // final int uid;
 
-  FetchUserProfile(this.uid);
+  // FetchUserProfile(this.uid);
 
-  @override
-  List<Object?> get props => [uid];
+  // @override
+  // List<Object?> get props => [uid];
 }
 
 class EditUserProfile extends ProfileEvent {

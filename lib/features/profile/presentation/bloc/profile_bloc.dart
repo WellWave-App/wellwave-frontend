@@ -14,7 +14,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       try {
         final userProfile = await profileRepositories.getUSer();
         if (userProfile == null) {
-          emit(ProfileError('User profile not found for UID: ${event.uid}'));
+          emit(ProfileError('User profile not found'));
         } else {
           emit(ProfileLoaded(userProfile));
         }

@@ -15,14 +15,16 @@ class UserInformation extends StatefulWidget {
   final String userName;
   final int gemAmount;
   final int expAmount;
+  final ProfileState state;
 
-  const UserInformation({
-    Key? key,
-    required this.userID,
-    required this.userName,
-    required this.gemAmount,
-    required this.expAmount,
-  }) : super(key: key);
+  const UserInformation(
+      {Key? key,
+      required this.userID,
+      required this.userName,
+      required this.gemAmount,
+      required this.expAmount,
+      required this.state})
+      : super(key: key);
 
   @override
   _UserInformationState createState() => _UserInformationState();
@@ -33,31 +35,40 @@ class _UserInformationState extends State<UserInformation> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
+        Widget profileImage;
+
+        if (state is ProfileLoaded && state.userProfile.imageUrl.isNotEmpty) {
+          final imageUrl = "http://10.0.2.2:3000${state.userProfile.imageUrl}";
+          profileImage = ClipOval(
+            child: Image.network(
+              imageUrl,
+              width: 104,
+              height: 104,
+              fit: BoxFit.cover,
+            ),
+          );
+        } else if (state.selectedImage != null) {
+          profileImage = ClipOval(
+            child: Image.file(
+              state.selectedImage!,
+              width: 104,
+              height: 104,
+              fit: BoxFit.cover,
+            ),
+          );
+        } else {
+          profileImage = const CircleAvatar(
+            radius: 52,
+            backgroundImage: AssetImage(AppImages.crabImg),
+          );
+        }
+
         return Row(
           children: [
             Stack(
               alignment: Alignment.bottomRight,
               children: [
-                if (state is ProfileSelectImageState &&
-                    state.selectedImage != null)
-                  ClipOval(
-                    child: SizedBox(
-                      width: 104,
-                      height: 104,
-                      child: Image.file(
-                        state.selectedImage!,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  )
-                else
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: CircleAvatar(
-                      radius: 52,
-                      backgroundImage: AssetImage(AppImages.crabImg),
-                    ),
-                  ),
+                profileImage,
                 Positioned(
                   bottom: 0,
                   right: 0,

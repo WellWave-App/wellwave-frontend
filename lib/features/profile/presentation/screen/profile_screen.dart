@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(FetchUserProfile(3));
+    context.read<ProfileBloc>().add(FetchUserProfile());
 
     int leagueIndex = 2;
     int currentDay = 4;
@@ -69,6 +69,7 @@ class ProfileScreen extends StatelessWidget {
                       userName: profile.username,
                       gemAmount: profile.gem,
                       expAmount: profile.exp,
+                      state: state,
                     ),
                     const SizedBox(height: 24),
                     Row(
