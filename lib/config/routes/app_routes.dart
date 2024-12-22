@@ -12,6 +12,7 @@ import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/achievement_screen.dart';
+import 'package:wellwave_frontend/features/profile/presentation/screen/drink_plan_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/edit_profile_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/profile_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/reminder_screen.dart';
@@ -68,13 +69,24 @@ final GoRouter goRouter = GoRouter(
                       },
                     ),
                     GoRoute(
-                      path: AppPages.reminderPage,
-                      name: AppPages.reminderName,
-                      pageBuilder: (BuildContext context, GoRouterState state) {
-                        return _buildPageWithNavBar(
-                            context, state, const ReminderScreen());
-                      },
-                    ),
+                        path: AppPages.reminderPage,
+                        name: AppPages.reminderName,
+                        pageBuilder:
+                            (BuildContext context, GoRouterState state) {
+                          return _buildPageWithNavBar(
+                              context, state, const ReminderScreen());
+                        },
+                        routes: [
+                          GoRoute(
+                            path: AppPages.drinkPlanPage,
+                            name: AppPages.drinkPlanName,
+                            pageBuilder:
+                                (BuildContext context, GoRouterState state) {
+                              return _buildPageWithNavBar(
+                                  context, state, const DrinkPlanScreen());
+                            },
+                          ),
+                        ]),
                   ]),
             ]),
         GoRoute(
