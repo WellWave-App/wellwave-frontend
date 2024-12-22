@@ -26,24 +26,8 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(FetchUserProfile());
 
-    int leagueIndex = 2;
+    // int leagueIndex = 2;
     int currentDay = 4;
-
-    List<String> leagueList = [
-      AppStrings.bronzeLeaugeText,
-      AppStrings.silverLeaugeText,
-      AppStrings.goldLeaugeText,
-      AppStrings.diamondLeaugeText,
-      AppStrings.emeraldLeaugeText,
-    ];
-
-    List<String> leagueListIcon = [
-      AppImages.bronzeLeaugeIcon,
-      AppImages.silverLeaugeIcon,
-      AppImages.goldLeaugeIcon,
-      AppImages.diamondLeagueIcon,
-      AppImages.emeraldLeaugeIcon,
-    ];
 
     final today = DateTime.now();
 
@@ -60,6 +44,27 @@ class ProfileScreen extends StatelessWidget {
             builder: (context, state) {
               if (state is ProfileLoaded) {
                 final profile = state.userProfile;
+
+                final userLeague = profile.userLeague;
+
+                List<String> leagueList = [
+                  AppStrings.bronzeLeaugeText,
+                  AppStrings.silverLeaugeText,
+                  AppStrings.goldLeaugeText,
+                  AppStrings.diamondLeaugeText,
+                  AppStrings.emeraldLeaugeText,
+                ];
+
+                List<String> leagueListIcon = [
+                  AppImages.bronzeLeaugeIcon,
+                  AppImages.silverLeaugeIcon,
+                  AppImages.goldLeaugeIcon,
+                  AppImages.diamondLeagueIcon,
+                  AppImages.emeraldLeaugeIcon,
+                ];
+
+                int leagueIndex = _getLeagueIndex(userLeague?.name ?? 'Bronze');
+
                 debugPrint('Loaded profile: ${profile.username}');
                 return Column(
                   children: [
@@ -179,5 +184,22 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  int _getLeagueIndex(String leagueName) {
+    switch (leagueName.toLowerCase()) {
+      case 'bronze':
+        return 0;
+      case 'silver':
+        return 1;
+      case 'gold':
+        return 2;
+      case 'diamond':
+        return 3;
+      case 'emerald':
+        return 4;
+      default:
+        return 0; // Default to Bronze if not matched
+    }
   }
 }

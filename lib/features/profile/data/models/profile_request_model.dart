@@ -8,6 +8,7 @@ class ProfileRequestModel {
   final num weight;
   final int gem;
   final int exp;
+  final UserLeague? userLeague;
 
   ProfileRequestModel({
     required this.uid,
@@ -19,6 +20,7 @@ class ProfileRequestModel {
     required this.weight,
     required this.exp,
     required this.gem,
+    this.userLeague,
   });
 
   ProfileRequestModel copyWith({
@@ -69,6 +71,9 @@ class ProfileRequestModel {
       weight: (json['userInfo']['WEIGHT'] as num?)?.toDouble() ?? 0.0,
       exp: json['userInfo']['EXP'] as int,
       gem: json['userInfo']['GEM'] as int,
+      userLeague: json['userLeague'] != null
+          ? UserLeague.fromJson(json['userLeague'])
+          : null,
     );
   }
 
@@ -84,5 +89,28 @@ class ProfileRequestModel {
       'EXP': exp,
       'GEM': gem,
     };
+  }
+}
+
+class UserLeague {
+  final int id;
+  final String name;
+  final int minExp;
+  final int maxExp;
+
+  UserLeague({
+    required this.id,
+    required this.name,
+    required this.minExp,
+    required this.maxExp,
+  });
+
+  factory UserLeague.fromJson(Map<String, dynamic> json) {
+    return UserLeague(
+      id: json['LB_ID'] as int,
+      name: json['LEAGUE_NAME'] as String,
+      minExp: json['MIN_EXP'] as int,
+      maxExp: json['MAX_EXP'] as int,
+    );
   }
 }
