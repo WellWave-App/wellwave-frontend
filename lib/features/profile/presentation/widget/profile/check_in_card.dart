@@ -67,7 +67,7 @@ class _CheckInWidgetState extends State<CheckInWidget> {
                       ),
                       child: Column(
                         children: [
-                          Text('${AppStrings.xdayText} ${index + 1}',
+                          Text('${AppStrings.xdateText} ${index + 1}',
                               style: Theme.of(context)
                                   .textTheme
                                   .caption2
@@ -109,4 +109,3 @@ class _CheckInWidgetState extends State<CheckInWidget> {
     );
   }
 }
-

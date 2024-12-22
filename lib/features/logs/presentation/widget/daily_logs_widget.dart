@@ -44,12 +44,16 @@ class DailyLogsWidget extends StatelessWidget {
                     'Received LogsLoadDailySuccess with ${state.logslist.length} logs');
                 double? selectedSleepHours;
                 double? selectedDrinkLogs;
+                double? stepCount;
 
                 for (var log in state.logslist) {
                   if (log?.logName == 'SLEEP_LOG') {
                     selectedSleepHours = log?.value;
                   } else if (log?.logName == 'DRINK_LOG') {
                     selectedDrinkLogs = log?.value;
+                  }
+                  if (log?.logName == AppStrings.stepLogText) {
+                    stepCount = log?.value;
                   }
                 }
 
@@ -89,7 +93,28 @@ class DailyLogsWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                    if (selectedSleepHours == null && selectedDrinkLogs == null)
+                    const SizedBox(height: 8.0),
+                    if (stepCount != null)
+                      Row(
+                        children: [
+                          LogsHistoryCard(
+                            svgPath: AppImages.stepCountImage,
+                            title: AppStrings.stepWalkText,
+                            isShow: true,
+                            value: stepCount,
+                            lastWeekValue: 0,
+                            unit: AppStrings.stepText,
+                            isSvg: true,
+                            svgWidth: 64,
+                            svgHeight: 64,
+                            isOpposite: true,
+                            isDecimal: false,
+                          ),
+                        ],
+                      ),
+                    if (selectedSleepHours == null &&
+                        selectedDrinkLogs == null &&
+                        stepCount == null)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

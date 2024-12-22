@@ -22,10 +22,9 @@ class LogsLoadSuccess extends LogsState {
   LogsLoadSuccess({
     required this.logslist,
     required this.logsWeeklyList,
-    this.logsLastWeekList = const [], 
+    this.logsLastWeekList = const [],
   });
 }
-
 
 class LogsLoadGraphSuccess extends LogsState {
   final List<LogsWeightRequestModel?> logsWeightlist;

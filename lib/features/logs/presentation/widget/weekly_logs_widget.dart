@@ -19,13 +19,13 @@ class WeeklyLogsWidget extends StatelessWidget {
     context.read<LogsBloc>().add(LogsFetched(selectedDate));
 
     DateTime startOfWeek(DateTime date) {
-      // Adjust the start of the week (Monday)
+      // Monday
       int difference = date.weekday - DateTime.monday;
       return date.subtract(Duration(days: difference));
     }
 
     DateTime endOfWeek(DateTime date) {
-      // Adjust the end of the week (Sunday)
+      // Sunday
       int difference = DateTime.sunday - date.weekday;
       return date.add(Duration(days: difference));
     }
@@ -56,20 +56,22 @@ class WeeklyLogsWidget extends StatelessWidget {
             } else if (state is LogsLoadSuccess) {
               final currentWeekLogs = state.logsWeeklyList;
               final lastWeekLogs = state.logsLastWeekList;
-              double? stepCount;
+              // double? stepCount;
               double? weightCount;
               double? waistLineCount;
               double? hdlCount;
               double? ldlCount;
-              double lastWeekStep = 0.0;
+              // double lastWeekStep = 0.0;
               double lastWeekWeight = 0.0;
               double lastWeekWaistLine = 0.0;
               double lastWeekHdl = 0.0;
               double lastWeekLdl = 0.0;
 
+              double totalSteps = 0.0;
+
               for (var log in currentWeekLogs) {
                 if (log?.logName == AppStrings.stepLogText) {
-                  stepCount = log?.value;
+                  totalSteps += log?.value ?? 0.0;
                 } else if (log?.logName == AppStrings.weightLogText) {
                   weightCount = log?.value;
                 } else if (log?.logName == AppStrings.waistLineLogText) {
@@ -82,9 +84,10 @@ class WeeklyLogsWidget extends StatelessWidget {
               }
 
               for (var log in lastWeekLogs) {
-                if (log?.logName == AppStrings.stepLogText) {
-                  lastWeekStep = log?.value ?? 0.0;
-                } else if (log?.logName == AppStrings.weightLogText) {
+                // if (log?.logName == AppStrings.stepLogText) {
+                //   lastWeekStep = log?.value ?? 0.0;
+                // } else
+                if (log?.logName == AppStrings.weightLogText) {
                   lastWeekWeight = log?.value ?? 0.0;
                 } else if (log?.logName == AppStrings.waistLineLogText) {
                   lastWeekWaistLine = log?.value ?? 0.0;
@@ -101,7 +104,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'วันที่ $formattedStart - $formattedEnd',
+                        '${AppStrings.xdateText} $formattedStart - $formattedEnd',
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
@@ -110,15 +113,21 @@ class WeeklyLogsWidget extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  if (stepCount != null)
+                  if (totalSteps != null)
                     Row(
                       children: [
                         LogsHistoryCard(
                           svgPath: AppImages.stepCountImage,
                           title: AppStrings.stepWalkText,
                           isShow: true,
-                          value: stepCount,
-                          lastWeekValue: lastWeekStep,
+                          value: totalSteps,
+                          lastWeekValue: state.logsLastWeekList.fold<double>(
+                            0.0,
+                            (previousValue, log) =>
+                                log?.logName == AppStrings.stepLogText
+                                    ? previousValue + (log?.value ?? 0.0)
+                                    : previousValue,
+                          ),
                           unit: AppStrings.stepText,
                           isSvg: true,
                           svgWidth: 64,
@@ -202,7 +211,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                       ],
                     ),
                   const SizedBox(height: 8.0),
-                  if (stepCount == null &&
+                  if (totalSteps == null &&
                       weightCount == null &&
                       waistLineCount == null &&
                       hdlCount == null &&

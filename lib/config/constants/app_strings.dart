@@ -59,7 +59,6 @@ class AppStrings {
   static const gemText = 'gem';
   static const expText = 'exp';
   static const checkinText = 'เช็คอินเพื่อสะสมคะแนน';
-  static const xdayText = 'วันที่';
   static const archeivementText = 'ความสำเร็จ';
   static const seeAllText = 'ดูทั้งหมด';
   static const dayText = 'วัน';
@@ -77,7 +76,6 @@ class AppStrings {
   static const genderText = 'เพศ';
   static const birthYearText = 'ปีเกิด';
   static const heightText = 'ส่วนสูง';
-
 
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
   static const metabolicDescriptionText =
