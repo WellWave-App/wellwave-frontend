@@ -113,4 +113,6 @@ class AppStrings {
   static const hdlLogText = 'HDL_LOG';
   static const ldlLogText = 'LDL_LOG';
   static const stepLogText = 'STEP_LOG';
+  static const sleepLogText = 'SLEEP_LOG';
+  static const drinkLogText = 'DRINK_LOG';
 }

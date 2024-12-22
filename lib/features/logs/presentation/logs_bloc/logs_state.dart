@@ -29,8 +29,14 @@ class LogsLoadSuccess extends LogsState {
 class LogsLoadGraphSuccess extends LogsState {
   final List<LogsWeightRequestModel?> logsWeightlist;
   final List<LogsWaistLineRequestModel?> logsWaistLinelist;
+  final List<LogsSleepRequestModel?> logsSleeplist;
+  final List<LogsDrinkRequestModel?> logsDrinklist;
+  final List<LogsStepRequestModel?> logsSteplist;
 
   LogsLoadGraphSuccess({
+    required this.logsSleeplist,
+    required this.logsDrinklist,
+    required this.logsSteplist,
     required this.logsWeightlist,
     required this.logsWaistLinelist,
   });

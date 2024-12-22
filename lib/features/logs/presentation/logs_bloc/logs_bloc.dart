@@ -7,6 +7,10 @@ import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_w
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:intl/intl.dart';
 
+import '../../data/models/logs_request_model_waistline copy 2.dart';
+import '../../data/models/logs_request_model_waistline copy 3.dart';
+import '../../data/models/logs_request_model_waistline copy.dart';
+
 part 'logs_event.dart';
 part 'logs_state.dart';
 
@@ -55,8 +59,17 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
           await _logsRequestRepository.getWeightLogs(uid, event.date);
       final logsWaistLineList =
           await _logsRequestRepository.getWaistLineLogs(uid, event.date);
+      final logsDrinkList =
+          await _logsRequestRepository.getDrinkLogs(uid, event.date);
+      final logsStepList =
+          await _logsRequestRepository.getStepLogs(uid, event.date);
+      final logsSleepList =
+          await _logsRequestRepository.getSleepLogs(uid, event.date);
 
       emit(LogsLoadGraphSuccess(
+        logsDrinklist: logsDrinkList,
+        logsSleeplist: logsSleepList,
+        logsSteplist: logsStepList,
         logsWeightlist: logsWeightList,
         logsWaistLinelist: logsWaistLineList,
       ));

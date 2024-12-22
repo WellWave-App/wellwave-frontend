@@ -47,9 +47,9 @@ class DailyLogsWidget extends StatelessWidget {
                 double? stepCount;
 
                 for (var log in state.logslist) {
-                  if (log?.logName == 'SLEEP_LOG') {
+                  if (log?.logName == AppStrings.sleepLogText) {
                     selectedSleepHours = log?.value;
-                  } else if (log?.logName == 'DRINK_LOG') {
+                  } else if (log?.logName == AppStrings.drinkLogText) {
                     selectedDrinkLogs = log?.value;
                   }
                   if (log?.logName == AppStrings.stepLogText) {

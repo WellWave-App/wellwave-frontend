@@ -11,13 +11,14 @@ import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_eve
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_state.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/check_in_card.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/profile/drink_progress.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/progress_card.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/profile/progress_chart_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/round_border_text.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/user_info.dart';
 
 import '../../../logs/presentation/logs_bloc/logs_bloc.dart';
-import '../../../logs/presentation/widget/chart.dart';
+import '../widget/profile/sleep_progress.dart';
+import '../widget/profile/step_progress.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -26,7 +27,6 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(FetchUserProfile());
 
-    // int leagueIndex = 2;
     int currentDay = 4;
 
     final today = DateTime.now();
@@ -113,38 +113,54 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 24),
                     const AchievementCard(),
                     const SizedBox(height: 24),
-                    BlocBuilder<LogsBloc, LogsState>(
-                      builder: (context, state) {
-                        double weight = 0.0;
-                        double lastWeekWeight = 0.0;
 
-                        if (state is LogsLoadGraphInProgress) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        } else if (state is LogsLoadGraphSuccess) {
-                          if (state.logsWeightlist.isNotEmpty) {
-                            weight = state.logsWeightlist.last?.value ?? 0.0;
-                            lastWeekWeight = state.logsWeightlist.length > 1
-                                ? state
-                                        .logsWeightlist[
-                                            state.logsWeightlist.length - 2]
-                                        ?.value ??
-                                    0.0
-                                : 0.0;
-                          }
-                        }
+                    //chart
+                    DefaultTabController(
+                        length: 3,
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 32,
+                              decoration: BoxDecoration(
+                                color: AppColors.whiteColor,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: TabBar(
+                                indicatorWeight: 0,
+                                labelColor: Colors.white,
+                                unselectedLabelColor: Colors.black,
+                                indicatorColor: AppColors.primaryColor,
+                                indicator: BoxDecoration(
+                                  color: AppColors.primaryColor,
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                tabs: const [
+                                  SizedBox(
+                                      width: 112,
+                                      child: Tab(text: AppStrings.drinkText)),
+                                  SizedBox(
+                                      width: 112,
+                                      child: Tab(text: AppStrings.stepText)),
+                                  SizedBox(
+                                      width: 112,
+                                      child: Tab(text: AppStrings.sleepText)),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            const SizedBox(
+                              height: 300,
+                              child: TabBarView(
+                                children: [
+                                  DrinkProgressChart(),
+                                  StepProgressChart(),
+                                  SleepProgressChart(),
+                                ],
+                              ),
+                            ),
+                          ],
+                        )),
 
-                        return ProgressChartCard(
-                          title: AppStrings.weightText,
-                          value: weight,
-                          unit: AppStrings.kgText,
-                          lastWeekValue: lastWeekWeight,
-                          chart: const LineChartSample2(
-                            logType: AppStrings.weightLogText,
-                          ),
-                        );
-                      },
-                    ),
                     const SizedBox(height: 24),
                     const RoundedText(
                       text: AppStrings.alertText,

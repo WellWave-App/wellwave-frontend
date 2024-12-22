@@ -19,9 +19,23 @@ class LineChartSample2 extends StatelessWidget {
           return Center(
               child: Text('${AppStrings.errorShow}: ${state.message}'));
         } else if (state is LogsLoadGraphSuccess) {
-          List<dynamic> logs = logType == AppStrings.weightLogText
-              ? state.logsWeightlist
-              : state.logsWaistLinelist;
+          List<dynamic> logs = [];
+
+          // List<dynamic> logs = logType == AppStrings.weightLogText
+          //     ? state.logsWeightlist
+          //     : state.logsWaistLinelist;
+
+          if (logType == AppStrings.weightLogText) {
+            logs = state.logsWeightlist;
+          } else if (logType == AppStrings.waistLineLogText) {
+            logs = state.logsWaistLinelist;
+          } else if (logType == AppStrings.sleepLogText) {
+            logs = state.logsSleeplist;
+          } else if (logType == AppStrings.drinkLogText) {
+            logs = state.logsDrinklist;
+          } else if (logType == AppStrings.stepLogText) {
+            logs = state.logsSteplist;
+          }
 
           if (logs.isEmpty) {
             return const Center(child: Text(AppStrings.noLogsAvailableText));
