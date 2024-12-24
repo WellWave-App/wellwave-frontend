@@ -187,6 +187,7 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                       margin: const EdgeInsets.only(bottom: 8),
                                     ),
                                     const SizedBox(height: 40),
+                            
                                     Expanded(
                                       child: CupertinoDatePicker(
                                         initialDateTime: startTime,
@@ -269,6 +270,7 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                       margin: const EdgeInsets.only(bottom: 8),
                                     ),
                                     const SizedBox(height: 40),
+                            
                                     Expanded(
                                       child: CupertinoDatePicker(
                                         initialDateTime: endTime,
@@ -427,9 +429,9 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
         ),
         TextButton(
           onPressed: () {
-            context.goNamed(AppPages.drinkPlanName);
+            context.goNamed(AppPages.logHistoryName);
           },
-          child: Text(AppStrings.setDrinkPlanText,
+          child: Text(AppStrings.drinkPlanText,
               style: Theme.of(context)
                   .textTheme
                   .bodySmall

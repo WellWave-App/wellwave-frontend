@@ -98,9 +98,8 @@ class AppStrings {
   static const startTimeText = 'เวลาเริ่ม';
   static const endTimeText = 'เวลาจบ';
   static const notiEveryText = 'แจ้งเตือนทุก';
-  static const setDrinkPlanText = 'กำหนดแผนดื่มน้ำโดยละเอียด >';
+  static const drinkPlanText = 'กำหนดแผนดื่มน้ำโดยละเอียด >';
   static const sleepingText = 'การเข้านอน';
-  static const drinkPlanText = 'แผนการดื่มน้ำ';
 
   //Chart
   static const errorShow = 'Error';

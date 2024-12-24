@@ -12,7 +12,6 @@ class AppPages {
   static const String editProfilePage = 'editprofile';
   static const String reminderPage = 'reminder';
   static const String achievementPage = 'achievement';
-  static const String drinkPlanPage = 'drinkplan';
 
   // Name of the route
   static const String splashName = 'splash';
@@ -27,5 +26,4 @@ class AppPages {
   static const String editProfileName = 'editprofile';
   static const String reminderName = 'reminder';
   static const String achievementName = 'achievement';
-  static const String drinkPlanName = 'drinkplan';
 }
