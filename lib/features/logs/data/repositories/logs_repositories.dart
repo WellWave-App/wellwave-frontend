@@ -5,9 +5,9 @@ import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_w
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weekly.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weight.dart';
 import '../../../logs/data/models/logs_request_model.dart';
-import '../models/logs_request_model_waistline copy 2.dart';
-import '../models/logs_request_model_waistline copy 3.dart';
-import '../models/logs_request_model_waistline copy.dart';
+import '../models/logs_request_model_sleep.dart';
+import '../models/logs_request_model_step.dart';
+import '../models/logs_request_model_drink.dart';
 
 class LogsRequestRepository {
   String baseUrl = 'http://10.0.2.2:3000/logs';
@@ -132,7 +132,7 @@ class LogsRequestRepository {
     try {
       final response = await http.get(
         Uri.parse(
-          "$baseUrl/logs/userWeekly/$uID?date=${date.toIso8601String()}",
+          "$baseUrl/userWeekly/$uID?date=${date.toIso8601String()}",
         ),
         headers: {
           'Content-Type': 'application/json',
@@ -168,7 +168,7 @@ class LogsRequestRepository {
             dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
         final response = await http.get(
           Uri.parse(
-            '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WEIGHT_LOG',
+            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WEIGHT_LOG',
           ),
           headers: {
             'Content-Type': 'application/json',
@@ -205,7 +205,7 @@ class LogsRequestRepository {
             dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
         final response = await http.get(
           Uri.parse(
-            '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WAIST_LINE_LOG',
+            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WAIST_LINE_LOG',
           ),
           headers: {
             'Content-Type': 'application/json',
@@ -241,7 +241,7 @@ class LogsRequestRepository {
         final DateTime targetDate = dateBegin.add(Duration(days: i * 7));
         final response = await http.get(
           Uri.parse(
-            '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=SLEEP_LOG',
+            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=SLEEP_LOG',
           ),
           headers: {
             'Content-Type': 'application/json',
@@ -278,7 +278,7 @@ class LogsRequestRepository {
             dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
         final response = await http.get(
           Uri.parse(
-            '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=STEP_LOG',
+            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=STEP_LOG',
           ),
           headers: {
             'Content-Type': 'application/json',
@@ -315,7 +315,7 @@ class LogsRequestRepository {
             dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
         final response = await http.get(
           Uri.parse(
-            '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=DRINK_LOG',
+            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=DRINK_LOG',
           ),
           headers: {
             'Content-Type': 'application/json',

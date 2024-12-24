@@ -44,7 +44,7 @@ final GoRouter goRouter = GoRouter(
                   path: AppPages.profilePage,
                   name: AppPages.profileName,
                   pageBuilder: (BuildContext context, GoRouterState state) {
-                    return const NoTransitionPage(child: ProfileScreen());
+                    return NoTransitionPage(child: ProfileScreen());
                   },
                   routes: [
                     GoRoute(

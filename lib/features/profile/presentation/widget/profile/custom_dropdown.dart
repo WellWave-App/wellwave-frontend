@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 
 class CustomDropdownButton extends StatefulWidget {
-  const CustomDropdownButton({super.key});
+  final String selectedPeriod;
+  final Function(String) onPeriodSelected;
+
+  const CustomDropdownButton(
+      {super.key,
+      required this.onPeriodSelected,
+      required this.selectedPeriod});
 
   @override
   _CustomDropdownButtonState createState() => _CustomDropdownButtonState();
 }
 
 class _CustomDropdownButtonState extends State<CustomDropdownButton> {
-  String selectedPeriod = '7 วัน';
+  // String selectedPeriod = '7 วัน';
   final List<String> periods = [
     '7 วัน',
     '14 วัน',
@@ -29,7 +35,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: selectedPeriod,
+          value: widget.selectedPeriod,
           items: periods.map((String period) {
             return DropdownMenuItem<String>(
               value: period,
@@ -42,9 +48,9 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
             );
           }).toList(),
           onChanged: (String? newValue) {
-            setState(() {
-              selectedPeriod = newValue!;
-            });
+            if (newValue != null) {
+              widget.onPeriodSelected(newValue);
+            }
           },
           icon: const Icon(
             Icons.keyboard_arrow_down,

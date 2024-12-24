@@ -9,6 +9,8 @@ class ProgressChartCard extends StatefulWidget {
   final String unit;
   final double lastWeekValue;
   final Widget chart;
+  final String selectedPeriod;
+  final Function(String) onPeriodSelected;
 
   const ProgressChartCard({
     Key? key,
@@ -17,6 +19,8 @@ class ProgressChartCard extends StatefulWidget {
     required this.unit,
     required this.lastWeekValue,
     required this.chart,
+    required this.selectedPeriod,
+    required this.onPeriodSelected,
   }) : super(key: key);
 
   @override
@@ -28,6 +32,7 @@ class _ProgressChartCardState extends State<ProgressChartCard> {
   Widget build(BuildContext context) {
     double difference = widget.value - widget.lastWeekValue;
     bool isPositive = difference >= 0;
+    // String selectedPeriod = '7 วัน';
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
@@ -97,7 +102,10 @@ class _ProgressChartCardState extends State<ProgressChartCard> {
                   ),
                 ],
               ),
-              const CustomDropdownButton(),
+              CustomDropdownButton(
+                selectedPeriod: widget.selectedPeriod,
+                onPeriodSelected: widget.onPeriodSelected,
+              ),
             ],
           ),
           const SizedBox(height: 8),

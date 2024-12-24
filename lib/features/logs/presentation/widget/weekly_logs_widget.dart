@@ -56,12 +56,12 @@ class WeeklyLogsWidget extends StatelessWidget {
             } else if (state is LogsLoadSuccess) {
               final currentWeekLogs = state.logsWeeklyList;
               final lastWeekLogs = state.logsLastWeekList;
-              // double? stepCount;
+
               double? weightCount;
               double? waistLineCount;
               double? hdlCount;
               double? ldlCount;
-              // double lastWeekStep = 0.0;
+
               double lastWeekWeight = 0.0;
               double lastWeekWaistLine = 0.0;
               double lastWeekHdl = 0.0;
@@ -113,29 +113,30 @@ class WeeklyLogsWidget extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      LogsHistoryCard(
-                        svgPath: AppImages.stepCountImage,
-                        title: AppStrings.stepWalkText,
-                        isShow: true,
-                        value: totalSteps,
-                        lastWeekValue: state.logsLastWeekList.fold<double>(
-                          0.0,
-                          (previousValue, log) =>
-                              log?.logName == AppStrings.stepLogText
-                                  ? previousValue + (log?.value ?? 0.0)
-                                  : previousValue,
+                  if (totalSteps != 0.0)
+                    Row(
+                      children: [
+                        LogsHistoryCard(
+                          svgPath: AppImages.stepCountImage,
+                          title: AppStrings.stepWalkText,
+                          isShow: true,
+                          value: totalSteps,
+                          lastWeekValue: state.logsLastWeekList.fold<double>(
+                            0.0,
+                            (previousValue, log) =>
+                                log?.logName == AppStrings.stepLogText
+                                    ? previousValue + (log?.value ?? 0.0)
+                                    : previousValue,
+                          ),
+                          unit: AppStrings.stepText,
+                          isSvg: true,
+                          svgWidth: 64,
+                          svgHeight: 64,
+                          isOpposite: true,
+                          isDecimal: false,
                         ),
-                        unit: AppStrings.stepText,
-                        isSvg: true,
-                        svgWidth: 64,
-                        svgHeight: 64,
-                        isOpposite: true,
-                        isDecimal: false,
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
                   const SizedBox(height: 8.0),
                   if (weightCount != null)
                     Row(
@@ -210,7 +211,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                       ],
                     ),
                   const SizedBox(height: 8.0),
-                  if (totalSteps == null &&
+                  if (totalSteps == 0.0 &&
                       weightCount == null &&
                       waistLineCount == null &&
                       hdlCount == null &&

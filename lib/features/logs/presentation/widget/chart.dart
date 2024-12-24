@@ -6,8 +6,10 @@ import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc
 
 class LineChartSample2 extends StatelessWidget {
   final String logType;
+  final List<dynamic> logs;
 
-  const LineChartSample2({super.key, required this.logType});
+  const LineChartSample2(
+      {super.key, required this.logType, required this.logs});
 
   @override
   Widget build(BuildContext context) {
@@ -19,23 +21,23 @@ class LineChartSample2 extends StatelessWidget {
           return Center(
               child: Text('${AppStrings.errorShow}: ${state.message}'));
         } else if (state is LogsLoadGraphSuccess) {
-          List<dynamic> logs = [];
+          // List<dynamic> logs = [];
 
           // List<dynamic> logs = logType == AppStrings.weightLogText
           //     ? state.logsWeightlist
           //     : state.logsWaistLinelist;
 
-          if (logType == AppStrings.weightLogText) {
-            logs = state.logsWeightlist;
-          } else if (logType == AppStrings.waistLineLogText) {
-            logs = state.logsWaistLinelist;
-          } else if (logType == AppStrings.sleepLogText) {
-            logs = state.logsSleeplist;
-          } else if (logType == AppStrings.drinkLogText) {
-            logs = state.logsDrinklist;
-          } else if (logType == AppStrings.stepLogText) {
-            logs = state.logsSteplist;
-          }
+          // if (logType == AppStrings.weightLogText) {
+          //   logs = state.logsWeightlist;
+          // } else if (logType == AppStrings.waistLineLogText) {
+          //   logs = state.logsWaistLinelist;
+          // } else if (logType == AppStrings.sleepLogText) {
+          //   logs = state.logsSleeplist;
+          // } else if (logType == AppStrings.drinkLogText) {
+          //   logs = state.logsDrinklist;
+          // } else if (logType == AppStrings.stepLogText) {
+          //   logs = state.logsSteplist;
+          // }
 
           if (logs.isEmpty) {
             return const Center(child: Text(AppStrings.noLogsAvailableText));

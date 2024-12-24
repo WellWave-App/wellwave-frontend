@@ -20,8 +20,19 @@ import '../../../logs/presentation/logs_bloc/logs_bloc.dart';
 import '../widget/profile/sleep_progress.dart';
 import '../widget/profile/step_progress.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class ProfileScreen extends StatefulWidget {
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  String selectedPeriod = '7 วัน';
+
+  void updateSelectedPeriod(String newPeriod) {
+    setState(() {
+      selectedPeriod = newPeriod;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,13 +159,22 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 24),
-                            const SizedBox(
+                            SizedBox(
                               height: 300,
                               child: TabBarView(
                                 children: [
-                                  DrinkProgressChart(),
-                                  StepProgressChart(),
-                                  SleepProgressChart(),
+                                  DrinkProgressChart(
+                                    selectedPeriod: selectedPeriod,
+                                    onPeriodSelected: updateSelectedPeriod,
+                                  ),
+                                  StepProgressChart(
+                                    selectedPeriod: selectedPeriod,
+                                    onPeriodSelected: updateSelectedPeriod,
+                                  ),
+                                  SleepProgressChart(
+                                    selectedPeriod: selectedPeriod,
+                                    onPeriodSelected: updateSelectedPeriod,
+                                  ),
                                 ],
                               ),
                             ),

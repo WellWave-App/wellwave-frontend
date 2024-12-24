@@ -7,9 +7,9 @@ import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_w
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:intl/intl.dart';
 
-import '../../data/models/logs_request_model_waistline copy 2.dart';
-import '../../data/models/logs_request_model_waistline copy 3.dart';
-import '../../data/models/logs_request_model_waistline copy.dart';
+import '../../data/models/logs_request_model_sleep.dart';
+import '../../data/models/logs_request_model_drink.dart';
+import '../../data/models/logs_request_model_step.dart';
 
 part 'logs_event.dart';
 part 'logs_state.dart';
