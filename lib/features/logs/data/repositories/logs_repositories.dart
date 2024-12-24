@@ -130,7 +130,6 @@ class LogsRequestRepository {
   Future<List<LogsWeeklyRequestModel?>> getWeeklyLogs(
       num uID, DateTime date) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       final response = await http.get(
         Uri.parse(
           "$baseUrl/logs/userWeekly/$uID?date=${date.toIso8601String()}",
@@ -160,7 +159,6 @@ class LogsRequestRepository {
   Future<List<LogsWeightRequestModel?>> getWeightLogs(
       num uID, DateTime today) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       List<LogsWeightRequestModel?> logsList = [];
 
       // Fetch logs for the past 4 weeks, one for each week
@@ -198,7 +196,6 @@ class LogsRequestRepository {
   Future<List<LogsWaistLineRequestModel?>> getWaistLineLogs(
       num uID, DateTime today) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       List<LogsWaistLineRequestModel?> logsList = [];
 
       // Fetch logs for the past 4 weeks, one for each week
@@ -236,7 +233,6 @@ class LogsRequestRepository {
   Future<List<LogsSleepRequestModel?>> getSleepLogs(
       num uID, DateTime today) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       List<LogsSleepRequestModel?> logsList = [];
 
       // Fetch logs for the past 4 weeks, one for each week
@@ -273,7 +269,6 @@ class LogsRequestRepository {
   Future<List<LogsStepRequestModel?>> getStepLogs(
       num uID, DateTime today) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       List<LogsStepRequestModel?> logsList = [];
 
       // Fetch logs for the past 4 weeks, one for each week
@@ -311,7 +306,6 @@ class LogsRequestRepository {
   Future<List<LogsDrinkRequestModel?>> getDrinkLogs(
       num uID, DateTime today) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       List<LogsDrinkRequestModel?> logsList = [];
 
       // Fetch logs for the past 4 weeks, one for each week

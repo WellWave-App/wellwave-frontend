@@ -6,6 +6,8 @@ import 'package:wellwave_frontend/features/profile/data/models/profile_request_m
 
 class ProfileRepositories {
   String baseUrl = 'http://10.0.2.2:3000';
+  String token =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM1MDE2MjE1LCJleHAiOjE3MzUxMDI2MTV9.jgvKh_s4EWvdwpMNXnhzYesx0ISM0-mDb3tOVg20V24";
 
   Future<bool> editUserRequest({
     required int uid,
@@ -17,9 +19,6 @@ class ProfileRepositories {
     required num weight,
   }) async {
     try {
-      const String token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM0ODA3Mjc2LCJleHAiOjE3MzQ4OTM2NzZ9.NO3rq_wbPQao-zuvVA90AKbDkMGm6cDRJLg3mp-ScnY";
-
       final uri = Uri.parse("$baseUrl/users/$uid");
 
       final Map<String, String> userDetails = {
@@ -57,9 +56,6 @@ class ProfileRepositories {
 
   Future<ProfileRequestModel?> getUSer() async {
     try {
-      const String token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM0ODA3Mjc2LCJleHAiOjE3MzQ4OTM2NzZ9.NO3rq_wbPQao-zuvVA90AKbDkMGm6cDRJLg3mp-ScnY";
-
       final response = await http.get(
         Uri.parse("$baseUrl/users/profile"),
         headers: {
@@ -85,9 +81,6 @@ class ProfileRepositories {
     int uid,
   ) async {
     try {
-      const String token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM0ODA3Mjc2LCJleHAiOjE3MzQ4OTM2NzZ9.NO3rq_wbPQao-zuvVA90AKbDkMGm6cDRJLg3mp-ScnY";
-
       final uri = Uri.parse("$baseUrl/users/$uid");
       final request = http.MultipartRequest('PATCH', uri)
         ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));

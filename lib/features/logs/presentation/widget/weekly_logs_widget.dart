@@ -113,30 +113,29 @@ class WeeklyLogsWidget extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  if (totalSteps != null)
-                    Row(
-                      children: [
-                        LogsHistoryCard(
-                          svgPath: AppImages.stepCountImage,
-                          title: AppStrings.stepWalkText,
-                          isShow: true,
-                          value: totalSteps,
-                          lastWeekValue: state.logsLastWeekList.fold<double>(
-                            0.0,
-                            (previousValue, log) =>
-                                log?.logName == AppStrings.stepLogText
-                                    ? previousValue + (log?.value ?? 0.0)
-                                    : previousValue,
-                          ),
-                          unit: AppStrings.stepText,
-                          isSvg: true,
-                          svgWidth: 64,
-                          svgHeight: 64,
-                          isOpposite: true,
-                          isDecimal: false,
+                  Row(
+                    children: [
+                      LogsHistoryCard(
+                        svgPath: AppImages.stepCountImage,
+                        title: AppStrings.stepWalkText,
+                        isShow: true,
+                        value: totalSteps,
+                        lastWeekValue: state.logsLastWeekList.fold<double>(
+                          0.0,
+                          (previousValue, log) =>
+                              log?.logName == AppStrings.stepLogText
+                                  ? previousValue + (log?.value ?? 0.0)
+                                  : previousValue,
                         ),
-                      ],
-                    ),
+                        unit: AppStrings.stepText,
+                        isSvg: true,
+                        svgWidth: 64,
+                        svgHeight: 64,
+                        isOpposite: true,
+                        isDecimal: false,
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 8.0),
                   if (weightCount != null)
                     Row(

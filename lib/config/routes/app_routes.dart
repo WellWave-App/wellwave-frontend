@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
@@ -17,9 +16,6 @@ import 'package:wellwave_frontend/features/profile/presentation/screen/edit_prof
 import 'package:wellwave_frontend/features/profile/presentation/screen/profile_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/reminder_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
-
-import '../../features/profile/data/repositories/profile_repositories.dart';
-import '../../features/profile/presentation/bloc/profile_bloc.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,

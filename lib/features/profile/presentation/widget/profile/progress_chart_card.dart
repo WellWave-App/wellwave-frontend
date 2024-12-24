@@ -97,7 +97,7 @@ class _ProgressChartCardState extends State<ProgressChartCard> {
                   ),
                 ],
               ),
-              CustomDropdownButton(),
+              const CustomDropdownButton(),
             ],
           ),
           const SizedBox(height: 8),

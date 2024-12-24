@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/edit_profile/edit_profile_pic.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/edit_profile/edit_profile_picker.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/edit_profile/user_detail.dart';
 
