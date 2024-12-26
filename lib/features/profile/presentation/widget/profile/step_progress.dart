@@ -53,25 +53,65 @@ class StepProgressChart extends StatelessWidget {
   List<dynamic> filterLogsByPeriod(List<dynamic> logs, String period) {
     switch (period) {
       case '7 วัน':
-        return logs.length > 7 ? logs.sublist(logs.length - 7) : logs;
+        return logs.length <= 7 ? logs : logs.sublist(logs.length - 7);
       case '14 วัน':
-        return logs.length > 14 ? logs.sublist(logs.length - 14) : logs;
-      // case '1 เดือน':
-      //   return averageLogsByWeek(logs, 4);
-      // case '3 เดือน':
-      //   return averageLogsByWeek(logs, 12);
-      // case '6 เดือน':
-      //   return averageLogsByMonth(logs, 6);
+        return logs.length <= 14 ? logs : logs.sublist(logs.length - 14);
+      case '1 เดือน':
+        return averageLogsByWeek(logs, DateTime.now(), 4);
+      case '3 เดือน':
+        return averageLogsByWeek(logs, DateTime.now(), 12);
       default:
         return logs;
     }
   }
 
-  // List<dynamic> averageLogsByWeek(List<dynamic> logs, int weeks) {
-  //   // Implement logic to calculate weekly averages for the last `weeks` weeks
-  // }
+  List<dynamic> averageLogsByWeek(
+      List<dynamic> logs, DateTime selectedDate, int weeks) {
+    List<dynamic> weeklyAverages = [];
+    DateTime currentStart = startOfWeek(selectedDate);
 
-  // List<dynamic> averageLogsByMonth(List<dynamic> logs, int months) {
-  //   // Implement logic to calculate monthly averages for the last `months` months
-  // }
+    for (int i = 0; i < weeks; i++) {
+      DateTime currentEnd = endOfWeek(currentStart);
+
+      List<dynamic> weekLogs = logs.where((log) {
+        DateTime logDate = log.date;
+        return logDate
+                .isAfter(currentStart.subtract(const Duration(days: 1))) &&
+            logDate.isBefore(currentEnd.add(const Duration(days: 1)));
+      }).toList();
+
+      if (weekLogs.isNotEmpty) {
+        double average = weekLogs
+                .map((log) => log.value.toDouble())
+                .reduce((a, b) => a + b) /
+            weekLogs.length;
+
+        weeklyAverages.add(LogsStepRequestModel(
+          date: currentEnd,
+          value: double.parse(average.toStringAsFixed(1)),
+        ));
+      } else if (weeklyAverages.isNotEmpty) {
+        weeklyAverages.add(LogsStepRequestModel(
+          date: currentEnd,
+          value: weeklyAverages.last.value,
+        ));
+      }
+
+      currentStart = currentStart.subtract(const Duration(days: 7));
+    }
+
+    return weeklyAverages.reversed.toList();
+  }
+
+  DateTime startOfWeek(DateTime date) {
+    // Monday
+    int difference = date.weekday - DateTime.monday;
+    return date.subtract(Duration(days: difference));
+  }
+
+  DateTime endOfWeek(DateTime date) {
+    // Sunday
+    int difference = DateTime.sunday - date.weekday;
+    return date.add(Duration(days: difference));
+  }
 }

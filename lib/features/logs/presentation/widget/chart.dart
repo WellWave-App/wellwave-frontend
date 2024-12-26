@@ -154,14 +154,42 @@ class LineChartSample2 extends StatelessWidget {
 
   Widget bottomTitleWidgets(List<dynamic> logs, double value, TitleMeta meta) {
     const style = TextStyle(fontSize: 10);
-    if (value.toInt() < logs.length) {
-      final log = logs[value.toInt()];
-      final date = DateTime.parse(log.date.toIso8601String());
-      final formattedDate =
-          '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}';
-      return SideTitleWidget(
-          axisSide: meta.axisSide, child: Text(formattedDate, style: style));
+    if (value.toInt() >= logs.length) {
+      return const Text('/', style: style);
     }
-    return const Text('/', style: style);
+
+    final log = logs[value.toInt()];
+    final date = DateTime.parse(log.date.toIso8601String());
+
+    // For 14 days view - show every other day
+    if (logs.length == 14) {
+      if (value.toInt() % 2 == 0) {
+        return SideTitleWidget(
+          axisSide: meta.axisSide,
+          child: Text(
+              '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}',
+              style: style),
+        );
+      }
+      return const Text('', style: style);
+    }
+
+    // For 1 month or 3 months view - show week numbers
+    if (logs.length == 4 || logs.length == 12) {
+      final weekNumber = (value.toInt() % 4) + 1;
+      return SideTitleWidget(
+        axisSide: meta.axisSide,
+        child: Text('$weekNumber/${date.month.toString().padLeft(2, '0')}',
+            style: style),
+      );
+    }
+
+    // Default format for other views (e.g., 7 days)
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: Text(
+          '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}',
+          style: style),
+    );
   }
 }

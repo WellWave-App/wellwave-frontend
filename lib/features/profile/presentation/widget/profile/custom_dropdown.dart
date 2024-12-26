@@ -14,13 +14,12 @@ class CustomDropdownButton extends StatefulWidget {
 }
 
 class _CustomDropdownButtonState extends State<CustomDropdownButton> {
-  // String selectedPeriod = '7 วัน';
   final List<String> periods = [
     '7 วัน',
     '14 วัน',
     '1 เดือน',
     '3 เดือน',
-    '6 เดือน'
+    // '6 เดือน'
   ];
 
   @override

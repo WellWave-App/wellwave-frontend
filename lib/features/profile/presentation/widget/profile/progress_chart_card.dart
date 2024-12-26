@@ -92,15 +92,15 @@ class _ProgressChartCardState extends State<ProgressChartCard> {
                                 : Icons.arrow_downward,
                             size: 16,
                             color:
-                                isPositive ? Colors.red : AppColors.greenColor,
+                                isPositive ? AppColors.greenColor : Colors.red,
                           ),
                           Text(
-                            '${difference.abs().toStringAsFixed(1)} ${widget.unit}',
+                            '${difference.abs().toStringAsFixed(1)} ${widget.unit} จากค่าเฉลี่ย',
                             style:
                                 Theme.of(context).textTheme.caption2?.copyWith(
                                       color: isPositive
-                                          ? Colors.red
-                                          : AppColors.greenColor,
+                                          ? AppColors.greenColor
+                                          : Colors.red,
                                     ),
                           ),
                         ],
