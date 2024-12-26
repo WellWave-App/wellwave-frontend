@@ -7,7 +7,7 @@ class ProgressChartCard extends StatefulWidget {
   final String title;
   final double value;
   final String unit;
-  final double lastWeekValue;
+  final List<double> chartValues;
   final Widget chart;
   final String selectedPeriod;
   final Function(String) onPeriodSelected;
@@ -17,7 +17,7 @@ class ProgressChartCard extends StatefulWidget {
     required this.title,
     required this.value,
     required this.unit,
-    required this.lastWeekValue,
+    required this.chartValues,
     required this.chart,
     required this.selectedPeriod,
     required this.onPeriodSelected,
@@ -30,9 +30,16 @@ class ProgressChartCard extends StatefulWidget {
 class _ProgressChartCardState extends State<ProgressChartCard> {
   @override
   Widget build(BuildContext context) {
-    double difference = widget.value - widget.lastWeekValue;
+    int periodDays =
+        int.tryParse(widget.selectedPeriod.replaceAll('วัน', '').trim()) ?? 7;
+    List<double> valuesForAverage =
+        widget.chartValues.take(periodDays).toList();
+    double average = valuesForAverage.isNotEmpty
+        ? valuesForAverage.reduce((a, b) => a + b) / valuesForAverage.length
+        : 0;
+
+    double difference = widget.value - average;
     bool isPositive = difference >= 0;
-    // String selectedPeriod = '7 วัน';
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
@@ -63,7 +70,7 @@ class _ProgressChartCardState extends State<ProgressChartCard> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        '${widget.value}',
+                        widget.value.toStringAsFixed(0),
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -88,7 +95,7 @@ class _ProgressChartCardState extends State<ProgressChartCard> {
                                 isPositive ? Colors.red : AppColors.greenColor,
                           ),
                           Text(
-                            '${difference.abs()} ${widget.unit}',
+                            '${difference.abs().toStringAsFixed(1)} ${widget.unit}',
                             style:
                                 Theme.of(context).textTheme.caption2?.copyWith(
                                       color: isPositive

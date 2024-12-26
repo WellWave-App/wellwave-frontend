@@ -5,6 +5,8 @@ import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc
 import 'package:wellwave_frontend/features/logs/presentation/widget/chart.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
+import '../../../../logs/data/models/logs_request_model_drink.dart';
+
 class DrinkProgressChart extends StatelessWidget {
   final String selectedPeriod;
   final Function(String) onPeriodSelected;
@@ -41,9 +43,11 @@ class DrinkProgressChart extends StatelessWidget {
               ? filteredLogs.last.value.toDouble()
               : 0.0,
           unit: AppStrings.glassesText,
-          lastWeekValue: filteredLogs.length > 1
-              ? filteredLogs[filteredLogs.length - 2].value.toDouble()
-              : 0.0,
+          chartValues: filteredLogs
+              .map((log) => (log as LogsDrinkRequestModel)
+                  .value
+                  .toDouble()) // Extract the value as doubles
+              .toList(),
           chart: LineChartSample2(
             logType: AppStrings.drinkLogText,
             logs: filteredLogs,

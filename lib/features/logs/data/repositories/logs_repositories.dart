@@ -4,13 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_waistline.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weekly.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weight.dart';
+import '../../../../config/constants/app_strings.dart';
 import '../../../logs/data/models/logs_request_model.dart';
 import '../models/logs_request_model_sleep.dart';
 import '../models/logs_request_model_step.dart';
 import '../models/logs_request_model_drink.dart';
 
 class LogsRequestRepository {
-  String baseUrl = 'http://10.0.2.2:3000/logs';
+  String baseUrl = '${AppStrings.baseUrl}/logs';
 
   Future<bool> createLogsRequest({
     required int value,

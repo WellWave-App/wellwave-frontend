@@ -114,9 +114,9 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                               value: weight,
                               unit: AppStrings.kgText,
                               lastWeekValue: lastWeekWeight,
-                              chart: const LineChartSample2(
+                              chart: LineChartSample2(
                                 logType: AppStrings.weightLogText,
-                                logs: [],
+                                logs: state.logsWeightlist,
                               ),
                             ),
                           ],
@@ -129,9 +129,9 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                               value: waistLine,
                               unit: AppStrings.cmText,
                               lastWeekValue: lastWeekWaistLine,
-                              chart: const LineChartSample2(
+                              chart: LineChartSample2(
                                 logType: AppStrings.waistLineLogText,
-                                logs: [],
+                                logs: state.logsWaistLinelist,
                               ),
                             ),
                           ],

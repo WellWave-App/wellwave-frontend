@@ -2,10 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
 class ProfileRepositories {
-  String baseUrl = 'http://10.0.2.2:3000';
+  String baseUrl = AppStrings.baseUrl;
   String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM1MDE2MjE1LCJleHAiOjE3MzUxMDI2MTV9.jgvKh_s4EWvdwpMNXnhzYesx0ISM0-mDb3tOVg20V24";
 

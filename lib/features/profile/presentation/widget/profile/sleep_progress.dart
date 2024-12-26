@@ -5,6 +5,8 @@ import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc
 import 'package:wellwave_frontend/features/logs/presentation/widget/chart.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
+import '../../../../logs/data/models/logs_request_model_sleep.dart';
+
 class SleepProgressChart extends StatelessWidget {
   final String selectedPeriod;
   final Function(String) onPeriodSelected;
@@ -18,8 +20,6 @@ class SleepProgressChart extends StatelessWidget {
     return BlocBuilder<LogsBloc, LogsState>(
       builder: (context, state) {
         List<dynamic> filteredLogs = [];
-        // double sleep = 0.0;
-        // double lastWeekSleep = 0.0;
 
         if (state is LogsLoadGraphInProgress) {
           return const Center(child: CircularProgressIndicator());
@@ -27,11 +27,6 @@ class SleepProgressChart extends StatelessWidget {
           if (state.logsSleeplist.isNotEmpty) {
             filteredLogs =
                 filterLogsByPeriod(state.logsSleeplist, selectedPeriod);
-            // sleep = state.logsSleeplist.last?.value ?? 0.0;
-            // lastWeekSleep = state.logsSleeplist.length > 1
-            //     ? state.logsSleeplist[state.logsSleeplist.length - 2]?.value ??
-            //         0.0
-            //     : 0.0;
           }
         }
 
@@ -41,9 +36,11 @@ class SleepProgressChart extends StatelessWidget {
               ? filteredLogs.last.value.toDouble()
               : 0.0,
           unit: AppStrings.hoursText,
-          lastWeekValue: filteredLogs.length > 1
-              ? filteredLogs[filteredLogs.length - 2].value.toDouble()
-              : 0.0,
+          chartValues: filteredLogs
+              .map((log) => (log as LogsSleepRequestModel)
+                  .value
+                  .toDouble()) // Extract the value as doubles
+              .toList(),
           chart: LineChartSample2(
             logType: AppStrings.drinkLogText,
             logs: filteredLogs,

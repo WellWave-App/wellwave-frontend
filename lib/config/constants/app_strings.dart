@@ -6,6 +6,8 @@ class AppStrings {
 
   static const emptyText = '';
 
+  static const baseUrl = 'http://10.0.2.2:3000';
+
   //logs screen
   static const historyText = 'ประวัติ';
   static const dailyLogsText = 'บันทึกสุขภาพประจำวัน';

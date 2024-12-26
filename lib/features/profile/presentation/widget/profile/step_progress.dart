@@ -5,6 +5,8 @@ import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc
 import 'package:wellwave_frontend/features/logs/presentation/widget/chart.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
+import '../../../../logs/data/models/logs_request_model_step.dart';
+
 class StepProgressChart extends StatelessWidget {
   final String selectedPeriod;
   final Function(String) onPeriodSelected;
@@ -18,8 +20,6 @@ class StepProgressChart extends StatelessWidget {
     return BlocBuilder<LogsBloc, LogsState>(
       builder: (context, state) {
         List<dynamic> filteredLogs = [];
-        // double step = 0.0;
-        // double lastWeekStep = 0.0;
 
         if (state is LogsLoadGraphInProgress) {
           return const Center(child: CircularProgressIndicator());
@@ -27,11 +27,6 @@ class StepProgressChart extends StatelessWidget {
           if (state.logsSteplist.isNotEmpty) {
             filteredLogs =
                 filterLogsByPeriod(state.logsSteplist, selectedPeriod);
-            // step = state.logsSteplist.last?.value ?? 0.0;
-            // lastWeekStep = state.logsSteplist.length > 1
-            //     ? state.logsSteplist[state.logsSteplist.length - 2]?.value ??
-            //         0.0
-            //     : 0.0;
           }
         }
 
@@ -41,9 +36,9 @@ class StepProgressChart extends StatelessWidget {
               ? filteredLogs.last.value.toDouble()
               : 0.0,
           unit: AppStrings.stepText,
-          lastWeekValue: filteredLogs.length > 1
-              ? filteredLogs[filteredLogs.length - 2].value.toDouble()
-              : 0.0,
+          chartValues: filteredLogs
+              .map((log) => (log as LogsStepRequestModel).value.toDouble())
+              .toList(),
           chart: LineChartSample2(
             logType: AppStrings.stepLogText,
             logs: filteredLogs,
@@ -58,9 +53,9 @@ class StepProgressChart extends StatelessWidget {
   List<dynamic> filterLogsByPeriod(List<dynamic> logs, String period) {
     switch (period) {
       case '7 วัน':
-        return logs.take(7).toList();
+        return logs.length > 7 ? logs.sublist(logs.length - 7) : logs;
       case '14 วัน':
-        return logs.take(14).toList();
+        return logs.length > 14 ? logs.sublist(logs.length - 14) : logs;
       // case '1 เดือน':
       //   return averageLogsByWeek(logs, 4);
       // case '3 เดือน':
