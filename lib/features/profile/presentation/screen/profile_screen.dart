@@ -21,6 +21,8 @@ import '../widget/profile/sleep_progress.dart';
 import '../widget/profile/step_progress.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }

@@ -7,8 +7,7 @@ import 'package:wellwave_frontend/features/profile/data/models/profile_request_m
 
 class ProfileRepositories {
   String baseUrl = AppStrings.baseUrl;
-  String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM1MDE2MjE1LCJleHAiOjE3MzUxMDI2MTV9.jgvKh_s4EWvdwpMNXnhzYesx0ISM0-mDb3tOVg20V24";
+  String token = AppStrings.token;
 
   Future<bool> editUserRequest({
     required int uid,
