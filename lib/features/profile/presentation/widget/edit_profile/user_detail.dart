@@ -107,7 +107,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
   }
 
   void _submitLogs() {
-    const imageUrl = "https://example.com/image.jpg";
+    const imageUrl = "/get-image/1735328381445-636206.jpg";
 
     final profileBloc = BlocProvider.of<ProfileBloc>(context);
 

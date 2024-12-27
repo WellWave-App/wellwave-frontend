@@ -187,7 +187,6 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                       margin: const EdgeInsets.only(bottom: 8),
                                     ),
                                     const SizedBox(height: 40),
-                            
                                     Expanded(
                                       child: CupertinoDatePicker(
                                         initialDateTime: startTime,
@@ -220,7 +219,8 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                     },
                     child: Row(
                       children: [
-                        Text('${startTime.hour}:${startTime.minute}',
+                        Text(
+                            '${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -270,7 +270,6 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                       margin: const EdgeInsets.only(bottom: 8),
                                     ),
                                     const SizedBox(height: 40),
-                            
                                     Expanded(
                                       child: CupertinoDatePicker(
                                         initialDateTime: endTime,
@@ -303,7 +302,8 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                     },
                     child: Row(
                       children: [
-                        Text('${endTime.hour}:${endTime.minute}',
+                        Text(
+                            '${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -429,9 +429,9 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
         ),
         TextButton(
           onPressed: () {
-            context.goNamed(AppPages.logHistoryName);
+            context.goNamed(AppPages.drinkPlanName);
           },
-          child: Text(AppStrings.drinkPlanText,
+          child: Text(AppStrings.setDrinkPlanText,
               style: Theme.of(context)
                   .textTheme
                   .bodySmall
