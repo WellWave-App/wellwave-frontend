@@ -8,7 +8,7 @@ class AppStrings {
 
   static const baseUrl = 'http://10.0.2.2:3000';
   static const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM1MjE0NzgwLCJleHAiOjE3MzUzMDExODB9.xP15JJL_V0kxQdoZZeNOAi3h0SyG5qVIIcf2WacztHk';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM1MzIwNDQ0LCJleHAiOjE3MzU0MDY4NDR9.264LFfd5G7Ma_Wdzqjf92pW8j_okJPdA18HS714ZlrU';
 
   //logs screen
   static const historyText = 'ประวัติ';
@@ -119,4 +119,6 @@ class AppStrings {
   static const stepLogText = 'STEP_LOG';
   static const sleepLogText = 'SLEEP_LOG';
   static const drinkLogText = 'DRINK_LOG';
+
+  static const amoutOfStepText = 'จำนวนก้าวเดิน';
 }

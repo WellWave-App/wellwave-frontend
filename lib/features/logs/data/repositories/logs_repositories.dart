@@ -157,109 +157,213 @@ class LogsRequestRepository {
     }
   }
 
-  Future<List<LogsWeightRequestModel?>> getWeightLogs(
-      num uID, DateTime today) async {
+  // Future<List<LogsWeightRequestModel?>> getWeightLogs(
+  //     num uID, DateTime today) async {
+  //   try {
+  //     List<LogsWeightRequestModel?> logsList = [];
+
+  //     // Fetch logs for the past 4 weeks, one for each week
+  //     for (int i = 0; i < 4; i++) {
+  //       final dateBegin = today.subtract(const Duration(days: 21));
+  //       final DateTime targetDate =
+  //           dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
+  //       final response = await http.get(
+  //         Uri.parse(
+  //           '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WEIGHT_LOG',
+  //         ),
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       );
+
+  //       if (response.statusCode == 200) {
+  //         final jsonData = jsonDecode(response.body);
+  //         List<dynamic> logsJson = jsonData['LOGS'];
+  //         // debugPrint(
+  //         //     'Filtered weight logs for week ${i + 1}: ${response.body}');
+  //         logsList.addAll(logsJson
+  //             .map((log) => LogsWeightRequestModel.fromJson(log))
+  //             .toList());
+  //       }
+  //     }
+
+  //     return logsList;
+  //   } catch (e) {
+  //     debugPrint('Error fetching logs: $e');
+  //     return [];
+  //   }
+  // }
+
+  // Future<List<LogsWaistLineRequestModel?>> getWaistLineLogs(
+  //     num uID, DateTime today) async {
+  //   try {
+  //     List<LogsWaistLineRequestModel?> logsList = [];
+
+  //     // Fetch logs for the past 4 weeks, one for each week
+  //     for (int i = 0; i < 4; i++) {
+  //       final dateBegin = today.subtract(const Duration(days: 21));
+  //       final DateTime targetDate =
+  //           dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
+  //       final response = await http.get(
+  //         Uri.parse(
+  //           '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WAIST_LINE_LOG',
+  //         ),
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       );
+
+  //       if (response.statusCode == 200) {
+  //         final jsonData = jsonDecode(response.body);
+  //         List<dynamic> logsJson = jsonData['LOGS'];
+  //         // debugPrint(
+  //         //     'Filtered waist line logs for week ${i + 1}: ${response.body}');
+  //         logsList.addAll(logsJson
+  //             .map((log) => LogsWaistLineRequestModel.fromJson(log))
+  //             .toList());
+  //       }
+  //     }
+
+  //     return logsList;
+  //   } catch (e) {
+  //     debugPrint('Error fetching logs: $e');
+  //     return [];
+  //   }
+  // }
+
+  // Future<List<LogsSleepRequestModel>> getSleepLogs(
+  //     num uID, DateTime today) async {
+  //   try {
+  //     List<LogsSleepRequestModel> logsList = [];
+
+  //     // Fetch logs for the past 4 weeks, one for each week
+  //     for (int i = 0; i < 4; i++) {
+  //       final dateBegin = today.subtract(const Duration(days: 21));
+  //       final DateTime targetDate = dateBegin.add(Duration(days: i * 7));
+  //       final response = await http.get(
+  //         Uri.parse(
+  //           '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=SLEEP_LOG',
+  //         ),
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       );
+
+  //       if (response.statusCode == 200) {
+  //         final jsonData = jsonDecode(response.body);
+  //         List<dynamic> logsJson = jsonData['LOGS'];
+  //         // debugPrint(
+  //         //     'Filtered waist line logs for week ${i + 1}: ${response.body}');
+  //         logsList.addAll(logsJson
+  //             .map((log) => LogsSleepRequestModel.fromJson(log))
+  //             .toList());
+  //       }
+  //     }
+
+  //     return logsList;
+  //   } catch (e) {
+  //     debugPrint('Error fetching logs: $e');
+  //     return [];
+  //   }
+  // }
+
+  // Future<List<LogsStepRequestModel>> getStepLogs(
+  //     num uID, DateTime today) async {
+  //   try {
+  //     List<LogsStepRequestModel> logsList = [];
+
+  //     // Fetch logs for the past 4 weeks, one for each week
+  //     for (int i = 0; i < 4; i++) {
+  //       final dateBegin = today.subtract(const Duration(days: 21));
+  //       final DateTime targetDate =
+  //           dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
+  //       final response = await http.get(
+  //         Uri.parse(
+  //           '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=STEP_LOG',
+  //         ),
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       );
+
+  //       if (response.statusCode == 200) {
+  //         final jsonData = jsonDecode(response.body);
+  //         List<dynamic> logsJson = jsonData['LOGS'];
+  //         // debugPrint(
+  //         //     'Filtered waist line logs for week ${i + 1}: ${response.body}');
+  //         logsList.addAll(logsJson
+  //             .map((log) => LogsStepRequestModel.fromJson(log))
+  //             .toList());
+  //       }
+  //     }
+
+  //     return logsList;
+  //   } catch (e) {
+  //     debugPrint('Error fetching logs: $e');
+  //     return [];
+  //   }
+  // }
+
+  // Future<List<LogsDrinkRequestModel>> getDrinkLogs(
+  //     num uID, DateTime today) async {
+  //   try {
+  //     List<LogsDrinkRequestModel> logsList = [];
+
+  //     // Fetch logs for the past 4 weeks, one for each week
+  //     for (int i = 0; i < 4; i++) {
+  //       final dateBegin = today.subtract(const Duration(days: 21));
+  //       final DateTime targetDate =
+  //           dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
+  //       final response = await http.get(
+  //         Uri.parse(
+  //           '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=DRINK_LOG',
+  //         ),
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       );
+
+  //       if (response.statusCode == 200) {
+  //         final jsonData = jsonDecode(response.body);
+  //         List<dynamic> logsJson = jsonData['LOGS'];
+  //         // debugPrint(
+  //         //     'Filtered waist line logs for week ${i + 1}: ${response.body}');
+  //         logsList.addAll(logsJson
+  //             .map((log) => LogsDrinkRequestModel.fromJson(log))
+  //             .toList());
+  //       }
+  //     }
+
+  //     return logsList;
+  //   } catch (e) {
+  //     debugPrint('Error fetching logs: $e');
+  //     return [];
+  //   }
+  // }
+
+  Future<List<T>> _fetchLogs<T>({
+    required num uID,
+    required DateTime today,
+    required String logName,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
     try {
-      List<LogsWeightRequestModel?> logsList = [];
-
-      // Fetch logs for the past 4 weeks, one for each week
-      for (int i = 0; i < 4; i++) {
-        final dateBegin = today.subtract(const Duration(days: 21));
-        final DateTime targetDate =
-            dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
-        final response = await http.get(
-          Uri.parse(
-            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WEIGHT_LOG',
-          ),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        );
-
-        if (response.statusCode == 200) {
-          final jsonData = jsonDecode(response.body);
-          List<dynamic> logsJson = jsonData['LOGS'];
-          // debugPrint(
-          //     'Filtered weight logs for week ${i + 1}: ${response.body}');
-          logsList.addAll(logsJson
-              .map((log) => LogsWeightRequestModel.fromJson(log))
-              .toList());
-        }
-      }
-
-      return logsList;
-    } catch (e) {
-      debugPrint('Error fetching logs: $e');
-      return [];
-    }
-  }
-
-  Future<List<LogsWaistLineRequestModel?>> getWaistLineLogs(
-      num uID, DateTime today) async {
-    try {
-      List<LogsWaistLineRequestModel?> logsList = [];
-
-      // Fetch logs for the past 4 weeks, one for each week
-      for (int i = 0; i < 4; i++) {
-        final dateBegin = today.subtract(const Duration(days: 21));
-        final DateTime targetDate =
-            dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
-        final response = await http.get(
-          Uri.parse(
-            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WAIST_LINE_LOG',
-          ),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        );
-
-        if (response.statusCode == 200) {
-          final jsonData = jsonDecode(response.body);
-          List<dynamic> logsJson = jsonData['LOGS'];
-          // debugPrint(
-          //     'Filtered waist line logs for week ${i + 1}: ${response.body}');
-          logsList.addAll(logsJson
-              .map((log) => LogsWaistLineRequestModel.fromJson(log))
-              .toList());
-        }
-      }
-
-      return logsList;
-    } catch (e) {
-      debugPrint('Error fetching logs: $e');
-      return [];
-    }
-  }
-
-  Future<List<LogsSleepRequestModel?>> getSleepLogs(
-      num uID, DateTime today) async {
-    try {
-      List<LogsSleepRequestModel?> logsList = [];
-
-      // Fetch logs for the past 4 weeks, one for each week
+      List<T> logsList = [];
       for (int i = 0; i < 4; i++) {
         final dateBegin = today.subtract(const Duration(days: 21));
         final DateTime targetDate = dateBegin.add(Duration(days: i * 7));
         final response = await http.get(
           Uri.parse(
-            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=SLEEP_LOG',
+            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=$logName',
           ),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: {'Content-Type': 'application/json'},
         );
-
         if (response.statusCode == 200) {
           final jsonData = jsonDecode(response.body);
           List<dynamic> logsJson = jsonData['LOGS'];
-          // debugPrint(
-          //     'Filtered waist line logs for week ${i + 1}: ${response.body}');
-          logsList.addAll(logsJson
-              .map((log) => LogsSleepRequestModel.fromJson(log))
-              .toList());
+          logsList.addAll(logsJson.map((log) => fromJson(log)).toList());
         }
       }
-
       return logsList;
     } catch (e) {
       debugPrint('Error fetching logs: $e');
@@ -267,77 +371,49 @@ class LogsRequestRepository {
     }
   }
 
-  Future<List<LogsStepRequestModel?>> getStepLogs(
-      num uID, DateTime today) async {
-    try {
-      List<LogsStepRequestModel?> logsList = [];
-
-      // Fetch logs for the past 4 weeks, one for each week
-      for (int i = 0; i < 4; i++) {
-        final dateBegin = today.subtract(const Duration(days: 21));
-        final DateTime targetDate =
-            dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
-        final response = await http.get(
-          Uri.parse(
-            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=STEP_LOG',
-          ),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        );
-
-        if (response.statusCode == 200) {
-          final jsonData = jsonDecode(response.body);
-          List<dynamic> logsJson = jsonData['LOGS'];
-          // debugPrint(
-          //     'Filtered waist line logs for week ${i + 1}: ${response.body}');
-          logsList.addAll(logsJson
-              .map((log) => LogsStepRequestModel.fromJson(log))
-              .toList());
-        }
-      }
-
-      return logsList;
-    } catch (e) {
-      debugPrint('Error fetching logs: $e');
-      return [];
-    }
+  Future<List<LogsWeightRequestModel>> getWeightLogs(num uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.weightLogText,
+      fromJson: (json) => LogsWeightRequestModel.fromJson(json),
+    );
   }
 
-  Future<List<LogsDrinkRequestModel?>> getDrinkLogs(
-      num uID, DateTime today) async {
-    try {
-      List<LogsDrinkRequestModel?> logsList = [];
+  Future<List<LogsWaistLineRequestModel>> getWaistLineLogs(
+      num uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.waistLineLogText,
+      fromJson: (json) => LogsWaistLineRequestModel.fromJson(json),
+    );
+  }
 
-      // Fetch logs for the past 4 weeks, one for each week
-      for (int i = 0; i < 4; i++) {
-        final dateBegin = today.subtract(const Duration(days: 21));
-        final DateTime targetDate =
-            dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
-        final response = await http.get(
-          Uri.parse(
-            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=DRINK_LOG',
-          ),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        );
+  Future<List<LogsDrinkRequestModel>> getDrinkLogs(num uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.drinkLogText,
+      fromJson: (json) => LogsDrinkRequestModel.fromJson(json),
+    );
+  }
 
-        if (response.statusCode == 200) {
-          final jsonData = jsonDecode(response.body);
-          List<dynamic> logsJson = jsonData['LOGS'];
-          // debugPrint(
-          //     'Filtered waist line logs for week ${i + 1}: ${response.body}');
-          logsList.addAll(logsJson
-              .map((log) => LogsDrinkRequestModel.fromJson(log))
-              .toList());
-        }
-      }
+  Future<List<LogsStepRequestModel>> getStepLogs(num uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.stepLogText,
+      fromJson: (json) => LogsStepRequestModel.fromJson(json),
+    );
+  }
 
-      return logsList;
-    } catch (e) {
-      debugPrint('Error fetching logs: $e');
-      return [];
-    }
+  Future<List<LogsSleepRequestModel>> getSleepLogs(num uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.sleepLogText,
+      fromJson: (json) => LogsSleepRequestModel.fromJson(json),
+    );
   }
 }

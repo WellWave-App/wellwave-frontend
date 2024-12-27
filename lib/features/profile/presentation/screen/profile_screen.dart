@@ -6,19 +6,21 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_drink.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_event.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_state.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/check_in_card.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/profile/drink_progress.dart';
+
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/progress_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/round_border_text.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/user_info.dart';
 
+import '../../../logs/data/models/logs_request_model_sleep.dart';
+import '../../../logs/data/models/logs_request_model_step.dart';
 import '../../../logs/presentation/logs_bloc/logs_bloc.dart';
-import '../widget/profile/sleep_progress.dart';
-import '../widget/profile/step_progress.dart';
+import '../widget/profile/log_progress_chart.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -165,18 +167,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 300,
                               child: TabBarView(
                                 children: [
-                                  DrinkProgressChart(
+                                  LogProgressChart<LogsDrinkRequestModel>(
+                                    title: AppStrings.amoutOfWaterText,
+                                    unit: AppStrings.glassesText,
+                                    logType: AppStrings.drinkLogText,
                                     selectedPeriod: selectedPeriod,
                                     onPeriodSelected: updateSelectedPeriod,
+                                    getLogs: (state) {
+                                      if (state is LogsLoadGraphSuccess) {
+                                        return state.logsDrinklist;
+                                      }
+                                      return [];
+                                    },
+                                    getValue: (log) => log.value,
+                                    getDate: (log) => log.date,
+                                    createLog: (date, value) =>
+                                        LogsDrinkRequestModel(
+                                            date: date, value: value),
                                   ),
-                                  StepProgressChart(
+                                  LogProgressChart<LogsStepRequestModel>(
+                                    title: AppStrings.amoutOfStepText,
+                                    unit: AppStrings.stepText,
+                                    logType: AppStrings.stepLogText,
                                     selectedPeriod: selectedPeriod,
                                     onPeriodSelected: updateSelectedPeriod,
+                                    getLogs: (state) {
+                                      if (state is LogsLoadGraphSuccess) {
+                                        return state.logsSteplist;
+                                      }
+                                      return [];
+                                    },
+                                    getValue: (log) => log.value,
+                                    getDate: (log) => log.date,
+                                    createLog: (date, value) =>
+                                        LogsStepRequestModel(
+                                            date: date, value: value),
                                   ),
-                                  SleepProgressChart(
+                                  LogProgressChart<LogsSleepRequestModel>(
+                                    title: AppStrings.hoursOfSleepText,
+                                    unit: AppStrings.hoursText,
+                                    logType: AppStrings.drinkLogText,
                                     selectedPeriod: selectedPeriod,
                                     onPeriodSelected: updateSelectedPeriod,
-                                  ),
+                                    getLogs: (state) {
+                                      if (state is LogsLoadGraphSuccess) {
+                                        return state.logsSleeplist;
+                                      }
+                                      return [];
+                                    },
+                                    getValue: (log) => log.value,
+                                    getDate: (log) => log.date,
+                                    createLog: (date, value) =>
+                                        LogsSleepRequestModel(
+                                            date: date, value: value),
+                                  )
                                 ],
                               ),
                             ),
@@ -237,7 +281,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       case 'emerald':
         return 4;
       default:
-        return 0; // Default to Bronze if not matched
+        return 0;
     }
   }
 }
