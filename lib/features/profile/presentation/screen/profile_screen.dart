@@ -226,8 +226,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ],
                         )),
-
                     const SizedBox(height: 24),
+
+//noti
+
                     const RoundedText(
                       text: AppStrings.alertText,
                       svgPath: AppImages.alarmIcon,
@@ -238,7 +240,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       radius: 16,
                       isBold: true,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
+
+                    //goal
+                    const RoundedText(
+                      text: AppStrings.goalText,
+                      svgPath: AppImages.goalIcon,
+                      isShowNavi: true,
+                      appPages: AppPages.reminderName,
+                      iconSize: 32,
+                      vertical: 16,
+                      radius: 16,
+                      isBold: true,
+                    ),
+                    const SizedBox(height: 36),
+
+                    //sign out
                     GestureDetector(
                       onTap: () {
                         context.goNamed(AppPages.logHistoryName);
@@ -251,7 +268,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ?.copyWith(color: AppColors.darkGrayColor),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 36),
                   ],
                 );
               } else if (state is ProfileError) {

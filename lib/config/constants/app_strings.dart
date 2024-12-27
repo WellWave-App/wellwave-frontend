@@ -121,4 +121,5 @@ class AppStrings {
   static const drinkLogText = 'DRINK_LOG';
 
   static const amoutOfStepText = 'จำนวนก้าวเดิน';
+  static const goalText = 'เป้าหมาย';
 }

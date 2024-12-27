@@ -91,4 +91,5 @@ class AppImages {
   static const fireIcon = 'assets/icons/fire_icon.svg';
   static const waterIcon = 'assets/icons/water_icon.svg';
   static const sleepingIcon = 'assets/icons/sleeping_icon.svg';
+  static const goalIcon = 'assets/icons/goal_icon.svg';
 }
