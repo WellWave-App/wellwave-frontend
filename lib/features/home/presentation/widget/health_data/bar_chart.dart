@@ -9,20 +9,24 @@ class BarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<int> weeklyAverages = _calculateWeeklyAverages(mockData);
+    List<Map<String, dynamic>> latestData = mockData.length > 84
+        ? mockData.sublist(mockData.length - 84)
+        : mockData;
+
+    List<int> weeklyAverages = _calculateWeeklyAverages(latestData);
 
     return Column(
       children: [
         CustomPaint(
           size: Size(double.infinity, 64),
-          painter: mockData.length >= 28
+          painter: latestData.length >= 28
               ? WeeklyBarChartPainter(
-                  data: mockData,
+                  data: latestData,
                   weeklyAverages: weeklyAverages,
                   context: context,
                 )
               : DailyBarChartPainter(
-                  data: mockData,
+                  data: latestData,
                   weeklyAverages: weeklyAverages,
                   context: context,
                 ),

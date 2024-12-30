@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/health_data/health_data_card.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/step_card.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/input_button.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/health_data/health_data_card.dart';
 
@@ -36,7 +40,7 @@ class ProgressWidget extends StatelessWidget {
                 InputButton(
                   buttonText: 'เพิ่ม',
                   onPressed: () {
-                    print('Button Pressed');
+                    context.goNamed(AppPages.missionPage);
                   },
                 ),
               ],
@@ -81,9 +85,37 @@ class ProgressWidget extends StatelessWidget {
                   ),
             ),
             const SizedBox(height: 16),
-            // health data section
             Container(
-              child: HealthDataCard(),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: StepCard(
+                          unitImage: AppImages.stepImage,
+                          unitText: 'ก้าว',
+                          currentSteps: 13200,
+                          goalSteps: 80000,
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: StepCard(
+                          unitImage: AppImages.exerciseImage,
+                          unitText: 'นาที',
+                          currentSteps: 500,
+                          goalSteps: 1000,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  HealthDataCard(),
+                ],
+              ),
             ),
           ],
         ),

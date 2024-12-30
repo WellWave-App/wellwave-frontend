@@ -62,7 +62,7 @@ class DailyBarChartPainter extends CustomPainter {
 
     double recentAverageHeight = (recentAverage / maxData) * maxHeight;
     double recentStartX = (data.length - 7) * barWidth;
-    double recentEndX = data.length * barWidth;
+    double recentEndX = data.length * barWidth - 4;
 
     canvas.drawLine(
       Offset(recentStartX, size.height - recentAverageHeight),
@@ -116,7 +116,7 @@ class DailyBarChartPainter extends CustomPainter {
 
     double overallAverageHeight = (overallAverage / maxData) * maxHeight;
     double overallStartX = 0;
-    double overallEndX = (data.length - 7) * barWidth;
+    double overallEndX = (data.length - 7) * barWidth - 4;
 
     canvas.drawLine(
       Offset(overallStartX, size.height - overallAverageHeight),

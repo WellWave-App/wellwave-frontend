@@ -71,7 +71,7 @@ class WeeklyBarChartPainter extends CustomPainter {
 
     double recentAverageHeight = (recentAverage / maxData) * maxHeight;
     double recentStartX = (weeklyAverages.length - 1) * barWidth;
-    double recentEndX = recentStartX + barWidth;
+    double recentEndX = recentStartX + barWidth - 4;
 
     canvas.drawLine(
       Offset(recentStartX, size.height - recentAverageHeight),
@@ -96,7 +96,7 @@ class WeeklyBarChartPainter extends CustomPainter {
     double recentTextY = size.height - recentAverageHeight - 20;
     double overallAverageHeight = (overallAverage / maxData) * maxHeight;
     double overallStartX = 0;
-    double overallEndX = (weeklyAverages.length - 1) * barWidth;
+    double overallEndX = (weeklyAverages.length - 1) * barWidth - 4;
 
     canvas.drawLine(
       Offset(overallStartX, size.height - overallAverageHeight),
@@ -122,7 +122,6 @@ class WeeklyBarChartPainter extends CustomPainter {
 
     overallTextPainter.paint(canvas, Offset(overallTextX, overallTextY));
 
-    // วาดข้อความช่วงวันที่ใต้กราฟ
     DateTime firstDateOfRecentWeek =
         DateFormat('dd-MM-yyyy').parse(data[data.length - 7]['date']);
     DateTime lastDateOfRecentWeek =
@@ -141,37 +140,9 @@ class WeeklyBarChartPainter extends CustomPainter {
       textDirection: ui.TextDirection.ltr,
     )..layout(minWidth: 0, maxWidth: double.infinity);
 
-    double recentWeekDateX =
-        size.width - barWidth / 2 - recentWeekDateTextPainter.width / 2;
+    double recentWeekDateX = size.width - recentWeekDateTextPainter.width;
     recentWeekDateTextPainter.paint(
         canvas, Offset(recentWeekDateX, size.height + 4));
-
-    // วันที่ของกราฟที่เหลือ (ก่อนสัปดาห์ล่าสุด)
-    if (data.length > 7) {
-      DateTime firstDateOfRemaining =
-          DateFormat('dd-MM-yyyy').parse(data[0]['date']);
-      DateTime lastDateOfRemaining =
-          DateFormat('dd-MM-yyyy').parse(data[data.length - 8]['date']);
-      String remainingDateRange = ThaiDateFormatter.formatDateRange(
-          firstDateOfRemaining, lastDateOfRemaining);
-
-      TextPainter remainingDateTextPainter = TextPainter(
-        text: TextSpan(
-          text: remainingDateRange,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.grayColor,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        textDirection: ui.TextDirection.ltr,
-      )..layout(minWidth: 0, maxWidth: double.infinity);
-
-      double remainingDateX =
-          (size.width - barWidth) / 2 - remainingDateTextPainter.width / 2;
-
-      remainingDateTextPainter.paint(
-          canvas, Offset(remainingDateX, size.height + 4));
-    }
   }
 
   @override
