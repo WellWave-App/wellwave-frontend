@@ -77,5 +77,5 @@ class AppStrings {
 
   static const progressText = 'ความคืบหน้า';
   static const challengeText = 'พิสูจน์ฝีมือ';
-  static const healthdataText = 'ข้อมูลสุขภาพ';
+  static const healthdataText = 'ข้อมูลสุขภาพประจำสัปดาห์';
 }
