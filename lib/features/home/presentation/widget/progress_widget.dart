@@ -5,7 +5,7 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/health_data/health_data_card.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data/step_card.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/progress_card.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/input_button.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/health_data/health_data_card.dart';
 
@@ -92,7 +92,7 @@ class ProgressWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: StepCard(
+                        child: ProgressCard(
                           unitImage: AppImages.stepImage,
                           unitText: 'ก้าว',
                           currentSteps: 13200,
@@ -101,7 +101,7 @@ class ProgressWidget extends StatelessWidget {
                       ),
                       SizedBox(width: 16),
                       Expanded(
-                        child: StepCard(
+                        child: ProgressCard(
                           unitImage: AppImages.exerciseImage,
                           unitText: 'นาที',
                           currentSteps: 500,

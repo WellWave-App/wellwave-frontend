@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 
-class StepCard extends StatelessWidget {
+class ProgressCard extends StatelessWidget {
   final int currentSteps;
   final int goalSteps;
   final String unitText;
   final String unitImage;
 
-  const StepCard({
+  const ProgressCard({
     Key? key,
     required this.currentSteps,
     required this.unitText,
