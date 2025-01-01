@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/rectangle_box.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/component/rectangle_box.dart';
 
 class SmokeStep extends StatelessWidget {
   const SmokeStep({Key? key}) : super(key: key);

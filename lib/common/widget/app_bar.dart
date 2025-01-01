@@ -59,6 +59,7 @@ class CustomAppBarWithStep extends AppBar {
     required bool onLeading,
     required int totalSteps,
     required int currentStep,
+    bool showStepIndicator = true,
     Color? textColor,
     Color? bgColor,
     Function? onBackPressed,
@@ -92,22 +93,24 @@ class CustomAppBarWithStep extends AppBar {
               ),
             const SizedBox(width: 48),
           ],
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 200,
-                height: 20,
-                child: StepProgressIndicator(
-                  totalSteps: totalSteps,
-                  currentStep: currentStep + 1,
-                  size: 4,
-                  padding: 0,
-                  selectedColor: AppColors.primaryColor,
-                  unselectedColor: AppColors.lightgrayColor,
-                ),
-              ),
-            ],
-          ),
+          title: showStepIndicator
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 200,
+                      height: 20,
+                      child: StepProgressIndicator(
+                        totalSteps: totalSteps,
+                        currentStep: currentStep + 1,
+                        size: 4,
+                        padding: 0,
+                        selectedColor: AppColors.primaryColor,
+                        unselectedColor: AppColors.lightgrayColor,
+                      ),
+                    ),
+                  ],
+                )
+              : null,
         );
 }

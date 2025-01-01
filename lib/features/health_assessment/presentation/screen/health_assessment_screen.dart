@@ -12,14 +12,15 @@ import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/l
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/add_pic_username_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/family_history_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/alcohol_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/goal_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/health_info_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/personal_info_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/smoke_step.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/result_assessment.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/add_pic_username_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/family_history_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/alcohol_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/goal_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/health_info_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/personal_info_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/smoke_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_goal_step.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
 
 class AssessmentScreen extends StatelessWidget {
@@ -52,12 +53,12 @@ class AssessmentScreenView extends StatelessWidget {
 
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
-        if (state.isCompleted) {
-          return const ResultAssessment();
+        if (state.isHealthAssessmentCompleted) {
+          return ResultAssessment();
         }
 
         return Scaffold(
-          appBar: state.isCompleted
+          appBar: state.isHealthAssessmentCompleted
               ? null
               : CustomAppBarWithStep(
                   context: context,
@@ -199,6 +200,15 @@ class AssessmentScreenView extends StatelessWidget {
                                     .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
+
+                              debugPrint(
+                                  'Hypertension Score: ${state.riskHypertensionScore}');
+                              debugPrint(
+                                  'Diabetes Score: ${state.riskDiabetesScore}');
+                              debugPrint(
+                                  'Dyslipidemia Score: ${state.riskDyslipidemiaScore}');
+                              debugPrint(
+                                  'Obesity Score: ${state.riskObesityScore}');
                             } else if (state.currentStep == 6) {
                               if ((state.goalChoose != null)) {
                                 final modelPersonalData =

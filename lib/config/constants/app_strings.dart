@@ -31,8 +31,7 @@ class AppStrings {
   static const callNameAskText = 'ต้องการให้เราเรียกคุณว่าอะไรดี';
   static const drinkalcoholAskText = 'คุณดื่มเครื่องดื่มแอลกอฮอล์หรือไม่?';
   static const famhisAskText = 'คนในครอบครัวมีประวัติการเจ็บป่วยเหล่านี้ไหม?';
-  static const goalAskText =
-      'สุดท้ายแล้ว! บอกเป้าหมายของคุณให้เรารู้หน่อยได้ไหม?';
+  static const goalAskText = 'บอกเป้าหมายของคุณให้เรารู้หน่อยได้ไหม?';
   static const connectHealthAskText = 'ต้องการเชื่อมต่อข้อมูลสุขภาพหรือไม่?';
   static const connectHealthDetailsText =
       'เชื่อมต่อกับ Google Fit เพื่อให้การติดตามสุขภาพของคุณแม่นยำยิ่งขึ้น';
