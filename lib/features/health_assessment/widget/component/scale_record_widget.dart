@@ -32,9 +32,7 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
   @override
   void initState() {
     super.initState();
-    // ตั้งค่าเริ่มต้นสำหรับ controller
-    widget.controller.value =
-        widget.initialValue.toDouble(); // กำหนดค่าเริ่มต้น
+    widget.controller.value = widget.initialValue.toDouble();
     _currentValue = widget.controller.value.toInt();
   }
 
