@@ -12,7 +12,6 @@ class HealthAssessmentPageState extends Equatable {
   final String? smokeChoose;
   final String? goalChoose;
   final List<String> famhisChoose;
-  final bool isHealthAssessmentCompleted;
   final bool isResultCompleted;
   final bool showStartStep;
   final bool showRecommendStep;
@@ -32,7 +31,6 @@ class HealthAssessmentPageState extends Equatable {
     this.smokeChoose,
     this.goalChoose,
     this.famhisChoose = const [],
-    this.isHealthAssessmentCompleted = false,
     this.isResultCompleted = false,
     this.showStartStep = false,
     this.showRecommendStep = false,
@@ -79,8 +77,6 @@ class HealthAssessmentPageState extends Equatable {
       smokeChoose: smokeChoose ?? this.smokeChoose,
       goalChoose: goalChoose ?? this.goalChoose,
       famhisChoose: famhisChoose ?? this.famhisChoose,
-      isHealthAssessmentCompleted:
-          isHealthAssessmentCompleted ?? this.isHealthAssessmentCompleted,
       isResultCompleted: isResultCompleted ?? this.isResultCompleted,
       showStartStep: showStartStep ?? this.showStartStep,
       riskDiabetesScore: riskDiabetesScore ?? this.riskDiabetesScore,
@@ -105,9 +101,10 @@ class HealthAssessmentPageState extends Equatable {
         smokeChoose,
         goalChoose,
         famhisChoose,
-        isHealthAssessmentCompleted,
         isResultCompleted,
         showStartStep,
         showRecommendStep,
       ];
+
+  get modelPersonalData => null;
 }

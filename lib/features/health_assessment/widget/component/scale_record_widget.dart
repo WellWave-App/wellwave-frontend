@@ -3,19 +3,23 @@ import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class ScaleRecordWidget extends StatefulWidget {
-  final String title;
   final String label;
   final num initialValue;
   final RulerPickerController controller;
   final Function(num) onValueChanged;
+  final int beginNum;
+  final int endNum;
+  final int scaleNum;
 
   const ScaleRecordWidget({
     Key? key,
-    required this.title,
     required this.label,
     required this.initialValue,
     required this.controller,
     required this.onValueChanged,
+    required this.beginNum,
+    required this.endNum,
+    required this.scaleNum,
   }) : super(key: key);
 
   @override
@@ -23,12 +27,15 @@ class ScaleRecordWidget extends StatefulWidget {
 }
 
 class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
-  late num _currentValue;
+  late int _currentValue;
 
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.controller.value;
+    // ตั้งค่าเริ่มต้นสำหรับ controller
+    widget.controller.value =
+        widget.initialValue.toDouble(); // กำหนดค่าเริ่มต้น
+    _currentValue = widget.controller.value.toInt();
   }
 
   @override
@@ -40,10 +47,13 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '$_currentValue ',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+              '$_currentValue',
+              style: Theme.of(context).textTheme.titleXL?.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
+            ),
+            const SizedBox(
+              width: 8,
             ),
             Text(
               widget.label,
@@ -57,19 +67,23 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
           controller: widget.controller,
           onValueChanged: (value) {
             setState(() {
-              _currentValue = value;
+              _currentValue = value.toInt();
               widget.controller.value = value;
             });
             widget.onValueChanged(value);
           },
-          ranges: const [
-            RulerRange(begin: 0, end: 200, scale: 0.5),
+          ranges: [
+            RulerRange(
+              begin: widget.beginNum,
+              end: widget.endNum,
+              scale: widget.scaleNum.toDouble(),
+            ),
           ],
           width: MediaQuery.of(context).size.width * 0.8,
           height: 80,
           rulerBackgroundColor: Colors.transparent,
           onBuildRulerScaleText: (index, value) {
-            return value.toStringAsFixed(1);
+            return value.toInt().toString();
           },
         ),
       ],

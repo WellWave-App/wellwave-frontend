@@ -45,7 +45,7 @@ class GoalBox extends StatelessWidget {
                 height: 128,
                 padding: const EdgeInsets.all(12.0),
                 decoration: BoxDecoration(
-                  color: AppColors.backgroundColor,
+                  color: AppColors.whiteColor,
                   borderRadius: BorderRadius.circular(12.0),
                   border: Border.all(
                     color: isSelected

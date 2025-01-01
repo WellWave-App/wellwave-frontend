@@ -59,7 +59,9 @@ class AppStrings {
   static const weightText = 'น้ำหนัก';
   static const ifYouKnowText =
       'หากทราบข้อมูล โปรดระบุเพื่อผลลัพธ์ที่แม่นยำยิ่งขึ้น';
-
+  static const goalStepText = 'กำหนดเป้าหมายจำนวนก้าวเดินต่อสัปดาห์';
+  static const goalExerciseText = 'กำหนดเป้าหมายจำนวนก้าวเดินต่อสัปดาห์';
+  static const recommendText = 'แนะนำ';
   static const systolicBloodPressureText = 'ความดันโลหิตขณะบีบตัว';
   static const diastolicBloodPressureText = 'ความดันโลหิตขณะคลายตัว';
   static const hdlText = 'คอเลสเตอรอลชนิดดี (HDL)';

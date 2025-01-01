@@ -84,7 +84,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           borderSide: BorderSide(color: AppColors.primaryColor),
         ),
         filled: true,
-        fillColor: AppColors.backgroundColor,
+        fillColor: AppColors.whiteColor,
         contentPadding: EdgeInsets.zero,
       ),
     );

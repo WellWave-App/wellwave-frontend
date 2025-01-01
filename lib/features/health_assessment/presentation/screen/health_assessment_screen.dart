@@ -19,8 +19,11 @@ import 'package:wellwave_frontend/features/health_assessment/widget/health_asses
 import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/health_info_step.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/personal_info_step.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/smoke_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/result_assessment.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/result_goal_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/congrats_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/goal_exercise_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/goal_step_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/recommend_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/result_assessment.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
 
 class AssessmentScreen extends StatelessWidget {
@@ -53,29 +56,29 @@ class AssessmentScreenView extends StatelessWidget {
 
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
-        if (state.isHealthAssessmentCompleted) {
-          return ResultAssessment();
-        }
-
         return Scaffold(
-          appBar: state.isHealthAssessmentCompleted
-              ? null
-              : CustomAppBarWithStep(
-                  context: context,
-                  onLeading: true,
-                  totalSteps: 8,
-                  currentStep: state.currentStep,
-                  textColor: AppColors.blackColor,
-                  onBackPressed: () =>
-                      context.read<HealthAssessmentPageBloc>().add(StepBack()),
-                ),
+          appBar: CustomAppBarWithStep(
+            context: context,
+            onLeading: (state.currentStep == 7 || state.currentStep == 11)
+                ? false
+                : true,
+            totalSteps: 8,
+            titleText: state.currentStep == 7 ? 'สรุปผลการประเมิน' : null,
+            currentStep: state.currentStep,
+            showStepIndicator: state.currentStep < 7,
+            textColor: AppColors.blackColor,
+            onBackPressed: () =>
+                context.read<HealthAssessmentPageBloc>().add(StepBack()),
+          ),
           body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppImages.healthassessmentBG),
-                fit: BoxFit.cover,
-              ),
-            ),
+            decoration: (state.currentStep >= 0 && state.currentStep <= 6)
+                ? const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(AppImages.healthassessmentBG),
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : null,
             child: Column(
               children: [
                 Expanded(
@@ -88,16 +91,17 @@ class AssessmentScreenView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
-                  child: !((state.currentStep == 3 &&
-                              state.famhisChoose.isEmpty) ||
-                          (state.currentStep == 4 &&
-                              state.alcoholChoose == null) ||
-                          (state.currentStep == 5 &&
-                              state.smokeChoose == null) ||
-                          (state.currentStep == 6 &&
-                              (state.goalChoose != 'สร้างกล้ามเนื้อ' &&
-                                  state.goalChoose != 'สุขภาพดี' &&
-                                  state.goalChoose != 'ลดน้ำหนัก')))
+                  child: (!((state.currentStep == 3 &&
+                                  state.famhisChoose.isEmpty) ||
+                              (state.currentStep == 4 &&
+                                  state.alcoholChoose == null) ||
+                              (state.currentStep == 5 &&
+                                  state.smokeChoose == null) ||
+                              (state.currentStep == 6 &&
+                                  (state.goalChoose != 'สร้างกล้ามเนื้อ' &&
+                                      state.goalChoose != 'สุขภาพดี' &&
+                                      state.goalChoose != 'ลดน้ำหนัก'))) &&
+                          state.currentStep != 11)
                       ? CustomButton(
                           width: 250,
                           bgColor: AppColors.primaryColor,
@@ -200,17 +204,8 @@ class AssessmentScreenView extends StatelessWidget {
                                     .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
-
-                              debugPrint(
-                                  'Hypertension Score: ${state.riskHypertensionScore}');
-                              debugPrint(
-                                  'Diabetes Score: ${state.riskDiabetesScore}');
-                              debugPrint(
-                                  'Dyslipidemia Score: ${state.riskDyslipidemiaScore}');
-                              debugPrint(
-                                  'Obesity Score: ${state.riskObesityScore}');
                             } else if (state.currentStep == 6) {
-                              if ((state.goalChoose != null)) {
+                              if (state.goalChoose != null) {
                                 final modelPersonalData =
                                     HealthAssessmentPersonalDataRequestModel(
                                         imageUrl:
@@ -254,7 +249,8 @@ class AssessmentScreenView extends StatelessWidget {
                                   .add(StepContinue());
                             }
                           },
-                          title: state.currentStep == 6 ? 'เสร็จสิ้น' : 'ถัดไป',
+                          title:
+                              state.currentStep == 10 ? 'เสร็จสิ้น' : 'ถัดไป',
                         )
                       : Container(),
                 ),
@@ -294,6 +290,16 @@ class StepContent extends StatelessWidget {
             return const SmokeStep();
           case 6:
             return const GoalStep();
+          case 7:
+            return ResultAssessment();
+          case 8:
+            return RecommendScreen();
+          case 9:
+            return GoalStepScreen();
+          case 10:
+            return GoalExerciseScreen();
+          case 11:
+            return CongratsScreen();
           default:
             return const Center(child: Text('Unknown Step'));
         }
