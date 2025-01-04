@@ -114,3 +114,23 @@ class UserLeague {
     );
   }
 }
+
+class UsersAchievement {
+  final String? imgPath;
+  final String? achTitle;
+  final DateTime? dateAcheived;
+
+  UsersAchievement({
+    this.imgPath,
+    this.achTitle,
+    this.dateAcheived,
+  });
+
+  factory UsersAchievement.fromJson(Map<String, dynamic> json) {
+    return UsersAchievement(
+      imgPath: json['imgPath'] as String,
+      achTitle: json['achTitle'] as String,
+      dateAcheived: json['dateAcheived'] as DateTime,
+    );
+  }
+}
