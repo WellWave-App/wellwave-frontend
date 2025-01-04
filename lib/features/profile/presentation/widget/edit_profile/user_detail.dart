@@ -25,6 +25,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
   int birthYear = 2546;
   num height = 155.0;
   num weight = 50.5;
+  String imageUrl = "/get-image/1735328381445-636206.jpg";
 
   @override
   void initState() {
@@ -77,6 +78,31 @@ class _UserDetailCardState extends State<UserDetailCard> {
     );
   }
 
+  Widget _buildCancleButton() {
+    return Expanded(
+      child: SizedBox(
+        width: 170,
+        height: 60,
+        child: TextButton(
+          onPressed: () => setState(() => Navigator.pop(context)),
+          style: ButtonStyle(
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                side: const BorderSide(color: AppColors.primaryColor, width: 1),
+              ),
+            ),
+          ),
+          child: Text(AppStrings.backText,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: AppColors.primaryColor)),
+        ),
+      ),
+    );
+  }
+
   Widget _buildConfirmButton() {
     return Expanded(
       child: SizedBox(
@@ -107,8 +133,6 @@ class _UserDetailCardState extends State<UserDetailCard> {
   }
 
   void _submitLogs() {
-    const imageUrl = "/get-image/1735328381445-636206.jpg";
-
     final profileBloc = BlocProvider.of<ProfileBloc>(context);
 
     profileBloc.add(EditUserProfile(
@@ -132,6 +156,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
             birthYear = state.userProfile.yearOfBirth;
             height = state.userProfile.height;
             weight = state.userProfile.weight;
+            imageUrl = state.userProfile.imageUrl;
           });
         }
       },
@@ -273,7 +298,11 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          children: [_buildConfirmButton()])
+                                          children: [
+                                            _buildCancleButton(),
+                                            const SizedBox(width: 10),
+                                            _buildConfirmButton()
+                                          ])
                                     ],
                                   ),
                                 ));
@@ -372,7 +401,11 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          children: [_buildConfirmButton()])
+                                          children: [
+                                            _buildCancleButton(),
+                                            const SizedBox(width: 10),
+                                            _buildConfirmButton()
+                                          ])
                                     ],
                                   ),
                                 ));
@@ -448,7 +481,11 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          children: [_buildConfirmButton()])
+                                          children: [
+                                            _buildCancleButton(),
+                                            const SizedBox(width: 10),
+                                            _buildConfirmButton()
+                                          ])
                                     ],
                                   ),
                                 ));
@@ -522,7 +559,11 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
-                                          children: [_buildConfirmButton()])
+                                          children: [
+                                            _buildCancleButton(),
+                                            const SizedBox(width: 10),
+                                            _buildConfirmButton()
+                                          ])
                                     ],
                                   ),
                                 ));

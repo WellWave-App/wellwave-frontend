@@ -18,6 +18,12 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
   bool _isSwitched = false;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
+  String hourSet = '1 ชม.';
+  final List<String> _hoursList = <String>[
+    '1 ชม.',
+    '2 ชม.',
+    '3 ชม.',
+  ];
 
   Widget _buildConfirmButton() {
     return Expanded(
@@ -142,13 +148,10 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                         _isSwitched = value;
                       });
                     },
-                    activeColor: Colors.white, // Circle color (active)
-                    activeTrackColor:
-                        const Color(0xFF34C759), // Track color (active)
-                    inactiveThumbColor:
-                        AppColors.whiteColor, // Circle color (inactive)
-                    inactiveTrackColor:
-                        AppColors.darkGrayColor, // Track color (inactive)
+                    activeColor: Colors.white,
+                    activeTrackColor: const Color(0xFF34C759),
+                    inactiveThumbColor: AppColors.whiteColor,
+                    inactiveTrackColor: AppColors.darkGrayColor,
                   ),
                 ],
               ),
@@ -211,11 +214,11 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                   ],
                                 ),
                               ));
-                      // if (result != null) {
-                      //   setState(() {
-                      //     time = result;
-                      //   });
-                      // }
+                      if (result != null) {
+                        setState(() {
+                          startTime = result as DateTime;
+                        });
+                      }
                     },
                     child: Row(
                       children: [
@@ -294,11 +297,11 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                   ],
                                 ),
                               ));
-                      // if (result != null) {
-                      //   setState(() {
-                      //     time = result;
-                      //   });
-                      // }
+                      if (result != null) {
+                        setState(() {
+                          endTime = result as DateTime;
+                        });
+                      }
                     },
                     child: Row(
                       children: [
@@ -344,71 +347,57 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
-                                        //   height: 3,
-                                        //   width: 140,
-                                        //   decoration: BoxDecoration(
-                                        //     color: Colors.black,
-                                        //     borderRadius:
-                                        //         BorderRadius.circular(10),
-                                        //   ),
-                                        //   margin: const EdgeInsets.only(
-                                        //       bottom: 8),
-                                        // ),
-                                        // const SizedBox(height: 40),
-                                        // Text(AppStrings.genderText,
-                                        //     style: Theme.of(context)
-                                        //         .textTheme
-                                        //         .titleLarge
-                                        //         ?.copyWith(
-                                        //             fontWeight:
-                                        //                 FontWeight.bold)),
-                                        // Expanded(
-                                        //   child: CupertinoPicker(
-                                        //     backgroundColor:
-                                        //         AppColors.whiteColor,
-                                        //     itemExtent: 40,
-                                        //     onSelectedItemChanged:
-                                        //         (int index) {
-                                        //       gender = _genderList[index];
-                                        //     },
-                                        //     children: _genderList
-                                        //         .map((gender) => Center(
-                                        //               child: Text(
-                                        //                 gender,
-                                        //                 style: Theme.of(
-                                        //                         context)
-                                        //                     .textTheme
-                                        //                     .bodyMedium,
-                                        //               ),
-                                        //             ))
-                                        //         .toList(),
-                                        //   ),
-                                        // ),
-                                        // const SizedBox(
-                                        //   height: 24,
-                                        // ),
-                                        // Row(
-                                        //     mainAxisAlignment:
-                                        //         MainAxisAlignment
-                                        //             .spaceBetween,
-                                        //     children: [
-                                        //       _buildCancleButton(),
-                                        //       const SizedBox(width: 10),
-                                        //       _buildConfirmButton()
-                                        //     ]
-                                        )
+                                      height: 3,
+                                      width: 140,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      margin: const EdgeInsets.only(bottom: 8),
+                                    ),
+                                    const SizedBox(height: 40),
+                                    Expanded(
+                                      child: CupertinoPicker(
+                                        backgroundColor: AppColors.whiteColor,
+                                        itemExtent: 40,
+                                        onSelectedItemChanged: (int index) {
+                                          hourSet = _hoursList[index];
+                                        },
+                                        children: _hoursList
+                                            .map((hourSet) => Center(
+                                                  child: Text(
+                                                    hourSet,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
+                                                  ),
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 24,
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          _buildCancleButton(),
+                                          const SizedBox(width: 10),
+                                          _buildConfirmButton()
+                                        ])
                                   ],
                                 ),
                               ));
-                      // if (result != null) {
-                      //   setState(() {
-                      //     gender = result as String;
-                      //   });
-                      // }
+                      if (result != null) {
+                        setState(() {
+                          hourSet = result as String;
+                        });
+                      }
                     },
                     child: Row(
                       children: [
-                        Text('1 ชม.',
+                        Text(hourSet,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium

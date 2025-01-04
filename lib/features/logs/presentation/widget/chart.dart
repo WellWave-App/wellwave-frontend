@@ -179,7 +179,7 @@ class LineChartSample2 extends StatelessWidget {
       final weekNumber = (value.toInt() % 4) + 1;
       return SideTitleWidget(
         axisSide: meta.axisSide,
-        child: Text('$weekNumber/${date.month.toString().padLeft(2, '0')}',
+        child: Text('w$weekNumber/${date.month.toString().padLeft(2, '0')}',
             style: style),
       );
     }

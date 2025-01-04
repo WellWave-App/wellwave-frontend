@@ -26,60 +26,82 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
   ];
 
   Future<void> _adjustTime(int index) async {
-    TimeOfDay? newTime = await showModalBottomSheet<TimeOfDay>(
+    TimeOfDay selectedTime = waterLogs[index]['time'];
+
+    DateTime? minDateTime;
+    DateTime? maxDateTime;
+
+    if (index > 0) {
+      TimeOfDay prevTime = waterLogs[index - 1]['time'];
+      minDateTime = DateTime(2025, 1, 1, prevTime.hour, prevTime.minute);
+    }
+
+    if (index < waterLogs.length - 1) {
+      TimeOfDay nextTime = waterLogs[index + 1]['time'];
+      maxDateTime = DateTime(2025, 1, 1, nextTime.hour, nextTime.minute);
+    }
+
+    await showModalBottomSheet<void>(
       backgroundColor: AppColors.whiteColor,
       context: context,
       builder: (context) {
-        TimeOfDay selectedTime = waterLogs[index]['time'];
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 3,
-                width: 140,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                margin: const EdgeInsets.only(bottom: 8),
-              ),
-              const SizedBox(height: 40),
-              Expanded(
-                child: CupertinoDatePicker(
-                  initialDateTime: DateTime(
-                    2024,
-                    1,
-                    1,
-                    selectedTime.hour,
-                    selectedTime.minute,
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    height: 3,
+                    width: 140,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    margin: const EdgeInsets.only(bottom: 8),
                   ),
-                  mode: CupertinoDatePickerMode.time,
-                  use24hFormat: true,
-                  onDateTimeChanged: (DateTime newDateTime) {
-                    selectedTime = TimeOfDay(
-                        hour: newDateTime.hour, minute: newDateTime.minute);
-                  },
-                ),
+                  const SizedBox(height: 40),
+                  Expanded(
+                    child: CupertinoDatePicker(
+                      initialDateTime: DateTime(
+                        2025,
+                        1,
+                        1,
+                        selectedTime.hour,
+                        selectedTime.minute,
+                      ),
+                      mode: CupertinoDatePickerMode.time,
+                      use24hFormat: true,
+                      minimumDate: minDateTime,
+                      maximumDate: maxDateTime,
+                      onDateTimeChanged: (DateTime newDateTime) {
+                        setModalState(() {
+                          selectedTime = TimeOfDay(
+                            hour: newDateTime.hour,
+                            minute: newDateTime.minute,
+                          );
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildCancleButton(),
+                      const SizedBox(width: 10),
+                      _buildConfirmButton(
+                          () => _submitLogs(index, selectedTime)),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(height: 24),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                _buildCancleButton(),
-                const SizedBox(width: 10),
-                _buildConfirmButton()
-              ]),
-            ],
-          ),
+            );
+          },
         );
       },
     );
-
-    if (newTime != null) {
-      setState(() {
-        waterLogs[index]['time'] = newTime;
-      });
-    }
   }
 
   Widget _buildCancleButton() {
@@ -107,13 +129,13 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
     );
   }
 
-  Widget _buildConfirmButton() {
+  Widget _buildConfirmButton(VoidCallback onPressed) {
     return Expanded(
       child: SizedBox(
         width: 170,
         height: 60,
         child: TextButton(
-          onPressed: _submitLogs,
+          onPressed: onPressed,
           style: ButtonStyle(
             backgroundColor:
                 WidgetStateProperty.all<Color>(AppColors.primaryColor),
@@ -133,34 +155,37 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
     );
   }
 
-  void _submitLogs() {
+  void _submitLogs(int index, TimeOfDay selectedTime) {
     // final logsBloc = BlocProvider.of<LogsBloc>(context);
 
     // String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
 
-    final logEvents = [
-      //   SubmitLogEvent(
-      //     logName: AppStrings.weightLogText,
-      //     value: weight.toInt(),
-      //     selectedDate: formattedDate,
-      //   ),
-      //   SubmitLogEvent(
-      //     logName: AppStrings.waistLineLogText,
-      //     value: waistLine.toInt(),
-      //     selectedDate: formattedDate,
-      //   ),
-      //   if (isRecordHDL)
-      //     SubmitLogEvent(
-      //       logName: AppStrings.hdlLogText,
-      //       value: hdl.toInt(),
-      //       selectedDate: formattedDate,
-      //     )
-      // ];
+    // final logEvents = [
+    //   SubmitLogEvent(
+    //     logName: AppStrings.weightLogText,
+    //     value: weight.toInt(),
+    //     selectedDate: formattedDate,
+    //   ),
+    //   SubmitLogEvent(
+    //     logName: AppStrings.waistLineLogText,
+    //     value: waistLine.toInt(),
+    //     selectedDate: formattedDate,
+    //   ),
+    //   if (isRecordHDL)
+    //     SubmitLogEvent(
+    //       logName: AppStrings.hdlLogText,
+    //       value: hdl.toInt(),
+    //       selectedDate: formattedDate,
+    //     )
+    // ];
 
-      // for (var event in logEvents) {
-      //   logsBloc.add(event);
-      // }
-    ];
+    // for (var event in logEvents) {
+    //   logsBloc.add(event);
+    // }
+    // ];
+    setState(() {
+      waterLogs[index]['time'] = selectedTime;
+    });
     Navigator.pop(context);
   }
 
@@ -174,31 +199,28 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
             // Dotted vertical line and logs
             Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
-                          return Column(
-                            children: [
-                              // Dashed line before the first circle
-                              const SizedBox(height: 40, child: DashedLine()),
-
-                              ...List.generate(
-                                waterLogs.length * 2 - 1,
-                                (index) => index.isEven
-                                    ? const CircleAvatar(
-                                        radius: 4,
-                                        backgroundColor: AppColors.primaryColor)
-                                    : const SizedBox(
-                                        height: 80, child: DashedLine()),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                // Vertical dashed line
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        return Column(
+                          children: [
+                            // Dashed line before the first circle
+                            const SizedBox(height: 40, child: DashedLine()),
+                            ...List.generate(
+                              waterLogs.length * 2 - 1,
+                              (index) => index.isEven
+                                  ? const CircleAvatar(
+                                      radius: 4,
+                                      backgroundColor: AppColors.primaryColor)
+                                  : const SizedBox(
+                                      height: 80, child: DashedLine()),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -231,7 +253,6 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
                                 SvgPicture.asset(
                                   AppImages
                                       .glassIcon, // Replace with your SVG path
-
                                   height: 24,
                                 ),
                                 const SizedBox(width: 12),
