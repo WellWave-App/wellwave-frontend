@@ -12,7 +12,16 @@ class CreateBedtimeEvent extends NotiEvent {
     required this.isActive,
     required this.bedtime,
   });
+}
 
-  // @override
-  // List<Object> get props => [uid, isActive, bedtime];
+class FetchBedtimeEvent extends NotiEvent {}
+
+class UpdateBedtimeEvent extends NotiEvent {
+  final int uid;
+  final bool isActive;
+
+  UpdateBedtimeEvent({
+    required this.uid,
+    required this.isActive,
+  });
 }

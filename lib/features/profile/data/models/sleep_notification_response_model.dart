@@ -1,10 +1,10 @@
 class SleepNotificationResponseModel {
-  final String settingType;
+  final String? settingType;
   final bool isActive;
   final SettingDetail setting;
 
   SleepNotificationResponseModel({
-    required this.settingType,
+    this.settingType,
     required this.isActive,
     required this.setting,
   });
@@ -27,16 +27,16 @@ class SleepNotificationResponseModel {
 }
 
 class SettingDetail {
-  final int uid;
-  final String notificationType;
+  final int? uid;
+  final String? notificationType;
   final String bedtime;
-  final String wakeTime;
+  final String? wakeTime;
 
   SettingDetail({
-    required this.uid,
-    required this.notificationType,
+    this.uid,
+    this.notificationType,
     required this.bedtime,
-    required this.wakeTime,
+    this.wakeTime,
   });
 
   factory SettingDetail.fromJson(Map<String, dynamic> json) {

@@ -86,9 +86,4 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
   }
-
-  // void _onImagePicked(ImagePicked event, Emitter<ProfileState> emit) {
-  //   debugPrint('Image picked: ${event.imageFile.path}');
-  //   emit(state.copyWith(selectedImage: event.imageFile));
-  // }
 }
