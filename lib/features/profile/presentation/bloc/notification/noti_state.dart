@@ -30,3 +30,20 @@ class BedtimeState extends NotiState {
     );
   }
 }
+
+class DrinkPlanState extends NotiState {
+  final int glassNumber;
+  final String notitime;
+
+  DrinkPlanState({required this.glassNumber, required this.notitime});
+
+  DrinkPlanState copyWith({
+    bool? isActive,
+    String? notitime,
+  }) {
+    return DrinkPlanState(
+      glassNumber: glassNumber,
+      notitime: notitime ?? this.notitime,
+    );
+  }
+}

@@ -25,3 +25,15 @@ class UpdateBedtimeEvent extends NotiEvent {
     required this.isActive,
   });
 }
+
+class CreateDrinkPlanEvent extends NotiEvent {
+  final int uid;
+  final int glassNumber;
+  final String notitime;
+
+  CreateDrinkPlanEvent({
+    required this.uid,
+    required this.glassNumber,
+    required this.notitime,
+  });
+}

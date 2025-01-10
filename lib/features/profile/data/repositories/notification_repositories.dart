@@ -123,4 +123,43 @@ class NotificationSettingRepository {
       return false;
     }
   }
+
+  Future<bool> createDrinkPlanSetting({
+    required int uid,
+    required int glassNumber,
+    required String notitime,
+  }) async {
+    final body = {
+      "UID": uid,
+      "GLASS_NUMBER": glassNumber,
+      "NOTI_TIME": notitime
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/set-water-plan'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+        body: jsonEncode(body),
+      );
+
+      // debugPrint('Response Body: ${response.body}');
+      // debugPrint('Payload: ${jsonEncode(body)}');
+
+      if (response.statusCode == 201) {
+        debugPrint(
+            'Drink plan setting created successfully for $uid, $notitime, $glassNumber');
+        return true;
+      } else {
+        debugPrint(
+            'Failed to create Drink plan  setting: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      debugPrint('Error create Drink plan  setting: $error');
+      return false;
+    }
+  }
 }

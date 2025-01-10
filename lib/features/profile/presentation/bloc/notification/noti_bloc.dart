@@ -13,6 +13,8 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     on<CreateBedtimeEvent>(_onCreateBedtimeEvent);
     on<UpdateBedtimeEvent>(_onUpdateBedtimeEvent);
     on<FetchBedtimeEvent>(_onFetchBedtimeEvent);
+
+    on<CreateDrinkPlanEvent>(_onCreateDrinkPlanEvent);
   }
 
   int uid = AppStrings.uid;
@@ -69,6 +71,18 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     }
   }
 
+  Future<void> _onCreateDrinkPlanEvent(
+      CreateDrinkPlanEvent event, Emitter<NotiState> emit) async {
+    try {
+      await createDrinkPlan(event.uid, event.glassNumber, event.notitime,
+          _notificationSettingRepository);
+      emit(DrinkPlanState(
+          glassNumber: event.glassNumber, notitime: event.notitime));
+    } catch (error) {
+      debugPrint('Error creating DrinkPlan: $error');
+    }
+  }
+
   Future<void> createBedTime(int uid, bool isActive, String bedTime,
       NotificationSettingRepository notiRepository) async {
     try {
@@ -94,6 +108,21 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       debugPrint('Bedtime setting updated successfully for $uid, $isActive');
     } catch (error) {
       debugPrint('Error submitting log: $error');
+    }
+  }
+
+  Future<void> createDrinkPlan(int uid, int glassNumber, String notitime,
+      NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.createDrinkPlanSetting(
+        uid: uid,
+        glassNumber: glassNumber,
+        notitime: notitime,
+      );
+      debugPrint(
+          'DrinkPlan setting created successfully for $uid, $notitime, $glassNumber');
+    } catch (error) {
+      debugPrint('Error submitting DrinkPlan: $error');
     }
   }
 

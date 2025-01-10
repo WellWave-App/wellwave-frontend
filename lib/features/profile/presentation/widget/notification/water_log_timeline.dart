@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 
 import '../../../../../config/constants/app_strings.dart';
+import '../../bloc/notification/noti_bloc.dart';
 
 class WaterLogTimeline extends StatefulWidget {
   const WaterLogTimeline({super.key});
@@ -15,30 +18,34 @@ class WaterLogTimeline extends StatefulWidget {
 
 class _WaterLogTimelineState extends State<WaterLogTimeline> {
   List<Map<String, dynamic>> waterLogs = [
-    {'glass': 'แก้วที่ 1', 'time': const TimeOfDay(hour: 9, minute: 0)},
-    {'glass': 'แก้วที่ 2', 'time': const TimeOfDay(hour: 10, minute: 0)},
-    {'glass': 'แก้วที่ 3', 'time': const TimeOfDay(hour: 11, minute: 0)},
-    {'glass': 'แก้วที่ 4', 'time': const TimeOfDay(hour: 12, minute: 0)},
-    {'glass': 'แก้วที่ 5', 'time': const TimeOfDay(hour: 13, minute: 0)},
-    {'glass': 'แก้วที่ 6', 'time': const TimeOfDay(hour: 14, minute: 0)},
-    {'glass': 'แก้วที่ 7', 'time': const TimeOfDay(hour: 15, minute: 0)},
-    {'glass': 'แก้วที่ 8', 'time': const TimeOfDay(hour: 16, minute: 0)},
+    {'glassNumber': 1, 'time': null},
+    {'glassNumber': 2, 'time': null},
+    {'glassNumber': 3, 'time': null},
+    {'glassNumber': 4, 'time': null},
+    {'glassNumber': 5, 'time': null},
+    {'glassNumber': 6, 'time': null},
+    {'glassNumber': 7, 'time': null},
+    {'glassNumber': 8, 'time': null},
   ];
 
   Future<void> _adjustTime(int index) async {
-    TimeOfDay selectedTime = waterLogs[index]['time'];
+    TimeOfDay? selectedTime = waterLogs[index]['time'];
 
     DateTime? minDateTime;
     DateTime? maxDateTime;
 
     if (index > 0) {
       TimeOfDay prevTime = waterLogs[index - 1]['time'];
-      minDateTime = DateTime(2025, 1, 1, prevTime.hour, prevTime.minute);
+      if (prevTime != null) {
+        minDateTime = DateTime(2025, 1, 1, prevTime.hour, prevTime.minute);
+      }
     }
 
     if (index < waterLogs.length - 1) {
-      TimeOfDay nextTime = waterLogs[index + 1]['time'];
-      maxDateTime = DateTime(2025, 1, 1, nextTime.hour, nextTime.minute);
+      TimeOfDay? nextTime = waterLogs[index + 1]['time'];
+      if (nextTime != null) {
+        maxDateTime = DateTime(2025, 1, 1, nextTime.hour, nextTime.minute);
+      }
     }
 
     await showModalBottomSheet<void>(
@@ -68,8 +75,8 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
                         2025,
                         1,
                         1,
-                        selectedTime.hour,
-                        selectedTime.minute,
+                        selectedTime?.hour ?? 9,
+                        selectedTime?.minute ?? 0,
                       ),
                       mode: CupertinoDatePickerMode.time,
                       use24hFormat: true,
@@ -92,7 +99,7 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
                       _buildCancleButton(),
                       const SizedBox(width: 10),
                       _buildConfirmButton(
-                          () => _submitLogs(index, selectedTime)),
+                          () => _submitLogs(index, selectedTime!)),
                     ],
                   ),
                 ],
@@ -156,37 +163,26 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
   }
 
   void _submitLogs(int index, TimeOfDay selectedTime) {
-    // final logsBloc = BlocProvider.of<LogsBloc>(context);
+    final int glassNumber = waterLogs[index]['glassNumber'];
+    final String formattedTime = _formatTimeOfDay(selectedTime);
 
-    // String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+    context.read<NotiBloc>().add(CreateDrinkPlanEvent(
+          uid: AppStrings.uid,
+          glassNumber: glassNumber,
+          notitime: formattedTime,
+        ));
 
-    // final logEvents = [
-    //   SubmitLogEvent(
-    //     logName: AppStrings.weightLogText,
-    //     value: weight.toInt(),
-    //     selectedDate: formattedDate,
-    //   ),
-    //   SubmitLogEvent(
-    //     logName: AppStrings.waistLineLogText,
-    //     value: waistLine.toInt(),
-    //     selectedDate: formattedDate,
-    //   ),
-    //   if (isRecordHDL)
-    //     SubmitLogEvent(
-    //       logName: AppStrings.hdlLogText,
-    //       value: hdl.toInt(),
-    //       selectedDate: formattedDate,
-    //     )
-    // ];
-
-    // for (var event in logEvents) {
-    //   logsBloc.add(event);
-    // }
-    // ];
     setState(() {
       waterLogs[index]['time'] = selectedTime;
     });
     Navigator.pop(context);
+  }
+
+  String _formatTimeOfDay(TimeOfDay time) {
+    final now = DateTime.now();
+    final formattedDateTime =
+        DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    return DateFormat('HH:mm').format(formattedDateTime);
   }
 
   @override
@@ -196,10 +192,8 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // Dotted vertical line and logs
             Stack(
               children: [
-                // Vertical dashed line
                 Positioned.fill(
                   child: Align(
                     alignment: Alignment.centerLeft,
@@ -207,7 +201,6 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
                       builder: (context, constraints) {
                         return Column(
                           children: [
-                            // Dashed line before the first circle
                             const SizedBox(height: 40, child: DashedLine()),
                             ...List.generate(
                               waterLogs.length * 2 - 1,
@@ -224,52 +217,59 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
                     ),
                   ),
                 ),
-
-                // List items
                 Padding(
                   padding: const EdgeInsets.only(left: 24, bottom: 24),
                   child: ListView.builder(
-                    physics:
-                        const NeverScrollableScrollPhysics(), // Disable inner scrolling
-                    shrinkWrap:
-                        true, // Let the ListView size itself to its content
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
                     itemCount: waterLogs.length,
                     itemBuilder: (context, index) {
                       final log = waterLogs[index];
+                      final isEnabled =
+                          index == 0 || waterLogs[index - 1]['time'] != null;
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: GestureDetector(
-                          onTap: () => _adjustTime(index),
+                          onTap: isEnabled ? () => _adjustTime(index) : null,
                           child: Container(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 24, horizontal: 12),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color:
+                                  isEnabled ? Colors.white : Colors.grey[300],
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Row(
                               children: [
                                 const SizedBox(width: 12),
                                 SvgPicture.asset(
-                                  AppImages
-                                      .glassIcon, // Replace with your SVG path
+                                  AppImages.glassIcon,
                                   height: 24,
+                                  color: isEnabled ? null : Colors.grey,
                                 ),
                                 const SizedBox(width: 12),
-                                Text(log['glass'],
+                                Text('แก้วที่ ${log['glassNumber']}',
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
                                         ?.copyWith(
-                                            color: AppColors.darkGrayColor)),
+                                            color: isEnabled
+                                                ? AppColors.darkGrayColor
+                                                : Colors.grey)),
                                 const Spacer(),
                                 Text(
-                                    '${log['time'].hour.toString().padLeft(2, '0')}:${log['time'].minute.toString().padLeft(2, '0')}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                            color: AppColors.blackColor)),
+                                  log['time'] != null
+                                      ? '${log['time'].hour.toString().padLeft(2, '0')}:${log['time'].minute.toString().padLeft(2, '0')}'
+                                      : '--:--',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                          color: isEnabled
+                                              ? AppColors.blackColor
+                                              : Colors.grey),
+                                ),
                               ],
                             ),
                           ),
