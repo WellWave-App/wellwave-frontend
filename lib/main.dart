@@ -5,7 +5,7 @@ import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
 void main() {
@@ -16,7 +16,6 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -36,11 +35,10 @@ class MainApp extends StatelessWidget {
             lazy: false,
           ),
           BlocProvider<ProfileBloc>(
-  create: (context) =>
-      ProfileBloc(profileRepositories: ProfileRepositories()),
-  lazy: false,
-),
-
+            create: (context) =>
+                ProfileBloc(profileRepositories: ProfileRepositories()),
+            lazy: false,
+          ),
         ],
         child: MaterialApp.router(
           routerConfig: goRouter,

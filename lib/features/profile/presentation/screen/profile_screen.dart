@@ -7,9 +7,9 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_drink.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_event.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_state.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_event.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_state.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/check_in_card.dart';
 

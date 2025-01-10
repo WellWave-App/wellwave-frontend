@@ -7,8 +7,8 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../bloc/profile_bloc.dart';
-import '../../bloc/profile_state.dart';
+import '../../bloc/profile/profile_bloc.dart';
+import '../../bloc/profile/profile_state.dart';
 
 class UserInformation extends StatefulWidget {
   final String userID;

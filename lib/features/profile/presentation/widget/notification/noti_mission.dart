@@ -16,74 +16,70 @@ class NotificationMission extends StatefulWidget {
 }
 
 class _NotificationMissionState extends State<NotificationMission> {
-
   @override
   Widget build(BuildContext context) {
-    
     return Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(AppImages.fireIcon, height: 21),
-                          const SizedBox(width: 8),
-                          Text(
-                            AppStrings.taskText,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 28,
-                        child: TextButton(
-                          onPressed: () {
-                            context.goNamed(AppPages.logHistoryName);
-                          },
-                          style: OutlinedButton.styleFrom(
-                            side:
-                                const BorderSide(color: AppColors.primaryColor),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 4),
-                          ),
-                          child: Text(AppStrings.selectAllText,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(color: AppColors.secondaryDarkColor)),
-                        ),
-                      )
-                    ],
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(AppImages.fireIcon, height: 21),
+                const SizedBox(width: 8),
+                Text(
+                  AppStrings.taskText,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 28,
+              child: TextButton(
+                onPressed: () {
+                  context.goNamed(AppPages.logHistoryName);
+                },
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: AppColors.primaryColor),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  const SizedBox(height: 16),
-                  const Column(
-                    children: [
-                      NotiMissionWidget(
-                        time: '01:05',
-                        day: 'Everyday',
-                        description: 'ชวนปั่น 100 km ใน 1 เดือน',
-                      ),
-                      NotiMissionWidget(
-                        time: '01:05',
-                        day: 'Everyday',
-                        description: 'ชวนปั่น 100 km ใน 1 เดือน',
-                      ),
-                      NotiMissionWidget(
-                        time: '01:05',
-                        day: 'Everyday',
-                        description: 'ชวนปั่น 100 km ใน 1 เดือน',
-                      ),
-                    ],
-                  )
-                ],
-              );
-    
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                ),
+                child: Text(AppStrings.selectAllText,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: AppColors.secondaryDarkColor)),
+              ),
+            )
+          ],
+        ),
+        const SizedBox(height: 16),
+        const Column(
+          children: [
+            NotiMissionWidget(
+              time: '01:05',
+              day: 'Everyday',
+              description: 'ชวนปั่น 100 km ใน 1 เดือน',
+            ),
+            NotiMissionWidget(
+              time: '01:05',
+              day: 'Everyday',
+              description: 'ชวนปั่น 100 km ใน 1 เดือน',
+            ),
+            NotiMissionWidget(
+              time: '01:05',
+              day: 'Everyday',
+              description: 'ชวนปั่น 100 km ใน 1 เดือน',
+            ),
+          ],
+        )
+      ],
+    );
   }
 }

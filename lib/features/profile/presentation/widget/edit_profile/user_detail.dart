@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_event.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_state.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_event.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_state.dart';
 
 import '../../../../logs/presentation/widget/scale_record_widget.dart';
 

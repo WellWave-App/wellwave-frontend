@@ -53,8 +53,7 @@ class _DrinkPlanScreenState extends State<DrinkPlanScreen> {
                 ],
               ),
               const SizedBox(height: 28),
-              if (_isSwitched)
-                const WaterLogTimeline(), // Use without a comma here
+              if (_isSwitched) const WaterLogTimeline(),
             ],
           ),
         ),

@@ -4,13 +4,13 @@ import '../../../../../config/constants/app_colors.dart';
 class NotiMissionWidget extends StatefulWidget {
   final String time;
   final String day;
-  final String description;
+  final String? description;
 
   const NotiMissionWidget({
     super.key,
     required this.time,
     required this.day,
-    required this.description,
+    this.description,
   });
 
   @override
@@ -36,6 +36,9 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: widget.description == null
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.start,
                 children: [
                   Row(
                     children: [
@@ -56,11 +59,13 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    widget.description,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
+                  if (widget.description != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      widget.description!,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
                 ],
               ),
               Switch(
@@ -70,13 +75,10 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
                     _isSwitched = value;
                   });
                 },
-                activeColor: Colors.white, // Circle color (active)
-                activeTrackColor:
-                    const Color(0xFF34C759), // Track color (active)
-                inactiveThumbColor:
-                    AppColors.whiteColor, // Circle color (inactive)
-                inactiveTrackColor:
-                    AppColors.darkGrayColor, // Track color (inactive)
+                activeColor: Colors.white,
+                activeTrackColor: const Color(0xFF34C759),
+                inactiveThumbColor: AppColors.whiteColor,
+                inactiveTrackColor: AppColors.darkGrayColor,
               ),
             ],
           ),

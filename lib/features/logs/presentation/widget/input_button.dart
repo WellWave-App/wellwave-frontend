@@ -15,7 +15,7 @@ class InputButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 32, 
+      height: 32,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
@@ -42,14 +42,18 @@ class InputButton extends StatelessWidget {
           onPressed: onPressed ??
               () {
                 showModalBottomSheet<int>(
-                        backgroundColor: AppColors.whiteColor,
-                        context: context,
-                        builder: (context) => const InputWeeklyLogs(),
+                  backgroundColor: AppColors.whiteColor,
+                  context: context,
+                  builder: (context) => const InputWeeklyLogs(),
                 );
               },
           child: Row(
             children: [
-              const Icon(Icons.add, size: 16.0),
+              const Icon(
+                Icons.add,
+                size: 16.0,
+                color: AppColors.whiteColor,
+              ),
               const SizedBox(width: 4),
               Text(
                 buttonText,

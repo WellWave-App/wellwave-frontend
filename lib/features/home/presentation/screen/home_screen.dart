@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import './health_connect.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

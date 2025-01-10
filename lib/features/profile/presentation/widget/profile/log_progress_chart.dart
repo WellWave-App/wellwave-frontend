@@ -51,6 +51,7 @@ class LogProgressChart<T> extends StatelessWidget {
           chart: LineChartSample2(
             logType: logType,
             logs: filteredLogs,
+            selectedPeriod: selectedPeriod,
           ),
           onPeriodSelected: onPeriodSelected,
           selectedPeriod: selectedPeriod,

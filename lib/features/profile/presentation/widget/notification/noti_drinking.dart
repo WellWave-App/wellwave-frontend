@@ -18,11 +18,14 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
   bool _isSwitched = false;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
-  String hourSet = '1 ชม.';
+  String hourSet = '1';
   final List<String> _hoursList = <String>[
-    '1 ชม.',
-    '2 ชม.',
-    '3 ชม.',
+    '0.5',
+    '1',
+    '1.5',
+    '2',
+    '2.5',
+    '3',
   ];
 
   Widget _buildConfirmButton() {
@@ -343,6 +346,7 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 24, horizontal: 20),
                                 child: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
@@ -397,7 +401,7 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                     },
                     child: Row(
                       children: [
-                        Text(hourSet,
+                        Text('$hourSet ชม.',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium

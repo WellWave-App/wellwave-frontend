@@ -7,9 +7,13 @@ import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc
 class LineChartSample2 extends StatelessWidget {
   final String logType;
   final List<dynamic> logs;
+  final String? selectedPeriod;
 
   const LineChartSample2(
-      {super.key, required this.logType, required this.logs});
+      {super.key,
+      required this.logType,
+      required this.logs,
+      this.selectedPeriod});
 
   @override
   Widget build(BuildContext context) {
@@ -21,24 +25,6 @@ class LineChartSample2 extends StatelessWidget {
           return Center(
               child: Text('${AppStrings.errorShow}: ${state.message}'));
         } else if (state is LogsLoadGraphSuccess) {
-          // List<dynamic> logs = [];
-
-          // List<dynamic> logs = logType == AppStrings.weightLogText
-          //     ? state.logsWeightlist
-          //     : state.logsWaistLinelist;
-
-          // if (logType == AppStrings.weightLogText) {
-          //   logs = state.logsWeightlist;
-          // } else if (logType == AppStrings.waistLineLogText) {
-          //   logs = state.logsWaistLinelist;
-          // } else if (logType == AppStrings.sleepLogText) {
-          //   logs = state.logsSleeplist;
-          // } else if (logType == AppStrings.drinkLogText) {
-          //   logs = state.logsDrinklist;
-          // } else if (logType == AppStrings.stepLogText) {
-          //   logs = state.logsSteplist;
-          // }
-
           if (logs.isEmpty) {
             return const Center(child: Text(AppStrings.noLogsAvailableText));
           }
@@ -162,7 +148,8 @@ class LineChartSample2 extends StatelessWidget {
     final date = DateTime.parse(log.date.toIso8601String());
 
     // For 14 days view - show every other day
-    if (logs.length == 14) {
+
+    if (selectedPeriod == '14 วัน') {
       if (value.toInt() % 2 == 0) {
         return SideTitleWidget(
           axisSide: meta.axisSide,
@@ -174,15 +161,72 @@ class LineChartSample2 extends StatelessWidget {
       return const Text('', style: style);
     }
 
-    // For 1 month or 3 months view - show week numbers
-    if (logs.length == 4 || logs.length == 12) {
-      final weekNumber = (value.toInt() % 4) + 1;
-      return SideTitleWidget(
-        axisSide: meta.axisSide,
-        child: Text('w$weekNumber/${date.month.toString().padLeft(2, '0')}',
-            style: style),
-      );
+    //3เดือน
+    if (selectedPeriod == '3 เดือน') {
+      final thaiMonths = [
+        'มกราคม',
+        'กุมภาพันธ์',
+        'มีนาคม',
+        'เมษายน',
+        'พฤษภาคม',
+        'มิถุนายน',
+        'กรกฎาคม',
+        'สิงหาคม',
+        'กันยายน',
+        'ตุลาคม',
+        'พฤศจิกายน',
+        'ธันวาคม'
+      ];
+
+      String month = thaiMonths[date.month - 1];
+      if (value.toInt() % 4 == 0) {
+        return SideTitleWidget(
+          axisSide: AxisSide.right,
+          space: 36.0,
+          child: Text(month, style: TextStyle(fontSize: 14)),
+        );
+      }
+      return const Text('', style: style);
     }
+
+    // For 1 month
+    // if (selectedPeriod == '1 เดือน') {
+    //   List<int> monthNumbers = [];
+    //   debugPrint('value: ${value.toInt()}');
+    //   debugPrint('log: $log');
+    //   debugPrint('monthNumbers: ${monthNumbers.toString()}');
+
+    //   // Add the month only if it's not already added
+    //   if (monthNumbers.length < 4) {
+    //     monthNumbers.add(date.month);
+    //   }
+
+    //   // Determine the correct week numbers based on month values
+    //   List<int> weekNumbers = [];
+    //   if (monthNumbers.length == 4) {
+    //     if (monthNumbers[0] == monthNumbers[3]) {
+    //       weekNumbers = [7, 14, 21, 28];
+    //     } else if (monthNumbers[0] != monthNumbers[3] &&
+    //         monthNumbers[0] == monthNumbers[2]) {
+    //       weekNumbers = [14, 21, 28, 7];
+    //     } else if (monthNumbers[0] != monthNumbers[2] &&
+    //         monthNumbers[0] == monthNumbers[1]) {
+    //       weekNumbers = [21, 28, 7, 14];
+    //     } else if (monthNumbers[0] != monthNumbers[1]) {
+    //       weekNumbers = [28, 7, 14, 21];
+    //     }
+
+    //     debugPrint('weekNumbers: $weekNumbers');
+
+    //     return SideTitleWidget(
+    //       axisSide: meta.axisSide,
+    //       child: Text(
+    //         '${weekNumbers[value.toInt()]}/${date.month.toString().padLeft(2, '0')}',
+    //         style: style,
+    //       ),
+    //     );
+    //   }
+    // }
 
     // Default format for other views (e.g., 7 days)
     return SideTitleWidget(
