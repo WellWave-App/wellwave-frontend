@@ -7,6 +7,7 @@ import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_w
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../config/constants/app_strings.dart';
 import '../../data/models/logs_request_model_sleep.dart';
 import '../../data/models/logs_request_model_drink.dart';
 import '../../data/models/logs_request_model_step.dart';
@@ -26,7 +27,7 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     });
   }
 
-  int uid = 5;
+  int uid = AppStrings.uid;
 
   Future<void> _onLogsFetches(
       LogsFetched event, Emitter<LogsState> emit) async {

@@ -241,23 +241,8 @@ class WeeklyLogsWidget extends StatelessWidget {
 }
 
 String formatDateThai(DateTime date) {
-  final thaiMonths = [
-    'มกราคม',
-    'กุมภาพันธ์',
-    'มีนาคม',
-    'เมษายน',
-    'พฤษภาคม',
-    'มิถุนายน',
-    'กรกฎาคม',
-    'สิงหาคม',
-    'กันยายน',
-    'ตุลาคม',
-    'พฤศจิกายน',
-    'ธันวาคม'
-  ];
-
   int day = date.day;
-  String month = thaiMonths[date.month - 1];
+  String month = AppStrings.thaiMonths[date.month - 1];
   int year = date.year + 543; // Buddhist calendar
 
   return '$day $month $year';

@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
-import '../../../data/repositories/notification_repositories.dart';
 import '../../bloc/notification/noti_bloc.dart';
-import '../../bloc/notification/noti_event.dart';
 
 class NotificationSleeping extends StatefulWidget {
   const NotificationSleeping({super.key});
@@ -21,8 +20,58 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
   bool _isSwitched = false;
   DateTime time = DateTime.now();
   List<bool> selectedDays = List.filled(7, false);
-  List<String> days = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
   String day = 'ทุกวัน';
+
+  void updateSelectedDaysText() {
+    List<String> days = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
+    List<int> selectedIndices = [];
+
+    // Collect indices of selected days
+    for (int i = 0; i < selectedDays.length; i++) {
+      if (selectedDays[i]) {
+        selectedIndices.add(i);
+      }
+    }
+
+    // Determine the text to display
+    if (selectedIndices.isEmpty) {
+      setState(() {
+        day = ''; // No days selected
+      });
+    } else {
+      // Check if the selected days are consecutive, including wrapping (e.g., 5, 6, 0)
+      bool isConsecutive = true;
+      for (int i = 1; i < selectedIndices.length; i++) {
+        int current = selectedIndices[i];
+        int previous = selectedIndices[i - 1];
+
+        if (current != (previous + 1) % 7) {
+          isConsecutive = false;
+          break;
+        }
+      }
+
+      if (isConsecutive && selectedIndices.length > 1) {
+        // If days are consecutive, display the range
+        int firstIndex = selectedIndices.first;
+        int lastIndex = selectedIndices.last;
+
+        setState(() {
+          day = '${days[firstIndex]} ถึง ${days[lastIndex]}';
+        });
+      } else {
+        // If days are not consecutive, list them individually
+        List<String> selectedDaysText =
+            selectedIndices.map((index) => days[index]).toList();
+
+        setState(() {
+          day = selectedDaysText.join(', ');
+        });
+      }
+    }
+
+    debugPrint('Updated day text: $day');
+  }
 
   Widget _buildConfirmButton() {
     return Expanded(
@@ -76,31 +125,18 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
   }
 
   void _submitLogs() {
-    debugPrint('Submit logs called'); // Debugging log
+    debugPrint('Submit logs called');
+    updateSelectedDaysText();
+    String formattedTime = DateFormat('HH:mm').format(time);
 
-    final repository = NotificationSettingRepository();
-    final bedtimeBloc = BedtimeBloc(repository);
+    final bloc = BlocProvider.of<NotiBloc>(context);
 
-    String formattedTime = DateFormat('HH:mm:ss').format(time);
+    bloc.add(CreateBedtimeEvent(
+      uid: 5,
+      isActive: true,
+      bedtime: formattedTime,
+    ));
 
-    bedtimeBloc.add(
-        CreateBedtimeEvent(uid: 5, isActive: true, bedtime: formattedTime));
-    setState(() {
-      // Update `day` based on selected days
-      final selectedDayIndexes =
-          List.generate(7, (i) => i).where((i) => selectedDays[i]).toList();
-
-      if (selectedDayIndexes.length == 7) {
-        day = 'ทุกวัน';
-      } else if (selectedDayIndexes.length > 1 &&
-          selectedDayIndexes.reduce((a, b) => b - a) ==
-              selectedDayIndexes.length - 1) {
-        day =
-            '${days[selectedDayIndexes.first]} ถึง ${days[selectedDayIndexes.last]}';
-      } else {
-        day = selectedDayIndexes.map((i) => days[i]).join(' ');
-      }
-    });
     Navigator.pop(context);
   }
 
@@ -142,10 +178,6 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
                                 backgroundColor: AppColors.whiteColor,
                                 context: context,
                                 builder: (context) {
-                                  List<bool> selectedDays =
-                                      List.filled(7, false);
-                                  TimeOfDay selectedTime = TimeOfDay.now();
-
                                   return StatefulBuilder(
                                     builder: (context, setModalState) {
                                       return Padding(
@@ -205,8 +237,8 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
                                                     });
                                                   },
                                                   child: Container(
-                                                    width: 36,
-                                                    height: 48,
+                                                    width: 44,
+                                                    height: 52,
                                                     padding: const EdgeInsets
                                                         .symmetric(
                                                         horizontal: 12,
@@ -224,18 +256,20 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
                                                           BorderRadius.circular(
                                                               20),
                                                     ),
-                                                    child: Text(
-                                                      day,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall
-                                                          ?.copyWith(
-                                                            color: selectedDays[
-                                                                    index]
-                                                                ? Colors.white
-                                                                : AppColors
-                                                                    .primaryColor,
-                                                          ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        day,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodySmall
+                                                            ?.copyWith(
+                                                              color: selectedDays[
+                                                                      index]
+                                                                  ? Colors.white
+                                                                  : AppColors
+                                                                      .primaryColor,
+                                                            ),
+                                                      ),
                                                     ),
                                                   ),
                                                 );

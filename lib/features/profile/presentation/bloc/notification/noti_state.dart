@@ -1,21 +1,15 @@
-import 'package:equatable/equatable.dart';
+part of 'noti_bloc.dart';
 
-abstract class BedtimeState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+sealed class NotiState {}
 
-class BedtimeInitial extends BedtimeState {}
+class NotiInitial extends NotiState {}
 
-class BedtimeLoading extends BedtimeState {}
+class NotiLoading extends NotiState {}
 
-class BedtimeSuccess extends BedtimeState {}
+class NotiSuccess extends NotiState {}
 
-class BedtimeFailure extends BedtimeState {
-  final String error;
+class NotiError extends NotiState {
+  final String message;
 
-  BedtimeFailure(this.error);
-
-  @override
-  List<Object> get props => [error];
+  NotiError({required this.message});
 }

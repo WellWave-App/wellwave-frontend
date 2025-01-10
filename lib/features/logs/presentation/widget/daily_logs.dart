@@ -22,13 +22,13 @@ class _DailyLogsState extends State<DailyLogs> {
   @override
   void initState() {
     super.initState();
-    debugPrint('Sending LogsFetched event');
+    // debugPrint('Sending LogsFetched event');
     BlocProvider.of<LogsBloc>(context).add(LogsFetched(DateTime.now()));
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('WeeklyLogs build called');
+    // debugPrint('WeeklyLogs build called');
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
@@ -44,11 +44,10 @@ class _DailyLogsState extends State<DailyLogs> {
               if (state is LogsLoadInProgress) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is LogsLoadSuccess) {
-                
                 for (var log in state.logslist) {
-                  if (log?.logName == 'DRINK_LOG') {
+                  if (log?.logName == AppStrings.drinkLogText) {
                     selectedWaterLevel = log?.value ?? 0;
-                  } else if (log?.logName == 'SLEEP_LOG') {
+                  } else if (log?.logName == AppStrings.sleepLogText) {
                     selectedSleepHours = log?.value ?? 0;
                   }
                 }
@@ -110,7 +109,7 @@ class _DailyLogsState extends State<DailyLogs> {
 
                         BlocProvider.of<LogsBloc>(context).add(
                           SubmitLogEvent(
-                            logName: 'DRINK_LOG',
+                            logName: AppStrings.drinkLogText,
                             value: selectedWaterLevel.toInt(),
                             selectedDate: selectedDate.toIso8601String(),
                           ),
@@ -168,7 +167,7 @@ class _DailyLogsState extends State<DailyLogs> {
 
                         BlocProvider.of<LogsBloc>(context).add(
                           SubmitLogEvent(
-                            logName: 'SLEEP_LOG',
+                            logName: AppStrings.sleepLogText,
                             value: selectedSleepHours.toInt(),
                             selectedDate: selectedDate.toIso8601String(),
                           ),

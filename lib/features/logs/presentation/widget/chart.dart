@@ -163,70 +163,16 @@ class LineChartSample2 extends StatelessWidget {
 
     //3เดือน
     if (selectedPeriod == '3 เดือน') {
-      final thaiMonths = [
-        'มกราคม',
-        'กุมภาพันธ์',
-        'มีนาคม',
-        'เมษายน',
-        'พฤษภาคม',
-        'มิถุนายน',
-        'กรกฎาคม',
-        'สิงหาคม',
-        'กันยายน',
-        'ตุลาคม',
-        'พฤศจิกายน',
-        'ธันวาคม'
-      ];
-
-      String month = thaiMonths[date.month - 1];
+      String month = AppStrings.thaiMonths[date.month - 1];
       if (value.toInt() % 4 == 0) {
         return SideTitleWidget(
           axisSide: AxisSide.right,
           space: 36.0,
-          child: Text(month, style: TextStyle(fontSize: 14)),
+          child: Text(month, style: const TextStyle(fontSize: 14)),
         );
       }
       return const Text('', style: style);
     }
-
-    // For 1 month
-    // if (selectedPeriod == '1 เดือน') {
-    //   List<int> monthNumbers = [];
-    //   debugPrint('value: ${value.toInt()}');
-    //   debugPrint('log: $log');
-    //   debugPrint('monthNumbers: ${monthNumbers.toString()}');
-
-    //   // Add the month only if it's not already added
-    //   if (monthNumbers.length < 4) {
-    //     monthNumbers.add(date.month);
-    //   }
-
-    //   // Determine the correct week numbers based on month values
-    //   List<int> weekNumbers = [];
-    //   if (monthNumbers.length == 4) {
-    //     if (monthNumbers[0] == monthNumbers[3]) {
-    //       weekNumbers = [7, 14, 21, 28];
-    //     } else if (monthNumbers[0] != monthNumbers[3] &&
-    //         monthNumbers[0] == monthNumbers[2]) {
-    //       weekNumbers = [14, 21, 28, 7];
-    //     } else if (monthNumbers[0] != monthNumbers[2] &&
-    //         monthNumbers[0] == monthNumbers[1]) {
-    //       weekNumbers = [21, 28, 7, 14];
-    //     } else if (monthNumbers[0] != monthNumbers[1]) {
-    //       weekNumbers = [28, 7, 14, 21];
-    //     }
-
-    //     debugPrint('weekNumbers: $weekNumbers');
-
-    //     return SideTitleWidget(
-    //       axisSide: meta.axisSide,
-    //       child: Text(
-    //         '${weekNumbers[value.toInt()]}/${date.month.toString().padLeft(2, '0')}',
-    //         style: style,
-    //       ),
-    //     );
-    //   }
-    // }
 
     // Default format for other views (e.g., 7 days)
     return SideTitleWidget(

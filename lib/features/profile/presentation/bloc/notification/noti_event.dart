@@ -1,11 +1,8 @@
-import 'package:equatable/equatable.dart';
+part of 'noti_bloc.dart';
 
-abstract class BedtimeEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+sealed class NotiEvent {}
 
-class CreateBedtimeEvent extends BedtimeEvent {
+class CreateBedtimeEvent extends NotiEvent {
   final int uid;
   final bool isActive;
   final String bedtime;
@@ -16,6 +13,6 @@ class CreateBedtimeEvent extends BedtimeEvent {
     required this.bedtime,
   });
 
-  @override
-  List<Object> get props => [uid, isActive, bedtime];
+  // @override
+  // List<Object> get props => [uid, isActive, bedtime];
 }

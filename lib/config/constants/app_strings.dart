@@ -9,6 +9,7 @@ class AppStrings {
   static const baseUrl = 'http://10.0.2.2:3000';
   static const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM2NTAyNjU2LCJleHAiOjE3MzY1ODkwNTZ9.gDWxxBtrJ2MplBLCsIniZUBAyLts1Jnjc5eYDLXF9zE';
+  static const uid = 5;
 
   //logs screen
   static const historyText = 'ประวัติ';
@@ -123,4 +124,19 @@ class AppStrings {
 
   static const amoutOfStepText = 'จำนวนก้าวเดิน';
   static const goalText = 'เป้าหมาย';
+
+  static const thaiMonths = [
+    'มกราคม',
+    'กุมภาพันธ์',
+    'มีนาคม',
+    'เมษายน',
+    'พฤษภาคม',
+    'มิถุนายน',
+    'กรกฎาคม',
+    'สิงหาคม',
+    'กันยายน',
+    'ตุลาคม',
+    'พฤศจิกายน',
+    'ธันวาคม'
+  ];
 }

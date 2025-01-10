@@ -4,9 +4,12 @@ import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
+import 'package:wellwave_frontend/features/profile/data/repositories/notification_repositories.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
+
+import 'features/profile/presentation/bloc/notification/noti_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +26,9 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<LogsRequestRepository>(
           create: (context) => LogsRequestRepository(),
         ),
+        RepositoryProvider<NotificationSettingRepository>(
+          create: (context) => NotificationSettingRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -37,6 +43,11 @@ class MainApp extends StatelessWidget {
           BlocProvider<ProfileBloc>(
             create: (context) =>
                 ProfileBloc(profileRepositories: ProfileRepositories()),
+            lazy: false,
+          ),
+          BlocProvider<NotiBloc>(
+            create: (context) =>
+                NotiBloc(context.read<NotificationSettingRepository>()),
             lazy: false,
           ),
         ],
