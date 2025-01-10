@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wellwave_frontend/features/profile/data/models/drink_plan_notification_response_model.dart';
 import 'package:wellwave_frontend/features/profile/data/models/sleep_notification_response_model.dart';
 
 import '../../../../config/constants/app_strings.dart';
@@ -159,6 +160,88 @@ class NotificationSettingRepository {
       }
     } catch (error) {
       debugPrint('Error create Drink plan  setting: $error');
+      return false;
+    }
+  }
+
+  Future<DrinkPlanNotificationResponseModel?> fetchDrinkPlanSetting() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/get-noti/WATER_PLAN'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+
+        final isActive = jsonData['IS_ACTIVE'];
+
+        final notitime = jsonData['waterPlanSetting'] != null
+            ? jsonData['waterPlanSetting']['NOTI_TIME']
+            : null;
+
+        final glassNumber = jsonData['waterPlanSetting'] != null
+            ? jsonData['waterPlanSetting']['GLASS_NUMBER']
+            : null;
+
+        debugPrint(
+            'Fetched Data: isActive = $isActive, glass number : $glassNumber, noti time = $notitime');
+
+        if (isActive) {
+          return DrinkPlanNotificationResponseModel(
+            isActive: isActive,
+            setting: DrinkSettingDetail(
+                notitime: notitime, glassNumber: glassNumber),
+          );
+        } else {
+          debugPrint('IS_ACTIVE  was false');
+        }
+      } else {
+        debugPrint(
+            'Error: Server returned non-200 status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
+    return null;
+  }
+
+  Future<bool> updateDrinkPlanSetting({
+    required int uid,
+    required bool isActive,
+  }) async {
+    final body = {
+      "UID": uid,
+      "IS_ACTIVE": isActive,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/set-water-plan'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+        body: jsonEncode(body),
+      );
+
+      // debugPrint('Response Body: ${response.body}');
+      // debugPrint('Payload: ${jsonEncode(body)}');
+
+      if (response.statusCode == 201) {
+        debugPrint(
+            'DrinkPlan setting created successfully for $uid, $isActive');
+        return true;
+      } else {
+        debugPrint(
+            'Failed to update DrinkPlan setting: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      debugPrint('Error updating DrinkPlan setting: $error');
       return false;
     }
   }

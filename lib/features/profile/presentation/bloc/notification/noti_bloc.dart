@@ -15,6 +15,8 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     on<FetchBedtimeEvent>(_onFetchBedtimeEvent);
 
     on<CreateDrinkPlanEvent>(_onCreateDrinkPlanEvent);
+    on<FetchDrinkPlanEvent>(_onFetchDrinkPlanEvent);
+    on<UpdateDrinkPlanEvent>(_onUpdateDrinkPlanEvent);
   }
 
   int uid = AppStrings.uid;
@@ -77,9 +79,35 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       await createDrinkPlan(event.uid, event.glassNumber, event.notitime,
           _notificationSettingRepository);
       emit(DrinkPlanState(
-          glassNumber: event.glassNumber, notitime: event.notitime));
+          glassNumber: event.glassNumber,
+          notitime: event.notitime,
+          isActive: true));
     } catch (error) {
       debugPrint('Error creating DrinkPlan: $error');
+    }
+  }
+
+  Future<void> _onFetchDrinkPlanEvent(
+      FetchDrinkPlanEvent event, Emitter<NotiState> emit) async {
+    try {
+      if (state is! DrinkPlanState) {
+        final fetchedData =
+            await _notificationSettingRepository.fetchDrinkPlanSetting();
+        if (fetchedData != null) {
+          debugPrint(
+              'Fetched Data: isActive = ${fetchedData.isActive},glass number = ${fetchedData.setting.glassNumber} notitime = ${fetchedData.setting.notitime}');
+          emit(DrinkPlanState(
+              isActive: fetchedData.isActive,
+              notitime: fetchedData.setting.notitime,
+              glassNumber: fetchedData.setting.glassNumber));
+          debugPrint(
+              'DrinkPlanState emitted with isActive: ${fetchedData.isActive},glass number = ${fetchedData.setting.glassNumber} notitime = ${fetchedData.setting.notitime}');
+        } else {
+          debugPrint('Error: No data fetched or data was null');
+        }
+      }
+    } catch (error) {
+      debugPrint('Error fetching drinkPlan: $error');
     }
   }
 
@@ -126,16 +154,34 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     }
   }
 
-  // Future<void> fetchBedTime() async {
-  //   try {
-  //     // await notiRepository.fetchBedSetting(
-  //     //     // uid: uid,
-  //     //     // isActive: isActive,
-  //     //     // bedtime: bedTime,
-  //     //     );
-  //     debugPrint('Fetch Bedtime success');
-  //   } catch (error) {
-  //     debugPrint('Error fetched bedtime: $error');
-  //   }
-  // }
+  Future<void> _onUpdateDrinkPlanEvent(
+      UpdateDrinkPlanEvent event, Emitter<NotiState> emit) async {
+    try {
+      await updateDrinkPlan(
+          event.uid, event.isActive, _notificationSettingRepository);
+
+      if (state is DrinkPlanState) {
+        final currentState = state as DrinkPlanState;
+        emit(currentState.copyWith(isActive: event.isActive));
+      } else {
+        emit(DrinkPlanState(
+            isActive: event.isActive, glassNumber: 8, notitime: ''));
+      }
+    } catch (error) {
+      debugPrint('Error updating DrinkPlan: $error');
+    }
+  }
+
+  Future<void> updateDrinkPlan(int uid, bool isActive,
+      NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.updateDrinkPlanSetting(
+        uid: uid,
+        isActive: isActive,
+      );
+      debugPrint('DrinkPlan setting updated successfully for $uid, $isActive');
+    } catch (error) {
+      debugPrint('Error submitting DrinkPlan: $error');
+    }
+  }
 }

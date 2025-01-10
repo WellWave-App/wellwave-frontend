@@ -28,6 +28,12 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
     {'glassNumber': 8, 'time': null},
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<NotiBloc>(context).add(FetchDrinkPlanEvent());
+  }
+
   Future<void> _adjustTime(int index) async {
     TimeOfDay? selectedTime = waterLogs[index]['time'];
 
@@ -187,101 +193,147 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return Column(
-                          children: [
-                            const SizedBox(height: 40, child: DashedLine()),
-                            ...List.generate(
-                              waterLogs.length * 2 - 1,
-                              (index) => index.isEven
-                                  ? const CircleAvatar(
-                                      radius: 4,
-                                      backgroundColor: AppColors.primaryColor)
-                                  : const SizedBox(
-                                      height: 80, child: DashedLine()),
-                            ),
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24, bottom: 24),
-                  child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: waterLogs.length,
-                    itemBuilder: (context, index) {
-                      final log = waterLogs[index];
-                      final isEnabled =
-                          index == 0 || waterLogs[index - 1]['time'] != null;
+    context.read<NotiBloc>().add(
+          FetchDrinkPlanEvent(),
+        );
+    return BlocListener<NotiBloc, NotiState>(
+      listener: (context, state) {
+        if (state is DrinkPlanState) {
+          setState(() {
+            BlocListener<NotiBloc, NotiState>(
+              listener: (context, state) {
+                if (state is DrinkPlanState) {
+                  setState(() {
+                    final glassIndex = waterLogs.indexWhere((entry) {
+                      // Ensure type consistency during comparison
+                      final entryGlassNumber = entry['glassNumber'];
+                      if (entryGlassNumber is String) {
+                        return int.tryParse(entryGlassNumber) ==
+                            state.glassNumber;
+                      } else if (entryGlassNumber is int) {
+                        return entryGlassNumber == state.glassNumber;
+                      }
+                      return false;
+                    });
 
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: GestureDetector(
-                          onTap: isEnabled ? () => _adjustTime(index) : null,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 24, horizontal: 12),
-                            decoration: BoxDecoration(
-                              color:
-                                  isEnabled ? Colors.white : Colors.grey[300],
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Row(
-                              children: [
-                                const SizedBox(width: 12),
-                                SvgPicture.asset(
-                                  AppImages.glassIcon,
-                                  height: 24,
-                                  color: isEnabled ? null : Colors.grey,
-                                ),
-                                const SizedBox(width: 12),
-                                Text('แก้วที่ ${log['glassNumber']}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(
-                                            color: isEnabled
-                                                ? AppColors.darkGrayColor
-                                                : Colors.grey)),
-                                const Spacer(),
-                                Text(
-                                  log['time'] != null
-                                      ? '${log['time'].hour.toString().padLeft(2, '0')}:${log['time'].minute.toString().padLeft(2, '0')}'
-                                      : '--:--',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                          color: isEnabled
-                                              ? AppColors.blackColor
-                                              : Colors.grey),
-                                ),
-                              ],
-                            ),
+                    if (glassIndex != -1) {
+                      waterLogs[glassIndex]['time'] = state.notitime.isNotEmpty
+                          ? TimeOfDay.fromDateTime(
+                              DateFormat("HH:mm").parse(state.notitime))
+                          : null;
+                    }
+                  });
+                }
+              },
+            );
+          });
+        }
+      },
+      child: BlocBuilder<NotiBloc, NotiState>(
+        builder: (context, state) {
+          return SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                      Positioned.fill(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              return Column(
+                                children: [
+                                  const SizedBox(
+                                      height: 40, child: DashedLine()),
+                                  ...List.generate(
+                                    waterLogs.length * 2 - 1,
+                                    (index) => index.isEven
+                                        ? const CircleAvatar(
+                                            radius: 4,
+                                            backgroundColor:
+                                                AppColors.primaryColor)
+                                        : const SizedBox(
+                                            height: 80, child: DashedLine()),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ),
-                      );
-                    },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 24, bottom: 24),
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: waterLogs.length,
+                          itemBuilder: (context, index) {
+                            final log = waterLogs[index];
+                            final isEnabled = index == 0 ||
+                                waterLogs[index - 1]['time'] != null;
+
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: GestureDetector(
+                                onTap:
+                                    isEnabled ? () => _adjustTime(index) : null,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 24, horizontal: 12),
+                                  decoration: BoxDecoration(
+                                    color: isEnabled
+                                        ? Colors.white
+                                        : Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(width: 12),
+                                      SvgPicture.asset(
+                                        AppImages.glassIcon,
+                                        height: 24,
+                                        color: isEnabled ? null : Colors.grey,
+                                      ),
+                                      const SizedBox(width: 12),
+                                      Text('แก้วที่ ${log['glassNumber']}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  color: isEnabled
+                                                      ? AppColors.darkGrayColor
+                                                      : Colors.grey)),
+                                      const Spacer(),
+                                      Text(
+                                        log['time'] != null
+                                            ? '${log['time'].hour.toString().padLeft(2, '0')}:${log['time'].minute.toString().padLeft(2, '0')}'
+                                            : '--:--',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                color: isEnabled
+                                                    ? AppColors.blackColor
+                                                    : Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

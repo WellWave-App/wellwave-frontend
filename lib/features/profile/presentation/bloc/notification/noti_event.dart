@@ -16,6 +16,8 @@ class CreateBedtimeEvent extends NotiEvent {
 
 class FetchBedtimeEvent extends NotiEvent {}
 
+class FetchDrinkPlanEvent extends NotiEvent {}
+
 class UpdateBedtimeEvent extends NotiEvent {
   final int uid;
   final bool isActive;
@@ -35,5 +37,15 @@ class CreateDrinkPlanEvent extends NotiEvent {
     required this.uid,
     required this.glassNumber,
     required this.notitime,
+  });
+}
+
+class UpdateDrinkPlanEvent extends NotiEvent {
+  final int uid;
+  final bool isActive;
+
+  UpdateDrinkPlanEvent({
+    required this.uid,
+    required this.isActive,
   });
 }
