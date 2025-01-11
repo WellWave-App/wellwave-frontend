@@ -18,6 +18,8 @@ class FetchBedtimeEvent extends NotiEvent {}
 
 class FetchDrinkPlanEvent extends NotiEvent {}
 
+class FetchDrinkRangeEvent extends NotiEvent {}
+
 class UpdateBedtimeEvent extends NotiEvent {
   final int uid;
   final bool isActive;
@@ -45,6 +47,30 @@ class UpdateDrinkPlanEvent extends NotiEvent {
   final bool isActive;
 
   UpdateDrinkPlanEvent({
+    required this.uid,
+    required this.isActive,
+  });
+}
+
+class CreateDrinkRangeEvent extends NotiEvent {
+  final int uid;
+  final String startTime;
+  final String endTime;
+  final int intervalMinute;
+
+  CreateDrinkRangeEvent({
+    required this.uid,
+    required this.startTime,
+    required this.endTime,
+    required this.intervalMinute,
+  });
+}
+
+class UpdateDrinkRangeEvent extends NotiEvent {
+  final int uid;
+  final bool isActive;
+
+  UpdateDrinkRangeEvent({
     required this.uid,
     required this.isActive,
   });

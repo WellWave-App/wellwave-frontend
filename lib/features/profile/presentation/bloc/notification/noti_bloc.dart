@@ -17,6 +17,10 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     on<CreateDrinkPlanEvent>(_onCreateDrinkPlanEvent);
     on<FetchDrinkPlanEvent>(_onFetchDrinkPlanEvent);
     on<UpdateDrinkPlanEvent>(_onUpdateDrinkPlanEvent);
+
+    on<CreateDrinkRangeEvent>(_onCreateDrinkRangeEvent);
+    on<FetchDrinkRangeEvent>(_onFetchDrinkRangeEvent);
+    on<UpdateDrinkRangeEvent>(_onUpdateDrinkRangeEvent);
   }
 
   int uid = AppStrings.uid;
@@ -182,6 +186,103 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       debugPrint('DrinkPlan setting updated successfully for $uid, $isActive');
     } catch (error) {
       debugPrint('Error submitting DrinkPlan: $error');
+    }
+  }
+
+  Future<void> _onCreateDrinkRangeEvent(
+      CreateDrinkRangeEvent event, Emitter<NotiState> emit) async {
+    try {
+      await createDrinkRange(
+        event.uid,
+        event.startTime,
+        event.endTime,
+        event.intervalMinute,
+        _notificationSettingRepository,
+      );
+      emit(DrinkRangeState(
+        isActive: true,
+        startTime: event.startTime,
+        endTime: event.endTime,
+        intervalMinute: event.intervalMinute,
+      ));
+    } catch (error) {
+      debugPrint('Error creating DrinkRange: $error');
+    }
+  }
+
+  Future<void> _onFetchDrinkRangeEvent(
+      FetchDrinkRangeEvent event, Emitter<NotiState> emit) async {
+    try {
+      if (state is! DrinkRangeState) {
+        final fetchedData =
+            await _notificationSettingRepository.fetchDrinkRangeSetting();
+        if (fetchedData != null) {
+          debugPrint(
+              'Fetched Data: isActive = ${fetchedData.isActive}, startTime = ${fetchedData.setting.startTime}, endTime = ${fetchedData.setting.endTime}, intervalMinute = ${fetchedData.setting.intervalMinute}');
+          emit(DrinkRangeState(
+            isActive: fetchedData.isActive,
+            startTime: fetchedData.setting.startTime,
+            endTime: fetchedData.setting.endTime,
+            intervalMinute: fetchedData.setting.intervalMinute,
+          ));
+        } else {
+          debugPrint('Error: No data fetched or data was null');
+        }
+      }
+    } catch (error) {
+      debugPrint('Error fetching DrinkRange: $error');
+    }
+  }
+
+  Future<void> _onUpdateDrinkRangeEvent(
+      UpdateDrinkRangeEvent event, Emitter<NotiState> emit) async {
+    try {
+      await updateDrinkRange(
+          event.uid, event.isActive, "", "", 0, _notificationSettingRepository);
+
+      if (state is BedtimeState) {
+        final currentState = state as BedtimeState;
+        emit(currentState.copyWith(isActive: event.isActive));
+      } else {
+        emit(BedtimeState(isActive: event.isActive, bedtime: ""));
+      }
+    } catch (error) {
+      debugPrint('Error updating bedtime: $error');
+    }
+  }
+
+  Future<void> createDrinkRange(int uid, String startTime, String endTime,
+      int intervalMinute, NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.createDrinkRangeSetting(
+        uid: uid,
+        startTime: startTime,
+        endTime: endTime,
+        intervalMinute: intervalMinute,
+      );
+      debugPrint(
+          'DrinkRange setting created successfully for $uid, startTime: $startTime, endTime: $endTime, intervalMinute: $intervalMinute');
+    } catch (error) {
+      debugPrint('Error creating DrinkRange: $error');
+    }
+  }
+
+  Future<void> updateDrinkRange(
+      int uid,
+      bool isActive,
+      String startTime,
+      String endTime,
+      int intervalMinute,
+      NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.updateDrinkRangeSetting(
+        uid: uid,
+        isActive: isActive,
+      );
+      debugPrint(
+          'DrinkRange setting updated successfully for $uid, isActive: $isActive, startTime: $startTime, endTime: $endTime, intervalMinute: $intervalMinute');
+    } catch (error) {
+      debugPrint('Error updating DrinkRange: $error');
     }
   }
 }

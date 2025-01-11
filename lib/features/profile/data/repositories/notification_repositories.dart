@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/profile/data/models/drink_plan_notification_response_model.dart';
+import 'package:wellwave_frontend/features/profile/data/models/drink_range_notification_response_model.dart';
 import 'package:wellwave_frontend/features/profile/data/models/sleep_notification_response_model.dart';
 
 import '../../../../config/constants/app_strings.dart';
@@ -242,6 +243,130 @@ class NotificationSettingRepository {
       }
     } catch (error) {
       debugPrint('Error updating DrinkPlan setting: $error');
+      return false;
+    }
+  }
+
+  Future<bool> createDrinkRangeSetting({
+    required int uid,
+    required String startTime,
+    required String endTime,
+    required int intervalMinute,
+  }) async {
+    final body = {
+      "UID": uid,
+      "START_TIME": startTime,
+      "END_TIME": endTime,
+      "INTERVAL_MINUTES": intervalMinute
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/set-water-range'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+        body: jsonEncode(body),
+      );
+
+      // debugPrint('Response Body: ${response.body}');
+      // debugPrint('Payload: ${jsonEncode(body)}');
+
+      if (response.statusCode == 201) {
+        debugPrint(
+            'Drink Range setting created successfully for $uid, $startTime, $endTime , $intervalMinute');
+        return true;
+      } else {
+        debugPrint(
+            'Failed to create Drink Range  setting: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      debugPrint('Error create Drink Range  setting: $error');
+      return false;
+    }
+  }
+
+  Future<DrinkRangeNotificationResponseModel?> fetchDrinkRangeSetting() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/get-noti/WATER_RANGE'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+
+        final isActive = jsonData['IS_ACTIVE'];
+
+        final startTime = jsonData['waterRangeSettings'] != null
+            ? jsonData['waterRangeSettings']['START_TIME']
+            : null;
+        final endTime = jsonData['waterRangeSettings'] != null
+            ? jsonData['waterRangeSettings']['END_TIME']
+            : null;
+
+        final intervalMinute = jsonData['waterRangeSettings'] != null
+            ? jsonData['waterRangeSettings']['INTERVAL_MINUTES']
+            : null;
+
+        debugPrint(
+            'Fetched Data: isActive = $isActive, $startTime, $endTime , $intervalMinute');
+
+        return DrinkRangeNotificationResponseModel(
+          isActive: isActive,
+          setting: DrinkRangeSettingDetail(
+              startTime: startTime,
+              endTime: endTime,
+              intervalMinute: intervalMinute),
+        );
+      } else {
+        debugPrint(
+            'Error: Server returned non-200 status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
+    return null;
+  }
+
+  Future<bool> updateDrinkRangeSetting({
+    required int uid,
+    required bool isActive,
+  }) async {
+    final body = {
+      "UID": uid,
+      "IS_ACTIVE": isActive,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/set-water-range'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+        body: jsonEncode(body),
+      );
+
+      // debugPrint('Response Body: ${response.body}');
+      // debugPrint('Payload: ${jsonEncode(body)}');
+
+      if (response.statusCode == 201) {
+        debugPrint(
+            'Drink Range setting created successfully for $uid, $isActive');
+        return true;
+      } else {
+        debugPrint(
+            'Failed to update Drink Rangesetting: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      debugPrint('Error updating Drink Range setting: $error');
       return false;
     }
   }

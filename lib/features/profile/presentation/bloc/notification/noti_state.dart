@@ -52,3 +52,28 @@ class DrinkPlanState extends NotiState {
     );
   }
 }
+
+class DrinkRangeState extends NotiState {
+  final bool isActive;
+  final String startTime;
+  final String endTime;
+  final int intervalMinute;
+
+  DrinkRangeState(
+      {required this.isActive,
+      required this.startTime,
+      required this.endTime,
+      required this.intervalMinute});
+
+  DrinkRangeState copyWith({
+    bool? isActive,
+    String? notitime,
+  }) {
+    return DrinkRangeState(
+      isActive: isActive ?? this.isActive,
+      startTime: startTime,
+      endTime: endTime,
+      intervalMinute: intervalMinute,
+    );
+  }
+}
