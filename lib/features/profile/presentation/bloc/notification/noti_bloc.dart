@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../config/constants/app_strings.dart';
+import '../../../data/models/drink_plan_notification_response_model.dart';
 import '../../../data/repositories/notification_repositories.dart';
 part 'noti_state.dart';
 part 'noti_event.dart';
@@ -80,12 +81,27 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
   Future<void> _onCreateDrinkPlanEvent(
       CreateDrinkPlanEvent event, Emitter<NotiState> emit) async {
     try {
-      await createDrinkPlan(event.uid, event.glassNumber, event.notitime,
-          _notificationSettingRepository);
+      final newSetting = DrinkSettingDetail(
+        uid: event.uid,
+        notificationType: 'WATER_PLAN',
+        notitime: event.notitime,
+        glassNumber: event.glassNumber,
+      );
+
+      await createDrinkPlan(
+        event.uid,
+        event.glassNumber,
+        event.notitime,
+        _notificationSettingRepository,
+      );
+
       emit(DrinkPlanState(
-          glassNumber: event.glassNumber,
-          notitime: event.notitime,
-          isActive: true));
+        isActive: true,
+        settings: [newSetting],
+      ));
+
+      debugPrint(
+          'DrinkPlan created and state updated: isActive = true, settings count = 1');
     } catch (error) {
       debugPrint('Error creating DrinkPlan: $error');
     }
@@ -97,15 +113,21 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       if (state is! DrinkPlanState) {
         final fetchedData =
             await _notificationSettingRepository.fetchDrinkPlanSetting();
+
         if (fetchedData != null) {
           debugPrint(
-              'Fetched Data: isActive = ${fetchedData.isActive},glass number = ${fetchedData.setting.glassNumber} notitime = ${fetchedData.setting.notitime}');
+              'bloc Fetched Data: isActive = ${fetchedData.isActive}, settings count = ${fetchedData.setting.length}');
+
+          for (var setting in fetchedData.setting) {
+            debugPrint('Setting Detail: ${setting.toJson()}');
+          }
           emit(DrinkPlanState(
-              isActive: fetchedData.isActive,
-              notitime: fetchedData.setting.notitime,
-              glassNumber: fetchedData.setting.glassNumber));
+            isActive: fetchedData.isActive,
+            settings: fetchedData.setting,
+          ));
+
           debugPrint(
-              'DrinkPlanState emitted with isActive: ${fetchedData.isActive},glass number = ${fetchedData.setting.glassNumber} notitime = ${fetchedData.setting.notitime}');
+              'DrinkPlanState emitted with isActive: ${fetchedData.isActive}, settings count = ${fetchedData.setting.length}');
         } else {
           debugPrint('Error: No data fetched or data was null');
         }
@@ -166,11 +188,19 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
 
       if (state is DrinkPlanState) {
         final currentState = state as DrinkPlanState;
-        emit(currentState.copyWith(isActive: event.isActive));
+
+        emit(DrinkPlanState(
+          isActive: event.isActive,
+          settings: currentState.settings,
+        ));
       } else {
         emit(DrinkPlanState(
-            isActive: event.isActive, glassNumber: 8, notitime: ''));
+          isActive: event.isActive,
+          settings: [],
+        ));
       }
+
+      debugPrint('DrinkPlan updated: isActive = ${event.isActive}');
     } catch (error) {
       debugPrint('Error updating DrinkPlan: $error');
     }
@@ -240,14 +270,18 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       await updateDrinkRange(
           event.uid, event.isActive, "", "", 0, _notificationSettingRepository);
 
-      if (state is BedtimeState) {
-        final currentState = state as BedtimeState;
+      if (state is DrinkRangeState) {
+        final currentState = state as DrinkRangeState;
         emit(currentState.copyWith(isActive: event.isActive));
       } else {
-        emit(BedtimeState(isActive: event.isActive, bedtime: ""));
+        emit(DrinkRangeState(
+            isActive: event.isActive,
+            startTime: '',
+            endTime: '',
+            intervalMinute: 0));
       }
     } catch (error) {
-      debugPrint('Error updating bedtime: $error');
+      debugPrint('Error updating drink range: $error');
     }
   }
 

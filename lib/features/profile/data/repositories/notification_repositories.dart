@@ -178,27 +178,32 @@ class NotificationSettingRepository {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
 
-        final isActive = jsonData['IS_ACTIVE'];
-
-        final notitime = jsonData['waterPlanSetting'] != null
-            ? jsonData['waterPlanSetting']['NOTI_TIME']
-            : null;
-
-        final glassNumber = jsonData['waterPlanSetting'] != null
-            ? jsonData['waterPlanSetting']['GLASS_NUMBER']
-            : null;
-
-        debugPrint(
-            'Fetched Data: isActive = $isActive, glass number : $glassNumber, noti time = $notitime');
+        final isActive = jsonData['IS_ACTIVE'] as bool? ?? false;
 
         if (isActive) {
-          return DrinkPlanNotificationResponseModel(
-            isActive: isActive,
-            setting: DrinkSettingDetail(
-                notitime: notitime, glassNumber: glassNumber),
-          );
+          final settings = jsonData['waterPlanSetting'] as List<dynamic>?;
+
+          if (settings != null) {
+            final settingDetails = settings
+                .map((e) =>
+                    DrinkSettingDetail.fromJson(e as Map<String, dynamic>))
+                .toList();
+
+            debugPrint('repo Fetched Data: isActive = $isActive');
+            for (var setting in settingDetails) {
+              debugPrint('Setting Detail: ${setting.toJson()}');
+            }
+
+            return DrinkPlanNotificationResponseModel(
+              settingType: jsonData['settingType'] ?? 'WATER_PLAN',
+              isActive: isActive,
+              setting: settingDetails,
+            );
+          } else {
+            debugPrint('No settings found in response.');
+          }
         } else {
-          debugPrint('IS_ACTIVE  was false');
+          debugPrint('IS_ACTIVE was false.');
         }
       } else {
         debugPrint(

@@ -33,22 +33,20 @@ class BedtimeState extends NotiState {
 
 class DrinkPlanState extends NotiState {
   final bool isActive;
-  final int glassNumber;
-  final String notitime;
+  final List<DrinkSettingDetail> settings;
 
-  DrinkPlanState(
-      {required this.isActive,
-      required this.glassNumber,
-      required this.notitime});
+  DrinkPlanState({
+    required this.isActive,
+    required this.settings,
+  });
 
   DrinkPlanState copyWith({
     bool? isActive,
-    String? notitime,
+    List<DrinkSettingDetail>? settings,
   }) {
     return DrinkPlanState(
       isActive: isActive ?? this.isActive,
-      glassNumber: glassNumber,
-      notitime: notitime ?? this.notitime,
+      settings: settings ?? this.settings,
     );
   }
 }

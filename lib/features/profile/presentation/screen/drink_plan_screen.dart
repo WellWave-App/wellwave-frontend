@@ -4,7 +4,7 @@ import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_strings.dart';
 import '../bloc/notification/noti_bloc.dart';
-import '../widget/notification/water_log_timeline.dart';
+import '../widget/notification/water_plan.dart';
 
 class DrinkPlanScreen extends StatefulWidget {
   const DrinkPlanScreen({super.key});
@@ -81,7 +81,8 @@ class _DrinkPlanScreenState extends State<DrinkPlanScreen> {
                       ],
                     ),
                     const SizedBox(height: 28),
-                    if (_isSwitched) const WaterLogTimeline(),
+                    // if (_isSwitched) const WaterLogTimeline(),
+                    if (_isSwitched) const WaterPlanWidget(),
                   ],
                 ),
               ),

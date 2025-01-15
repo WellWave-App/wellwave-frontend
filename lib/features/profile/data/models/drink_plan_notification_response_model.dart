@@ -1,7 +1,7 @@
 class DrinkPlanNotificationResponseModel {
   final String? settingType;
   final bool isActive;
-  final DrinkSettingDetail setting;
+  final List<DrinkSettingDetail> setting;
 
   DrinkPlanNotificationResponseModel({
     this.settingType,
@@ -14,7 +14,9 @@ class DrinkPlanNotificationResponseModel {
     return DrinkPlanNotificationResponseModel(
       settingType: json['settingType'] ?? 'WATER_PLAN',
       isActive: json['isActive'] as bool,
-      setting: DrinkSettingDetail.fromJson(json['setting']),
+      setting: (json['setting'] as List<dynamic>)
+          .map((e) => DrinkSettingDetail.fromJson(e))
+          .toList(),
     );
   }
 
@@ -22,7 +24,7 @@ class DrinkPlanNotificationResponseModel {
     return {
       'settingType': settingType,
       'isActive': isActive,
-      'setting': setting.toJson(),
+      'setting': setting.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -44,8 +46,8 @@ class DrinkSettingDetail {
     return DrinkSettingDetail(
       uid: json['UID'] as int,
       notificationType: json['NOTIFICATION_TYPE'] ?? 'WATER_PLAN',
-      notitime: json['NOTI_TIME'] ?? '',
-      glassNumber: json['GLASS_NUMBER'] ?? '',
+      notitime: json['NOTI_TIME'] as String,
+      glassNumber: json['GLASS_NUMBER'] as int,
     );
   }
 

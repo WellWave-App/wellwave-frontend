@@ -3,30 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_images.dart';
 
+import '../../../../../config/constants/app_colors.dart';
+import '../../../../../config/constants/app_images.dart';
 import '../../../../../config/constants/app_strings.dart';
 import '../../bloc/notification/noti_bloc.dart';
 
-class WaterLogTimeline extends StatefulWidget {
-  const WaterLogTimeline({super.key});
+class WaterPlanWidget extends StatefulWidget {
+  const WaterPlanWidget({super.key});
 
   @override
-  _WaterLogTimelineState createState() => _WaterLogTimelineState();
+  State<WaterPlanWidget> createState() => _WaterPlanWidgetState();
 }
 
-class _WaterLogTimelineState extends State<WaterLogTimeline> {
-  List<Map<String, dynamic>> waterLogs = [
-    {'glassNumber': 1, 'time': null},
-    {'glassNumber': 2, 'time': null},
-    {'glassNumber': 3, 'time': null},
-    {'glassNumber': 4, 'time': null},
-    {'glassNumber': 5, 'time': null},
-    {'glassNumber': 6, 'time': null},
-    {'glassNumber': 7, 'time': null},
-    {'glassNumber': 8, 'time': null},
-  ];
+class _WaterPlanWidgetState extends State<WaterPlanWidget> {
+  List<TimeOfDay?> glassTimes = List.generate(8, (index) => null);
 
   @override
   void initState() {
@@ -35,27 +26,23 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
   }
 
   Future<void> _adjustTime(int index) async {
-    TimeOfDay? selectedTime = waterLogs[index]['time'];
+    TimeOfDay? selectedTime = glassTimes[index];
 
     DateTime? minDateTime;
     DateTime? maxDateTime;
 
-    if (index > 0) {
-      TimeOfDay prevTime = waterLogs[index - 1]['time'];
-      if (prevTime != null) {
-        minDateTime = DateTime(2025, 1, 1, prevTime.hour, prevTime.minute);
-      }
+    if (index > 0 && glassTimes[index - 1] != null) {
+      TimeOfDay prevTime = glassTimes[index - 1]!;
+      minDateTime = DateTime(2025, 1, 1, prevTime.hour, prevTime.minute);
     }
 
-    if (index < waterLogs.length - 1) {
-      TimeOfDay? nextTime = waterLogs[index + 1]['time'];
-      if (nextTime != null) {
-        maxDateTime = DateTime(2025, 1, 1, nextTime.hour, nextTime.minute);
-      }
+    if (index < glassTimes.length - 1 && glassTimes[index + 1] != null) {
+      TimeOfDay nextTime = glassTimes[index + 1]!;
+      maxDateTime = DateTime(2025, 1, 1, nextTime.hour, nextTime.minute);
     }
 
     await showModalBottomSheet<void>(
-      backgroundColor: AppColors.whiteColor,
+      backgroundColor: Colors.white,
       context: context,
       builder: (context) {
         return StatefulBuilder(
@@ -169,26 +156,26 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
   }
 
   void _submitLogs(int index, TimeOfDay selectedTime) {
-    final int glassNumber = waterLogs[index]['glassNumber'];
     final String formattedTime = _formatTimeOfDay(selectedTime);
 
     context.read<NotiBloc>().add(CreateDrinkPlanEvent(
           uid: AppStrings.uid,
-          glassNumber: glassNumber,
+          glassNumber: index + 1,
           notitime: formattedTime,
         ));
 
     setState(() {
-      waterLogs[index]['time'] = selectedTime;
+      glassTimes[index] = selectedTime;
     });
+
     Navigator.pop(context);
   }
 
-  String _formatTimeOfDay(TimeOfDay time) {
-    final now = DateTime.now();
-    final formattedDateTime =
-        DateTime(now.year, now.month, now.day, time.hour, time.minute);
-    return DateFormat('HH:mm').format(formattedDateTime);
+  String _formatTimeOfDay(TimeOfDay? time) {
+    if (time == null) return '--:--';
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
   }
 
   @override
@@ -196,41 +183,19 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
     context.read<NotiBloc>().add(
           FetchDrinkPlanEvent(),
         );
-    return BlocListener<NotiBloc, NotiState>(
-      listener: (context, state) {
-        if (state is DrinkPlanState) {
-          setState(() {
-            BlocListener<NotiBloc, NotiState>(
-              listener: (context, state) {
-                if (state is DrinkPlanState) {
-                  setState(() {
-                    final glassIndex = waterLogs.indexWhere((entry) {
-                      // Ensure type consistency during comparison
-                      final entryGlassNumber = entry['glassNumber'];
-                      if (entryGlassNumber is String) {
-                        return int.tryParse(entryGlassNumber) ==
-                            state.glassNumber;
-                      } else if (entryGlassNumber is int) {
-                        return entryGlassNumber == state.glassNumber;
-                      }
-                      return false;
-                    });
+    return BlocBuilder<NotiBloc, NotiState>(
+      builder: (context, state) {
+        if (state is DrinkPlanState && state.isActive) {
+          for (var setting in state.settings) {
+            int glassIndex = setting.glassNumber - 1;
+            if (glassIndex >= 0 && glassIndex < glassTimes.length) {
+              glassTimes[glassIndex] = TimeOfDay(
+                hour: int.parse(setting.notitime.split(':')[0]),
+                minute: int.parse(setting.notitime.split(':')[1]),
+              );
+            }
+          }
 
-                    if (glassIndex != -1) {
-                      waterLogs[glassIndex]['time'] = state.notitime.isNotEmpty
-                          ? TimeOfDay.fromDateTime(
-                              DateFormat("HH:mm").parse(state.notitime))
-                          : null;
-                    }
-                  });
-                }
-              },
-            );
-          });
-        }
-      },
-      child: BlocBuilder<NotiBloc, NotiState>(
-        builder: (context, state) {
           return SizedBox(
             height: MediaQuery.of(context).size.height,
             child: SingleChildScrollView(
@@ -248,7 +213,7 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
                                   const SizedBox(
                                       height: 40, child: DashedLine()),
                                   ...List.generate(
-                                    waterLogs.length * 2 - 1,
+                                    glassTimes.length * 2 - 1,
                                     (index) => index.isEven
                                         ? const CircleAvatar(
                                             radius: 4,
@@ -268,25 +233,20 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
                         child: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: waterLogs.length,
+                          itemCount: 8,
                           itemBuilder: (context, index) {
-                            final log = waterLogs[index];
-                            final isEnabled = index == 0 ||
-                                waterLogs[index - 1]['time'] != null;
-
+                            final formattedTime =
+                                _formatTimeOfDay(glassTimes[index]);
                             return Padding(
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: GestureDetector(
-                                onTap:
-                                    isEnabled ? () => _adjustTime(index) : null,
+                                onTap: () => _adjustTime(index),
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 24, horizontal: 12),
                                   decoration: BoxDecoration(
-                                    color: isEnabled
-                                        ? Colors.white
-                                        : Colors.grey[300],
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                   child: Row(
@@ -295,30 +255,21 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
                                       SvgPicture.asset(
                                         AppImages.glassIcon,
                                         height: 24,
-                                        color: isEnabled ? null : Colors.grey,
                                       ),
                                       const SizedBox(width: 12),
-                                      Text('แก้วที่ ${log['glassNumber']}',
+                                      Text(
+                                        'แก้วที่ ${index + 1}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                      const Spacer(),
+                                      Text(formattedTime,
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyMedium
                                               ?.copyWith(
-                                                  color: isEnabled
-                                                      ? AppColors.darkGrayColor
-                                                      : Colors.grey)),
-                                      const Spacer(),
-                                      Text(
-                                        log['time'] != null
-                                            ? '${log['time'].hour.toString().padLeft(2, '0')}:${log['time'].minute.toString().padLeft(2, '0')}'
-                                            : '--:--',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                                color: isEnabled
-                                                    ? AppColors.blackColor
-                                                    : Colors.grey),
-                                      ),
+                                                  fontWeight: FontWeight.bold)),
                                     ],
                                   ),
                                 ),
@@ -333,8 +284,12 @@ class _WaterLogTimelineState extends State<WaterLogTimeline> {
               ),
             ),
           );
-        },
-      ),
+        } else if (state is NotiLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return const Center(child: Text('No drink plan found.'));
+        }
+      },
     );
   }
 }
