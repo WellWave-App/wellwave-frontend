@@ -133,6 +133,7 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
             }
             if (state.intervalMinute != 0) {
               intervalMinute = state.intervalMinute;
+              hourSet = (intervalMinute / 60).toString();
             }
           });
         }
