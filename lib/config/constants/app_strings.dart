@@ -8,7 +8,7 @@ class AppStrings {
 
   static const baseUrl = 'http://10.0.2.2:3000';
   static const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM2OTU2MDIzLCJleHAiOjE3MzcwNDI0MjN9.KZp8ywIm-G0KBBTgR9QymBO8J_Xpw4g7UgFvgDXJaCQ';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM2OTY4MjUzLCJleHAiOjE3MzcwNTQ2NTN9.Y18xj3nwQ5lvOQZjOMo_WTdhG3SBBRGgNZZQH6j-SbQ';
   static const uid = 5;
 
   //logs screen
@@ -72,6 +72,7 @@ class AppStrings {
   static const rewardRedeemText = 'แลกรางวัล';
   static const progressText = 'ความก้าวหน้า';
   static const exerciseProgressText = 'ออกกำลังกายไปแล้ว';
+
   static const taskProgressText = 'จำนวนทำภารกิจ';
   static const taskText = 'ภารกิจ';
   static const minuteText = 'นาที';

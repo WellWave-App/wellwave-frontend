@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final today = DateTime.now();
 
     context.read<LogsBloc>().add(LogsFetchedGraph(today));
-    debugPrint('Dispatched LogsFetchedGraph event');
+    // debugPrint('Dispatched LogsFetchedGraph event');
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -80,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 int leagueIndex = _getLeagueIndex(userLeague?.name ?? 'Bronze');
 
-                debugPrint('Loaded profile: ${profile.username}');
+                // debugPrint('Loaded profile: ${profile.username}');
                 return Column(
                   children: [
                     const SizedBox(height: 24),
@@ -118,12 +118,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 24),
                     CheckInWidget(currentDay: currentDay),
                     const SizedBox(height: 24),
+
+                    //progress
                     const ProgressCard(
                       daysRemain: 3,
                       exerciseTime: 250,
                       taskAmount: 10,
                       maxExerciseTime: 300,
                       maxTaskAmount: 10,
+                      maxStepCount: 22000,
+                      stepAmount: 18000,
                     ),
                     const SizedBox(height: 24),
                     const AchievementCard(),
