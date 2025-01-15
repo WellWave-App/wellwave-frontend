@@ -31,12 +31,14 @@ class SettingDetail {
   final String? notificationType;
   final String bedtime;
   final String? wakeTime;
+  final Map<String, bool> weekdays;
 
   SettingDetail({
     this.uid,
     this.notificationType,
     required this.bedtime,
     this.wakeTime,
+    required this.weekdays,
   });
 
   factory SettingDetail.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,7 @@ class SettingDetail {
       notificationType: json['NOTIFICATION_TYPE'] ?? 'BEDTIME',
       bedtime: json['BEDTIME'] ?? '',
       wakeTime: json['WAKE_TIME'] ?? '',
+      weekdays: Map<String, bool>.from(json['WEEKDAYS'] ?? {}),
     );
   }
 
@@ -54,6 +57,7 @@ class SettingDetail {
       'NOTIFICATION_TYPE': notificationType,
       'BEDTIME': bedtime,
       'WAKE_TIME': wakeTime,
+      'WEEKDAYS': weekdays,
     };
   }
 }

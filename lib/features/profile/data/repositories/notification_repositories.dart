@@ -15,11 +15,13 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
     required String bedtime,
+    required Map<String, bool> weekdays,
   }) async {
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
       "BEDTIME": bedtime,
+      "WEEKDAYS": weekdays,
     };
 
     try {
@@ -37,7 +39,7 @@ class NotificationSettingRepository {
 
       if (response.statusCode == 201) {
         debugPrint(
-            'Bedtime setting created successfully for $uid, $isActive, $bedtime');
+            'Bedtime setting created successfully for $uid, $isActive, $bedtime,$weekdays');
         return true;
       } else {
         debugPrint('Failed to update bedtime setting: ${response.statusCode}');
@@ -62,24 +64,26 @@ class NotificationSettingRepository {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
 
-        // Extract the correct IS_ACTIVE value from the nested `bedtimeSettings` object
         final isActive = jsonData['IS_ACTIVE'];
+        final bedtimeSettings = jsonData['bedtimeSettings'];
 
-        final bedtime = jsonData['bedtimeSettings'] != null
-            ? jsonData['bedtimeSettings']['BEDTIME']
-            : null;
+        if (bedtimeSettings != null) {
+          final bedtime = bedtimeSettings['BEDTIME'];
+          final weekdays =
+              Map<String, bool>.from(bedtimeSettings['WEEKDAYS'] ?? {});
 
-        debugPrint('Fetched Data: isActive = $isActive, bedtime = $bedtime');
+          debugPrint(
+              'Fetched Data: isActive = $isActive, bedtime = $bedtime, weekdays = $weekdays');
 
-        if (isActive != null && bedtime != null) {
           return SleepNotificationResponseModel(
             isActive: isActive,
             setting: SettingDetail(
               bedtime: bedtime,
+              weekdays: weekdays,
             ),
           );
         } else {
-          debugPrint('Error: IS_ACTIVE or BEDTIME was null');
+          debugPrint('Error: bedtimeSettings was null');
         }
       } else {
         debugPrint(

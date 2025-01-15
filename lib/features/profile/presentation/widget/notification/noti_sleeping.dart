@@ -42,26 +42,33 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
 
   void updateSelectedDaysText() {
     List<String> days = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
-    List<int> selectedIndices = [];
-
-    // Collect indices of selected days
-    selectedIndices.addAll(
-        selectedDays.asMap().entries.where((e) => e.value).map((e) => e.key));
+    List<int> selectedIndices = selectedDays
+        .asMap()
+        .entries
+        .where((entry) => entry.value)
+        .map((entry) => entry.key)
+        .toList();
 
     if (selectedIndices.isEmpty) {
       setState(() => day = ''); // No days selected
     } else {
-      // Check if the selected days are consecutive
-      bool isConsecutive = selectedIndices.every((index) =>
-          (selectedIndices.first + selectedIndices.length - 1) % 7 ==
-          selectedIndices.last);
+      // Check if the selected days are consecutive, accounting for wrapping around
+      bool isConsecutive = true;
+      for (int i = 0; i < selectedIndices.length - 1; i++) {
+        if ((selectedIndices[i] + 1) % 7 != selectedIndices[i + 1]) {
+          isConsecutive = false;
+          break;
+        }
+      }
+
       if (isConsecutive && selectedIndices.length > 1) {
         int firstIndex = selectedIndices.first;
         int lastIndex = selectedIndices.last;
         setState(() => day = '${days[firstIndex]} ถึง ${days[lastIndex]}');
       } else {
-        setState(
-            () => day = selectedIndices.map((index) => days[index]).join(', '));
+        setState(() => day = selectedIndices
+            .map((index) => days[index])
+            .join(', ')); // Non-consecutive days
       }
     }
   }
@@ -119,10 +126,25 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
     updateSelectedDaysText();
     String formattedTime = DateFormat('HH:mm').format(time);
 
+    List<String> days = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
+    ];
+
+    Map<String, bool> weekdays = {
+      for (int i = 0; i < selectedDays.length; i++) days[i]: selectedDays[i],
+    };
+
     context.read<NotiBloc>().add(CreateBedtimeEvent(
           uid: AppStrings.uid,
           isActive: true,
           bedtime: formattedTime,
+          weekdays: weekdays,
         ));
 
     Navigator.pop(context);
@@ -141,6 +163,21 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
             if (state.bedtime.isNotEmpty) {
               time = DateFormat("HH:mm").parse(state.bedtime);
             }
+
+            // Update selectedDays based on weekdays fetched
+            List<String> days = [
+              'Sunday',
+              'Monday',
+              'Tuesday',
+              'Wednesday',
+              'Thursday',
+              'Friday',
+              'Saturday'
+            ];
+            for (int i = 0; i < days.length; i++) {
+              selectedDays[i] = state.weekdays[days[i]] ?? false;
+            }
+            updateSelectedDaysText(); // Ensure `day` is updated
           });
         }
       },

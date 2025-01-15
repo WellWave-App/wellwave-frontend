@@ -17,16 +17,23 @@ class NotiError extends NotiState {
 class BedtimeState extends NotiState {
   final bool isActive;
   final String bedtime;
+  final Map<String, bool> weekdays;
 
-  BedtimeState({required this.isActive, required this.bedtime});
+  BedtimeState({
+    required this.isActive,
+    required this.bedtime,
+    required this.weekdays,
+  });
 
   BedtimeState copyWith({
     bool? isActive,
     String? bedtime,
+    Map<String, bool>? weekdays,
   }) {
     return BedtimeState(
       isActive: isActive ?? this.isActive,
       bedtime: bedtime ?? this.bedtime,
+      weekdays: weekdays ?? this.weekdays,
     );
   }
 }

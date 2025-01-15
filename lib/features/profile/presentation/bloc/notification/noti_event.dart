@@ -7,10 +7,13 @@ class CreateBedtimeEvent extends NotiEvent {
   final bool isActive;
   final String bedtime;
 
+  final Map<String, bool> weekdays;
+
   CreateBedtimeEvent({
     required this.uid,
     required this.isActive,
     required this.bedtime,
+    required this.weekdays,
   });
 }
 

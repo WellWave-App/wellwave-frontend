@@ -29,9 +29,13 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
   Future<void> _onCreateBedtimeEvent(
       CreateBedtimeEvent event, Emitter<NotiState> emit) async {
     try {
-      await createBedTime(event.uid, event.isActive, event.bedtime,
-          _notificationSettingRepository);
-      emit(BedtimeState(isActive: event.isActive, bedtime: event.bedtime));
+      await createBedTime(
+          event.uid, event.isActive, event.bedtime, event.weekdays);
+      emit(BedtimeState(
+        isActive: event.isActive,
+        bedtime: event.bedtime,
+        weekdays: event.weekdays,
+      ));
     } catch (error) {
       debugPrint('Error creating bedtime: $error');
     }
@@ -47,7 +51,7 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
         final currentState = state as BedtimeState;
         emit(currentState.copyWith(isActive: event.isActive));
       } else {
-        emit(BedtimeState(isActive: event.isActive, bedtime: ""));
+        emit(BedtimeState(isActive: event.isActive, bedtime: "", weekdays: {}));
       }
     } catch (error) {
       debugPrint('Error updating bedtime: $error');
@@ -62,10 +66,11 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
             await _notificationSettingRepository.fetchBedSetting();
         if (fetchedData != null) {
           debugPrint(
-              'Fetched Data: isActive = ${fetchedData.isActive}, bedtime = ${fetchedData.setting.bedtime}');
+              'Fetched Data: isActive = ${fetchedData.isActive}, bedtime = ${fetchedData.setting.bedtime}, weekdays = ${fetchedData.setting.weekdays}');
           emit(BedtimeState(
             isActive: fetchedData.isActive,
             bedtime: fetchedData.setting.bedtime,
+            weekdays: fetchedData.setting.weekdays,
           ));
           debugPrint(
               'BedtimeState emitted with isActive: ${fetchedData.isActive}');
@@ -138,12 +143,13 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
   }
 
   Future<void> createBedTime(int uid, bool isActive, String bedTime,
-      NotificationSettingRepository notiRepository) async {
+      Map<String, bool> weekdays) async {
     try {
-      await notiRepository.createBedSetting(
+      await _notificationSettingRepository.createBedSetting(
         uid: uid,
         isActive: isActive,
         bedtime: bedTime,
+        weekdays: weekdays,
       );
       debugPrint(
           'Bedtime setting created successfully for $uid, $isActive, $bedTime');
