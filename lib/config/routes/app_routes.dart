@@ -14,6 +14,7 @@ import 'package:wellwave_frontend/features/profile/presentation/screen/achieveme
 import 'package:wellwave_frontend/features/profile/presentation/screen/edit_profile_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/profile_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/reminder_screen.dart';
+import 'package:wellwave_frontend/features/profile/presentation/screen/set_weekly_goal_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
 import '../../features/profile/presentation/screen/drink_plan_screen.dart';
@@ -85,6 +86,14 @@ final GoRouter goRouter = GoRouter(
                           ),
                         ]),
                   ]),
+              GoRoute(
+                path: AppPages.setWeeklyGoalPage,
+                name: AppPages.setWeeklyGoalName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return _buildPageWithNavBar(
+                      context, state, const SetWeeklyGoalScreen());
+                },
+              ),
             ]),
         GoRoute(
             path: AppPages.logPage,

@@ -140,4 +140,9 @@ class AppStrings {
     'พฤศจิกายน',
     'ธันวาคม'
   ];
+
+  //goal
+  static const goalAmountText = 'จำนวนเป้าหมาย';
+  static const stepPerWeekText = 'ก้าวเดินต่อสัปดาห์';
+  static const exercisePerWeekText = 'ออกกำลังกายต่อสัปดาห์';
 }

@@ -232,8 +232,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         )),
                     const SizedBox(height: 24),
 
-//noti
-
+                    //noti
                     const RoundedText(
                       text: AppStrings.alertText,
                       svgPath: AppImages.alarmIcon,
@@ -251,7 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       text: AppStrings.goalText,
                       svgPath: AppImages.goalIcon,
                       isShowNavi: true,
-                      appPages: AppPages.reminderName,
+                      appPages: AppPages.setWeeklyGoalName,
                       iconSize: 32,
                       vertical: 16,
                       radius: 16,
