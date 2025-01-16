@@ -54,6 +54,36 @@ class ProfileRepositories {
     }
   }
 
+  Future<bool> setGoalPerWeek(
+      {required int uid, required int stepPerWeek}) async {
+    try {
+      final uri = Uri.parse("$baseUrl/users/$uid");
+
+      final Map<String, String> userDetails = {
+        'USER_GOAL_STEP_WEEK': stepPerWeek.toString()
+      };
+
+      final request = http.MultipartRequest('PATCH', uri)
+        ..headers['Authorization'] = 'Bearer $token'
+        ..fields.addAll(userDetails);
+
+      final response = await request.send();
+      // final responseBody = await response.stream.bytesToString();
+
+      // debugPrint('Response Body: $responseBody');
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception(
+            'Failed to edit user goal per week. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
+      throw Exception('Error editing user goal per week: $e');
+    }
+  }
+
   Future<ProfileRequestModel?> getUSer() async {
     try {
       final response = await http.get(

@@ -9,6 +9,7 @@ class ProfileRequestModel {
   final int gem;
   final int exp;
   final UserLeague? userLeague;
+  final int? stepPerWeek;
 
   ProfileRequestModel({
     required this.uid,
@@ -21,29 +22,30 @@ class ProfileRequestModel {
     required this.exp,
     required this.gem,
     this.userLeague,
+    this.stepPerWeek,
   });
 
-  ProfileRequestModel copyWith({
-    String? imageUrl,
-    String? username,
-    int? yearOfBirth,
-    bool? gender,
-    double? height,
-    double? weight,
-    int? userGoal,
-    String? email,
-  }) {
+  ProfileRequestModel copyWith(
+      {String? imageUrl,
+      String? username,
+      int? yearOfBirth,
+      bool? gender,
+      double? height,
+      double? weight,
+      int? userGoal,
+      String? email,
+      int? stepPerWeek}) {
     return ProfileRequestModel(
-      imageUrl: imageUrl ?? this.imageUrl,
-      username: username ?? this.username,
-      yearOfBirth: yearOfBirth ?? this.yearOfBirth,
-      gender: gender ?? this.gender,
-      height: height ?? this.height,
-      weight: weight ?? this.weight,
-      uid: uid,
-      exp: exp,
-      gem: gem,
-    );
+        imageUrl: imageUrl ?? this.imageUrl,
+        username: username ?? this.username,
+        yearOfBirth: yearOfBirth ?? this.yearOfBirth,
+        gender: gender ?? this.gender,
+        height: height ?? this.height,
+        weight: weight ?? this.weight,
+        uid: uid,
+        exp: exp,
+        gem: gem,
+        stepPerWeek: stepPerWeek);
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +59,7 @@ class ProfileRequestModel {
       'UID': uid,
       'EXP': exp,
       'GEM': gem,
+      'USER_GOAL_STEP_WEEK': stepPerWeek
     };
   }
 
@@ -71,6 +74,7 @@ class ProfileRequestModel {
       weight: (json['userInfo']['WEIGHT'] as num?)?.toDouble() ?? 0.0,
       exp: json['userInfo']['EXP'] as int,
       gem: json['userInfo']['GEM'] as int,
+      stepPerWeek: json['userInfo']['USER_GOAL_STEP_WEEK'],
       userLeague: json['userLeague'] != null
           ? UserLeague.fromJson(json['userLeague'])
           : null,
@@ -88,6 +92,7 @@ class ProfileRequestModel {
       'UID': uid,
       'EXP': exp,
       'GEM': gem,
+      'USER_GOAL_STEP_WEEK': stepPerWeek
     };
   }
 }

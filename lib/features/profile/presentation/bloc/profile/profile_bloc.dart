@@ -13,7 +13,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       try {
         final userProfile = await profileRepositories.getUSer();
         if (userProfile == null) {
-          emit(ProfileError('User profile not found'));
+          emit(ProfileError('User profile not found fetch'));
         } else {
           emit(ProfileLoaded(userProfile));
         }
@@ -29,7 +29,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         final userProfile = await profileRepositories.getUSer();
 
         if (userProfile == null) {
-          emit(ProfileError('User profile not found'));
+          emit(ProfileError('User profile not found edit'));
         } else {
           final uid = userProfile.uid;
 
@@ -54,13 +54,37 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       }
     });
 
+    on<EditUserGoalPerWeek>((event, emit) async {
+      emit(ProfileLoading());
+      try {
+        final userProfile = await profileRepositories.getUSer();
+
+        if (userProfile == null) {
+          emit(ProfileError('User profile not found goal'));
+        } else {
+          final uid = userProfile.uid;
+
+          final isEdited = await profileRepositories.setGoalPerWeek(
+              uid: uid, stepPerWeek: event.stepPerWeek);
+
+          if (isEdited) {
+            emit(ProfileEdited());
+          } else {
+            emit(ProfileError("Failed to edit user goal per week"));
+          }
+        }
+      } catch (e) {
+        emit(ProfileError(e.toString()));
+      }
+    });
+
     on<ImagePicked>((event, emit) async {
       emit(ProfileLoading());
       try {
         final userProfile = await profileRepositories.getUSer();
 
         if (userProfile == null) {
-          emit(ProfileError('User profile not found'));
+          emit(ProfileError('User profile not found image'));
         } else {
           final uid = userProfile.uid;
 
@@ -75,7 +99,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
                   currentUserProfile.copyWith(imageUrl: success);
               emit(ProfileLoaded(updatedUserProfile));
             } else {
-              emit(ProfileError("User profile not found"));
+              emit(ProfileError("User profile not found image2"));
             }
           } else {
             emit(ProfileError("Failed to upload image"));

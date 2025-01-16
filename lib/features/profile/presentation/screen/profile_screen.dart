@@ -20,7 +20,8 @@ import 'package:wellwave_frontend/features/profile/presentation/widget/profile/u
 import '../../../logs/presentation/logs_bloc/logs_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  final double? totalSteps;
+  const ProfileScreen({super.key, this.totalSteps});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -48,6 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             builder: (context, state) {
               if (state is ProfileLoaded) {
                 final profile = state.userProfile;
+                final totalSteps = widget.totalSteps ?? 0.0;
 
                 final userLeague = profile.userLeague;
 
@@ -109,14 +111,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 24),
 
                     //progress
-                    const ProgressCard(
+                    ProgressCard(
                       daysRemain: 3,
                       exerciseTime: 250,
                       taskAmount: 10,
                       maxExerciseTime: 300,
                       maxTaskAmount: 10,
-                      maxStepCount: 22000,
-                      stepAmount: 18000,
+                      maxStepCount: state.userProfile.stepPerWeek!,
+                      stepAmount: totalSteps.toInt(),
                     ),
                     const SizedBox(height: 24),
                     const AchievementCard(),

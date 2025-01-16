@@ -141,7 +141,6 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                 isDense: true,
                                 contentPadding:
                                     EdgeInsets.symmetric(vertical: 0),
-                                // border: OutlineInputBorder(),
                               ),
                               onSubmitted: (value) {
                                 setState(() {

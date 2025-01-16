@@ -7,14 +7,7 @@ abstract class ProfileEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class FetchUserProfile extends ProfileEvent {
-  // final int uid;
-
-  // FetchUserProfile(this.uid);
-
-  // @override
-  // List<Object?> get props => [uid];
-}
+class FetchUserProfile extends ProfileEvent {}
 
 class EditUserProfile extends ProfileEvent {
   // final int uid;
@@ -45,6 +38,17 @@ class EditUserProfile extends ProfileEvent {
         height,
         weight,
       ];
+}
+
+class EditUserGoalPerWeek extends ProfileEvent {
+  final int stepPerWeek;
+
+  EditUserGoalPerWeek({
+    required this.stepPerWeek,
+  });
+
+  @override
+  List<Object?> get props => [stepPerWeek];
 }
 
 class ImagePicked extends ProfileEvent {

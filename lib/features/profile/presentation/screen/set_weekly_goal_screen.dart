@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_event.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_state.dart';
 
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
 import '../../../../config/constants/app_strings.dart';
-import '../cancle_confirm_button.dart';
 
 class SetWeeklyGoalScreen extends StatefulWidget {
   const SetWeeklyGoalScreen({super.key});
@@ -15,237 +18,196 @@ class SetWeeklyGoalScreen extends StatefulWidget {
 }
 
 class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
-  int stepPerWeek = 10000;
-  int exercisePerWeek = 100;
+  int stepPerWeek = 0;
+  int exercisePerWeek = 0;
+  bool _isEditing = false;
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserProfile();
+    _controller = TextEditingController(text: stepPerWeek.toString());
+  }
+
+  void _loadUserProfile() {
+    final profileBloc = context.read<ProfileBloc>();
+    profileBloc.add(FetchUserProfile());
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _submitLogs() {
-    // String formattedtimeStarttime = DateFormat('HH:mm').format(startTime);
-    // String formattedtimeEndtime = DateFormat('HH:mm').format(endTime);
-    // int intervalMinute = (double.parse(hourSet) * 60).toInt();
-
-    // context.read<NotiBloc>().add(CreateDrinkRangeEvent(
-    //       uid: AppStrings.uid,
-    //       startTime: formattedtimeStarttime,
-    //       endTime: formattedtimeEndtime,
-    //       intervalMinute: intervalMinute,
-    //     ));
-
-    Navigator.pop(context);
+    final profileBloc = BlocProvider.of<ProfileBloc>(context);
+    profileBloc.add(EditUserGoalPerWeek(stepPerWeek: stepPerWeek));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: AppColors.backgroundColor,
-        appBar: CustomAppBar(
-            title: AppStrings.goalText, context: context, onLeading: true),
-        body: SingleChildScrollView(
-          child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 36),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(AppImages.fireGoalIcon, height: 21),
-                      const SizedBox(width: 8),
-                      Text(
-                        AppStrings.goalAmountText,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Container(
+    return BlocListener<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        if (state is ProfileLoaded) {
+          setState(() {
+            stepPerWeek = state.userProfile.stepPerWeek!;
+          });
+        }
+      },
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          return Scaffold(
+              backgroundColor: AppColors.backgroundColor,
+              appBar: CustomAppBar(
+                  title: AppStrings.goalText,
+                  context: context,
+                  onLeading: true),
+              body: SingleChildScrollView(
+                child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 27),
-                    decoration: BoxDecoration(
-                        color: AppColors.whiteColor,
-                        borderRadius: BorderRadius.circular(16)),
+                        horizontal: 20, vertical: 36),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Text(AppStrings.stepPerWeekText,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith())
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                int? result = await showModalBottomSheet<int>(
-                                    backgroundColor: AppColors.whiteColor,
-                                    context: context,
-                                    builder: (context) => Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 24, horizontal: 20),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                height: 3,
-                                                width: 140,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                margin: const EdgeInsets.only(
-                                                    bottom: 8),
-                                              ),
-                                              const SizedBox(height: 40),
-                                              // Expanded(
-                                              // child: CupertinoDatePicker(
-                                              //   initialDateTime: startTime,
-                                              //   mode: CupertinoDatePickerMode
-                                              //       .time,
-                                              //   use24hFormat: true,
-                                              //   onDateTimeChanged:
-                                              //       (DateTime newTime) {
-                                              //     setState(() =>
-                                              //         startTime = newTime);
-                                              //   },
-                                              // ),
-                                              // ),
-                                              const SizedBox(
-                                                height: 24,
-                                              ),
-                                              ConfirmCancelButtons(
-                                                onConfirm: _submitLogs,
-                                                onCancel: () => setState(() =>
-                                                    Navigator.pop(context)),
-                                              ),
-                                            ],
-                                          ),
-                                        ));
-                                // if (result != null) {
-                                //   setState(() {
-                                //     startTime = result as DateTime;
-                                //   });
-                                // }
-                              },
-                              child: Row(
+                            SvgPicture.asset(AppImages.fireGoalIcon,
+                                height: 21),
+                            const SizedBox(width: 8),
+                            Text(
+                              AppStrings.goalAmountText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 27),
+                          decoration: BoxDecoration(
+                              color: AppColors.whiteColor,
+                              borderRadius: BorderRadius.circular(16)),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('$stepPerWeek ${AppStrings.stepText}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              color: AppColors
-                                                  .secondaryDarkColor)),
-                                  const SizedBox(width: 8),
-                                  const Icon(
-                                    Icons.navigate_next_rounded,
-                                    color: AppColors.greyColor,
+                                  Row(
+                                    children: [
+                                      Text(AppStrings.stepPerWeekText,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith())
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      _isEditing
+                                          ? SizedBox(
+                                              width: 75,
+                                              child: TextField(
+                                                controller: _controller,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  isDense: true,
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 0),
+                                                ),
+                                                onSubmitted: (value) {
+                                                  setState(() {
+                                                    stepPerWeek =
+                                                        int.tryParse(value) ??
+                                                            0;
+                                                    _isEditing = false;
+                                                    _submitLogs();
+                                                  });
+                                                },
+                                              ),
+                                            )
+                                          : GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  _isEditing = true;
+                                                });
+                                              },
+                                              child: Text(
+                                                stepPerWeek == 0
+                                                    ? 'กดเพื่อตั้งเป้าหมาย'
+                                                    : stepPerWeek.toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(),
+                                              ),
+                                            ),
+                                      const SizedBox(width: 8),
+                                      Text(AppStrings.stepText,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  color: AppColors.greyColor)),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 38),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Text(AppStrings.exercisePerWeekText,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith())
-                              ],
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                int? result = await showModalBottomSheet<int>(
-                                    backgroundColor: AppColors.whiteColor,
-                                    context: context,
-                                    builder: (context) => Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 24, horizontal: 20),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Container(
-                                                height: 3,
-                                                width: 140,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                margin: const EdgeInsets.only(
-                                                    bottom: 8),
-                                              ),
-                                              const SizedBox(height: 40),
-                                              // Expanded(
-                                              // child: CupertinoDatePicker(
-                                              //   initialDateTime: startTime,
-                                              //   mode: CupertinoDatePickerMode
-                                              //       .time,
-                                              //   use24hFormat: true,
-                                              //   onDateTimeChanged:
-                                              //       (DateTime newTime) {
-                                              //     setState(() =>
-                                              //         startTime = newTime);
-                                              //   },
-                                              // ),
-                                              // ),
-                                              const SizedBox(
-                                                height: 24,
-                                              ),
-                                              ConfirmCancelButtons(
-                                                onConfirm: _submitLogs,
-                                                onCancel: () => setState(() =>
-                                                    Navigator.pop(context)),
-                                              ),
-                                            ],
-                                          ),
-                                        ));
-                                // if (result != null) {
-                                //   setState(() {
-                                //     startTime = result as DateTime;
-                                //   });
-                                // }
-                              },
-                              child: Row(
+                              const SizedBox(height: 38),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                      '$exercisePerWeek ${AppStrings.minuteText}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium
-                                          ?.copyWith(
-                                              color: AppColors
-                                                  .secondaryDarkColor)),
-                                  const SizedBox(width: 8),
-                                  const Icon(
-                                    Icons.navigate_next_rounded,
-                                    color: AppColors.greyColor,
+                                  Row(
+                                    children: [
+                                      Text(AppStrings.exercisePerWeekText,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith())
+                                    ],
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {},
+                                    child: Row(
+                                      children: [
+                                        Text('$exercisePerWeek',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith()),
+                                        const SizedBox(width: 8),
+                                        Text(AppStrings.minuteText,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                    color:
+                                                        AppColors.greyColor)),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
 
-                        // const SizedBox(height: 11)
+                              // const SizedBox(height: 11)
+                            ],
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
-                ],
-              )),
-        ));
+                    )),
+              ));
+        },
+      ),
+    );
   }
 }

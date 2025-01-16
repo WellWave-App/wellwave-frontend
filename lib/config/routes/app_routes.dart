@@ -85,15 +85,15 @@ final GoRouter goRouter = GoRouter(
                             },
                           ),
                         ]),
+                    GoRoute(
+                      path: AppPages.setWeeklyGoalPage,
+                      name: AppPages.setWeeklyGoalName,
+                      pageBuilder: (BuildContext context, GoRouterState state) {
+                        return _buildPageWithNavBar(
+                            context, state, const SetWeeklyGoalScreen());
+                      },
+                    ),
                   ]),
-              GoRoute(
-                path: AppPages.setWeeklyGoalPage,
-                name: AppPages.setWeeklyGoalName,
-                pageBuilder: (BuildContext context, GoRouterState state) {
-                  return _buildPageWithNavBar(
-                      context, state, const SetWeeklyGoalScreen());
-                },
-              ),
             ]),
         GoRoute(
             path: AppPages.logPage,
