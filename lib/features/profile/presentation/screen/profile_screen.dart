@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         //progress
                         ProgressCard(
-                          daysRemain: 3,
+                          daysRemain: 7 - today.weekday,
                           exerciseTime: 250,
                           taskAmount: 10,
                           maxExerciseTime: 300,
