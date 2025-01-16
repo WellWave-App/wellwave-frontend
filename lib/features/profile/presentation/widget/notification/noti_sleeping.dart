@@ -8,6 +8,7 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../bloc/notification/noti_bloc.dart';
+import '../../cancle_confirm_button.dart';
 
 class NotificationSleeping extends StatefulWidget {
   const NotificationSleeping({super.key});
@@ -71,55 +72,6 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
             .join(', ')); // Non-consecutive days
       }
     }
-  }
-
-  Widget _buildConfirmButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: _submitLogs,
-          style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(AppColors.primaryColor),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
-            )),
-          ),
-          child: Text(AppStrings.confirmText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.white)),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCancelButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: () => Navigator.pop(context),
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
-              side: const BorderSide(color: AppColors.primaryColor, width: 1),
-            )),
-          ),
-          child: Text(AppStrings.backText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppColors.primaryColor)),
-        ),
-      ),
-    );
   }
 
   void _submitLogs() {
@@ -291,13 +243,9 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
                   const SizedBox(height: 36),
                   SizedBox(height: 120, child: _buildTimePicker(setModalState)),
                   const SizedBox(height: 36),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildCancelButton(),
-                      const SizedBox(width: 10),
-                      _buildConfirmButton(),
-                    ],
+                  ConfirmCancelButtons(
+                    onConfirm: _submitLogs,
+                    onCancel: () => setState(() => Navigator.pop(context)),
                   ),
                 ],
               ),

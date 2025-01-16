@@ -7,6 +7,7 @@ import '../../../../../config/constants/app_colors.dart';
 import '../../../../../config/constants/app_images.dart';
 import '../../../../../config/constants/app_strings.dart';
 import '../../bloc/notification/noti_bloc.dart';
+import '../../cancle_confirm_button.dart';
 
 class WaterPlanWidget extends StatefulWidget {
   const WaterPlanWidget({super.key});
@@ -85,14 +86,9 @@ class _WaterPlanWidgetState extends State<WaterPlanWidget> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildCancleButton(),
-                      const SizedBox(width: 10),
-                      _buildConfirmButton(
-                          () => _submitLogs(index, selectedTime!)),
-                    ],
+                  ConfirmCancelButtons(
+                    onConfirm: () => _submitLogs(index, selectedTime!),
+                    onCancel: () => setState(() => Navigator.pop(context)),
                   ),
                 ],
               ),
@@ -100,57 +96,6 @@ class _WaterPlanWidgetState extends State<WaterPlanWidget> {
           },
         );
       },
-    );
-  }
-
-  Widget _buildCancleButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: () => setState(() => Navigator.pop(context)),
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                side: const BorderSide(color: AppColors.primaryColor, width: 1),
-              ),
-            ),
-          ),
-          child: Text(AppStrings.backText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppColors.primaryColor)),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildConfirmButton(VoidCallback onPressed) {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: onPressed,
-          style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(AppColors.primaryColor),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-            ),
-          ),
-          child: Text(AppStrings.confirmText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.white)),
-        ),
-      ),
     );
   }
 
@@ -182,114 +127,112 @@ class _WaterPlanWidgetState extends State<WaterPlanWidget> {
     context.read<NotiBloc>().add(
           FetchDrinkPlanEvent(),
         );
-    return BlocBuilder<NotiBloc, NotiState>(
-      builder: (context, state) {
-        if (state is DrinkPlanState && state.isActive) {
-          for (var setting in state.settings) {
-            int glassIndex = setting.glassNumber - 1;
-            if (glassIndex >= 0 && glassIndex < glassTimes.length) {
-              glassTimes[glassIndex] = TimeOfDay(
-                hour: int.parse(setting.notitime.split(':')[0]),
-                minute: int.parse(setting.notitime.split(':')[1]),
-              );
-            }
+    return BlocBuilder<NotiBloc, NotiState>(builder: (context, state) {
+      if (state is DrinkPlanState && state.isActive) {
+        for (var setting in state.settings) {
+          int glassIndex = setting.glassNumber - 1;
+          if (glassIndex >= 0 && glassIndex < glassTimes.length) {
+            glassTimes[glassIndex] = TimeOfDay(
+              hour: int.parse(setting.notitime.split(':')[0]),
+              minute: int.parse(setting.notitime.split(':')[1]),
+            );
           }
+        }
 
-          return SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              return Column(
-                                children: [
-                                  const SizedBox(
-                                      height: 40, child: DashedLine()),
-                                  ...List.generate(
-                                    glassTimes.length * 2 - 1,
-                                    (index) => index.isEven
-                                        ? const CircleAvatar(
-                                            radius: 4,
-                                            backgroundColor:
-                                                AppColors.primaryColor)
-                                        : const SizedBox(
-                                            height: 80, child: DashedLine()),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 24, bottom: 24),
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: 8,
-                          itemBuilder: (context, index) {
-                            final formattedTime =
-                                _formatTimeOfDay(glassTimes[index]);
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: GestureDetector(
-                                onTap: () => _adjustTime(index),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 24, horizontal: 12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(width: 12),
-                                      SvgPicture.asset(
-                                        AppImages.glassIcon,
-                                        height: 24,
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Text(
-                                        'แก้วที่ ${index + 1}',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                      ),
-                                      const Spacer(),
-                                      Text(formattedTime,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith(
-                                                  fontWeight: FontWeight.bold)),
-                                    ],
-                                  ),
+        return SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    Positioned.fill(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            return Column(
+                              children: [
+                                const SizedBox(height: 40, child: DashedLine()),
+                                ...List.generate(
+                                  glassTimes.length * 2 - 1,
+                                  (index) => index.isEven
+                                      ? const CircleAvatar(
+                                          radius: 4,
+                                          backgroundColor:
+                                              AppColors.primaryColor)
+                                      : const SizedBox(
+                                          height: 80, child: DashedLine()),
                                 ),
-                              ),
+                              ],
                             );
                           },
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 24, bottom: 24),
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 8,
+                        itemBuilder: (context, index) {
+                          final formattedTime =
+                              _formatTimeOfDay(glassTimes[index]);
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: GestureDetector(
+                              onTap: () => _adjustTime(index),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 24, horizontal: 12),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const SizedBox(width: 12),
+                                    SvgPicture.asset(
+                                      AppImages.glassIcon,
+                                      height: 24,
+                                    ),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      'แก้วที่ ${index + 1}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                    const Spacer(),
+                                    Text(formattedTime,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                                fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          );
-        } else if (state is NotiLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          return const Center(child: Text('No drink plan found.'));
-        }
-      },
-    );
+          ),
+        );
+      } else if (state is NotiLoading) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state is NotiError) {
+        return Center(child: Text(state.message));
+      } else {
+        return const Text('No water plan data.');
+      }
+    });
   }
 }
 

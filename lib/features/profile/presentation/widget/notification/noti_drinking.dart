@@ -10,6 +10,8 @@ import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/notification/noti_bloc.dart';
 
+import '../../cancle_confirm_button.dart';
+
 class NotificationDrinking extends StatefulWidget {
   const NotificationDrinking({super.key});
 
@@ -47,57 +49,6 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
       context.read<NotiBloc>().add(
           UpdateDrinkRangeEvent(uid: AppStrings.uid, isActive: _isSwitched));
     }
-  }
-
-  Widget _buildConfirmButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: _submitLogs,
-          style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(AppColors.primaryColor),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-            ),
-          ),
-          child: Text(AppStrings.confirmText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.white)),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCancleButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: () => setState(() => Navigator.pop(context)),
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                side: const BorderSide(color: AppColors.primaryColor, width: 1),
-              ),
-            ),
-          ),
-          child: Text(AppStrings.backText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppColors.primaryColor)),
-        ),
-      ),
-    );
   }
 
   void _submitLogs() {
@@ -240,15 +191,11 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                           const SizedBox(
                                             height: 24,
                                           ),
-                                          Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                _buildCancleButton(),
-                                                const SizedBox(width: 10),
-                                                _buildConfirmButton()
-                                              ])
+                                          ConfirmCancelButtons(
+                                            onConfirm: _submitLogs,
+                                            onCancel: () => setState(
+                                                () => Navigator.pop(context)),
+                                          ),
                                         ],
                                       ),
                                     ));
@@ -330,15 +277,11 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                           const SizedBox(
                                             height: 24,
                                           ),
-                                          Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                _buildCancleButton(),
-                                                const SizedBox(width: 10),
-                                                _buildConfirmButton()
-                                              ])
+                                          ConfirmCancelButtons(
+                                            onConfirm: _submitLogs,
+                                            onCancel: () => setState(
+                                                () => Navigator.pop(context)),
+                                          ),
                                         ],
                                       ),
                                     ));
@@ -430,15 +373,11 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                           const SizedBox(
                                             height: 24,
                                           ),
-                                          Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                _buildCancleButton(),
-                                                const SizedBox(width: 10),
-                                                _buildConfirmButton()
-                                              ])
+                                          ConfirmCancelButtons(
+                                            onConfirm: _submitLogs,
+                                            onCancel: () => setState(
+                                                () => Navigator.pop(context)),
+                                          ),
                                         ],
                                       ),
                                     ));

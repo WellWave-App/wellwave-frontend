@@ -9,6 +9,7 @@ import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/pro
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_state.dart';
 
 import '../../../../logs/presentation/widget/scale_record_widget.dart';
+import '../../cancle_confirm_button.dart';
 
 class UserDetailCard extends StatefulWidget {
   const UserDetailCard({super.key});
@@ -75,60 +76,6 @@ class _UserDetailCardState extends State<UserDetailCard> {
       initialValue: controller.value,
       controller: controller,
       onValueChanged: onValueChanged,
-    );
-  }
-
-  Widget _buildCancleButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: () => setState(() => Navigator.pop(context)),
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                side: const BorderSide(color: AppColors.primaryColor, width: 1),
-              ),
-            ),
-          ),
-          child: Text(AppStrings.backText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppColors.primaryColor)),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildConfirmButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: () {
-            _submitLogs();
-            Navigator.pop(context);
-          },
-          style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(AppColors.primaryColor),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-            ),
-          ),
-          child: Text(AppStrings.confirmText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.white)),
-        ),
-      ),
     );
   }
 
@@ -295,14 +242,11 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                         ),
                                       ),
                                       const SizedBox(height: 24),
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _buildCancleButton(),
-                                            const SizedBox(width: 10),
-                                            _buildConfirmButton()
-                                          ])
+                                      ConfirmCancelButtons(
+                                        onConfirm: _submitLogs,
+                                        onCancel: () => setState(
+                                            () => Navigator.pop(context)),
+                                      ),
                                     ],
                                   ),
                                 ));
@@ -379,8 +323,8 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                           itemExtent: 40,
                                           scrollController:
                                               FixedExtentScrollController(
-                                            initialItem: DateTime.now().year -
-                                                1900, // Default year
+                                            initialItem:
+                                                DateTime.now().year - 1900,
                                           ),
                                           onSelectedItemChanged: (int index) {
                                             birthYear = yearList[index];
@@ -398,14 +342,11 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                         ),
                                       ),
                                       const SizedBox(height: 24),
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _buildCancleButton(),
-                                            const SizedBox(width: 10),
-                                            _buildConfirmButton()
-                                          ])
+                                      ConfirmCancelButtons(
+                                        onConfirm: _submitLogs,
+                                        onCancel: () => setState(
+                                            () => Navigator.pop(context)),
+                                      ),
                                     ],
                                   ),
                                 ));
@@ -478,14 +419,11 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                           weightController,
                                           (value) => weight = value),
                                       const SizedBox(height: 24),
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _buildCancleButton(),
-                                            const SizedBox(width: 10),
-                                            _buildConfirmButton()
-                                          ])
+                                      ConfirmCancelButtons(
+                                        onConfirm: _submitLogs,
+                                        onCancel: () => setState(
+                                            () => Navigator.pop(context)),
+                                      ),
                                     ],
                                   ),
                                 ));
@@ -556,14 +494,11 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                           heightController,
                                           (value) => height = value),
                                       const SizedBox(height: 24),
-                                      Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            _buildCancleButton(),
-                                            const SizedBox(width: 10),
-                                            _buildConfirmButton()
-                                          ])
+                                      ConfirmCancelButtons(
+                                        onConfirm: _submitLogs,
+                                        onCancel: () => setState(
+                                            () => Navigator.pop(context)),
+                                      ),
                                     ],
                                   ),
                                 ));

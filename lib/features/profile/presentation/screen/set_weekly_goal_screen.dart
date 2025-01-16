@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -6,6 +5,7 @@ import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
 import '../../../../config/constants/app_strings.dart';
+import '../cancle_confirm_button.dart';
 
 class SetWeeklyGoalScreen extends StatefulWidget {
   const SetWeeklyGoalScreen({super.key});
@@ -17,57 +17,6 @@ class SetWeeklyGoalScreen extends StatefulWidget {
 class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
   int stepPerWeek = 10000;
   int exercisePerWeek = 100;
-
-  Widget _buildConfirmButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: _submitLogs,
-          style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(AppColors.primaryColor),
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-            ),
-          ),
-          child: Text(AppStrings.confirmText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.white)),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCancleButton() {
-    return Expanded(
-      child: SizedBox(
-        width: 170,
-        height: 60,
-        child: TextButton(
-          onPressed: () => setState(() => Navigator.pop(context)),
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                side: const BorderSide(color: AppColors.primaryColor, width: 1),
-              ),
-            ),
-          ),
-          child: Text(AppStrings.cancleText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: AppColors.primaryColor)),
-        ),
-      ),
-    );
-  }
 
   void _submitLogs() {
     // String formattedtimeStarttime = DateFormat('HH:mm').format(startTime);
@@ -170,15 +119,11 @@ class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
                                               const SizedBox(
                                                 height: 24,
                                               ),
-                                              Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    _buildCancleButton(),
-                                                    const SizedBox(width: 10),
-                                                    _buildConfirmButton()
-                                                  ])
+                                              ConfirmCancelButtons(
+                                                onConfirm: _submitLogs,
+                                                onCancel: () => setState(() =>
+                                                    Navigator.pop(context)),
+                                              ),
                                             ],
                                           ),
                                         ));
@@ -260,15 +205,11 @@ class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
                                               const SizedBox(
                                                 height: 24,
                                               ),
-                                              Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    _buildCancleButton(),
-                                                    const SizedBox(width: 10),
-                                                    _buildConfirmButton()
-                                                  ])
+                                              ConfirmCancelButtons(
+                                                onConfirm: _submitLogs,
+                                                onCancel: () => setState(() =>
+                                                    Navigator.pop(context)),
+                                              ),
                                             ],
                                           ),
                                         ));

@@ -6,21 +6,18 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_drink.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_event.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_state.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/profile/chart_section_widget.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/check_in_card.dart';
 
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/progress_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/round_border_text.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/user_info.dart';
 
-import '../../../logs/data/models/logs_request_model_sleep.dart';
-import '../../../logs/data/models/logs_request_model_step.dart';
 import '../../../logs/presentation/logs_bloc/logs_bloc.dart';
-import '../widget/profile/log_progress_chart.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -30,14 +27,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String selectedPeriod = '7 วัน';
-
-  void updateSelectedPeriod(String newPeriod) {
-    setState(() {
-      selectedPeriod = newPeriod;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(FetchUserProfile());
@@ -134,103 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 24),
 
                     //chart
-                    DefaultTabController(
-                        length: 3,
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 32,
-                              decoration: BoxDecoration(
-                                color: AppColors.whiteColor,
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: TabBar(
-                                indicatorWeight: 0,
-                                labelColor: Colors.white,
-                                unselectedLabelColor: Colors.black,
-                                indicatorColor: AppColors.primaryColor,
-                                indicator: BoxDecoration(
-                                  color: AppColors.primaryColor,
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                tabs: const [
-                                  SizedBox(
-                                      width: 112,
-                                      child: Tab(text: AppStrings.drinkText)),
-                                  SizedBox(
-                                      width: 112,
-                                      child: Tab(text: AppStrings.stepText)),
-                                  SizedBox(
-                                      width: 112,
-                                      child: Tab(text: AppStrings.sleepText)),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            SizedBox(
-                              height: 300,
-                              child: TabBarView(
-                                children: [
-                                  LogProgressChart<LogsDrinkRequestModel>(
-                                    title: AppStrings.amoutOfWaterText,
-                                    unit: AppStrings.glassesText,
-                                    logType: AppStrings.drinkLogText,
-                                    selectedPeriod: selectedPeriod,
-                                    onPeriodSelected: updateSelectedPeriod,
-                                    getLogs: (state) {
-                                      if (state is LogsLoadGraphSuccess) {
-                                        return state.logsDrinklist;
-                                      }
-                                      return [];
-                                    },
-                                    getValue: (log) => log.value,
-                                    getDate: (log) => log.date,
-                                    createLog: (date, value) =>
-                                        LogsDrinkRequestModel(
-                                            date: date, value: value),
-                                  ),
-                                  LogProgressChart<LogsStepRequestModel>(
-                                    title: AppStrings.amoutOfStepText,
-                                    unit: AppStrings.stepText,
-                                    logType: AppStrings.stepLogText,
-                                    selectedPeriod: selectedPeriod,
-                                    onPeriodSelected: updateSelectedPeriod,
-                                    getLogs: (state) {
-                                      if (state is LogsLoadGraphSuccess) {
-                                        return state.logsSteplist;
-                                      }
-                                      return [];
-                                    },
-                                    getValue: (log) => log.value,
-                                    getDate: (log) => log.date,
-                                    createLog: (date, value) =>
-                                        LogsStepRequestModel(
-                                            date: date, value: value),
-                                  ),
-                                  LogProgressChart<LogsSleepRequestModel>(
-                                    title: AppStrings.hoursOfSleepText,
-                                    unit: AppStrings.hoursText,
-                                    logType: AppStrings.drinkLogText,
-                                    selectedPeriod: selectedPeriod,
-                                    onPeriodSelected: updateSelectedPeriod,
-                                    getLogs: (state) {
-                                      if (state is LogsLoadGraphSuccess) {
-                                        return state.logsSleeplist;
-                                      }
-                                      return [];
-                                    },
-                                    getValue: (log) => log.value,
-                                    getDate: (log) => log.date,
-                                    createLog: (date, value) =>
-                                        LogsSleepRequestModel(
-                                            date: date, value: value),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        )),
-                    const SizedBox(height: 24),
+                    const ChartSectionWidget(),
 
                     //noti
                     const RoundedText(
