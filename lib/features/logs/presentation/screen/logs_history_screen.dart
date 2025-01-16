@@ -21,14 +21,14 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
+          backgroundColor: AppColors.primaryColor,
           title: Text(
-        AppStrings.healthHistoryText,
-        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppColors.whiteColor,
-              fontWeight: FontWeight.bold,
-            ),
-      )),
+            AppStrings.healthHistoryText,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: AppColors.whiteColor,
+                  fontWeight: FontWeight.bold,
+                ),
+          )),
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -20,24 +20,26 @@ import 'package:wellwave_frontend/features/profile/presentation/widget/profile/u
 import '../../../logs/presentation/logs_bloc/logs_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final double? totalSteps;
-  const ProfileScreen({super.key, this.totalSteps});
+  const ProfileScreen({super.key});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  double totalSteps = 0.0;
   @override
   Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(FetchUserProfile());
 
     int currentDay = 4;
+    double totalSteps = 0.0;
 
     final today = DateTime.now();
 
     context.read<LogsBloc>().add(LogsFetchedGraph(today));
     // debugPrint('Dispatched LogsFetchedGraph event');
+    context.read<LogsBloc>().add(LogsFetched(today));
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -45,137 +47,151 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: BlocBuilder<ProfileBloc, ProfileState>(
+          child: BlocBuilder<LogsBloc, LogsState>(
             builder: (context, state) {
-              if (state is ProfileLoaded) {
-                final profile = state.userProfile;
-                final totalSteps = widget.totalSteps ?? 0.0;
-
-                final userLeague = profile.userLeague;
-
-                List<String> leagueList = [
-                  AppStrings.bronzeLeaugeText,
-                  AppStrings.silverLeaugeText,
-                  AppStrings.goldLeaugeText,
-                  AppStrings.diamondLeaugeText,
-                  AppStrings.emeraldLeaugeText,
-                ];
-
-                List<String> leagueListIcon = [
-                  AppImages.bronzeLeaugeIcon,
-                  AppImages.silverLeaugeIcon,
-                  AppImages.goldLeaugeIcon,
-                  AppImages.diamondLeagueIcon,
-                  AppImages.emeraldLeaugeIcon,
-                ];
-
-                int leagueIndex = _getLeagueIndex(userLeague?.name ?? 'Bronze');
-
-                // debugPrint('Loaded profile: ${profile.username}');
-                return Column(
-                  children: [
-                    const SizedBox(height: 24),
-                    UserInformation(
-                      userID: 'UID${profile.uid}',
-                      userName: profile.username,
-                      gemAmount: profile.gem,
-                      expAmount: profile.exp,
-                      state: state,
-                    ),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: RoundedText(
-                            text:
-                                '${AppStrings.leagueText}${leagueList[leagueIndex]}',
-                            svgPath: leagueListIcon[leagueIndex],
-                            isShowNavi: true,
-                            appPages: AppPages.articleName,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        const Expanded(
-                          child: RoundedText(
-                            text: AppStrings.rewardRedeemText,
-                            svgPath: AppImages.giftIcon,
-                            isShowNavi: true,
-                            appPages: AppPages.articleName,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    CheckInWidget(currentDay: currentDay),
-                    const SizedBox(height: 24),
-
-                    //progress
-                    ProgressCard(
-                      daysRemain: 3,
-                      exerciseTime: 250,
-                      taskAmount: 10,
-                      maxExerciseTime: 300,
-                      maxTaskAmount: 10,
-                      maxStepCount: state.userProfile.stepPerWeek!,
-                      stepAmount: totalSteps.toInt(),
-                    ),
-                    const SizedBox(height: 24),
-                    const AchievementCard(),
-                    const SizedBox(height: 24),
-
-                    //chart
-                    const ChartSectionWidget(),
-
-                    //noti
-                    const RoundedText(
-                      text: AppStrings.alertText,
-                      svgPath: AppImages.alarmIcon,
-                      isShowNavi: true,
-                      appPages: AppPages.reminderName,
-                      iconSize: 32,
-                      vertical: 16,
-                      radius: 16,
-                      isBold: true,
-                    ),
-                    const SizedBox(height: 16),
-
-                    //goal
-                    const RoundedText(
-                      text: AppStrings.goalText,
-                      svgPath: AppImages.goalIcon,
-                      isShowNavi: true,
-                      appPages: AppPages.setWeeklyGoalName,
-                      iconSize: 32,
-                      vertical: 16,
-                      radius: 16,
-                      isBold: true,
-                    ),
-                    const SizedBox(height: 36),
-
-                    //sign out
-                    GestureDetector(
-                      onTap: () {
-                        context.goNamed(AppPages.logHistoryName);
-                      },
-                      child: Text(
-                        AppStrings.signOutText,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(color: AppColors.darkGrayColor),
-                      ),
-                    ),
-                    const SizedBox(height: 36),
-                  ],
-                );
-              } else if (state is ProfileError) {
-                return Center(child: Text(state.errorMessage));
-              } else if (state is ProfileLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                return const Center(child: Text('No data available.'));
+              if (state is LogsLoadSuccess) {
+                final currentWeekLogs = state.logsWeeklyList;
+                totalSteps = 0.0;
+                for (var log in currentWeekLogs) {
+                  if (log?.logName == AppStrings.stepLogText) {
+                    totalSteps += log?.value ?? 0.0;
+                  }
+                }
               }
+
+              return BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  if (state is ProfileLoaded) {
+                    final profile = state.userProfile;
+
+                    final userLeague = profile.userLeague;
+
+                    List<String> leagueList = [
+                      AppStrings.bronzeLeaugeText,
+                      AppStrings.silverLeaugeText,
+                      AppStrings.goldLeaugeText,
+                      AppStrings.diamondLeaugeText,
+                      AppStrings.emeraldLeaugeText,
+                    ];
+
+                    List<String> leagueListIcon = [
+                      AppImages.bronzeLeaugeIcon,
+                      AppImages.silverLeaugeIcon,
+                      AppImages.goldLeaugeIcon,
+                      AppImages.diamondLeagueIcon,
+                      AppImages.emeraldLeaugeIcon,
+                    ];
+
+                    int leagueIndex =
+                        _getLeagueIndex(userLeague?.name ?? 'Bronze');
+
+                    // debugPrint('Loaded profile: ${profile.username}');
+                    return Column(
+                      children: [
+                        const SizedBox(height: 24),
+                        UserInformation(
+                          userID: 'UID${profile.uid}',
+                          userName: profile.username,
+                          gemAmount: profile.gem,
+                          expAmount: profile.exp,
+                          state: state,
+                        ),
+                        const SizedBox(height: 24),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: RoundedText(
+                                text:
+                                    '${AppStrings.leagueText}${leagueList[leagueIndex]}',
+                                svgPath: leagueListIcon[leagueIndex],
+                                isShowNavi: true,
+                                appPages: AppPages.articleName,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            const Expanded(
+                              child: RoundedText(
+                                text: AppStrings.rewardRedeemText,
+                                svgPath: AppImages.giftIcon,
+                                isShowNavi: true,
+                                appPages: AppPages.articleName,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        CheckInWidget(currentDay: currentDay),
+                        const SizedBox(height: 24),
+
+                        //progress
+                        ProgressCard(
+                          daysRemain: 3,
+                          exerciseTime: 250,
+                          taskAmount: 10,
+                          maxExerciseTime: 300,
+                          maxTaskAmount: 10,
+                          maxStepCount: state.userProfile.stepPerWeek!,
+                          stepAmount: totalSteps.toInt(),
+                        ),
+                        const SizedBox(height: 24),
+                        const AchievementCard(),
+                        const SizedBox(height: 24),
+
+                        //chart
+                        const ChartSectionWidget(),
+
+                        //noti
+                        const RoundedText(
+                          text: AppStrings.alertText,
+                          svgPath: AppImages.alarmIcon,
+                          isShowNavi: true,
+                          appPages: AppPages.reminderName,
+                          iconSize: 32,
+                          vertical: 16,
+                          radius: 16,
+                          isBold: true,
+                        ),
+                        const SizedBox(height: 16),
+
+                        //goal
+                        const RoundedText(
+                          text: AppStrings.goalText,
+                          svgPath: AppImages.goalIcon,
+                          isShowNavi: true,
+                          appPages: AppPages.setWeeklyGoalName,
+                          iconSize: 32,
+                          vertical: 16,
+                          radius: 16,
+                          isBold: true,
+                        ),
+                        const SizedBox(height: 36),
+
+                        //sign out
+                        GestureDetector(
+                          onTap: () {
+                            context.goNamed(AppPages.logHistoryName);
+                          },
+                          child: Text(
+                            AppStrings.signOutText,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: AppColors.darkGrayColor),
+                          ),
+                        ),
+                        const SizedBox(height: 36),
+                      ],
+                    );
+                  } else if (state is ProfileError) {
+                    return Center(child: Text(state.errorMessage));
+                  } else if (state is ProfileLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    return const Center(child: Text('No data available.'));
+                  }
+                },
+              );
             },
           ),
         ),

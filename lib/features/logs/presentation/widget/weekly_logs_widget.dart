@@ -6,8 +6,6 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/logs_history_card.dart';
 
-import '../../../profile/presentation/screen/profile_screen.dart';
-
 class WeeklyLogsWidget extends StatelessWidget {
   final DateTime selectedDate;
 
@@ -84,14 +82,6 @@ class WeeklyLogsWidget extends StatelessWidget {
                   ldlCount = log?.value;
                 }
               }
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfileScreen(totalSteps: totalSteps),
-                  ),
-                );
-              });
 
               for (var log in lastWeekLogs) {
                 if (log?.logName == AppStrings.weightLogText) {
