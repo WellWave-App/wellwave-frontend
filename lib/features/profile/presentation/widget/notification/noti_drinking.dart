@@ -389,7 +389,7 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                           },
                           child: Row(
                             children: [
-                              Text('$hourSet ชม.',
+                              Text('$hourSet ${AppStrings.shortHoursText}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium

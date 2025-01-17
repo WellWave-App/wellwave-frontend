@@ -94,4 +94,12 @@ class AppImages {
   static const goalIcon = 'assets/icons/goal_icon.svg';
   static const glassIcon = 'assets/icons/glass_icon.svg';
   static const fireGoalIcon = 'assets/icons/fire_goal_icon.svg';
+
+  static const leagueListIcon = [
+    AppImages.bronzeLeaugeIcon,
+    AppImages.silverLeaugeIcon,
+    AppImages.goldLeaugeIcon,
+    AppImages.diamondLeagueIcon,
+    AppImages.emeraldLeaugeIcon,
+  ];
 }

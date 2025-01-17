@@ -174,7 +174,6 @@ class LineChartSample2 extends StatelessWidget {
       return const Text('', style: style);
     }
 
-    // Default format for other views (e.g., 7 days)
     return SideTitleWidget(
       axisSide: meta.axisSide,
       child: Text(

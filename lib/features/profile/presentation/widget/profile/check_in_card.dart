@@ -86,7 +86,7 @@ class _CheckInWidgetState extends State<CheckInWidget> {
                                   height: 24,
                                 ),
                           const SizedBox(height: 4),
-                          Text('สำเร็จ',
+                          Text(AppStrings.archeiveText,
                               style: Theme.of(context)
                                   .textTheme
                                   .caption2

@@ -30,24 +30,24 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
       RulerPickerController(value: 165.0);
 
   num weight = 50.5, waistLine = 65.4, hdl = 65.0, ldl = 165.0;
-  int selectedMood = 4;
+  // int selectedMood = 4;
   DateTime selectedDate = DateTime.now();
 
-  final List<String> moodIconsGrey = [
-    AppImages.verySadGreyIcon,
-    AppImages.sadGreyIcon,
-    AppImages.neutralGreyIcon,
-    AppImages.happyGreyIcon,
-    AppImages.veryHappyGreyIcon
-  ];
+  // final List<String> moodIconsGrey = [
+  //   AppImages.verySadGreyIcon,
+  //   AppImages.sadGreyIcon,
+  //   AppImages.neutralGreyIcon,
+  //   AppImages.happyGreyIcon,
+  //   AppImages.veryHappyGreyIcon
+  // ];
 
-  final List<String> moodIconsColor = [
-    AppImages.verySadColorIcon,
-    AppImages.sadColorIcon,
-    AppImages.neutralColorIcon,
-    AppImages.happyColorIcon,
-    AppImages.veryHappyColorIcon
-  ];
+  // final List<String> moodIconsColor = [
+  //   AppImages.verySadColorIcon,
+  //   AppImages.sadColorIcon,
+  //   AppImages.neutralColorIcon,
+  //   AppImages.happyColorIcon,
+  //   AppImages.veryHappyColorIcon
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -140,9 +140,9 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
       case 3:
         return _buildScaleRecord(AppStrings.ldlRecordText,
             AppStrings.mgPerDlText, ldlController, (value) => ldl = value);
+      // case 4:
+      //   return _buildMoodSelection();
       case 4:
-        return _buildMoodSelection();
-      case 5:
         return _buildCompletionStep();
       default:
         return Container();
@@ -160,36 +160,36 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
     );
   }
 
-  Widget _buildMoodSelection() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            AppStrings.chooseMoodsText,
-          ),
-        ),
-        const SizedBox(height: 48),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(moodIconsGrey.length, (index) {
-            return GestureDetector(
-              onTap: () => setState(() => selectedMood = index),
-              child: SvgPicture.asset(
-                selectedMood == index
-                    ? moodIconsColor[index]
-                    : moodIconsGrey[index],
-                width: 70,
-                height: 70,
-              ),
-            );
-          }),
-        ),
-        const SizedBox(height: 48),
-      ],
-    );
-  }
+  // Widget _buildMoodSelection() {
+  //   return Column(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       const Align(
+  //         alignment: Alignment.centerLeft,
+  //         child: Text(
+  //           AppStrings.chooseMoodsText,
+  //         ),
+  //       ),
+  //       const SizedBox(height: 48),
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: List.generate(moodIconsGrey.length, (index) {
+  //           return GestureDetector(
+  //             onTap: () => setState(() => selectedMood = index),
+  //             child: SvgPicture.asset(
+  //               selectedMood == index
+  //                   ? moodIconsColor[index]
+  //                   : moodIconsGrey[index],
+  //               width: 70,
+  //               height: 70,
+  //             ),
+  //           );
+  //         }),
+  //       ),
+  //       const SizedBox(height: 48),
+  //     ],
+  //   );
+  // }
 
   Widget _buildCompletionStep() {
     return Column(
@@ -258,8 +258,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
                 WidgetStateProperty.all<Color>(AppColors.primaryColor),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                    16.0), 
+                borderRadius: BorderRadius.circular(16.0),
               ),
             ),
           ),
@@ -315,40 +314,40 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
     }
   }
 
-void _submitLogs() {
-  final logsBloc = BlocProvider.of<LogsBloc>(context);
-  
-  String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
-  
-  final logEvents = [
-    SubmitLogEvent(
-      logName: AppStrings.weightLogText,
-      value: weight.toInt(),
-      selectedDate: formattedDate,  
-    ),
-    SubmitLogEvent(
-      logName: AppStrings.waistLineLogText,
-      value: waistLine.toInt(),
-      selectedDate: formattedDate,  
-    ),
-    if (isRecordHDL) 
-      SubmitLogEvent(
-        logName: AppStrings.hdlLogText,
-        value: hdl.toInt(),
-        selectedDate: formattedDate,
-      ),
-    if (isRecordLDL) 
-      SubmitLogEvent(
-        logName: AppStrings.ldlLogText,
-        value: ldl.toInt(),
-        selectedDate: formattedDate,
-      ),
-  ];
+  void _submitLogs() {
+    final logsBloc = BlocProvider.of<LogsBloc>(context);
 
-  for (var event in logEvents) {
-    logsBloc.add(event);
+    String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+
+    final logEvents = [
+      SubmitLogEvent(
+        logName: AppStrings.weightLogText,
+        value: weight.toInt(),
+        selectedDate: formattedDate,
+      ),
+      SubmitLogEvent(
+        logName: AppStrings.waistLineLogText,
+        value: waistLine.toInt(),
+        selectedDate: formattedDate,
+      ),
+      if (isRecordHDL)
+        SubmitLogEvent(
+          logName: AppStrings.hdlLogText,
+          value: hdl.toInt(),
+          selectedDate: formattedDate,
+        ),
+      if (isRecordLDL)
+        SubmitLogEvent(
+          logName: AppStrings.ldlLogText,
+          value: ldl.toInt(),
+          selectedDate: formattedDate,
+        ),
+    ];
+
+    for (var event in logEvents) {
+      logsBloc.add(event);
+    }
+
+    Navigator.pop(context);
   }
-  
-  Navigator.pop(context);
-}
 }

@@ -82,7 +82,6 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
   Future<void> submitLog(String logName, int value, String selectedDate,
       LogsRequestRepository logsRepository) async {
     try {
-      // Format the date as YYYY-MM-DD
       String formattedDate =
           DateFormat('yyyy-MM-dd').format(DateTime.parse(selectedDate));
 

@@ -230,7 +230,7 @@ class _WaterPlanWidgetState extends State<WaterPlanWidget> {
       } else if (state is NotiError) {
         return Center(child: Text(state.message));
       } else {
-        return const Text('No water plan data.');
+        return const Text(AppStrings.noDataAvaliableText);
       }
     });
   }

@@ -18,6 +18,7 @@ class AppStrings {
   static const glassesText = 'แก้ว';
   static const hoursOfSleepText = 'ชั่วโมงการนอน';
   static const hoursText = 'ชั่วโมง';
+  static const shortHoursText = 'ชม.';
   static const weeklyLogsText = 'บันทึกสุขภาพประจำสัปดาห์';
   static const hdlText = 'HDL';
   static const ldlText = 'LDL';
@@ -65,6 +66,7 @@ class AppStrings {
   static const expText = 'exp';
   static const checkinText = 'เช็คอินเพื่อสะสมคะแนน';
   static const archeivementText = 'ความสำเร็จ';
+  static const archeiveText = 'สำเร็จ';
   static const seeAllText = 'ดูทั้งหมด';
   static const dayText = 'วัน';
   static const googleConnectText = 'Google Connect';
@@ -72,6 +74,7 @@ class AppStrings {
   static const rewardRedeemText = 'แลกรางวัล';
   static const progressText = 'ความก้าวหน้า';
   static const exerciseProgressText = 'ออกกำลังกายไปแล้ว';
+  static const copyToClipboardText = 'คัดลอกไปยังคลิปบอร์ด';
 
   static const taskProgressText = 'จำนวนทำภารกิจ';
   static const taskText = 'ภารกิจ';
@@ -93,6 +96,14 @@ class AppStrings {
   static const metaBehaviorDescriptionText =
       'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
 
+  static const leagueList = [
+    AppStrings.bronzeLeaugeText,
+    AppStrings.silverLeaugeText,
+    AppStrings.goldLeaugeText,
+    AppStrings.diamondLeaugeText,
+    AppStrings.emeraldLeaugeText,
+  ];
+
   //arcievement
   static const yourRecordText = 'สถิติของคุณ';
   static const medalText = 'เหรียญรางวัล';
@@ -100,6 +111,7 @@ class AppStrings {
   //notification
   static const selectAllText = 'เลือกทั้งหมด';
   static const drinkingText = 'การดื่มน้ำ';
+  static const timeText = 'เวลา';
   static const setTimeText = 'ตั้งเวลา';
   static const startTimeText = 'เวลาเริ่ม';
   static const endTimeText = 'เวลาจบ';
@@ -145,4 +157,7 @@ class AppStrings {
   static const goalAmountText = 'จำนวนเป้าหมาย';
   static const stepPerWeekText = 'ก้าวเดินต่อสัปดาห์';
   static const exercisePerWeekText = 'ออกกำลังกายต่อสัปดาห์';
+
+  static const noDataAvaliableText = 'No data available.';
+  static const clickToEditText = 'กดเพื่อแก้ไข';
 }

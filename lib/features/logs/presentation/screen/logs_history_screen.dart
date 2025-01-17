@@ -14,7 +14,6 @@ class LogsHistoryScreen extends StatefulWidget {
 
 class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
   DateTime _selectedDate = DateTime.now();
-  DateTime _selectedDateWeek = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +42,11 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
               onDateSelected: (date) {
                 setState(() {
                   _selectedDate = date;
-                  _selectedDateWeek = date;
                 });
               },
             ),
             DailyLogsWidget(selectedDate: _selectedDate),
-            WeeklyLogsWidget(selectedDate: _selectedDateWeek),
+            WeeklyLogsWidget(selectedDate: _selectedDate),
           ],
         ),
       ),

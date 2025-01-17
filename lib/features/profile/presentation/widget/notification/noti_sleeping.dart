@@ -311,7 +311,7 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('เวลา',
+        Text(AppStrings.timeText,
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium

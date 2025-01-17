@@ -66,26 +66,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                     final userLeague = profile.userLeague;
 
-                    List<String> leagueList = [
-                      AppStrings.bronzeLeaugeText,
-                      AppStrings.silverLeaugeText,
-                      AppStrings.goldLeaugeText,
-                      AppStrings.diamondLeaugeText,
-                      AppStrings.emeraldLeaugeText,
-                    ];
-
-                    List<String> leagueListIcon = [
-                      AppImages.bronzeLeaugeIcon,
-                      AppImages.silverLeaugeIcon,
-                      AppImages.goldLeaugeIcon,
-                      AppImages.diamondLeagueIcon,
-                      AppImages.emeraldLeaugeIcon,
-                    ];
-
                     int leagueIndex =
                         _getLeagueIndex(userLeague?.name ?? 'Bronze');
 
-                    // debugPrint('Loaded profile: ${profile.username}');
                     return Column(
                       children: [
                         const SizedBox(height: 24),
@@ -103,8 +86,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Expanded(
                               child: RoundedText(
                                 text:
-                                    '${AppStrings.leagueText}${leagueList[leagueIndex]}',
-                                svgPath: leagueListIcon[leagueIndex],
+                                    '${AppStrings.leagueText}${AppStrings.leagueList[leagueIndex]}',
+                                svgPath: AppImages.leagueListIcon[leagueIndex],
                                 isShowNavi: true,
                                 appPages: AppPages.articleName,
                               ),
@@ -188,7 +171,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   } else if (state is ProfileLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else {
-                    return const Center(child: Text('No data available.'));
+                    return const Center(
+                        child: Text(AppStrings.noDataAvaliableText));
                   }
                 },
               );

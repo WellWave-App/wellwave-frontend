@@ -6,6 +6,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../bloc/profile/profile_bloc.dart';
 import '../../bloc/profile/profile_state.dart';
@@ -107,7 +108,7 @@ class _UserInformationState extends State<UserInformation> {
 
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
-                          content: Text('User ID copied to clipboard'),
+                          content: Text(AppStrings.copyToClipboardText),
                           duration: Duration(seconds: 2),
                         ));
                       },
