@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "895693836305",
+    "project_id": "wellwave-c23bd",
+    "storage_bucket": "wellwave-c23bd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895693836305:android:16a8ff353f2f9e6a53e1b0",
+        "android_client_info": {
+          "package_name": "com.google.android.apps.healthdata"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDaA9OJYaw4Z-poVcgH6mKI-d5K5PRlMA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
