@@ -112,14 +112,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           daysRemain: 7 - today.weekday,
                           exerciseTime: 250,
                           taskAmount: 10,
-                          maxExerciseTime:
-                              state.userProfile.exercisePerWeek != null
-                                  ? state.userProfile.exercisePerWeek!
-                                  : 0,
+                          maxExerciseTime: 300,
                           maxTaskAmount: 10,
-                          maxStepCount: state.userProfile.stepPerWeek != null
-                              ? state.userProfile.stepPerWeek!
-                              : 0,
+                          maxStepCount: state.userProfile.stepPerWeek!,
                           stepAmount: totalSteps.toInt(),
                         ),
                         const SizedBox(height: 24),

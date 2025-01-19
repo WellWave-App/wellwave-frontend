@@ -55,15 +55,12 @@ class ProfileRepositories {
   }
 
   Future<bool> setGoalPerWeek(
-      {required int uid,
-      required int stepPerWeek,
-      required int exercisePerWeek}) async {
+      {required int uid, required int stepPerWeek}) async {
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
 
       final Map<String, String> userDetails = {
-        'USER_GOAL_STEP_WEEK': stepPerWeek.toString(),
-        'USER_GOAL_EX_TIME_WEEK': exercisePerWeek.toString()
+        'USER_GOAL_STEP_WEEK': stepPerWeek.toString()
       };
 
       final request = http.MultipartRequest('PATCH', uri)

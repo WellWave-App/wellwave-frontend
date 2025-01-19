@@ -10,7 +10,6 @@ class ProfileRequestModel {
   final int exp;
   final UserLeague? userLeague;
   final int? stepPerWeek;
-  final int? exercisePerWeek;
 
   ProfileRequestModel({
     required this.uid,
@@ -24,7 +23,6 @@ class ProfileRequestModel {
     required this.gem,
     this.userLeague,
     this.stepPerWeek,
-    this.exercisePerWeek,
   });
 
   ProfileRequestModel copyWith(
@@ -36,8 +34,7 @@ class ProfileRequestModel {
       double? weight,
       int? userGoal,
       String? email,
-      int? stepPerWeek,
-      int? exercisePerWeek}) {
+      int? stepPerWeek}) {
     return ProfileRequestModel(
         imageUrl: imageUrl ?? this.imageUrl,
         username: username ?? this.username,
@@ -48,8 +45,7 @@ class ProfileRequestModel {
         uid: uid,
         exp: exp,
         gem: gem,
-        stepPerWeek: stepPerWeek,
-        exercisePerWeek: exercisePerWeek);
+        stepPerWeek: stepPerWeek);
   }
 
   Map<String, dynamic> toJson() {
@@ -63,8 +59,7 @@ class ProfileRequestModel {
       'UID': uid,
       'EXP': exp,
       'GEM': gem,
-      'USER_GOAL_STEP_WEEK': stepPerWeek,
-      'USER_GOAL_EX_TIME_WEEK': exercisePerWeek
+      'USER_GOAL_STEP_WEEK': stepPerWeek
     };
   }
 
@@ -79,8 +74,7 @@ class ProfileRequestModel {
       weight: (json['userInfo']['WEIGHT'] as num?)?.toDouble() ?? 0.0,
       exp: json['userInfo']['EXP'] as int,
       gem: json['userInfo']['GEM'] as int,
-      stepPerWeek: json['userInfo']['USER_GOAL_STEP_WEEK'] ?? 0,
-      exercisePerWeek: json['userInfo']['USER_GOAL_EX_TIME_WEEK'] ?? 0,
+      stepPerWeek: json['userInfo']['USER_GOAL_STEP_WEEK'],
       userLeague: json['userLeague'] != null
           ? UserLeague.fromJson(json['userLeague'])
           : null,
@@ -98,8 +92,7 @@ class ProfileRequestModel {
       'UID': uid,
       'EXP': exp,
       'GEM': gem,
-      'USER_GOAL_STEP_WEEK': stepPerWeek,
-      'USER_GOAL_EX_TIME_WEEK': exercisePerWeek
+      'USER_GOAL_STEP_WEEK': stepPerWeek
     };
   }
 }

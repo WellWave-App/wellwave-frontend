@@ -84,11 +84,8 @@ class ProgressCard extends StatelessWidget {
                         LinearPercentIndicator(
                           width: 182.0,
                           lineHeight: 6.0,
-                          percent: stepAmount <= maxStepCount
-                              ? maxStepCount != 0
-                                  ? stepAmount / maxStepCount
-                                  : 0
-                              : 1,
+                          percent:
+                              maxStepCount != 0 ? stepAmount / maxStepCount : 0,
                           backgroundColor: Colors.grey.shade100,
                           progressColor: AppColors.primaryColor,
                         ),
@@ -128,11 +125,7 @@ class ProgressCard extends StatelessWidget {
                         LinearPercentIndicator(
                           width: 182.0,
                           lineHeight: 6.0,
-                          percent: exerciseTime <= maxExerciseTime
-                              ? maxExerciseTime != 0
-                                  ? exerciseTime / maxExerciseTime
-                                  : 0
-                              : 1,
+                          percent: exerciseTime / maxExerciseTime,
                           backgroundColor: Colors.grey.shade100,
                           progressColor: AppColors.primaryColor,
                         ),
@@ -172,11 +165,7 @@ class ProgressCard extends StatelessWidget {
                         LinearPercentIndicator(
                           width: 182.0,
                           lineHeight: 6.0,
-                          percent: taskAmount <= maxTaskAmount
-                              ? maxTaskAmount != 0
-                                  ? taskAmount / maxTaskAmount
-                                  : 0
-                              : 1,
+                          percent: taskAmount / maxTaskAmount,
                           backgroundColor: Colors.grey.shade100,
                           progressColor: AppColors.primaryColor,
                         ),

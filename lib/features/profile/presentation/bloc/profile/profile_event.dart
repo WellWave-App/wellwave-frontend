@@ -42,15 +42,13 @@ class EditUserProfile extends ProfileEvent {
 
 class EditUserGoalPerWeek extends ProfileEvent {
   final int stepPerWeek;
-  final int exercisePerWeek;
 
   EditUserGoalPerWeek({
     required this.stepPerWeek,
-    required this.exercisePerWeek,
   });
 
   @override
-  List<Object?> get props => [stepPerWeek, exercisePerWeek];
+  List<Object?> get props => [stepPerWeek];
 }
 
 class ImagePicked extends ProfileEvent {
