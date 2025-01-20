@@ -21,6 +21,12 @@ class HomeScreen extends StatelessWidget {
             //   },
             //   child: const Text('Go to Health Connect'),
             // ),
+            ElevatedButton(
+              onPressed: () {
+                context.goNamed(AppPages.testNotilNAme);
+              },
+              child: const Text('Test noti'),
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {

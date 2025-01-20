@@ -14,6 +14,7 @@ class AppPages {
   static const String achievementPage = 'achievement';
   static const String drinkPlanPage = 'drinkplan';
   static const String setWeeklyGoalPage = 'setweeklygoal';
+  static const String testNotilPage = 'testnoti';
 
   // Name of the route
   static const String splashName = 'splash';
@@ -30,4 +31,5 @@ class AppPages {
   static const String achievementName = 'achievement';
   static const String drinkPlanName = 'drinkplan';
   static const String setWeeklyGoalName = 'setweeklygoal';
+  static const String testNotilNAme = 'testnoti';
 }
