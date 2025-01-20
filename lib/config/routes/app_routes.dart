@@ -7,7 +7,6 @@ import 'package:wellwave_frontend/features/home/presentation/screen/article_scre
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/test_noti.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
@@ -95,13 +94,6 @@ final GoRouter goRouter = GoRouter(
                       },
                     ),
                   ]),
-              GoRoute(
-                path: AppPages.testNotilPage,
-                name: AppPages.testNotilNAme,
-                pageBuilder: (BuildContext context, GoRouterState state) {
-                  return const NoTransitionPage(child: TestNotiScreen());
-                },
-              ),
             ]),
         GoRoute(
             path: AppPages.logPage,
