@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'dart:ui' as ui;
 
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data/thai_date_formatter.dart';
+import 'package:wellwave_frontend/config/constants/enums/thai_date_formatter.dart';
 
 class WeeklyBarChartPainter extends CustomPainter {
   final List<Map<String, dynamic>> data;
@@ -73,11 +73,18 @@ class WeeklyBarChartPainter extends CustomPainter {
     double recentStartX = (weeklyAverages.length - 1) * barWidth;
     double recentEndX = recentStartX + barWidth - 4;
 
-    canvas.drawLine(
-      Offset(recentStartX, size.height - recentAverageHeight),
-      Offset(recentEndX, size.height - recentAverageHeight),
-      recentAveragePaint,
-    );
+    // ใช้เส้นประสำหรับเส้นเฉลี่ยล่าสุด
+    Path recentAveragePath = Path();
+    double distance = 0.0;
+    while (distance < recentEndX - recentStartX) {
+      recentAveragePath.moveTo(
+          recentStartX + distance, size.height - recentAverageHeight);
+      distance += 8.0;
+      recentAveragePath.lineTo(
+          recentStartX + distance, size.height - recentAverageHeight);
+      distance += 5.0;
+    }
+    canvas.drawPath(recentAveragePath, recentAveragePaint);
 
     // วาดข้อความค่าเฉลี่ยของ 7 วันล่าสุด
     TextPainter recentTextPainter = TextPainter(
@@ -92,20 +99,27 @@ class WeeklyBarChartPainter extends CustomPainter {
     )..layout(minWidth: 0, maxWidth: double.infinity);
 
     double recentTextX = size.width - recentTextPainter.width;
-
     double recentTextY = size.height - recentAverageHeight - 20;
+
+    recentTextPainter.paint(canvas, Offset(recentTextX, recentTextY));
+
     double overallAverageHeight = (overallAverage / maxData) * maxHeight;
     double overallStartX = 0;
     double overallEndX = (weeklyAverages.length - 1) * barWidth - 4;
 
-    canvas.drawLine(
-      Offset(overallStartX, size.height - overallAverageHeight),
-      Offset(overallEndX, size.height - overallAverageHeight),
-      overallAveragePaint,
-    );
+    Path overallAveragePath = Path();
+    distance = 0.0;
+    while (distance < overallEndX - overallStartX) {
+      overallAveragePath.moveTo(
+          overallStartX + distance, size.height - overallAverageHeight);
+      distance += 8.0;
+      overallAveragePath.lineTo(
+          overallStartX + distance, size.height - overallAverageHeight);
+      distance += 5.0;
+    }
+    canvas.drawPath(overallAveragePath, overallAveragePaint);
 
-    recentTextPainter.paint(canvas, Offset(recentTextX, recentTextY));
-
+    // วาดข้อความค่าเฉลี่ยทั้งหมด
     TextPainter overallTextPainter = TextPainter(
       text: TextSpan(
         text: 'เฉลี่ย ${overallAverage.toInt()} นาที',

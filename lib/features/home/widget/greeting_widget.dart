@@ -3,15 +3,30 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/enums/greeting_message.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/top_of_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/home/widget/top_of_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GreetingWidget extends StatelessWidget {
+class GreetingWidget extends StatefulWidget {
   const GreetingWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final DailyMessage dailyMessage = DailyMessage();
+  _GreetingWidgetState createState() => _GreetingWidgetState();
+}
 
+class _GreetingWidgetState extends State<GreetingWidget> {
+  late String greetingMessage;
+  late String dailyMessage;
+
+  @override
+  void initState() {
+    super.initState();
+    greetingMessage = GreetingTimeText.getGreetingMessage();
+    dailyMessage = DailyMessage().getMessage();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -25,18 +40,22 @@ class GreetingWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${GreetingTimeText.getGreetingMessage()}, แจน',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: AppColors.whiteColor,
-                        ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    dailyMessage.getMessage(),
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                          color: AppColors.whiteColor,
-                        ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '$greetingMessage, แจน',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              color: AppColors.whiteColor,
+                            ),
+                      ),
+                      Text(
+                        '$dailyMessage',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              color: AppColors.whiteColor,
+                            ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -63,7 +82,6 @@ class GreetingWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              // Avatar image
               SvgPicture.asset(
                 AppImages.avatarImage,
                 height: 120,

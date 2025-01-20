@@ -1,34 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data/bar_chart.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data/mock_data.dart';
+import 'package:wellwave_frontend/features/home/widget/health_data/bar_chart.dart';
+import 'package:wellwave_frontend/features/home/widget/health_data/mock_data.dart';
 
 class HealthDataCard extends StatelessWidget {
+  final List<int> weeklyAverages;
+
+  const HealthDataCard({super.key, required this.weeklyAverages});
+
   @override
   Widget build(BuildContext context) {
-    List<int> calculateWeeklyAverages(List<Map<String, dynamic>> data) {
-      List<int> weeklyAverages = [];
-      int weekSum = 0;
-      int dayCount = 0;
-
-      for (int i = 0; i < data.length; i++) {
-        weekSum += data[i]['value'] as int;
-        dayCount++;
-
-        if (dayCount == 7 || i == data.length - 1) {
-          int average = (weekSum / dayCount).round();
-          weeklyAverages.add(average);
-
-          weekSum = 0;
-          dayCount = 0;
-        }
-      }
-
-      return weeklyAverages;
-    }
-
-    List<int> weeklyAverages = calculateWeeklyAverages(mockData);
-
     bool isLessThanPrevious = weeklyAverages.length > 1 &&
         weeklyAverages.last < weeklyAverages[weeklyAverages.length - 2];
 

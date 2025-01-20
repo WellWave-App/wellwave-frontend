@@ -78,4 +78,10 @@ class AppStrings {
   static const progressText = 'ความคืบหน้า';
   static const challengeText = 'พิสูจน์ฝีมือ';
   static const healthdataText = 'ข้อมูลสุขภาพประจำสัปดาห์';
+
+  static const seeMissionText = 'ดูภารกิจ';
+  static const continueMissionText = 'ทำต่อ';
+
+  static const stepText = 'ก้าว';
+  static const exerciseText = 'ออกกำลังกาย';
 }

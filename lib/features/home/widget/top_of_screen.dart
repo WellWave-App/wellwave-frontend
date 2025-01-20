@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/showpoint.dart';
+import 'package:wellwave_frontend/features/home/widget/showpoint.dart';
 
 class TopOfScreen extends StatelessWidget {
   const TopOfScreen({super.key});
