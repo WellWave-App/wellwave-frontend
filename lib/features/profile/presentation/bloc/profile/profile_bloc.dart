@@ -65,7 +65,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           final uid = userProfile.uid;
 
           final isEdited = await profileRepositories.setGoalPerWeek(
-              uid: uid, stepPerWeek: event.stepPerWeek);
+              uid: uid,
+              stepPerWeek: event.stepPerWeek,
+              exercisePerWeek: event.exercisePerWeek);
 
           if (isEdited) {
             emit(ProfileEdited());

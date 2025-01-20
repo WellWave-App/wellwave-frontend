@@ -20,14 +20,18 @@ class SetWeeklyGoalScreen extends StatefulWidget {
 class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
   int stepPerWeek = 0;
   int exercisePerWeek = 0;
-  bool _isEditing = false;
-  late TextEditingController _controller;
+  bool _isStepEditing = false;
+  bool _isExerciseEditing = false;
+  late TextEditingController _stepController;
+  late TextEditingController _exerciseController;
 
   @override
   void initState() {
     super.initState();
     _loadUserProfile();
-    _controller = TextEditingController(text: stepPerWeek.toString());
+    _stepController = TextEditingController(text: stepPerWeek.toString());
+    _exerciseController =
+        TextEditingController(text: exercisePerWeek.toString());
   }
 
   void _loadUserProfile() {
@@ -37,13 +41,15 @@ class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _stepController.dispose();
+    _exerciseController.dispose();
     super.dispose();
   }
 
   void _submitLogs() {
     final profileBloc = BlocProvider.of<ProfileBloc>(context);
-    profileBloc.add(EditUserGoalPerWeek(stepPerWeek: stepPerWeek));
+    profileBloc.add(EditUserGoalPerWeek(
+        stepPerWeek: stepPerWeek, exercisePerWeek: exercisePerWeek));
   }
 
   @override
@@ -53,6 +59,7 @@ class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
         if (state is ProfileLoaded) {
           setState(() {
             stepPerWeek = state.userProfile.stepPerWeek!;
+            exercisePerWeek = state.userProfile.exercisePerWeek!;
           });
         }
       },
@@ -109,11 +116,11 @@ class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      _isEditing
+                                      _isStepEditing
                                           ? SizedBox(
                                               width: 75,
                                               child: TextField(
-                                                controller: _controller,
+                                                controller: _stepController,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodyMedium,
@@ -129,7 +136,7 @@ class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
                                                     stepPerWeek =
                                                         int.tryParse(value) ??
                                                             0;
-                                                    _isEditing = false;
+                                                    _isStepEditing = false;
                                                     _submitLogs();
                                                   });
                                                 },
@@ -138,12 +145,12 @@ class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
                                           : GestureDetector(
                                               onTap: () {
                                                 setState(() {
-                                                  _isEditing = true;
+                                                  _isStepEditing = true;
                                                 });
                                               },
                                               child: Text(
                                                 stepPerWeek == 0
-                                                    ? 'กดเพื่อตั้งเป้าหมาย'
+                                                    ? AppStrings.clickToEditText
                                                     : stepPerWeek.toString(),
                                                 style: Theme.of(context)
                                                     .textTheme
@@ -176,30 +183,62 @@ class _SetWeeklyGoalScreenState extends State<SetWeeklyGoalScreen> {
                                               ?.copyWith())
                                     ],
                                   ),
-                                  GestureDetector(
-                                    onTap: () async {},
-                                    child: Row(
-                                      children: [
-                                        Text('$exercisePerWeek',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith()),
-                                        const SizedBox(width: 8),
-                                        Text(AppStrings.minuteText,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith(
-                                                    color:
-                                                        AppColors.greyColor)),
-                                      ],
-                                    ),
+                                  Row(
+                                    children: [
+                                      _isExerciseEditing
+                                          ? SizedBox(
+                                              width: 75,
+                                              child: TextField(
+                                                controller: _exerciseController,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  isDense: true,
+                                                  contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          vertical: 0),
+                                                ),
+                                                onSubmitted: (value) {
+                                                  setState(() {
+                                                    exercisePerWeek =
+                                                        int.tryParse(value) ??
+                                                            0;
+                                                    _isExerciseEditing = false;
+                                                    _submitLogs();
+                                                  });
+                                                },
+                                              ),
+                                            )
+                                          : GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  _isExerciseEditing = true;
+                                                });
+                                              },
+                                              child: Text(
+                                                exercisePerWeek == 0
+                                                    ? AppStrings.clickToEditText
+                                                    : exercisePerWeek
+                                                        .toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(),
+                                              ),
+                                            ),
+                                      const SizedBox(width: 8),
+                                      Text(AppStrings.minuteText,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  color: AppColors.greyColor)),
+                                    ],
                                   ),
                                 ],
                               ),
-
-                              // const SizedBox(height: 11)
                             ],
                           ),
                         ),

@@ -158,7 +158,9 @@ class _UserDetailCardState extends State<UserDetailCard> {
                               });
                             },
                             child: Text(
-                              userName.isEmpty ? 'Click to edit' : userName,
+                              userName.isEmpty
+                                  ? AppStrings.clickToEditText
+                                  : userName,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
