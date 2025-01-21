@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Check whether Health Connect is installed or not -->
+    
     <queries>
-        <package android:name="com.google.android.apps.healthdata" />
+        <package android:name="com.example.wellwave_frontend" />
     </queries>
 
     <application
