@@ -31,5 +31,5 @@ class AppPages {
   static const String achievementName = 'achievement';
   static const String drinkPlanName = 'drinkplan';
   static const String setWeeklyGoalName = 'setweeklygoal';
-  static const String testNotilNAme = 'testnoti';
+  static const String testNotilName = 'testnoti';
 }

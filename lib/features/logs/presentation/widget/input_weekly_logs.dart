@@ -84,8 +84,8 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              currentStep < 5
-                  ? '${AppStrings.stepNumber} ${currentStep + 1}/5'
+              currentStep < 4
+                  ? '${AppStrings.stepNumber} ${currentStep + 1}/4'
                   : '',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   color: AppColors.blackColor, fontWeight: FontWeight.bold),
@@ -207,7 +207,7 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
   Widget _buildDialogActions() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: currentStep < 5
+      children: currentStep < 4
           ? [_buildBackButton(), const SizedBox(width: 10), _buildNextButton()]
           : [_buildCompleteButton()],
     );

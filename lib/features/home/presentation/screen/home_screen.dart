@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
             // ),
             ElevatedButton(
               onPressed: () {
-                context.goNamed(AppPages.testNotilNAme);
+                context.goNamed(AppPages.testNotilName);
               },
               child: const Text('Test noti'),
             ),

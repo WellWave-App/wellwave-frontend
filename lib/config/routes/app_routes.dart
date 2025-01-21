@@ -7,7 +7,7 @@ import 'package:wellwave_frontend/features/home/presentation/screen/article_scre
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/test_noti.dart';
+// import 'package:wellwave_frontend/features/home/presentation/screen/test_noti.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
@@ -19,6 +19,7 @@ import 'package:wellwave_frontend/features/profile/presentation/screen/set_weekl
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
 import '../../features/profile/presentation/screen/drink_plan_screen.dart';
+import '../../test_noti.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
@@ -97,7 +98,7 @@ final GoRouter goRouter = GoRouter(
                   ]),
               GoRoute(
                 path: AppPages.testNotilPage,
-                name: AppPages.testNotilNAme,
+                name: AppPages.testNotilName,
                 pageBuilder: (BuildContext context, GoRouterState state) {
                   return const NoTransitionPage(child: TestNotiScreen());
                 },
