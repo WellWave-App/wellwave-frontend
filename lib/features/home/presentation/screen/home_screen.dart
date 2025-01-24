@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(),
+      create: (context) => HomeBloc(currentDate: DateTime.now()),
       child: Scaffold(
         backgroundColor: AppColors.primaryColor,
         body: SingleChildScrollView(
@@ -33,8 +33,8 @@ class HomeScreen extends StatelessWidget {
                   AppImages.cloudImage,
                 ),
               ),
-              Column(
-                children: const [
+              const Column(
+                children: [
                   GreetingWidget(),
                   ProgressWidget(),
                 ],

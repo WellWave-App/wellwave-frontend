@@ -16,3 +16,15 @@ class CalculateWeeklyAveragesEvent extends HomeEvent {
 }
 
 class GenerateGreetingTextEvent extends HomeEvent {}
+
+class UpdateCompletionStatusEvent extends HomeEvent {
+  final String progressId;
+  final DateTime date;
+  final bool isComplete;
+
+  UpdateCompletionStatusEvent({
+    required this.progressId,
+    required this.date,
+    required this.isComplete,
+  });
+}

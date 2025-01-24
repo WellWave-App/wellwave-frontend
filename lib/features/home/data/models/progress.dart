@@ -1,25 +1,35 @@
 class Progress {
   final int id;
-  final String rewardType;
-  final int rewards;
   final double progress;
   final String taskDescription;
+  final String rewardType;
+  final int rewards;
+  final int totalDays;
+  final DateTime startDate;
+  final Map<String, dynamic>? dailyCompletion;
 
   Progress({
     required this.id,
-    required this.rewardType,
-    required this.rewards,
     required this.progress,
     required this.taskDescription,
+    required this.rewardType,
+    required this.rewards,
+    required this.totalDays,
+    required this.startDate,
+    this.dailyCompletion,
   });
 
   factory Progress.fromJson(Map<String, dynamic> json) {
     return Progress(
       id: json['id'],
-      rewardType: json['typeRewards'],
-      rewards: json['rewards'],
       progress: json['progress'],
       taskDescription: json['taskDescription'],
+      rewardType: json['typeRewards'],
+      rewards: json['rewards'],
+      totalDays: json['totalDays'],
+      startDate: DateTime.parse(json['startDate']),
+      dailyCompletion:
+          json['dailyCompletion'] ?? {}, // กำหนดค่าเริ่มต้นเป็น {} หากเป็น null
     );
   }
 }

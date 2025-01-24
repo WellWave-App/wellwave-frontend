@@ -1,7 +1,6 @@
 part of 'home_bloc.dart';
 
 @immutable
-@immutable
 sealed class HomeState {}
 
 final class HomeInitial extends HomeState {}
@@ -18,14 +17,20 @@ class HomeErrorState extends HomeState {
   HomeErrorState(this.errorMessage);
 }
 
-class GreetingAndHealthDataState extends HomeState {
-  final String greeting;
-  final String dailyText;
-  final List<int> weeklyAverages;
+class HomeUpdated extends HomeState {
+  final Map<String, Map<DateTime, bool>> completionStatus;
 
-  GreetingAndHealthDataState({
-    required this.greeting,
-    required this.dailyText,
-    required this.weeklyAverages,
-  });
+  HomeUpdated({required this.completionStatus});
 }
+
+// class GreetingAndHealthDataState extends HomeState {
+//   final String greeting;
+//   final String dailyText;
+//   final List<int> weeklyAverages;
+
+//   GreetingAndHealthDataState({
+//     required this.greeting,
+//     required this.dailyText,
+//     required this.weeklyAverages,
+//   });
+// }

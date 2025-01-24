@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:timeline_tile/timeline_tile.dart';
+import 'package:timelines_plus/timelines_plus.dart';
+import 'package:wellwave_frontend/features/home/widget/action_slider_button.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/common/widget/gradient_circular_progress_indicator.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
@@ -8,16 +11,35 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/data/models/progress.dart';
+import 'package:wellwave_frontend/features/home/widget/progress_data.dart';
+import 'package:wellwave_frontend/features/home/widget/progress_stepper.dart';
 
 class ProgressShowCard extends StatelessWidget {
   final Progress progress;
 
   const ProgressShowCard({Key? key, required this.progress}) : super(key: key);
 
+  bool _hasDateNow(Progress progress) {
+    final dates = List.generate(
+      progress.totalDays,
+      (index) => progress.startDate.add(Duration(days: index)),
+    );
+    return dates.any((date) => _isSameDay(date, DateTime.now()));
+  }
+
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // if (!_hasDateNow(progress)) {
+    //   return SizedBox.shrink();
+    // }
+
     return Container(
-      height: 200,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -51,7 +73,7 @@ class ProgressShowCard extends StatelessWidget {
                       ),
                 ),
               ),
-              SizedBox(width: 16),
+              SizedBox(width: 4),
               Expanded(
                 flex: 1,
                 child: GradientCircularProgressWithText(
@@ -94,12 +116,8 @@ class ProgressShowCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16),
-          CardButton(
-            buttonText: AppStrings.continueMissionText,
-            onPressed: () {
-              context.goNamed(AppPages.missionPage);
-            },
-          ),
+          ProgressStepperWidget(
+              progress: progress, progressId: progress.id.toString()),
         ],
       ),
     );

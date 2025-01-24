@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/data/models/challenge.dart';
@@ -22,6 +21,12 @@ import 'package:wellwave_frontend/features/home/widget/progress_show_card.dart';
 
 class ProgressWidget extends StatelessWidget {
   const ProgressWidget({super.key});
+
+  bool _isSameDay(DateTime date1, DateTime date2) {
+    return date1.year == date2.year &&
+        date1.month == date2.month &&
+        date1.day == date2.day;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,26 +77,69 @@ class ProgressWidget extends StatelessWidget {
                     padding: const EdgeInsets.only(
                         left: 24.0, top: 8.0, bottom: 8.0, right: 24.0),
                     child: Row(
-                      children: progressList.map((progress) {
-                        return Row(
-                          children: [
-                            ProgressShowCard(progress: progress),
-                            const SizedBox(width: 16),
-                          ],
-                        );
-                      }).toList(),
+                      children: [
+                        // สร้างรายการการ์ดที่ตรงกับเงื่อนไข
+                        ...progressList.map((progress) {
+                          final dates = List.generate(
+                            progress.totalDays,
+                            (index) =>
+                                progress.startDate.add(Duration(days: index)),
+                          );
+                          final hasDateNow = dates
+                              .any((date) => _isSameDay(date, DateTime.now()));
+
+                          if (!hasDateNow) {
+                            return SizedBox
+                                .shrink(); // ไม่แสดงการ์ดหากไม่มีวันที่ตรงกับ DateTime.now()
+                          }
+
+                          return Row(
+                            children: [
+                              ProgressShowCard(progress: progress),
+                              const SizedBox(width: 16),
+                            ],
+                          );
+                        }).toList(),
+
+                        // ตรวจสอบว่ามีการ์ดที่แสดงหรือไม่
+                        if (progressList.every((progress) {
+                          final dates = List.generate(
+                            progress.totalDays,
+                            (index) =>
+                                progress.startDate.add(Duration(days: index)),
+                          );
+                          return !dates
+                              .any((date) => _isSameDay(date, DateTime.now()));
+                        }))
+                          Container(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width - 48,
+                            child: Center(
+                              child: Text(
+                                'ยังไม่มีความคืบหน้า ไปเริ่มทำกันเลย!',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: AppColors.darkgrayColor,
+                                    ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 )
               : Container(
-                  alignment: Alignment.center,
                   height: 200,
-                  child: Text(
-                    'ยังไม่มีความคืนหน้า ไปเริ่มทำกันเลย!',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.darkgrayColor,
-                        ),
+                  width: MediaQuery.of(context).size.width - 48,
+                  child: Center(
+                    child: Text(
+                      'ยังไม่มีความคืบหน้า ไปเริ่มทำกันเลย!',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppColors.darkgrayColor,
+                          ),
+                    ),
                   ),
                 ),
           const SizedBox(

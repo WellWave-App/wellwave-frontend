@@ -7,23 +7,38 @@ final List<Map<String, dynamic>> progressMockData = [
     "taskDescription": "ทานโปรตีนจากเนื้อสัตว์สำหรับมื้อเช้า",
     "typeRewards": "EXP",
     "rewards": 15,
+    "totalDays": 7,
+    "startDate": "2025-01-22 10:07:37.524796",
   },
   {
     "id": 2,
-    "image": " AppImages.fireIcon",
     "progress": 0.7,
     "taskDescription": "Description of progress 2",
     "typeRewards": "EXP",
     "rewards": 15,
+    "totalDays": 5,
+    "startDate": "2025-01-21 10:07:37.524796",
   },
   {
     "id": 3,
-    "image": " AppImages.fireIcon",
     "progress": 0.7,
     "taskDescription":
         "Description of progressDescription of progress Description of progress ",
     "typeRewards": "EXP",
     "rewards": 15,
+    "totalDays": 10,
+    "startDate": "2025-01-15 10:07:37.524796",
+    "dailyCompletion": {
+      "2025-01-15": true,
+      "2025-01-16": false,
+      "2025-01-17": true,
+      "2025-01-18": true,
+      "2025-01-19": false,
+      "2025-01-20": true,
+      "2025-01-21": false,
+      "2025-01-22": true,
+      "2025-01-23": true,
+    }
   },
 ];
 

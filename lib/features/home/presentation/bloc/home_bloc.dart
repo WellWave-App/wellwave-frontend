@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -12,7 +11,51 @@ class NavigateToProfileScreenEvent extends HomeEvent {}
 class NavigationToProfileScreenState extends HomeState {}
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  HomeBloc() : super(HomeInitial()) {
+  final DateTime currentDate;
+  final Map<String, Map<DateTime, bool>> completionStatus = {};
+
+  @override
+  Stream<HomeState> mapEventToState(HomeEvent event) async* {
+    if (event is UpdateCompletionStatusEvent) {
+      try {
+        // Assuming completionStatus is a Map<String, Map<DateTime, bool>>
+        // final updatedCompletionStatus = Map<String, Map<DateTime, bool>>.from(state.completionStatus);
+
+        // Update the specific status for the progressId and date
+        // updatedCompletionStatus[event.progressId]?[event.date] = event.isComplete;
+
+        // // Yield the updated state
+        // yield HomeUpdated(completionStatus: updatedCompletionStatus);
+      } catch (e) {
+        yield HomeErrorState('Error updating completion status');
+      }
+    }
+  }
+
+  HomeBloc({required this.currentDate}) : super(HomeInitial()) {
+    on<UpdateCompletionStatusEvent>((event, emit) {
+      try {
+        // ตรวจสอบว่ามี progressId ใน completionStatus หรือยัง
+        if (!completionStatus.containsKey(event.progressId)) {
+          completionStatus[event.progressId] = {};
+        }
+
+        // ตรวจสอบว่าค่า isComplete เปลี่ยนแปลงหรือไม่
+        final currentStatus =
+            completionStatus[event.progressId]?[event.date] ?? false;
+        if (currentStatus != event.isComplete) {
+          completionStatus[event.progressId]![event.date] =
+              event.isComplete; // อัปเดตค่า
+          emit(HomeUpdated(
+              completionStatus: completionStatus)); // Emit state ใหม่
+          debugPrint('dailyCompletion: ${completionStatus[event.progressId]}');
+        }
+
+        _checkExpiredDates(DateTime.now(), completionStatus);
+      } catch (e) {
+        emit(HomeErrorState('Error updating completion status: $e'));
+      }
+    });
     on<NavigateToProfileScreenEvent>((event, emit) {
       emit(NavigationToProfileScreenState());
     });
@@ -80,4 +123,22 @@ String generateGreeting() {
   }
 
   return greeting;
+}
+
+void _checkExpiredDates(
+    DateTime now, Map<String, Map<DateTime, bool>> completionStatus) {
+  for (final entry in completionStatus.entries) {
+    final progressId = entry.key;
+    final dates = entry.value;
+
+    for (final dateEntry in dates.entries) {
+      final date = dateEntry.key;
+      final isComplete = dateEntry.value;
+
+      // ตรวจสอบว่าวันที่หมดอายุหรือไม่ (วันที่ผ่านไปแล้ว)
+      if (date.isBefore(now) && isComplete == null) {
+        completionStatus[progressId]![date] = false;
+      }
+    }
+  }
 }
