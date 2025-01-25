@@ -42,7 +42,7 @@ class ProgressExCard extends StatelessWidget {
                 height: 8,
               ),
               Text(
-                AppStrings.exerciseText,
+                AppStrings.NewNotiText,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 8),

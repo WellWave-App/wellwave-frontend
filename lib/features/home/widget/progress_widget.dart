@@ -9,14 +9,14 @@ import 'package:wellwave_frontend/features/home/data/models/challenge.dart';
 import 'package:wellwave_frontend/features/home/data/models/progress.dart';
 import 'package:wellwave_frontend/features/home/data/models/progress_step_ex.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
-import 'package:wellwave_frontend/features/home/widget/challenge_data.dart';
+import 'package:wellwave_frontend/features/home/widget/mockup_data/challenge_data.dart';
 import 'package:wellwave_frontend/features/home/widget/challenge_show_card.dart';
 import 'package:wellwave_frontend/features/home/widget/health_data/exercise_steps/progress_ex_card.dart';
 import 'package:wellwave_frontend/features/home/widget/health_data/health_data_card.dart';
 import 'package:wellwave_frontend/features/home/widget/health_data/mock_data.dart';
 import 'package:wellwave_frontend/features/home/widget/health_data/exercise_steps/progress_step_card.dart';
 import 'package:wellwave_frontend/features/home/widget/health_data/exercise_steps/progress_step_ex_card_data.dart';
-import 'package:wellwave_frontend/features/home/widget/progress_data.dart';
+import 'package:wellwave_frontend/features/home/widget/mockup_data/progress_data.dart';
 import 'package:wellwave_frontend/features/home/widget/progress_show_card.dart';
 
 class ProgressWidget extends StatelessWidget {
