@@ -14,6 +14,7 @@ class ActionSliderButton extends StatelessWidget {
     required this.date,
     required this.progressId,
   });
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
@@ -26,18 +27,28 @@ class ActionSliderButton extends StatelessWidget {
             width: 164,
             height: 34,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [AppColors.primaryColor, AppColors.skyblueColor],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
+              gradient: isComplete
+                  ? null
+                  : LinearGradient(
+                      colors: [AppColors.primaryColor, AppColors.skyblueColor],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+              color: isComplete ? AppColors.whiteColor : null,
               borderRadius: BorderRadius.circular(40),
             ),
             child: ActionSlider.standard(
               sliderBehavior: SliderBehavior.stretch,
               height: 34,
-              backgroundColor: Colors.transparent,
+              backgroundColor: isComplete
+                  ? AppColors.whiteColor
+                  : AppColors.transparentColor,
               toggleColor: AppColors.whiteColor,
+              successIcon: Icon(
+                Icons.check,
+                color: AppColors.primaryColor,
+                size: 20,
+              ),
               action: (controller) async {
                 controller.loading();
                 await Future.delayed(const Duration(seconds: 1));

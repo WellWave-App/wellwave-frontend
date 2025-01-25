@@ -10,6 +10,7 @@ import 'package:wellwave_frontend/config/constants/enums/thai_date_formatter.dar
 import 'package:wellwave_frontend/features/home/data/models/progress.dart';
 import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/home/widget/gradient_button.dart';
 
 class ProgressStepperWidget extends StatelessWidget {
   final Progress progress;
@@ -57,23 +58,19 @@ class ProgressStepperWidget extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final dates = _generateDates(progress);
-        final activeDate = DateTime.now(); // วันที่ active
-        final visibleDates = _getVisibleDates(
-            dates, activeDate); // จำกัดจำนวนวันที่ให้แสดงเพียง 4 วงกลม
+        final activeDate = DateTime.now();
+        final visibleDates = _getVisibleDates(dates, activeDate);
 
-        // ตรวจสอบว่า visibleDates มีข้อมูลเพียงพอ
         if (visibleDates.isEmpty) {
-          return SizedBox.shrink(); // ไม่แสดงอะไรเลยหากไม่มีวันที่
+          return SizedBox.shrink();
         }
 
-        // คำนวณ stepNumber
         final stepNumber =
             visibleDates.indexWhere((date) => _isSameDay(date, activeDate)) + 1;
 
-        // ตรวจสอบขอบเขตของ stepNumber
         final visibleDate = stepNumber > 0 && stepNumber <= visibleDates.length
             ? visibleDates[stepNumber - 1]
-            : visibleDates.first; // ใช้ค่าเริ่มต้นหาก stepNumber ไม่ถูกต้อง
+            : visibleDates.first;
 
         return Stack(
           children: [
@@ -87,8 +84,8 @@ class ProgressStepperWidget extends StatelessWidget {
                     context,
                     visibleDates,
                     context.read<HomeBloc>(),
-                    progress.dailyCompletion ?? {}, // ตรวจสอบว่าไม่เป็น null
-                    progressId, // ส่ง progressId เข้ามา
+                    progress.dailyCompletion ?? {},
+                    progressId,
                   ),
                 ],
               ],
@@ -96,11 +93,18 @@ class ProgressStepperWidget extends StatelessWidget {
             Positioned(
               bottom: 0,
               left: 0,
-              child: ActionSliderButton(
-                stepNumber: stepNumber,
-                date: visibleDate,
-                progressId: progressId,
-              ),
+              child: progress.activityType == 'exercise'
+                  ? GradientButton(
+                      text: 'ทำภารกิจ',
+                      onPressed: () {
+                        context.goNamed(AppPages.missionPage);
+                      },
+                    )
+                  : ActionSliderButton(
+                      stepNumber: stepNumber,
+                      date: visibleDate,
+                      progressId: progressId,
+                    ),
             ),
           ],
         );

@@ -3,6 +3,7 @@ class Progress {
   final double progress;
   final String taskDescription;
   final String rewardType;
+  final String activityType;
   final int rewards;
   final int totalDays;
   final DateTime startDate;
@@ -16,6 +17,7 @@ class Progress {
     required this.rewards,
     required this.totalDays,
     required this.startDate,
+    required this.activityType,
     this.dailyCompletion,
   });
 
@@ -24,7 +26,8 @@ class Progress {
       id: json['id'],
       progress: json['progress'],
       taskDescription: json['taskDescription'],
-      rewardType: json['typeRewards'],
+      rewardType: json['rewardType'],
+      activityType: json['activityType'],
       rewards: json['rewards'],
       totalDays: json['totalDays'],
       startDate: DateTime.parse(json['startDate']),

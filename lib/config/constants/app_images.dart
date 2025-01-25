@@ -53,4 +53,6 @@ class AppImages {
 
   static const stepImage = 'assets/icons/step_image.svg';
   static const exerciseImage = 'assets/icons/exercise_image.svg';
+
+  static const slideIcon = 'assets/icons/slide.svg';
 }
