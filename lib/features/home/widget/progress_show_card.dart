@@ -11,7 +11,7 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/data/models/progress.dart';
-import 'package:wellwave_frontend/features/home/widget/progress_data.dart';
+import 'package:wellwave_frontend/features/home/widget/mockup_data/progress_data.dart';
 import 'package:wellwave_frontend/features/home/widget/progress_stepper.dart';
 
 class ProgressShowCard extends StatelessWidget {

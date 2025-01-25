@@ -28,3 +28,17 @@ class UpdateCompletionStatusEvent extends HomeEvent {
     required this.isComplete,
   });
 }
+
+class MarkNotificationAsReadEvent extends HomeEvent {
+  final int notificationId;
+
+  MarkNotificationAsReadEvent(this.notificationId);
+}
+
+class LoadNotificationsEvent extends HomeEvent {}
+
+class NavigatorToNotificationPage extends HomeEvent {
+  final String route;
+
+  NavigatorToNotificationPage(this.route);
+}

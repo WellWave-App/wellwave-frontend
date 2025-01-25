@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/routes/route_utils.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/screen/health_assessment_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/note_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
+import 'package:wellwave_frontend/features/home/widget/notification_widget.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
@@ -77,6 +80,17 @@ final GoRouter goRouter = GoRouter(
               name: AppPages.assessmentName,
               builder: (BuildContext context, GoRouterState state) {
                 return const AssessmentScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPages.notificationPage,
+              name: AppPages.notificationName,
+              builder: (context, state) {
+                final homeBloc = state.extra as HomeBloc;
+                return BlocProvider.value(
+                  value: homeBloc,
+                  child: NotificationWidget(),
+                );
               },
             ),
           ],

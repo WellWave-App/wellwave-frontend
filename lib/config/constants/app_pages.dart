@@ -6,6 +6,7 @@ class AppPages {
   static const String friendPage = 'friend';
   static const String articlePage = 'article';
   static const String assessmentPage = 'assessment';
+  static const String notificationPage = 'notification';
 
   static const String splashName = 'splash';
   static const String homeName = 'home';
@@ -14,4 +15,5 @@ class AppPages {
   static const String friendName = 'friend';
   static const String articleName = 'article';
   static const String assessmentName = 'assessment';
+  static const String notificationName = 'notification';
 }

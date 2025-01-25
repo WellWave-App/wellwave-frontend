@@ -84,4 +84,7 @@ class AppStrings {
 
   static const stepText = 'ก้าว';
   static const exerciseText = 'ออกกำลังกาย';
+
+  static const NewNotiText = 'ใหม่';
+  static const OldNotiText = 'เห็นแล้ว';
 }

@@ -23,6 +23,18 @@ class HomeUpdated extends HomeState {
   HomeUpdated({required this.completionStatus});
 }
 
+class NotificationMarkedAsReadState extends HomeState {
+  final int notificationId;
+
+  NotificationMarkedAsReadState(this.notificationId);
+}
+
+class NavigateToNotificationState extends HomeState {
+  final String route;
+
+  NavigateToNotificationState(this.route);
+}
+
 // class GreetingAndHealthDataState extends HomeState {
 //   final String greeting;
 //   final String dailyText;
