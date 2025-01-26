@@ -8,7 +8,7 @@ class AppStrings {
 
   static const baseUrl = 'http://10.0.2.2:3000';
   static const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM3ODEyNTE4LCJleHAiOjE3Mzc4OTg5MTh9.nf6sDWlR_C3t7BR01EPj_gPBmssWA_kF4q1-vLrR5LY';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM3ODkzNzYzLCJleHAiOjE3Mzc5ODAxNjN9.rlshVn33FocUBfAESePDYXv5mDtQf7pOaVfG98dJ6QQ';
   static const uid = 5;
 
   //logs screen
@@ -160,4 +160,7 @@ class AppStrings {
 
   static const noDataAvaliableText = 'No data available.';
   static const clickToEditText = 'กดเพื่อแก้ไข';
+
+  //leaderboard
+  static const leaderboardText = 'กระดานจัดอันดับ';
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'common/widget/app_bar.dart';
+import '../../../../common/widget/app_bar.dart';
 
 class TestNotiScreen extends StatelessWidget {
   const TestNotiScreen({super.key});

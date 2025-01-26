@@ -102,4 +102,6 @@ class AppImages {
     AppImages.diamondLeagueIcon,
     AppImages.emeraldLeaugeIcon,
   ];
+
+  static const clockIcon = 'assets/icons/clock_icon.svg';
 }

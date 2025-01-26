@@ -52,10 +52,7 @@ class ProgressCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.timelapse_rounded,
-                          color: Colors.red,
-                        ),
+                        SvgPicture.asset(AppImages.clockIcon),
                         const SizedBox(width: 4),
                         Text(
                           weekday != 7

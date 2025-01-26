@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final today = DateTime.now();
 
     context.read<LogsBloc>().add(LogsFetchedGraph(today));
-    // debugPrint('Dispatched LogsFetchedGraph event');
+
     context.read<LogsBloc>().add(LogsFetched(today));
 
     return Scaffold(
@@ -83,16 +83,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
+                            //leaderboard
                             Expanded(
                               child: RoundedText(
                                 text:
                                     '${AppStrings.leagueText}${AppStrings.leagueList[leagueIndex]}',
                                 svgPath: AppImages.leagueListIcon[leagueIndex],
                                 isShowNavi: true,
-                                appPages: AppPages.articleName,
+                                appPages: AppPages.leaderboardlPage,
                               ),
                             ),
                             const SizedBox(width: 16),
+
+                            //exchange
                             const Expanded(
                               child: RoundedText(
                                 text: AppStrings.rewardRedeemText,
@@ -104,6 +107,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                         const SizedBox(height: 24),
+
+                        //CheckIn
                         CheckInWidget(currentDay: currentDay),
                         const SizedBox(height: 24),
 

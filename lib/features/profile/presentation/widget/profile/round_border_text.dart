@@ -13,6 +13,9 @@ class RoundedText extends StatelessWidget {
   final double iconSize;
   final bool isBold;
   final double radius;
+  final Color backgroundColor;
+  final Color textColor;
+  final Color? iconColor;
 
   const RoundedText({
     Key? key,
@@ -23,7 +26,11 @@ class RoundedText extends StatelessWidget {
     this.horizontal = 16,
     this.vertical = 4,
     this.iconSize = 24,
-    this.isBold =false, this.radius = 8,
+    this.isBold = false,
+    this.radius = 8,
+    this.backgroundColor = AppColors.whiteColor,
+    this.iconColor,
+    this.textColor = AppColors.blackColor,
   }) : super(key: key);
 
   @override
@@ -32,7 +39,7 @@ class RoundedText extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius),
-        color: AppColors.whiteColor,
+        color: backgroundColor,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,17 +47,26 @@ class RoundedText extends StatelessWidget {
         children: [
           Row(
             children: [
-              SvgPicture.asset(
-                svgPath,
-                height: iconSize,
-              ),
+              iconColor != null
+                  ? SvgPicture.asset(
+                      svgPath,
+                      height: iconSize,
+                      color: iconColor,
+                    )
+                  : SvgPicture.asset(
+                      svgPath,
+                      height: iconSize,
+                    ),
               const SizedBox(width: 8),
               Text(
                 text,
-                style: 
-                isBold
-                ? Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)
-                : Theme.of(context).textTheme.bodySmall?.copyWith(),
+                style: isBold
+                    ? Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold, color: textColor)
+                    : Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: textColor),
               ),
             ],
           ),
