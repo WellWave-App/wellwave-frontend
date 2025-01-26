@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../config/constants/app_colors.dart';
-import '../../../config/constants/app_strings.dart';
+import '../../../../config/constants/app_colors.dart';
+import '../../../../config/constants/app_strings.dart';
 
 class ConfirmCancelButtons extends StatelessWidget {
   final VoidCallback onConfirm;

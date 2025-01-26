@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_bloc.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_event.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_state.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_event.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_state.dart';
 
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';

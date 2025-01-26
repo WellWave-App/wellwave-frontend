@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/progress_chart_card.dart';
-import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
+import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/chart.dart';
 
 class LogProgressChart<T> extends StatelessWidget {

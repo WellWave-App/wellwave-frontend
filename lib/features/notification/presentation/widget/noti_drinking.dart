@@ -8,9 +8,9 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/notification/noti_bloc.dart';
+import 'package:wellwave_frontend/features/notification/presentation/bloc/noti_bloc.dart';
 
-import '../../cancle_confirm_button.dart';
+import '../../../profile/presentation/widget/cancle_confirm_button.dart';
 
 class NotificationDrinking extends StatefulWidget {
   const NotificationDrinking({super.key});

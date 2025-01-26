@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:wellwave_frontend/features/profile/data/models/drink_plan_notification_response_model.dart';
-import 'package:wellwave_frontend/features/profile/data/models/drink_range_notification_response_model.dart';
-import 'package:wellwave_frontend/features/profile/data/models/sleep_notification_response_model.dart';
+import 'package:wellwave_frontend/features/notification/data/models/drink_plan_notification_response_model.dart';
+import 'package:wellwave_frontend/features/notification/data/models/drink_range_notification_response_model.dart';
+import 'package:wellwave_frontend/features/notification/data/models/sleep_notification_response_model.dart';
 
 import '../../../../config/constants/app_strings.dart';
 

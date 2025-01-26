@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../config/constants/app_strings.dart';
-import '../../../data/models/drink_plan_notification_response_model.dart';
-import '../../../data/repositories/notification_repositories.dart';
+import '../../../../config/constants/app_strings.dart';
+import '../../data/models/drink_plan_notification_response_model.dart';
+import '../../data/repositories/notification_repositories.dart';
 part 'noti_state.dart';
 part 'noti_event.dart';
 

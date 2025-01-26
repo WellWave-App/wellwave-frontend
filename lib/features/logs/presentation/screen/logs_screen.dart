@@ -8,7 +8,7 @@ import 'package:wellwave_frontend/features/logs/presentation/widget/daily_logs.d
 import 'package:wellwave_frontend/features/logs/presentation/widget/weekly_logs.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_strings.dart';
-import '../logs_bloc/logs_bloc.dart';
+import '../bloc/logs_bloc.dart';
 
 class LogsScreen extends StatefulWidget {
   const LogsScreen({super.key});

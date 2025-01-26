@@ -5,7 +5,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
-import '../../../../../config/constants/app_images.dart';
+import '../../../../config/constants/app_images.dart';
 import 'noti_mission_widget.dart';
 
 class NotificationMission extends StatefulWidget {

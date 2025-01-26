@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_strings.dart';
-import '../bloc/notification/noti_bloc.dart';
-import '../widget/notification/water_plan.dart';
+import '../bloc/noti_bloc.dart';
+import '../widget/water_plan.dart';
 
 class DrinkPlanScreen extends StatefulWidget {
   const DrinkPlanScreen({super.key});

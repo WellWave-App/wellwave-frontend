@@ -7,8 +7,8 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
-import '../../bloc/notification/noti_bloc.dart';
-import '../../cancle_confirm_button.dart';
+import '../bloc/noti_bloc.dart';
+import '../../../profile/presentation/widget/cancle_confirm_button.dart';
 
 class NotificationSleeping extends StatefulWidget {
   const NotificationSleeping({super.key});

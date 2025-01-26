@@ -14,11 +14,11 @@ import 'package:wellwave_frontend/features/home/presentation/screen/splash_scree
 import 'package:wellwave_frontend/features/profile/presentation/screen/achievement_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/edit_profile_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/profile_screen.dart';
-import 'package:wellwave_frontend/features/profile/presentation/screen/reminder_screen.dart';
+import 'package:wellwave_frontend/features/notification/presentation/screen/reminder_screen.dart';
 import 'package:wellwave_frontend/features/profile/presentation/screen/set_weekly_goal_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
-import '../../features/profile/presentation/screen/drink_plan_screen.dart';
+import '../../features/notification/presentation/screen/drink_plan_screen.dart';
 import '../../test_noti.dart';
 
 final GoRouter goRouter = GoRouter(

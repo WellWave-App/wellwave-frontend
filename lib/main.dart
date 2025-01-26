@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
-import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
-import 'package:wellwave_frontend/features/profile/data/repositories/notification_repositories.dart';
+import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
+import 'package:wellwave_frontend/features/notification/data/repositories/notification_repositories.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
-import 'features/profile/presentation/bloc/notification/noti_bloc.dart';
+import 'features/notification/presentation/bloc/noti_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

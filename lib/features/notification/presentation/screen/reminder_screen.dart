@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/notification/noti_drinking.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/notification/noti_mission.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/notification/noti_sleeping.dart';
+import 'package:wellwave_frontend/features/notification/presentation/widget/noti_drinking.dart';
+import 'package:wellwave_frontend/features/notification/presentation/widget/noti_mission.dart';
+import 'package:wellwave_frontend/features/notification/presentation/widget/noti_sleeping.dart';
 
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';

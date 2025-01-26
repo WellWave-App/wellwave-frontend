@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../../config/constants/app_colors.dart';
-import '../../../../../config/constants/app_images.dart';
-import '../../../../../config/constants/app_strings.dart';
-import '../../bloc/notification/noti_bloc.dart';
-import '../../cancle_confirm_button.dart';
+import '../../../../config/constants/app_colors.dart';
+import '../../../../config/constants/app_images.dart';
+import '../../../../config/constants/app_strings.dart';
+import '../bloc/noti_bloc.dart';
+import '../../../profile/presentation/widget/cancle_confirm_button.dart';
 
 class WaterPlanWidget extends StatefulWidget {
   const WaterPlanWidget({super.key});

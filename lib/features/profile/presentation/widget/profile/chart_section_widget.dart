@@ -5,7 +5,7 @@ import '../../../../../config/constants/app_strings.dart';
 import '../../../../logs/data/models/logs_request_model_drink.dart';
 import '../../../../logs/data/models/logs_request_model_sleep.dart';
 import '../../../../logs/data/models/logs_request_model_step.dart';
-import '../../../../logs/presentation/logs_bloc/logs_bloc.dart';
+import '../../../../logs/presentation/bloc/logs_bloc.dart';
 import 'log_progress_chart.dart';
 
 class ChartSectionWidget extends StatefulWidget {

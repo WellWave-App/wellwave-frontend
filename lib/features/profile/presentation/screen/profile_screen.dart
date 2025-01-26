@@ -6,9 +6,9 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_bloc.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_event.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile/profile_state.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_event.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_state.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/chart_section_widget.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/check_in_card.dart';
@@ -17,7 +17,7 @@ import 'package:wellwave_frontend/features/profile/presentation/widget/profile/p
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/round_border_text.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/user_info.dart';
 
-import '../../../logs/presentation/logs_bloc/logs_bloc.dart';
+import '../../../logs/presentation/bloc/logs_bloc.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
