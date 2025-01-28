@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../config/constants/app_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
+import '../../config/constants/app_colors.dart';
 
 class CustomAppBar extends AppBar {
   CustomAppBar({
@@ -12,7 +15,7 @@ class CustomAppBar extends AppBar {
     Color? textColor,
     Function? onBackPressed,
     Function? action,
-    IconData? actionIcon,
+    Widget? actionIcon,
   }) : super(
           title: Text(
             title ?? '',
@@ -40,13 +43,13 @@ class CustomAppBar extends AppBar {
                 )
               : const SizedBox.shrink(),
           actions: [
-            if (action != null)
-              IconButton(
-                onPressed: () => action(),
-                icon: actionIcon != null
-                    ? Icon(actionIcon)
-                    : const Icon(Icons.circle_outlined),
-                color: textColor ?? Colors.black,
+            if (action != null && actionIcon != null)
+              GestureDetector(
+                onTap: () => action(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: actionIcon, // Use the custom widget directly
+                ),
               ),
           ],
         );
@@ -64,6 +67,8 @@ class CustomAppBarWithStep extends AppBar {
     Function? onBackPressed,
     Function? action,
     IconData? actionIcon,
+    Widget? additionalIcon,
+    Function? additionalAction,
   }) : super(
           backgroundColor: Colors.transparent,
           automaticallyImplyLeading: false,
@@ -84,13 +89,17 @@ class CustomAppBarWithStep extends AppBar {
                 )
               : const SizedBox(width: 48),
           actions: [
-            if (action != null)
+            if (action != null && actionIcon != null)
               IconButton(
                 onPressed: () => action(),
-                icon: Icon(actionIcon ?? Icons.circle_outlined),
+                icon: Icon(actionIcon),
                 color: textColor ?? Colors.black,
               ),
-            const SizedBox(width: 48),
+            if (additionalAction != null && additionalIcon != null)
+              GestureDetector(
+                onTap: () => additionalAction(),
+                child: additionalIcon,
+              ),
           ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
