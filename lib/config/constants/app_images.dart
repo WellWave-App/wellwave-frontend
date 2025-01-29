@@ -104,4 +104,5 @@ class AppImages {
   ];
 
   static const clockIcon = 'assets/icons/clock_icon.svg';
+  static const firstRankIcon = 'assets/icons/first_rank_icon.svg';
 }
