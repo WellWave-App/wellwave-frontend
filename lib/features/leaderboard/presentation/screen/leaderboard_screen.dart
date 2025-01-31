@@ -15,7 +15,7 @@ class LeaderboardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     int leagueIndex = 0;
     int weekday = DateTime.now().weekday;
-    int daysRemain = 7 - weekday;
+    int daysRemain = (14 - weekday) % 14;
     String profileImage = '';
     String userName = 'mint';
     int userEXP = 6700;
@@ -90,7 +90,7 @@ class LeaderboardScreen extends StatelessWidget {
                                 textColor: AppColors.whiteColor,
                               ),
                               RoundedText(
-                                text: weekday != 7
+                                text: daysRemain != 0
                                     ? '$daysRemain ${AppStrings.dayText}'
                                     : 'วันสุดท้าย',
                                 svgPath: AppImages.clockIcon,
