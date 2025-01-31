@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                context.goNamed(AppPages.assessmentName);
+                context.goNamed(AppPages.findFriendName);
               },
               child: const Text('Go to Assessment'),
             ),

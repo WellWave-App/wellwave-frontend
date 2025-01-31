@@ -4,6 +4,8 @@ import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/routes/route_utils.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
+import 'package:wellwave_frontend/features/friend/presentation/screen/find_friend_screen.dart';
+import 'package:wellwave_frontend/features/friend/presentation/screen/friend_profile_screen.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/screen/health_assessment_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
@@ -77,6 +79,20 @@ final GoRouter goRouter = GoRouter(
               name: AppPages.assessmentName,
               builder: (BuildContext context, GoRouterState state) {
                 return const AssessmentScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPages.findFriendPage,
+              name: AppPages.findFriendName,
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return NoTransitionPage(child: FindFriendScreen());
+              },
+            ),
+            GoRoute(
+              path: AppPages.profileFriendPage,
+              name: AppPages.profileFriendName,
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return NoTransitionPage(child: ProfileFriends());
               },
             ),
           ],

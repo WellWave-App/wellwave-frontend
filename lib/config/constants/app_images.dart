@@ -53,6 +53,9 @@ class AppImages {
 
   static const stepImage = 'assets/icons/step_image.svg';
   static const exerciseImage = 'assets/icons/exercise_image.svg';
-  static const addfriendsImage = 'assets/icons/addfriends.svg';
-  static const waveImage = 'assets/icons/wave.svg';
+  static const addfriendIcon = 'assets/icons/addfriends.svg';
+  static const waveIcon = 'assets/icons/wave.svg';
+  static const actionIcon = 'assets/icons/action.svg';
+
+  static const LeadDiamondIcon = 'assets/icons/league_diamond.svg';
 }

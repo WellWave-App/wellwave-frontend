@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
+import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/features/friend/presentation/widget/user_info_card.dart';
 
 class FriendScreen extends StatelessWidget {
@@ -15,9 +18,11 @@ class FriendScreen extends StatelessWidget {
         context: context,
         onLeading: false,
         backgroundColor: AppColors.transparentColor,
-        actionIcon: SvgPicture.asset(AppImages.addfriendsImage),
+        actionIcon: SvgPicture.asset(AppImages.addfriendIcon),
         action: () {
-          print('Action icon pressed');
+          context.goNamed(
+            AppPages.findFriendPage,
+          );
         },
       ),
       body: Padding(
@@ -25,6 +30,10 @@ class FriendScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
+              UserInfoCard(),
+              const SizedBox(
+                height: 16,
+              ),
               UserInfoCard(),
             ],
           ),

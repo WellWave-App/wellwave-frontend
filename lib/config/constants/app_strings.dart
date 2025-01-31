@@ -5,7 +5,8 @@ class AppStrings {
   }
 
   static const emptyText = '';
-
+  static const baseUrl = 'http://10.0.2.2:3000';
+  static const userNotFoundText = 'ไม่พบข้อมูลผู้ใช้';
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';
@@ -78,4 +79,66 @@ class AppStrings {
   static const progressText = 'ความคืบหน้า';
   static const challengeText = 'พิสูจน์ฝีมือ';
   static const healthdataText = 'ข้อมูลสุขภาพประจำสัปดาห์';
+
+  //profile screen
+  static const userNameText = 'ชื่อผู้ใช้';
+  static const idText = 'ไอดี';
+  static const leagueText = 'ระดับ';
+  static const bronzeLeaugeText = 'ทองแดง';
+  static const silverLeaugeText = 'เงิน';
+  static const goldLeaugeText = 'ทอง';
+  static const diamondLeaugeText = 'ไดมอนด์';
+  static const emeraldLeaugeText = 'มรกต';
+  static const gemText = 'gem';
+  static const expText = 'exp';
+  static const checkinText = 'เช็คอินเพื่อสะสมคะแนน';
+  static const archeivementText = 'ความสำเร็จ';
+  static const archeiveText = 'สำเร็จ';
+  static const seeAllText = 'ดูทั้งหมด';
+  static const dayText = 'วัน';
+  static const googleConnectText = 'Google Connect';
+  static const signOutText = 'ออกจากระบบ';
+  static const rewardRedeemText = 'แลกรางวัล';
+  static const exerciseProgressText = 'ออกกำลังกายไปแล้ว';
+  static const copyToClipboardText = 'คัดลอกไปยังคลิปบอร์ด';
+
+  static const taskProgressText = 'จำนวนทำภารกิจ';
+  static const taskText = 'ภารกิจ';
+  static const minuteText = 'นาที';
+  static const alertText = 'แจ้งเตือน';
+  static const youReceivedText = 'คุณได้รับ';
+  static const closeWindowText = 'ปิดหน้าต่างนี้';
+  static const genderText = 'เพศ';
+  static const birthYearText = 'ปีเกิด';
+  static const heightText = 'ส่วนสูง';
+
+  static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
+  static const metabolicDescriptionText =
+      'คือ ภาวะที่เกิดจากระบบการเผาผลาญของร่างกาย ทำงานผิดปกติไป ทำให้เกิดการอ้วนลงพุง น้ำหนักตัว เกินมาตรฐาน น้ำตาลในเลือดสูง ความดันโลหิตสูง';
+  static const metaEffectText = 'ผลกระทบของโรค';
+  static const metaEffectDescriptionText =
+      'ภาวะนี้ส่งผลกระทบต่อคุณภาพชีวิตของผู้ป่วยในหลากหลายด้าน เช่น ความเสี่ยงในการเกิดโรคหัวใจ และหลอดเลือด เนื่องจากทำให้หลอดเลือดแดงอุดตัน ';
+  static const metaBehaviorText = 'การปรับพฤติกรรม';
+  static const metaBehaviorDescriptionText =
+      'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
+
+  static const leagueList = [
+    AppStrings.bronzeLeaugeText,
+    AppStrings.silverLeaugeText,
+    AppStrings.goldLeaugeText,
+    AppStrings.diamondLeaugeText,
+    AppStrings.emeraldLeaugeText,
+  ];
+
+  //logs history screen
+  static const healthHistoryText = 'ประวัติบันทึกสุขภาพ';
+  static const sleepText = 'การนอน';
+  static const stepText = 'ก้าว';
+  static const stepWalkText = 'ก้าวเดิน';
+  static const drinkText = 'ดื่มน้ำ';
+  static const enterText = 'เข้าสู่แอพ';
+  static const xdateText = 'วันที่';
+  static const goodCriteria = 'ค่าตามเกณฑ์';
+  static const aboveCriteria = 'ค่าเกินเกณฑ์';
+  static const underCriteria = 'ค่าต่ำกว่าเกณฑ์';
 }
