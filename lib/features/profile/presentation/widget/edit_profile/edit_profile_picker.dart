@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
+
 import '../../../../../config/constants/app_images.dart';
 import '../../bloc/profile_bloc.dart';
 import '../../bloc/profile_event.dart';
@@ -20,50 +22,101 @@ class EditProfileImage extends StatefulWidget {
 
 class _EditProfileImageState extends State<EditProfileImage> {
   Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedFile = await picker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 85,
+      );
 
-    if (pickedFile != null) {
-      debugPrint("Picked file path: ${pickedFile.path}");
-      context.read<ProfileBloc>().add(ImagePicked(File(pickedFile.path)));
-    } else {
-      debugPrint("No image selected");
+      if (pickedFile != null) {
+        final extension = path.extension(pickedFile.path).toLowerCase();
+        if (['.jpg', '.jpeg', '.png', '.gif'].contains(extension)) {
+          final file = File(pickedFile.path);
+          if (await file.exists()) {
+            // print('Selected image file exists at: ${file.path}');
+            // print('File extension: $extension');
+            // print('File size: ${await file.length()} bytes');
+            context.read<ProfileBloc>().add(ImagePicked(file));
+          } else {
+            // print('Selected file does not exist at path: ${file.path}');
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Please select a JPG, PNG, or GIF image'),
+            ),
+          );
+        }
+      }
+    } catch (e, stackTrace) {
+      // print('Error picking image: $e');
+      // print('Stack trace: $stackTrace');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error selecting image. Please try again.'),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
+    return BlocConsumer<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        if (state is ProfileError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage)),
+          );
+        }
+      },
       builder: (context, state) {
-        // debugPrint("Current state: $state");
+        if (state is ProfileLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
         Widget profileImage;
-
-        if (state is ProfileLoaded && state.userProfile.imageUrl.isNotEmpty) {
-          final imageUrl = "http://10.0.2.2:3000${state.userProfile.imageUrl}";
-          profileImage = ClipOval(
-            child: Image.network(
-              imageUrl,
-              width: 128,
-              height: 128,
-              fit: BoxFit.cover,
-            ),
-          );
-        } else if (state.selectedImage != null) {
-          profileImage = ClipOval(
-            child: Image.file(
-              state.selectedImage!,
-              width: 128,
-              height: 128,
-              fit: BoxFit.cover,
-            ),
-          );
+        if (state is ProfileLoaded) {
+          if (state.selectedImage != null &&
+              state.selectedImage!.existsSync()) {
+            profileImage = ClipOval(
+              child: Image.file(
+                state.selectedImage!,
+                width: 128,
+                height: 128,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  // print('Error loading selected image: $error');
+                  return _buildDefaultImage();
+                },
+              ),
+            );
+          } else if (state.userProfile.imageUrl.isNotEmpty) {
+            final imageUrl =
+                "http://10.0.2.2:3000${state.userProfile.imageUrl}";
+            // print('Loading network image from: $imageUrl');
+            profileImage = ClipOval(
+              child: Image.network(
+                imageUrl,
+                width: 128,
+                height: 128,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const CircularProgressIndicator();
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  // print('Error loading network image: $error');
+                  // print('Stack trace: $stackTrace');
+                  return _buildDefaultImage();
+                },
+              ),
+            );
+          } else {
+            profileImage = _buildDefaultImage();
+          }
         } else {
-          profileImage = const CircleAvatar(
-            radius: 64,
-            backgroundImage: AssetImage(AppImages.crabImg),
-          );
+          profileImage = _buildDefaultImage();
         }
 
         return Stack(
@@ -82,6 +135,13 @@ class _EditProfileImageState extends State<EditProfileImage> {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildDefaultImage() {
+    return const CircleAvatar(
+      radius: 64,
+      backgroundImage: AssetImage(AppImages.crabImg),
     );
   }
 }

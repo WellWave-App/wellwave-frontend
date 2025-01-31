@@ -90,6 +90,8 @@ class _UserDetailCardState extends State<UserDetailCard> {
       height: height,
       weight: weight,
     ));
+
+    Navigator.pop(context);
   }
 
   @override

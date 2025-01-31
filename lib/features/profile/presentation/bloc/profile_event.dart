@@ -10,8 +10,7 @@ abstract class ProfileEvent extends Equatable {
 class FetchUserProfile extends ProfileEvent {}
 
 class EditUserProfile extends ProfileEvent {
-  // final int uid;
-  final String imageUrl;
+  final String? imageUrl;
   final String username;
   final int yearOfBirth;
   final bool gender;
@@ -19,8 +18,7 @@ class EditUserProfile extends ProfileEvent {
   final num weight;
 
   EditUserProfile({
-    // required this.uid,
-    required this.imageUrl,
+    this.imageUrl,
     required this.username,
     required this.yearOfBirth,
     required this.gender,
@@ -30,7 +28,6 @@ class EditUserProfile extends ProfileEvent {
 
   @override
   List<Object?> get props => [
-        // uid,
         imageUrl,
         username,
         yearOfBirth,

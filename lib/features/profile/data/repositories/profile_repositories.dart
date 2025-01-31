@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
+import 'package:http_parser/http_parser.dart';
+
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
@@ -34,13 +37,11 @@ class ProfileRepositories {
         ..headers['Authorization'] = 'Bearer $token'
         ..fields.addAll(userDetails);
 
-      // request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
-
       final response = await request.send();
-      final responseBody = await response.stream.bytesToString();
+      // final responseBody = await response.stream.bytesToString();
 
       debugPrint('Edit Profile: ${response.statusCode}');
-      debugPrint('Response Body: $responseBody');
+      // debugPrint('Response Body: $responseBody');
 
       if (response.statusCode == 200) {
         return true;
@@ -96,7 +97,7 @@ class ProfileRepositories {
         },
       );
       debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
+      // debugPrint('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -109,29 +110,74 @@ class ProfileRepositories {
     }
   }
 
-  Future<String?> uploadProfileImage(
-    File imageFile,
-    int uid,
-  ) async {
+  Future<String?> uploadProfileImage(File imageFile, int uid) async {
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
-      final request = http.MultipartRequest('PATCH', uri)
-        ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));
+      var request = http.MultipartRequest('PATCH', uri);
 
-      // Add headers if necessary
-      request.headers['Authorization'] = 'Bearer $token';
+      // Get file extension and determine MIME type
+      final extension = path.extension(imageFile.path).toLowerCase();
+      String mimeType;
+      switch (extension) {
+        case '.jpg':
+        case '.jpeg':
+          mimeType = 'image/jpeg';
+          break;
+        case '.png':
+          mimeType = 'image/png';
+          break;
+        case '.gif':
+          mimeType = 'image/gif';
+          break;
+        default:
+          throw Exception(
+              'Unsupported image format. Please use JPG, PNG, or GIF');
+      }
 
-      final response = await request.send();
+      // print('File path: ${imageFile.path}');
+      // print('Detected MIME type: $mimeType');
+
+      // Create multipart file with correct content type
+      var multipartFile = await http.MultipartFile.fromPath(
+        'imgFile',
+        imageFile.path,
+        contentType: MediaType.parse(mimeType),
+      );
+      request.files.add(multipartFile);
+
+      // print('Multipart file added: ${multipartFile.filename}');
+      // print('Content type: ${multipartFile.contentType}');
+
+      // Add authorization header if needed
+      if (token.isNotEmpty) {
+        request.headers['Authorization'] = 'Bearer $token';
+      }
+
+      // print('Sending request to: $uri');
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      // print('Response status code: ${response.statusCode}');
+      // print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final responseJson = jsonDecode(responseBody);
+        final responseJson = jsonDecode(response.body);
+        // Access IMAGE_URL directly from the root object
         final imageUrl = responseJson['IMAGE_URL'] as String?;
+        // print('Received image URL: $imageUrl');
+
+        if (imageUrl == null) {
+          throw Exception('No image URL in response');
+        }
+
         return imageUrl;
       } else {
-        throw Exception('Failed to upload image');
+        throw Exception(
+            'Upload failed with status: ${response.statusCode}, message: ${response.body}');
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      // print('Error uploading image: $e');
+      // print('Stack trace: $stackTrace');
       throw Exception('Error uploading image: $e');
     }
   }
