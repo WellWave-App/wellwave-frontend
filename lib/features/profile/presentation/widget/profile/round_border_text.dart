@@ -73,7 +73,6 @@ class RoundedText extends StatelessWidget {
           isShowNavi
               ? Row(
                   children: [
-                    const SizedBox(width: 16),
                     GestureDetector(
                       onTap: () {
                         context.goNamed(appPages);

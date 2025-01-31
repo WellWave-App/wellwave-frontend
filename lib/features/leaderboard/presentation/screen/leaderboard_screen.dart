@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
+import '../../../profile/presentation/bloc/profile_bloc.dart';
+import '../../../profile/presentation/bloc/profile_event.dart';
+import '../../../profile/presentation/bloc/profile_state.dart';
 import '../../../profile/presentation/widget/profile/round_border_text.dart';
 import '../widget/switch_button.dart';
 
@@ -13,13 +17,12 @@ class LeaderboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int leagueIndex = 0;
+    context.read<ProfileBloc>().add(FetchUserProfile());
+
     int weekday = DateTime.now().weekday;
     int daysRemain = (14 - weekday) % 14;
-    String profileImage = '';
-    String userName = 'mint';
-    int userEXP = 6700;
     int userRank = 16;
+
     final List<Map<String, dynamic>> rankData = [
       {"rank": 1, "name": "มงคล", "exp": 12034, "avatar": "assets/avatar3.png"},
       {
@@ -54,50 +57,242 @@ class LeaderboardScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-        backgroundColor: AppColors.primaryColor,
-        appBar: CustomAppBar(
-            title: AppStrings.leaderboardText,
-            textColor: AppColors.whiteColor,
-            context: context,
-            onLeading: true),
-        body: Stack(children: [
-          Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Padding(
+      backgroundColor: AppColors.primaryColor,
+      appBar: CustomAppBar(
+          title: AppStrings.leaderboardText,
+          textColor: AppColors.whiteColor,
+          context: context,
+          onLeading: true),
+      body: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          if (state is ProfileLoaded) {
+            final profile = state.userProfile;
+            final userLeague = profile.userLeague;
+            int leagueIndex = _getLeagueIndex(userLeague?.name ?? 'Bronze');
+            Widget profileImage;
+
+            if (state.userProfile.imageUrl.isNotEmpty) {
+              final imageUrl =
+                  "http://10.0.2.2:3000${state.userProfile.imageUrl}";
+              profileImage = ClipOval(
+                child: Image.network(
+                  imageUrl,
+                  width: 34,
+                  height: 34,
+                  fit: BoxFit.cover,
+                ),
+              );
+            } else if (state.selectedImage != null) {
+              profileImage = ClipOval(
+                child: Image.file(
+                  state.selectedImage!,
+                  width: 34,
+                  height: 34,
+                  fit: BoxFit.cover,
+                ),
+              );
+            } else {
+              profileImage = const CircleAvatar(
+                radius: 17,
+                backgroundImage: AssetImage(AppImages.crabImg),
+              );
+            }
+
+            return Stack(children: [
+              Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            //league
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                RoundedText(
+                                  text:
+                                      '${AppStrings.leagueText}${AppStrings.leagueList[leagueIndex]}',
+                                  svgPath:
+                                      AppImages.leagueListIcon[leagueIndex],
+                                  backgroundColor: Colors.transparent,
+                                  textColor: AppColors.whiteColor,
+                                ),
+                              ],
+                            ),
+
+                            //switch
+                            const SwitchButton(),
+                            //day remain
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                RoundedText(
+                                  text: daysRemain != 0
+                                      ? '$daysRemain ${AppStrings.dayText}'
+                                      : 'วันสุดท้าย',
+                                  svgPath: AppImages.clockIcon,
+                                  backgroundColor: const Color(0xFF2352BC),
+                                  iconColor: AppColors.whiteColor,
+                                  textColor: AppColors.whiteColor,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  //4-10
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                        padding: const EdgeInsets.only(
+                            top: 33, bottom: 95, left: 20, right: 20),
+                        color: AppColors.whiteColor,
+                        child: ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            itemCount: rankData.length - 3,
+                            separatorBuilder: (context, index) => Divider(
+                                  color: Colors.grey.shade300,
+                                  thickness: 1,
+                                ),
+                            itemBuilder: (context, index) {
+                              final rankItem = rankData[index + 3];
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 8),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    // Rank Number
+                                    SizedBox(
+                                      width: 42,
+                                      child: Text(
+                                        '#${rankItem["rank"]}',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 24),
+                                    // Avatar
+                                    CircleAvatar(
+                                      radius: 17,
+                                      backgroundImage:
+                                          AssetImage(rankItem["avatar"]),
+                                    ),
+                                    const SizedBox(width: 36),
+                                    // Name and EXP
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(rankItem["name"],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyMedium
+                                                  ?.copyWith()),
+                                          const SizedBox(height: 4),
+                                          Text('${rankItem["exp"]} EXP',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.copyWith()),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            })),
+                  ),
+                ],
+              ),
+
+              //1-3
+              Positioned(
+                bottom: 330,
+                left: 0,
+                right: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    _buildPodium(
+                        context, rankData[1], AppColors.yellowColor, 93),
+                    _buildPodium(context, rankData[0], AppColors.mintColor, 123,
+                        isFirst: true),
+                    _buildPodium(context, rankData[2], AppColors.pinkColor, 63),
+                  ],
+                ),
+              ),
+
+              //my rank
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 95,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Center(
-                    child: Column(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFD0E0FF),
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(12)),
+                  ),
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        //switch
-                        const SwitchButton(),
-                        const SizedBox(height: 12),
-
-                        //league and day remain
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 16),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // Rank Number
+                        SizedBox(
+                          width: 42,
+                          child: Text(
+                            '#$userRank',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 24),
+                        // Avatar
+                        // CircleAvatar(
+                        //   radius: 17,
+                        //   backgroundImage: AssetImage(profileImage),
+                        // ),
+                        profileImage,
+                        const SizedBox(width: 36),
+                        // Name and EXP
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              RoundedText(
-                                text:
-                                    '${AppStrings.leagueText}${AppStrings.leagueList[leagueIndex]}',
-                                svgPath: AppImages.leagueListIcon[leagueIndex],
-                                backgroundColor: Colors.transparent,
-                                textColor: AppColors.whiteColor,
-                              ),
-                              RoundedText(
-                                text: daysRemain != 0
-                                    ? '$daysRemain ${AppStrings.dayText}'
-                                    : 'วันสุดท้าย',
-                                svgPath: AppImages.clockIcon,
-                                backgroundColor: const Color(0xFF2352BC),
-                                iconColor: AppColors.whiteColor,
-                                textColor: AppColors.whiteColor,
-                              ),
+                              Text(profile.username,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith()),
+                              const SizedBox(height: 4),
+                              Text('${profile.exp} EXP',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith()),
                             ],
                           ),
                         ),
@@ -106,158 +301,17 @@ class LeaderboardScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
-              //4-10
-              Expanded(
-                flex: 1,
-                child: Container(
-                    padding: const EdgeInsets.only(
-                        top: 33, bottom: 95, left: 20, right: 20),
-                    color: AppColors.whiteColor,
-                    child: ListView.separated(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        itemCount: rankData.length - 3,
-                        separatorBuilder: (context, index) => Divider(
-                              color: Colors.grey.shade300,
-                              thickness: 1,
-                            ),
-                        itemBuilder: (context, index) {
-                          final rankItem = rankData[index + 3];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                // Rank Number
-                                SizedBox(
-                                  width: 42,
-                                  child: Text(
-                                    '#${rankItem["rank"]}',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 24),
-                                // Avatar
-                                CircleAvatar(
-                                  radius: 17,
-                                  backgroundImage:
-                                      AssetImage(rankItem["avatar"]),
-                                ),
-                                const SizedBox(width: 36),
-                                // Name and EXP
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(rankItem["name"],
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith()),
-                                      const SizedBox(height: 4),
-                                      Text('${rankItem["exp"]} EXP',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall
-                                              ?.copyWith()),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        })),
-              ),
-            ],
-          ),
-
-          //1-3
-          Positioned(
-            bottom: 330,
-            left: 0,
-            right: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                _buildPodium(context, rankData[1], AppColors.yellowColor, 93),
-                _buildPodium(context, rankData[0], AppColors.mintColor, 123,
-                    isFirst: true),
-                _buildPodium(context, rankData[2], AppColors.pinkColor, 63),
-              ],
-            ),
-          ),
-
-          //my rank
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 95,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: const BoxDecoration(
-                color: Color(0xFFD0E0FF),
-                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Rank Number
-                    SizedBox(
-                      width: 42,
-                      child: Text(
-                        '#$userRank',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 24),
-                    // Avatar
-                    CircleAvatar(
-                      radius: 17,
-                      backgroundImage: AssetImage(profileImage),
-                    ),
-                    const SizedBox(width: 36),
-                    // Name and EXP
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(userName,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith()),
-                          const SizedBox(height: 4),
-                          Text('$userEXP EXP',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith()),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ]));
+            ]);
+          } else if (state is ProfileError) {
+            return Center(child: Text(state.errorMessage));
+          } else if (state is ProfileLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return const Center(child: Text(AppStrings.noDataAvaliableText));
+          }
+        },
+      ),
+    );
   }
 
   Widget _buildPodium(BuildContext context, Map<String, dynamic> user,
@@ -298,10 +352,8 @@ class LeaderboardScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text('${user['exp']} exp',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall
-                  ?.copyWith(color: AppColors.whiteColor)),
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: AppColors.whiteColor, fontWeight: FontWeight.bold)),
         ),
         const SizedBox(height: 16),
         Container(
@@ -324,5 +376,22 @@ class LeaderboardScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  int _getLeagueIndex(String leagueName) {
+    switch (leagueName.toLowerCase()) {
+      case 'bronze':
+        return 0;
+      case 'silver':
+        return 1;
+      case 'gold':
+        return 2;
+      case 'diamond':
+        return 3;
+      case 'emerald':
+        return 4;
+      default:
+        return 0;
+    }
   }
 }

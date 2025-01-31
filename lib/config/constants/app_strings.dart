@@ -8,7 +8,7 @@ class AppStrings {
 
   static const baseUrl = 'http://10.0.2.2:3000';
   static const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM4MDY5OTc3LCJleHAiOjE3MzgxNTYzNzd9.PjH1BwFYlKjDYTA4aMul0WCZTTurWw5vGjhu0kwXFkI';
+      '	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM4MzQ4NzIzLCJleHAiOjE3Mzg0MzUxMjN9.1SWYHoUEudgttFoDwx4nxEvkndWj0-DXXVBzBY6NuVE';
   static const uid = 5;
 
   //logs screen
@@ -57,11 +57,11 @@ class AppStrings {
   static const userNameText = 'ชื่อผู้ใช้';
   static const idText = 'ไอดี';
   static const leagueText = 'ระดับ';
-  static const bronzeLeaugeText = 'ทองแดง';
-  static const silverLeaugeText = 'เงิน';
-  static const goldLeaugeText = 'ทอง';
-  static const diamondLeaugeText = 'ไดมอนด์';
-  static const emeraldLeaugeText = 'มรกต';
+  static const firstLeaugeText = 'มือใหม่สุขภาพดี';
+  static const secondLeaugeText = 'ผู้เสาะหาความแข็งแรง';
+  static const thirdLeaugeText = 'ยอดนักรบสุดฟิต';
+  static const forthLeaugeText = 'ปรมาจารย์ด้านสุขภาพ';
+  static const fifthLeaugeText = 'ตำนานแชมป์สุดแข็งแกร่ง';
   static const gemText = 'gem';
   static const expText = 'exp';
   static const checkinText = 'เช็คอินเพื่อสะสมคะแนน';
@@ -97,11 +97,11 @@ class AppStrings {
       'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
 
   static const leagueList = [
-    AppStrings.bronzeLeaugeText,
-    AppStrings.silverLeaugeText,
-    AppStrings.goldLeaugeText,
-    AppStrings.diamondLeaugeText,
-    AppStrings.emeraldLeaugeText,
+    AppStrings.firstLeaugeText,
+    AppStrings.secondLeaugeText,
+    AppStrings.thirdLeaugeText,
+    AppStrings.forthLeaugeText,
+    AppStrings.fifthLeaugeText,
   ];
 
   //arcievement

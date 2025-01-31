@@ -81,16 +81,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 24),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //leaderboard
                             Expanded(
                               child: RoundedText(
                                 text:
-                                    '${AppStrings.leagueText}${AppStrings.leagueList[leagueIndex]}',
+                                    // '${AppStrings.leagueText}${AppStrings.leagueList[leagueIndex]}',
+                                    AppStrings.leaderboardText,
                                 svgPath: AppImages.leagueListIcon[leagueIndex],
                                 isShowNavi: true,
                                 appPages: AppPages.leaderboardlPage,
+                                horizontal: 12,
                               ),
                             ),
                             const SizedBox(width: 16),
@@ -102,6 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 svgPath: AppImages.giftIcon,
                                 isShowNavi: true,
                                 appPages: AppPages.articleName,
+                                horizontal: 12,
                               ),
                             ),
                           ],
