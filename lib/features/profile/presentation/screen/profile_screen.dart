@@ -64,10 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (state is ProfileLoaded) {
                     final profile = state.userProfile;
 
-                    final userLeague = profile.userLeague;
-
-                    int leagueIndex =
-                        _getLeagueIndex(userLeague?.name ?? 'Bronze');
+                    final userLeague = profile.userLeague?.id ?? 0;
 
                     return Column(
                       children: [
@@ -81,15 +78,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 24),
                         Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //leaderboard
                             Expanded(
                               child: RoundedText(
-                                text:
-                                    // '${AppStrings.leagueText}${AppStrings.leagueList[leagueIndex]}',
-                                    AppStrings.leaderboardText,
-                                svgPath: AppImages.leagueListIcon[leagueIndex],
+                                text: AppStrings.leaderboardText,
+                                svgPath:
+                                    AppImages.leagueListIcon[userLeague - 1],
                                 isShowNavi: true,
                                 appPages: AppPages.leaderboardlPage,
                                 horizontal: 12,
@@ -194,22 +190,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  int _getLeagueIndex(String leagueName) {
-    switch (leagueName.toLowerCase()) {
-      case 'bronze':
-        return 0;
-      case 'silver':
-        return 1;
-      case 'gold':
-        return 2;
-      case 'diamond':
-        return 3;
-      case 'emerald':
-        return 4;
-      default:
-        return 0;
-    }
   }
 }
