@@ -17,3 +17,5 @@ class SearchFriendEvent extends FriendEvent {
 class ResetEvent extends FriendEvent {}
 
 class ToggleUnfriendButtonEvent extends FriendEvent {}
+
+class ToggleWaveIconEvent extends FriendEvent {}

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
+import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
+import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_event.dart';
+import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_state.dart';
 import 'package:wellwave_frontend/features/friend/presentation/screen/find_friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 
@@ -63,7 +67,29 @@ class UserInfoCard extends StatelessWidget {
                       ],
                     ),
                     Spacer(),
-                    SvgPicture.asset(AppImages.waveIcon),
+                    BlocBuilder<FriendBloc, FriendState>(
+                      builder: (context, state) {
+                        bool isWaveActive = false;
+                        if (state is FriendShowWaveIcon) {
+                          isWaveActive = state.isWaveActive;
+                        }
+
+                        return GestureDetector(
+                          onTap: () {
+                            if (!isWaveActive) {
+                              context
+                                  .read<FriendBloc>()
+                                  .add(ToggleWaveIconEvent());
+                            }
+                          },
+                          child: SvgPicture.asset(
+                            isWaveActive
+                                ? AppImages.waveIconActive
+                                : AppImages.waveIcon,
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 24),

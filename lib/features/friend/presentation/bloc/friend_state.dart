@@ -33,3 +33,12 @@ class FriendShowUnfriendButton extends FriendState {
   @override
   List<Object?> get props => [isVisible];
 }
+
+class FriendShowWaveIcon extends FriendState {
+  final bool isWaveActive;
+
+  FriendShowWaveIcon(this.isWaveActive);
+
+  @override
+  List<Object?> get props => [isWaveActive];
+}

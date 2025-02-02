@@ -17,6 +17,7 @@ class FriendScreen extends StatelessWidget {
       appBar: CustomAppBar(
         context: context,
         onLeading: false,
+        title: 'เพื่อนของฉัน',
         backgroundColor: AppColors.transparentColor,
         actionIcon: SvgPicture.asset(AppImages.addfriendIcon),
         action: () {
@@ -29,12 +30,26 @@ class FriendScreen extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              UserInfoCard(),
-              const SizedBox(
-                height: 16,
+              // UserInfoCard(),
+              // const SizedBox(
+              //   height: 16,
+              // ),
+              // UserInfoCard(),
+              SvgPicture.asset(
+                AppImages.findFriendAvatar,
+                width: 128,
               ),
-              UserInfoCard(),
+              const SizedBox(
+                height: 24,
+              ),
+              Text(
+                'ยังไม่มีข้อมูล เพิ่มเพื่อนเลย!',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.darkgrayColor,
+                    ),
+              ),
             ],
           ),
         ),

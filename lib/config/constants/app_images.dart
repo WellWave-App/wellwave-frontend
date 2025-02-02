@@ -55,7 +55,9 @@ class AppImages {
   static const exerciseImage = 'assets/icons/exercise_image.svg';
   static const addfriendIcon = 'assets/icons/addfriends.svg';
   static const waveIcon = 'assets/icons/wave.svg';
+  static const waveIconActive = 'assets/icons/wave_active.svg';
   static const actionIcon = 'assets/icons/action.svg';
+  static const findFriendAvatar = 'assets/avatar/findfriend.svg';
 
   static const LeadDiamondIcon = 'assets/icons/league_diamond.svg';
 }
