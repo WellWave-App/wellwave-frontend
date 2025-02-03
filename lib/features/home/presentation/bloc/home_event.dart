@@ -29,16 +29,10 @@ class UpdateCompletionStatusEvent extends HomeEvent {
   });
 }
 
-class MarkNotificationAsReadEvent extends HomeEvent {
-  final int notificationId;
-
-  MarkNotificationAsReadEvent(this.notificationId);
-}
-
 class LoadNotificationsEvent extends HomeEvent {}
 
-class NavigatorToNotificationPage extends HomeEvent {
-  final String route;
+class MarkNotificationAsReadEvent extends HomeEvent {
+  final String notificationId;
 
-  NavigatorToNotificationPage(this.route);
+  MarkNotificationAsReadEvent(this.notificationId);
 }

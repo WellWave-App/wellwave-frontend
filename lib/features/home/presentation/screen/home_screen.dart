@@ -12,35 +12,32 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => HomeBloc(currentDate: DateTime.now()),
-      child: Scaffold(
-        backgroundColor: AppColors.primaryColor,
-        body: SingleChildScrollView(
-          child: Stack(
-            children: [
-              Positioned(
-                top: 48.0,
-                left: -16.0,
-                child: SvgPicture.asset(
-                  AppImages.cloudImage,
-                ),
+    return Scaffold(
+      backgroundColor: AppColors.primaryColor,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Positioned(
+              top: 48.0,
+              left: -16.0,
+              child: SvgPicture.asset(
+                AppImages.cloudImage,
               ),
-              Positioned(
-                top: 108.0,
-                right: -24.0,
-                child: SvgPicture.asset(
-                  AppImages.cloudImage,
-                ),
+            ),
+            Positioned(
+              top: 108.0,
+              right: -24.0,
+              child: SvgPicture.asset(
+                AppImages.cloudImage,
               ),
-              const Column(
-                children: [
-                  GreetingWidget(),
-                  ProgressWidget(),
-                ],
-              ),
-            ],
-          ),
+            ),
+            const Column(
+              children: [
+                GreetingWidget(),
+                ProgressWidget(),
+              ],
+            ),
+          ],
         ),
       ),
     );
