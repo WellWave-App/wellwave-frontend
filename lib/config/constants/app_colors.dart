@@ -44,5 +44,5 @@ class AppColors {
   static const transparentColor = Colors.transparent;
 
   static const errorColor = Color(0xFFBE4B43);
-  static const skyBlueLightColor = Color(0xFF98DEFF);
+  static const darkSkyBlueColor = Color(0xFF179CDB);
 }

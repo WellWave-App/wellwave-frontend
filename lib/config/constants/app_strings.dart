@@ -5,6 +5,7 @@ class AppStrings {
   }
 
   static const emptyText = '';
+  static const baseUrl = 'http://10.0.2.2:3000';
 
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
@@ -85,6 +86,5 @@ class AppStrings {
   static const stepText = 'ก้าว';
   static const exerciseText = 'ออกกำลังกาย';
 
-  static const NewNotiText = 'ใหม่';
-  static const OldNotiText = 'เห็นแล้ว';
+  static const noNotiText = 'ยังไม่มีการแจ้งเตือน';
 }
