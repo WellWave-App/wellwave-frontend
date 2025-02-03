@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:timeline_tile/timeline_tile.dart';
-import 'package:timelines_plus/timelines_plus.dart';
 import 'package:wellwave_frontend/features/home/widget/action_slider_button.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/common/widget/gradient_circular_progress_indicator.dart';

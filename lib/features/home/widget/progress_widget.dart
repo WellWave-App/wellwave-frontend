@@ -78,7 +78,6 @@ class ProgressWidget extends StatelessWidget {
                         left: 24.0, top: 8.0, bottom: 8.0, right: 24.0),
                     child: Row(
                       children: [
-                        // สร้างรายการการ์ดที่ตรงกับเงื่อนไข
                         ...progressList.map((progress) {
                           final dates = List.generate(
                             progress.totalDays,
@@ -89,8 +88,7 @@ class ProgressWidget extends StatelessWidget {
                               .any((date) => _isSameDay(date, DateTime.now()));
 
                           if (!hasDateNow) {
-                            return SizedBox
-                                .shrink(); // ไม่แสดงการ์ดหากไม่มีวันที่ตรงกับ DateTime.now()
+                            return SizedBox.shrink();
                           }
 
                           return Row(
@@ -100,8 +98,6 @@ class ProgressWidget extends StatelessWidget {
                             ],
                           );
                         }).toList(),
-
-                        // ตรวจสอบว่ามีการ์ดที่แสดงหรือไม่
                         if (progressList.every((progress) {
                           final dates = List.generate(
                             progress.totalDays,
