@@ -9,7 +9,7 @@ final List<Map<String, dynamic>> progressMockData = [
     "activityType": "sleep",
     "rewards": 15,
     "totalDays": 7,
-    "startDate": "2025-01-22 10:07:37.524796",
+    "startDate": "2025-02-03 10:07:37.524796",
   },
   {
     "id": 2,

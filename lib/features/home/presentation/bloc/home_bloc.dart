@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wellwave_frontend/features/home/data/models/notification.dart';
+import 'package:wellwave_frontend/features/home/widget/mockup_data/notification_data.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -12,33 +14,38 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final Map<String, Map<DateTime, bool>> completionStatus = {};
   List<int> weeklyAverages = [];
   List<String> readNotifications = [];
+  final List<Notifications> notificationlist = getMockNotificationData();
 
   HomeBloc({required this.currentDate}) : super(HomeInitial()) {
     on<LoadNotificationsEvent>(_onLoadNotifications);
     on<MarkNotificationAsReadEvent>(_onMarkNotificationAsRead);
     on<UpdateHealthDataEvent>(_onUpdateHealthData);
-    _loadInitialData();
+    on<NewNotificationReceived>(_onNewNotificationReceived);
+    on<SetHasNewNotificationFalseEvent>((event, emit) {
+      if (state is HomeLoadedState) {
+        final currentState = state as HomeLoadedState;
+        final newState = currentState.copyWith(hasNewNotification: false);
+        emit(newState);
+      }
+    });
+
+    add(LoadNotificationsEvent());
   }
 
-  Future<void> _loadInitialData() async {
+  Future<void> _onLoadNotifications(
+      LoadNotificationsEvent event, Emitter<HomeState> emit) async {
     final prefs = await SharedPreferences.getInstance();
-    final loadedReadNotifications =
-        prefs.getStringList('read_notifications') ?? [];
-    readNotifications = loadedReadNotifications;
+    final readNotifications = prefs.getStringList('read_notifications') ?? [];
+
+    bool hasNewNotification = notificationlist.any(
+      (notification) => !readNotifications.contains(notification.id.toString()),
+    );
 
     emit(HomeLoadedState(
       weeklyAverages: weeklyAverages,
       readNotifications: readNotifications,
+      hasNewNotification: hasNewNotification,
     ));
-  }
-
-  Future<void> _onLoadNotifications(
-      LoadNotificationsEvent, Emitter<HomeState> emit) async {
-    final prefs = await SharedPreferences.getInstance();
-    final readNotifications = prefs.getStringList('read_notifications') ?? [];
-
-    emit((state as HomeLoadedState)
-        .copyWith(readNotifications: readNotifications));
   }
 
   Future<void> _onMarkNotificationAsRead(
@@ -51,17 +58,36 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       readNotifications.add(event.notificationId.toString());
       await prefs.setStringList('read_notifications', readNotifications);
 
-      this.readNotifications = readNotifications;
+      bool hasNewNotification = notificationlist.any(
+        (notification) =>
+            !readNotifications.contains(notification.id.toString()),
+      );
 
-      emit(currentState.copyWith(readNotifications: readNotifications));
+      emit(currentState.copyWith(
+        readNotifications: readNotifications,
+        hasNewNotification: hasNewNotification,
+      ));
+    }
+  }
+
+  void _onNewNotificationReceived(
+      NewNotificationReceived event, Emitter<HomeState> emit) {
+    if (state is HomeLoadedState) {
+      final currentState = state as HomeLoadedState;
+
+      notificationlist.add(event.notification);
+      emit(currentState.copyWith(hasNewNotification: true));
     }
   }
 
   void _onUpdateHealthData(
       UpdateHealthDataEvent event, Emitter<HomeState> emit) {
     weeklyAverages = calculateWeeklyAverages(event.newData);
-    emit(HomeLoadedState(
-        weeklyAverages: weeklyAverages, readNotifications: readNotifications));
+    if (state is HomeLoadedState) {
+      emit((state as HomeLoadedState).copyWith(
+        weeklyAverages: weeklyAverages,
+      ));
+    }
   }
 
   List<int> calculateWeeklyAverages(List<Map<String, dynamic>> data) {
@@ -71,7 +97,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     for (int i = 0; i < data.length; i++) {
       int value = data[i]['value'] as int;
-
       weekSum += value;
       dayCount++;
 
@@ -82,7 +107,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         dayCount = 0;
       }
     }
-
     return weeklyAverages;
   }
 }

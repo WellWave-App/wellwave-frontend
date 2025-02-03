@@ -171,7 +171,7 @@ Widget _buildStepCircle(bool isComplete, bool isActive, DateTime date,
         color: isComplete
             ? AppColors.skyblueColor
             : isActive
-                ? AppColors.skyBlueLightColor
+                ? AppColors.darkSkyBlueColor
                 : AppColors.lightgrayColor,
         width: 4.0,
       ),
@@ -189,9 +189,9 @@ Widget _buildStepCircle(bool isComplete, bool isActive, DateTime date,
               color: Colors.white,
               size: 16,
             )
-          : dailyCompletion[date.toString()] == false // ตรวจสอบว่าเป็น false
+          : dailyCompletion[date.toString()] == false
               ? Icon(
-                  Icons.close, // แสดงกากบาท
+                  Icons.close,
                   color: Colors.red,
                   size: 16,
                 )

@@ -36,3 +36,11 @@ class MarkNotificationAsReadEvent extends HomeEvent {
 
   MarkNotificationAsReadEvent(this.notificationId);
 }
+
+class NewNotificationReceived extends HomeEvent {
+  final Notifications notification;
+
+  NewNotificationReceived(this.notification);
+}
+
+class SetHasNewNotificationFalseEvent extends HomeEvent {}

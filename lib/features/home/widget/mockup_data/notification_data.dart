@@ -128,6 +128,24 @@ final List<Map<String, dynamic>> notificationMockData = [
     "message": "friendName2",
     "route": AppPages.friendName,
   },
+  {
+    "id": 22,
+    "image": "AppImages.fireIcon",
+    "message": "friendName2",
+    "route": AppPages.friendName,
+  },
+  {
+    "id": 23,
+    "image": "AppImages.fireIcon",
+    "message": "friendName2",
+    "route": AppPages.friendName,
+  },
+  {
+    "id": 24,
+    "image": "AppImages.fireIcon",
+    "message": "friendName2",
+    "route": AppPages.friendName,
+  },
 ];
 
 List<Notifications> getMockNotificationData() {

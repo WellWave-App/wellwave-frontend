@@ -8,19 +8,23 @@ final class HomeInitial extends HomeState {}
 class HomeLoadedState extends HomeState {
   final List<int> weeklyAverages;
   final List<String> readNotifications;
+  final bool hasNewNotification;
 
   HomeLoadedState({
     required this.weeklyAverages,
     required this.readNotifications,
+    required this.hasNewNotification,
   });
 
   HomeLoadedState copyWith({
     List<int>? weeklyAverages,
     List<String>? readNotifications,
+    bool? hasNewNotification,
   }) {
     return HomeLoadedState(
       weeklyAverages: weeklyAverages ?? this.weeklyAverages,
       readNotifications: readNotifications ?? this.readNotifications,
+      hasNewNotification: hasNewNotification ?? this.hasNewNotification,
     );
   }
 }
