@@ -19,7 +19,7 @@ import 'package:wellwave_frontend/features/profile/presentation/screen/set_weekl
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
 import '../../features/notification/presentation/screen/drink_plan_screen.dart';
-import '../../features/notification/presentation/screen/test_noti.dart';
+// import '../../features/notification/presentation/screen/test_noti.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
@@ -42,7 +42,7 @@ final GoRouter goRouter = GoRouter(
             path: AppPages.homePage,
             name: AppPages.homeName,
             pageBuilder: (BuildContext context, GoRouterState state) {
-              return _buildPageWithNavBar(context, state, const HomeScreen());
+              return _buildPageWithNavBar(context, state, HomeScreen());
             },
             routes: [
               GoRoute(
@@ -104,13 +104,13 @@ final GoRouter goRouter = GoRouter(
                       },
                     ),
                   ]),
-              GoRoute(
-                path: AppPages.testNotiPage,
-                name: AppPages.testNotiName,
-                pageBuilder: (BuildContext context, GoRouterState state) {
-                  return const NoTransitionPage(child: TestNotiScreen());
-                },
-              ),
+              // GoRoute(
+              //   path: AppPages.testNotiPage,
+              //   name: AppPages.testNotiName,
+              //   pageBuilder: (BuildContext context, GoRouterState state) {
+              //     return const NoTransitionPage(child: TestNotiScreen());
+              //   },
+              // ),
             ]),
         GoRoute(
             path: AppPages.logPage,
