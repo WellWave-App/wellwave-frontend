@@ -14,6 +14,7 @@ class ProfileLoading extends ProfileState {}
 class ProfileLoaded extends ProfileState {
   final ProfileRequestModel userProfile;
 
+  @override
   final File? selectedImage;
 
   ProfileLoaded(this.userProfile, {this.selectedImage});

@@ -49,7 +49,7 @@ class _EditProfileImageState extends State<EditProfileImage> {
           );
         }
       }
-    } catch (e, stackTrace) {
+    } catch (e) {
       // print('Error picking image: $e');
       // print('Stack trace: $stackTrace');
       ScaffoldMessenger.of(context).showSnackBar(

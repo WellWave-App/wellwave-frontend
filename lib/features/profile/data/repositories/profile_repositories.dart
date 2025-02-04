@@ -175,7 +175,7 @@ class ProfileRepositories {
         throw Exception(
             'Upload failed with status: ${response.statusCode}, message: ${response.body}');
       }
-    } catch (e, stackTrace) {
+    } catch (e) {
       // print('Error uploading image: $e');
       // print('Stack trace: $stackTrace');
       throw Exception('Error uploading image: $e');
