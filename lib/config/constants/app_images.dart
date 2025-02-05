@@ -51,9 +51,13 @@ class AppImages {
   static const cloudImage = 'assets/images/cloud.svg';
   static const avatarImage = 'assets/avatar/default.svg';
   static const avatarNotiImage = 'assets/avatar/notification.svg';
+  static const avatarAssessmentImage = 'assets/avatar/assessment.svg';
+  static const avatarFloatingAssessmentImage =
+      'assets/avatar/floating_assesment.svg';
 
   static const stepImage = 'assets/icons/step_image.svg';
   static const exerciseImage = 'assets/icons/exercise_image.svg';
+  static const hatIcon = 'assets/icons/hat.svg';
 
   static const slideIcon = 'assets/icons/slide.svg';
 }

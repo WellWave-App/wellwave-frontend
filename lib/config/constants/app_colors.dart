@@ -45,4 +45,5 @@ class AppColors {
 
   static const errorColor = Color(0xFFBE4B43);
   static const darkSkyBlueColor = Color(0xFF179CDB);
+  static const darkPinkColor = Color(0xFFF74E85);
 }

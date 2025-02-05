@@ -264,20 +264,20 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                               ],
                             ),
                             const SizedBox(height: 16),
-                            BlocBuilder<HomeBloc, HomeState>(
-                              builder: (context, state) {
-                                if (state is HomeLoadedState) {
-                                  return HealthDataCard(
-                                      weeklyAverages: state.weeklyAverages);
-                                } else if (state is HomeErrorState) {
-                                  return Center(
-                                      child:
-                                          Text('Error: ${state.errorMessage}'));
-                                }
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              },
-                            ),
+                            // BlocBuilder<HomeBloc, HomeState>(
+                            //   builder: (context, state) {
+                            //     if (state is HomeLoadedState) {
+                            //       return HealthDataCard(
+                            //           weeklyAverages: state.weeklyAverages);
+                            //     } else if (state is HomeErrorState) {
+                            //       return Center(
+                            //           child:
+                            //               Text('Error: ${state.errorMessage}'));
+                            //     }
+                            //     return Center(
+                            //         child: CircularProgressIndicator());
+                            //   },
+                            // ),
                           ],
                         ),
                       ),

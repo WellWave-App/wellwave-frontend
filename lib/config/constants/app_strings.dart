@@ -83,8 +83,14 @@ class AppStrings {
   static const seeMissionText = 'ดูภารกิจ';
   static const continueMissionText = 'ทำต่อ';
 
-  static const stepText = 'ก้าว';
+  static const stepText = 'ก้าวเดิน';
   static const exerciseText = 'ออกกำลังกาย';
+  static const gotoAssessmentPageText = 'เข้าสู่หน้าประเมิน';
+  static const timeToAssessmentText = 'ถึงเวลาประเมินสุขภาพอีกครั้ง';
+  static const howMuchHaveYouChangedText = 'คุณเปลี่ยนแปลงไปมากแค่ไหนกันนะ?';
+
+  static const resultThisWeekText = 'สรุปผลสัปดาห์ที่ผ่านมา';
+  static const greatjobText = 'สุดยอดไปเลย! สัปดาห์นี้ไปกันต่อ~';
 
   static const noNotiText = 'ยังไม่มีการแจ้งเตือน';
 }

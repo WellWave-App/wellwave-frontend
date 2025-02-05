@@ -7,6 +7,7 @@ class HealthDataCard extends StatelessWidget {
   final List<int> weeklyAverages;
 
   const HealthDataCard({super.key, required this.weeklyAverages});
+  // debugPrint(weeklyAverages);
 
   @override
   Widget build(BuildContext context) {
