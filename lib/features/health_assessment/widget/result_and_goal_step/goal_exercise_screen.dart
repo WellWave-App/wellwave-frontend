@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
+import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/component/scale_record_widget.dart';
 
@@ -13,27 +16,31 @@ class GoalExerciseScreen extends StatefulWidget {
 }
 
 class _GoalExerciseScreen extends State<GoalExerciseScreen> {
-  late RulerPickerController _rulerController;
   String? recommendationText;
-  int recommendGoalExercise = 150;
+  int recommendGoalEx = 150;
 
   @override
   void initState() {
     super.initState();
 
-    recommendationText = null;
-    _rulerController = RulerPickerController(value: recommendGoalExercise);
+    final currentGoalEx = context
+        .read<HealthAssessmentPageBloc>()
+        .state
+        .formData['userGoalExTimeWeek'];
 
-    if (_rulerController.value == recommendGoalExercise) {
-      recommendationText = AppStrings.recommendText;
-    } else {
-      recommendationText = null;
+    if (currentGoalEx == null || currentGoalEx.isEmpty) {
+      context
+          .read<HealthAssessmentPageBloc>()
+          .add(UpdateField('userGoalExTimeWeek', recommendGoalEx.toString()));
     }
+
+    recommendationText = AppStrings.recommendText;
+    debugPrint("userGoalEx: $currentGoalEx");
+    debugPrint("recommendGoalEx: $recommendGoalEx");
   }
 
   @override
   void dispose() {
-    _rulerController.dispose();
     super.dispose();
   }
 
@@ -41,8 +48,13 @@ class _GoalExerciseScreen extends State<GoalExerciseScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
+        final userGoalEx =
+            state.formData['userGoalExTimeWeek'] ?? recommendGoalEx.toString();
+
         return Scaffold(
+          backgroundColor: AppColors.transparentColor,
           body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 AppStrings.goalExerciseText,
@@ -51,54 +63,50 @@ class _GoalExerciseScreen extends State<GoalExerciseScreen> {
                     .titleLarge
                     ?.copyWith(color: AppColors.blackColor),
               ),
-              const SizedBox(height: 128),
-              recommendationText != ''
-                  ? Container(
-                      padding: EdgeInsets.only(
-                          top: 4.0, bottom: 4.0, left: 24.0, right: 24.0),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        recommendationText!,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColors.whiteColor,
-                            ),
-                      ),
-                    )
-                  : Container(
-                      padding: EdgeInsets.only(
-                          top: 4.0, bottom: 4.0, left: 24.0, right: 24.0),
-                      decoration: BoxDecoration(
-                        color: AppColors.transparentColor,
-                      ),
-                      child: Text(
-                        recommendationText!,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColors.transparentColor,
-                            ),
-                      ),
-                    ),
-              const SizedBox(height: 8),
-              ScaleRecordWidget(
-                label: 'นาที',
-                beginNum: 0,
-                endNum: 1000,
-                scaleNum: 10,
-                initialValue: _rulerController.value,
-                controller: _rulerController,
-                onValueChanged: (value) {
-                  print('Selected Value: $value');
-                  setState(() {
-                    _rulerController.value = value;
-                    if (_rulerController.value == recommendGoalExercise) {
-                      recommendationText = AppStrings.recommendText;
-                    } else {
-                      recommendationText = '';
-                    }
-                  });
-                },
+              const SizedBox(height: 64),
+              if (userGoalEx == recommendGoalEx.toString())
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 4.0, horizontal: 24.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    recommendationText!,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: AppColors.whiteColor,
+                        ),
+                  ),
+                )
+              else
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 4.0, horizontal: 24.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.transparentColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    recommendationText!,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: AppColors.transparentColor,
+                        ),
+                  ),
+                ),
+              const SizedBox(height: 16),
+              CustomTextFormFieldLarge(
+                hintText: AppStrings.exCountText,
+                keyboardType: TextInputType.number,
+                suffixText: AppStrings.suffixMinuteText,
+                initialValue: userGoalEx,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(6),
+                ],
+                onChanged: (value) => context
+                    .read<HealthAssessmentPageBloc>()
+                    .add(UpdateField('userGoalExTimeWeek', value)),
               ),
             ],
           ),

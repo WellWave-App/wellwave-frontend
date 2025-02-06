@@ -56,6 +56,55 @@ class AssessmentScreenView extends StatelessWidget {
 
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
+        final modelHealthData = HealthAssessmentHealthDataRequestModel(
+          diastolicBloodPressure:
+              double.tryParse(state.formData['dbp']?.toString() ?? '') ?? 0.0,
+          systolicBloodPressure:
+              double.tryParse(state.formData['sbp']?.toString() ?? '') ?? 0.0,
+          hdl: double.tryParse(state.formData['hdl']?.toString() ?? '') ?? 0.0,
+          ldl: double.tryParse(state.formData['ldl']?.toString() ?? '') ?? 0.0,
+          waistLine:
+              double.tryParse(state.formData['waistline']?.toString() ?? '') ??
+                  0.0,
+          hypertension: state.riskHypertensionScore,
+          diabetes: state.riskDiabetesScore,
+          dyslipidemia: state.riskDyslipidemiaScore,
+          obesity: state.riskObesityScore,
+          hasSmoke: state.smokeChoose != 'ไม่สูบ',
+          hasDrink: state.alcoholChoose == 'ไม่ดื่มแอลกอฮอลล์' ||
+                  state.alcoholChoose == 'เคยดื่ม'
+              ? false
+              : true,
+        );
+
+        final modelPersonalData = HealthAssessmentPersonalDataRequestModel(
+            imageUrl: state.formData['imageUrl'] ?? '',
+            username: state.formData['username'] ?? '',
+            yearOfBirth:
+                int.tryParse(state.formData['birthYear']?.toString() ?? '') ??
+                    0,
+            gender: state.formData['gender'] == 'female' ? false : true,
+            height:
+                double.tryParse(state.formData['height']?.toString() ?? '') ??
+                    0,
+            weight:
+                double.tryParse(state.formData['weight']?.toString() ?? '') ??
+                    0,
+            userGoalExTimeWeek: int.tryParse(
+                    state.formData['userGoalExTimeWeek']?.toString() ?? '') ??
+                0,
+            userGoalStepWeek: int.tryParse(
+                    state.formData['userGoalStepWeek']?.toString() ?? '') ??
+                0,
+            email: state.formData['email'] ?? '',
+            userGoal: state.goalChoose == 'สร้างกล้ามเนื้อ'
+                ? 0
+                : state.goalChoose == 'สุขภาพดี'
+                    ? 1
+                    : state.goalChoose == 'ลดน้ำหนัก'
+                        ? 2
+                        : -1);
+
         return Scaffold(
           appBar: CustomAppBarWithStep(
             context: context,
@@ -78,7 +127,14 @@ class AssessmentScreenView extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   )
-                : null,
+                : (state.currentStep >= 9 && state.currentStep <= 10)
+                    ? const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(AppImages.healthassessmentGoalBG),
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : null,
             child: Column(
               children: [
                 Expanded(
@@ -120,28 +176,6 @@ class AssessmentScreenView extends StatelessWidget {
 
                               if (formKey.currentState!.validate() &&
                                   !state.genderError) {
-                                final modelPersonalData = HealthAssessmentPersonalDataRequestModel(
-                                    imageUrl: state.formData['imageUrl'] ?? '',
-                                    username: state.formData['username'] ?? '',
-                                    yearOfBirth: int.tryParse(state
-                                                .formData['birthYear']
-                                                ?.toString() ??
-                                            '') ??
-                                        0,
-                                    gender: state.formData['gender'] == 'female'
-                                        ? false
-                                        : true,
-                                    height: double.tryParse(state
-                                                .formData['height']
-                                                ?.toString() ??
-                                            '') ??
-                                        0,
-                                    weight: double.tryParse(state
-                                                .formData['weight']
-                                                ?.toString() ??
-                                            '') ??
-                                        0,
-                                    email: state.formData['email'] ?? '');
                                 context.read<HealthAssessmentBloc>().add(
                                     SubmitPersonalDataEvent(modelPersonalData));
 
@@ -163,86 +197,26 @@ class AssessmentScreenView extends StatelessWidget {
                               }
                             } else if (state.currentStep == 5) {
                               if (state.smokeChoose != null) {
-                                final modelHealthData =
-                                    HealthAssessmentHealthDataRequestModel(
-                                  diastolicBloodPressure: double.tryParse(
-                                          state.formData['dbp']?.toString() ??
-                                              '') ??
-                                      0.0,
-                                  systolicBloodPressure: double.tryParse(
-                                          state.formData['sbp']?.toString() ??
-                                              '') ??
-                                      0.0,
-                                  hdl: double.tryParse(
-                                          state.formData['hdl']?.toString() ??
-                                              '') ??
-                                      0.0,
-                                  ldl: double.tryParse(
-                                          state.formData['ldl']?.toString() ??
-                                              '') ??
-                                      0.0,
-                                  waistLine: double.tryParse(state
-                                              .formData['waistline']
-                                              ?.toString() ??
-                                          '') ??
-                                      0.0,
-                                  hypertension: state.riskHypertensionScore,
-                                  diabetes: state.riskDiabetesScore,
-                                  dyslipidemia: state.riskDyslipidemiaScore,
-                                  obesity: state.riskObesityScore,
-                                  hasSmoke: state.smokeChoose != 'ไม่สูบ',
-                                  hasDrink: state.alcoholChoose ==
-                                              'ไม่ดื่มแอลกอฮอลล์' ||
-                                          state.alcoholChoose == 'เคยดื่ม'
-                                      ? false
-                                      : true,
-                                );
-                                context.read<HealthAssessmentBloc>().add(
-                                    SubmitHealthDataEvent(modelHealthData));
-
                                 context
                                     .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
                             } else if (state.currentStep == 6) {
                               if (state.goalChoose != null) {
-                                final modelPersonalData =
-                                    HealthAssessmentPersonalDataRequestModel(
-                                        imageUrl:
-                                            state.formData['imageUrl'] ?? '',
-                                        username:
-                                            state.formData['username'] ?? '',
-                                        yearOfBirth: int.tryParse(state
-                                                    .formData['birthYear']
-                                                    ?.toString() ??
-                                                '') ??
-                                            0,
-                                        gender:
-                                            state.formData['gender'] == 'female'
-                                                ? false
-                                                : true,
-                                        height: double.tryParse(state
-                                                    .formData['height']
-                                                    ?.toString() ??
-                                                '') ??
-                                            0,
-                                        weight: double.tryParse(
-                                                state.formData['weight']?.toString() ?? '') ??
-                                            0,
-                                        email: state.formData['email'] ?? '',
-                                        userGoal: state.goalChoose == 'สร้างกล้ามเนื้อ'
-                                            ? 0
-                                            : state.goalChoose == 'สุขภาพดี'
-                                                ? 1
-                                                : state.goalChoose == 'ลดน้ำหนัก'
-                                                    ? 2
-                                                    : -1);
                                 context.read<HealthAssessmentBloc>().add(
                                     SubmitPersonalDataEvent(modelPersonalData));
+                                context.read<HealthAssessmentBloc>().add(
+                                    SubmitHealthDataEvent(modelHealthData));
                                 context
                                     .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
+                            } else if (state.currentStep == 10) {
+                              context.read<HealthAssessmentBloc>().add(
+                                  SubmitPersonalDataEvent(modelPersonalData));
+                              context
+                                  .read<HealthAssessmentPageBloc>()
+                                  .add(StepContinue());
                             } else {
                               context
                                   .read<HealthAssessmentPageBloc>()

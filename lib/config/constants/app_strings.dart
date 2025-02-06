@@ -5,13 +5,15 @@ class AppStrings {
   }
 
   static const emptyText = '';
+  static const baseUrl = 'http://10.0.2.2:3000';
 
+  static const healthAssessmentText = 'แบบประเมินสุขภาพ';
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';
   static const highRiskText = 'เสี่ยงสูง';
   static const veryHighRiskText = 'เสี่ยงสูงมาก';
-
+  static const recommendForYouText = 'คำแนะนำสำหรับคุณ';
   static const recommendMuscleText =
       'เพิ่มโปรตีนในแต่ละมื้อ เช่น เนื้อไม่ติดมัน ไข่ หรือผลิตภัณฑ์นม ออกกำลังกายสม่ำเสมอ 3-4 ครั้งต่อสัปดาห์ ครั้งละ 45-60 นาที';
   static const recommendLoseWeightText =
@@ -57,10 +59,14 @@ class AppStrings {
   static const yearOfBirthText = 'ปีเกิด';
   static const highText = 'ส่วนสูง';
   static const weightText = 'น้ำหนัก';
+  static const tellMePersonaText =
+      'บอกข้อมูลของคุณให้เราทราบเพื่อผลลัพธ์ที่แม่นยำ';
   static const ifYouKnowText =
       'หากทราบข้อมูล โปรดระบุเพื่อผลลัพธ์ที่แม่นยำยิ่งขึ้น';
   static const goalStepText = 'กำหนดเป้าหมายจำนวนก้าวเดินต่อสัปดาห์';
   static const goalExerciseText = 'กำหนดเป้าหมายจำนวนก้าวเดินต่อสัปดาห์';
+  static const stepCountText = 'จำนวนก้าวเดิน';
+  static const exCountText = 'เวลาออกกำลังกาย';
   static const recommendText = 'แนะนำ';
   static const systolicBloodPressureText = 'ความดันโลหิตขณะบีบตัว';
   static const diastolicBloodPressureText = 'ความดันโลหิตขณะคลายตัว';
@@ -72,6 +78,8 @@ class AppStrings {
   static const suffixcmText = 'ซม.';
   static const suffixkgText = 'กก.';
   static const suffixmgPerdLText = 'มก./ดล.';
+  static const suffixStepText = 'ก้าว';
+  static const suffixMinuteText = 'นาที';
   static const goalMuscleText = 'สร้างกล้ามเนื้อ';
   static const goalHealthyText = 'สุขภาพดี';
   static const goalLoseweightText = 'ลดน้ำหนัก';

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
+import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/component/scale_record_widget.dart';
 
 class GoalStepScreen extends StatefulWidget {
   @override
@@ -13,7 +14,6 @@ class GoalStepScreen extends StatefulWidget {
 }
 
 class _GoalStepScreen extends State<GoalStepScreen> {
-  late RulerPickerController _rulerController;
   String? recommendationText;
   int recommendGoalStep = 0;
 
@@ -21,7 +21,6 @@ class _GoalStepScreen extends State<GoalStepScreen> {
   void initState() {
     super.initState();
 
-    recommendationText = null;
     final yearOfBirth =
         context.read<HealthAssessmentPageBloc>().state.formData['birthYear'];
 
@@ -29,7 +28,6 @@ class _GoalStepScreen extends State<GoalStepScreen> {
 
     if (yearOfBirth != null) {
       int? birthYear = int.tryParse(yearOfBirth);
-
       if (birthYear != null) {
         int currentYear = DateTime.now().year;
         age = currentYear - birthYear;
@@ -44,18 +42,25 @@ class _GoalStepScreen extends State<GoalStepScreen> {
       recommendGoalStep = 40000;
     }
 
-    _rulerController = RulerPickerController(value: recommendGoalStep);
+    final currentGoalStep = context
+        .read<HealthAssessmentPageBloc>()
+        .state
+        .formData['userGoalStepWeek'];
 
-    if (_rulerController.value == recommendGoalStep) {
-      recommendationText = AppStrings.recommendText;
-    } else {
-      recommendationText = null;
+    if (currentGoalStep == null || currentGoalStep.isEmpty) {
+      context
+          .read<HealthAssessmentPageBloc>()
+          .add(UpdateField('userGoalStepWeek', recommendGoalStep.toString()));
     }
+
+    recommendationText = AppStrings.recommendText;
+
+    debugPrint("userGoalStep: $currentGoalStep");
+    debugPrint("recommendGoalStep: $recommendGoalStep");
   }
 
   @override
   void dispose() {
-    _rulerController.dispose();
     super.dispose();
   }
 
@@ -63,8 +68,13 @@ class _GoalStepScreen extends State<GoalStepScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
+        final userGoalStep =
+            state.formData['userGoalStepWeek'] ?? recommendGoalStep.toString();
+
         return Scaffold(
+          backgroundColor: AppColors.transparentColor,
           body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 AppStrings.goalStepText,
@@ -73,54 +83,50 @@ class _GoalStepScreen extends State<GoalStepScreen> {
                     .titleLarge
                     ?.copyWith(color: AppColors.blackColor),
               ),
-              const SizedBox(height: 128),
-              recommendationText != ''
-                  ? Container(
-                      padding: EdgeInsets.only(
-                          top: 4.0, bottom: 4.0, left: 24.0, right: 24.0),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        recommendationText!,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColors.whiteColor,
-                            ),
-                      ),
-                    )
-                  : Container(
-                      padding: EdgeInsets.only(
-                          top: 4.0, bottom: 4.0, left: 24.0, right: 24.0),
-                      decoration: BoxDecoration(
-                        color: AppColors.transparentColor,
-                      ),
-                      child: Text(
-                        recommendationText!,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: AppColors.transparentColor,
-                            ),
-                      ),
-                    ),
-              const SizedBox(height: 8),
-              ScaleRecordWidget(
-                label: 'ก้าว',
-                beginNum: 1000,
-                endNum: 200000,
-                scaleNum: 1000,
-                initialValue: _rulerController.value,
-                controller: _rulerController,
-                onValueChanged: (value) {
-                  print('Selected Value: $value');
-                  setState(() {
-                    _rulerController.value = value;
-                    if (_rulerController.value == recommendGoalStep) {
-                      recommendationText = AppStrings.recommendText;
-                    } else {
-                      recommendationText = '';
-                    }
-                  });
-                },
+              const SizedBox(height: 64),
+              if (userGoalStep == recommendGoalStep.toString())
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 4.0, horizontal: 24.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    recommendationText!,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: AppColors.whiteColor,
+                        ),
+                  ),
+                )
+              else
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 4.0, horizontal: 24.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.transparentColor,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    recommendationText!,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: AppColors.transparentColor,
+                        ),
+                  ),
+                ),
+              const SizedBox(height: 16),
+              CustomTextFormFieldLarge(
+                hintText: AppStrings.stepCountText,
+                keyboardType: TextInputType.number,
+                suffixText: AppStrings.suffixStepText,
+                initialValue: userGoalStep,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(6),
+                ],
+                onChanged: (value) => context
+                    .read<HealthAssessmentPageBloc>()
+                    .add(UpdateField('userGoalStepWeek', value)),
               ),
             ],
           ),

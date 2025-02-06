@@ -29,10 +29,13 @@ class RecommendScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(AppImages.recommendPlanIcon),
-                const SizedBox(height: 64),
+                SvgPicture.asset(
+                  AppImages.recommendPlanIcon,
+                  width: 184,
+                ),
+                const SizedBox(height: 48),
                 Text(
-                  "คำแนะนำสำหรับคุณ",
+                  AppStrings.recommendForYouText,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme

@@ -74,8 +74,8 @@ class HealthAssessmentPersonalDataRequestModel {
       height: (json['height'] as num?)?.toDouble() ?? 0.0,
       weight: (json['weight'] as num?)?.toDouble() ?? 0.0,
       userGoal: json['userGoal'] as int? ?? 0,
-      userGoalExTimeWeek: json['USER_GOAL_EX_TIME_WEEK'] as int? ?? 0,
-      userGoalStepWeek: json['USER_GOAL_STEP_WEEK'] as int? ?? 0,
+      userGoalExTimeWeek: json['userGoalExTimeWeek'] as int? ?? 0,
+      userGoalStepWeek: json['userGoalStepWeek'] as int? ?? 0,
       email: json['email'] as String? ?? "",
     );
   }

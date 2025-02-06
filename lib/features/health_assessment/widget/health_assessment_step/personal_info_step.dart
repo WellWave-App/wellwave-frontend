@@ -31,7 +31,7 @@ class PersonalInfoStep extends StatelessWidget {
                   height: 12,
                 ),
                 Text(
-                  AppStrings.ifYouKnowText,
+                  AppStrings.tellMePersonaText,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(
@@ -42,7 +42,7 @@ class PersonalInfoStep extends StatelessWidget {
           ),
           Text(
             "เพศกำเนิด*",
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: AppColors.bluegrayColor,
                 ),
           ),
