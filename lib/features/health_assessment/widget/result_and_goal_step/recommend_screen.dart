@@ -31,7 +31,7 @@ class RecommendScreen extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   AppImages.recommendPlanIcon,
-                  width: 184,
+                  width: 196,
                 ),
                 const SizedBox(height: 48),
                 Text(

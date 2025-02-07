@@ -29,7 +29,7 @@ class _GoalStepScreen extends State<GoalStepScreen> {
     if (yearOfBirth != null) {
       int? birthYear = int.tryParse(yearOfBirth);
       if (birthYear != null) {
-        int currentYear = DateTime.now().year;
+        int currentYear = DateTime.now().year + 543;
         age = currentYear - birthYear;
       }
     }
@@ -55,6 +55,8 @@ class _GoalStepScreen extends State<GoalStepScreen> {
 
     recommendationText = AppStrings.recommendText;
 
+    debugPrint("age: $age");
+    debugPrint("age: $age");
     debugPrint("userGoalStep: $currentGoalStep");
     debugPrint("recommendGoalStep: $recommendGoalStep");
   }
