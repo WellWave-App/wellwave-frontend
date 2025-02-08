@@ -42,7 +42,7 @@ final GoRouter goRouter = GoRouter(
             path: AppPages.homePage,
             name: AppPages.homeName,
             pageBuilder: (BuildContext context, GoRouterState state) {
-              return _buildPageWithNavBar(context, state, HomeScreen());
+              return _buildPageWithNavBar(context, state, const HomeScreen());
             },
             routes: [
               GoRoute(

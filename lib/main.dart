@@ -10,9 +10,11 @@ import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_blo
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
 import 'features/notification/presentation/bloc/noti_bloc.dart';
+import 'features/notification/presentation/widget/notification_service.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().init();
   runApp(const MainApp());
 }
 
