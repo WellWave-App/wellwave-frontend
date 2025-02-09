@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/home/data/models/notification.dart';
+import 'package:wellwave_frontend/features/home/data/repositories/home_repositories.dart';
 import 'package:wellwave_frontend/features/home/widget/mockup_data/notification_data.dart';
 
 part 'home_event.dart';
@@ -11,13 +13,44 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final DateTime currentDate;
+  final HealthAssessmentRepository healthAssessmentRepository;
   final Map<String, Map<DateTime, bool>> completionStatus = {};
   List<int> weeklyAverages = [];
   List<String> readNotifications = [];
   final List<Notifications> notificationlist = getMockNotificationData();
 
-  HomeBloc({required this.currentDate}) : super(HomeInitial()) {
-    on<LoadNotificationsEvent>(_onLoadNotifications);
+  HomeBloc({
+    required this.currentDate,
+    required this.healthAssessmentRepository,
+  }) : super(HomeInitial()) {
+    on<LoadNotificationsEvent>((event, emit) async {
+      final prefs = await SharedPreferences.getInstance();
+      final readNotifications = prefs.getStringList('read_notifications') ?? [];
+      if (state is HomeLoadedState) {
+        final currentState = state as HomeLoadedState;
+        bool hasNewNotification = notificationlist.any(
+          (notification) =>
+              !readNotifications.contains(notification.id.toString()),
+        );
+        emit(currentState.copyWith(
+          readNotifications: readNotifications,
+          hasNewNotification: hasNewNotification,
+        ));
+      } else {
+        emit(HomeLoadedState(
+          readNotifications: readNotifications,
+          hasNewNotification: notificationlist.isNotEmpty,
+          weeklyAverages: weeklyAverages,
+          exp: 0,
+          gem: 0,
+          userGoalStepWeek: 0,
+          userGoalExTimeWeek: 0,
+          username: '',
+          imageUrl: '',
+        ));
+      }
+    });
+
     on<MarkNotificationAsReadEvent>(_onMarkNotificationAsRead);
     on<UpdateHealthDataEvent>(_onUpdateHealthData);
     on<NewNotificationReceived>(_onNewNotificationReceived);
@@ -29,23 +62,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
 
+    on<LoadDataFromHealthAssessmentEvent>(_onLoadDataFromHealthAssessment);
     add(LoadNotificationsEvent());
+    add(LoadDataFromHealthAssessmentEvent());
   }
 
   Future<void> _onLoadNotifications(
-      LoadNotificationsEvent event, Emitter<HomeState> emit) async {
+    LoadNotificationsEvent event,
+    Emitter<HomeState> emit,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     final readNotifications = prefs.getStringList('read_notifications') ?? [];
 
-    bool hasNewNotification = notificationlist.any(
+    final latestNotifications = notificationlist.reversed.take(7).toList();
+
+    bool hasNewNotification = latestNotifications.any(
       (notification) => !readNotifications.contains(notification.id.toString()),
     );
 
-    emit(HomeLoadedState(
-      weeklyAverages: weeklyAverages,
-      readNotifications: readNotifications,
-      hasNewNotification: hasNewNotification,
-    ));
+    if (state is HomeLoadedState) {
+      final currentState = state as HomeLoadedState;
+      emit(currentState.copyWith(
+        readNotifications: readNotifications,
+        hasNewNotification: hasNewNotification,
+      ));
+    }
   }
 
   Future<void> _onMarkNotificationAsRead(
@@ -70,11 +111,52 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
+  Future<void> _onLoadDataFromHealthAssessment(
+    LoadDataFromHealthAssessmentEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    try {
+      final result =
+          await healthAssessmentRepository.fetchDataFromHealthAssessment();
+      final int exp = result['exp'] ?? 0;
+      final int gem = result['gem'] ?? 0;
+      final int userGoalStepWeek = result['userGoalStepWeek'] ?? 0;
+      final int userGoalExTimeWeek = result['userGoalExTimeWeek'] ?? 0;
+      final String imageUrl = result['imageUrl'] ?? '';
+      final String username = result['username'] ?? '';
+
+      if (state is HomeInitial) {
+        emit(HomeLoadedState(
+          exp: exp,
+          gem: gem,
+          userGoalStepWeek: userGoalStepWeek,
+          userGoalExTimeWeek: userGoalExTimeWeek,
+          username: username,
+          imageUrl: imageUrl,
+          weeklyAverages: weeklyAverages,
+          readNotifications: [],
+          hasNewNotification: false,
+        ));
+      } else if (state is HomeLoadedState) {
+        final currentState = state as HomeLoadedState;
+        emit(currentState.copyWith(
+          exp: exp,
+          gem: gem,
+          userGoalStepWeek: userGoalStepWeek,
+          userGoalExTimeWeek: userGoalExTimeWeek,
+          username: username,
+          imageUrl: imageUrl,
+        ));
+      }
+    } catch (e) {
+      debugPrint('Error loading data: $e');
+    }
+  }
+
   void _onNewNotificationReceived(
       NewNotificationReceived event, Emitter<HomeState> emit) {
     if (state is HomeLoadedState) {
       final currentState = state as HomeLoadedState;
-
       notificationlist.add(event.notification);
       emit(currentState.copyWith(hasNewNotification: true));
     }

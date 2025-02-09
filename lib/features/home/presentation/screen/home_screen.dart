@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/widget/progress_widget.dart';
-import 'package:wellwave_frontend/features/home/widget/progress_widget.dart';
-import 'package:wellwave_frontend/features/home/widget/show_assessment_popup.dart';
 import 'package:wellwave_frontend/features/home/widget/show_result_week_popup.dart';
 import 'package:wellwave_frontend/features/home/widget/top_of_screen.dart';
 
