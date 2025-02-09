@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import '../../../../config/constants/app_strings.dart';
 import '../../data/models/drink_plan_notification_response_model.dart';
 import '../../data/repositories/notification_repositories.dart';
-import '../widget/notification_service.dart';
 part 'noti_state.dart';
 part 'noti_event.dart';
 
 class NotiBloc extends Bloc<NotiEvent, NotiState> {
   final NotificationSettingRepository _notificationSettingRepository;
-  final NotificationService _notificationService = NotificationService();
 
   NotiBloc(this._notificationSettingRepository) : super(NotiInitial()) {
     on<CreateBedtimeEvent>(_onCreateBedtimeEvent);
@@ -38,8 +36,6 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
         bedtime: event.bedtime,
         weekdays: event.weekdays,
       ));
-
-      _scheduleBedtimeNotifications(event.bedtime, event.weekdays);
     } catch (error) {
       debugPrint('Error creating bedtime: $error');
     }
@@ -78,9 +74,6 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
           ));
           debugPrint(
               'BedtimeState emitted with isActive: ${fetchedData.isActive}');
-
-          _scheduleBedtimeNotifications(
-              fetchedData.setting.bedtime, fetchedData.setting.weekdays);
         } else {
           debugPrint('Error: No data fetched or data was null');
         }
@@ -88,62 +81,6 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     } catch (error) {
       debugPrint('Error fetching bedtime: $error');
     }
-  }
-
-  void _scheduleBedtimeNotifications(
-      String bedtime, Map<String, bool> weekdays) {
-    // Parse bedtime time
-    List<String> timeParts = bedtime.split(':');
-    int hour = int.parse(timeParts[0]);
-    int minute = int.parse(timeParts[1]);
-
-    // Get the current date and time
-    DateTime now = DateTime.now();
-
-    // Loop through each day of the week
-    weekdays.forEach((day, isEnabled) {
-      if (isEnabled) {
-        // Find the next occurrence of this day
-        DateTime nextDay = _findNextDay(day, now);
-
-        // Set the time for the notification
-        DateTime scheduledTime = DateTime(
-          nextDay.year,
-          nextDay.month,
-          nextDay.day,
-          hour,
-          minute,
-        );
-
-        // Schedule the notification
-        _notificationService.scheduleDailyNotification(scheduledTime);
-      }
-    });
-  }
-
-  // Helper method to find the next occurrence of a day
-  DateTime _findNextDay(String day, DateTime now) {
-    // Map days to their respective indices (Sunday = 0, Monday = 1, etc.)
-    Map<String, int> dayIndices = {
-      'Sunday': 7,
-      'Monday': 1,
-      'Tuesday': 2,
-      'Wednesday': 3,
-      'Thursday': 4,
-      'Friday': 5,
-      'Saturday': 6,
-    };
-
-    int currentDayIndex = now.weekday;
-    int targetDayIndex = dayIndices[day]!;
-
-    // Calculate the difference in days
-    int daysToAdd = (targetDayIndex - currentDayIndex + 7) % 7;
-    if (daysToAdd == 0) {
-      daysToAdd = 7; // Schedule for the same day next week
-    }
-
-    return now.add(Duration(days: daysToAdd));
   }
 
   Future<void> _onCreateDrinkPlanEvent(
@@ -214,8 +151,8 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
         bedtime: bedTime,
         weekdays: weekdays,
       );
-      // debugPrint(
-      //     'Bedtime setting created successfully for $uid, $isActive, $bedTime');
+      debugPrint(
+          'Bedtime setting created successfully for $uid, $isActive, $bedTime');
     } catch (error) {
       debugPrint('Error submitting log: $error');
     }

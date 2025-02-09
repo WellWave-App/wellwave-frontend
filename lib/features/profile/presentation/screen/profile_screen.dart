@@ -132,7 +132,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         //chart
                         const ChartSectionWidget(),
-                        const SizedBox(height: 16),
 
                         //noti
                         const RoundedText(

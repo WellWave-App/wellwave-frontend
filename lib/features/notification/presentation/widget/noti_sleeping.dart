@@ -6,62 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'notification_service.dart';
 
 import '../bloc/noti_bloc.dart';
 import '../../../profile/presentation/widget/cancle_confirm_button.dart';
-
-void scheduleBedtimeNotifications(Map<String, dynamic> bedtimeSettings) {
-  String bedtimeTime = bedtimeSettings['BEDTIME'];
-  List<String> timeParts = bedtimeTime.split(':');
-  int hour = int.parse(timeParts[0]);
-  int minute = int.parse(timeParts[1]);
-
-  Map<String, bool> weekdays = bedtimeSettings['WEEKDAYS'];
-
-  DateTime now = DateTime.now();
-
-  weekdays.forEach((day, isEnabled) {
-    if (isEnabled) {
-      // Find the next occurrence of this day
-      DateTime nextDay = _findNextDay(day, now);
-
-      // Set the time for the notification
-      DateTime scheduledTime = DateTime(
-        nextDay.year,
-        nextDay.month,
-        nextDay.day,
-        hour,
-        minute,
-      );
-
-      NotificationService().scheduleDailyNotification(scheduledTime);
-    }
-  });
-}
-
-DateTime _findNextDay(String day, DateTime now) {
-  // Map days to their respective indices (Sunday = 0, Monday = 1, etc.)
-  Map<String, int> dayIndices = {
-    'Sunday': 7,
-    'Monday': 1,
-    'Tuesday': 2,
-    'Wednesday': 3,
-    'Thursday': 4,
-    'Friday': 5,
-    'Saturday': 6,
-  };
-
-  int currentDayIndex = now.weekday;
-  int targetDayIndex = dayIndices[day]!;
-
-  int daysToAdd = (targetDayIndex - currentDayIndex + 7) % 7;
-  if (daysToAdd == 0) {
-    daysToAdd = 7;
-  }
-
-  return now.add(Duration(days: daysToAdd));
-}
 
 class NotificationSleeping extends StatefulWidget {
   const NotificationSleeping({super.key});
@@ -145,18 +92,6 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
       for (int i = 0; i < selectedDays.length; i++) days[i]: selectedDays[i],
     };
 
-    // Create bedtime settings
-    Map<String, dynamic> bedtimeSettings = {
-      "UID": AppStrings.uid,
-      "NOTIFICATION_TYPE": "BEDTIME",
-      "BEDTIME": formattedTime,
-      "WEEKDAYS": weekdays,
-    };
-
-    // Schedule notifications
-    scheduleBedtimeNotifications(bedtimeSettings);
-
-    // Send the event to the Bloc
     context.read<NotiBloc>().add(CreateBedtimeEvent(
           uid: AppStrings.uid,
           isActive: true,
