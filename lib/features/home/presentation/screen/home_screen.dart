@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             '@mipmap/ic_launcher'); // Change icon path if needed
 
     final InitializationSettings settings =
-        InitializationSettings(android: androidSettings);
+        const InitializationSettings(android: androidSettings);
 
     await flutterLocalNotificationsPlugin.initialize(
       settings,

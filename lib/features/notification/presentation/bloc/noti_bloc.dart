@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../config/constants/app_strings.dart';
 import '../../data/models/drink_plan_notification_response_model.dart';
 import '../../data/repositories/notification_repositories.dart';
+import '../widget/noti_service.dart';
 part 'noti_state.dart';
 part 'noti_event.dart';
 
@@ -65,21 +66,24 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
         final fetchedData =
             await _notificationSettingRepository.fetchBedSetting();
         if (fetchedData != null) {
-          debugPrint(
-              'Fetched Data: isActive = ${fetchedData.isActive}, bedtime = ${fetchedData.setting.bedtime}, weekdays = ${fetchedData.setting.weekdays}');
+          debugPrint('Fetched bedtime: ${fetchedData.setting.bedtime}');
+          debugPrint('Fetched weekdays: ${fetchedData.setting.weekdays}');
+
           emit(BedtimeState(
             isActive: fetchedData.isActive,
             bedtime: fetchedData.setting.bedtime,
             weekdays: fetchedData.setting.weekdays,
           ));
-          debugPrint(
-              'BedtimeState emitted with isActive: ${fetchedData.isActive}');
-        } else {
-          debugPrint('Error: No data fetched or data was null');
+
+          final notificationService = NotificationService();
+          await notificationService.scheduleBedtimeNotifications(
+            bedtime: fetchedData.setting.bedtime,
+            weekdays: fetchedData.setting.weekdays,
+          );
         }
       }
     } catch (error) {
-      debugPrint('Error fetching bedtime: $error');
+      debugPrint('Error in _onFetchBedtimeEvent: $error');
     }
   }
 
