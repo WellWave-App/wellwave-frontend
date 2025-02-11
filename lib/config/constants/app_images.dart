@@ -81,6 +81,8 @@ class AppImages {
   static const medalSvg = 'assets/icons/medal_icon.svg';
   static const alarmIcon = 'assets/icons/alarm_icon.svg';
   static const editUserProfileSvg = 'assets/icons/edit_user_img.svg';
+  static const gemCheckSvg = 'assets/icons/gem_check_icon.svg';
+  static const gemNotCheckSvg = 'assets/icons/gem_not_check_icon.svg';
 
   static const diamondLeagueIcon = 'assets/icons/league/diamond_league.svg';
   static const bronzeLeaugeIcon = 'assets/icons/league/bronze_league.svg';

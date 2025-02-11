@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 24),
 
                         //CheckIn
-                        CheckInWidget(),
+                        CheckInWidget(profileState: state),
                         const SizedBox(height: 24),
 
                         //progress
