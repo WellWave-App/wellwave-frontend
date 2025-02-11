@@ -15,6 +15,7 @@ class HomeLoadedState extends HomeState {
   final List<int> weeklyAverages;
   final List<String> readNotifications;
   final bool hasNewNotification;
+  final int currentStreak;
 
   HomeLoadedState({
     required this.exp,
@@ -26,6 +27,7 @@ class HomeLoadedState extends HomeState {
     required this.weeklyAverages,
     required this.readNotifications,
     required this.hasNewNotification,
+    required this.currentStreak,
   });
 
   HomeLoadedState copyWith({
@@ -38,6 +40,7 @@ class HomeLoadedState extends HomeState {
     List<int>? weeklyAverages,
     List<String>? readNotifications,
     bool? hasNewNotification,
+    int? currentStreak,
   }) {
     return HomeLoadedState(
       exp: exp ?? this.exp,
@@ -49,12 +52,13 @@ class HomeLoadedState extends HomeState {
       weeklyAverages: weeklyAverages ?? this.weeklyAverages,
       readNotifications: readNotifications ?? this.readNotifications,
       hasNewNotification: hasNewNotification ?? this.hasNewNotification,
+      currentStreak: currentStreak ?? this.currentStreak,
     );
   }
 
   @override
   String toString() {
-    return 'HomeLoadedState(exp: $exp, gem: $gem, hasNewNotification: $hasNewNotification)';
+    return 'HomeLoadedState(exp: $exp, gem: $gem, currentStreak: $currentStreak, hasNewNotification: $hasNewNotification)';
   }
 }
 
@@ -69,16 +73,3 @@ class HomeUpdated extends HomeState {
 
   HomeUpdated({required this.completionStatus});
 }
-
-
-// class GreetingAndHealthDataState extends HomeState {
-//   final String greeting;
-//   final String dailyText;
-//   final List<int> weeklyAverages;
-
-//   GreetingAndHealthDataState({
-//     required this.greeting,
-//     required this.dailyText,
-//     required this.weeklyAverages,
-//   });
-// }

@@ -19,19 +19,26 @@ class TopOfScreen extends StatelessWidget {
         bool hasUnread = false;
         Widget profilePicture;
         if (state is HomeLoadedState) {
-          debugPrint("Full IMAGE_URL: ${AppStrings.baseUrl}${state.imageUrl}");
+          debugPrint("Full IMAGE_URL: '${AppStrings.baseUrl}${state.imageUrl}");
           hasUnread = state.hasNewNotification;
 
-          profilePicture = Image.network(
-            '${AppStrings.baseUrl}${state.imageUrl}',
-            height: 32.0,
-            errorBuilder: (context, error, stackTrace) {
-              return SvgPicture.asset(
-                AppImages.avatarDefaultIcon,
-                height: 32.0,
-              );
-            },
-          );
+          if (state.imageUrl != '') {
+            profilePicture = Image.network(
+              '${AppStrings.baseUrl}${state.imageUrl}',
+              height: 32.0,
+              errorBuilder: (context, error, stackTrace) {
+                return SvgPicture.asset(
+                  AppImages.avatarDefaultIcon,
+                  height: 32.0,
+                );
+              },
+            );
+          } else {
+            profilePicture = SvgPicture.asset(
+              AppImages.avatarDefaultIcon,
+              height: 32.0,
+            );
+          }
         } else {
           profilePicture = SvgPicture.asset(
             AppImages.avatarDefaultIcon,

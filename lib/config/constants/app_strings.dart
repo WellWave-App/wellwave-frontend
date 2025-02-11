@@ -6,7 +6,9 @@ class AppStrings {
 
   static const emptyText = '';
   static const baseUrl = 'http://10.0.2.2:3000';
-
+  static const token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIyQGV4YW1wbGUuY29tIiwiVUlEIjoxMSwiUk9MRSI6InVzZXIiLCJpYXQiOjE3MzkyMDgzODUsImV4cCI6MTczOTI5NDc4NX0.8sLvwd4C7GKxWTVX2jsyNG4QP1dYp6Lrmbb7cZVE_0k';
+  static const userID = '11';
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';

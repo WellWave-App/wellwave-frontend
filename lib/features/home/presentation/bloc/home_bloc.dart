@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/home/data/models/notification.dart';
-import 'package:wellwave_frontend/features/home/data/repositories/home_repositories.dart';
+import 'package:wellwave_frontend/features/home/data/repositories/home_repository.dart';
 import 'package:wellwave_frontend/features/home/widget/mockup_data/notification_data.dart';
 
 part 'home_event.dart';
@@ -14,6 +14,7 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final DateTime currentDate;
   final HealthAssessmentRepository healthAssessmentRepository;
+  final LoginStreakRepository loginStreakRepository;
   final Map<String, Map<DateTime, bool>> completionStatus = {};
   List<int> weeklyAverages = [];
   List<String> readNotifications = [];
@@ -22,6 +23,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     required this.currentDate,
     required this.healthAssessmentRepository,
+    required this.loginStreakRepository,
   }) : super(HomeInitial()) {
     on<LoadNotificationsEvent>((event, emit) async {
       final prefs = await SharedPreferences.getInstance();
@@ -47,6 +49,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           userGoalExTimeWeek: 0,
           username: '',
           imageUrl: '',
+          currentStreak: 0,
         ));
       }
     });
@@ -62,9 +65,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
 
-    on<LoadDataFromHealthAssessmentEvent>(_onLoadDataFromHealthAssessment);
+    on<FetchData>(_onFetchData);
     add(LoadNotificationsEvent());
-    add(LoadDataFromHealthAssessmentEvent());
+    add(FetchData());
   }
 
   Future<void> _onLoadNotifications(
@@ -111,19 +114,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  Future<void> _onLoadDataFromHealthAssessment(
-    LoadDataFromHealthAssessmentEvent event,
+  Future<void> _onFetchData(
+    FetchData event,
     Emitter<HomeState> emit,
   ) async {
     try {
-      final result =
-          await healthAssessmentRepository.fetchDataFromHealthAssessment();
-      final int exp = result['exp'] ?? 0;
-      final int gem = result['gem'] ?? 0;
-      final int userGoalStepWeek = result['userGoalStepWeek'] ?? 0;
-      final int userGoalExTimeWeek = result['userGoalExTimeWeek'] ?? 0;
-      final String imageUrl = result['imageUrl'] ?? '';
-      final String username = result['username'] ?? '';
+      final assessmentData =
+          await healthAssessmentRepository.fetchPersonaData();
+      final loginStreakData =
+          await loginStreakRepository.fetchLoginStreakData();
+
+      final int currentStreak = loginStreakData['currentStreak'] ?? 0;
+      final int exp = assessmentData['exp'] ?? 0;
+      final int gem = assessmentData['gem'] ?? 0;
+      final int userGoalStepWeek = assessmentData['userGoalStepWeek'] ?? 0;
+      final int userGoalExTimeWeek = assessmentData['userGoalExTimeWeek'] ?? 0;
+      final String imageUrl = assessmentData['imageUrl'] ?? '';
+      final String username = assessmentData['username'] ?? '';
+
+      debugPrint('currentStreak bloc: $currentStreak');
 
       if (state is HomeInitial) {
         emit(HomeLoadedState(
@@ -134,6 +143,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           username: username,
           imageUrl: imageUrl,
           weeklyAverages: weeklyAverages,
+          currentStreak: currentStreak,
           readNotifications: [],
           hasNewNotification: false,
         ));
@@ -145,6 +155,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           userGoalStepWeek: userGoalStepWeek,
           userGoalExTimeWeek: userGoalExTimeWeek,
           username: username,
+          currentStreak: currentStreak,
           imageUrl: imageUrl,
         ));
       }

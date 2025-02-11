@@ -10,9 +10,8 @@ class HealthAssessmentRepository {
   HealthAssessmentRepository();
 
   String baseUrl = AppStrings.baseUrl;
-  String userID = '9';
-  static const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6Im1tNHRlc3RpbmdAZXhhbXBsZS5jb20iLCJVSUQiOjksIlJPTEUiOiJ1c2VyIiwiaWF0IjoxNzM4OTQ5NzAzLCJleHAiOjE3MzkwMzYxMDN9.1lZ9K9RVkyjALPmvfiRF3jwwP4YXxrsCQ7SPtGiMXMQ';
+  String userID = AppStrings.userID;
+  static const token = AppStrings.token;
 
   Future<bool> sendHealthAssessmentPersonalData(
       HealthAssessmentPersonalDataRequestModel model) async {

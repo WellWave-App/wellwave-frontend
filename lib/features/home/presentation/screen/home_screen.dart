@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/features/home/widget/floating_button_with_shake.dart';
 import 'package:wellwave_frontend/features/home/widget/progress_widget.dart';
 import 'package:wellwave_frontend/features/home/widget/show_result_week_popup.dart';
 import 'package:wellwave_frontend/features/home/widget/top_of_screen.dart';
@@ -41,31 +42,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            bottom: 16.0,
-            right: 16.0,
-            child: InkWell(
-              onTap: () {
-                showResultWeekPopup(context);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 0.1,
-                      blurRadius: 10,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: SvgPicture.asset(
-                  AppImages.avatarFloatingAssessmentImage,
-                  height: 88.0,
-                ),
-              ),
-            ),
-          ),
+          FloatingButtonWithShake(),
         ],
       ),
     );

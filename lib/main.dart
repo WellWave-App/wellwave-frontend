@@ -5,6 +5,7 @@ import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment/bloc/health_assessment_bloc.dart';
+import 'package:wellwave_frontend/features/home/data/repositories/home_repository.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 
 void main() {
@@ -32,6 +33,7 @@ class MainApp extends StatelessWidget {
                 create: (context) => HomeBloc(
                   currentDate: DateTime.now(),
                   healthAssessmentRepository: HealthAssessmentRepository(),
+                  loginStreakRepository: LoginStreakRepository(),
                 ),
               ),
             ],

@@ -45,4 +45,4 @@ class NewNotificationReceived extends HomeEvent {
 
 class SetHasNewNotificationFalseEvent extends HomeEvent {}
 
-class LoadDataFromHealthAssessmentEvent extends HomeEvent {}
+class FetchData extends HomeEvent {}

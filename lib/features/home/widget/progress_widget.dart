@@ -308,13 +308,14 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                         const SizedBox(height: 12),
                         Row(
                           children: [
-                            Text(
-                              '10',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(color: AppColors.whiteColor),
-                            ),
+                            if (state is HomeLoadedState)
+                              Text(
+                                state.currentStreak.toString(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.copyWith(color: AppColors.whiteColor),
+                              ),
                             const SizedBox(width: 8),
                             Text(
                               'วันต่อเนื่อง',
