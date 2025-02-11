@@ -43,21 +43,18 @@ class AppImages {
   static const recommendPlanIcon = 'assets/icons/recommend_plan.svg';
   static const healthconnectIcon = 'assets/icons/health_connect.svg';
 
-  static const gemIcon = 'assets/icons/Gem.svg';
-  static const expIcon = 'assets/icons/EXP.svg';
-  static const notiIcon = 'assets/icons/noti.svg';
-  static const fireIcon = 'assets/icons/fire.svg';
-
-  static const cloudImage = 'assets/images/cloud.svg';
-  static const avatarImage = 'assets/avatar/default.svg';
-  static const avatarNotiImage = 'assets/avatar/notification.svg';
-  static const avatarAssessmentImage = 'assets/avatar/assessment.svg';
+  static const gemIcon = 'assets/icons/homepage/Gem.svg';
+  static const expIcon = 'assets/icons/homepage/EXP.svg';
+  static const notiIcon = 'assets/icons/homepage/noti.svg';
+  static const fireIcon = 'assets/icons/homepage/fire.svg';
+  static const cloudImage = '"assets/icons/homepage/cloud.svg"';
+  static const avatarImage = 'assets/icons/homepage/default.svg';
+  static const avatarNotiImage = 'assets/icons/homepage/notification.svg';
+  static const avatarAssessmentImage = 'assets/icons/homepage/assessment.svg';
   static const avatarFloatingAssessmentImage =
-      'assets/avatar/floating_assesment.svg';
-
-  static const stepImage = 'assets/icons/step_image.svg';
-  static const exerciseImage = 'assets/icons/exercise_image.svg';
-  static const hatIcon = 'assets/icons/hat.svg';
-
-  static const slideIcon = 'assets/icons/slide.svg';
+      'assets/icons/homepage/floating_assesment.svg';
+  static const stepImage = 'assets/icons/homepage/step_image.svg';
+  static const exerciseImage = 'assets/icons/homepage/exercise_image.svg';
+  static const hatIcon = 'assets/icons/homepage/hat.svg';
+  static const slideIcon = 'assets/icons/homepage/slide.svg';
 }
