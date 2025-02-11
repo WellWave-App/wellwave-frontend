@@ -14,6 +14,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<EditUserGoalPerWeek>(_onEditUserGoalPerWeek);
     on<ImagePicked>(_onImagePicked);
     on<UpdateProfileImage>(_onUpdateProfileImage);
+    on<CreateCheckInResponse>(_onCreateCheckInResponse);
   }
 
   Future<void> _onFetchUserProfile(
@@ -148,6 +149,29 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final currentState = state as ProfileLoaded;
       emit(currentState.copyWith(selectedImage: event.imageFile));
       add(ImagePicked(event.imageFile));
+    }
+  }
+
+  Future<void> _onCreateCheckInResponse(
+    CreateCheckInResponse event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(ProfileLoading(selectedImage: state.selectedImage));
+    try {
+      final isCheckInSuccessful =
+          await profileRepositories.createCheckInResponse(
+        date: event.date,
+      );
+
+      if (isCheckInSuccessful) {
+        emit(CheckInSuccess(selectedImage: state.selectedImage));
+      } else {
+        emit(ProfileError('Failed to check in',
+            selectedImage: state.selectedImage));
+      }
+    } catch (e) {
+      debugPrint('Error in CreateCheckInResponse event: $e');
+      emit(ProfileError(e.toString(), selectedImage: state.selectedImage));
     }
   }
 }

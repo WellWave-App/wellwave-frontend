@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(FetchUserProfile());
 
-    int currentDay = 4;
+    // int currentDay = 4;
     double totalSteps = 0.0;
 
     final today = DateTime.now();
@@ -111,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 24),
 
                         //CheckIn
-                        CheckInWidget(currentDay: currentDay),
+                        CheckInWidget(),
                         const SizedBox(height: 24),
 
                         //progress

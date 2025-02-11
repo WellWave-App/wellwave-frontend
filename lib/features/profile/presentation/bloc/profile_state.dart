@@ -54,3 +54,8 @@ class ProfileError extends ProfileState {
   @override
   List<Object?> get props => [errorMessage, selectedImage];
 }
+
+class CheckInSuccess extends ProfileState {
+  const CheckInSuccess({File? selectedImage})
+      : super(selectedImage: selectedImage);
+}

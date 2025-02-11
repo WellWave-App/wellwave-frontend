@@ -64,3 +64,12 @@ class UpdateProfileImage extends ProfileEvent {
   @override
   List<Object?> get props => [imageFile];
 }
+
+class CreateCheckInResponse extends ProfileEvent {
+  final String date;
+
+  CreateCheckInResponse({required this.date});
+
+  @override
+  List<Object?> get props => [date];
+}

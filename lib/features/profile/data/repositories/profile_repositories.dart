@@ -38,10 +38,8 @@ class ProfileRepositories {
         ..fields.addAll(userDetails);
 
       final response = await request.send();
-      // final responseBody = await response.stream.bytesToString();
 
       debugPrint('Edit Profile: ${response.statusCode}');
-      // debugPrint('Response Body: $responseBody');
 
       if (response.statusCode == 200) {
         return true;
@@ -97,7 +95,7 @@ class ProfileRepositories {
         },
       );
       debugPrint('Response status: ${response.statusCode}');
-      // debugPrint('Response body: ${response.body}');
+      debugPrint('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -134,9 +132,6 @@ class ProfileRepositories {
               'Unsupported image format. Please use JPG, PNG, or GIF');
       }
 
-      // print('File path: ${imageFile.path}');
-      // print('Detected MIME type: $mimeType');
-
       // Create multipart file with correct content type
       var multipartFile = await http.MultipartFile.fromPath(
         'imgFile',
@@ -145,26 +140,18 @@ class ProfileRepositories {
       );
       request.files.add(multipartFile);
 
-      // print('Multipart file added: ${multipartFile.filename}');
-      // print('Content type: ${multipartFile.contentType}');
-
       // Add authorization header if needed
       if (token.isNotEmpty) {
         request.headers['Authorization'] = 'Bearer $token';
       }
 
-      // print('Sending request to: $uri');
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-
-      // print('Response status code: ${response.statusCode}');
-      // print('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final responseJson = jsonDecode(response.body);
         // Access IMAGE_URL directly from the root object
         final imageUrl = responseJson['IMAGE_URL'] as String?;
-        // print('Received image URL: $imageUrl');
 
         if (imageUrl == null) {
           throw Exception('No image URL in response');
@@ -175,10 +162,61 @@ class ProfileRepositories {
         throw Exception(
             'Upload failed with status: ${response.statusCode}, message: ${response.body}');
       }
-    } catch (e, stackTrace) {
-      // print('Error uploading image: $e');
-      // print('Stack trace: $stackTrace');
+    } catch (e) {
       throw Exception('Error uploading image: $e');
+    }
+  }
+
+  Future<bool> createCheckInResponse({
+    required String date,
+  }) async {
+    try {
+      final uri = Uri.parse("$baseUrl/checkin-challenge/check");
+
+      // Create the JSON body
+      final Map<String, String> body = {
+        'DATE': date,
+      };
+
+      // Log complete request details
+      debugPrint('CheckIn Request URL: $uri');
+      debugPrint('CheckIn Request Body: ${jsonEncode(body)}');
+
+      final headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      };
+
+      debugPrint('CheckIn Request Headers: $headers');
+
+      final response = await http.post(
+        uri,
+        headers: headers,
+        body: jsonEncode(body),
+      );
+
+      // Log complete response details
+      debugPrint('CheckIn Response Status Code: ${response.statusCode}');
+      debugPrint('CheckIn Response Headers: ${response.headers}');
+      debugPrint('CheckIn Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        // Try to parse error response if possible
+        try {
+          final errorBody = jsonDecode(response.body);
+          debugPrint('Parsed Error Response: $errorBody');
+        } catch (e) {
+          debugPrint('Could not parse error response: $e');
+        }
+
+        throw Exception(
+            'Failed to checkIn. Status code: ${response.statusCode}. Response: ${response.body}');
+      }
+    } catch (e) {
+      debugPrint('CheckIn Error: $e');
+      rethrow;
     }
   }
 }
