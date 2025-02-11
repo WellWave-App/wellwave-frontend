@@ -55,3 +55,12 @@ class ImagePicked extends ProfileEvent {
 
   ImagePicked(this.imageFile);
 }
+
+class UpdateProfileImage extends ProfileEvent {
+  final File imageFile;
+
+  UpdateProfileImage(this.imageFile);
+
+  @override
+  List<Object?> get props => [imageFile];
+}

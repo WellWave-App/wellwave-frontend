@@ -38,7 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final today = DateTime.now();
 
     context.read<LogsBloc>().add(LogsFetchedGraph(today));
-
     context.read<LogsBloc>().add(LogsFetched(today));
 
     return Scaffold(
