@@ -71,7 +71,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixText: widget.suffixText,
-        labelStyle: Theme.of(context).textTheme.labelText?.copyWith(
+        labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: AppColors.bluegrayColor,
             ),
         suffixStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -85,8 +85,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         ),
         filled: true,
         fillColor: AppColors.whiteColor,
-<<<<<<< HEAD
-=======
         contentPadding: EdgeInsets.zero,
       ),
     );
@@ -190,7 +188,6 @@ class _CustomTextFormFieldLargeState extends State<CustomTextFormFieldLarge> {
         ),
         filled: true,
         fillColor: AppColors.transparentColor,
->>>>>>> 68537ca2b546f581471886285980185ba1ac7251
         contentPadding: EdgeInsets.zero,
       ),
     );
