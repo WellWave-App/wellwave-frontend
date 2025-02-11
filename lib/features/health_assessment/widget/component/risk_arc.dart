@@ -81,7 +81,7 @@ class _GaugeWidgetState extends State<GaugeWidget> {
           children: [
             CustomPaint(
               size: Size(MediaQuery.of(context).size.width,
-                  MediaQuery.of(context).size.width / 2),
+                  MediaQuery.of(context).size.width / 2 - 24),
               painter: RiskArc(percentage: widget.averageRiskScore),
             ),
             Positioned(

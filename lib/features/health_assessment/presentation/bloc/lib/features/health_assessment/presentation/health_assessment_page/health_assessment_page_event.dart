@@ -37,6 +37,16 @@ class ShowHealthConnectEvent extends HealthAssessmentPageEvent {
   List<Object?> get props => [];
 }
 
+class ShowGoalStepEvent extends HealthAssessmentPageEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class ShowGoalExerciseEvent extends HealthAssessmentPageEvent {
+  @override
+  List<Object?> get props => [];
+}
+
 class ShowFinishEvent extends HealthAssessmentPageEvent {}
 
 class NavigateToStartHealthStepState extends HealthAssessmentPageEvent {}

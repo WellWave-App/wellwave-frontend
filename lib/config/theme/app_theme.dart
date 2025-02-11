@@ -52,7 +52,7 @@ TextTheme textTheme(BuildContext context) {
     headlineSmall: TextStyle(
       fontFamily: 'NotoSansThai',
       fontWeight: FontWeight.w600,
-      fontSize: 16,
+      fontSize: 14,
       color: AppColors.blackColor,
     ),
     titleLargeBold: TextStyle(
@@ -129,6 +129,17 @@ TextTheme textTheme(BuildContext context) {
       fontFamily: 'NotoSansThai',
       fontWeight: FontWeight.w400,
       fontSize: 11,
+      
+    caption1: TextStyle(
+      fontFamily: 'NotoSansThai',
+      fontWeight: FontWeight.w400,
+      fontSize: 11,
+      color: AppColors.blackColor,
+    ),
+    labelText: TextStyle(
+      fontFamily: 'NotoSansThai',
+      fontWeight: FontWeight.w600,
+      fontSize: 18,
       color: AppColors.blackColor,
     ),
   );

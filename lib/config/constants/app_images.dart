@@ -1,6 +1,7 @@
 class AppImages {
   static const wellwaveLogo = 'assets/images/wellwave_logo.png';
 
+//navbar
   static const homeIcon = 'assets/icons/home_icon.svg';
   static const logIcon = 'assets/icons/log_icon.svg';
   static const missionIcon = 'assets/icons/mission_icon.svg';
@@ -22,20 +23,21 @@ class AppImages {
   static const ldlImage = 'assets/images/ldl_img.png';
   static const completeIcon = 'assets/icons/complete_icon.svg';
 
-
   //logs screen
   static const addIcon = 'assets/icons/add_round_button.svg';
 
   //grey mood
   static const happyGreyIcon = 'assets/icons/moods_grey/happy_grey.svg';
-  static const veryHappyGreyIcon = 'assets/icons/moods_grey/very_happy_grey.svg';
+  static const veryHappyGreyIcon =
+      'assets/icons/moods_grey/very_happy_grey.svg';
   static const neutralGreyIcon = 'assets/icons/moods_grey/neutral_grey.svg';
   static const sadGreyIcon = 'assets/icons/moods_grey/sad_grey.svg';
   static const verySadGreyIcon = 'assets/icons/moods_grey/very_sad_grey.svg';
 
-  //color mood 
+  //color mood
   static const happyColorIcon = 'assets/icons/moods_color/happy_color.svg';
-  static const veryHappyColorIcon = 'assets/icons/moods_color/very_happy_color.svg';
+  static const veryHappyColorIcon =
+      'assets/icons/moods_color/very_happy_color.svg';
   static const neutralColorIcon = 'assets/icons/moods_color/neutral_color.svg';
   static const sadColorIcon = 'assets/icons/moods_color/sad_color.svg';
   static const verySadColorIcon = 'assets/icons/moods_color/very_sad_color.svg';
@@ -65,39 +67,61 @@ class AppImages {
   static const moon9Icon = 'assets/icons/moon_icon/moon_9.svg';
   static const moon10Icon = 'assets/icons/moon_icon/moon_10.svg';
 
+// health_assessment
   static const metabolicSyndromeImage = 'assets/images/metabolic.png';
   static const metaEffectImage = 'assets/images/meta_effect.png';
   static const metaBehaviorImage = 'assets/images/meta_behavior.png';
-  static const cameraIcon = 'assets/icons/camera.svg';
-  static const avatarDefaultIcon = 'assets/icons/avatar_default.svg';
-  static const checkmarkIcon = 'assets/icons/checkmark.svg';
-
-  static const femaleImage = 'assets/icons/female_image.png';
-  static const maleImage = 'assets/icons/male_image.png';
-  static const femaleImageUnselected = 'assets/icons/female_gray_image.png';
-  static const maleImageUnselected = 'assets/icons/male_gray_image.png';
-
-  static const alcoholSometimesIcon = 'assets/icons/alcohol_sometimes.svg';
-  static const alcoholNeverIcon = 'assets/icons/alcohol_usedto.svg';
-  static const alcoholUsedtoIcon = 'assets/icons/alcohol_never.svg';
-  static const alcoholUsuallyIcon = 'assets/icons/alcohol_usually.svg';
-  static const famhistoryArteryIcon = 'assets/icons/famhistory_artery.svg';
-  static const famhistoryConfusedIcon = 'assets/icons/famhistory_confused.svg';
-  static const famhistoryDiabetesIcon = 'assets/icons/famhistory_diabetes.svg';
-  static const famhistoryHyperIcon = 'assets/icons/famhistory_hyper.svg';
+  static const cameraIcon = 'assets/icons/health_assessment/camera.svg';
+  static const avatarDefaultIcon =
+      'assets/icons/health_assessment/avatar_default.svg';
+  static const checkmarkIcon = 'assets/icons/health_assessment/checkmark.svg';
+  static const femaleImage = 'assets/icons/health_assessment/female_image.png';
+  static const maleImage = 'assets/icons/health_assessment/male_image.png';
+  static const femaleImageUnselected =
+      'assets/icons/health_assessment/female_gray_image.png';
+  static const maleImageUnselected =
+      'assets/icons/health_assessment/male_gray_image.png';
+  static const alcoholSometimesIcon =
+      'assets/icons/health_assessment/alcohol_sometimes.svg';
+  static const alcoholNeverIcon =
+      'assets/icons/health_assessment/alcohol_usedto.svg';
+  static const alcoholUsedtoIcon =
+      'assets/icons/health_assessment/alcohol_never.svg';
+  static const alcoholUsuallyIcon =
+      'assets/icons/health_assessment/alcohol_usually.svg';
+  static const famhistoryArteryIcon =
+      'assets/icons/health_assessment/famhistory_artery.svg';
+  static const famhistoryConfusedIcon =
+      'assets/icons/health_assessment/famhistory_confused.svg';
+  static const famhistoryDiabetesIcon =
+      'assets/icons/health_assessment/famhistory_diabetes.svg';
+  static const famhistoryHyperIcon =
+      'assets/icons/health_assessment/famhistory_hyper.svg';
   static const famhistoryParalysisIcon =
-      'assets/icons/famhistory_paralysis.svg';
-  static const goalHealthyIcon = 'assets/icons/goal_healthy.svg';
-  static const goalLoseweightIcon = 'assets/icons/goal_loseweight.svg';
-  static const goalMuscleIcon = 'assets/icons/goal_muscle.svg';
-
-  static const famhistoryVascularIcon = 'assets/icons/famhistory_vascular.svg';
-  static const smokeUedtoIcon = 'assets/icons/smoke_usedto.svg';
-  static const smokeNeverIcon = 'assets/icons/smoke_never.svg';
-  static const smokeUsuallyIcon = 'assets/icons/smoke_usually.svg';
-  static const healthassessmentIMG = 'assets/icons/health_assessment_step1.svg';
-  static const healthassessmentBG = 'assets/images/health_assessment_bg.png';
-  static const recommendIcon = 'assets/icons/recommend.svg';
-  static const recommendPlanIcon = 'assets/icons/recommend_plan.svg';
-  static const healthconnectIcon = 'assets/icons/health_connect.svg';
+      'assets/icons/health_assessment/famhistory_paralysis.svg';
+  static const goalHealthyIcon =
+      'assets/icons/health_assessment/goal_healthy.svg';
+  static const goalLoseweightIcon =
+      'assets/icons/health_assessment/goal_loseweight.svg';
+  static const goalMuscleIcon =
+      'assets/icons/health_assessment/goal_muscle.svg';
+  static const famhistoryVascularIcon =
+      'assets/icons/health_assessment/famhistory_vascular.svg';
+  static const smokeUedtoIcon =
+      'assets/icons/health_assessment/smoke_usedto.svg';
+  static const smokeNeverIcon =
+      'assets/icons/health_assessment/smoke_never.svg';
+  static const smokeUsuallyIcon =
+      'assets/icons/health_assessment/smoke_usually.svg';
+  static const healthassessmentIMG =
+      'assets/icons/health_assessment/health_assessment_step1.svg';
+  static const recommendIcon = 'assets/icons/health_assessment/recommend.svg';
+  static const recommendPlanIcon =
+      'assets/icons/health_assessment/recommend_plan.svg';
+  static const healthconnectIcon =
+      'assets/icons/health_assessment/health_connect.svg';
+  static const healthassessmentBG =
+      'assets/icons/health_assessment/bg/health_assessment_bg.png';
+  static const healthassessmentGoalBG =
+      'assets/icons/health_assessment/bg/goal_bg.png';
 }

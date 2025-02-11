@@ -5,6 +5,7 @@ class AppStrings {
   }
 
   static const emptyText = '';
+  static const baseUrl = 'http://10.0.2.2:3000';
 
   //logs screen
   static const historyText = 'ประวัติ';
@@ -30,7 +31,6 @@ class AppStrings {
   static const nextText = 'ถัดไป';
   static const cancleText = 'ยกเลิก';
   static const completedText = 'เสร็จสิ้น';
-  static const weightText = 'น้ำหนัก';
   static const skipText = 'ข้าม';
   static const backText = 'ย้อนกลับ';
 
@@ -69,12 +69,13 @@ class AppStrings {
   static const hdlLogText = 'HDL_LOG';
   static const ldlLogText = 'LDL_LOG';
   static const stepLogText = 'STEP_LOG';
+  static const healthAssessmentText = 'แบบประเมินสุขภาพ';
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';
   static const highRiskText = 'เสี่ยงสูง';
   static const veryHighRiskText = 'เสี่ยงสูงมาก';
-
+  static const recommendForYouText = 'คำแนะนำสำหรับคุณ';
   static const recommendMuscleText =
       'เพิ่มโปรตีนในแต่ละมื้อ เช่น เนื้อไม่ติดมัน ไข่ หรือผลิตภัณฑ์นม ออกกำลังกายสม่ำเสมอ 3-4 ครั้งต่อสัปดาห์ ครั้งละ 45-60 นาที';
   static const recommendLoseWeightText =
@@ -94,8 +95,7 @@ class AppStrings {
   static const callNameAskText = 'ต้องการให้เราเรียกคุณว่าอะไรดี';
   static const drinkalcoholAskText = 'คุณดื่มเครื่องดื่มแอลกอฮอล์หรือไม่?';
   static const famhisAskText = 'คนในครอบครัวมีประวัติการเจ็บป่วยเหล่านี้ไหม?';
-  static const goalAskText =
-      'สุดท้ายแล้ว! บอกเป้าหมายของคุณให้เรารู้หน่อยได้ไหม?';
+  static const goalAskText = 'บอกเป้าหมายของคุณให้เรารู้หน่อยได้ไหม?';
   static const connectHealthAskText = 'ต้องการเชื่อมต่อข้อมูลสุขภาพหรือไม่?';
   static const connectHealthDetailsText =
       'เชื่อมต่อกับ Google Fit เพื่อให้การติดตามสุขภาพของคุณแม่นยำยิ่งขึ้น';
@@ -120,9 +120,16 @@ class AppStrings {
   static const personalDataText = 'ข้อมูลส่วนตัว';
   static const yearOfBirthText = 'ปีเกิด';
   static const highText = 'ส่วนสูง';
+  static const weightText = 'น้ำหนัก';
+  static const tellMePersonaText =
+      'บอกข้อมูลของคุณให้เราทราบเพื่อผลลัพธ์ที่แม่นยำ';
   static const ifYouKnowText =
       'หากทราบข้อมูล โปรดระบุเพื่อผลลัพธ์ที่แม่นยำยิ่งขึ้น';
-
+  static const goalStepText = 'กำหนดเป้าหมายจำนวนก้าวเดินต่อสัปดาห์';
+  static const goalExerciseText = 'กำหนดเป้าหมายจำนวนก้าวเดินต่อสัปดาห์';
+  static const stepCountText = 'จำนวนก้าวเดิน';
+  static const exCountText = 'เวลาออกกำลังกาย';
+  static const recommendText = 'แนะนำ';
   static const systolicBloodPressureText = 'ความดันโลหิตขณะบีบตัว';
   static const diastolicBloodPressureText = 'ความดันโลหิตขณะคลายตัว';
   static const hdlmoreText = 'คอเลสเตอรอลชนิดดี (HDL)';
@@ -132,6 +139,8 @@ class AppStrings {
   static const suffixcmText = 'ซม.';
   static const suffixkgText = 'กก.';
   static const suffixmgPerdLText = 'มก./ดล.';
+  static const suffixStepText = 'ก้าว';
+  static const suffixMinuteText = 'นาที';
   static const goalMuscleText = 'สร้างกล้ามเนื้อ';
   static const goalHealthyText = 'สุขภาพดี';
   static const goalLoseweightText = 'ลดน้ำหนัก';
