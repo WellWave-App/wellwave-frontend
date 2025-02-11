@@ -51,7 +51,7 @@ class CheckInWidget extends StatelessWidget {
         return;
       }
 
-      context.read<ProfileBloc>().add(CreateCheckInResponse(
+      context.read<ProfileBloc>().add(CreateCheckInEvent(
             date: DateFormat('yyyy-MM-dd').format(today),
           ));
 

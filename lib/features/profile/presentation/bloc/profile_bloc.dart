@@ -14,7 +14,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<EditUserGoalPerWeek>(_onEditUserGoalPerWeek);
     on<ImagePicked>(_onImagePicked);
     on<UpdateProfileImage>(_onUpdateProfileImage);
-    on<CreateCheckInResponse>(_onCreateCheckInResponse);
+    on<CreateCheckInEvent>(_onCreateCheckInResponse);
   }
 
   Future<void> _onFetchUserProfile(
@@ -153,7 +153,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   Future<void> _onCreateCheckInResponse(
-    CreateCheckInResponse event,
+    CreateCheckInEvent event,
     Emitter<ProfileState> emit,
   ) async {
     emit(ProfileLoading(selectedImage: state.selectedImage));

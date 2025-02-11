@@ -80,14 +80,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 24),
                         Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //leaderboard
                             Expanded(
                               child: RoundedText(
-                                text:
-                                    // '${AppStrings.leagueText}${AppStrings.leagueList[leagueIndex]}',
-                                    AppStrings.leaderboardText,
+                                text: AppStrings.leaderboardText,
                                 svgPath: AppImages.leagueListIcon[leagueIndex],
                                 isShowNavi: true,
                                 appPages: AppPages.leaderboardlPage,
@@ -116,14 +113,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         //progress
                         ProgressCard(
-                          daysRemain: 7 - today.weekday,
-                          exerciseTime: 250,
-                          taskAmount: 10,
+                          daysRemain: state.userProfile.weeklyGoal!.daysLeft,
+                          exerciseTime: state.userProfile.weeklyGoal!.progress
+                              .exerciseTime.current,
+                          taskAmount: state
+                              .userProfile.weeklyGoal!.progress.mission.current,
                           maxExerciseTime:
                               state.userProfile.exercisePerWeek != null
                                   ? state.userProfile.exercisePerWeek!
                                   : 0,
-                          maxTaskAmount: 10,
+                          maxTaskAmount: state
+                              .userProfile.weeklyGoal!.progress.mission.goal,
                           maxStepCount: state.userProfile.stepPerWeek != null
                               ? state.userProfile.stepPerWeek!
                               : 0,
