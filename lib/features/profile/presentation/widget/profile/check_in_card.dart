@@ -120,14 +120,26 @@ class CheckInWidget extends StatelessWidget {
                                           ? AppColors.blackColor
                                           : AppColors.darkGrayColor)),
                           const SizedBox(height: 4),
-                          (DateTime.now().weekday - 1 == index &&
-                                  !checkedInDays[index])
-                              ? SvgPicture.asset(AppImages.gemIcon, height: 24)
+                          index == 6
+                              ? checkedInDays[index]
+                                  ? SvgPicture.asset(AppImages.openTreasureSvg,
+                                      height: 24)
+                                  : DateTime.now().weekday - 1 == index
+                                      ? SvgPicture.asset(
+                                          AppImages.colorTreasureSvg,
+                                          height: 24)
+                                      : SvgPicture.asset(
+                                          AppImages.greyTreasureSvg,
+                                          height: 24)
                               : checkedInDays[index]
                                   ? SvgPicture.asset(AppImages.gemCheckSvg,
                                       height: 24)
-                                  : SvgPicture.asset(AppImages.gemNotCheckSvg,
-                                      height: 24),
+                                  : DateTime.now().weekday - 1 == index
+                                      ? SvgPicture.asset(AppImages.gemIcon,
+                                          height: 24)
+                                      : SvgPicture.asset(
+                                          AppImages.gemNotCheckSvg,
+                                          height: 24),
                           const SizedBox(height: 4),
                           Text(
                               checkedInDays[index]
