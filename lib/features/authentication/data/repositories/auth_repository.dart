@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/authentication/data/models/auth_model.dart';
 
 class AuthRepository {
-  final String baseUrl = 'http://localhost:3001/auth';
+  final String baseUrl = 'http://10.0.2.2:3001/auth';
 
   // Register
   Future<bool> register(AuthModel authModel) async {
@@ -37,7 +37,8 @@ class AuthRepository {
     try {
       final response = await http.post(url, headers: headers, body: body);
 
-      if (response.statusCode == 200) {
+      debugPrint(response.body);
+      if (response.statusCode == 201) {
         debugPrint('Login Successful');
         return true;
       } else {
