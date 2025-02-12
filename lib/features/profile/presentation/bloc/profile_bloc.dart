@@ -97,7 +97,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
 
       if (isEdited) {
-        emit(ProfileEdited(selectedImage: state.selectedImage));
+        final userProfile = await profileRepositories.getUSer();
+        if (userProfile == null) {
+          emit(ProfileError('User profile not found',
+              selectedImage: state.selectedImage));
+        } else {
+          emit(ProfileLoaded(userProfile, selectedImage: state.selectedImage));
+        }
       } else {
         emit(ProfileError('Failed to edit user goal per week',
             selectedImage: state.selectedImage));
@@ -164,7 +170,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
 
       if (isCheckInSuccessful) {
-        emit(CheckInSuccess(selectedImage: state.selectedImage));
+        final userProfile = await profileRepositories.getUSer();
+        if (userProfile == null) {
+          emit(ProfileError('User profile not found',
+              selectedImage: state.selectedImage));
+        } else {
+          emit(ProfileLoaded(userProfile, selectedImage: state.selectedImage));
+        }
       } else {
         emit(ProfileError('Failed to check in',
             selectedImage: state.selectedImage));

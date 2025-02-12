@@ -51,23 +51,21 @@ class CheckInWidget extends StatelessWidget {
         return;
       }
 
-      context.read<ProfileBloc>().add(CreateCheckInEvent(
-            date: DateFormat('yyyy-MM-dd').format(today),
-          ));
-
-      Future.delayed(const Duration(milliseconds: 100), () {
-        if (context.mounted) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return SuccessDialog(
-                reward: gemPoints[dayIndex],
-                iconPath: AppImages.gemIcon,
-              );
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SuccessDialog(
+            reward: gemPoints[dayIndex],
+            iconPath: AppImages.gemIcon,
+            onClose: () {
+              Navigator.of(context).pop();
+              context.read<ProfileBloc>().add(CreateCheckInEvent(
+                    date: DateFormat('yyyy-MM-dd').format(today),
+                  ));
             },
           );
-        }
-      });
+        },
+      );
     }
 
     return Container(

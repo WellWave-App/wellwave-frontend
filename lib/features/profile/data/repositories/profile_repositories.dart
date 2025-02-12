@@ -200,7 +200,7 @@ class ProfileRepositories {
       debugPrint('CheckIn Response Headers: ${response.headers}');
       debugPrint('CheckIn Response Body: ${response.body}');
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return true;
       } else {
         // Try to parse error response if possible

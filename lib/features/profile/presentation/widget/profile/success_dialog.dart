@@ -6,22 +6,21 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 class SuccessDialog extends StatelessWidget {
   final String iconPath;
   final int reward;
+  final VoidCallback onClose;
 
   const SuccessDialog({
     Key? key,
     required this.reward,
     required this.iconPath,
+    required this.onClose,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool isDialogClosed = false;
-
     return Dialog(
       backgroundColor: Colors.transparent,
       child: Center(
         child: Container(
-          
           decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(21),
@@ -48,11 +47,9 @@ class SuccessDialog extends StatelessWidget {
                                 spreadRadius: 0,
                               ),
                             ]),
-                            
                         child: Padding(
-                          padding: const EdgeInsets.only(top : 64.0, bottom: 48),
+                          padding: const EdgeInsets.only(top: 64.0, bottom: 48),
                           child: Column(
-                            
                             children: [
                               Text(AppStrings.youReceivedText,
                                   style: Theme.of(context)
@@ -82,12 +79,7 @@ class SuccessDialog extends StatelessWidget {
                       ),
                       const SizedBox(height: 34),
                       GestureDetector(
-                        onTap: () {
-                          if (!isDialogClosed) {
-                            Navigator.of(context).pop();
-                            isDialogClosed = true;
-                          }
-                        },
+                        onTap: onClose,
                         child: const Text(
                           AppStrings.closeWindowText,
                           textAlign: TextAlign.center,

@@ -27,18 +27,21 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  double totalSteps = 0.0;
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<ProfileBloc>().add(FetchUserProfile());
+      final today = DateTime.now();
+
+      context.read<LogsBloc>().add(LogsFetchedGraph(today));
+      context.read<LogsBloc>().add(LogsFetched(today));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(FetchUserProfile());
-
-    // int currentDay = 4;
     double totalSteps = 0.0;
-
-    final today = DateTime.now();
-
-    context.read<LogsBloc>().add(LogsFetchedGraph(today));
-    context.read<LogsBloc>().add(LogsFetched(today));
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -113,7 +116,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         //progress
                         ProgressCard(
-                          daysRemain: state.userProfile.weeklyGoal!.daysLeft,
+                          daysRemain:
+                              state.userProfile.weeklyGoal?.daysLeft ?? 0,
                           exerciseTime: state.userProfile.weeklyGoal!.progress
                               .exerciseTime.current,
                           taskAmount: state
