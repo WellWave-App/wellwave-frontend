@@ -6,7 +6,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/authentication/presentation/bloc/forgot_password_bloc.dart';
+import 'package:wellwave_frontend/features/authentication/presentation/bloc/auth_bloc.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -25,11 +25,11 @@ class ForgotPasswordScreen extends StatelessWidget {
           ),
           onPressed: () {
             // Navigator.pop(context);
-            BlocProvider.of<ForgotPasswordBloc>(context).add(GoBackEvent());
+            BlocProvider.of<AuthBloc>(context).add(GoBackEvent());
           },
         ),
       ),
-      body: BlocBuilder<ForgotPasswordBloc, ForgotPasswordState>(
+      body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           if (state is RequestResetState) {
             return _buildRequestResetUI(context);
@@ -116,7 +116,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       );
                     } else {
                       print('next');
-                      BlocProvider.of<ForgotPasswordBloc>(context)
+                      BlocProvider.of<AuthBloc>(context)
                           .add(ConfirmCodeEvent());
                     }
                   },
@@ -230,8 +230,10 @@ class ForgotPasswordScreen extends StatelessWidget {
                     //   );
                     // } else {
                     print('next');
-                    BlocProvider.of<ForgotPasswordBloc>(context)
+                    BlocProvider.of<AuthBloc>(context)
                         .add(ResetPasswordEvent());
+
+                    context.goNamed(AppPages.homeName);
                     // }
                   },
                   child: Text(
@@ -334,7 +336,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       );
                     } else {
                       print('next');
-                      BlocProvider.of<ForgotPasswordBloc>(context)
+                      BlocProvider.of<AuthBloc>(context)
                           .add(ConfirmCodeEvent());
                     }
                   },
