@@ -2,16 +2,18 @@ class AppImages {
   static const wellwaveLogo = 'assets/images/wellwave_logo.png';
 
 //navbar
-  static const homeIcon = 'assets/icons/home_icon.svg';
-  static const logIcon = 'assets/icons/log_icon.svg';
-  static const missionIcon = 'assets/icons/mission_icon.svg';
-  static const friendIcon = 'assets/icons/friend_icon.svg';
-  static const articleIcon = 'assets/icons/article_icon.svg';
+  static const homeIcon = 'assets/icons/nav-icon/home_icon.svg';
+  static const logIcon = 'assets/icons/nav-icon/log_icon.svg';
+  static const missionIcon = 'assets/icons/nav-icon/mission_icon.svg';
+  static const friendIcon = 'assets/icons/nav-icon/friend_icon.svg';
+  static const articleIcon = 'assets/icons/nav-icon/article_icon.svg';
 
-  static const homeIconActive = 'assets/icons/home_active_icon.svg';
-  static const logIconActive = 'assets/icons/log_active_icon.svg';
-  static const friendIconActive = 'assets/icons/friend_active_icon.svg';
-  static const articleIconActive = 'assets/icons/article_active_icon.svg';
+  static const homeIconActive = 'assets/icons/nav-icon/home_active_icon.svg';
+  static const logIconActive = 'assets/icons/nav-icon/log_active_icon.svg';
+  static const friendIconActive =
+      'assets/icons/nav-icon/friend_active_icon.svg';
+  static const articleIconActive =
+      'assets/icons/nav-icon/article_active_icon.svg';
 
   //logs history screen
   static const sleepLogsIcon = 'assets/icons/sleep_logs_img.svg';

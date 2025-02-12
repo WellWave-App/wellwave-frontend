@@ -71,7 +71,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixText: widget.suffixText,
-        labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+        labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColors.bluegrayColor,
             ),
         suffixStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
