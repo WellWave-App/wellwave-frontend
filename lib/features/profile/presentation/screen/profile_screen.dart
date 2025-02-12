@@ -27,13 +27,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  double totalSteps = 0.0;
+
   @override
   void initState() {
     super.initState();
     Future.microtask(() {
       context.read<ProfileBloc>().add(FetchUserProfile());
       final today = DateTime.now();
-
       context.read<LogsBloc>().add(LogsFetchedGraph(today));
       context.read<LogsBloc>().add(LogsFetched(today));
     });
@@ -41,8 +42,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double totalSteps = 0.0;
-
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: CustomAppBar(title: '', context: context, onLeading: true),
@@ -139,6 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         //chart
                         const ChartSectionWidget(),
+                        const SizedBox(height: 16),
 
                         //noti
                         const RoundedText(
