@@ -82,3 +82,32 @@ class DrinkRangeState extends NotiState {
     );
   }
 }
+
+class MissionState extends NotiState {
+  final bool isNotificationEnabled;
+  final String title;
+  final Map<String, bool> weekdaysNoti;
+  final int total;
+
+  MissionState({
+    required this.isNotificationEnabled,
+    required this.title,
+    required this.weekdaysNoti,
+    required this.total,
+  });
+
+  MissionState copyWith({
+    bool? isNotificationEnabled,
+    String? title,
+    Map<String, bool>? weekdaysNoti,
+    int? total,
+  }) {
+    return MissionState(
+      isNotificationEnabled:
+          isNotificationEnabled ?? this.isNotificationEnabled,
+      title: title ?? this.title,
+      weekdaysNoti: weekdaysNoti ?? this.weekdaysNoti,
+      total: total ?? this.total,
+    );
+  }
+}

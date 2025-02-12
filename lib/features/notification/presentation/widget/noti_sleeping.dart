@@ -104,9 +104,9 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<NotiBloc>().add(
-          FetchBedtimeEvent(),
-        );
+    // context.read<NotiBloc>().add(
+    //       FetchBedtimeEvent(),
+    //     );
     return BlocListener<NotiBloc, NotiState>(
       listener: (context, state) {
         if (state is BedtimeState) {

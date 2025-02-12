@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/notification/data/models/drink_plan_notification_response_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/drink_range_notification_response_model.dart';
+import 'package:wellwave_frontend/features/notification/data/models/mission_notification_request_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/sleep_notification_response_model.dart';
 
 import '../../../../config/constants/app_strings.dart';
 
 class NotificationSettingRepository {
-  final String baseUrl = '${AppStrings.baseUrl}/noti-setting';
+  final String baseUrl = AppStrings.baseUrl;
   String token = AppStrings.token;
 
   Future<bool> createBedSetting({
@@ -26,16 +27,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-bed-time'),
+        Uri.parse('$baseUrl/noti-setting/set-bed-time'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint(
@@ -54,7 +52,7 @@ class NotificationSettingRepository {
   Future<SleepNotificationResponseModel?> fetchBedSetting() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/get-noti/BEDTIME'),
+        Uri.parse('$baseUrl/noti-setting/get-noti/BEDTIME'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
@@ -106,16 +104,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-bed-time'),
+        Uri.parse('$baseUrl/noti-setting/set-bed-time'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint('Bedtime setting created successfully for $uid, $isActive');
@@ -143,16 +138,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-water-plan'),
+        Uri.parse('$baseUrl/noti-setting/set-water-plan'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint(
@@ -172,7 +164,7 @@ class NotificationSettingRepository {
   Future<DrinkPlanNotificationResponseModel?> fetchDrinkPlanSetting() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/get-noti/WATER_PLAN'),
+        Uri.parse('$baseUrl/noti-setting/get-noti/WATER_PLAN'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
@@ -230,16 +222,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-water-plan'),
+        Uri.parse('$baseUrl/noti-setting/set-water-plan'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint(
@@ -271,16 +260,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-water-range'),
+        Uri.parse('$baseUrl/noti-setting/set-water-range'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint(
@@ -300,7 +286,7 @@ class NotificationSettingRepository {
   Future<DrinkRangeNotificationResponseModel?> fetchDrinkRangeSetting() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/get-noti/WATER_RANGE'),
+        Uri.parse('$baseUrl/noti-setting/get-noti/WATER_RANGE'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
@@ -354,7 +340,7 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-water-range'),
+        Uri.parse('$baseUrl/noti-setting/set-water-range'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
@@ -378,5 +364,54 @@ class NotificationSettingRepository {
       debugPrint('Error updating Drink Range setting: $error');
       return false;
     }
+  }
+
+  //mission
+  Future<MissionNotificationModel?> fetchMissionSetting() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/habit/user'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+      );
+      debugPrint('Fetching from URL: $baseUrl/habit/user');
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+
+        final total = jsonData['meta']?['total'] ?? 0;
+        final challenges = jsonData['data'];
+
+        if (challenges != null && challenges.isNotEmpty) {
+          final firstChallenge = challenges[0];
+
+          final isNotificationEnabled =
+              firstChallenge['IS_NOTIFICATION_ENABLED'] ?? false;
+          final weekdaysNoti =
+              Map<String, bool>.from(firstChallenge['WEEKDAYS_NOTI'] ?? {});
+          final title = firstChallenge['habits']?['TITLE'] ?? '';
+
+          debugPrint(
+              'Fetched Data: isNotificationEnabled = $isNotificationEnabled, title = $title, weekdaysNoti = $weekdaysNoti, total = $total');
+
+          return MissionNotificationModel(
+            isNotificationEnabled: isNotificationEnabled,
+            title: title,
+            weekdaysNoti: weekdaysNoti,
+            total: total,
+          );
+        } else {
+          debugPrint('Error: No challenge data found');
+        }
+      } else {
+        debugPrint(
+            'Error: Server returned non-200 status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
+    return null;
   }
 }

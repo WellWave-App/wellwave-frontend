@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
@@ -6,6 +7,7 @@ import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../config/constants/app_images.dart';
+import '../bloc/noti_bloc.dart';
 import 'noti_mission_widget.dart';
 
 class NotificationMission extends StatefulWidget {
@@ -63,20 +65,20 @@ class _NotificationMissionState extends State<NotificationMission> {
         const Column(
           children: [
             NotiMissionWidget(
-              time: '01:05',
-              day: 'Everyday',
-              description: 'ชวนปั่น 100 km ใน 1 เดือน',
-            ),
-            NotiMissionWidget(
-              time: '01:05',
-              day: 'Everyday',
-              description: 'ชวนปั่น 100 km ใน 1 เดือน',
-            ),
-            NotiMissionWidget(
-              time: '01:05',
-              day: 'Everyday',
-              description: 'ชวนปั่น 100 km ใน 1 เดือน',
-            ),
+                // time: '01:05',
+                // day: 'Everyday',
+                // description: 'ชวนปั่น 100 km ใน 1 เดือน',
+                ),
+            // NotiMissionWidget(
+            //   time: '01:05',
+            //   day: 'Everyday',
+            //   description: 'ชวนปั่น 100 km ใน 1 เดือน',
+            // ),
+            // NotiMissionWidget(
+            //   time: '01:05',
+            //   day: 'Everyday',
+            //   description: 'ชวนปั่น 100 km ใน 1 เดือน',
+            // ),
           ],
         )
       ],

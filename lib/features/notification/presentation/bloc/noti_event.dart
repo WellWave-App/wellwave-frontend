@@ -23,6 +23,8 @@ class FetchDrinkPlanEvent extends NotiEvent {}
 
 class FetchDrinkRangeEvent extends NotiEvent {}
 
+class FetchMissionEvent extends NotiEvent {}
+
 class UpdateBedtimeEvent extends NotiEvent {
   final int uid;
   final bool isActive;

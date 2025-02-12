@@ -22,6 +22,8 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     on<CreateDrinkRangeEvent>(_onCreateDrinkRangeEvent);
     on<FetchDrinkRangeEvent>(_onFetchDrinkRangeEvent);
     on<UpdateDrinkRangeEvent>(_onUpdateDrinkRangeEvent);
+
+    on<FetchMissionEvent>(_onFetchMissionEvent);
   }
 
   int uid = AppStrings.uid;
@@ -323,6 +325,31 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
           'DrinkRange setting updated successfully for $uid, isActive: $isActive, startTime: $startTime, endTime: $endTime, intervalMinute: $intervalMinute');
     } catch (error) {
       debugPrint('Error updating DrinkRange: $error');
+    }
+  }
+
+  //mission
+  Future<void> _onFetchMissionEvent(
+      FetchMissionEvent event, Emitter<NotiState> emit) async {
+    try {
+      if (state is! MissionState) {
+        final fetchedData =
+            await _notificationSettingRepository.fetchMissionSetting();
+        if (fetchedData != null) {
+          debugPrint(
+              'Fetched Data: isNotificationEnabled = ${fetchedData.isNotificationEnabled}, title = ${fetchedData.title}, weekdaysNoti = ${fetchedData.weekdaysNoti}, total = ${fetchedData.total}');
+          emit(MissionState(
+            isNotificationEnabled: fetchedData.isNotificationEnabled,
+            title: fetchedData.title,
+            weekdaysNoti: fetchedData.weekdaysNoti,
+            total: fetchedData.total,
+          ));
+        } else {
+          debugPrint('Error: No data fetched or data was null');
+        }
+      }
+    } catch (error) {
+      debugPrint('Error fetching mission: $error');
     }
   }
 }
