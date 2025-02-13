@@ -28,19 +28,20 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   double totalSteps = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<ProfileBloc>().add(FetchUserProfile());
+      final today = DateTime.now();
+      context.read<LogsBloc>().add(LogsFetchedGraph(today));
+      context.read<LogsBloc>().add(LogsFetched(today));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(FetchUserProfile());
-
-    int currentDay = 4;
-    double totalSteps = 0.0;
-
-    final today = DateTime.now();
-
-    context.read<LogsBloc>().add(LogsFetchedGraph(today));
-
-    context.read<LogsBloc>().add(LogsFetched(today));
-
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: CustomAppBar(title: '', context: context, onLeading: true),
@@ -78,14 +79,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 24),
                         Row(
+<<<<<<< HEAD
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+=======
+>>>>>>> 8d5bf0aacf1b1ec5cdf766b92866ac34bee857df
                           children: [
                             //leaderboard
                             Expanded(
                               child: RoundedText(
                                 text: AppStrings.leaderboardText,
+<<<<<<< HEAD
                                 svgPath:
                                     AppImages.leagueListIcon[userLeague - 1],
+=======
+                                svgPath: AppImages.leagueListIcon[leagueIndex],
+>>>>>>> 8d5bf0aacf1b1ec5cdf766b92866ac34bee857df
                                 isShowNavi: true,
                                 appPages: AppPages.leaderboardlPage,
                                 horizontal: 12,
@@ -108,19 +116,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 24),
 
                         //CheckIn
-                        CheckInWidget(currentDay: currentDay),
+                        CheckInWidget(profileState: state),
                         const SizedBox(height: 24),
 
                         //progress
                         ProgressCard(
-                          daysRemain: 7 - today.weekday,
-                          exerciseTime: 250,
-                          taskAmount: 10,
+                          daysRemain:
+                              state.userProfile.weeklyGoal?.daysLeft ?? 0,
+                          exerciseTime: state.userProfile.weeklyGoal!.progress
+                              .exerciseTime.current,
+                          taskAmount: state
+                              .userProfile.weeklyGoal!.progress.mission.current,
                           maxExerciseTime:
                               state.userProfile.exercisePerWeek != null
                                   ? state.userProfile.exercisePerWeek!
                                   : 0,
-                          maxTaskAmount: 10,
+                          maxTaskAmount: state
+                              .userProfile.weeklyGoal!.progress.mission.goal,
                           maxStepCount: state.userProfile.stepPerWeek != null
                               ? state.userProfile.stepPerWeek!
                               : 0,

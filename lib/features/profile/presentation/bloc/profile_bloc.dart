@@ -7,130 +7,183 @@ import 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileRepositories profileRepositories;
 
-  ProfileBloc({required this.profileRepositories}) : super(ProfileInitial()) {
-    // Fetch user profile
-    on<FetchUserProfile>((event, emit) async {
-      emit(ProfileLoading());
-      try {
-        final userProfile = await profileRepositories.getUSer();
-        if (userProfile == null) {
-          emit(ProfileError('User profile not found fetch'));
+  ProfileBloc({required this.profileRepositories})
+      : super(const ProfileInitial()) {
+    on<FetchUserProfile>(_onFetchUserProfile);
+    on<EditUserProfile>(_onEditUserProfile);
+    on<EditUserGoalPerWeek>(_onEditUserGoalPerWeek);
+    on<ImagePicked>(_onImagePicked);
+    on<UpdateProfileImage>(_onUpdateProfileImage);
+    on<CreateCheckInEvent>(_onCreateCheckInResponse);
+  }
+
+  Future<void> _onFetchUserProfile(
+    FetchUserProfile event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(ProfileLoading(selectedImage: state.selectedImage));
+    try {
+      final userProfile = await profileRepositories.getUSer();
+      if (userProfile == null) {
+        emit(ProfileError('User profile not found',
+            selectedImage: state.selectedImage));
+      } else {
+        emit(ProfileLoaded(userProfile, selectedImage: state.selectedImage));
+      }
+    } catch (e) {
+      emit(ProfileError(e.toString(), selectedImage: state.selectedImage));
+    }
+  }
+
+  Future<void> _onEditUserProfile(
+    EditUserProfile event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(ProfileLoading(selectedImage: state.selectedImage));
+    try {
+      final userProfile = await profileRepositories.getUSer();
+      if (userProfile == null) {
+        emit(ProfileError('User profile not found',
+            selectedImage: state.selectedImage));
+        return;
+      }
+
+      final updatedImageUrl = event.imageUrl ?? userProfile.imageUrl;
+      final isEdited = await profileRepositories.editUserRequest(
+        uid: userProfile.uid,
+        imageUrl: updatedImageUrl,
+        username: event.username,
+        yearOfBirth: event.yearOfBirth,
+        gender: event.gender,
+        height: event.height,
+        weight: event.weight,
+      );
+
+      if (isEdited) {
+        final updatedUserProfile = await profileRepositories.getUSer();
+        if (updatedUserProfile != null) {
+          emit(ProfileLoaded(updatedUserProfile,
+              selectedImage: state.selectedImage));
         } else {
-          emit(ProfileLoaded(userProfile));
+          emit(ProfileError('Failed to fetch updated profile',
+              selectedImage: state.selectedImage));
         }
-      } catch (e) {
-        emit(ProfileError(e.toString()));
+      } else {
+        emit(ProfileError('Failed to edit profile',
+            selectedImage: state.selectedImage));
       }
-    });
+    } catch (e) {
+      emit(ProfileError(e.toString(), selectedImage: state.selectedImage));
+    }
+  }
 
-    // Edit user profile
-    on<EditUserProfile>((event, emit) async {
-      emit(ProfileLoading());
-      try {
+  Future<void> _onEditUserGoalPerWeek(
+    EditUserGoalPerWeek event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(ProfileLoading(selectedImage: state.selectedImage));
+    try {
+      final userProfile = await profileRepositories.getUSer();
+      if (userProfile == null) {
+        emit(ProfileError('User profile not found',
+            selectedImage: state.selectedImage));
+        return;
+      }
+
+      final isEdited = await profileRepositories.setGoalPerWeek(
+        uid: userProfile.uid,
+        stepPerWeek: event.stepPerWeek,
+        exercisePerWeek: event.exercisePerWeek,
+      );
+
+      if (isEdited) {
         final userProfile = await profileRepositories.getUSer();
-
         if (userProfile == null) {
-          emit(ProfileError('User profile not found edit'));
+          emit(ProfileError('User profile not found',
+              selectedImage: state.selectedImage));
         } else {
-          final uid = userProfile.uid;
-
-          // Use the existing imageUrl if no new imageUrl is provided
-          final updatedImageUrl = event.imageUrl ?? userProfile.imageUrl;
-
-          final isEdited = await profileRepositories.editUserRequest(
-            uid: uid,
-            imageUrl: updatedImageUrl, // Use the updated imageUrl
-            username: event.username,
-            yearOfBirth: event.yearOfBirth,
-            gender: event.gender,
-            height: event.height,
-            weight: event.weight,
-          );
-
-          if (isEdited) {
-            // Fetch the updated profile to ensure the state is up-to-date
-            final updatedUserProfile = await profileRepositories.getUSer();
-            if (updatedUserProfile != null) {
-              emit(ProfileLoaded(updatedUserProfile));
-            } else {
-              emit(ProfileError("Failed to fetch updated profile"));
-            }
-          } else {
-            emit(ProfileError("Failed to edit profile"));
-          }
+          emit(ProfileLoaded(userProfile, selectedImage: state.selectedImage));
         }
-      } catch (e) {
-        emit(ProfileError(e.toString()));
+      } else {
+        emit(ProfileError('Failed to edit user goal per week',
+            selectedImage: state.selectedImage));
       }
-    });
+    } catch (e) {
+      emit(ProfileError(e.toString(), selectedImage: state.selectedImage));
+    }
+  }
 
-    on<EditUserGoalPerWeek>((event, emit) async {
-      emit(ProfileLoading());
-      try {
+  Future<void> _onImagePicked(
+    ImagePicked event,
+    Emitter<ProfileState> emit,
+  ) async {
+    try {
+      emit(ProfileLoading(selectedImage: event.imageFile));
+      debugPrint('Processing ImagePicked event');
+      debugPrint('Image file path: ${event.imageFile.path}');
+
+      final userProfile = await profileRepositories.getUSer();
+      if (userProfile == null) {
+        throw Exception('User profile not found');
+      }
+
+      debugPrint('Uploading image for UID: ${userProfile.uid}');
+      final imageUrl = await profileRepositories.uploadProfileImage(
+        event.imageFile,
+        userProfile.uid,
+      );
+
+      if (imageUrl == null) {
+        throw Exception('Failed to get image URL from server');
+      }
+
+      debugPrint('Successfully got image URL: $imageUrl');
+      final updatedUserProfile = userProfile.copyWith(imageUrl: imageUrl);
+      emit(ProfileLoaded(updatedUserProfile, selectedImage: event.imageFile));
+    } catch (e, stackTrace) {
+      debugPrint('Error in ImagePicked event handler: $e');
+      debugPrint('Stack trace: $stackTrace');
+      emit(ProfileError(e.toString(), selectedImage: state.selectedImage));
+    }
+  }
+
+  Future<void> _onUpdateProfileImage(
+    UpdateProfileImage event,
+    Emitter<ProfileState> emit,
+  ) async {
+    if (state is ProfileLoaded) {
+      final currentState = state as ProfileLoaded;
+      emit(currentState.copyWith(selectedImage: event.imageFile));
+      add(ImagePicked(event.imageFile));
+    }
+  }
+
+  Future<void> _onCreateCheckInResponse(
+    CreateCheckInEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
+    emit(ProfileLoading(selectedImage: state.selectedImage));
+    try {
+      final isCheckInSuccessful =
+          await profileRepositories.createCheckInResponse(
+        date: event.date,
+      );
+
+      if (isCheckInSuccessful) {
         final userProfile = await profileRepositories.getUSer();
-
         if (userProfile == null) {
-          emit(ProfileError('User profile not found goal'));
+          emit(ProfileError('User profile not found',
+              selectedImage: state.selectedImage));
         } else {
-          final uid = userProfile.uid;
-
-          final isEdited = await profileRepositories.setGoalPerWeek(
-              uid: uid,
-              stepPerWeek: event.stepPerWeek,
-              exercisePerWeek: event.exercisePerWeek);
-
-          if (isEdited) {
-            emit(ProfileEdited());
-          } else {
-            emit(ProfileError("Failed to edit user goal per week"));
-          }
+          emit(ProfileLoaded(userProfile, selectedImage: state.selectedImage));
         }
-      } catch (e) {
-        emit(ProfileError(e.toString()));
+      } else {
+        emit(ProfileError('Failed to check in',
+            selectedImage: state.selectedImage));
       }
-    });
-
-    on<ImagePicked>((event, emit) async {
-      try {
-        // First emit loading state
-        emit(ProfileLoading());
-
-        // Debug debugPrint
-        debugPrint('Processing ImagePicked event');
-        debugPrint('Image file path: ${event.imageFile.path}');
-
-        // Get current user profile
-        final userProfile = await profileRepositories.getUSer();
-        if (userProfile == null) {
-          throw Exception('User profile not found');
-        }
-
-        // Upload image
-        debugPrint('Uploading image for UID: ${userProfile.uid}');
-        final imageUrl = await profileRepositories.uploadProfileImage(
-          event.imageFile,
-          userProfile.uid,
-        );
-
-        if (imageUrl == null) {
-          throw Exception('Failed to get image URL from server');
-        }
-
-        debugPrint('Successfully got image URL: $imageUrl');
-
-        // Create updated profile
-        final updatedUserProfile = userProfile.copyWith(imageUrl: imageUrl);
-
-        // Emit success state
-        emit(ProfileLoaded(
-          updatedUserProfile,
-          selectedImage: event.imageFile,
-        ));
-      } catch (e, stackTrace) {
-        debugPrint('Error in ImagePicked event handler: $e');
-        debugPrint('Stack trace: $stackTrace');
-        emit(ProfileError(e.toString()));
-      }
-    });
+    } catch (e) {
+      debugPrint('Error in CreateCheckInResponse event: $e');
+      emit(ProfileError(e.toString(), selectedImage: state.selectedImage));
+    }
   }
 }

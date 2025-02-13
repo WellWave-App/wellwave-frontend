@@ -55,3 +55,21 @@ class ImagePicked extends ProfileEvent {
 
   ImagePicked(this.imageFile);
 }
+
+class UpdateProfileImage extends ProfileEvent {
+  final File imageFile;
+
+  UpdateProfileImage(this.imageFile);
+
+  @override
+  List<Object?> get props => [imageFile];
+}
+
+class CreateCheckInEvent extends ProfileEvent {
+  final String date;
+
+  CreateCheckInEvent({required this.date});
+
+  @override
+  List<Object?> get props => [date];
+}

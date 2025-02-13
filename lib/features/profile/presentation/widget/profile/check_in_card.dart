@@ -1,39 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/success_dialog.dart';
 
-class CheckInWidget extends StatefulWidget {
-  final int currentDay;
-  const CheckInWidget({Key? key, required this.currentDay}) : super(key: key);
+import '../../bloc/profile_bloc.dart';
+import '../../bloc/profile_event.dart';
+import '../../bloc/profile_state.dart';
 
-  @override
-  _CheckInWidgetState createState() => _CheckInWidgetState();
-}
+class CheckInWidget extends StatelessWidget {
+  final ProfileLoaded profileState;
 
-class _CheckInWidgetState extends State<CheckInWidget> {
-  List<bool> checkedInDays = [false, false, false, false, false, false, false];
-  final List<int> gemPoints = [20, 20, 20, 20, 20, 20, 100];
-
-  void _checkIn(int dayIndex) {
-    if (dayIndex == widget.currentDay && !checkedInDays[dayIndex]) {
-      setState(() {
-        checkedInDays[dayIndex] = true;
-      });
-      // Reward the user gems
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return const SuccessDialog(reward: 15, iconPath: AppImages.gemIcon);
-        },
-      );
-    }
-  }
+  const CheckInWidget({Key? key, required this.profileState}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final loginStats = profileState.userProfile.loginStats;
+    final overallStats = profileState.userProfile.loginStats?.overAllStats;
+
+    if (overallStats == null || loginStats == null) {
+      return const Center(child: Text("Error: Stats are missing or empty"));
+    }
+
+    List<bool> checkedInDays =
+        loginStats.checkInStats.map((stat) => stat.isLogin).toList();
+    List<int> gemPoints =
+        loginStats.checkInStats.map((stat) => stat.rewardAmount).toList();
+
+    void checkIn(int dayIndex) {
+      final lastLoginDate = DateTime.parse(overallStats.lastLoginDate);
+      final today = DateTime.now();
+      final yesterday = today.subtract(const Duration(days: 1));
+      final difference = today.difference(lastLoginDate).inDays;
+
+      final isYesterday = lastLoginDate.year == yesterday.year &&
+          lastLoginDate.month == yesterday.month &&
+          lastLoginDate.day == yesterday.day;
+
+      final checkedDays =
+          loginStats.checkInStats.where((stat) => stat.isLogin).length;
+
+      if (difference > 1 && dayIndex != 0) return;
+      if (isYesterday && dayIndex != checkedDays) return;
+      if (lastLoginDate.year == today.year &&
+          lastLoginDate.month == today.month &&
+          lastLoginDate.day == today.day) {
+        return;
+      }
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SuccessDialog(
+            reward: gemPoints[dayIndex],
+            iconPath: AppImages.gemIcon,
+            onClose: () {
+              Navigator.of(context).pop();
+              context.read<ProfileBloc>().add(CreateCheckInEvent(
+                    date: DateFormat('yyyy-MM-dd').format(today),
+                  ));
+            },
+          );
+        },
+      );
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       decoration: BoxDecoration(
@@ -56,14 +90,22 @@ class _CheckInWidgetState extends State<CheckInWidget> {
               return Column(
                 children: [
                   GestureDetector(
-                    onTap: () => _checkIn(index),
+                    onTap: () => checkIn(index),
                     child: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        color: checkedInDays[index]
-                            ? AppColors.primaryColor
+                        color: (DateTime.now().weekday - 1 == index &&
+                                !checkedInDays[index])
+                            ? AppColors.backgroundColor
                             : const Color(0xFFF2F2F2),
+                        border: Border.all(
+                            color: (DateTime.now().weekday - 1 == index &&
+                                    !checkedInDays[index])
+                                ? AppColors.secondaryDarkColor
+                                : Colors.transparent,
+                            width: 1.5,
+                            strokeAlign: BorderSide.strokeAlignInside),
                       ),
                       child: Column(
                         children: [
@@ -72,26 +114,44 @@ class _CheckInWidgetState extends State<CheckInWidget> {
                                   .textTheme
                                   .caption2
                                   ?.copyWith(
-                                      color: checkedInDays[index]
+                                      color: (DateTime.now().weekday - 1 ==
+                                                  index &&
+                                              !checkedInDays[index])
                                           ? AppColors.blackColor
                                           : AppColors.darkGrayColor)),
                           const SizedBox(height: 4),
-                          checkedInDays[index]
-                              ? const Icon(
-                                  Icons.check,
-                                  color: Colors.white,
-                                )
-                              : SvgPicture.asset(
-                                  AppImages.gemIcon,
-                                  height: 24,
-                                ),
+                          index == 6
+                              ? checkedInDays[index]
+                                  ? SvgPicture.asset(AppImages.openTreasureSvg,
+                                      height: 24)
+                                  : DateTime.now().weekday - 1 == index
+                                      ? SvgPicture.asset(
+                                          AppImages.colorTreasureSvg,
+                                          height: 24)
+                                      : SvgPicture.asset(
+                                          AppImages.greyTreasureSvg,
+                                          height: 24)
+                              : checkedInDays[index]
+                                  ? SvgPicture.asset(AppImages.gemCheckSvg,
+                                      height: 24)
+                                  : DateTime.now().weekday - 1 == index
+                                      ? SvgPicture.asset(AppImages.gemIcon,
+                                          height: 24)
+                                      : SvgPicture.asset(
+                                          AppImages.gemNotCheckSvg,
+                                          height: 24),
                           const SizedBox(height: 4),
-                          Text(AppStrings.archeiveText,
+                          Text(
+                              checkedInDays[index]
+                                  ? AppStrings.archeiveText
+                                  : '${gemPoints[index]}',
                               style: Theme.of(context)
                                   .textTheme
                                   .caption2
                                   ?.copyWith(
-                                      color: checkedInDays[index]
+                                      color: (DateTime.now().weekday - 1 ==
+                                                  index &&
+                                              !checkedInDays[index])
                                           ? AppColors.blackColor
                                           : AppColors.darkGrayColor)),
                         ],
