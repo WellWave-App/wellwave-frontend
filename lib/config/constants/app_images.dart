@@ -43,7 +43,7 @@ class AppImages {
   static const recommendPlanIcon = 'assets/icons/recommend_plan.svg';
   static const healthconnectIcon = 'assets/icons/health_connect.svg';
 
-  static const gemIcon = 'assets/icons/homepage/Gem.svg';
+  static const gemIcon = 'assets/icons/homepage/gem.svg';
   static const expIcon = 'assets/icons/homepage/EXP.svg';
   static const notiIcon = 'assets/icons/homepage/noti.svg';
   static const fireIcon = 'assets/icons/homepage/fire.svg';
@@ -57,4 +57,6 @@ class AppImages {
   static const exerciseImage = 'assets/icons/homepage/exercise_image.svg';
   static const hatIcon = 'assets/icons/homepage/hat.svg';
   static const slideIcon = 'assets/icons/homepage/slide.svg';
+  static const healthreassessmentBG =
+      'assets/icons/homepage/assessment/reassessment_bg.svg';
 }

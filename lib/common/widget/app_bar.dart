@@ -48,7 +48,7 @@ class CustomAppBar extends AppBar {
                 onTap: () => action(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: actionIcon, // Use the custom widget directly
+                  child: actionIcon,
                 ),
               ),
           ],

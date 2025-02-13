@@ -1,12 +1,18 @@
-part of 'home_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/notification.dart';
 
 @immutable
-sealed class HomeEvent {}
+sealed class HomeEvent {
+  @override
+  List<Object> get props => [];
+}
 
-class UpdateHealthDataEvent extends HomeEvent {
-  final List<Map<String, dynamic>> newData;
+class UpdateDataFromReAssessmentEvent extends HomeEvent {
+  final HealthAssessmentPersonalDataRequestModel model;
 
-  UpdateHealthDataEvent(this.newData);
+  UpdateDataFromReAssessmentEvent(this.model);
 }
 
 class CalculateWeeklyAveragesEvent extends HomeEvent {
@@ -46,3 +52,27 @@ class NewNotificationReceived extends HomeEvent {
 class SetHasNewNotificationFalseEvent extends HomeEvent {}
 
 class FetchData extends HomeEvent {}
+
+class NextStep extends HomeEvent {}
+
+class PreviousStep extends HomeEvent {}
+
+class ResetStep extends HomeEvent {}
+
+class UpdateFieldData extends HomeEvent {
+  final String fieldName;
+  final dynamic value;
+
+  UpdateFieldData(this.fieldName, this.value);
+
+  @override
+  List<Object> get props => [fieldName, value];
+}
+
+class SubmitReAssessmentDataEvent extends HomeEvent {
+  final HealthAssessmentPersonalDataRequestModel model;
+
+  SubmitReAssessmentDataEvent(this.model);
+  @override
+  List<Object> get props => [model];
+}

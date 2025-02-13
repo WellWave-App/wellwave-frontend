@@ -1,9 +1,22 @@
-part of 'home_bloc.dart';
+import 'package:flutter/material.dart';
 
 @immutable
-sealed class HomeState {}
+class HomeState {
+  final int homeStep;
+  final Map<String, dynamic>? formDataReassessment;
 
-final class HomeInitial extends HomeState {}
+  HomeState({required this.homeStep, this.formDataReassessment});
+
+  HomeState copyWith({int? step, Map<String, dynamic>? formDataReassessment}) {
+    return HomeState(
+      homeStep: step ?? this.homeStep,
+      formDataReassessment: formDataReassessment ?? this.formDataReassessment,
+    );
+  }
+
+  @override
+  List<Object> get props => [homeStep];
+}
 
 class HomeLoadedState extends HomeState {
   final int exp;
@@ -16,6 +29,13 @@ class HomeLoadedState extends HomeState {
   final List<String> readNotifications;
   final bool hasNewNotification;
   final int currentStreak;
+  final double? weight;
+  final double? diastolicBloodPressure;
+  final double? systolicBloodPressure;
+  final double? hdl;
+  final double? ldl;
+  final double? waistLine;
+  final Map<String, dynamic>? formDataReassessment;
 
   HomeLoadedState({
     required this.exp,
@@ -28,9 +48,18 @@ class HomeLoadedState extends HomeState {
     required this.readNotifications,
     required this.hasNewNotification,
     required this.currentStreak,
-  });
+    required int step,
+    this.diastolicBloodPressure,
+    this.hdl,
+    this.ldl,
+    this.systolicBloodPressure,
+    this.waistLine,
+    this.weight,
+    this.formDataReassessment,
+  }) : super(homeStep: step);
 
   HomeLoadedState copyWith({
+    int? step,
     int? exp,
     int? gem,
     String? imageUrl,
@@ -41,8 +70,16 @@ class HomeLoadedState extends HomeState {
     List<String>? readNotifications,
     bool? hasNewNotification,
     int? currentStreak,
+    double? weight,
+    double? diastolicBloodPressure,
+    double? systolicBloodPressure,
+    double? hdl,
+    double? ldl,
+    double? waistLine,
+    Map<String, dynamic>? formDataReassessment,
   }) {
     return HomeLoadedState(
+      step: step ?? this.homeStep,
       exp: exp ?? this.exp,
       gem: gem ?? this.gem,
       imageUrl: imageUrl ?? this.imageUrl,
@@ -53,23 +90,37 @@ class HomeLoadedState extends HomeState {
       readNotifications: readNotifications ?? this.readNotifications,
       hasNewNotification: hasNewNotification ?? this.hasNewNotification,
       currentStreak: currentStreak ?? this.currentStreak,
+      weight: weight ?? this.weight,
+      diastolicBloodPressure:
+          diastolicBloodPressure ?? this.diastolicBloodPressure,
+      systolicBloodPressure:
+          systolicBloodPressure ?? this.systolicBloodPressure,
+      hdl: hdl ?? this.hdl,
+      ldl: ldl ?? this.ldl,
+      waistLine: waistLine ?? this.waistLine,
+      formDataReassessment: formDataReassessment ?? this.formDataReassessment,
     );
   }
+}
+
+class HealthDataUpdatedState extends HomeState {
+  final String message;
+
+  HealthDataUpdatedState(
+      {this.message = 'Health data updated successfully',
+      required super.homeStep});
 
   @override
-  String toString() {
-    return 'HomeLoadedState(exp: $exp, gem: $gem, currentStreak: $currentStreak, hasNewNotification: $hasNewNotification)';
-  }
+  List<Object> get props => [message];
 }
 
-class HomeErrorState extends HomeState {
+class HealthDataUpdateFailedState extends HomeState {
   final String errorMessage;
 
-  HomeErrorState(this.errorMessage);
-}
+  HealthDataUpdateFailedState(
+      {this.errorMessage = 'Failed to update health data',
+      required super.homeStep});
 
-class HomeUpdated extends HomeState {
-  final Map<String, Map<DateTime, bool>> completionStatus;
-
-  HomeUpdated({required this.completionStatus});
+  @override
+  List<Object> get props => [errorMessage];
 }

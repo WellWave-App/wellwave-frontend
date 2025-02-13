@@ -1,3 +1,5 @@
+import 'package:wellwave_frontend/features/home/widget/check_weight_and_waist.dart';
+
 class AppStrings {
   static String uppercaseFirst(String text) {
     if (text.isEmpty) return text;
@@ -7,8 +9,8 @@ class AppStrings {
   static const emptyText = '';
   static const baseUrl = 'http://10.0.2.2:3000';
   static const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIyQGV4YW1wbGUuY29tIiwiVUlEIjoxMSwiUk9MRSI6InVzZXIiLCJpYXQiOjE3MzkyMDgzODUsImV4cCI6MTczOTI5NDc4NX0.8sLvwd4C7GKxWTVX2jsyNG4QP1dYp6Lrmbb7cZVE_0k';
-  static const userID = '11';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIxM0BleGFtcGxlLmNvbSIsIlVJRCI6MTMsIlJPTEUiOiJ1c2VyIiwiaWF0IjoxNzM5NDM2MTUxLCJleHAiOjE3Mzk1MjI1NTF9.O5JIoXG2tjXDuzLNcvqmA18JvaJMwtyzxp6HtWPXxyQ';
+  static const userID = '13';
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';
@@ -95,4 +97,9 @@ class AppStrings {
   static const greatjobText = 'สุดยอดไปเลย! สัปดาห์นี้ไปกันต่อ~';
 
   static const noNotiText = 'ยังไม่มีการแจ้งเตือน';
+  static const weightAndWaistReAssessmentText = 'อันดับแรก มาเช็กหุ่นกันหน่อย!';
+  static const pressureReAssessmentText =
+      'มาต่อกันที่ความดัน เดือนนี้เป็นไงบ้าง?';
+  static const fatReAssessmentText = 'แล้วระดับไขมันของคุณโอเคไหม?';
+  static const nextTimeFieldText = 'ไว้กรอกทีหลัง';
 }

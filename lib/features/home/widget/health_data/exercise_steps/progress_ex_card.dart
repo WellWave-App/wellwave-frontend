@@ -6,6 +6,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 
 class ProgressExCard extends StatelessWidget {
   const ProgressExCard({Key? key}) : super(key: key);

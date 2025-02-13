@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
-import 'package:wellwave_frontend/features/home/data/models/login_streak_data_respone_model.dart';
+import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
+import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
-extension HomeRepository on HealthAssessmentRepository {
+extension HomeHealthDataRepository on HealthAssessmentRepository {
   static const token = AppStrings.token;
   Future<Map<String, dynamic>> fetchPersonaData() async {
     final url = '$baseUrl/risk-assessment/$userID';
@@ -53,6 +54,87 @@ extension HomeRepository on HealthAssessmentRepository {
         'userGoalStepWeek': 0,
         'userGoalExTimeWeek': 0,
       };
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchHealthData() async {
+    final url = '$baseUrl/risk-assessment/$userID';
+    debugPrint('Calling API URL: $url');
+
+    try {
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Authorization': 'Bearer $token'},
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        debugPrint('📢 API Response: $jsonData');
+
+        final double diastolicBloodPressure =
+            (jsonData['DIASTOLIC_BLOOD_PRESSURE'] ?? 0).toDouble();
+        final double systolicBloodPressure =
+            (jsonData['SYSTOLIC_BLOOD_PRESSURE'] ?? 0).toDouble();
+        final double hdl = (jsonData['HDL'] ?? 0).toDouble();
+        final double ldl = (jsonData['LDL'] ?? 0).toDouble();
+        final double waistLine = (jsonData['WAIST_LINE'] ?? 0).toDouble();
+        final double weight = (jsonData['USER']['WEIGHT'] ?? 0).toDouble();
+
+        return {
+          'diastolicBloodPressure': diastolicBloodPressure,
+          'systolicBloodPressure': systolicBloodPressure,
+          'hdl': hdl,
+          'ldl': ldl,
+          'waistLine': waistLine,
+          'weight': weight,
+        };
+      } else {
+        throw Exception(
+            'Failed to fetch health data from API ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+      return {
+        'diastolicBloodPressure': 0.0,
+        'systolicBloodPressure': 0.0,
+        'hdl': 0.0,
+        'ldl': 0.0,
+        'waistLine': 0.0,
+        'weight': 0.0,
+      };
+    }
+  }
+}
+
+extension HomePersonaDataRepository on ProfileRepositories {
+  Future<bool> updateWeight(double? weight) async {
+    String userID = AppStrings.userID;
+    final url = Uri.parse('$baseUrl/users/$userID');
+    final body = jsonEncode({'WEIGHT': weight});
+
+    debugPrint('Sending PATCH request to $url');
+    debugPrint('Request body: $body');
+
+    try {
+      final response = await http.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Weight updated successfully: ${response.body}');
+        return true;
+      } else {
+        debugPrint('Failed to update weight: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Error updating weight: $e');
+      return false;
     }
   }
 }

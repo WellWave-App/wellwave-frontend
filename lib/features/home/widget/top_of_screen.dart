@@ -7,6 +7,8 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/widget/showpoint.dart';
 
 class TopOfScreen extends StatelessWidget {

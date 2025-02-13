@@ -55,7 +55,7 @@ void showAssessmentPopup(BuildContext context) {
                           buttonText: AppStrings.gotoAssessmentPageText,
                           onPressed: () {
                             Navigator.pop(context);
-                            context.goNamed(AppPages.assessmentPage);
+                            context.goNamed(AppPages.reassessmentPage);
                           },
                         ),
                       ],

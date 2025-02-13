@@ -10,6 +10,7 @@ import 'package:wellwave_frontend/features/home/data/models/notification.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/home/health_reassessment.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home/notification_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
@@ -83,6 +84,19 @@ final GoRouter goRouter = GoRouter(
               name: AppPages.assessmentName,
               builder: (BuildContext context, GoRouterState state) {
                 return const AssessmentScreen();
+              },
+            ),
+            GoRoute(
+              path: AppPages.reassessmentPage,
+              name: AppPages.reassessmentName,
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return CustomTransitionPage(
+                  child: ReAssessmentScreen(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                    return child;
+                  },
+                );
               },
             ),
             GoRoute(

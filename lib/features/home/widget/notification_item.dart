@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/features/home/data/models/notification.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 
 class NotificationItem extends StatelessWidget {
   final Notifications notifications;
