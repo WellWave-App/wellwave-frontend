@@ -34,7 +34,7 @@ class LogsRequestRepository {
       );
 
       if (response.statusCode == 201) {
-        debugPrint('Success: ${response.body}');
+        // debugPrint('Success: ${response.body}');
         return true;
       }
       return false;

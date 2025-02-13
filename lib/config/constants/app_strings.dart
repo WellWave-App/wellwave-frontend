@@ -7,12 +7,10 @@ class AppStrings {
   static const emptyText = '';
 
   static const baseUrl = 'http://10.0.2.2:3000';
-  static const token =
-<<<<<<< HEAD
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiaWF0IjoxNzM5MjA4MjQ3LCJleHAiOjE3MzkyOTQ2NDd9.GvWFOWjBMpCNwUj5Uf6wjRUWPWoTWqWqpQ4SrUMdkVw';
-=======
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiUk9MRSI6InVzZXIiLCJpYXQiOjE3MzkzODI0MDIsImV4cCI6MTczOTQ2ODgwMn0.WUmp-sGFqKEJEE6I9X2IsUet1eQqAT8bZ3-vQRtcnbM';
->>>>>>> 8d5bf0aacf1b1ec5cdf766b92866ac34bee857df
+
+  static String token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiUk9MRSI6InVzZXIiLCJpYXQiOjE3Mzk0NzA2MzEsImV4cCI6MTczOTU1NzAzMX0.mH1iGqWYffU9xgsMa3u1KNmyEN00-sCrnWSrVdY9d40';
+
   static const uid = 5;
 
   //logs screen

@@ -4,13 +4,15 @@ import '../../../../config/constants/app_colors.dart';
 class NotiMissionWidget extends StatefulWidget {
   final String time;
   final String day;
-  final String? description;
+  final String? title;
+  final bool isSwitched;
 
   const NotiMissionWidget({
     super.key,
     required this.time,
     required this.day,
-    this.description,
+    this.title,
+    required this.isSwitched,
   });
 
   @override
@@ -18,7 +20,13 @@ class NotiMissionWidget extends StatefulWidget {
 }
 
 class _NotiMissionWidgetState extends State<NotiMissionWidget> {
-  bool _isSwitched = false;
+  late bool _isSwitched = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isSwitched = widget.isSwitched;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +44,7 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: widget.description == null
+                mainAxisAlignment: widget.title == null
                     ? MainAxisAlignment.center
                     : MainAxisAlignment.start,
                 children: [
@@ -59,10 +67,10 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
                       ),
                     ],
                   ),
-                  if (widget.description != null) ...[
+                  if (widget.title != null) ...[
                     const SizedBox(height: 8),
                     Text(
-                      widget.description!,
+                      widget.title!,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],

@@ -36,9 +36,9 @@ class _DrinkPlanScreenState extends State<DrinkPlanScreen> {
   Widget build(BuildContext context) {
     return BlocListener<NotiBloc, NotiState>(
       listener: (context, state) {
-        if (state is DrinkPlanState) {
+        if (state is NotiLoadedState && state.drinkPlanState != null) {
           setState(() {
-            _isSwitched = state.isActive;
+            _isSwitched = state.drinkPlanState!.isActive;
           });
         }
       },

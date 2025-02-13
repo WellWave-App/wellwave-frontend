@@ -92,7 +92,7 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
         .toList();
 
     if (selectedIndices.isEmpty) {
-      setState(() => day = ''); // No days selected
+      setState(() => day = '');
     } else {
       // Check if the selected days are consecutive, accounting for wrapping around
       bool isConsecutive = true;
@@ -156,14 +156,13 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
   Widget build(BuildContext context) {
     return BlocListener<NotiBloc, NotiState>(
       listener: (context, state) {
-        if (state is BedtimeState) {
+        if (state is NotiLoadedState && state.bedtimeState != null) {
           setState(() {
-            _isSwitched = state.isActive;
-            if (state.bedtime.isNotEmpty) {
-              time = DateFormat("HH:mm").parse(state.bedtime);
+            _isSwitched = state.bedtimeState!.isActive;
+            if (state.bedtimeState!.bedtime.isNotEmpty) {
+              time = DateFormat("HH:mm").parse(state.bedtimeState!.bedtime);
             }
 
-            // Update selectedDays based on weekdays fetched
             List<String> days = [
               'Sunday',
               'Monday',
@@ -174,9 +173,9 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
               'Saturday'
             ];
             for (int i = 0; i < days.length; i++) {
-              selectedDays[i] = state.weekdays[days[i]] ?? false;
+              selectedDays[i] = state.bedtimeState!.weekdays[days[i]] ?? false;
             }
-            updateSelectedDaysText(); // Ensure `day` is updated
+            updateSelectedDaysText();
             // testAndSchedule();
           });
         }

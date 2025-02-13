@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/notification/data/models/drink_plan_notification_response_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/drink_range_notification_response_model.dart';
+import 'package:wellwave_frontend/features/notification/data/models/mission_notification_request_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/sleep_notification_response_model.dart';
 
 import '../../../../config/constants/app_strings.dart';
 
 class NotificationSettingRepository {
-  final String baseUrl = '${AppStrings.baseUrl}/noti-setting';
+  final String baseUrl = AppStrings.baseUrl;
   String token = AppStrings.token;
 
   Future<bool> createBedSetting({
@@ -26,16 +27,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-bed-time'),
+        Uri.parse('$baseUrl/noti-setting/set-bed-time'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint(
@@ -54,7 +52,7 @@ class NotificationSettingRepository {
   Future<SleepNotificationResponseModel?> fetchBedSetting() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/get-noti/BEDTIME'),
+        Uri.parse('$baseUrl/noti-setting/get-noti/BEDTIME'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
@@ -72,8 +70,8 @@ class NotificationSettingRepository {
           final weekdays =
               Map<String, bool>.from(bedtimeSettings['WEEKDAYS'] ?? {});
 
-          debugPrint(
-              'Fetched Data: isActive = $isActive, bedtime = $bedtime, weekdays = $weekdays');
+          // debugPrint(
+          //     'Fetched Data: isActive = $isActive, bedtime = $bedtime, weekdays = $weekdays');
 
           return SleepNotificationResponseModel(
             isActive: isActive,
@@ -106,16 +104,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-bed-time'),
+        Uri.parse('$baseUrl/noti-setting/set-bed-time'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint('Bedtime setting created successfully for $uid, $isActive');
@@ -143,16 +138,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-water-plan'),
+        Uri.parse('$baseUrl/noti-setting/set-water-plan'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint(
@@ -172,7 +164,7 @@ class NotificationSettingRepository {
   Future<DrinkPlanNotificationResponseModel?> fetchDrinkPlanSetting() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/get-noti/WATER_PLAN'),
+        Uri.parse('$baseUrl/noti-setting/get-noti/WATER_PLAN'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
@@ -193,7 +185,7 @@ class NotificationSettingRepository {
                     DrinkSettingDetail.fromJson(e as Map<String, dynamic>))
                 .toList();
 
-            debugPrint('repo Fetched Data: isActive = $isActive');
+            // debugPrint('repo Fetched Data: isActive = $isActive');
             for (var setting in settingDetails) {
               debugPrint('Setting Detail: ${setting.toJson()}');
             }
@@ -230,16 +222,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-water-plan'),
+        Uri.parse('$baseUrl/noti-setting/set-water-plan'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint(
@@ -271,16 +260,13 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-water-range'),
+        Uri.parse('$baseUrl/noti-setting/set-water-range'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
         },
         body: jsonEncode(body),
       );
-
-      // debugPrint('Response Body: ${response.body}');
-      // debugPrint('Payload: ${jsonEncode(body)}');
 
       if (response.statusCode == 201) {
         debugPrint(
@@ -300,7 +286,7 @@ class NotificationSettingRepository {
   Future<DrinkRangeNotificationResponseModel?> fetchDrinkRangeSetting() async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/get-noti/WATER_RANGE'),
+        Uri.parse('$baseUrl/noti-setting/get-noti/WATER_RANGE'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
@@ -323,8 +309,8 @@ class NotificationSettingRepository {
             ? jsonData['waterRangeSettings']['INTERVAL_MINUTES']
             : null;
 
-        debugPrint(
-            'Fetched Data: isActive = $isActive, $startTime, $endTime , $intervalMinute');
+        // debugPrint(
+        //     'Fetched Data: isActive = $isActive, $startTime, $endTime , $intervalMinute');
 
         return DrinkRangeNotificationResponseModel(
           isActive: isActive,
@@ -354,7 +340,7 @@ class NotificationSettingRepository {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/set-water-range'),
+        Uri.parse('$baseUrl/noti-setting/set-water-range'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${AppStrings.token}',
@@ -377,6 +363,46 @@ class NotificationSettingRepository {
     } catch (error) {
       debugPrint('Error updating Drink Range setting: $error');
       return false;
+    }
+  }
+
+  //mission
+  Future<List<MissionNotificationModel>> fetchMissionSetting() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/habit/user'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+      );
+      debugPrint('Fetching from URL: $baseUrl/habit/user');
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        final challenges = jsonData['data'] as List;
+
+        final missions = challenges
+            .map((challenge) => MissionNotificationModel.fromJson(challenge))
+            .toList();
+
+        debugPrint('Fetched ${missions.length} missions:');
+        for (var mission in missions) {
+          debugPrint('Mission: hid = ${mission.hid}, '
+              'title = ${mission.title}, '
+              'isNotificationEnabled = ${mission.isNotificationEnabled}, '
+              'weekdaysNoti = ${mission.weekdaysNoti}');
+        }
+
+        return missions;
+      } else {
+        debugPrint(
+            'Error: Server returned non-200 status code: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
+      return [];
     }
   }
 }

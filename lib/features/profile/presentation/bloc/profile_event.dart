@@ -9,6 +9,8 @@ abstract class ProfileEvent extends Equatable {
 
 class FetchUserProfile extends ProfileEvent {}
 
+class LogOutEvent extends ProfileEvent {}
+
 class EditUserProfile extends ProfileEvent {
   final String? imageUrl;
   final String username;
