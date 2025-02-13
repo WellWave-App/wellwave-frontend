@@ -13,8 +13,6 @@ class LoginScreen extends StatelessWidget {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
 
   LoginScreen({Key? key}) : super(key: key);
 
@@ -140,33 +138,24 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () {
                         debugPrint(
                             'Email: ${_emailController.text}, Password: ${_passwordController.text}');
-                        // if (_emailController.text.isEmpty ||
-                        //     _passwordController.text.isEmpty ||
-                        //     _confirmPasswordController.text.isEmpty) {
-                        //   ScaffoldMessenger.of(context).showSnackBar(
-                        //     SnackBar(
-                        //       content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
-                        //       backgroundColor: Colors.red,
-                        //     ),
-                        //   );
-                        // } else if (_passwordController.text !=
-                        //     _confirmPasswordController.text) {
-                        //   ScaffoldMessenger.of(context).showSnackBar(
-                        //     SnackBar(
-                        //       content: Text('รหัสผ่านไม่ตรงกัน'),
-                        //       backgroundColor: Colors.red,
-                        //     ),
-                        //   );
-                        // } else {
-                        context.read<AuthBloc>().add(
-                              LoginEvent(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ),
-                            );
-                        context.goNamed(AppPages.registerSuccessName);
-                        print('สมัครสมาชิกเรียบร้อย');
-                        // }
+                        if (_emailController.text.isEmpty ||
+                            _passwordController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } else {
+                          context.read<AuthBloc>().add(
+                                LoginEvent(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                ),
+                              );
+                          context.goNamed(AppPages.registerSuccessName);
+                          print('สมัครสมาชิกเรียบร้อย');
+                        }
                       },
                       child: Text(
                         AppStrings.loginText,
