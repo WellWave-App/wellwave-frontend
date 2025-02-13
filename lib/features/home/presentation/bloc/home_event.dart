@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
 import 'package:wellwave_frontend/features/home/data/models/notification.dart';
 
@@ -69,10 +70,18 @@ class UpdateFieldData extends HomeEvent {
   List<Object> get props => [fieldName, value];
 }
 
-class SubmitReAssessmentDataEvent extends HomeEvent {
+class SubmitWeightDataEvent extends HomeEvent {
   final HealthAssessmentPersonalDataRequestModel model;
 
-  SubmitReAssessmentDataEvent(this.model);
+  SubmitWeightDataEvent(this.model);
+  @override
+  List<Object> get props => [model];
+}
+
+class SubmitHealthDataEvent extends HomeEvent {
+  final HealthAssessmentHealthDataRequestModel model;
+
+  SubmitHealthDataEvent(this.model);
   @override
   List<Object> get props => [model];
 }

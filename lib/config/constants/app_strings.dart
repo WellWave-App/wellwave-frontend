@@ -9,7 +9,7 @@ class AppStrings {
   static const emptyText = '';
   static const baseUrl = 'http://10.0.2.2:3000';
   static const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIxM0BleGFtcGxlLmNvbSIsIlVJRCI6MTMsIlJPTEUiOiJ1c2VyIiwiaWF0IjoxNzM5NDM2MTUxLCJleHAiOjE3Mzk1MjI1NTF9.O5JIoXG2tjXDuzLNcvqmA18JvaJMwtyzxp6HtWPXxyQ';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIxM0BleGFtcGxlLmNvbSIsIlVJRCI6MTMsIlJPTEUiOiJ1c2VyIiwiaWF0IjoxNzM5NDQ2MjkxLCJleHAiOjE3Mzk1MzI2OTF9.Xp9jIc2x7KYN85mDjcLDrbd617uzGsZxBCHT4cQdRJg';
   static const userID = '13';
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';

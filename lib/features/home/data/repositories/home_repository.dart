@@ -104,6 +104,36 @@ extension HomeHealthDataRepository on HealthAssessmentRepository {
       };
     }
   }
+
+  Future<bool> updateHealthData(Map<String, dynamic> data) async {
+    String userID = AppStrings.userID;
+    final url = Uri.parse('$baseUrl/risk-assessment/$userID');
+    final body = jsonEncode(data);
+
+    debugPrint('Request body: $body');
+
+    try {
+      final response = await http.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Health data updated successfully: ${response.body}');
+        return true;
+      } else {
+        debugPrint('Failed to update health data: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Error updating  health data: $e');
+      return false;
+    }
+  }
 }
 
 extension HomePersonaDataRepository on ProfileRepositories {

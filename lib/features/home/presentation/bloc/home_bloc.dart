@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
-import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/home/data/models/notification.dart';
 import 'package:wellwave_frontend/features/home/data/repositories/home_repository.dart';
@@ -105,7 +103,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
 
-    on<SubmitReAssessmentDataEvent>((event, emit) async {
+    on<SubmitWeightDataEvent>((event, emit) async {
       final model = event.model;
       final weight = model.weight;
 
@@ -116,6 +114,49 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (success) {
         debugPrint('Health data updated successfully');
         emit((state as HomeLoadedState).copyWith(weight: model.weight));
+      } else {
+        debugPrint('Failed to update health data');
+        emit(state);
+      }
+    });
+
+    on<SubmitHealthDataEvent>((event, emit) async {
+      final model = event.model;
+      final diastolicBloodPressure = model.diastolicBloodPressure;
+      final systolicBloodPressure = model.systolicBloodPressure;
+      final hdl = model.hdl;
+      final ldl = model.ldl;
+      final waistLine = model.waistLine;
+
+      final Map<String, dynamic> updatedHealthData = {};
+      if (diastolicBloodPressure != null) {
+        updatedHealthData['DIASTOLIC_BLOOD_PRESSURE'] = diastolicBloodPressure;
+      }
+      if (systolicBloodPressure != null) {
+        updatedHealthData['SYSTOLIC_BLOOD_PRESSURE'] = systolicBloodPressure;
+      }
+      if (hdl != null) {
+        updatedHealthData['HDL'] = hdl;
+      }
+      if (ldl != null) {
+        updatedHealthData['LDL'] = ldl;
+      }
+      if (waistLine != null) {
+        updatedHealthData['WAIST_LINE'] = waistLine;
+      }
+
+      final success =
+          await healthAssessmentRepository.updateHealthData(updatedHealthData);
+
+      if (success) {
+        debugPrint('Health data updated successfully');
+        emit((state as HomeLoadedState).copyWith(
+          diastolicBloodPressure: model.diastolicBloodPressure,
+          systolicBloodPressure: model.systolicBloodPressure,
+          hdl: model.hdl,
+          ldl: model.ldl,
+          waistLine: model.waistLine,
+        ));
       } else {
         debugPrint('Failed to update health data');
         emit(state);
