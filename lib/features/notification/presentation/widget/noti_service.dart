@@ -179,7 +179,7 @@ class NotificationService {
       scheduledDate = scheduledDate.add(const Duration(days: 1));
     }
 
-    debugPrint('Next occurrence for ${dayOfWeek}: ${scheduledDate.toString()}');
+    debugPrint('Next occurrence for $dayOfWeek: ${scheduledDate.toString()}');
     return scheduledDate;
   }
 }

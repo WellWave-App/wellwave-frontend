@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../../../config/constants/app_colors.dart';
+import '../../../../config/constants/app_strings.dart';
 
 class NotiMissionWidget extends StatefulWidget {
   final String time;
   final String day;
   final String? title;
   final bool isSwitched;
+  final VoidCallback? onTimeTap;
+  final Widget switchWidget;
 
   const NotiMissionWidget({
     super.key,
@@ -13,6 +16,8 @@ class NotiMissionWidget extends StatefulWidget {
     required this.day,
     this.title,
     required this.isSwitched,
+    this.onTimeTap,
+    required this.switchWidget,
   });
 
   @override
@@ -50,13 +55,25 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        widget.time,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
+                      _isSwitched
+                          ? GestureDetector(
+                              // Wrap text with GestureDetector
+                              onTap: widget.onTimeTap, // Trigger callback
+                              child: Text(
+                                widget.time,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          : Text(
+                              AppStrings.setTimeText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
                       const SizedBox(width: 8),
                       Text(
                         widget.day,
@@ -76,18 +93,7 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
                   ],
                 ],
               ),
-              Switch(
-                value: _isSwitched,
-                onChanged: (value) {
-                  setState(() {
-                    _isSwitched = value;
-                  });
-                },
-                activeColor: Colors.white,
-                activeTrackColor: const Color(0xFF34C759),
-                inactiveThumbColor: AppColors.whiteColor,
-                inactiveTrackColor: AppColors.darkGrayColor,
-              ),
+              widget.switchWidget,
             ],
           ),
         ),

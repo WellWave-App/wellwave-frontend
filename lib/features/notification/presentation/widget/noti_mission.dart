@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../config/constants/app_images.dart';
 import '../../../profile/presentation/widget/cancle_confirm_button.dart';
+import '../../data/models/mission_notification_request_model.dart';
 import '../bloc/noti_bloc.dart';
 import 'noti_mission_widget.dart';
 
@@ -18,6 +20,7 @@ class NotificationMission extends StatefulWidget {
 }
 
 class _NotificationMissionState extends State<NotificationMission> {
+  bool _isSwitched = false;
   DateTime time = DateTime.now();
   List<bool> selectedDays = List.filled(7, false);
   String day = '';
@@ -29,17 +32,18 @@ class _NotificationMissionState extends State<NotificationMission> {
     BlocProvider.of<NotiBloc>(context).add(FetchMissionEvent());
   }
 
-  // void _toggleSwitch(bool value) {
-  //   if (_isSwitched != value) {
-  //     setState(() {
-  //       _isSwitched = value;
-  //     });
+  void _toggleSwitch(bool value, MissionNotificationModel mission) {
+    setState(() {
+      _isSwitched = value;
+    });
 
-  //     context
-  //         .read<NotiBloc>()
-  //         .add(UpdateBedtimeEvent(uid: AppStrings.uid, isActive: _isSwitched));
-  //   }
-  // }
+    context.read<NotiBloc>().add(UpdateMissionEvent(
+          challengeId: mission.challengeId,
+          isNotificationEnabled: value,
+          notiTime: mission.notiTime,
+          weekdaysNoti: mission.weekdaysNoti,
+        ));
+  }
 
   void updateSelectedDaysText() {
     List<String> days = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
@@ -53,7 +57,6 @@ class _NotificationMissionState extends State<NotificationMission> {
     if (selectedIndices.isEmpty) {
       setState(() => day = ''); // No days selected
     } else {
-      // Check if the selected days are consecutive, accounting for wrapping around
       bool isConsecutive = true;
       for (int i = 0; i < selectedIndices.length - 1; i++) {
         if ((selectedIndices[i] + 1) % 7 != selectedIndices[i + 1]) {
@@ -67,104 +70,201 @@ class _NotificationMissionState extends State<NotificationMission> {
         int lastIndex = selectedIndices.last;
         setState(() => day = '${days[firstIndex]} ถึง ${days[lastIndex]}');
       } else {
-        setState(() => day = selectedIndices
-            .map((index) => days[index])
-            .join(', ')); // Non-consecutive days
+        setState(
+            () => day = selectedIndices.map((index) => days[index]).join(', '));
       }
     }
   }
 
-  void _submitLogs() {
+  void _submitLogs(MissionNotificationModel mission) {
+    updateSelectedDaysText();
+    String formattedTime = DateFormat('HH:mm').format(time);
+
+    List<String> days = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
+    ];
+
+    Map<String, bool> weekdays = {
+      for (int i = 0; i < selectedDays.length; i++) days[i]: selectedDays[i],
+    };
+
+    debugPrint(
+        "Updating mission notification for challengeId: ${mission.challengeId}");
+
+    context.read<NotiBloc>().add(CreateMissionEvent(
+        title: mission.title,
+        challengeId: mission.challengeId,
+        notiTime: formattedTime,
+        weekdaysNoti: weekdays,
+        isNotificationEnabled: true));
+
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                SvgPicture.asset(AppImages.fireIcon, height: 21),
-                const SizedBox(width: 8),
-                Text(
-                  AppStrings.taskText,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 28,
-              child: TextButton(
-                onPressed: () {
-                  context.read<NotiBloc>().add(ToggleAllSwitchesEvent());
-                },
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppColors.primaryColor),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                ),
-                child: Text(
-                  AppStrings.selectAllText,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(color: AppColors.secondaryDarkColor),
-                ),
-              ),
-            )
-          ],
-        ),
-        const SizedBox(height: 16),
-        BlocBuilder<NotiBloc, NotiState>(
-          builder: (context, state) {
-            // debugPrint('Current state in builder: ${state.runtimeType}');
-            if (state is NotiLoadedState && state.missionState != null) {
-              // debugPrint(
-              // 'Building UI with ${state.missionState!.missions.length} missions');
+    return BlocListener<NotiBloc, NotiState>(
+      listener: (context, state) {
+        if (state is NotiLoadedState && state.missionState != null) {
+          setState(() {
+            final missions = state.missionState!.missions;
+            if (missions.isNotEmpty) {
+              _isSwitched = missions[0].isNotificationEnabled;
+              if (missions[0].notiTime.isNotEmpty) {
+                time = DateFormat("HH:mm").parse(missions[0].notiTime);
+              }
 
-              return Column(
-                children: state.missionState!.missions.map((mission) {
-                  final selectedDays = mission.weekdaysNoti.entries
-                      .where((entry) => entry.value)
-                      .map((entry) => entry.key)
-                      .toList();
-
-                  final formattedDays = selectedDays.isEmpty
-                      ? "No notification set"
-                      : selectedDays.join(", ");
-
-                  return NotiMissionWidget(
-                    time: "08:00",
-                    day: formattedDays,
-                    title: mission.title,
-                    isSwitched: mission.isNotificationEnabled,
-                  );
-                }).toList(),
-              );
-            } else if (state is NotiError) {
-              return Center(
-                child: Text("Error: ${(state).message}"),
-              );
-            } else {
-              // debugPrint('Showing loading indicator');
-              return const Center(child: CircularProgressIndicator());
+              List<String> days = [
+                'Sunday',
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday'
+              ];
+              for (int i = 0; i < days.length; i++) {
+                selectedDays[i] = missions[0].weekdaysNoti[days[i]] ?? false;
+              }
+              updateSelectedDaysText();
             }
-          },
-        ),
-      ],
+          });
+        }
+      },
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(AppImages.fireIcon, height: 21),
+                  const SizedBox(width: 8),
+                  Text(
+                    AppStrings.taskText,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 28,
+                child: TextButton(
+                  onPressed: () {
+                    // context.read<NotiBloc>().add(ToggleAllSwitchesEvent());
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppColors.primaryColor),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  ),
+                  child: Text(
+                    AppStrings.selectAllText,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: AppColors.secondaryDarkColor),
+                  ),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
+          BlocBuilder<NotiBloc, NotiState>(
+            builder: (context, state) {
+              if (state is NotiLoadedState && state.missionState != null) {
+                return Column(
+                  children: state.missionState!.missions.map((mission) {
+                    return NotiMissionWidget(
+                      time: mission.isNotificationEnabled
+                          ? (mission.notiTime.isNotEmpty
+                              ? DateFormat('HH:mm').format(
+                                  DateFormat('HH:mm').parse(mission.notiTime))
+                              : '00:00')
+                          : AppStrings
+                              .setTimeText, // or whatever default text you want to show
+                      day: mission.isNotificationEnabled
+                          ? _formatSelectedDays(mission.weekdaysNoti)
+                          : '',
+                      title: mission.title,
+                      isSwitched: mission.isNotificationEnabled,
+                      onTimeTap: mission.isNotificationEnabled
+                          ? () => _showTimePickerModal(context, mission)
+                          : null,
+                      switchWidget: Switch(
+                        value: mission.isNotificationEnabled,
+                        onChanged: (value) {
+                          _toggleSwitch(value, mission);
+                        },
+                        activeColor: Colors.white,
+                        activeTrackColor: const Color(0xFF34C759),
+                        inactiveThumbColor: AppColors.whiteColor,
+                        inactiveTrackColor: AppColors.darkGrayColor,
+                      ),
+                    );
+                  }).toList(),
+                );
+              } else if (state is NotiError) {
+                return Center(child: Text("Error: ${state.message}"));
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 
-  void _showTimePickerModal(BuildContext context) {
+  String _formatSelectedDays(Map<String, bool> weekdaysNoti) {
+    List<String> days = ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'];
+    List<String> englishDays = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
+    ];
+
+    List<int> selectedIndices = englishDays
+        .asMap()
+        .entries
+        .where((entry) => weekdaysNoti[entry.value] == true)
+        .map((entry) => entry.key)
+        .toList();
+
+    if (selectedIndices.isEmpty) return '';
+
+    bool isConsecutive = true;
+    for (int i = 0; i < selectedIndices.length - 1; i++) {
+      if ((selectedIndices[i] + 1) % 7 != selectedIndices[i + 1]) {
+        isConsecutive = false;
+        break;
+      }
+    }
+
+    if (isConsecutive && selectedIndices.length > 1) {
+      return '${days[selectedIndices.first]} ถึง ${days[selectedIndices.last]}';
+    } else {
+      return selectedIndices.map((index) => days[index]).join(', ');
+    }
+  }
+
+  void _showTimePickerModal(
+      BuildContext context, MissionNotificationModel mission) {
     showModalBottomSheet(
       backgroundColor: AppColors.whiteColor,
       context: context,
@@ -193,7 +293,7 @@ class _NotificationMissionState extends State<NotificationMission> {
                   SizedBox(height: 120, child: _buildTimePicker(setModalState)),
                   const SizedBox(height: 36),
                   ConfirmCancelButtons(
-                    onConfirm: _submitLogs,
+                    onConfirm: () => _submitLogs(mission),
                     onCancel: () => setState(() => Navigator.pop(context)),
                   ),
                 ],

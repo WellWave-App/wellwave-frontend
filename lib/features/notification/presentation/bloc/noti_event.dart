@@ -25,7 +25,7 @@ class FetchDrinkRangeEvent extends NotiEvent {}
 
 class FetchMissionEvent extends NotiEvent {}
 
-class ToggleAllSwitchesEvent extends NotiEvent {}
+// class ToggleAllSwitchesEvent extends NotiEvent {}
 
 class UpdateBedtimeEvent extends NotiEvent {
   final int uid;
@@ -80,5 +80,36 @@ class UpdateDrinkRangeEvent extends NotiEvent {
   UpdateDrinkRangeEvent({
     required this.uid,
     required this.isActive,
+  });
+}
+
+class CreateMissionEvent extends NotiEvent {
+  final int challengeId;
+  final bool isNotificationEnabled;
+  final String notiTime;
+  final String title;
+
+  final Map<String, bool> weekdaysNoti;
+
+  CreateMissionEvent({
+    required this.challengeId,
+    required this.isNotificationEnabled,
+    required this.notiTime,
+    required this.weekdaysNoti,
+    required this.title,
+  });
+}
+
+class UpdateMissionEvent extends NotiEvent {
+  final int challengeId;
+  final bool isNotificationEnabled;
+  final String notiTime;
+  final Map<String, bool> weekdaysNoti;
+
+  UpdateMissionEvent({
+    required this.challengeId,
+    required this.isNotificationEnabled,
+    required this.notiTime,
+    required this.weekdaysNoti,
   });
 }

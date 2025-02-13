@@ -388,7 +388,7 @@ class NotificationSettingRepository {
 
         debugPrint('Fetched ${missions.length} missions:');
         for (var mission in missions) {
-          debugPrint('Mission: hid = ${mission.hid}, '
+          debugPrint('Mission: challengeId = ${mission.challengeId}, '
               'title = ${mission.title}, '
               'isNotificationEnabled = ${mission.isNotificationEnabled}, '
               'weekdaysNoti = ${mission.weekdaysNoti}');
@@ -403,6 +403,81 @@ class NotificationSettingRepository {
     } catch (e) {
       debugPrint('Error: $e');
       return [];
+    }
+  }
+
+  Future<bool> createMissionSetting({
+    required int challengeId,
+    required bool isNotificationEnabled,
+    required String notiTime,
+    required Map<String, bool> weekdaysNoti,
+    String? title,
+  }) async {
+    final body = {
+      "CHALLENGE_ID": challengeId,
+      "IS_NOTIFICATION_ENABLED": isNotificationEnabled,
+      "NOTI_TIME": notiTime,
+      "WEEKDAYS_NOTI": weekdaysNoti,
+    };
+
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/habit/noti-set'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint(
+            'Mission setting created successfully for $challengeId, $isNotificationEnabled, $notiTime,$weekdaysNoti');
+        return true;
+      } else {
+        debugPrint('Failed to update Mission setting: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      debugPrint('Error updating Mission setting: $error');
+      return false;
+    }
+  }
+
+  Future<bool> updateMissionSetting({
+    required int challengeId,
+    required bool isNotificationEnabled,
+    required String notiTime,
+    required Map<String, bool> weekdaysNoti,
+  }) async {
+    final body = {
+      "CHALLENGE_ID": challengeId,
+      "IS_NOTIFICATION_ENABLED": isNotificationEnabled,
+      "NOTI_TIME": notiTime,
+      "WEEKDAYS_NOTI": weekdaysNoti,
+    };
+
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/habit/noti-set'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${AppStrings.token}',
+        },
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint(
+            'Mission setting updated successfully for  $challengeId, $isNotificationEnabled');
+        return true;
+      } else {
+        debugPrint('Failed to update Mission setting: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      debugPrint('Error updating mission setting: $error');
+      return false;
     }
   }
 }

@@ -23,13 +23,8 @@ class ProfileLoading extends ProfileState {
 class ProfileLoaded extends ProfileState {
   final ProfileRequestModel userProfile;
 
-<<<<<<< HEAD
-  @override
-  final File? selectedImage;
-=======
   const ProfileLoaded(this.userProfile, {File? selectedImage})
       : super(selectedImage: selectedImage);
->>>>>>> 8d5bf0aacf1b1ec5cdf766b92866ac34bee857df
 
   @override
   List<Object?> get props => [userProfile, selectedImage];

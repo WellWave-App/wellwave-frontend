@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
@@ -79,21 +78,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         const SizedBox(height: 24),
                         Row(
-<<<<<<< HEAD
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-=======
->>>>>>> 8d5bf0aacf1b1ec5cdf766b92866ac34bee857df
                           children: [
                             //leaderboard
                             Expanded(
                               child: RoundedText(
                                 text: AppStrings.leaderboardText,
-<<<<<<< HEAD
-                                svgPath:
-                                    AppImages.leagueListIcon[userLeague - 1],
-=======
-                                svgPath: AppImages.leagueListIcon[leagueIndex],
->>>>>>> 8d5bf0aacf1b1ec5cdf766b92866ac34bee857df
+                                svgPath: AppImages.leagueListIcon[userLeague],
                                 isShowNavi: true,
                                 appPages: AppPages.leaderboardlPage,
                                 horizontal: 12,

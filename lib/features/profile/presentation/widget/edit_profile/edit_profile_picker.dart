@@ -59,15 +59,6 @@ class _EditProfileImageState extends State<EditProfileImage> {
         }
       }
     } catch (e) {
-<<<<<<< HEAD
-      // print('Error picking image: $e');
-      // print('Stack trace: $stackTrace');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error selecting image. Please try again.'),
-        ),
-      );
-=======
       if (!mounted) return;
       _showSnackBar('Error selecting image. Please try again.');
     } finally {
@@ -76,7 +67,6 @@ class _EditProfileImageState extends State<EditProfileImage> {
           _isPickingImage = false;
         });
       }
->>>>>>> 8d5bf0aacf1b1ec5cdf766b92866ac34bee857df
     }
   }
 
