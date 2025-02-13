@@ -13,6 +13,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required this.authRepository}) : super(RequestResetState()) {
     on<CheckLoginStatusEvent>(_onCheckLoginStatus);
     on<LoginEvent>(_onLogin);
+    on<RegisterEvent>(_onRegister);
     on<LogoutEvent>(_onLogout);
 
     on<RequestResetEvent>((event, emit) {
@@ -36,6 +37,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 
+  Future<void> _onRegister(RegisterEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading()); // เปลี่ยนจาก AuthInitialEvent() เป็น AuthLoading()
+
+    try {
+      final isSuccess = await authRepository.register(
+        AuthModel(email: event.email, password: event.password),
+      );
+
+      if (isSuccess) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true); // บันทึกสถานะล็อกอิน
+
+        emit(Authenticated()); // เปลี่ยนสถานะเป็นล็อกอินสำเร็จ
+      } else {
+        emit(AuthFailure(message: "fail", statusCode: 401));
+      }
+    } catch (e) {
+      emit(AuthFailure(message: "$e", statusCode: 500));
+    }
+  }
+
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading()); // เปลี่ยนจาก AuthInitialEvent() เป็น AuthLoading()
 
@@ -47,13 +69,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (isSuccess) {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true); // บันทึกสถานะล็อกอิน
-
+        emit(AuthSuccess(message: "success", statusCode: 201));
         emit(Authenticated()); // เปลี่ยนสถานะเป็นล็อกอินสำเร็จ
       } else {
-        emit(AuthFailure("อีเมลหรือรหัสผ่านไม่ถูกต้อง"));
+        emit(AuthFailure(message: "fail", statusCode: 401));
       }
     } catch (e) {
-      emit(AuthFailure("เกิดข้อผิดพลาด กรุณาลองใหม่"));
+      emit(AuthFailure(message: "$e", statusCode: 500));
     }
   }
 

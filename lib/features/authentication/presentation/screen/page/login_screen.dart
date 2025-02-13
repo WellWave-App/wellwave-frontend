@@ -121,11 +121,27 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                BlocBuilder<AuthBloc, AuthState>(
+                BlocConsumer<AuthBloc, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthSuccess && state.statusCode == 201) {
+                      // Navigate to home page on successful login
+                      context.goNamed(AppPages.homeName);
+                    } else if (state is AuthFailure &&
+                        state.statusCode == 401) {
+                      // Show error message for invalid credentials
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('อีเมลหรือรหัสผ่านไม่ถูกต้อง'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  },
                   builder: (context, state) {
-                    if (state is AuthInitial) {
+                    if (state is AuthLoading) {
                       return CircularProgressIndicator();
                     }
+
                     return ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor: AppColors.whiteColor,
@@ -138,6 +154,7 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () {
                         debugPrint(
                             'Email: ${_emailController.text}, Password: ${_passwordController.text}');
+
                         if (_emailController.text.isEmpty ||
                             _passwordController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -153,8 +170,6 @@ class LoginScreen extends StatelessWidget {
                                   password: _passwordController.text,
                                 ),
                               );
-                          context.goNamed(AppPages.registerSuccessName);
-                          print('สมัครสมาชิกเรียบร้อย');
                         }
                       },
                       child: Text(
@@ -167,88 +182,7 @@ class LoginScreen extends StatelessWidget {
                     );
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(52, 24.0, 52, 0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 8.0),
-                          height: 1.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'หรือ',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.only(left: 8.0),
-                          height: 1.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0, 24, 20, 24),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.darkGrayColor,
-                      backgroundColor: AppColors.whiteColor,
-                      minimumSize: Size(350, 60),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(AppImages.googleIcon),
-                        SizedBox(
-                          width: 24,
-                        ),
-                        Text(
-                          'ดำเนินการต่อด้วย Google',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: AppColors.darkGrayColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    context.goNamed(AppPages.registerName);
-                    print('สมัคร clicked!');
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: 'ยังไม่ได้เป็นสมาชิก? ',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(color: AppColors.darkGrayColor),
-                        ),
-                        TextSpan(
-                          text: 'สมัครเลย',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: AppColors.darkGrayColor,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Rest of the widgets...
               ]),
             ),
           ],

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/authentication/presentation/bloc/auth_bloc.dart';
 
 class RegisterScreen extends StatelessWidget {
   final ValueNotifier<bool> _isObscure = ValueNotifier<bool>(true);
@@ -170,45 +172,70 @@ class RegisterScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: AppColors.whiteColor,
-                    backgroundColor: AppColors.primaryColor,
-                    minimumSize: Size(350, 60),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    if (_emailController.text.isEmpty ||
-                        _passwordController.text.isEmpty ||
-                        _confirmPasswordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    } else if (_passwordController.text !=
-                        _confirmPasswordController.text) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('รหัสผ่านไม่ตรงกัน'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    } else {
-                      context.goNamed(AppPages.registerSuccessName);
-                      print('สมัครสมาชิกเรียบร้อย');
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    if (state is AuthInitial) {
+                      return CircularProgressIndicator();
                     }
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: AppColors.whiteColor,
+                        backgroundColor: AppColors.primaryColor,
+                        minimumSize: Size(350, 60),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                      ),
+                      onPressed: () {
+                        debugPrint(
+                            'Email: ${_emailController.text}, Password: ${_passwordController.text}');
+                        if (!_isChecked.value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content:
+                                  Text('กรุณายอมรับข้อตกลงก่อนสมัครสมาชิก'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                          return;
+                        }
+                        if (_emailController.text.isEmpty ||
+                            _passwordController.text.isEmpty ||
+                            _confirmPasswordController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } else if (_passwordController.text !=
+                            _confirmPasswordController.text) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('รหัสผ่านไม่ตรงกัน'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } else {
+                          context.read<AuthBloc>().add(
+                                RegisterEvent(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                ),
+                              );
+                          context.goNamed(AppPages.registerSuccessName);
+                          print('สมัครสมาชิกเรียบร้อย');
+                        }
+                      },
+                      child: Text(
+                        AppStrings.loginText,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: AppColors.whiteColor),
+                      ),
+                    );
                   },
-                  child: Text(
-                    'สมัครสมาชิก',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: AppColors.whiteColor),
-                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(52, 24.0, 52, 0),

@@ -18,6 +18,9 @@ class AuthRepository {
       if (response.statusCode == 201) {
         debugPrint('Register Successful');
         return true;
+      } else if (response.statusCode == 401) {
+        debugPrint('Unauthorized: 401');
+        return false;  // Unauthorized access
       } else {
         debugPrint('Register Error: ${response.statusCode}');
         return false;
@@ -41,6 +44,9 @@ class AuthRepository {
       if (response.statusCode == 201) {
         debugPrint('Login Successful');
         return true;
+      } else if (response.statusCode == 401) {
+        debugPrint('Unauthorized: 401');
+        return false;  // Unauthorized access
       } else {
         debugPrint('Login Error: ${response.statusCode}');
         return false;
