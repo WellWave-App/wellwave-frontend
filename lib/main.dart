@@ -8,6 +8,10 @@ import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositor
 import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
+import 'features/article/data/repositories/article_repository.dart';
+import 'features/article/presentation/bloc/article_bloc.dart';
+import 'features/article/presentation/screen/article_screen.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
@@ -18,6 +22,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authRepository = AuthRepository();
+    final ArticleRepository articleRepository = ArticleRepository();
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<LogsRequestRepository>(
@@ -36,6 +42,11 @@ class MainApp extends StatelessWidget {
             create: (context) =>
                 LogsBloc(context.read<LogsRequestRepository>()),
             lazy: false,
+          ),
+          BlocProvider(
+            create: (context) =>
+                ArticleBloc(articleRepository)..add(FetchArticlesEvent()),
+            child: const ArticleScreen(),
           ),
         ],
         child: MaterialApp.router(
