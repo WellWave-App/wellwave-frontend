@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/authentication/presentation/bloc/auth_bloc.dart';
 
 class AuthenticationScreen extends StatelessWidget {
   const AuthenticationScreen({Key? key}) : super(key: key);
+
+  Future<void> _checkFirstTime(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasSeenStartOverview = prefs.getBool('hasSeenStartOverview') ?? false;
+
+    if (!hasSeenStartOverview) {
+      await prefs.setBool('hasSeenStartOverview', true);
+    } else {
+      context.read<AuthBloc>().add(CheckLoginStatusEvent());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
