@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../config/constants/app_images.dart';
@@ -20,7 +18,6 @@ class NotificationMission extends StatefulWidget {
 }
 
 class _NotificationMissionState extends State<NotificationMission> {
-  bool _isSwitched = false;
   DateTime time = DateTime.now();
   List<bool> selectedDays = List.filled(7, false);
   String day = '';
@@ -146,11 +143,10 @@ class _NotificationMissionState extends State<NotificationMission> {
                       : selectedDays.join(", ");
 
                   return NotiMissionWidget(
-                    time: "08:00", // Adjust time as needed
+                    time: "08:00",
                     day: formattedDays,
                     title: mission.title,
-                    isSwitched:
-                        mission.isNotificationEnabled, // Pass the boolean value
+                    isSwitched: mission.isNotificationEnabled,
                   );
                 }).toList(),
               );

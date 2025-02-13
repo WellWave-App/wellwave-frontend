@@ -51,7 +51,7 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
         .toList();
 
     if (selectedIndices.isEmpty) {
-      setState(() => day = ''); // No days selected
+      setState(() => day = '');
     } else {
       // Check if the selected days are consecutive, accounting for wrapping around
       bool isConsecutive = true;
