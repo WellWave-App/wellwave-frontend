@@ -70,8 +70,8 @@ class NotificationSettingRepository {
           final weekdays =
               Map<String, bool>.from(bedtimeSettings['WEEKDAYS'] ?? {});
 
-          debugPrint(
-              'Fetched Data: isActive = $isActive, bedtime = $bedtime, weekdays = $weekdays');
+          // debugPrint(
+          //     'Fetched Data: isActive = $isActive, bedtime = $bedtime, weekdays = $weekdays');
 
           return SleepNotificationResponseModel(
             isActive: isActive,
@@ -185,7 +185,7 @@ class NotificationSettingRepository {
                     DrinkSettingDetail.fromJson(e as Map<String, dynamic>))
                 .toList();
 
-            debugPrint('repo Fetched Data: isActive = $isActive');
+            // debugPrint('repo Fetched Data: isActive = $isActive');
             for (var setting in settingDetails) {
               debugPrint('Setting Detail: ${setting.toJson()}');
             }
@@ -309,8 +309,8 @@ class NotificationSettingRepository {
             ? jsonData['waterRangeSettings']['INTERVAL_MINUTES']
             : null;
 
-        debugPrint(
-            'Fetched Data: isActive = $isActive, $startTime, $endTime , $intervalMinute');
+        // debugPrint(
+        //     'Fetched Data: isActive = $isActive, $startTime, $endTime , $intervalMinute');
 
         return DrinkRangeNotificationResponseModel(
           isActive: isActive,
@@ -367,7 +367,7 @@ class NotificationSettingRepository {
   }
 
   //mission
-  Future<MissionNotificationModel?> fetchMissionSetting() async {
+  Future<List<MissionNotificationModel>> fetchMissionSetting() async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/habit/user'),
@@ -380,38 +380,29 @@ class NotificationSettingRepository {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
+        final challenges = jsonData['data'] as List;
 
-        final total = jsonData['meta']?['total'] ?? 0;
-        final challenges = jsonData['data'];
+        final missions = challenges
+            .map((challenge) => MissionNotificationModel.fromJson(challenge))
+            .toList();
 
-        if (challenges != null && challenges.isNotEmpty) {
-          final firstChallenge = challenges[0];
-
-          final isNotificationEnabled =
-              firstChallenge['IS_NOTIFICATION_ENABLED'] ?? false;
-          final weekdaysNoti =
-              Map<String, bool>.from(firstChallenge['WEEKDAYS_NOTI'] ?? {});
-          final title = firstChallenge['habits']?['TITLE'] ?? '';
-
-          debugPrint(
-              'Fetched Data: isNotificationEnabled = $isNotificationEnabled, title = $title, weekdaysNoti = $weekdaysNoti, total = $total');
-
-          return MissionNotificationModel(
-            isNotificationEnabled: isNotificationEnabled,
-            title: title,
-            weekdaysNoti: weekdaysNoti,
-            total: total,
-          );
-        } else {
-          debugPrint('Error: No challenge data found');
+        debugPrint('Fetched ${missions.length} missions:');
+        for (var mission in missions) {
+          debugPrint('Mission: hid = ${mission.hid}, '
+              'title = ${mission.title}, '
+              'isNotificationEnabled = ${mission.isNotificationEnabled}, '
+              'weekdaysNoti = ${mission.weekdaysNoti}');
         }
+
+        return missions;
       } else {
         debugPrint(
             'Error: Server returned non-200 status code: ${response.statusCode}');
+        return [];
       }
     } catch (e) {
       debugPrint('Error: $e');
+      return [];
     }
-    return null;
   }
 }

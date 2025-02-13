@@ -6,7 +6,33 @@ class NotiInitial extends NotiState {}
 
 class NotiLoading extends NotiState {}
 
-class NotiSuccess extends NotiState {}
+class NotiLoadedState extends NotiState {
+  final BedtimeState? bedtimeState;
+  final DrinkRangeState? drinkRangeState;
+  final DrinkPlanState? drinkPlanState;
+  final MissionState? missionState;
+
+  NotiLoadedState({
+    this.bedtimeState,
+    this.drinkRangeState,
+    this.missionState,
+    this.drinkPlanState,
+  });
+
+  NotiLoadedState copyWith({
+    BedtimeState? bedtimeState,
+    DrinkRangeState? drinkRangeState,
+    MissionState? missionState,
+    DrinkPlanState? drinkPlanState,
+  }) {
+    return NotiLoadedState(
+      bedtimeState: bedtimeState ?? this.bedtimeState,
+      drinkRangeState: drinkRangeState ?? this.drinkRangeState,
+      drinkPlanState: drinkPlanState ?? this.drinkPlanState,
+      missionState: missionState ?? this.missionState,
+    );
+  }
+}
 
 class NotiError extends NotiState {
   final String message;
@@ -84,29 +110,20 @@ class DrinkRangeState extends NotiState {
 }
 
 class MissionState extends NotiState {
-  final bool isNotificationEnabled;
-  final String title;
-  final Map<String, bool> weekdaysNoti;
+  final List<MissionNotificationModel> missions;
   final int total;
 
   MissionState({
-    required this.isNotificationEnabled,
-    required this.title,
-    required this.weekdaysNoti,
+    required this.missions,
     required this.total,
   });
 
   MissionState copyWith({
-    bool? isNotificationEnabled,
-    String? title,
-    Map<String, bool>? weekdaysNoti,
+    List<MissionNotificationModel>? missions,
     int? total,
   }) {
     return MissionState(
-      isNotificationEnabled:
-          isNotificationEnabled ?? this.isNotificationEnabled,
-      title: title ?? this.title,
-      weekdaysNoti: weekdaysNoti ?? this.weekdaysNoti,
+      missions: missions ?? this.missions,
       total: total ?? this.total,
     );
   }

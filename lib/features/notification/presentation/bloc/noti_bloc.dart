@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../config/constants/app_strings.dart';
 import '../../data/models/drink_plan_notification_response_model.dart';
+import '../../data/models/mission_notification_request_model.dart';
 import '../../data/repositories/notification_repositories.dart';
 part 'noti_state.dart';
 part 'noti_event.dart';
@@ -24,6 +25,7 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     on<UpdateDrinkRangeEvent>(_onUpdateDrinkRangeEvent);
 
     on<FetchMissionEvent>(_onFetchMissionEvent);
+    on<ToggleAllSwitchesEvent>(_onToggleAllSwitchesEvent);
   }
 
   int uid = AppStrings.uid;
@@ -33,11 +35,25 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     try {
       await createBedTime(
           event.uid, event.isActive, event.bedtime, event.weekdays);
-      emit(BedtimeState(
-        isActive: event.isActive,
-        bedtime: event.bedtime,
-        weekdays: event.weekdays,
-      ));
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(
+          bedtimeState: BedtimeState(
+            isActive: event.isActive,
+            bedtime: event.bedtime,
+            weekdays: event.weekdays,
+          ),
+        ));
+      } else {
+        emit(NotiLoadedState(
+          bedtimeState: BedtimeState(
+            isActive: event.isActive,
+            bedtime: event.bedtime,
+            weekdays: event.weekdays,
+          ),
+        ));
+      }
     } catch (error) {
       debugPrint('Error creating bedtime: $error');
     }
@@ -49,11 +65,20 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       await updateBedTime(
           event.uid, event.isActive, "", _notificationSettingRepository);
 
-      if (state is BedtimeState) {
-        final currentState = state as BedtimeState;
-        emit(currentState.copyWith(isActive: event.isActive));
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(
+          bedtimeState:
+              currentState.bedtimeState?.copyWith(isActive: event.isActive),
+        ));
       } else {
-        emit(BedtimeState(isActive: event.isActive, bedtime: "", weekdays: {}));
+        emit(NotiLoadedState(
+          bedtimeState: BedtimeState(
+            isActive: event.isActive,
+            bedtime: "",
+            weekdays: {},
+          ),
+        ));
       }
     } catch (error) {
       debugPrint('Error updating bedtime: $error');
@@ -66,18 +91,17 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       if (state is! BedtimeState) {
         final fetchedData =
             await _notificationSettingRepository.fetchBedSetting();
-        if (fetchedData != null) {
-          debugPrint(
-              'Fetched Data: isActive = ${fetchedData.isActive}, bedtime = ${fetchedData.setting.bedtime}, weekdays = ${fetchedData.setting.weekdays}');
-          emit(BedtimeState(
-            isActive: fetchedData.isActive,
-            bedtime: fetchedData.setting.bedtime,
-            weekdays: fetchedData.setting.weekdays,
-          ));
-          debugPrint(
-              'BedtimeState emitted with isActive: ${fetchedData.isActive}');
+
+        final bedtimeState = BedtimeState(
+          isActive: fetchedData!.isActive,
+          bedtime: fetchedData.setting.bedtime,
+          weekdays: fetchedData.setting.weekdays,
+        );
+
+        if (state is NotiLoadedState) {
+          emit((state as NotiLoadedState).copyWith(bedtimeState: bedtimeState));
         } else {
-          debugPrint('Error: No data fetched or data was null');
+          emit(NotiLoadedState(bedtimeState: bedtimeState));
         }
       }
     } catch (error) {
@@ -102,10 +126,17 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
         _notificationSettingRepository,
       );
 
-      emit(DrinkPlanState(
+      final newDrinkPlanState = DrinkPlanState(
         isActive: true,
         settings: [newSetting],
-      ));
+      );
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(drinkPlanState: newDrinkPlanState));
+      } else {
+        emit(newDrinkPlanState);
+      }
 
       debugPrint(
           'DrinkPlan created and state updated: isActive = true, settings count = 1');
@@ -117,27 +148,33 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
   Future<void> _onFetchDrinkPlanEvent(
       FetchDrinkPlanEvent event, Emitter<NotiState> emit) async {
     try {
-      if (state is! DrinkPlanState) {
-        final fetchedData =
-            await _notificationSettingRepository.fetchDrinkPlanSetting();
+      final fetchedData =
+          await _notificationSettingRepository.fetchDrinkPlanSetting();
 
-        if (fetchedData != null) {
-          debugPrint(
-              'bloc Fetched Data: isActive = ${fetchedData.isActive}, settings count = ${fetchedData.setting.length}');
+      if (fetchedData != null) {
+        debugPrint(
+            'bloc Fetched Data: isActive = ${fetchedData.isActive}, settings count = ${fetchedData.setting.length}');
 
-          for (var setting in fetchedData.setting) {
-            debugPrint('Setting Detail: ${setting.toJson()}');
-          }
-          emit(DrinkPlanState(
-            isActive: fetchedData.isActive,
-            settings: fetchedData.setting,
-          ));
-
-          debugPrint(
-              'DrinkPlanState emitted with isActive: ${fetchedData.isActive}, settings count = ${fetchedData.setting.length}');
-        } else {
-          debugPrint('Error: No data fetched or data was null');
+        for (var setting in fetchedData.setting) {
+          debugPrint('Setting Detail: ${setting.toJson()}');
         }
+
+        final newDrinkPlanState = DrinkPlanState(
+          isActive: fetchedData.isActive,
+          settings: fetchedData.setting,
+        );
+
+        if (state is NotiLoadedState) {
+          final currentState = state as NotiLoadedState;
+          emit(currentState.copyWith(drinkPlanState: newDrinkPlanState));
+        } else {
+          emit(newDrinkPlanState);
+        }
+
+        debugPrint(
+            'DrinkPlanState emitted with isActive: ${fetchedData.isActive}, settings count = ${fetchedData.setting.length}');
+      } else {
+        debugPrint('Error: No data fetched or data was null');
       }
     } catch (error) {
       debugPrint('Error fetching drinkPlan: $error');
@@ -192,20 +229,22 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       UpdateDrinkPlanEvent event, Emitter<NotiState> emit) async {
     try {
       await updateDrinkPlan(
-          event.uid, event.isActive, _notificationSettingRepository);
+        event.uid,
+        event.isActive,
+        _notificationSettingRepository,
+      );
 
-      if (state is DrinkPlanState) {
-        final currentState = state as DrinkPlanState;
+      final newDrinkPlanState = DrinkPlanState(
+        isActive: event.isActive,
+        settings:
+            state is DrinkPlanState ? (state as DrinkPlanState).settings : [],
+      );
 
-        emit(DrinkPlanState(
-          isActive: event.isActive,
-          settings: currentState.settings,
-        ));
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(drinkPlanState: newDrinkPlanState));
       } else {
-        emit(DrinkPlanState(
-          isActive: event.isActive,
-          settings: [],
-        ));
+        emit(newDrinkPlanState);
       }
 
       debugPrint('DrinkPlan updated: isActive = ${event.isActive}');
@@ -237,12 +276,27 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
         event.intervalMinute,
         _notificationSettingRepository,
       );
-      emit(DrinkRangeState(
-        isActive: true,
-        startTime: event.startTime,
-        endTime: event.endTime,
-        intervalMinute: event.intervalMinute,
-      ));
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(
+          drinkRangeState: DrinkRangeState(
+            isActive: true,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            intervalMinute: event.intervalMinute,
+          ),
+        ));
+      } else {
+        emit(NotiLoadedState(
+          drinkRangeState: DrinkRangeState(
+            isActive: true,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            intervalMinute: event.intervalMinute,
+          ),
+        ));
+      }
     } catch (error) {
       debugPrint('Error creating DrinkRange: $error');
     }
@@ -254,21 +308,23 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       if (state is! DrinkRangeState) {
         final fetchedData =
             await _notificationSettingRepository.fetchDrinkRangeSetting();
-        if (fetchedData != null) {
-          debugPrint(
-              'Fetched Data: isActive = ${fetchedData.isActive}, startTime = ${fetchedData.setting.startTime}, endTime = ${fetchedData.setting.endTime}, intervalMinute = ${fetchedData.setting.intervalMinute}');
-          emit(DrinkRangeState(
-            isActive: fetchedData.isActive,
-            startTime: fetchedData.setting.startTime,
-            endTime: fetchedData.setting.endTime,
-            intervalMinute: fetchedData.setting.intervalMinute,
-          ));
+
+        final drinkRangeState = DrinkRangeState(
+          isActive: fetchedData!.isActive,
+          startTime: fetchedData.setting.startTime,
+          endTime: fetchedData.setting.endTime,
+          intervalMinute: fetchedData.setting.intervalMinute,
+        );
+
+        if (state is NotiLoadedState) {
+          emit((state as NotiLoadedState)
+              .copyWith(drinkRangeState: drinkRangeState));
         } else {
-          debugPrint('Error: No data fetched or data was null');
+          emit(NotiLoadedState(drinkRangeState: drinkRangeState));
         }
       }
     } catch (error) {
-      debugPrint('Error fetching DrinkRange: $error');
+      debugPrint('Error fetching drink range: $error');
     }
   }
 
@@ -278,15 +334,21 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
       await updateDrinkRange(
           event.uid, event.isActive, "", "", 0, _notificationSettingRepository);
 
-      if (state is DrinkRangeState) {
-        final currentState = state as DrinkRangeState;
-        emit(currentState.copyWith(isActive: event.isActive));
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(
+          drinkRangeState:
+              currentState.drinkRangeState?.copyWith(isActive: event.isActive),
+        ));
       } else {
-        emit(DrinkRangeState(
+        emit(NotiLoadedState(
+          drinkRangeState: DrinkRangeState(
             isActive: event.isActive,
             startTime: '',
             endTime: '',
-            intervalMinute: 0));
+            intervalMinute: 0,
+          ),
+        ));
       }
     } catch (error) {
       debugPrint('Error updating drink range: $error');
@@ -332,24 +394,55 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
   Future<void> _onFetchMissionEvent(
       FetchMissionEvent event, Emitter<NotiState> emit) async {
     try {
-      if (state is! MissionState) {
-        final fetchedData =
-            await _notificationSettingRepository.fetchMissionSetting();
-        if (fetchedData != null) {
-          debugPrint(
-              'Fetched Data: isNotificationEnabled = ${fetchedData.isNotificationEnabled}, title = ${fetchedData.title}, weekdaysNoti = ${fetchedData.weekdaysNoti}, total = ${fetchedData.total}');
-          emit(MissionState(
-            isNotificationEnabled: fetchedData.isNotificationEnabled,
-            title: fetchedData.title,
-            weekdaysNoti: fetchedData.weekdaysNoti,
-            total: fetchedData.total,
-          ));
-        } else {
-          debugPrint('Error: No data fetched or data was null');
+      debugPrint('Current state: $state');
+
+      final missions =
+          await _notificationSettingRepository.fetchMissionSetting();
+
+      if (missions.isNotEmpty) {
+        debugPrint('Fetched ${missions.length} missions:');
+        for (var mission in missions) {
+          debugPrint('Mission: hid = ${mission.hid}, '
+              'title = ${mission.title}, '
+              'isNotificationEnabled = ${mission.isNotificationEnabled}, '
+              'weekdaysNoti = ${mission.weekdaysNoti}');
         }
+
+        final missionState = MissionState(
+          missions: missions,
+          total: missions.length,
+        );
+
+        if (state is NotiLoadedState) {
+          emit((state as NotiLoadedState).copyWith(missionState: missionState));
+        } else {
+          emit(NotiLoadedState(missionState: missionState));
+        }
+        debugPrint(
+            'Emitted new state with ${missions.length} missions'); // Add this debug line
+      } else {
+        debugPrint('Error: No missions fetched');
+        emit(NotiError(message: 'No missions found'));
       }
     } catch (error) {
-      debugPrint('Error fetching mission: $error');
+      debugPrint('Error fetching missions: $error');
+      emit(NotiError(message: error.toString()));
+    }
+  }
+
+  Future<void> _onToggleAllSwitchesEvent(
+      ToggleAllSwitchesEvent event, Emitter<NotiState> emit) async {
+    if (state is NotiLoadedState) {
+      final currentState = state as NotiLoadedState;
+      final updatedMissions =
+          currentState.missionState!.missions.map((mission) {
+        return mission.copyWith(isNotificationEnabled: true);
+      }).toList();
+
+      emit(NotiLoadedState(
+        missionState:
+            currentState.missionState!.copyWith(missions: updatedMissions),
+      ));
     }
   }
 }

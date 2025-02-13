@@ -124,12 +124,11 @@ class _WaterPlanWidgetState extends State<WaterPlanWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<NotiBloc>().add(
-          FetchDrinkPlanEvent(),
-        );
     return BlocBuilder<NotiBloc, NotiState>(builder: (context, state) {
-      if (state is DrinkPlanState && state.isActive) {
-        for (var setting in state.settings) {
+      if (state is NotiLoadedState &&
+          state.drinkPlanState != null &&
+          state.drinkPlanState!.isActive) {
+        for (var setting in state.drinkPlanState!.settings) {
           int glassIndex = setting.glassNumber - 1;
           if (glassIndex >= 0 && glassIndex < glassTimes.length) {
             glassTimes[glassIndex] = TimeOfDay(

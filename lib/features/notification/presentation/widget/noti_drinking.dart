@@ -68,22 +68,24 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
 
   @override
   Widget build(BuildContext context) {
-    context.read<NotiBloc>().add(
-          FetchDrinkRangeEvent(),
-        );
+    // context.read<NotiBloc>().add(
+    //       FetchDrinkRangeEvent(),
+    //     );
     return BlocListener<NotiBloc, NotiState>(
       listener: (context, state) {
-        if (state is DrinkRangeState) {
+        if (state is NotiLoadedState && state.drinkRangeState != null) {
           setState(() {
-            _isSwitched = state.isActive;
-            if (state.startTime.isNotEmpty) {
-              startTime = DateFormat("HH:mm").parse(state.startTime);
+            _isSwitched = state.drinkRangeState!.isActive;
+            if (state.drinkRangeState!.startTime.isNotEmpty) {
+              startTime =
+                  DateFormat("HH:mm").parse(state.drinkRangeState!.startTime);
             }
-            if (state.endTime.isNotEmpty) {
-              endTime = DateFormat("HH:mm").parse(state.endTime);
+            if (state.drinkRangeState!.endTime.isNotEmpty) {
+              endTime =
+                  DateFormat("HH:mm").parse(state.drinkRangeState!.endTime);
             }
-            if (state.intervalMinute != 0) {
-              intervalMinute = state.intervalMinute;
+            if (state.drinkRangeState!.intervalMinute != 0) {
+              intervalMinute = state.drinkRangeState!.intervalMinute;
               hourSet = (intervalMinute / 60).toString();
             }
           });
