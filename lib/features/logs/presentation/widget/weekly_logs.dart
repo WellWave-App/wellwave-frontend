@@ -20,12 +20,12 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
     final today = DateTime.now();
 
     context.read<LogsBloc>().add(LogsFetchedGraph(today));
-    debugPrint('Dispatched LogsFetchedGraph event');
+    // debugPrint('Dispatched LogsFetchedGraph event');
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('WeeklyLogs build called');
+    // debugPrint('WeeklyLogs build called');
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),

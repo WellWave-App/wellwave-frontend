@@ -25,7 +25,7 @@ class _NotificationMissionState extends State<NotificationMission> {
   @override
   void initState() {
     super.initState();
-    debugPrint('Initializing NotificationMission widget');
+    // debugPrint('Initializing NotificationMission widget');
     BlocProvider.of<NotiBloc>(context).add(FetchMissionEvent());
   }
 
@@ -126,10 +126,10 @@ class _NotificationMissionState extends State<NotificationMission> {
         const SizedBox(height: 16),
         BlocBuilder<NotiBloc, NotiState>(
           builder: (context, state) {
-            debugPrint('Current state in builder: ${state.runtimeType}');
+            // debugPrint('Current state in builder: ${state.runtimeType}');
             if (state is NotiLoadedState && state.missionState != null) {
-              debugPrint(
-                  'Building UI with ${state.missionState!.missions.length} missions');
+              // debugPrint(
+              // 'Building UI with ${state.missionState!.missions.length} missions');
 
               return Column(
                 children: state.missionState!.missions.map((mission) {
@@ -155,7 +155,7 @@ class _NotificationMissionState extends State<NotificationMission> {
                 child: Text("Error: ${(state).message}"),
               );
             } else {
-              debugPrint('Showing loading indicator');
+              // debugPrint('Showing loading indicator');
               return const Center(child: CircularProgressIndicator());
             }
           },

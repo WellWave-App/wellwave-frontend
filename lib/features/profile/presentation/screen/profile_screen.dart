@@ -169,7 +169,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         //sign out
                         GestureDetector(
                           onTap: () {
-                            context.goNamed(AppPages.logHistoryName);
+                            context.read<ProfileBloc>().add(LogOutEvent());
+
+                            Future.delayed(const Duration(milliseconds: 300),
+                                () {
+                              Navigator.pop(context);
+                            });
                           },
                           child: Text(
                             AppStrings.signOutText,

@@ -108,11 +108,11 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
         );
       }
 
-      if (success) {
-        debugPrint('Log operation successful');
-      } else {
-        debugPrint('Log operation failed');
-      }
+      // if (success) {
+      //   debugPrint('Log operation successful');
+      // } else {
+      //   debugPrint('Log operation failed');
+      // }
     } catch (error) {
       debugPrint('Error submitting log: $error');
     }

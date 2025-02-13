@@ -50,7 +50,7 @@ class WeeklyLogsWidget extends StatelessWidget {
           const SizedBox(height: 16),
           BlocBuilder<LogsBloc, LogsState>(builder: (context, state) {
             if (state is LogsLoadInProgress) {
-              debugPrint('weekly log widget');
+              // debugPrint('weekly log widget');
 
               return const Center(child: CircularProgressIndicator());
             } else if (state is LogsLoadSuccess) {
