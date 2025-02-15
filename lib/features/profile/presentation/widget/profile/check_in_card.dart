@@ -51,6 +51,9 @@ class CheckInWidget extends StatelessWidget {
         return;
       }
 
+      final currentGems = profileState.userProfile.gem;
+      final newGemCount = currentGems + gemPoints[dayIndex];
+
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -59,6 +62,14 @@ class CheckInWidget extends StatelessWidget {
             iconPath: AppImages.gemIcon,
             onClose: () {
               Navigator.of(context).pop();
+              context.read<ProfileBloc>().add(EditUserProfile(
+                    gem: newGemCount,
+                    username: profileState.userProfile.username,
+                    yearOfBirth: profileState.userProfile.yearOfBirth,
+                    gender: profileState.userProfile.gender,
+                    height: profileState.userProfile.height,
+                    weight: profileState.userProfile.weight,
+                  ));
               context.read<ProfileBloc>().add(CreateCheckInEvent(
                     date: DateFormat('yyyy-MM-dd').format(today),
                   ));

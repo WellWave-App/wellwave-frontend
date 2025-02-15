@@ -18,6 +18,7 @@ class EditUserProfile extends ProfileEvent {
   final bool gender;
   final num height;
   final num weight;
+  final int gem;
 
   EditUserProfile({
     this.imageUrl,
@@ -26,17 +27,12 @@ class EditUserProfile extends ProfileEvent {
     required this.gender,
     required this.height,
     required this.weight,
+    this.gem = 0,
   });
 
   @override
-  List<Object?> get props => [
-        imageUrl,
-        username,
-        yearOfBirth,
-        gender,
-        height,
-        weight,
-      ];
+  List<Object?> get props =>
+      [imageUrl, username, yearOfBirth, gender, height, weight, gem];
 }
 
 class EditUserGoalPerWeek extends ProfileEvent {

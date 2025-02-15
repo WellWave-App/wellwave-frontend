@@ -20,6 +20,7 @@ class ProfileRepositories {
     required bool gender,
     required num height,
     required num weight,
+    int? gem,
   }) async {
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
@@ -31,6 +32,7 @@ class ProfileRepositories {
         'HEIGHT': height.toString(),
         'WEIGHT': weight.toString(),
         'IMAGE_URL': imageUrl,
+        'GEM': gem?.toString() ?? AppStrings.emptyText,
       };
 
       final request = http.MultipartRequest('PATCH', uri)
