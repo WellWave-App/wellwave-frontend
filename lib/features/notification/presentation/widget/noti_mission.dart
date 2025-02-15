@@ -49,7 +49,7 @@ class _NotificationMissionState extends State<NotificationMission> {
         .toList();
 
     if (selectedIndices.isEmpty) {
-      setState(() => day = ''); // No days selected
+      setState(() => day = '');
     } else {
       bool isConsecutive = true;
       for (int i = 0; i < selectedIndices.length - 1; i++) {
@@ -199,31 +199,33 @@ class _NotificationMissionState extends State<NotificationMission> {
               if (state is NotiLoadedState && state.missionState != null) {
                 return Column(
                   children: state.missionState!.missions.map((mission) {
-                    return NotiMissionWidget(
-                      time: mission.isNotificationEnabled
-                          ? DateFormat('HH:mm').format(
-                              DateFormat('HH:mm').parse(mission.notiTime))
-                          : AppStrings.setTimeText,
-                      day: mission.isNotificationEnabled
-                          ? _formatSelectedDays(mission.weekdaysNoti)
-                          : '',
-                      title: mission.title,
-                      isSwitched: mission.isNotificationEnabled,
-                      onTimeTap: mission.isNotificationEnabled
-                          ? () => _showTimePickerModal(context, mission)
-                          : null,
-                      switchWidget: Switch(
-                        value: mission
-                            .isNotificationEnabled, // Depend on state, not _isSwitched
-                        onChanged: (value) {
-                          _toggleSwitch(value, mission);
-                        },
-                        activeColor: Colors.white,
-                        activeTrackColor: const Color(0xFF34C759),
-                        inactiveThumbColor: AppColors.whiteColor,
-                        inactiveTrackColor: AppColors.darkGrayColor,
-                      ),
-                    );
+                    return mission.status == 'active'
+                        ? NotiMissionWidget(
+                            time: mission.isNotificationEnabled
+                                ? DateFormat('HH:mm').format(
+                                    DateFormat('HH:mm').parse(mission.notiTime))
+                                : AppStrings.setTimeText,
+                            day: mission.isNotificationEnabled
+                                ? _formatSelectedDays(mission.weekdaysNoti)
+                                : '',
+                            title: mission.title,
+                            isSwitched: mission.isNotificationEnabled,
+                            onTimeTap: mission.isNotificationEnabled
+                                ? () => _showTimePickerModal(context, mission)
+                                : null,
+                            switchWidget: Switch(
+                              value: mission
+                                  .isNotificationEnabled, // Depend on state, not _isSwitched
+                              onChanged: (value) {
+                                _toggleSwitch(value, mission);
+                              },
+                              activeColor: Colors.white,
+                              activeTrackColor: const Color(0xFF34C759),
+                              inactiveThumbColor: AppColors.whiteColor,
+                              inactiveTrackColor: AppColors.darkGrayColor,
+                            ),
+                          )
+                        : const SizedBox.shrink();
                   }).toList(),
                 );
               } else if (state is NotiError) {

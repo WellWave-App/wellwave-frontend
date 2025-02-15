@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../config/constants/app_colors.dart';
-import '../../../../config/constants/app_strings.dart';
 
 class NotiMissionWidget extends StatefulWidget {
   final String time;
@@ -25,12 +24,12 @@ class NotiMissionWidget extends StatefulWidget {
 }
 
 class _NotiMissionWidgetState extends State<NotiMissionWidget> {
-  late bool _isSwitched = false;
+  // late bool _isSwitched = false;
 
   @override
   void initState() {
     super.initState();
-    _isSwitched = widget.isSwitched;
+    // bool _isSwitched = widget.isSwitched;
   }
 
   @override
@@ -55,42 +54,30 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        _isSwitched = true;
-                      });
                       widget.onTimeTap?.call();
                     },
-                    child: _isSwitched
-                        ? GestureDetector(
-                            onTap: widget.onTimeTap,
-                            child: Row(
-                              children: [
-                                Text(
-                                  widget.time,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  widget.day,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                          color: AppColors.darkGrayColor),
-                                ),
-                              ],
-                            ),
-                          )
-                        : Text(
-                            AppStrings.setTimeText,
+                    child: GestureDetector(
+                      onTap: widget.onTimeTap,
+                      child: Row(
+                        children: [
+                          Text(
+                            widget.time,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
+                          const SizedBox(width: 8),
+                          Text(
+                            widget.day,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: AppColors.darkGrayColor),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   if (widget.title != null) ...[
                     const SizedBox(height: 8),

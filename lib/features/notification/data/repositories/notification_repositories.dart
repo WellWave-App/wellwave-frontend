@@ -387,12 +387,12 @@ class NotificationSettingRepository {
             .toList();
 
         debugPrint('Fetched ${missions.length} missions:');
-        for (var mission in missions) {
-          debugPrint('Mission: challengeId = ${mission.challengeId}, '
-              'title = ${mission.title}, '
-              'isNotificationEnabled = ${mission.isNotificationEnabled}, '
-              'weekdaysNoti = ${mission.weekdaysNoti}');
-        }
+        // for (var mission in missions) {
+        //   debugPrint('Mission: challengeId = ${mission.challengeId}, '
+        //       'title = ${mission.title}, '
+        //       'isNotificationEnabled = ${mission.isNotificationEnabled}, '
+        //       'weekdaysNoti = ${mission.weekdaysNoti}');
+        // }
 
         return missions;
       } else {

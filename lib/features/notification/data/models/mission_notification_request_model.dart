@@ -2,6 +2,7 @@ class MissionNotificationModel {
   final int challengeId;
   final String title;
   final String notiTime;
+  final String status;
   final bool isNotificationEnabled;
   final Map<String, bool> weekdaysNoti;
 
@@ -11,6 +12,7 @@ class MissionNotificationModel {
     required this.notiTime,
     required this.isNotificationEnabled,
     required this.weekdaysNoti,
+    this.status = 'active',
   });
 
   MissionNotificationModel copyWith({
@@ -18,6 +20,7 @@ class MissionNotificationModel {
     String? title,
     String? notiTime,
     bool? isNotificationEnabled,
+    String? status,
     Map<String, bool>? weekdaysNoti,
   }) {
     return MissionNotificationModel(
@@ -27,6 +30,7 @@ class MissionNotificationModel {
       isNotificationEnabled:
           isNotificationEnabled ?? this.isNotificationEnabled,
       weekdaysNoti: weekdaysNoti ?? this.weekdaysNoti,
+      status: status ?? this.status,
     );
   }
 
@@ -37,6 +41,7 @@ class MissionNotificationModel {
       notiTime: json['NOTI_TIME'] ?? '',
       weekdaysNoti: Map<String, bool>.from(json['WEEKDAYS_NOTI'] ?? {}),
       challengeId: json['CHALLENGE_ID'] ?? 0,
+      status: json['STATUS'] ?? '',
     );
   }
 }
