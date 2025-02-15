@@ -111,6 +111,7 @@ class AppStrings {
 
   //notification
   static const selectAllText = 'เลือกทั้งหมด';
+  static const deselectAllText = 'ปิดทั้งหมด';
   static const drinkingText = 'การดื่มน้ำ';
   static const timeText = 'เวลา';
   static const setTimeText = 'ตั้งเวลา';

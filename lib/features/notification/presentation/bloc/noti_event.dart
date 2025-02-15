@@ -113,3 +113,9 @@ class UpdateMissionEvent extends NotiEvent {
     required this.weekdaysNoti,
   });
 }
+
+class ToggleAllMissionsEvent extends NotiEvent {
+  final bool enableAll;
+
+  ToggleAllMissionsEvent({required this.enableAll});
+}

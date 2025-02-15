@@ -148,28 +148,48 @@ class _NotificationMissionState extends State<NotificationMission> {
                   )
                 ],
               ),
-              SizedBox(
-                height: 28,
-                child: TextButton(
-                  onPressed: () {
-                    // context.read<NotiBloc>().add(ToggleAllSwitchesEvent());
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: AppColors.primaryColor),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+              BlocBuilder<NotiBloc, NotiState>(
+                builder: (context, state) {
+                  bool areAllEnabled = false;
+                  if (state is NotiLoadedState && state.missionState != null) {
+                    areAllEnabled = state.missionState!.missions
+                        .every((mission) => mission.isNotificationEnabled);
+                  }
+
+                  return SizedBox(
+                    height: 28,
+                    child: TextButton(
+                      onPressed: () {
+                        context.read<NotiBloc>().add(
+                            ToggleAllMissionsEvent(enableAll: !areAllEnabled));
+                      },
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: AppColors.primaryColor),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 4),
+                      ),
+                      child: areAllEnabled
+                          ? Text(
+                              AppStrings.deselectAllText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(color: AppColors.primaryColor),
+                            )
+                          : Text(
+                              AppStrings.selectAllText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color: AppColors.secondaryDarkColor),
+                            ),
                     ),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                  ),
-                  child: Text(
-                    AppStrings.selectAllText,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(color: AppColors.secondaryDarkColor),
-                  ),
-                ),
+                  );
+                },
               )
             ],
           ),

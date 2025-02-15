@@ -431,8 +431,8 @@ class NotificationSettingRepository {
       );
 
       if (response.statusCode == 200) {
-        debugPrint(
-            'Mission setting created successfully for $challengeId, $isNotificationEnabled, $notiTime,$weekdaysNoti');
+        // debugPrint(
+        //     'Mission setting created successfully for $challengeId, $isNotificationEnabled, $notiTime,$weekdaysNoti');
         return true;
       } else {
         debugPrint('Failed to update Mission setting: ${response.statusCode}');
@@ -471,8 +471,8 @@ class NotificationSettingRepository {
       );
 
       if (response.statusCode == 200) {
-        debugPrint(
-            '✅ Mission setting updated successfully for $challengeId, $isNotificationEnabled');
+        // debugPrint(
+        //     '✅ Mission setting updated successfully for $challengeId, $isNotificationEnabled');
         return true;
       } else {
         debugPrint(
