@@ -68,6 +68,9 @@ class CheckInWidget extends StatelessWidget {
       );
     }
 
+    final checkedDays =
+        loginStats.checkInStats.where((stat) => stat.isLogin).length;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       decoration: BoxDecoration(
@@ -95,15 +98,14 @@ class CheckInWidget extends StatelessWidget {
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        color: (DateTime.now().weekday - 1 == index &&
-                                !checkedInDays[index])
+                        color: (checkedDays == index && !checkedInDays[index])
                             ? AppColors.backgroundColor
                             : const Color(0xFFF2F2F2),
                         border: Border.all(
-                            color: (DateTime.now().weekday - 1 == index &&
-                                    !checkedInDays[index])
-                                ? AppColors.secondaryDarkColor
-                                : Colors.transparent,
+                            color:
+                                (checkedDays == index && !checkedInDays[index])
+                                    ? AppColors.secondaryDarkColor
+                                    : Colors.transparent,
                             width: 1.5,
                             strokeAlign: BorderSide.strokeAlignInside),
                       ),
@@ -114,32 +116,39 @@ class CheckInWidget extends StatelessWidget {
                                   .textTheme
                                   .caption2
                                   ?.copyWith(
-                                      color: (DateTime.now().weekday - 1 ==
-                                                  index &&
+                                      color: (checkedDays == index &&
                                               !checkedInDays[index])
                                           ? AppColors.blackColor
                                           : AppColors.darkGrayColor)),
                           const SizedBox(height: 4),
-                          index == 6
-                              ? checkedInDays[index]
-                                  ? SvgPicture.asset(AppImages.openTreasureSvg,
-                                      height: 24)
-                                  : DateTime.now().weekday - 1 == index
-                                      ? SvgPicture.asset(
-                                          AppImages.colorTreasureSvg,
+                          (index == 6 && checkedInDays[index])
+                              ? SvgPicture.asset(AppImages.openTreasureSvg,
+                                  height: 24)
+                              : (checkedDays == index)
+                                  ? (index == 6)
+                                      ? checkedInDays[index]
+                                          ? SvgPicture.asset(
+                                              AppImages.openTreasureSvg,
+                                              height: 24)
+                                          : SvgPicture.asset(
+                                              AppImages.colorTreasureSvg,
+                                              height: 24)
+                                      : checkedInDays[index]
+                                          ? SvgPicture.asset(
+                                              AppImages.gemCheckSvg,
+                                              height: 24)
+                                          : SvgPicture.asset(AppImages.gemIcon,
+                                              height: 24)
+                                  : checkedInDays[index]
+                                      ? SvgPicture.asset(AppImages.gemCheckSvg,
                                           height: 24)
-                                      : SvgPicture.asset(
-                                          AppImages.greyTreasureSvg,
-                                          height: 24)
-                              : checkedInDays[index]
-                                  ? SvgPicture.asset(AppImages.gemCheckSvg,
-                                      height: 24)
-                                  : DateTime.now().weekday - 1 == index
-                                      ? SvgPicture.asset(AppImages.gemIcon,
-                                          height: 24)
-                                      : SvgPicture.asset(
-                                          AppImages.gemNotCheckSvg,
-                                          height: 24),
+                                      : (index == 6)
+                                          ? SvgPicture.asset(
+                                              AppImages.greyTreasureSvg,
+                                              height: 24)
+                                          : SvgPicture.asset(
+                                              AppImages.gemNotCheckSvg,
+                                              height: 24),
                           const SizedBox(height: 4),
                           Text(
                               checkedInDays[index]
@@ -149,8 +158,7 @@ class CheckInWidget extends StatelessWidget {
                                   .textTheme
                                   .caption2
                                   ?.copyWith(
-                                      color: (DateTime.now().weekday - 1 ==
-                                                  index &&
+                                      color: (checkedDays == index &&
                                               !checkedInDays[index])
                                           ? AppColors.blackColor
                                           : AppColors.darkGrayColor)),

@@ -179,15 +179,15 @@ class ProfileRepositories {
       };
 
       // Log complete request details
-      debugPrint('CheckIn Request URL: $uri');
-      debugPrint('CheckIn Request Body: ${jsonEncode(body)}');
+      // debugPrint('CheckIn Request URL: $uri');
+      // debugPrint('CheckIn Request Body: ${jsonEncode(body)}');
 
       final headers = {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
       };
 
-      debugPrint('CheckIn Request Headers: $headers');
+      // debugPrint('CheckIn Request Headers: $headers');
 
       final response = await http.post(
         uri,
@@ -196,9 +196,9 @@ class ProfileRepositories {
       );
 
       // Log complete response details
-      debugPrint('CheckIn Response Status Code: ${response.statusCode}');
-      debugPrint('CheckIn Response Headers: ${response.headers}');
-      debugPrint('CheckIn Response Body: ${response.body}');
+      // debugPrint('CheckIn Response Status Code: ${response.statusCode}');
+      // debugPrint('CheckIn Response Headers: ${response.headers}');
+      // debugPrint('CheckIn Response Body: ${response.body}');
 
       if (response.statusCode == 201) {
         return true;
