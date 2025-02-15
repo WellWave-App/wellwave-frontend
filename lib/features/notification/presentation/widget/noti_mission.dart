@@ -20,7 +20,6 @@ class NotificationMission extends StatefulWidget {
 }
 
 class _NotificationMissionState extends State<NotificationMission> {
-  bool _isSwitched = false;
   DateTime time = DateTime.now();
   List<bool> selectedDays = List.filled(7, false);
   String day = '';
@@ -28,15 +27,10 @@ class _NotificationMissionState extends State<NotificationMission> {
   @override
   void initState() {
     super.initState();
-    // debugPrint('Initializing NotificationMission widget');
     BlocProvider.of<NotiBloc>(context).add(FetchMissionEvent());
   }
 
   void _toggleSwitch(bool value, MissionNotificationModel mission) {
-    setState(() {
-      _isSwitched = value;
-    });
-
     context.read<NotiBloc>().add(UpdateMissionEvent(
           challengeId: mission.challengeId,
           isNotificationEnabled: value,
@@ -115,7 +109,6 @@ class _NotificationMissionState extends State<NotificationMission> {
           setState(() {
             final missions = state.missionState!.missions;
             if (missions.isNotEmpty) {
-              _isSwitched = missions[0].isNotificationEnabled;
               if (missions[0].notiTime.isNotEmpty) {
                 time = DateFormat("HH:mm").parse(missions[0].notiTime);
               }
@@ -188,12 +181,9 @@ class _NotificationMissionState extends State<NotificationMission> {
                   children: state.missionState!.missions.map((mission) {
                     return NotiMissionWidget(
                       time: mission.isNotificationEnabled
-                          ? (mission.notiTime.isNotEmpty
-                              ? DateFormat('HH:mm').format(
-                                  DateFormat('HH:mm').parse(mission.notiTime))
-                              : '00:00')
-                          : AppStrings
-                              .setTimeText, // or whatever default text you want to show
+                          ? DateFormat('HH:mm').format(
+                              DateFormat('HH:mm').parse(mission.notiTime))
+                          : AppStrings.setTimeText,
                       day: mission.isNotificationEnabled
                           ? _formatSelectedDays(mission.weekdaysNoti)
                           : '',
@@ -203,7 +193,8 @@ class _NotificationMissionState extends State<NotificationMission> {
                           ? () => _showTimePickerModal(context, mission)
                           : null,
                       switchWidget: Switch(
-                        value: mission.isNotificationEnabled,
+                        value: mission
+                            .isNotificationEnabled, // Depend on state, not _isSwitched
                         onChanged: (value) {
                           _toggleSwitch(value, mission);
                         },
@@ -221,7 +212,7 @@ class _NotificationMissionState extends State<NotificationMission> {
                 return const Center(child: CircularProgressIndicator());
               }
             },
-          ),
+          )
         ],
       ),
     );

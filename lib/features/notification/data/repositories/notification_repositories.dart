@@ -450,10 +450,13 @@ class NotificationSettingRepository {
     required String notiTime,
     required Map<String, bool> weekdaysNoti,
   }) async {
+    // Ensure notiTime is in HH:mm format
+    final formattedNotiTime = notiTime.substring(0, 5); // Extract HH:mm
+
     final body = {
       "CHALLENGE_ID": challengeId,
       "IS_NOTIFICATION_ENABLED": isNotificationEnabled,
-      "NOTI_TIME": notiTime,
+      "NOTI_TIME": formattedNotiTime,
       "WEEKDAYS_NOTI": weekdaysNoti,
     };
 
@@ -469,14 +472,16 @@ class NotificationSettingRepository {
 
       if (response.statusCode == 200) {
         debugPrint(
-            'Mission setting updated successfully for  $challengeId, $isNotificationEnabled');
+            '✅ Mission setting updated successfully for $challengeId, $isNotificationEnabled');
         return true;
       } else {
-        debugPrint('Failed to update Mission setting: ${response.statusCode}');
+        debugPrint(
+            '❌ Failed to update Mission setting: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
         return false;
       }
     } catch (error) {
-      debugPrint('Error updating mission setting: $error');
+      debugPrint('❌ Error updating mission setting: $error');
       return false;
     }
   }

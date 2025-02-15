@@ -53,36 +53,44 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
                     ? MainAxisAlignment.center
                     : MainAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      _isSwitched
-                          ? GestureDetector(
-                              // Wrap text with GestureDetector
-                              onTap: widget.onTimeTap, // Trigger callback
-                              child: Text(
-                                widget.time,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .headlineMedium
-                                    ?.copyWith(fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          : Text(
-                              AppStrings.setTimeText,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isSwitched = true;
+                      });
+                      widget.onTimeTap?.call();
+                    },
+                    child: _isSwitched
+                        ? GestureDetector(
+                            onTap: widget.onTimeTap,
+                            child: Row(
+                              children: [
+                                Text(
+                                  widget.time,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  widget.day,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                          color: AppColors.darkGrayColor),
+                                ),
+                              ],
                             ),
-                      const SizedBox(width: 8),
-                      Text(
-                        widget.day,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: AppColors.darkGrayColor),
-                      ),
-                    ],
+                          )
+                        : Text(
+                            AppStrings.setTimeText,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
                   ),
                   if (widget.title != null) ...[
                     const SizedBox(height: 8),

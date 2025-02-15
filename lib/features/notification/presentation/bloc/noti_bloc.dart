@@ -510,16 +510,20 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
   Future<void> _onUpdateMissionEvent(
       UpdateMissionEvent event, Emitter<NotiState> emit) async {
     try {
+      debugPrint('🔹 Sending API request: challengeId=${event.challengeId}, '
+          'isNotificationEnabled=${event.isNotificationEnabled}, '
+          'notiTime=${event.notiTime}, weekdaysNoti=${event.weekdaysNoti}');
+
       await _notificationSettingRepository.updateMissionSetting(
         challengeId: event.challengeId,
         isNotificationEnabled: event.isNotificationEnabled,
-        notiTime:
-            event.notiTime, // Add these parameters to your repository method
-        weekdaysNoti: event.weekdaysNoti, // if you want to preserve the values
+        notiTime: event.notiTime,
+        weekdaysNoti: event.weekdaysNoti,
       );
 
       if (state is NotiLoadedState) {
         final currentState = state as NotiLoadedState;
+
         final updatedMissions =
             currentState.missionState!.missions.map((mission) {
           if (mission.challengeId == event.challengeId) {
@@ -541,7 +545,8 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
         ));
       }
     } catch (error) {
-      debugPrint('Error updating mission: $error');
+      debugPrint('❌ Failed to update mission: $error');
+      return; // Prevent state update if API call fails
     }
   }
 
