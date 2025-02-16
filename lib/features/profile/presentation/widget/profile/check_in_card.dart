@@ -30,9 +30,18 @@ class CheckInWidget extends StatelessWidget {
     List<int> gemPoints =
         loginStats.checkInStats.map((stat) => stat.rewardAmount).toList();
 
+    // Get current checked days count
+    final checkedDays =
+        loginStats.checkInStats.where((stat) => stat.isLogin).length;
+
+    // Check if user can check in today
+    final lastLoginDate = DateTime.parse(overallStats.lastLoginDate);
+    final today = DateTime.now();
+    final canCheckInToday = lastLoginDate.year != today.year ||
+        lastLoginDate.month != today.month ||
+        lastLoginDate.day != today.day;
+
     void checkIn(int dayIndex) {
-      final lastLoginDate = DateTime.parse(overallStats.lastLoginDate);
-      final today = DateTime.now();
       final yesterday = today.subtract(const Duration(days: 1));
       final difference = today.difference(lastLoginDate).inDays;
 
@@ -40,16 +49,9 @@ class CheckInWidget extends StatelessWidget {
           lastLoginDate.month == yesterday.month &&
           lastLoginDate.day == yesterday.day;
 
-      final checkedDays =
-          loginStats.checkInStats.where((stat) => stat.isLogin).length;
-
       if (difference > 1 && dayIndex != 0) return;
       if (isYesterday && dayIndex != checkedDays) return;
-      if (lastLoginDate.year == today.year &&
-          lastLoginDate.month == today.month &&
-          lastLoginDate.day == today.day) {
-        return;
-      }
+      if (!canCheckInToday) return;
 
       final currentGems = profileState.userProfile.gem;
       final newGemCount = currentGems + gemPoints[dayIndex];
@@ -79,9 +81,6 @@ class CheckInWidget extends StatelessWidget {
       );
     }
 
-    final checkedDays =
-        loginStats.checkInStats.where((stat) => stat.isLogin).length;
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       decoration: BoxDecoration(
@@ -101,78 +100,76 @@ class CheckInWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(7, (index) {
+              final isNextDay = index == checkedDays;
+              final isPreviousDayChecked =
+                  index == 0 || checkedInDays[index - 1];
+              final isClickableDay = canCheckInToday &&
+                  isNextDay &&
+                  !checkedInDays[index] &&
+                  isPreviousDayChecked;
+
               return Column(
                 children: [
                   GestureDetector(
-                    onTap: () => checkIn(index),
+                    onTap: () => isClickableDay ? checkIn(index) : null,
                     child: Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4),
-                        color: (checkedDays == index && !checkedInDays[index])
+                        color: isClickableDay
                             ? AppColors.backgroundColor
                             : const Color(0xFFF2F2F2),
                         border: Border.all(
-                            color:
-                                (checkedDays == index && !checkedInDays[index])
-                                    ? AppColors.secondaryDarkColor
-                                    : Colors.transparent,
-                            width: 1.5,
-                            strokeAlign: BorderSide.strokeAlignInside),
+                          color: isClickableDay
+                              ? AppColors.secondaryDarkColor
+                              : Colors.transparent,
+                          width: 1.5,
+                          strokeAlign: BorderSide.strokeAlignInside,
+                        ),
                       ),
                       child: Column(
                         children: [
-                          Text('${AppStrings.xdateText} ${index + 1}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption2
-                                  ?.copyWith(
-                                      color: (checkedDays == index &&
-                                              !checkedInDays[index])
+                          Text(
+                            '${AppStrings.xdateText} ${index + 1}',
+                            style:
+                                Theme.of(context).textTheme.caption2?.copyWith(
+                                      color: isClickableDay
                                           ? AppColors.blackColor
-                                          : AppColors.darkGrayColor)),
+                                          : AppColors.darkGrayColor,
+                                    ),
+                          ),
                           const SizedBox(height: 4),
-                          (index == 6 && checkedInDays[index])
-                              ? SvgPicture.asset(AppImages.openTreasureSvg,
-                                  height: 24)
-                              : (checkedDays == index)
-                                  ? (index == 6)
-                                      ? checkedInDays[index]
-                                          ? SvgPicture.asset(
-                                              AppImages.openTreasureSvg,
-                                              height: 24)
-                                          : SvgPicture.asset(
-                                              AppImages.colorTreasureSvg,
-                                              height: 24)
-                                      : checkedInDays[index]
-                                          ? SvgPicture.asset(
-                                              AppImages.gemCheckSvg,
-                                              height: 24)
-                                          : SvgPicture.asset(AppImages.gemIcon,
-                                              height: 24)
-                                  : checkedInDays[index]
-                                      ? SvgPicture.asset(AppImages.gemCheckSvg,
-                                          height: 24)
-                                      : (index == 6)
-                                          ? SvgPicture.asset(
-                                              AppImages.greyTreasureSvg,
-                                              height: 24)
-                                          : SvgPicture.asset(
-                                              AppImages.gemNotCheckSvg,
-                                              height: 24),
+                          if (index == 6 && checkedInDays[index])
+                            SvgPicture.asset(AppImages.openTreasureSvg,
+                                height: 24)
+                          else if (checkedInDays[index])
+                            SvgPicture.asset(AppImages.gemCheckSvg, height: 24)
+                          else if (index == 6)
+                            SvgPicture.asset(
+                              isClickableDay
+                                  ? AppImages.colorTreasureSvg
+                                  : AppImages.greyTreasureSvg,
+                              height: 24,
+                            )
+                          else
+                            SvgPicture.asset(
+                              isClickableDay
+                                  ? AppImages.gemIcon
+                                  : AppImages.gemNotCheckSvg,
+                              height: 24,
+                            ),
                           const SizedBox(height: 4),
                           Text(
-                              checkedInDays[index]
-                                  ? AppStrings.archeiveText
-                                  : '${gemPoints[index]}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .caption2
-                                  ?.copyWith(
-                                      color: (checkedDays == index &&
-                                              !checkedInDays[index])
+                            checkedInDays[index]
+                                ? AppStrings.archeiveText
+                                : '${gemPoints[index]}',
+                            style:
+                                Theme.of(context).textTheme.caption2?.copyWith(
+                                      color: isClickableDay
                                           ? AppColors.blackColor
-                                          : AppColors.darkGrayColor)),
+                                          : AppColors.darkGrayColor,
+                                    ),
+                          ),
                         ],
                       ),
                     ),
