@@ -27,7 +27,6 @@ class ProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int weekday = DateTime.now().weekday;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -55,9 +54,11 @@ class ProgressCard extends StatelessWidget {
                         SvgPicture.asset(AppImages.clockIcon),
                         const SizedBox(width: 4),
                         Text(
-                          weekday != 7
+                          daysRemain > 1
                               ? 'อีก $daysRemain ${AppStrings.dayText}'
-                              : 'วันสุดท้าย',
+                              : daysRemain > 1
+                                  ? 'วันสุดท้าย'
+                                  : 'อีก 7 ${AppStrings.dayText}',
                           style: Theme.of(context)
                               .textTheme
                               .caption2
