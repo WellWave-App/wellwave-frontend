@@ -61,25 +61,50 @@ class AchievementCard extends StatelessWidget {
                       return Center(child: Text(state.message));
                     }
 
-                    if (state is ArcheivementLoaded) {
+                    if (state is ArcheivementLoaded ||
+                        state is ArcheivementReadSuccess) {
+                      final achievements = (state is ArcheivementLoaded)
+                          ? state.achievements
+                          : (state as ArcheivementReadSuccess).achievements;
+
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: state.achievements.map((achievement) {
+                        children: (achievements.toList()
+                              ..sort((a, b) => a.isRead ? 1 : -1))
+                            .map((achievement) {
                           final selectedLevel = achievement.achievement.levels
                               .firstWhere(
                                   (level) => level.level == achievement.level);
                           final levelIcon =
                               "http://10.0.2.2:3000${selectedLevel.iconUrl}";
 
-                          return Image.network(
-                            levelIcon,
-                            height: 64,
-                            errorBuilder: (context, error, stackTrace) {
-                              return SvgPicture.asset(
-                                AppImages.medalSvg,
+                          return Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Image.network(
+                                levelIcon,
                                 height: 64,
-                              );
-                            },
+                                errorBuilder: (context, error, stackTrace) {
+                                  return SvgPicture.asset(
+                                    AppImages.medalSvg,
+                                    height: 64,
+                                  );
+                                },
+                              ),
+                              if (!achievement.isRead)
+                                Positioned(
+                                  top: -2,
+                                  right: -2,
+                                  child: Container(
+                                    width: 8,
+                                    height: 8,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.red,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           );
                         }).toList(),
                       );

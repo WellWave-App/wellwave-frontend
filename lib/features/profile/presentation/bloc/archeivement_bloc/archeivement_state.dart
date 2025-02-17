@@ -17,3 +17,9 @@ class ArcheivementError extends ArcheivementState {
 
   ArcheivementError(this.message);
 }
+
+class ArcheivementReadSuccess extends ArcheivementState {
+  final List<ArcheivementRequestModel> achievements;
+
+  ArcheivementReadSuccess(this.achievements);
+}

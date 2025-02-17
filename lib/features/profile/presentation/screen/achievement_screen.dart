@@ -79,50 +79,80 @@ class AchievementScreen extends StatelessWidget {
               // ),
               // const SizedBox(height: 24),
               BlocBuilder<ArcheivementBloc, ArcheivementState>(
-                  builder: (context, state) {
-                if (state is ArcheivementError) {
-                  return Center(child: Text(state.message));
-                }
+                builder: (context, state) {
+                  if (state is ArcheivementError) {
+                    return Center(child: Text(state.message));
+                  }
 
-                if (state is ArcheivementLoaded) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22.5),
-                        child: Wrap(
-                          spacing: 45.0,
-                          runSpacing: 16.0,
-                          alignment: WrapAlignment.start,
-                          children: state.achievements.map((achievement) {
-                            final selectedLevel = achievement.achievement.levels
-                                .firstWhere((level) =>
-                                    level.level == achievement.level);
-                            final levelIcon =
-                                "http://10.0.2.2:3000${selectedLevel.iconUrl}";
+                  if (state is ArcheivementLoaded ||
+                      state is ArcheivementReadSuccess) {
+                    final achievements = (state is ArcheivementLoaded)
+                        ? state.achievements
+                        : (state as ArcheivementReadSuccess).achievements;
 
-                            return GestureDetector(
-                              onTap: () =>
-                                  _showAchievementPopup(context, achievement),
-                              child: Image.network(
-                                levelIcon,
-                                height: 128,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return SvgPicture.asset(
-                                    AppImages.medalSvg,
-                                    height: 128,
-                                  );
-                                },
-                              ),
-                            );
-                          }).toList(),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 22.5),
+                          child: Wrap(
+                            spacing: 45.0,
+                            runSpacing: 16.0,
+                            alignment: WrapAlignment.start,
+                            children: (achievements.toList()
+                                  ..sort((a, b) => a.isRead ? 1 : -1))
+                                .map((achievement) {
+                              final selectedLevel = achievement
+                                  .achievement.levels
+                                  .firstWhere((level) =>
+                                      level.level == achievement.level);
+                              final levelIcon =
+                                  "http://10.0.2.2:3000${selectedLevel.iconUrl}";
+
+                              return GestureDetector(
+                                onTap: () =>
+                                    _showAchievementPopup(context, achievement),
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Image.network(
+                                      levelIcon,
+                                      height: 128,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return SvgPicture.asset(
+                                          AppImages.medalSvg,
+                                          height: 128,
+                                        );
+                                      },
+                                    ),
+                                    if (!achievement
+                                        .isRead) // Show red spot if unread
+                                      Positioned(
+                                        top: -4,
+                                        right: -4,
+                                        child: Container(
+                                          width: 16,
+                                          height: 16,
+                                          decoration: const BoxDecoration(
+                                            color: Colors.red,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              })
+                      ],
+                    );
+                  }
+
+                  return const Center(child: CircularProgressIndicator());
+                },
+              )
             ],
           ),
         ),
@@ -136,6 +166,11 @@ void _showAchievementPopup(
   final selectedLevel = achievement.achievement.levels
       .firstWhere((level) => level.level == achievement.level);
   final levelIcon = "http://10.0.2.2:3000${selectedLevel.iconUrl}";
+
+  context.read<ArcheivementBloc>().add(ReadArcheivement(
+      uid: achievement.uid,
+      achId: achievement.achId,
+      level: achievement.level));
 
   showDialog(
     context: context,

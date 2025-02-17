@@ -6,3 +6,18 @@ abstract class ArcheivementEvent extends Equatable {
 }
 
 class FetchArcheivement extends ArcheivementEvent {}
+
+class ReadArcheivement extends ArcheivementEvent {
+  final int uid;
+  final String achId;
+  final int level;
+
+  ReadArcheivement({
+    required this.uid,
+    required this.achId,
+    required this.level,
+  });
+
+  @override
+  List<Object> get props => [uid, achId, level];
+}

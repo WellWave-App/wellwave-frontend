@@ -35,4 +35,32 @@ class ArcheivementRepositories {
       return null;
     }
   }
+
+  Future<bool> readArcheivement({
+    required int uid,
+    required String achId,
+    required int level,
+  }) async {
+    try {
+      final uri =
+          Uri.parse("$baseUrl/achievement/mark-as-read/$uid/$achId/$level");
+
+      final request = http.MultipartRequest('PATCH', uri)
+        ..headers['Authorization'] = 'Bearer $token';
+
+      final response = await request.send();
+
+      debugPrint('mark as read: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception(
+            'Failed to mark as read. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
+      throw Exception('Error mark as read: $e');
+    }
+  }
 }
