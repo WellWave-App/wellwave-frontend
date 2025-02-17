@@ -274,6 +274,7 @@ class StepContent extends StatelessWidget {
             return GoalExerciseScreen();
           case 11:
             return CongratsScreen();
+
           default:
             return const Center(child: Text('Unknown Step'));
         }

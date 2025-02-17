@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+
 import '../../config/constants/app_colors.dart';
 
 class CustomAppBar extends AppBar {
