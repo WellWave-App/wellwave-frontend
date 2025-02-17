@@ -47,7 +47,7 @@ class AppImages {
   static const expIcon = 'assets/icons/homepage/EXP.svg';
   static const notiIcon = 'assets/icons/homepage/noti.svg';
   static const fireIcon = 'assets/icons/homepage/fire.svg';
-  static const cloudImage = '"assets/icons/homepage/cloud.svg"';
+  static const cloudImage = 'assets/icons/homepage/cloud.svg';
   static const avatarImage = 'assets/icons/homepage/default.svg';
   static const avatarNotiImage = 'assets/icons/homepage/notification.svg';
   static const avatarAssessmentImage = 'assets/icons/homepage/assessment.svg';

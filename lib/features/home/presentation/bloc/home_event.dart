@@ -2,7 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
-import 'package:wellwave_frontend/features/home/data/models/notification.dart';
+import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
+import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
 @immutable
 sealed class HomeEvent {
@@ -44,15 +45,10 @@ class MarkNotificationAsReadEvent extends HomeEvent {
   MarkNotificationAsReadEvent(this.notificationId);
 }
 
-class NewNotificationReceived extends HomeEvent {
-  final Notifications notification;
+// class NewNotificationReceived extends HomeEvent {
 
-  NewNotificationReceived(this.notification);
-}
-
-class SetHasNewNotificationFalseEvent extends HomeEvent {}
-
-class FetchData extends HomeEvent {}
+//   NewNotificationReceived(this.notification);
+// }
 
 class NextStep extends HomeEvent {}
 
@@ -85,3 +81,14 @@ class SubmitHealthDataEvent extends HomeEvent {
   @override
   List<Object> get props => [model];
 }
+
+class MarkAsReadNotiEvent extends HomeEvent {
+  final String notificationId;
+
+  MarkAsReadNotiEvent(this.notificationId);
+
+  @override
+  List<Object> get props => [notificationId];
+}
+
+class FetchHomeEvent extends HomeEvent {}

@@ -2,56 +2,74 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/features/home/data/models/notification.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 
 class NotificationItem extends StatelessWidget {
-  final Notifications notifications;
-
-  NotificationItem({required this.notifications});
+  final NotificationsDataResponseModel notification;
+  final VoidCallback? onTap;
+  const NotificationItem({
+    Key? key,
+    required this.notification,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        bool isRead = false;
-
-        if (state is HomeLoadedState) {
-          isRead =
-              state.readNotifications.contains(notifications.id.toString());
-        }
-
         return Container(
           padding: const EdgeInsets.all(16.0),
           child: ListTile(
+            title: Text(notification.message,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: notification.isRead
+                          ? AppColors.darkgrayColor
+                          : AppColors.blackColor,
+                    )),
             leading: CircleAvatar(
               radius: 24,
-              backgroundImage: NetworkImage(notifications.image),
-            ),
-            title: Text(
-              notifications.message,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color:
-                      isRead ? AppColors.darkgrayColor : AppColors.blackColor),
+              backgroundImage:
+                  NetworkImage('${AppStrings.baseUrl}${notification.imageUrl}'),
             ),
             trailing: Icon(
               Icons.circle,
-              color:
-                  isRead ? AppColors.transparentColor : AppColors.orangeColor,
+              color: notification.isRead
+                  ? AppColors.transparentColor
+                  : AppColors.orangeColor,
               size: 12,
             ),
             onTap: () {
-              if (!isRead) {
-                context.read<HomeBloc>().add(
-                    MarkNotificationAsReadEvent(notifications.id.toString()));
-                context.goNamed(notifications.route);
-              }
+              final notificationId = notification.notificationId;
+              context.read<HomeBloc>().add(MarkAsReadNotiEvent(notificationId));
+
+              _navigateToAppRoute(context, notification.appRoute);
             },
           ),
         );
       },
+    );
+  }
+}
+
+void _navigateToAppRoute(BuildContext context, String appRoute) {
+  final routeMap = {
+    'achievement': AppPages.achievementPage,
+    'friend': AppPages.friendPage,
+    'leaderboard': AppPages.leaderboardPage,
+  };
+
+  final routeName = routeMap[appRoute];
+
+  if (routeName != null) {
+    context.goNamed(routeName);
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Unknown route: $appRoute')),
     );
   }
 }

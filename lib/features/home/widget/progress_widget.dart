@@ -292,7 +292,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$greetingMessage, ${(state is HomeLoadedState) ? state.username : "User"}',
+                          '$greetingMessage, ${(state is HomeLoadedState) ? state.profile!.username : "User"}',
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -311,7 +311,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                           children: [
                             if (state is HomeLoadedState)
                               Text(
-                                state.currentStreak.toString(),
+                                state.loginStreak!.currentStreak.toString(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge

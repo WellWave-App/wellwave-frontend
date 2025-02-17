@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
@@ -6,8 +7,9 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/home/data/models/notification.dart';
-import 'package:wellwave_frontend/features/home/widget/mockup_data/notification_data.dart';
+import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/widget/notification_item.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -15,7 +17,6 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Notifications> notificationlist = getMockNotificationData();
     return Scaffold(
       appBar: CustomAppBar(
         context: context,
@@ -26,35 +27,47 @@ class NotificationScreen extends StatelessWidget {
           context.goNamed(AppPages.homePage);
         },
       ),
-      body: notificationlist.isNotEmpty
-          ? SingleChildScrollView(
-              child: Column(
-                children:
-                    notificationlist.reversed.take(7).map((notifications) {
-                  return NotificationItem(notifications: notifications);
-                }).toList(),
-              ),
-            )
-          : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    AppImages.avatarNotiImage,
-                    width: 128,
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Text(
-                    AppStrings.noNotiText,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppColors.darkgrayColor,
-                        ),
-                  ),
-                ],
-              ),
+      body:
+          // notificationlist.isNotEmpty
+          //     ? SingleChildScrollView(
+          //         child: Column(
+          //           children:
+          //               notificationlist.reversed.take(7).map((notifications) {
+          //             return NotificationItem(notifications: notifications);
+          //           }).toList(),
+          //         ),
+          //       )
+          BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+        if (state is HomeLoadedState && state.notiData != null) {
+          final latestNotifications = state.notiData!.toList();
+
+          return ListView.builder(
+            itemCount: latestNotifications.length,
+            itemBuilder: (context, index) {
+              final notification = latestNotifications[index];
+              return NotificationItem(notification: notification);
+            },
+          );
+        } else
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  AppImages.avatarNotiImage,
+                  width: 128,
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  AppStrings.noNotiText,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.darkgrayColor,
+                      ),
+                ),
+              ],
             ),
+          );
+      }),
     );
   }
 }

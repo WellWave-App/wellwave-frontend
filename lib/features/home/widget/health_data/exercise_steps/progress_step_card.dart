@@ -15,9 +15,18 @@ class ProgressStepCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        int currentStep = 15000;
-        int targetStep =
-            (state is HomeLoadedState) ? state.userGoalStepWeek : 1000;
+        int currentStep = 1000;
+        int targetStep = 1000;
+
+        if (state is HomeLoadedState) {
+          final profile = state.profile;
+          final weeklyGoal = profile?.weeklyGoal;
+          final progress = weeklyGoal?.progress;
+          final step = progress?.step;
+
+          currentStep = step?.current ?? 1000;
+          targetStep = step?.goal ?? 1000;
+        }
 
         return Container(
           padding: const EdgeInsets.all(16),

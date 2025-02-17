@@ -5,8 +5,9 @@ import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/routes/route_utils.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
+import 'package:wellwave_frontend/features/friend/presentation/screen/find_friend_screen.dart';
+import 'package:wellwave_frontend/features/friend/presentation/screen/friend_profile_screen.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/screen/health_assessment_screen.dart';
-import 'package:wellwave_frontend/features/home/data/models/notification.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
@@ -16,9 +17,7 @@ import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/note_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
-import 'package:wellwave_frontend/features/home/widget/mockup_data/notification_data.dart';
 
-final mockNotification = getMockNotificationData();
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
   routes: [
@@ -97,6 +96,20 @@ final GoRouter goRouter = GoRouter(
                     return child;
                   },
                 );
+              },
+            ),
+            GoRoute(
+              path: AppPages.findFriendPage,
+              name: AppPages.findFriendName,
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return NoTransitionPage(child: FindFriendScreen());
+              },
+            ),
+            GoRoute(
+              path: AppPages.profileFriendPage,
+              name: AppPages.profileFriendName,
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return NoTransitionPage(child: ProfileFriends());
               },
             ),
             GoRoute(

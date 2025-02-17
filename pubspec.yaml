@@ -38,8 +38,8 @@ flutter:
 
   assets:
     - assets/icons/
-    - assets/images/
-    - assets/avatar/
+    - assets/icons/homepage/
+    - assets/icons/homepage/assessment/
 
   fonts:
     - family: NotoSansThai

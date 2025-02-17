@@ -2,106 +2,33 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
-import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/login_streak_data_respone_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
 extension HomeHealthDataRepository on HealthAssessmentRepository {
   static const token = AppStrings.token;
-  Future<Map<String, dynamic>> fetchPersonaData() async {
-    final url = '$baseUrl/risk-assessment/$userID';
-    debugPrint('Calling API URL: $url');
 
+  Future<HealthAssessmentHealthDataRequestModel?> fetchHealthData() async {
     try {
       final response = await http.get(
-        Uri.parse(url),
-        headers: {'Authorization': 'Bearer $token'},
+        Uri.parse("$baseUrl/risk-assessment/$userID"),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
       );
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        debugPrint('📢 API Response: $jsonData');
 
-        final int exp = jsonData['USER']['EXP'] as int? ?? 0;
-        final int gem = jsonData['USER']['GEM'] as int? ?? 0;
-        final String imageUrl = jsonData['USER']['IMAGE_URL'] as String? ?? '';
-        final String username =
-            jsonData['USER']['USERNAME'] as String? ?? 'User';
-        final int userGoalStepWeek =
-            jsonData['USER']['USER_GOAL_STEP_WEEK'] as int? ?? 0;
-        final int userGoalExTimeWeek =
-            jsonData['USER']['USER_GOAL_EX_TIME_WEEK'] as int? ?? 0;
-
-        return {
-          'exp': exp,
-          'gem': gem,
-          'imageUrl': imageUrl,
-          'username': username,
-          'userGoalStepWeek': userGoalStepWeek,
-          'userGoalExTimeWeek': userGoalExTimeWeek,
-        };
-      } else {
-        throw Exception(
-            'Failed to fetch user data from API ${response.statusCode}');
+        return HealthAssessmentHealthDataRequestModel.fromJson(jsonData);
       }
+      return null;
     } catch (e) {
-      debugPrint('Error fetching data: $e');
-      return {
-        'exp': 0,
-        'gem': 0,
-        'imageUrl': '',
-        'username': 'User',
-        'userGoalStepWeek': 0,
-        'userGoalExTimeWeek': 0,
-      };
-    }
-  }
-
-  Future<Map<String, dynamic>> fetchHealthData() async {
-    final url = '$baseUrl/risk-assessment/$userID';
-    debugPrint('Calling API URL: $url');
-
-    try {
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {'Authorization': 'Bearer $token'},
-      );
-
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body);
-        debugPrint('📢 API Response: $jsonData');
-
-        final double diastolicBloodPressure =
-            (jsonData['DIASTOLIC_BLOOD_PRESSURE'] ?? 0).toDouble();
-        final double systolicBloodPressure =
-            (jsonData['SYSTOLIC_BLOOD_PRESSURE'] ?? 0).toDouble();
-        final double hdl = (jsonData['HDL'] ?? 0).toDouble();
-        final double ldl = (jsonData['LDL'] ?? 0).toDouble();
-        final double waistLine = (jsonData['WAIST_LINE'] ?? 0).toDouble();
-        final double weight = (jsonData['USER']['WEIGHT'] ?? 0).toDouble();
-
-        return {
-          'diastolicBloodPressure': diastolicBloodPressure,
-          'systolicBloodPressure': systolicBloodPressure,
-          'hdl': hdl,
-          'ldl': ldl,
-          'waistLine': waistLine,
-          'weight': weight,
-        };
-      } else {
-        throw Exception(
-            'Failed to fetch health data from API ${response.statusCode}');
-      }
-    } catch (e) {
-      debugPrint('Error fetching data: $e');
-      return {
-        'diastolicBloodPressure': 0.0,
-        'systolicBloodPressure': 0.0,
-        'hdl': 0.0,
-        'ldl': 0.0,
-        'waistLine': 0.0,
-        'weight': 0.0,
-      };
+      debugPrint('Error: $e');
+      return null;
     }
   }
 
@@ -123,7 +50,7 @@ extension HomeHealthDataRepository on HealthAssessmentRepository {
       );
 
       if (response.statusCode == 200) {
-        debugPrint('Health data updated successfully: ${response.body}');
+        // debugPrint('Health data updated successfully: ${response.body}');
         return true;
       } else {
         debugPrint('Failed to update health data: ${response.statusCode}');
@@ -156,7 +83,7 @@ extension HomePersonaDataRepository on ProfileRepositories {
       );
 
       if (response.statusCode == 200) {
-        debugPrint('Weight updated successfully: ${response.body}');
+        // debugPrint('Weight updated successfully: ${response.body}');
         return true;
       } else {
         debugPrint('Failed to update weight: ${response.statusCode}');
@@ -170,38 +97,87 @@ extension HomePersonaDataRepository on ProfileRepositories {
 }
 
 class LoginStreakRepository {
-  LoginStreakRepository();
-
   String baseUrl = AppStrings.baseUrl;
   static const token = AppStrings.token;
 
-  Future<Map<String, dynamic>> fetchLoginStreakData() async {
-    final url = '$baseUrl/login-streak/update-login';
-
+  Future<LoginStreakDataResponseModel?> fetchLoginStreakData() async {
     try {
       final response = await http.get(
-        Uri.parse(url),
-        headers: {'Authorization': 'Bearer $token'},
+        Uri.parse("$baseUrl/login-streak/update-login"),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        return LoginStreakDataResponseModel.fromJson(jsonData);
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Error: $e');
+      return null;
+    }
+  }
+}
+
+class NotificationsRepository {
+  String baseUrl = AppStrings.baseUrl;
+  static const token = AppStrings.token;
+
+  Future<List<NotificationsDataResponseModel>?> fetchNotiData() async {
+    try {
+      final response = await http.get(
+        Uri.parse("$baseUrl/notification-history"),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        final List<dynamic> data = jsonData['data'];
+        debugPrint('notification data updated successfully: ${response.body}');
+        return data
+            .map((item) => NotificationsDataResponseModel.fromJson(item))
+            .toList();
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Error: $e');
+      return null;
+    }
+  }
+
+  Future<bool> markAsReadNotification({
+    required String notificationId,
+  }) async {
+    const baseUrl = AppStrings.baseUrl;
+    const token = AppStrings.token;
+
+    final url = Uri.parse('$baseUrl/notification-history/read/$notificationId');
+
+    debugPrint('URL: $url');
+
+    try {
+      final response = await http.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
       );
 
       if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body);
-        debugPrint('fetchLoginStreakData API Response: $jsonData');
-
-        final int currentStreak = jsonData['CURRENT_STREAK'] as int? ?? 0;
-        debugPrint('$currentStreak');
-        return {
-          'currentStreak': currentStreak,
-        };
+        debugPrint('Notification marked as read successfully');
+        return true;
       } else {
-        throw Exception(
-            'Failed to fetch user data from fetchLoginStreakData ${response.statusCode}');
+        debugPrint(
+            'Failed to mark notification as read: ${response.statusCode}');
+        debugPrint('Response Body: ${response.body}');
+        return false;
       }
     } catch (e) {
-      debugPrint('Error fetching data: $e');
-      return {
-        'currentStreak': 0,
-      };
+      debugPrint('Error marking notification as read: $e');
+      return false;
     }
   }
 }

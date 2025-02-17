@@ -15,11 +15,12 @@ class CheckWeightAndWaist extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final weightHint = (state is HomeLoadedState)
-            ? state.weight?.toInt().toString() ?? AppStrings.weightText
+            ? state.profile?.weight.toInt().toString() ?? AppStrings.weightText
             : AppStrings.weightText;
 
         final waistLineHint = (state is HomeLoadedState)
-            ? state.waistLine?.toInt().toString() ?? AppStrings.waistLineText
+            ? state.healthData?.waistLine?.toInt().toString() ??
+                AppStrings.waistLineText
             : AppStrings.waistLineText;
 
         final formDataReassessment =

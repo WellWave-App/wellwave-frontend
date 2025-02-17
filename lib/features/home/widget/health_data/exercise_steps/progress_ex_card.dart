@@ -15,9 +15,18 @@ class ProgressExCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        int currentExerciseTime = 12000;
-        int targetExerciseTime =
-            (state is HomeLoadedState) ? state.userGoalExTimeWeek : 300;
+        int currentExerciseTime = 1000;
+        int targetExerciseTime = 1000;
+
+        if (state is HomeLoadedState) {
+          final profile = state.profile;
+          final weeklyGoal = profile?.weeklyGoal;
+          final progress = weeklyGoal?.progress;
+          final exerciseTime = progress?.exerciseTime;
+
+          currentExerciseTime = exerciseTime?.current ?? 1000;
+          targetExerciseTime = exerciseTime?.goal ?? 1000;
+        }
 
         return Container(
           padding: const EdgeInsets.all(16),

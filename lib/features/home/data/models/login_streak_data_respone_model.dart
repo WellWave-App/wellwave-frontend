@@ -46,15 +46,12 @@ class LoginStreakDataResponseModel {
 
   factory LoginStreakDataResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginStreakDataResponseModel(
-      uid: json['uid'],
-      streakStartDate: DateTime.tryParse(json['streakStartDate'] ?? '') ??
-          DateTime(1970, 1, 1),
-      lastLoginDate: DateTime.tryParse(json['lastLoginDate'] ?? '') ??
-          DateTime(1970, 1, 1),
-      currentStreak: json['currentStreak'] as int? ?? 0,
-      longestStreak: json['longestStreak'] as int? ?? 0,
-      lastUpdated:
-          DateTime.tryParse(json['lastUpdated'] ?? '') ?? DateTime(1970, 1, 1),
+      uid: json['UID'],
+      streakStartDate: DateTime.tryParse(json['STREAK_START_DATE'] ?? ''),
+      lastLoginDate: DateTime.tryParse(json['LAST_LOGIN_DATE'] ?? ''),
+      currentStreak: json['CURRENT_STREAK'] as int?,
+      longestStreak: json['LONGEST_STREAK'] as int?,
+      lastUpdated: DateTime.tryParse(json['LAST_UPDATED'] ?? ''),
     );
   }
 }

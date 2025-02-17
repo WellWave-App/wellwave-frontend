@@ -15,12 +15,12 @@ class CheckPressure extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final diastolicBloodPressure = (state is HomeLoadedState)
-            ? state.diastolicBloodPressure?.toInt().toString() ??
+            ? state.healthData?.diastolicBloodPressure?.toInt().toString() ??
                 AppStrings.diastolicBloodPressureText
             : AppStrings.diastolicBloodPressureText;
 
         final systolicBloodPressure = (state is HomeLoadedState)
-            ? state.systolicBloodPressure?.toInt().toString() ??
+            ? state.healthData?.systolicBloodPressure?.toInt().toString() ??
                 AppStrings.systolicBloodPressureText
             : AppStrings.systolicBloodPressureText;
         final formDataReassessment =

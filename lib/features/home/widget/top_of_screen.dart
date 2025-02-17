@@ -6,27 +6,31 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/widget/showpoint.dart';
 
 class TopOfScreen extends StatelessWidget {
-  const TopOfScreen({super.key});
+  final List<NotificationsDataResponseModel> notifications;
+  const TopOfScreen({super.key, required this.notifications});
 
   @override
   Widget build(BuildContext context) {
+    bool hasUnread =
+        notifications.take(7).any((notification) => !notification.isRead);
+
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        bool hasUnread = false;
         Widget profilePicture;
         if (state is HomeLoadedState) {
-          debugPrint("Full IMAGE_URL: '${AppStrings.baseUrl}${state.imageUrl}");
-          hasUnread = state.hasNewNotification;
+          debugPrint(
+              "Full IMAGE_URL: '${AppStrings.baseUrl}${state.profile!.imageUrl}");
 
-          if (state.imageUrl != '') {
+          if (state.profile!.imageUrl != '') {
             profilePicture = Image.network(
-              '${AppStrings.baseUrl}${state.imageUrl}',
+              '${AppStrings.baseUrl}${state.profile!.imageUrl}',
               height: 32.0,
               errorBuilder: (context, error, stackTrace) {
                 return SvgPicture.asset(
@@ -54,14 +58,16 @@ class TopOfScreen extends StatelessWidget {
             Row(
               children: [
                 CoinDisplay(
-                  pointText:
-                      (state is HomeLoadedState) ? state.exp.toString() : '0',
+                  pointText: (state is HomeLoadedState)
+                      ? state.profile!.exp.toString()
+                      : '0',
                   icon: AppImages.expIcon,
                 ),
                 const SizedBox(width: 16),
                 CoinDisplay(
-                  pointText:
-                      (state is HomeLoadedState) ? state.gem.toString() : '0',
+                  pointText: (state is HomeLoadedState)
+                      ? state.profile!.gem.toString()
+                      : '0',
                   icon: AppImages.gemIcon,
                 ),
               ],
@@ -73,9 +79,6 @@ class TopOfScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         context.goNamed(AppPages.notificationPage);
-                        context
-                            .read<HomeBloc>()
-                            .add(SetHasNewNotificationFalseEvent());
                       },
                       child: SvgPicture.asset(
                         AppImages.notiIcon,

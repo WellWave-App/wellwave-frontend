@@ -15,11 +15,11 @@ class CheckFat extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final hdl = (state is HomeLoadedState)
-            ? state.hdl?.toInt().toString() ?? AppStrings.hdlText
+            ? state.healthData!.hdl?.toInt().toString() ?? AppStrings.hdlText
             : AppStrings.hdlText;
 
         final ldl = (state is HomeLoadedState)
-            ? state.ldl?.toInt().toString() ?? AppStrings.ldlText
+            ? state.healthData!.ldl?.toInt().toString() ?? AppStrings.ldlText
             : AppStrings.ldlText;
         final formDataReassessment =
             (state is HomeLoadedState) ? state.formDataReassessment : {};
