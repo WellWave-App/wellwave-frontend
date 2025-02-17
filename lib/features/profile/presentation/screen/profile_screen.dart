@@ -113,22 +113,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 24),
 
                         //progress
+
                         ProgressCard(
                           daysRemain:
                               state.userProfile.weeklyGoal?.daysLeft ?? 0,
-                          exerciseTime: state.userProfile.weeklyGoal!.progress
-                              .exerciseTime.current,
-                          taskAmount: state
-                              .userProfile.weeklyGoal!.progress.mission.current,
+                          exerciseTime: state.userProfile.weeklyGoal?.progress
+                                  .exerciseTime.current ??
+                              0,
+                          taskAmount: state.userProfile.weeklyGoal?.progress
+                                  .mission.current ??
+                              0,
                           maxExerciseTime:
-                              state.userProfile.exercisePerWeek != null
-                                  ? state.userProfile.exercisePerWeek!
-                                  : 0,
-                          maxTaskAmount: state
-                              .userProfile.weeklyGoal!.progress.mission.goal,
-                          maxStepCount: state.userProfile.stepPerWeek != null
-                              ? state.userProfile.stepPerWeek!
-                              : 0,
+                              state.userProfile.exercisePerWeek ?? 0,
+                          maxTaskAmount: state.userProfile.weeklyGoal?.progress
+                                  .mission.goal ??
+                              0,
+                          maxStepCount: state.userProfile.stepPerWeek ?? 0,
                           stepAmount: totalSteps.toInt(),
                         ),
                         const SizedBox(height: 24),

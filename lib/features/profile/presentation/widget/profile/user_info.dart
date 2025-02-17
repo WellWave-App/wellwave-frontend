@@ -188,25 +188,48 @@ Future<void> _handleImageSelection(BuildContext context) async {
 Widget _buildProfileImage(ProfileState state) {
   Widget profileImage;
 
+  // Helper function to sanitize URL
+  String sanitizeImageUrl(String baseUrl, String imagePath) {
+    // Remove leading slash if present in imagePath
+    final cleanPath =
+        imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
+    return '$baseUrl/$cleanPath';
+  }
+
   if (state is ProfileLoaded && state.userProfile.imageUrl.isNotEmpty) {
-    final imageUrl = "http://10.0.2.2:3000${state.userProfile.imageUrl}";
+    // Construct and sanitize the URL
+    final imageUrl =
+        sanitizeImageUrl('http://10.0.2.2:3000', state.userProfile.imageUrl);
+
     profileImage = ClipOval(
       child: Image.network(
         imageUrl,
         width: 104,
         height: 104,
         fit: BoxFit.cover,
+        // Add caching
+        cacheWidth: 208, // 2x for high DPI displays
+        cacheHeight: 208,
         errorBuilder: (context, error, stackTrace) {
-          debugPrint('Error loading image: $error');
+          debugPrint('Error loading image: $error\nURL: $imageUrl');
           return _buildFallbackImage();
         },
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
-          return const SizedBox(
+          return Container(
             width: 104,
             height: 104,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey[200],
+            ),
             child: Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+              ),
             ),
           );
         },
@@ -220,7 +243,7 @@ Widget _buildProfileImage(ProfileState state) {
         height: 104,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
-          debugPrint('Error loading image: $error');
+          debugPrint('Error loading local image: $error');
           return _buildFallbackImage();
         },
       ),
@@ -237,6 +260,22 @@ Widget _buildProfileImage(ProfileState state) {
     child: profileImage,
   );
 }
+
+// Widget _buildFallbackImage() {
+//   return Container(
+//     width: 104,
+//     height: 104,
+//     decoration: BoxDecoration(
+//       shape: BoxShape.circle,
+//       color: Colors.grey[200],
+//     ),
+//     child: const Icon(
+//       Icons.person,
+//       size: 52,
+//       color: Colors.grey,
+//     ),
+//   );
+// }
 
 Widget _buildFallbackImage() {
   return const CircleAvatar(
