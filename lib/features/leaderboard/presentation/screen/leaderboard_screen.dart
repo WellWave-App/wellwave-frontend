@@ -6,9 +6,9 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
-import '../../../profile/presentation/bloc/profile_bloc.dart';
-import '../../../profile/presentation/bloc/profile_event.dart';
-import '../../../profile/presentation/bloc/profile_state.dart';
+import '../../../profile/presentation/bloc/profile_bloc/profile_bloc.dart';
+import '../../../profile/presentation/bloc/profile_bloc/profile_event.dart';
+import '../../../profile/presentation/bloc/profile_bloc/profile_state.dart';
 import '../../../profile/presentation/widget/profile/round_border_text.dart';
 import '../widget/switch_button.dart';
 

@@ -7,9 +7,9 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/success_dialog.dart';
 
-import '../../bloc/profile_bloc.dart';
-import '../../bloc/profile_event.dart';
-import '../../bloc/profile_state.dart';
+import '../../bloc/profile_bloc/profile_bloc.dart';
+import '../../bloc/profile_bloc/profile_event.dart';
+import '../../bloc/profile_bloc/profile_state.dart';
 
 class CheckInWidget extends StatelessWidget {
   final ProfileLoaded profileState;

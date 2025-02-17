@@ -5,9 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import '../../../../../config/constants/app_images.dart';
-import '../../bloc/profile_bloc.dart';
-import '../../bloc/profile_event.dart';
-import '../../bloc/profile_state.dart';
+import '../../bloc/profile_bloc/profile_bloc.dart';
+import '../../bloc/profile_bloc/profile_event.dart';
+import '../../bloc/profile_bloc/profile_state.dart';
 
 class EditProfileImage extends StatefulWidget {
   final ProfileState state;

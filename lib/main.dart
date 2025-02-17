@@ -5,8 +5,10 @@ import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/notification/data/repositories/notification_repositories.dart';
+import 'package:wellwave_frontend/features/profile/data/repositories/archeivement_repositories.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/archeivement_bloc/archeivement_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
 import 'features/notification/presentation/bloc/noti_bloc.dart';
@@ -29,6 +31,9 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<NotificationSettingRepository>(
           create: (context) => NotificationSettingRepository(),
         ),
+        RepositoryProvider<ArcheivementRepositories>(
+          create: (context) => ArcheivementRepositories(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -48,6 +53,11 @@ class MainApp extends StatelessWidget {
           BlocProvider<NotiBloc>(
             create: (context) =>
                 NotiBloc(context.read<NotificationSettingRepository>()),
+            lazy: false,
+          ),
+          BlocProvider<ArcheivementBloc>(
+            create: (context) => ArcheivementBloc(
+                archeivementRepositories: ArcheivementRepositories()),
             lazy: false,
           ),
         ],
