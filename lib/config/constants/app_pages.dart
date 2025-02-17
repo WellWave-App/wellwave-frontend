@@ -16,8 +16,8 @@ class AppPages {
   static const String setWeeklyGoalPage = 'setweeklygoal';
   static const String testNotiPage = 'testnoti';
   static const String leaderboardlPage = 'leaderboard';
+  static const String assessmentPage = 'assessment';
 
-  // Name of the route
   static const String splashName = 'splash';
   static const String homeName = 'home';
   static const String logName = 'log';
@@ -34,4 +34,5 @@ class AppPages {
   static const String setWeeklyGoalName = 'setweeklygoal';
   static const String testNotiName = 'testnoti';
   static const String leaderboardlName = 'leaderboard';
+  static const String assessmentName = 'assessment';
 }

@@ -66,11 +66,11 @@ class StartOverviewScreen extends StatelessWidget {
               return shouldShowSkip
                   ? TextButton(
                       onPressed: () {
-                        context.goNamed(AppPages.homeName);
+                        context.goNamed(AppPages.assessmentName);
                       },
                       child: Text(
                         AppStrings.skipText,
-                        style: Theme.of(context).textTheme.titleSmall,
+                        style: Theme.of(context).textTheme.bodySmall,
                         selectionColor: AppColors.darkGrayColor,
                       ),
                     )
@@ -132,7 +132,7 @@ class StartOverviewScreen extends StatelessWidget {
                                 context.goNamed(AppPages.splashName);
                               } else if (state.currentIndex >=
                                   pages.length - 1) {
-                                context.goNamed(AppPages.homeName);
+                                context.goNamed(AppPages.assessmentName);
                               } else {
                                 context
                                     .read<StartOverviewBloc>()
@@ -144,7 +144,7 @@ class StartOverviewScreen extends StatelessWidget {
                         foregroundColor: AppColors.whiteColor,
                         backgroundColor: AppColors.primaryColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
                       child: Text(

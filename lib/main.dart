@@ -10,11 +10,12 @@ import 'package:wellwave_frontend/features/profile/data/repositories/profile_rep
 import 'package:wellwave_frontend/features/profile/presentation/bloc/archeivement_bloc/archeivement_bloc.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment/bloc/health_assessment_bloc.dart';
 
 import 'features/notification/presentation/bloc/noti_bloc.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MainApp());
 }
 
@@ -33,6 +34,9 @@ class MainApp extends StatelessWidget {
         ),
         RepositoryProvider<ArcheivementRepositories>(
           create: (context) => ArcheivementRepositories(),
+        ),
+        RepositoryProvider<HealthAssessmentRepository>(
+          create: (context) => HealthAssessmentRepository(),
         ),
       ],
       child: MultiBlocProvider(
@@ -59,6 +63,10 @@ class MainApp extends StatelessWidget {
             create: (context) => ArcheivementBloc(
                 archeivementRepositories: ArcheivementRepositories()),
             lazy: false,
+          ),
+          BlocProvider<HealthAssessmentBloc>(
+            create: (context) =>
+                HealthAssessmentBloc(HealthAssessmentRepository()),
           ),
         ],
         child: MaterialApp.router(

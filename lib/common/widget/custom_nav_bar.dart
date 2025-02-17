@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar_item.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
+
 class CustomNavigationBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
