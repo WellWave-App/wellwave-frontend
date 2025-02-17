@@ -113,7 +113,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 24),
 
                         //progress
-
                         ProgressCard(
                           daysRemain:
                               state.userProfile.weeklyGoal?.daysLeft ?? 0,
@@ -132,6 +131,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           stepAmount: totalSteps.toInt(),
                         ),
                         const SizedBox(height: 24),
+
+                        //Achievement
                         const AchievementCard(),
                         const SizedBox(height: 24),
 
