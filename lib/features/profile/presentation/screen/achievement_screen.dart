@@ -221,7 +221,10 @@ void _showAchievementPopup(
                       const SizedBox(height: 16),
                       Text(
                         achievement.achievement.description,
-                        style: Theme.of(context).textTheme.caption2,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(fontSize: 11.0),
                         textAlign: TextAlign.center,
                       ),
                     ],

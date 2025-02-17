@@ -131,12 +131,14 @@ class CheckInWidget extends StatelessWidget {
                         children: [
                           Text(
                             '${AppStrings.xdateText} ${index + 1}',
-                            style:
-                                Theme.of(context).textTheme.caption2?.copyWith(
-                                      color: isClickableDay
-                                          ? AppColors.blackColor
-                                          : AppColors.darkGrayColor,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    color: isClickableDay
+                                        ? AppColors.blackColor
+                                        : AppColors.darkGrayColor,
+                                    fontSize: 11.0),
                           ),
                           const SizedBox(height: 4),
                           if (index == 6 && checkedInDays[index])
@@ -163,12 +165,14 @@ class CheckInWidget extends StatelessWidget {
                             checkedInDays[index]
                                 ? AppStrings.archeiveText
                                 : '${gemPoints[index]}',
-                            style:
-                                Theme.of(context).textTheme.caption2?.copyWith(
-                                      color: isClickableDay
-                                          ? AppColors.blackColor
-                                          : AppColors.darkGrayColor,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    color: isClickableDay
+                                        ? AppColors.blackColor
+                                        : AppColors.darkGrayColor,
+                                    fontSize: 11.0),
                           ),
                         ],
                       ),

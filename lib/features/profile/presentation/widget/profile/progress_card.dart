@@ -61,8 +61,8 @@ class ProgressCard extends StatelessWidget {
                                   : 'อีก 7 ${AppStrings.dayText}',
                           style: Theme.of(context)
                               .textTheme
-                              .caption2
-                              ?.copyWith(color: Colors.red),
+                              .bodySmall
+                              ?.copyWith(color: Colors.red, fontSize: 11.0),
                         ),
                       ],
                     ),
@@ -103,8 +103,10 @@ class ProgressCard extends StatelessWidget {
                               '/$maxStepCount ${AppStrings.stepText}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption2
-                                  ?.copyWith(color: AppColors.darkGrayColor),
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color: AppColors.darkGrayColor,
+                                      fontSize: 11.0),
                             )
                           ],
                         ),
@@ -147,8 +149,10 @@ class ProgressCard extends StatelessWidget {
                               '/$maxExerciseTime ${AppStrings.minuteText}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption2
-                                  ?.copyWith(color: AppColors.darkGrayColor),
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color: AppColors.darkGrayColor,
+                                      fontSize: 11.0),
                             )
                           ],
                         ),
@@ -191,8 +195,10 @@ class ProgressCard extends StatelessWidget {
                               '/$maxTaskAmount ${AppStrings.taskText}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption2
-                                  ?.copyWith(color: AppColors.darkGrayColor),
+                                  .bodySmall
+                                  ?.copyWith(
+                                      color: AppColors.darkGrayColor,
+                                      fontSize: 11.0),
                             )
                           ],
                         ),

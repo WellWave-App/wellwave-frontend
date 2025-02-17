@@ -79,7 +79,8 @@ class _ProgressChartCardState extends State<ProgressChartCard> {
                       const SizedBox(width: 4),
                       Text(
                         widget.unit,
-                        style: Theme.of(context).textTheme.caption2?.copyWith(
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              fontSize: 11.0,
                               color: Colors.black,
                             ),
                       ),
@@ -97,7 +98,8 @@ class _ProgressChartCardState extends State<ProgressChartCard> {
                           Text(
                             '${difference.abs().toStringAsFixed(1)} ${widget.unit} จากค่าเฉลี่ย',
                             style:
-                                Theme.of(context).textTheme.caption2?.copyWith(
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontSize: 11.0,
                                       color: isPositive
                                           ? AppColors.greenColor
                                           : Colors.red,

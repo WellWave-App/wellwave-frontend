@@ -60,29 +60,24 @@ class WeeklyLogsCard extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   unit,
-                  style: Theme.of(context).textTheme.caption2?.copyWith(
-                        color: Colors.black,
-                      ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Colors.black, fontSize: 11.0),
                 ),
                 const SizedBox(width: 2),
                 Row(
                   children: [
                     Icon(
-                      isPositive
-                          ? Icons.arrow_upward
-                          : Icons.arrow_downward,
+                      isPositive ? Icons.arrow_upward : Icons.arrow_downward,
                       size: 16,
-                      color: isPositive
-                          ? Colors.red
-                          : AppColors.greenColor,
+                      color: isPositive ? Colors.red : AppColors.greenColor,
                     ),
                     Text(
                       '${difference.abs()} $unit',
-                      style: Theme.of(context).textTheme.caption2?.copyWith(
-                            color: isPositive
-                                ? Colors.red
-                                : AppColors.greenColor,
-                          ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: isPositive ? Colors.red : AppColors.greenColor,
+                          fontSize: 11.0),
                     ),
                   ],
                 ),

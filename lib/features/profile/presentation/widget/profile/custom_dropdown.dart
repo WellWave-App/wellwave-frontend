@@ -40,9 +40,10 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
               value: period,
               child: Text(
                 period,
-                style: Theme.of(context).textTheme.caption2?.copyWith(
-                      color: Colors.black,
-                    ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: Colors.black, fontSize: 11.0),
               ),
             );
           }).toList(),

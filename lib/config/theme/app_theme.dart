@@ -125,11 +125,5 @@ TextTheme textTheme(BuildContext context) {
       fontSize: 11,
       color: AppColors.blackColor,
     ),
-    caption2: TextStyle(
-      fontFamily: 'NotoSansThai',
-      fontWeight: FontWeight.w400,
-      fontSize: 11,
-      color: AppColors.blackColor,
-    ),
   );
 }
