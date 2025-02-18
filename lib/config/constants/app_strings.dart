@@ -144,4 +144,9 @@ class AppStrings {
   static const goalMuscleText = 'สร้างกล้ามเนื้อ';
   static const goalHealthyText = 'สุขภาพดี';
   static const goalLoseweightText = 'ลดน้ำหนัก';
+
+  //authentication
+  static const registerText = 'สมัครสมาชิก';
+  static const loginText = 'เข้าสู่ระบบ';
+
 }

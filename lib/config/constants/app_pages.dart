@@ -9,6 +9,11 @@ class AppPages {
   static const String startPage = 'start';
   static const String logHistoryPage = 'logHistory';
   static const String assessmentPage = 'assessment';
+  static const String authenticationPage = 'authentication';
+  static const String registerPage = 'register';
+  static const String loginPage = 'login';
+  static const String registerSuccessPage = 'registerSuccess';
+  static const String forgotPasswordPage = 'forgotPassword';
 
   static const String splashName = 'splash';
   static const String homeName = 'home';
@@ -19,5 +24,11 @@ class AppPages {
   static const String startName = 'start';
   static const String logHistoryName = 'logHistory';
   static const String assessmentName = 'assessment';
-}
 
+
+  static const String authenticationName = 'authentication';
+  static const String registerName = 'register';
+  static const String loginName = 'login';
+  static const String registerSuccessName = 'registerSuccess';
+  static const String forgetPasswordName = 'forgotPassword';
+}

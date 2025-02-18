@@ -7,7 +7,6 @@ environment:
   sdk: ">=3.2.3 <4.0.0"
 
 dependencies:
-  flutter_health_connect: ^1.2.3
   flutter:
     sdk: flutter
 
@@ -22,6 +21,9 @@ dependencies:
   fl_chart: ^0.69.0
   http: ^1.2.2
   intl: ^0.19.0
+  flutter_onboarding_slider: ^1.0.11
+  shared_preferences: ^2.5.2
+  flutter_secure_storage: ^9.2.4
   
   
   step_progress_indicator: ^1.0.2

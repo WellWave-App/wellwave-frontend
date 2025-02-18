@@ -126,4 +126,10 @@ class AppImages {
       'assets/icons/health_assessment/bg/health_assessment_bg.png';
   static const healthassessmentGoalBG =
       'assets/icons/health_assessment/bg/goal_bg.png';
+
+  //authentication
+  static const skyBgImage = 'assets/icons/sky.svg';
+  static const seaBgImage = 'assets/icons/sea.svg';
+  static const googleIcon = 'assets/icons/google_Icon.svg';
+  static const sunnyIcon = 'assets/icons/sunny.svg';
 }
