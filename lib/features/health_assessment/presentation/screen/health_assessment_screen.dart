@@ -12,14 +12,18 @@ import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/l
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/result_assessment.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/add_pic_username_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/family_history_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/alcohol_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/goal_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/health_info_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/personal_info_step.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/step/smoke_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/add_pic_username_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/family_history_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/alcohol_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/goal_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/health_info_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/personal_info_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/smoke_step.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/congrats_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/goal_exercise_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/goal_step_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/recommend_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/result_assessment.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
 
 class AssessmentScreen extends StatelessWidget {
@@ -52,29 +56,85 @@ class AssessmentScreenView extends StatelessWidget {
 
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
       builder: (context, state) {
-        if (state.isCompleted) {
-          return const ResultAssessment();
-        }
+        final modelHealthData = HealthAssessmentHealthDataRequestModel(
+          diastolicBloodPressure:
+              double.tryParse(state.formData['dbp']?.toString() ?? '') ?? 0.0,
+          systolicBloodPressure:
+              double.tryParse(state.formData['sbp']?.toString() ?? '') ?? 0.0,
+          hdl: double.tryParse(state.formData['hdl']?.toString() ?? '') ?? 0.0,
+          ldl: double.tryParse(state.formData['ldl']?.toString() ?? '') ?? 0.0,
+          waistLine:
+              double.tryParse(state.formData['waistline']?.toString() ?? '') ??
+                  0.0,
+          hypertension: state.riskHypertensionScore,
+          diabetes: state.riskDiabetesScore,
+          dyslipidemia: state.riskDyslipidemiaScore,
+          obesity: state.riskObesityScore,
+          hasSmoke: state.smokeChoose != 'ไม่สูบ',
+          hasDrink: state.alcoholChoose == 'ไม่ดื่มแอลกอฮอลล์' ||
+                  state.alcoholChoose == 'เคยดื่ม'
+              ? false
+              : true,
+        );
+
+        final modelPersonalData = HealthAssessmentPersonalDataRequestModel(
+            imageUrl: state.formData['imageUrl'] ?? '',
+            username: state.formData['username'] ?? '',
+            yearOfBirth:
+                int.tryParse(state.formData['birthYear']?.toString() ?? '') ??
+                    0,
+            gender: state.formData['gender'] == 'female' ? false : true,
+            height:
+                double.tryParse(state.formData['height']?.toString() ?? '') ??
+                    0,
+            weight:
+                double.tryParse(state.formData['weight']?.toString() ?? '') ??
+                    0,
+            userGoalExTimeWeek: int.tryParse(
+                    state.formData['userGoalExTimeWeek']?.toString() ?? '') ??
+                0,
+            userGoalStepWeek: int.tryParse(
+                    state.formData['userGoalStepWeek']?.toString() ?? '') ??
+                0,
+            email: state.formData['email'] ?? '',
+            userGoal: state.goalChoose == 'สร้างกล้ามเนื้อ'
+                ? 0
+                : state.goalChoose == 'สุขภาพดี'
+                    ? 1
+                    : state.goalChoose == 'ลดน้ำหนัก'
+                        ? 2
+                        : -1);
 
         return Scaffold(
-          appBar: state.isCompleted
-              ? null
-              : CustomAppBarWithStep(
-                  context: context,
-                  onLeading: true,
-                  totalSteps: 8,
-                  currentStep: state.currentStep,
-                  textColor: AppColors.blackColor,
-                  onBackPressed: () =>
-                      context.read<HealthAssessmentPageBloc>().add(StepBack()),
-                ),
+          appBar: CustomAppBarWithStep(
+            context: context,
+            onLeading: (state.currentStep == 7 || state.currentStep == 11)
+                ? false
+                : true,
+            totalSteps: 8,
+            titleText: state.currentStep == 7 ? 'สรุปผลการประเมิน' : null,
+            currentStep: state.currentStep,
+            showStepIndicator: state.currentStep < 7,
+            textColor: AppColors.blackColor,
+            onBackPressed: () =>
+                context.read<HealthAssessmentPageBloc>().add(StepBack()),
+          ),
           body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(AppImages.healthassessmentBG),
-                fit: BoxFit.cover,
-              ),
-            ),
+            decoration: (state.currentStep >= 0 && state.currentStep <= 6)
+                ? const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(AppImages.healthassessmentBG),
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : (state.currentStep >= 9 && state.currentStep <= 10)
+                    ? const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(AppImages.healthassessmentGoalBG),
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : null,
             child: Column(
               children: [
                 Expanded(
@@ -87,16 +147,17 @@ class AssessmentScreenView extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(24.0),
-                  child: !((state.currentStep == 3 &&
-                              state.famhisChoose.isEmpty) ||
-                          (state.currentStep == 4 &&
-                              state.alcoholChoose == null) ||
-                          (state.currentStep == 5 &&
-                              state.smokeChoose == null) ||
-                          (state.currentStep == 6 &&
-                              (state.goalChoose != 'สร้างกล้ามเนื้อ' &&
-                                  state.goalChoose != 'สุขภาพดี' &&
-                                  state.goalChoose != 'ลดน้ำหนัก')))
+                  child: (!((state.currentStep == 3 &&
+                                  state.famhisChoose.isEmpty) ||
+                              (state.currentStep == 4 &&
+                                  state.alcoholChoose == null) ||
+                              (state.currentStep == 5 &&
+                                  state.smokeChoose == null) ||
+                              (state.currentStep == 6 &&
+                                  (state.goalChoose != 'สร้างกล้ามเนื้อ' &&
+                                      state.goalChoose != 'สุขภาพดี' &&
+                                      state.goalChoose != 'ลดน้ำหนัก'))) &&
+                          state.currentStep != 11)
                       ? CustomButton(
                           width: 250,
                           bgColor: AppColors.primaryColor,
@@ -115,28 +176,6 @@ class AssessmentScreenView extends StatelessWidget {
 
                               if (formKey.currentState!.validate() &&
                                   !state.genderError) {
-                                final modelPersonalData = HealthAssessmentPersonalDataRequestModel(
-                                    imageUrl: state.formData['imageUrl'] ?? '',
-                                    username: state.formData['username'] ?? '',
-                                    yearOfBirth: int.tryParse(state
-                                                .formData['birthYear']
-                                                ?.toString() ??
-                                            '') ??
-                                        0,
-                                    gender: state.formData['gender'] == 'female'
-                                        ? false
-                                        : true,
-                                    height: double.tryParse(state
-                                                .formData['height']
-                                                ?.toString() ??
-                                            '') ??
-                                        0,
-                                    weight: double.tryParse(state
-                                                .formData['weight']
-                                                ?.toString() ??
-                                            '') ??
-                                        0,
-                                    email: state.formData['email'] ?? '');
                                 context.read<HealthAssessmentBloc>().add(
                                     SubmitPersonalDataEvent(modelPersonalData));
 
@@ -158,93 +197,34 @@ class AssessmentScreenView extends StatelessWidget {
                               }
                             } else if (state.currentStep == 5) {
                               if (state.smokeChoose != null) {
-                                final modelHealthData =
-                                    HealthAssessmentHealthDataRequestModel(
-                                  diastolicBloodPressure: double.tryParse(
-                                          state.formData['dbp']?.toString() ??
-                                              '') ??
-                                      0.0,
-                                  systolicBloodPressure: double.tryParse(
-                                          state.formData['sbp']?.toString() ??
-                                              '') ??
-                                      0.0,
-                                  hdl: double.tryParse(
-                                          state.formData['hdl']?.toString() ??
-                                              '') ??
-                                      0.0,
-                                  ldl: double.tryParse(
-                                          state.formData['ldl']?.toString() ??
-                                              '') ??
-                                      0.0,
-                                  waistLine: double.tryParse(state
-                                              .formData['waistline']
-                                              ?.toString() ??
-                                          '') ??
-                                      0.0,
-                                  hypertension: state.riskHypertensionScore,
-                                  diabetes: state.riskDiabetesScore,
-                                  dyslipidemia: state.riskDyslipidemiaScore,
-                                  obesity: state.riskObesityScore,
-                                  hasSmoke: state.smokeChoose != 'ไม่สูบ',
-                                  hasDrink: state.alcoholChoose ==
-                                              'ไม่ดื่มแอลกอฮอลล์' ||
-                                          state.alcoholChoose == 'เคยดื่ม'
-                                      ? false
-                                      : true,
-                                );
-                                context.read<HealthAssessmentBloc>().add(
-                                    SubmitHealthDataEvent(modelHealthData));
-
                                 context
                                     .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
                             } else if (state.currentStep == 6) {
-                              if ((state.goalChoose != null)) {
-                                final modelPersonalData =
-                                    HealthAssessmentPersonalDataRequestModel(
-                                        imageUrl:
-                                            state.formData['imageUrl'] ?? '',
-                                        username:
-                                            state.formData['username'] ?? '',
-                                        yearOfBirth: int.tryParse(state
-                                                    .formData['birthYear']
-                                                    ?.toString() ??
-                                                '') ??
-                                            0,
-                                        gender:
-                                            state.formData['gender'] == 'female'
-                                                ? false
-                                                : true,
-                                        height: double.tryParse(state
-                                                    .formData['height']
-                                                    ?.toString() ??
-                                                '') ??
-                                            0,
-                                        weight: double.tryParse(
-                                                state.formData['weight']?.toString() ?? '') ??
-                                            0,
-                                        email: state.formData['email'] ?? '',
-                                        userGoal: state.goalChoose == 'สร้างกล้ามเนื้อ'
-                                            ? 0
-                                            : state.goalChoose == 'สุขภาพดี'
-                                                ? 1
-                                                : state.goalChoose == 'ลดน้ำหนัก'
-                                                    ? 2
-                                                    : -1);
+                              if (state.goalChoose != null) {
                                 context.read<HealthAssessmentBloc>().add(
                                     SubmitPersonalDataEvent(modelPersonalData));
+                                context.read<HealthAssessmentBloc>().add(
+                                    SubmitHealthDataEvent(modelHealthData));
                                 context
                                     .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
+                            } else if (state.currentStep == 10) {
+                              context.read<HealthAssessmentBloc>().add(
+                                  SubmitPersonalDataEvent(modelPersonalData));
+                              context
+                                  .read<HealthAssessmentPageBloc>()
+                                  .add(StepContinue());
                             } else {
                               context
                                   .read<HealthAssessmentPageBloc>()
                                   .add(StepContinue());
                             }
                           },
-                          title: state.currentStep == 6 ? 'เสร็จสิ้น' : 'ถัดไป',
+                          title:
+                              state.currentStep == 10 ? 'เสร็จสิ้น' : 'ถัดไป',
                         )
                       : Container(),
                 ),
@@ -284,6 +264,17 @@ class StepContent extends StatelessWidget {
             return const SmokeStep();
           case 6:
             return const GoalStep();
+          case 7:
+            return ResultAssessment();
+          case 8:
+            return RecommendScreen();
+          case 9:
+            return GoalStepScreen();
+          case 10:
+            return GoalExerciseScreen();
+          case 11:
+            return CongratsScreen();
+
           default:
             return const Center(child: Text('Unknown Step'));
         }

@@ -12,15 +12,15 @@ class HealthAssessmentPageState extends Equatable {
   final String? smokeChoose;
   final String? goalChoose;
   final List<String> famhisChoose;
-  final bool isCompleted;
+  final bool isResultCompleted;
   final bool showStartStep;
-  final bool showHealthConnect;
-  final bool showRecommend;
-  final bool showFinish;
+  final bool showRecommendStep;
   final int riskDiabetesScore;
   final int riskHypertensionScore;
   final int riskDyslipidemiaScore;
   final int riskObesityScore;
+  final int? recommendGoalStep;
+  final int? recommendExStep;
 
   const HealthAssessmentPageState({
     required this.currentStep,
@@ -33,15 +33,15 @@ class HealthAssessmentPageState extends Equatable {
     this.smokeChoose,
     this.goalChoose,
     this.famhisChoose = const [],
-    this.isCompleted = false,
-    this.showHealthConnect = false,
-    this.showRecommend = false,
-    this.showFinish = false,
+    this.isResultCompleted = false,
     this.showStartStep = false,
+    this.showRecommendStep = false,
     this.riskDiabetesScore = 0,
     this.riskHypertensionScore = 0,
     this.riskDyslipidemiaScore = 0,
     this.riskObesityScore = 0,
+    this.recommendGoalStep,
+    this.recommendExStep,
   });
 
   HealthAssessmentPageState copyWith({
@@ -55,9 +55,13 @@ class HealthAssessmentPageState extends Equatable {
     String? smokeChoose,
     String? goalChoose,
     List<String>? famhisChoose,
-    bool? isCompleted,
+    bool? isHealthAssessmentCompleted,
+    bool? isResultCompleted,
     bool? showHealthConnect,
     bool? showRecommend,
+    bool? showGoalStep,
+    bool? showRecommendStep,
+    bool? ShowGoalExercise,
     bool? showFinish,
     bool? showStartStep,
     int? riskDiabetesScore,
@@ -65,6 +69,8 @@ class HealthAssessmentPageState extends Equatable {
     int? riskDyslipidemiaScore,
     int? riskObesityScore,
     bool? isLoading,
+    int? recommendGoalStep,
+    int? recommendExStep,
   }) {
     return HealthAssessmentPageState(
       currentStep: currentStep ?? this.currentStep,
@@ -77,10 +83,7 @@ class HealthAssessmentPageState extends Equatable {
       smokeChoose: smokeChoose ?? this.smokeChoose,
       goalChoose: goalChoose ?? this.goalChoose,
       famhisChoose: famhisChoose ?? this.famhisChoose,
-      isCompleted: isCompleted ?? this.isCompleted,
-      showHealthConnect: showHealthConnect ?? this.showHealthConnect,
-      showRecommend: showRecommend ?? this.showRecommend,
-      showFinish: showFinish ?? this.showFinish,
+      isResultCompleted: isResultCompleted ?? this.isResultCompleted,
       showStartStep: showStartStep ?? this.showStartStep,
       riskDiabetesScore: riskDiabetesScore ?? this.riskDiabetesScore,
       riskHypertensionScore:
@@ -88,6 +91,9 @@ class HealthAssessmentPageState extends Equatable {
       riskDyslipidemiaScore:
           riskDyslipidemiaScore ?? this.riskDyslipidemiaScore,
       riskObesityScore: riskObesityScore ?? this.riskObesityScore,
+      showRecommendStep: showRecommendStep ?? this.showRecommendStep,
+      recommendGoalStep: recommendGoalStep ?? this.recommendGoalStep,
+      recommendExStep: recommendExStep ?? this.recommendExStep,
     );
   }
 
@@ -103,10 +109,10 @@ class HealthAssessmentPageState extends Equatable {
         smokeChoose,
         goalChoose,
         famhisChoose,
-        isCompleted,
-        showHealthConnect,
-        showRecommend,
-        showFinish,
+        isResultCompleted,
         showStartStep,
+        showRecommendStep,
       ];
+
+  get modelPersonalData => null;
 }

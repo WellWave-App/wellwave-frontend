@@ -1,0 +1,448 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
+
+import '../../../../config/constants/app_strings.dart';
+import '../../data/models/drink_plan_notification_response_model.dart';
+import '../../data/models/mission_notification_request_model.dart';
+import '../../data/repositories/notification_repositories.dart';
+part 'noti_state.dart';
+part 'noti_event.dart';
+
+class NotiBloc extends Bloc<NotiEvent, NotiState> {
+  final NotificationSettingRepository _notificationSettingRepository;
+
+  NotiBloc(this._notificationSettingRepository) : super(NotiInitial()) {
+    on<CreateBedtimeEvent>(_onCreateBedtimeEvent);
+    on<UpdateBedtimeEvent>(_onUpdateBedtimeEvent);
+    on<FetchBedtimeEvent>(_onFetchBedtimeEvent);
+
+    on<CreateDrinkPlanEvent>(_onCreateDrinkPlanEvent);
+    on<FetchDrinkPlanEvent>(_onFetchDrinkPlanEvent);
+    on<UpdateDrinkPlanEvent>(_onUpdateDrinkPlanEvent);
+
+    on<CreateDrinkRangeEvent>(_onCreateDrinkRangeEvent);
+    on<FetchDrinkRangeEvent>(_onFetchDrinkRangeEvent);
+    on<UpdateDrinkRangeEvent>(_onUpdateDrinkRangeEvent);
+
+    on<FetchMissionEvent>(_onFetchMissionEvent);
+    on<ToggleAllSwitchesEvent>(_onToggleAllSwitchesEvent);
+  }
+
+  int uid = AppStrings.uid;
+
+  Future<void> _onCreateBedtimeEvent(
+      CreateBedtimeEvent event, Emitter<NotiState> emit) async {
+    try {
+      await createBedTime(
+          event.uid, event.isActive, event.bedtime, event.weekdays);
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(
+          bedtimeState: BedtimeState(
+            isActive: event.isActive,
+            bedtime: event.bedtime,
+            weekdays: event.weekdays,
+          ),
+        ));
+      } else {
+        emit(NotiLoadedState(
+          bedtimeState: BedtimeState(
+            isActive: event.isActive,
+            bedtime: event.bedtime,
+            weekdays: event.weekdays,
+          ),
+        ));
+      }
+    } catch (error) {
+      debugPrint('Error creating bedtime: $error');
+    }
+  }
+
+  Future<void> _onUpdateBedtimeEvent(
+      UpdateBedtimeEvent event, Emitter<NotiState> emit) async {
+    try {
+      await updateBedTime(
+          event.uid, event.isActive, "", _notificationSettingRepository);
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(
+          bedtimeState:
+              currentState.bedtimeState?.copyWith(isActive: event.isActive),
+        ));
+      } else {
+        emit(NotiLoadedState(
+          bedtimeState: BedtimeState(
+            isActive: event.isActive,
+            bedtime: "",
+            weekdays: {},
+          ),
+        ));
+      }
+    } catch (error) {
+      debugPrint('Error updating bedtime: $error');
+    }
+  }
+
+  Future<void> _onFetchBedtimeEvent(
+      FetchBedtimeEvent event, Emitter<NotiState> emit) async {
+    try {
+      if (state is! BedtimeState) {
+        final fetchedData =
+            await _notificationSettingRepository.fetchBedSetting();
+
+        final bedtimeState = BedtimeState(
+          isActive: fetchedData!.isActive,
+          bedtime: fetchedData.setting.bedtime,
+          weekdays: fetchedData.setting.weekdays,
+        );
+
+        if (state is NotiLoadedState) {
+          emit((state as NotiLoadedState).copyWith(bedtimeState: bedtimeState));
+        } else {
+          emit(NotiLoadedState(bedtimeState: bedtimeState));
+        }
+      }
+    } catch (error) {
+      debugPrint('Error fetching bedtime: $error');
+    }
+  }
+
+  Future<void> _onCreateDrinkPlanEvent(
+      CreateDrinkPlanEvent event, Emitter<NotiState> emit) async {
+    try {
+      final newSetting = DrinkSettingDetail(
+        uid: event.uid,
+        notificationType: 'WATER_PLAN',
+        notitime: event.notitime,
+        glassNumber: event.glassNumber,
+      );
+
+      await createDrinkPlan(
+        event.uid,
+        event.glassNumber,
+        event.notitime,
+        _notificationSettingRepository,
+      );
+
+      final newDrinkPlanState = DrinkPlanState(
+        isActive: true,
+        settings: [newSetting],
+      );
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(drinkPlanState: newDrinkPlanState));
+      } else {
+        emit(newDrinkPlanState);
+      }
+
+      debugPrint(
+          'DrinkPlan created and state updated: isActive = true, settings count = 1');
+    } catch (error) {
+      debugPrint('Error creating DrinkPlan: $error');
+    }
+  }
+
+  Future<void> _onFetchDrinkPlanEvent(
+      FetchDrinkPlanEvent event, Emitter<NotiState> emit) async {
+    try {
+      final fetchedData =
+          await _notificationSettingRepository.fetchDrinkPlanSetting();
+
+      if (fetchedData != null) {
+        debugPrint(
+            'bloc Fetched Data: isActive = ${fetchedData.isActive}, settings count = ${fetchedData.setting.length}');
+
+        for (var setting in fetchedData.setting) {
+          debugPrint('Setting Detail: ${setting.toJson()}');
+        }
+
+        final newDrinkPlanState = DrinkPlanState(
+          isActive: fetchedData.isActive,
+          settings: fetchedData.setting,
+        );
+
+        if (state is NotiLoadedState) {
+          final currentState = state as NotiLoadedState;
+          emit(currentState.copyWith(drinkPlanState: newDrinkPlanState));
+        } else {
+          emit(newDrinkPlanState);
+        }
+
+        debugPrint(
+            'DrinkPlanState emitted with isActive: ${fetchedData.isActive}, settings count = ${fetchedData.setting.length}');
+      } else {
+        debugPrint('Error: No data fetched or data was null');
+      }
+    } catch (error) {
+      debugPrint('Error fetching drinkPlan: $error');
+    }
+  }
+
+  Future<void> createBedTime(int uid, bool isActive, String bedTime,
+      Map<String, bool> weekdays) async {
+    try {
+      await _notificationSettingRepository.createBedSetting(
+        uid: uid,
+        isActive: isActive,
+        bedtime: bedTime,
+        weekdays: weekdays,
+      );
+      debugPrint(
+          'Bedtime setting created successfully for $uid, $isActive, $bedTime');
+    } catch (error) {
+      debugPrint('Error submitting log: $error');
+    }
+  }
+
+  Future<void> updateBedTime(int uid, bool isActive, String bedTime,
+      NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.updateBedSetting(
+        uid: uid,
+        isActive: isActive,
+      );
+      debugPrint('Bedtime setting updated successfully for $uid, $isActive');
+    } catch (error) {
+      debugPrint('Error submitting log: $error');
+    }
+  }
+
+  Future<void> createDrinkPlan(int uid, int glassNumber, String notitime,
+      NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.createDrinkPlanSetting(
+        uid: uid,
+        glassNumber: glassNumber,
+        notitime: notitime,
+      );
+      debugPrint(
+          'DrinkPlan setting created successfully for $uid, $notitime, $glassNumber');
+    } catch (error) {
+      debugPrint('Error submitting DrinkPlan: $error');
+    }
+  }
+
+  Future<void> _onUpdateDrinkPlanEvent(
+      UpdateDrinkPlanEvent event, Emitter<NotiState> emit) async {
+    try {
+      await updateDrinkPlan(
+        event.uid,
+        event.isActive,
+        _notificationSettingRepository,
+      );
+
+      final newDrinkPlanState = DrinkPlanState(
+        isActive: event.isActive,
+        settings:
+            state is DrinkPlanState ? (state as DrinkPlanState).settings : [],
+      );
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(drinkPlanState: newDrinkPlanState));
+      } else {
+        emit(newDrinkPlanState);
+      }
+
+      debugPrint('DrinkPlan updated: isActive = ${event.isActive}');
+    } catch (error) {
+      debugPrint('Error updating DrinkPlan: $error');
+    }
+  }
+
+  Future<void> updateDrinkPlan(int uid, bool isActive,
+      NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.updateDrinkPlanSetting(
+        uid: uid,
+        isActive: isActive,
+      );
+      debugPrint('DrinkPlan setting updated successfully for $uid, $isActive');
+    } catch (error) {
+      debugPrint('Error submitting DrinkPlan: $error');
+    }
+  }
+
+  Future<void> _onCreateDrinkRangeEvent(
+      CreateDrinkRangeEvent event, Emitter<NotiState> emit) async {
+    try {
+      await createDrinkRange(
+        event.uid,
+        event.startTime,
+        event.endTime,
+        event.intervalMinute,
+        _notificationSettingRepository,
+      );
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(
+          drinkRangeState: DrinkRangeState(
+            isActive: true,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            intervalMinute: event.intervalMinute,
+          ),
+        ));
+      } else {
+        emit(NotiLoadedState(
+          drinkRangeState: DrinkRangeState(
+            isActive: true,
+            startTime: event.startTime,
+            endTime: event.endTime,
+            intervalMinute: event.intervalMinute,
+          ),
+        ));
+      }
+    } catch (error) {
+      debugPrint('Error creating DrinkRange: $error');
+    }
+  }
+
+  Future<void> _onFetchDrinkRangeEvent(
+      FetchDrinkRangeEvent event, Emitter<NotiState> emit) async {
+    try {
+      if (state is! DrinkRangeState) {
+        final fetchedData =
+            await _notificationSettingRepository.fetchDrinkRangeSetting();
+
+        final drinkRangeState = DrinkRangeState(
+          isActive: fetchedData!.isActive,
+          startTime: fetchedData.setting.startTime,
+          endTime: fetchedData.setting.endTime,
+          intervalMinute: fetchedData.setting.intervalMinute,
+        );
+
+        if (state is NotiLoadedState) {
+          emit((state as NotiLoadedState)
+              .copyWith(drinkRangeState: drinkRangeState));
+        } else {
+          emit(NotiLoadedState(drinkRangeState: drinkRangeState));
+        }
+      }
+    } catch (error) {
+      debugPrint('Error fetching drink range: $error');
+    }
+  }
+
+  Future<void> _onUpdateDrinkRangeEvent(
+      UpdateDrinkRangeEvent event, Emitter<NotiState> emit) async {
+    try {
+      await updateDrinkRange(
+          event.uid, event.isActive, "", "", 0, _notificationSettingRepository);
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        emit(currentState.copyWith(
+          drinkRangeState:
+              currentState.drinkRangeState?.copyWith(isActive: event.isActive),
+        ));
+      } else {
+        emit(NotiLoadedState(
+          drinkRangeState: DrinkRangeState(
+            isActive: event.isActive,
+            startTime: '',
+            endTime: '',
+            intervalMinute: 0,
+          ),
+        ));
+      }
+    } catch (error) {
+      debugPrint('Error updating drink range: $error');
+    }
+  }
+
+  Future<void> createDrinkRange(int uid, String startTime, String endTime,
+      int intervalMinute, NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.createDrinkRangeSetting(
+        uid: uid,
+        startTime: startTime,
+        endTime: endTime,
+        intervalMinute: intervalMinute,
+      );
+      debugPrint(
+          'DrinkRange setting created successfully for $uid, startTime: $startTime, endTime: $endTime, intervalMinute: $intervalMinute');
+    } catch (error) {
+      debugPrint('Error creating DrinkRange: $error');
+    }
+  }
+
+  Future<void> updateDrinkRange(
+      int uid,
+      bool isActive,
+      String startTime,
+      String endTime,
+      int intervalMinute,
+      NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.updateDrinkRangeSetting(
+        uid: uid,
+        isActive: isActive,
+      );
+      debugPrint(
+          'DrinkRange setting updated successfully for $uid, isActive: $isActive, startTime: $startTime, endTime: $endTime, intervalMinute: $intervalMinute');
+    } catch (error) {
+      debugPrint('Error updating DrinkRange: $error');
+    }
+  }
+
+  //mission
+  Future<void> _onFetchMissionEvent(
+      FetchMissionEvent event, Emitter<NotiState> emit) async {
+    try {
+      debugPrint('Current state: $state');
+
+      final missions =
+          await _notificationSettingRepository.fetchMissionSetting();
+
+      if (missions.isNotEmpty) {
+        debugPrint('Fetched ${missions.length} missions:');
+        for (var mission in missions) {
+          debugPrint('Mission: hid = ${mission.hid}, '
+              'title = ${mission.title}, '
+              'isNotificationEnabled = ${mission.isNotificationEnabled}, '
+              'weekdaysNoti = ${mission.weekdaysNoti}');
+        }
+
+        final missionState = MissionState(
+          missions: missions,
+          total: missions.length,
+        );
+
+        if (state is NotiLoadedState) {
+          emit((state as NotiLoadedState).copyWith(missionState: missionState));
+        } else {
+          emit(NotiLoadedState(missionState: missionState));
+        }
+        debugPrint(
+            'Emitted new state with ${missions.length} missions'); // Add this debug line
+      } else {
+        debugPrint('Error: No missions fetched');
+        emit(NotiError(message: 'No missions found'));
+      }
+    } catch (error) {
+      debugPrint('Error fetching missions: $error');
+      emit(NotiError(message: error.toString()));
+    }
+  }
+
+  Future<void> _onToggleAllSwitchesEvent(
+      ToggleAllSwitchesEvent event, Emitter<NotiState> emit) async {
+    if (state is NotiLoadedState) {
+      final currentState = state as NotiLoadedState;
+      final updatedMissions =
+          currentState.missionState!.missions.map((mission) {
+        return mission.copyWith(isNotificationEnabled: true);
+      }).toList();
+
+      emit(NotiLoadedState(
+        missionState:
+            currentState.missionState!.copyWith(missions: updatedMissions),
+      ));
+    }
+  }
+}

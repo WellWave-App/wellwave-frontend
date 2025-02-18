@@ -33,23 +33,17 @@ class HealthAssessmentPageBloc
     on<ToggleSelectionEvent>(_onToggleSelection);
     on<SetSelectionMode>(_onSetSelectionMode);
     on<StepContinue>((event, emit) {
-      if (state.currentStep < 6) {
+      if (state.currentStep < 11) {
         emit(state.copyWith(currentStep: state.currentStep + 1));
       } else {
-        debugPrint('Success Step');
-        emit(state.copyWith(isCompleted: true));
+        emit(state.copyWith(isHealthAssessmentCompleted: true));
       }
     });
 
-    on<ShowHealthConnectEvent>((event, emit) {
-      emit(state.copyWith(showHealthConnect: true));
-    });
     on<ShowRecommendEvent>((event, emit) {
-      emit(state.copyWith(showRecommend: true));
+      emit(state.copyWith(showRecommendStep: true));
     });
-    on<ShowFinishEvent>((event, emit) {
-      emit(state.copyWith(showFinish: true));
-    });
+
     on<ImagePicked>(_onImagePicked);
   }
 
@@ -66,7 +60,7 @@ class HealthAssessmentPageBloc
 
   void _onStepContinue(
       StepContinue event, Emitter<HealthAssessmentPageState> emit) {
-    if (state.currentStep < 6) {
+    if (state.currentStep < 11) {
       emit(state.copyWith(currentStep: state.currentStep + 1));
     }
   }

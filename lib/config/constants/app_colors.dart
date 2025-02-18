@@ -20,6 +20,10 @@ class AppColors {
   static const orangeColor = Color(0xffff8623f);
   static const greenColor = Color(0xfff16a34a);
   static const green25Color = Color(0xFFC5E8D1);
+  static const greyColor = Color(0xFF919191);
+  static const popupColor = Color(0xFFE9E9E9);
+  static const blueGrayColor = Color(0xFF5A6684);
+  static const darkGrayColor = Color(0xFF707070);
 
   static const greenLevelColor = Color(0xfff38d0be);
   static const yellowLevelColor = Color(0xfffffc466);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+
 import '../../config/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -62,6 +63,8 @@ class CustomAppBarWithStep extends AppBar {
     required bool onLeading,
     required int totalSteps,
     required int currentStep,
+    bool showStepIndicator = true,
+    String? titleText,
     Color? textColor,
     Color? bgColor,
     Function? onBackPressed,
@@ -101,21 +104,32 @@ class CustomAppBarWithStep extends AppBar {
                 child: additionalIcon,
               ),
           ],
-          title: Row(
+          title: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 200,
-                height: 20,
-                child: StepProgressIndicator(
-                  totalSteps: totalSteps,
-                  currentStep: currentStep + 1,
-                  size: 4,
-                  padding: 0,
-                  selectedColor: AppColors.primaryColor,
-                  unselectedColor: AppColors.lightgrayColor,
+              if (titleText != null)
+                Text(
+                  titleText,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: AppColors.blackColor,
+                      ),
                 ),
-              ),
+              if (showStepIndicator)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: SizedBox(
+                    width: 200,
+                    height: 20,
+                    child: StepProgressIndicator(
+                      totalSteps: totalSteps,
+                      currentStep: currentStep + 1,
+                      size: 4,
+                      padding: 0,
+                      selectedColor: AppColors.primaryColor,
+                      unselectedColor: AppColors.lightgrayColor,
+                    ),
+                  ),
+                ),
             ],
           ),
         );

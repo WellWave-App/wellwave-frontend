@@ -55,7 +55,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       controller: _controller,
       keyboardType: widget.keyboardType,
       inputFormatters: _getInputFormatters(),
-      style: Theme.of(context).textTheme.titleSmall,
+      style: Theme.of(context).textTheme.bodyMedium,
       validator: (value) {
         if (widget.validator != null) {
           return widget.validator!(value);
@@ -71,10 +71,10 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixText: widget.suffixText,
-        labelStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
+        labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColors.bluegrayColor,
             ),
-        suffixStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+        suffixStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColors.darkgrayColor,
             ),
         enabledBorder: const UnderlineInputBorder(
@@ -84,7 +84,110 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           borderSide: BorderSide(color: AppColors.primaryColor),
         ),
         filled: true,
-        fillColor: AppColors.backgroundColor,
+        fillColor: AppColors.whiteColor,
+        contentPadding: EdgeInsets.zero,
+      ),
+    );
+  }
+
+  List<TextInputFormatter>? _getInputFormatters() {
+    List<TextInputFormatter>? formatters = widget.inputFormatters;
+
+    if (widget.keyboardType == TextInputType.number) {
+      formatters = (formatters ?? [])
+        ..add(FilteringTextInputFormatter.digitsOnly);
+    }
+
+    return formatters;
+  }
+}
+
+class CustomTextFormFieldLarge extends StatefulWidget {
+  final String? labelText;
+  final String hintText;
+  final String? suffixText;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final Function(String)? onChanged;
+  final String initialValue;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextEditingController? controller;
+
+  const CustomTextFormFieldLarge({
+    super.key,
+    this.labelText,
+    required this.hintText,
+    this.suffixText,
+    this.keyboardType,
+    this.validator,
+    this.onChanged,
+    this.initialValue = '',
+    this.inputFormatters,
+    this.controller,
+  });
+
+  @override
+  _CustomTextFormFieldLargeState createState() =>
+      _CustomTextFormFieldLargeState();
+}
+
+class _CustomTextFormFieldLargeState extends State<CustomTextFormFieldLarge> {
+  final FocusNode _focusNode = FocusNode();
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        widget.controller ?? TextEditingController(text: widget.initialValue);
+    _focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      focusNode: _focusNode,
+      controller: _controller,
+      keyboardType: widget.keyboardType,
+      inputFormatters: _getInputFormatters(),
+      style: Theme.of(context).textTheme.titleXL,
+      validator: widget.validator,
+      onChanged: (value) {
+        widget.onChanged?.call(value);
+      },
+      decoration: InputDecoration(
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        hintStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: AppColors.darkgrayColor,
+            ),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixText: widget.suffixText,
+        labelStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: AppColors.bluegrayColor,
+            ),
+        suffixStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: AppColors.darkgrayColor,
+            ),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.grayColor),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.primaryColor),
+        ),
+        filled: true,
+        fillColor: AppColors.transparentColor,
         contentPadding: EdgeInsets.zero,
       ),
     );

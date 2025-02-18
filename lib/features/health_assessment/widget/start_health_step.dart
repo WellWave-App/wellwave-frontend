@@ -24,13 +24,13 @@ class StartHealthStep extends StatelessWidget {
             children: <Widget>[
               SvgPicture.asset(
                 AppImages.healthassessmentIMG,
-                width: MediaQuery.of(context).size.width - 100,
+                width: 238,
               ),
               const SizedBox(
                 height: 48,
               ),
               Text(
-                "แบบประเมินสุขภาพ",
+                AppStrings.healthAssessmentText,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(
@@ -38,7 +38,9 @@ class StartHealthStep extends StatelessWidget {
               ),
               Text(
                 AppStrings.healthAssessmentDetailsText,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.blackColor,
+                    ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -47,7 +49,7 @@ class StartHealthStep extends StatelessWidget {
               CustomButton(
                 width: 250,
                 bgColor: AppColors.primaryColor,
-                textColor: AppColors.backgroundColor,
+                textColor: AppColors.whiteColor,
                 onPressed: () {
                   Navigator.push(
                     context,
