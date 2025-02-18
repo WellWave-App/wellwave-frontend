@@ -1,18 +1,22 @@
-part of 'article_bloc.dart';
+// article_state.dart
 
-@immutable
+import 'package:wellwave_frontend/features/article/data/models/article_model.dart';
+
+
 abstract class ArticleState {}
 
-class ArticleInitial extends ArticleState {} // สถานะเริ่มต้น
+class ArticleInitial extends ArticleState {}
 
-class ArticleLoading extends ArticleState {} // กำลังโหลดข้อมูล
+class ArticleLoading extends ArticleState {}
 
 class ArticleLoaded extends ArticleState {
   final List<Article> articles;
+
   ArticleLoaded(this.articles);
 }
 
 class ArticleError extends ArticleState {
-  final String message;
-  ArticleError(this.message);
+  final String errorMessage;
+
+  ArticleError(this.errorMessage);
 }
