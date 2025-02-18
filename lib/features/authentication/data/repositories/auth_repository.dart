@@ -63,7 +63,7 @@ import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/authentication/data/models/auth_model.dart';
 
 class AuthRepository {
-  final String baseUrl = 'http://10.0.2.2:3001/auth';
+  final String baseUrl = 'http://10.0.2.2:3000/auth';
   Map<String, dynamic>? _lastLoginResponse;
 
   // Register
