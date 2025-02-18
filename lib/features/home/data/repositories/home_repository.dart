@@ -147,6 +147,38 @@ class NotificationsRepository {
     }
   }
 
+  Future<bool> markAllAsReadNotification() async {
+    const baseUrl = AppStrings.baseUrl;
+    const token = AppStrings.token;
+
+    final url = Uri.parse('$baseUrl/notification-history/mark-all-read');
+
+    debugPrint('URL: $url');
+
+    try {
+      final response = await http.patch(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        debugPrint('Notification marked as read successfully');
+        return true;
+      } else {
+        debugPrint(
+            'Failed to mark notification as read: ${response.statusCode}');
+        debugPrint('Response Body: ${response.body}');
+        return false;
+      }
+    } catch (e) {
+      debugPrint('Error marking notification as read: $e');
+      return false;
+    }
+  }
+
   Future<bool> markAsReadNotification({
     required String notificationId,
   }) async {

@@ -255,6 +255,7 @@ class AppStrings {
   static const greatjobText = 'สุดยอดไปเลย! สัปดาห์นี้ไปกันต่อ~';
 
   static const noNotiText = 'ยังไม่มีการแจ้งเตือน';
+  static const MarkAsReadAllText = 'อ่านทั้งหมด';
   static const weightAndWaistReAssessmentText = 'อันดับแรก มาเช็กหุ่นกันหน่อย!';
   static const pressureReAssessmentText =
       'มาต่อกันที่ความดัน เดือนนี้เป็นไงบ้าง?';

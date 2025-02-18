@@ -88,7 +88,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                             InputButton(
                               buttonText: 'เพิ่ม',
                               onPressed: () {
-                                context.goNamed(AppPages.missionPage);
+                                context.goNamed(AppPages.missionName);
                               },
                             ),
                           ],

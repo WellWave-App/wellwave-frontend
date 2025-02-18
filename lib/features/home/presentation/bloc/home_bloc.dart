@@ -165,6 +165,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<MarkAsReadNotiEvent>(_onMarkAsReadNotiEvent);
+    on<MarkAllAsReadNotiEvent>(_onMarkAllAsReadNotiEvent);
   }
   Future<void> _onMarkAsReadNotiEvent(
     MarkAsReadNotiEvent event,
@@ -184,6 +185,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               return notification.copyWith(isRead: true);
             }
             return notification;
+          }).toList();
+
+          emit(currentState.copyWith(notiData: updatedNotifications));
+        }
+      } else {
+        debugPrint('Failed to mark as read');
+      }
+    } catch (e) {
+      debugPrint('Failed to mark as read: $e');
+    }
+  }
+
+  Future<void> _onMarkAllAsReadNotiEvent(
+    MarkAllAsReadNotiEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    try {
+      final success = await notificationsRepository.markAllAsReadNotification();
+
+      if (success) {
+        if (state is HomeLoadedState) {
+          final currentState = state as HomeLoadedState;
+          final updatedNotifications =
+              currentState.notiData!.map((notification) {
+            return notification.copyWith(isRead: true);
           }).toList();
 
           emit(currentState.copyWith(notiData: updatedNotifications));

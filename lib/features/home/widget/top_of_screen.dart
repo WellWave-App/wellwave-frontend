@@ -78,7 +78,7 @@ class TopOfScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        context.goNamed(AppPages.notificationPage);
+                        context.goNamed(AppPages.notificationName);
                       },
                       child: SvgPicture.asset(
                         AppImages.notiIcon,
@@ -105,7 +105,7 @@ class TopOfScreen extends StatelessWidget {
                 const SizedBox(width: 16),
                 GestureDetector(
                   onTap: () {
-                    context.goNamed(AppPages.friendPage);
+                    context.goNamed(AppPages.friendName);
                   },
                   child: profilePicture,
                 ),

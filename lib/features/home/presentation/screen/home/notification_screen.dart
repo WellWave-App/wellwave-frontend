@@ -9,6 +9,7 @@ import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/widget/notification_item.dart';
 
@@ -24,7 +25,16 @@ class NotificationScreen extends StatelessWidget {
           title: 'แจ้งเตือน',
           backgroundColor: AppColors.transparentColor,
           onBackPressed: () {
-            context.goNamed(AppPages.homePage);
+            context.goNamed(AppPages.homeName);
+          },
+          actionIcon: Text(
+            AppStrings.MarkAsReadAllText,
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: AppColors.darkGrayColor,
+                ),
+          ),
+          action: () {
+            context.read<HomeBloc>().add(MarkAllAsReadNotiEvent());
           },
         ),
         body: BlocBuilder<HomeBloc, HomeState>(
