@@ -90,6 +90,18 @@ class AchievementScreen extends StatelessWidget {
                         ? state.achievements
                         : (state as ArcheivementReadSuccess).achievements;
 
+                    final Map<String, ArcheivementRequestModel>
+                        highestLevelAchievements = {};
+
+                    for (var achievement in achievements) {
+                      final achId = achievement.achId;
+                      if (!highestLevelAchievements.containsKey(achId) ||
+                          highestLevelAchievements[achId]!.level <
+                              achievement.level) {
+                        highestLevelAchievements[achId] = achievement;
+                      }
+                    }
+
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -99,7 +111,7 @@ class AchievementScreen extends StatelessWidget {
                             spacing: 45.0,
                             runSpacing: 16.0,
                             alignment: WrapAlignment.start,
-                            children: (achievements.toList()
+                            children: (highestLevelAchievements.values.toList()
                                   ..sort((a, b) => a.isRead ? 1 : -1))
                                 .map((achievement) {
                               final selectedLevel = achievement
@@ -126,8 +138,7 @@ class AchievementScreen extends StatelessWidget {
                                         );
                                       },
                                     ),
-                                    if (!achievement
-                                        .isRead) // Show red spot if unread
+                                    if (!achievement.isRead)
                                       Positioned(
                                         top: -4,
                                         right: -4,

@@ -7,6 +7,7 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../../config/constants/app_images.dart';
 import '../../../../../config/constants/app_pages.dart';
+import '../../../data/models/archeivement_request_model.dart';
 import '../../bloc/archeivement_bloc/archeivement_bloc.dart';
 import '../../bloc/archeivement_bloc/archeivement_event.dart';
 import '../../bloc/archeivement_bloc/archeivement_state.dart';
@@ -67,15 +68,25 @@ class AchievementCard extends StatelessWidget {
                           ? state.achievements
                           : (state as ArcheivementReadSuccess).achievements;
 
+                      final Map<String, ArcheivementRequestModel>
+                          highestLevelAchievements = {};
+
+                      for (var achievement in achievements) {
+                        final achId = achievement.achId;
+                        if (!highestLevelAchievements.containsKey(achId) ||
+                            highestLevelAchievements[achId]!.level <
+                                achievement.level) {
+                          highestLevelAchievements[achId] = achievement;
+                        }
+                      }
+
                       return Align(
-                        alignment: Alignment
-                            .centerLeft, // Ensures content starts at the left
+                        alignment: Alignment.centerLeft,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment
-                                .start, // Aligns items at the top
-                            children: (achievements.toList()
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: (highestLevelAchievements.values.toList()
                                   ..sort((a, b) => a.isRead ? 1 : -1))
                                 .map((achievement) {
                               final selectedLevel = achievement
