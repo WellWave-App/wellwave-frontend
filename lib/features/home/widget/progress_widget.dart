@@ -322,13 +322,8 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                               'วันต่อเนื่อง',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodySmall
+                                  .bodyMedium
                                   ?.copyWith(color: AppColors.whiteColor),
-                            ),
-                            const SizedBox(width: 8),
-                            SvgPicture.asset(
-                              AppImages.fireIcon,
-                              height: 16,
                             ),
                           ],
                         ),
