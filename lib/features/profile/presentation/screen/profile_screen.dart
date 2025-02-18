@@ -10,7 +10,6 @@ import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_blo
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_state.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/chart_section_widget.dart';
-import 'package:wellwave_frontend/features/profile/presentation/widget/profile/check_in_card.dart';
 
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/progress_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/round_border_text.dart';
@@ -109,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 24),
 
                         //CheckIn
-                        CheckInWidget(profileState: state),
+                        // CheckInWidget(profileState: state),
                         const SizedBox(height: 24),
 
                         //progress

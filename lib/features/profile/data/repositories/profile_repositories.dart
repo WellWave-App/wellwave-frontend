@@ -222,28 +222,28 @@ class ProfileRepositories {
     }
   }
 
-  Future<bool> logOut() async {
-    try {
-      final response = await http.get(
-        Uri.parse("$baseUrl/auth/logout"),
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
+  // Future<bool> logOut() async {
+  //   try {
+  //     final response = await http.get(
+  //       Uri.parse("$baseUrl/auth/logout"),
+  //       headers: {
+  //         'Authorization': 'Bearer $token',
+  //       },
+  //     );
 
-      debugPrint('Logout Response Status: ${response.statusCode}');
-      debugPrint('Logout Response Body: ${response.body}');
+  //     debugPrint('Logout Response Status: ${response.statusCode}');
+  //     debugPrint('Logout Response Body: ${response.body}');
 
-      if (response.statusCode == 200) {
-        AppStrings.token = '';
-        return true;
-      } else {
-        throw Exception(
-            'Failed to log out. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      debugPrint('Logout Error: $e');
-      return false;
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       AppStrings.token = '';
+  //       return true;
+  //     } else {
+  //       throw Exception(
+  //           'Failed to log out. Status code: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Logout Error: $e');
+  //     return false;
+  //   }
+  // }
 }

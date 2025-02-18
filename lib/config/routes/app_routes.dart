@@ -3,23 +3,26 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
+
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/home/notification_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
-import 'package:wellwave_frontend/features/leaderboard/presentation/screen/leaderboard_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
-import 'package:wellwave_frontend/features/profile/presentation/screen/achievement_screen.dart';
-import 'package:wellwave_frontend/features/profile/presentation/screen/edit_profile_screen.dart';
-import 'package:wellwave_frontend/features/profile/presentation/screen/profile_screen.dart';
-import 'package:wellwave_frontend/features/notification/presentation/screen/reminder_screen.dart';
-import 'package:wellwave_frontend/features/profile/presentation/screen/set_weekly_goal_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
+import '../../features/leaderboard/presentation/screen/leaderboard_screen.dart';
 import '../../features/notification/presentation/screen/drink_plan_screen.dart';
+import '../../features/notification/presentation/screen/reminder_screen.dart';
 import '../../features/notification/presentation/screen/test_noti.dart';
+import '../../features/home/presentation/screen/home/health_reassessment.dart';
+import '../../features/profile/presentation/screen/achievement_screen.dart';
+import '../../features/profile/presentation/screen/edit_profile_screen.dart';
+import '../../features/profile/presentation/screen/profile_screen.dart';
+import '../../features/profile/presentation/screen/set_weekly_goal_screen.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
@@ -31,6 +34,41 @@ final GoRouter goRouter = GoRouter(
         return const NoTransitionPage(child: SplashScreen());
       },
       routes: [
+        GoRoute(
+          path: AppPages.authenticationPage,
+          name: AppPages.authenticationName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const NoTransitionPage(child: AuthenticationScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.registerPage,
+          name: AppPages.registerName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: RegisterScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.registerSuccessPage,
+          name: AppPages.registerSuccessName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: RegisterSuccess());
+          },
+        ),
+        GoRoute(
+          path: AppPages.loginPage,
+          name: AppPages.loginName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: LoginScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.forgotPasswordPage,
+          name: AppPages.forgetPasswordName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: ForgotPasswordScreen());
+          },
+        ),
         GoRoute(
           path: AppPages.startPage,
           name: AppPages.startName,
@@ -146,6 +184,26 @@ final GoRouter goRouter = GoRouter(
           name: AppPages.articleName,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _buildPageWithNavBar(context, state, const ArticleScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.reassessmentPage,
+          name: AppPages.reassessmentName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return CustomTransitionPage(
+              child: const ReAssessmentScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            );
+          },
+        ),
+        GoRoute(
+          path: AppPages.notificationPage,
+          name: AppPages.notificationName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const NoTransitionPage(child: NotificationScreen());
           },
         ),
       ],

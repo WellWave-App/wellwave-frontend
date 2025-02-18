@@ -16,6 +16,17 @@ class AppPages {
   static const String setWeeklyGoalPage = 'setweeklygoal';
   static const String testNotiPage = 'testnoti';
   static const String leaderboardlPage = 'leaderboard';
+  static const String assessmentPage = 'assessment';
+  static const String notificationPage = 'notification';
+  static const String reassessmentPage = 'reassessment';
+  static const String findFriendPage = 'findFriend';
+  static const String profileFriendPage = 'profileFriend';
+  static const String leaderboardPage = 'leaderboard';
+  static const String authenticationPage = 'authentication';
+  static const String registerPage = 'register';
+  static const String loginPage = 'login';
+  static const String registerSuccessPage = 'registerSuccess';
+  static const String forgotPasswordPage = 'forgotPassword';
 
   // Name of the route
   static const String splashName = 'splash';
@@ -34,4 +45,16 @@ class AppPages {
   static const String setWeeklyGoalName = 'setweeklygoal';
   static const String testNotiName = 'testnoti';
   static const String leaderboardlName = 'leaderboard';
+  static const String assessmentName = 'assessment';
+  static const String notificationName = 'notification';
+  static const String reassessmentName = 'reassessment';
+  static const String findFriendName = 'findFriend';
+  static const String profileFriendName = 'profileFriend';
+  static const String leaderboardName = 'leaderboard';
+
+  static const String authenticationName = 'authentication';
+  static const String registerName = 'register';
+  static const String loginName = 'login';
+  static const String registerSuccessName = 'registerSuccess';
+  static const String forgetPasswordName = 'forgotPassword';
 }

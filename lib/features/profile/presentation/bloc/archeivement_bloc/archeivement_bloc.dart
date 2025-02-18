@@ -52,8 +52,9 @@ class ArcheivementBloc extends Bloc<ArcheivementEvent, ArcheivementState> {
     ReadArcheivement event,
     Emitter<ArcheivementState> emit,
   ) async {
-    if (state is! ArcheivementLoaded)
+    if (state is! ArcheivementLoaded) {
       return; // Ensure we have achievements loaded
+    }
 
     final currentState = state as ArcheivementLoaded;
     emit(ArcheivementLoaded(currentState.achievements)); // Maintain UI state
