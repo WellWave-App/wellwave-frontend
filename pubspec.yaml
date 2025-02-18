@@ -32,7 +32,6 @@ dependencies:
   equatable: ^2.0.5
   form_field_validator: ^1.1.0
   confetti: ^0.6.0
-  shared_preferences: ^2.5.1
   action_slider: ^0.7.0
   syncfusion_flutter_charts: ^21.1.35
   percent_indicator: ^4.2.2
