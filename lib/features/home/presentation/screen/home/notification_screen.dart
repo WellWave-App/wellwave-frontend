@@ -18,56 +18,49 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        context: context,
-        onLeading: true,
-        title: 'แจ้งเตือน',
-        backgroundColor: AppColors.transparentColor,
-        onBackPressed: () {
-          context.goNamed(AppPages.homePage);
-        },
-      ),
-      body:
-          // notificationlist.isNotEmpty
-          //     ? SingleChildScrollView(
-          //         child: Column(
-          //           children:
-          //               notificationlist.reversed.take(7).map((notifications) {
-          //             return NotificationItem(notifications: notifications);
-          //           }).toList(),
-          //         ),
-          //       )
-          BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-        if (state is HomeLoadedState && state.notiData != null) {
-          final latestNotifications = state.notiData!.toList();
-
-          return ListView.builder(
-            itemCount: latestNotifications.length,
-            itemBuilder: (context, index) {
-              final notification = latestNotifications[index];
-              return NotificationItem(notification: notification);
-            },
-          );
-        } else
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  AppImages.avatarNotiImage,
-                  width: 128,
-                ),
-                const SizedBox(height: 24),
-                Text(
-                  AppStrings.noNotiText,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.darkgrayColor,
+        appBar: CustomAppBar(
+          context: context,
+          onLeading: true,
+          title: 'แจ้งเตือน',
+          backgroundColor: AppColors.transparentColor,
+          onBackPressed: () {
+            context.goNamed(AppPages.homePage);
+          },
+        ),
+        body: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state is HomeLoadedState && state.notiData != null) {
+              final latestNotifications = state.notiData!.toList();
+              if (latestNotifications.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        AppImages.avatarNotiImage,
+                        width: 128,
                       ),
-                ),
-              ],
-            ),
-          );
-      }),
-    );
+                      const SizedBox(height: 24),
+                      Text(
+                        AppStrings.noNotiText,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppColors.darkgrayColor,
+                            ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return ListView.builder(
+                itemCount: latestNotifications.length,
+                itemBuilder: (context, index) {
+                  final notification = latestNotifications[index];
+                  return NotificationItem(notification: notification);
+                },
+              );
+            }
+            return Container();
+          },
+        ));
   }
 }
