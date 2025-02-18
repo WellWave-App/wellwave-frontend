@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
-import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment/bloc/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
@@ -44,11 +43,11 @@ class MainApp extends StatelessWidget {
               notificationsRepository: NotificationsRepository(),
             )..add(FetchHomeEvent()),
           ),
-          BlocProvider<FriendBloc>(
-            create: (context) => FriendBloc(
-                profileRepositories: context.read<ProfileRepositories>()),
-            lazy: false,
-          ),
+          // BlocProvider<FriendBloc>(
+          //   create: (context) => FriendBloc(
+          //       profileRepositories: context.read<ProfileRepositories>()),
+          //   lazy: false,
+          // ),
           BlocProvider<HealthAssessmentPageBloc>(
             create: (context) => HealthAssessmentPageBloc(
                 context.read<HealthAssessmentRepository>()),

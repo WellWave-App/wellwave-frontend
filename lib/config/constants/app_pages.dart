@@ -21,7 +21,6 @@ class AppPages {
   static const String reassessmentPage = 'reassessment';
   static const String findFriendPage = 'findFriend';
   static const String profileFriendPage = 'profileFriend';
-  static const String achievementPage = 'achievement';
   static const String leaderboardPage = 'leaderboard';
 
   static const String splashName = 'splash';
@@ -45,6 +44,5 @@ class AppPages {
   static const String reassessmentName = 'reassessment';
   static const String findFriendName = 'findFriend';
   static const String profileFriendName = 'profileFriend';
-  static const String achievementName = 'achievement';
   static const String leaderboardName = 'leaderboard';
 }

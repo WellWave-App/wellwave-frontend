@@ -130,7 +130,7 @@ class AssessmentScreenView extends StatelessWidget {
                 : (state.currentStep >= 9 && state.currentStep <= 10)
                     ? const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(AppImages.healthassessmentGoalBG),
+                          image: AssetImage(AppImages.healthassessmentBG),
                           fit: BoxFit.cover,
                         ),
                       )

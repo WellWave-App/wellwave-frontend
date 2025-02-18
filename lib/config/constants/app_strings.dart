@@ -11,6 +11,7 @@ class AppStrings {
   static const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIxMkBleGFtcGxlLmNvbSIsIlVJRCI6MTIsIlJPTEUiOiJ1c2VyIiwiaWF0IjoxNzM5ODExNzgwLCJleHAiOjE3Mzk4OTgxODB9.AbbQKt28BqrIycunaAbw3TrJEjtYPhfXhIUiAvrxTRU';
   static const userID = '12';
+  static const uid = 12;
 
   //logs screen
   static const historyText = 'ประวัติ';
