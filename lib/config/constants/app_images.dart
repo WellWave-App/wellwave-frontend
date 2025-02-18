@@ -169,4 +169,13 @@ class AppImages {
   static const slideIcon = 'assets/icons/homepage/slide.svg';
   static const healthreassessmentBG =
       'assets/icons/homepage/assessment/reassessment_bg.svg';
+
+  static const healthassessmentGoalBG =
+      'assets/icons/health_assessment/bg/goal_bg.png';
+
+  //authentication
+  static const skyBgImage = 'assets/icons/sky.svg';
+  static const seaBgImage = 'assets/icons/sea.svg';
+  static const googleIcon = 'assets/icons/google_Icon.svg';
+  static const sunnyIcon = 'assets/icons/sunny.svg';
 }

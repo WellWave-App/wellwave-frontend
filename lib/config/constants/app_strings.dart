@@ -1,5 +1,3 @@
-import 'package:wellwave_frontend/features/home/widget/check_weight_and_waist.dart';
-
 class AppStrings {
   static String uppercaseFirst(String text) {
     if (text.isEmpty) return text;
@@ -260,4 +258,7 @@ class AppStrings {
       'มาต่อกันที่ความดัน เดือนนี้เป็นไงบ้าง?';
   static const fatReAssessmentText = 'แล้วระดับไขมันของคุณโอเคไหม?';
   static const nextTimeFieldText = 'ไว้กรอกทีหลัง';
+  //authentication
+  static const registerText = 'สมัครสมาชิก';
+  static const loginText = 'เข้าสู่ระบบ';
 }
