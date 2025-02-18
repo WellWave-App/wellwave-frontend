@@ -10,6 +10,7 @@ class ArcheivementBloc extends Bloc<ArcheivementEvent, ArcheivementState> {
   ArcheivementBloc({required this.archeivementRepositories})
       : super(ArcheivementInitial()) {
     on<FetchArcheivement>(_onFetchArcheivement);
+    on<FetchAllArcheivement>(_onFetchAllArcheivement);
     on<ReadArcheivement>(_onReadArcheivement);
   }
 
@@ -24,6 +25,23 @@ class ArcheivementBloc extends Bloc<ArcheivementEvent, ArcheivementState> {
         emit(ArcheivementError('Achievements not found'));
       } else {
         emit(ArcheivementLoaded(achievements));
+      }
+    } catch (e) {
+      emit(ArcheivementError(e.toString()));
+    }
+  }
+
+  Future<void> _onFetchAllArcheivement(
+    FetchAllArcheivement event,
+    Emitter<ArcheivementState> emit,
+  ) async {
+    emit(ArcheivementLoading());
+    try {
+      final achievements = await archeivementRepositories.getAllArcheivement();
+      if (achievements == null) {
+        emit(ArcheivementError('Achievements not found'));
+      } else {
+        emit(AllArcheivementLoaded());
       }
     } catch (e) {
       emit(ArcheivementError(e.toString()));

@@ -7,6 +7,8 @@ abstract class ArcheivementEvent extends Equatable {
 
 class FetchArcheivement extends ArcheivementEvent {}
 
+class FetchAllArcheivement extends ArcheivementEvent {}
+
 class ReadArcheivement extends ArcheivementEvent {
   final int uid;
   final String achId;

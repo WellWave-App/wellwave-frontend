@@ -12,6 +12,8 @@ class ArcheivementLoaded extends ArcheivementState {
   ArcheivementLoaded(this.achievements);
 }
 
+class AllArcheivementLoaded extends ArcheivementState {}
+
 class ArcheivementError extends ArcheivementState {
   final String message;
 
