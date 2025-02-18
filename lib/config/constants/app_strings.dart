@@ -8,7 +8,7 @@ class AppStrings {
 
   static const baseUrl = 'http://10.0.2.2:3000';
   static String token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiUk9MRSI6InVzZXIiLCJpYXQiOjE3Mzk4MjQ5MzksImV4cCI6MTczOTkxMTMzOX0.0q8yqsc7us7xpYNpd4TnUHLh7dGEp-dOix4yX84BR-8';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiUk9MRSI6InVzZXIiLCJpYXQiOjE3Mzk4NzA1MTksImV4cCI6MTczOTk1NjkxOX0.ZHVTdhqCY4ROLKetbuEQiHcx6iUfZFjYxFKUY3oo2ko';
   static const uid = 5;
 
   //logs screen
