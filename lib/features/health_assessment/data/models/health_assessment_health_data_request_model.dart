@@ -74,16 +74,16 @@ class HealthAssessmentHealthDataRequestModel {
       Map<String, dynamic> json) {
     return HealthAssessmentHealthDataRequestModel(
       diastolicBloodPressure:
-          (json['diastolicBloodPressure'] as num?)?.toDouble() ?? 0.0,
+          (json['DIASTOLIC_BLOOD_PRESSURE'] as num?)?.toDouble() ?? 0.0,
       systolicBloodPressure:
-          (json['systolicBloodPressure'] as num?)?.toDouble() ?? 0.0,
-      hdl: (json['hdl'] as num?)?.toDouble() ?? 0.0,
-      ldl: (json['ldl'] as num?)?.toDouble() ?? 0.0,
-      waistLine: (json['waistLine'] as num?)?.toDouble() ?? 0.0,
-      hypertension: json['hypertension'] as int? ?? 0,
-      diabetes: json['diabetes'] as int? ?? 0,
-      dyslipidemia: json['dyslipidemia'] as int? ?? 0,
-      obesity: json['obesity'] as int? ?? 0,
+          (json['SYSTOLIC_BLOOD_PRESSURE'] as num?)?.toDouble() ?? 0.0,
+      hdl: (json['HDL'] as num?)?.toDouble() ?? 0.0,
+      ldl: (json['LDL'] as num?)?.toDouble() ?? 0.0,
+      waistLine: (json['WAIST_LINE'] as num?)?.toDouble() ?? 0.0,
+      hypertension: json['HYPERTENSION'] as int? ?? 0,
+      diabetes: json['DIABETES'] as int? ?? 0,
+      dyslipidemia: json['DYSLIPIDEMIA'] as int? ?? 0,
+      obesity: json['OBESITY'] as int? ?? 0,
       hasSmoke: json['HAS_SMOKE'] as bool? ?? false,
       hasDrink: json['HAS_DRINK'] as bool? ?? false,
     );
