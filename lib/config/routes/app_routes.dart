@@ -11,12 +11,15 @@ import 'package:wellwave_frontend/features/authentication/presentation/screen/pa
 import 'package:wellwave_frontend/features/authentication/presentation/widget/register_success.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/home/notification_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
+
+import '../../features/home/presentation/screen/home/health_reassessment.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
@@ -112,6 +115,26 @@ final GoRouter goRouter = GoRouter(
           name: AppPages.articleName,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _buildPageWithNavBar(context, state, const ArticleScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.reassessmentPage,
+          name: AppPages.reassessmentName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return CustomTransitionPage(
+              child: ReAssessmentScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            );
+          },
+        ),
+        GoRoute(
+          path: AppPages.notificationPage,
+          name: AppPages.notificationName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: NotificationScreen());
           },
         ),
       ],

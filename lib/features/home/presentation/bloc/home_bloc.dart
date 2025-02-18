@@ -28,41 +28,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }) : super(HomeState(
           homeStep: 0,
         )) {
-    // on<LoadNotificationsEvent>((event, emit) async {
-    //   final prefs = await SharedPreferences.getInstance();
-    //   final readNotifications = prefs.getStringList('read_notifications') ?? [];
-    //   if (state is HomeLoadedState) {
-    //     final currentState = state as HomeLoadedState;
-    //     bool hasNewNotification = notificationlist.any(
-    //       (notification) =>
-    //           !readNotifications.contains(notification.id.toString()),
-    //     );
-    //     emit(currentState.copyWith(
-    //       readNotifications: readNotifications,
-    //       hasNewNotification: hasNewNotification,
-    //     ));
-    //   } else {
-    //     emit(HomeLoadedState(
-    //       step: 0,
-    //       readNotifications: readNotifications,
-    //       hasNewNotification: notificationlist.isNotEmpty,
-    //       weeklyAverages: weeklyAverages,
-    //       exp: 0,
-    //       gem: 0,
-    //       userGoalStepWeek: 0,
-    //       userGoalExTimeWeek: 0,
-    //       username: '',
-    //       imageUrl: '',
-    //       currentStreak: 0,
-    //       hdl: 0,
-    //       ldl: 0,
-    //       weight: 0,
-    //       waistLine: 0,
-    //       systolicBloodPressure: 0,
-    //       diastolicBloodPressure: 0,
-    //     ));
-    //   }
-    // });
     on<FetchHomeEvent>((event, emit) async {
       debugPrint("FetchHomeEvent called");
 
@@ -96,19 +61,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ));
       }
     });
-
-    // on<MarkNotificationAsReadEvent>(_onMarkNotificationAsRead);
-    // // on<UpdateDataFromReAssessmentEvent>(_onUpdateHealthData);
-    // on<NewNotificationReceived>(_onNewNotificationReceived);
-    // on<SetHasNewNotificationFalseEvent>((event, emit) {
-    //   if (state is HomeLoadedState) {
-    //     final currentState = state as HomeLoadedState;
-    //     final newState = currentState.copyWith(hasNewNotification: false);
-    //     emit(newState);
-    //   }
-    // });
-
-    // add(LoadNotificationsEvent());
 
     on<NextStep>((event, emit) {
       if (state.homeStep < 3) {

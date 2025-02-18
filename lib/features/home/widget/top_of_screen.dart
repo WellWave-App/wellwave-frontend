@@ -25,8 +25,8 @@ class TopOfScreen extends StatelessWidget {
       builder: (context, state) {
         Widget profilePicture;
         if (state is HomeLoadedState) {
-          debugPrint(
-              "Full IMAGE_URL: '${AppStrings.baseUrl}${state.profile!.imageUrl}");
+          // debugPrint(
+          //     "Full IMAGE_URL: '${AppStrings.baseUrl}${state.profile!.imageUrl}");
 
           if (state.profile!.imageUrl != '') {
             profilePicture = Image.network(

@@ -7,9 +7,9 @@ class AppStrings {
   static const emptyText = '';
   static const baseUrl = 'http://10.0.2.2:3000';
   static const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIxMkBleGFtcGxlLmNvbSIsIlVJRCI6MTIsIlJPTEUiOiJ1c2VyIiwiaWF0IjoxNzM5ODExNzgwLCJleHAiOjE3Mzk4OTgxODB9.AbbQKt28BqrIycunaAbw3TrJEjtYPhfXhIUiAvrxTRU';
-  static const userID = '12';
-  static const uid = 12;
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIxM0BleGFtcGxlLmNvbSIsIlVJRCI6MTMsIlJPTEUiOiJ1c2VyIiwiaWF0IjoxNzM5ODc3NDk4LCJleHAiOjE3Mzk5NjM4OTh9.cqlYrJhCaR35AJpYUQ3k8ExQ-LD4sYwlr6e8WrFXam0';
+  static const userID = '13';
+  static const uid = 13;
 
   //logs screen
   static const historyText = 'ประวัติ';
@@ -22,6 +22,8 @@ class AppStrings {
   static const weeklyLogsText = 'บันทึกสุขภาพประจำสัปดาห์';
   static const hdlText = 'HDL';
   static const ldlText = 'LDL';
+  static const hdlReText = 'คอเลสเตอรอลชนิดดี (HDL)';
+  static const ldlReText = 'คอเลสเตอรอลชนิดไม่ดี (LDL)';
   static const mgPerDlText = 'มก./ดล';
   static const confirmText = 'ยืนยัน';
   static const weightRecordText = 'บันทึกค่าน้ำหนัก';

@@ -34,7 +34,7 @@ class CheckFat extends StatelessWidget {
               Column(
                 children: [
                   CustomTextFormFieldMD(
-                    labelText: AppStrings.ldlText,
+                    labelText: AppStrings.ldlReText,
                     hintText: ldl.toString(),
                     suffixText: AppStrings.suffixmgPerdLText,
                     keyboardType: TextInputType.number,
@@ -52,7 +52,7 @@ class CheckFat extends StatelessWidget {
                   ),
                   const SizedBox(height: 64),
                   CustomTextFormFieldMD(
-                    labelText: AppStrings.hdlText,
+                    labelText: AppStrings.hdlReText,
                     hintText: hdl.toString(),
                     suffixText: AppStrings.suffixmgPerdLText,
                     keyboardType: TextInputType.number,

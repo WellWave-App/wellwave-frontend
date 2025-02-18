@@ -263,7 +263,7 @@ class _CustomTextFormFieldMDState extends State<CustomTextFormFieldMD> {
       controller: _controller,
       keyboardType: widget.keyboardType,
       inputFormatters: _getInputFormatters(),
-      style: Theme.of(context).textTheme.titleXL,
+      style: Theme.of(context).textTheme.labelLarge,
       validator: widget.validator,
       onChanged: (value) {
         widget.onChanged?.call(value);

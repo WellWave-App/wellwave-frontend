@@ -127,7 +127,7 @@ class NotificationsRepository {
   Future<List<NotificationsDataResponseModel>?> fetchNotiData() async {
     try {
       final response = await http.get(
-        Uri.parse("$baseUrl/notification-history"),
+        Uri.parse("$baseUrl/notification-history/user"),
         headers: {
           'Authorization': 'Bearer $token',
         },
