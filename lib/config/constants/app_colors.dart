@@ -48,4 +48,5 @@ class AppColors {
   static const darkPinkColor = Color(0xFFF74E85);
 
   static const darkerBlueColor = Color(0xFFF446993);
+  static const popUpSkyBlueColor = Color(0xFFFB2D6E7);
 }
