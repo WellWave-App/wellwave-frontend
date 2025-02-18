@@ -43,11 +43,7 @@ class MainApp extends StatelessWidget {
                 LogsBloc(context.read<LogsRequestRepository>()),
             lazy: false,
           ),
-          BlocProvider(
-            create: (context) =>
-                ArticleBloc(articleRepository)..add(FetchArticlesEvent()),
-            child: const ArticleScreen(),
-          ),
+          BlocProvider(create: (context) => ArticleBloc(ArticleRepository()))
         ],
         child: MaterialApp.router(
           routerConfig: goRouter,
