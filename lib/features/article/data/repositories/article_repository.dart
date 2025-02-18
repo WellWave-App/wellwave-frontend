@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/article/data/models/article_model.dart';
 
 class ArticleRepository {
-  final String apiUrl = "http://localhost:3001/article/search"; 
+  final String apiUrl = "http://10.0.2.2:3001/article/search";
 
   Future<List<Article>> fetchArticles() async {
     final response = await http.get(Uri.parse(apiUrl));
