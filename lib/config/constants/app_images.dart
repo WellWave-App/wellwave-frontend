@@ -13,18 +13,17 @@ class AppImages {
   static const articleIconActive = 'assets/icons/article_active_icon.svg';
 
   //logs history screen
-  static const sleepLogsIcon = 'assets/icons/logs_Icons/sleep_logs_img.svg';
-  static const threeWaterIcon = 'assets/icons/logs_Icons/three_water_img.svg';
-  static const weightIcon = 'assets/icons/logs_Icons/weight_log_icon.svg';
-  static const waistLineIcon =
-      'assets/icons/logs_Icons/waist_line_log_icon.svg';
-  static const stepCountImage = 'assets/icons/logs_Icons/step_log_icon.svg';
+  static const sleepLogsIcon = 'assets/icons/sleep_logs_img.svg';
+  static const threeWaterIcon = 'assets/icons/three_water_img.svg';
+  static const weightIcon = 'assets/icons/weight_log_icon.svg';
+  static const waistLineIcon = 'assets/icons/waist_line_log_icon.svg';
+  static const stepCountImage = 'assets/icons/step_log_icon.svg';
   static const hdlImage = 'assets/images/hdl_img.png';
   static const ldlImage = 'assets/images/ldl_img.png';
-  static const completeIcon = 'assets/icons/logs_Icons/complete_icon.svg';
+  static const completeIcon = 'assets/icons/complete_icon.svg';
 
   //logs screen
-  static const addIcon = 'assets/icons/logs_Icons/add_round_button.svg';
+  static const addIcon = 'assets/icons/add_round_button.svg';
 
   //grey mood
   static const happyGreyIcon = 'assets/icons/moods_grey/happy_grey.svg';

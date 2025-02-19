@@ -100,8 +100,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final prefs = await SharedPreferences.getInstance();
     final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
-    print('Token from Secure Storage: $token'); // ✅ เช็คค่า Token
-    print(
+    debugPrint('Token from Secure Storage: $token'); // ✅ เช็คค่า Token
+    debugPrint(
         'isLoggedIn from SharedPreferences: $isLoggedIn'); // ✅ เช็คค่าจาก SharedPreferences
 
     if (isLoggedIn && token != null) {
@@ -115,8 +115,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     await _secureStorage.delete(key: _tokenKey);
+    await _secureStorage.delete(key: 'user_uid');
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', false);
+    debugPrint(('User logged out, all data cleared.'));
     emit(Unauthenticated());
   }
 }

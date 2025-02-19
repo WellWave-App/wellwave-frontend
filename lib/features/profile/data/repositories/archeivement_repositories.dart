@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wellwave_frontend/features/profile/data/models/all_archeivement_request_model.dart';
 import 'package:wellwave_frontend/features/profile/data/models/archeivement_request_model.dart';
 import 'package:http/http.dart' as http;
@@ -9,9 +10,13 @@ import '../../../../config/constants/app_strings.dart';
 
 class ArcheivementRepositories {
   String baseUrl = AppStrings.baseUrl;
-  String token = AppStrings.token;
+  final _secureStorage = const FlutterSecureStorage();
 
   Future<List<ArcheivementRequestModel>?> getUserArcheivement() async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/achievement/user-achieveds"),
@@ -38,6 +43,10 @@ class ArcheivementRepositories {
   }
 
   Future<List<AllArcheivementRequestModel>?> getAllArcheivement() async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/achievement"),
@@ -68,6 +77,10 @@ class ArcheivementRepositories {
     required String achId,
     required int level,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final uri =
           Uri.parse("$baseUrl/achievement/mark-as-read/$uid/$achId/$level");

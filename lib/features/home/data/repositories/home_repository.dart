@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
@@ -8,10 +9,16 @@ import 'package:wellwave_frontend/features/home/data/models/login_streak_data_re
 import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
-extension HomeHealthDataRepository on HealthAssessmentRepository {
-  static String token = AppStrings.token;
+const _secureStorage = FlutterSecureStorage();
+String baseUrl = AppStrings.baseUrl;
+String userID = '$AppStrings.uid';
 
+extension HomeHealthDataRepository on HealthAssessmentRepository {
   Future<HealthAssessmentHealthDataRequestModel?> fetchHealthData() async {
+    final token = await _secureStorage.read(key: 'access_token'); // ดึง token
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/risk-assessment/$userID"),
@@ -33,7 +40,11 @@ extension HomeHealthDataRepository on HealthAssessmentRepository {
   }
 
   Future<bool> updateHealthData(Map<String, dynamic> data) async {
-    String userID = '$AppStrings.uid';
+    final token = await _secureStorage.read(key: 'access_token'); // ดึง token
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
     final url = Uri.parse('$baseUrl/risk-assessment/$userID');
     final body = jsonEncode(data);
 
@@ -65,7 +76,10 @@ extension HomeHealthDataRepository on HealthAssessmentRepository {
 
 extension HomePersonaDataRepository on ProfileRepositories {
   Future<bool> updateWeight(double? weight) async {
-    String userID = '$AppStrings.uid';
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     final url = Uri.parse('$baseUrl/users/$userID');
     final body = jsonEncode({'WEIGHT': weight});
 
@@ -97,10 +111,11 @@ extension HomePersonaDataRepository on ProfileRepositories {
 }
 
 class LoginStreakRepository {
-  String baseUrl = AppStrings.baseUrl;
-  static String token = AppStrings.token;
-
   Future<LoginStreakDataResponseModel?> fetchLoginStreakData() async {
+    final token = await _secureStorage.read(key: 'access_token'); // ดึง token
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/login-streak/update-login"),
@@ -121,10 +136,11 @@ class LoginStreakRepository {
 }
 
 class NotificationsRepository {
-  String baseUrl = AppStrings.baseUrl;
-  static String token = AppStrings.token;
-
   Future<List<NotificationsDataResponseModel>?> fetchNotiData() async {
+    final token = await _secureStorage.read(key: 'access_token'); // ดึง token
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/notification-history/user"),
@@ -150,8 +166,11 @@ class NotificationsRepository {
   Future<bool> markAsReadNotification({
     required String notificationId,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     const baseUrl = AppStrings.baseUrl;
-    String token = AppStrings.token;
 
     final url = Uri.parse('$baseUrl/notification-history/read/$notificationId');
 

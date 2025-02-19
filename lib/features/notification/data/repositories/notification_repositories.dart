@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/notification/data/models/drink_plan_notification_response_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/drink_range_notification_response_model.dart';
@@ -10,7 +11,7 @@ import '../../../../config/constants/app_strings.dart';
 
 class NotificationSettingRepository {
   final String baseUrl = AppStrings.baseUrl;
-  String token = AppStrings.token;
+  final _secureStorage = const FlutterSecureStorage();
 
   Future<bool> createBedSetting({
     required int uid,
@@ -18,6 +19,10 @@ class NotificationSettingRepository {
     required String bedtime,
     required Map<String, bool> weekdays,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -30,7 +35,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-bed-time'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -50,12 +55,16 @@ class NotificationSettingRepository {
   }
 
   Future<SleepNotificationResponseModel?> fetchBedSetting() async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/noti-setting/get-noti/BEDTIME'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -97,6 +106,11 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -107,7 +121,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-bed-time'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -130,6 +144,10 @@ class NotificationSettingRepository {
     required int glassNumber,
     required String notitime,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     final body = {
       "UID": uid,
       "GLASS_NUMBER": glassNumber,
@@ -141,7 +159,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-water-plan'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -162,12 +180,16 @@ class NotificationSettingRepository {
   }
 
   Future<DrinkPlanNotificationResponseModel?> fetchDrinkPlanSetting() async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/noti-setting/get-noti/WATER_PLAN'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -215,6 +237,11 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -225,7 +252,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-water-plan'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -251,6 +278,10 @@ class NotificationSettingRepository {
     required String endTime,
     required int intervalMinute,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     final body = {
       "UID": uid,
       "START_TIME": startTime,
@@ -263,7 +294,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-water-range'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -284,12 +315,16 @@ class NotificationSettingRepository {
   }
 
   Future<DrinkRangeNotificationResponseModel?> fetchDrinkRangeSetting() async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/noti-setting/get-noti/WATER_RANGE'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -333,6 +368,10 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -343,7 +382,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-water-range'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -368,12 +407,16 @@ class NotificationSettingRepository {
 
   //mission
   Future<List<MissionNotificationModel>> fetchMissionSetting() async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/habit/user'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
       );
       debugPrint('Fetching from URL: $baseUrl/habit/user');
@@ -413,6 +456,11 @@ class NotificationSettingRepository {
     required Map<String, bool> weekdaysNoti,
     String? title,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
     final body = {
       "CHALLENGE_ID": challengeId,
       "IS_NOTIFICATION_ENABLED": isNotificationEnabled,
@@ -425,7 +473,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/habit/noti-set'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -450,6 +498,10 @@ class NotificationSettingRepository {
     required String notiTime,
     required Map<String, bool> weekdaysNoti,
   }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     // Ensure notiTime is in HH:mm format
     final formattedNotiTime = notiTime.substring(0, 5); // Extract HH:mm
 
@@ -465,7 +517,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/habit/noti-set'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
