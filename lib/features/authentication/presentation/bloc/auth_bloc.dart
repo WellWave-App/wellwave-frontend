@@ -73,13 +73,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
 
-        final responseData = await authRepository.getLoginResponse();
-        if (responseData != null && responseData['accessToken'] != null) {
+        final responseData = authRepository.getLoginResponse();
+        if (responseData != null &&
+            responseData['accessToken'] != null &&
+            responseData['user'] != null) {
           final token = responseData['accessToken'];
+          final uid = responseData['user']['UID'].toString();
+
           await _secureStorage.write(key: _tokenKey, value: token);
-          print('Token saved: $token');
+          await _secureStorage.write(key: 'user_uid', value: uid);
+
+          debugPrint('Token saved: $token');
+          debugPrint('User UID saved: $uid');
         } else {
-          print('No token found in response');
+          debugPrint('No token or user data found in response');
         }
 
         emit(AuthSuccess(message: "Login successful", statusCode: 201));
@@ -99,9 +106,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final prefs = await SharedPreferences.getInstance();
     final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
-    print('Token from Secure Storage: $token'); // ✅ เช็คค่า Token
-    print(
-        'isLoggedIn from SharedPreferences: $isLoggedIn'); // ✅ เช็คค่าจาก SharedPreferences
+    debugPrint('Token from Secure Storage: $token');
+    debugPrint('isLoggedIn from SharedPreferences: $isLoggedIn');
 
     if (isLoggedIn && token != null) {
       emit(Authenticated());

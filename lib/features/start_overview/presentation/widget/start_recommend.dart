@@ -51,7 +51,8 @@ class StartRecommend extends StatelessWidget {
               builder: (context, state) {
                 if (state.currentIndex < titles.length - 1) {
                   return TextButton(
-                    onPressed: () => context.goNamed(AppPages.homeName),
+                    onPressed: () =>
+                        context.goNamed(AppPages.authenticationName),
                     child: Text(
                       AppStrings.skipText,
                       style: Theme.of(context).textTheme.bodyMedium,

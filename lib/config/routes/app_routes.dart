@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
-
 import 'package:wellwave_frontend/features/authentication/presentation/screen/authentication_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/forgot_password_sceen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/login_screen.dart';
@@ -49,7 +48,7 @@ final GoRouter goRouter = GoRouter(
           path: AppPages.registerSuccessPage,
           name: AppPages.registerSuccessName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return NoTransitionPage(child: RegisterSuccess());
+            return const NoTransitionPage(child: RegisterSuccess());
           },
         ),
         GoRoute(
@@ -165,7 +164,7 @@ int _getSelectedIndex(GoRouterState state) {
   if (path.contains(AppPages.friendPage)) return 3;
   if (path.contains(AppPages.articlePage)) return 4;
 
-  return 0; // Default to home page if path is not matched
+  return 0;
 }
 
 // final GoRouter goRouter = GoRouter(
