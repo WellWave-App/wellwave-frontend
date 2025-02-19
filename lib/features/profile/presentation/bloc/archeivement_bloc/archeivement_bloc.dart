@@ -37,11 +37,18 @@ class ArcheivementBloc extends Bloc<ArcheivementEvent, ArcheivementState> {
   ) async {
     emit(ArcheivementLoading());
     try {
-      final achievements = await archeivementRepositories.getAllArcheivement();
-      if (achievements == null) {
+      final allAchievements =
+          await archeivementRepositories.getAllArcheivement();
+      final earnedAchievements =
+          await archeivementRepositories.getUserArcheivement();
+
+      if (allAchievements == null) {
         emit(ArcheivementError('Achievements not found'));
       } else {
-        emit(AllArcheivementLoaded());
+        emit(AllArcheivementLoaded(
+          allAchievements: allAchievements,
+          earnedAchievements: earnedAchievements ?? [],
+        ));
       }
     } catch (e) {
       emit(ArcheivementError(e.toString()));
