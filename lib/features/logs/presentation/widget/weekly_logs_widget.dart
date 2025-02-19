@@ -101,7 +101,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${AppStrings.xdateText} $formattedStart - $formattedEnd',
+                        '${AppStrings.xDateText} $formattedStart - $formattedEnd',
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall

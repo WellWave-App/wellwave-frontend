@@ -130,7 +130,7 @@ class CheckInWidget extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            '${AppStrings.xdateText} ${index + 1}',
+                            '${AppStrings.xDateText} ${index + 1}',
                             style:
                                 Theme.of(context).textTheme.bodySmall?.copyWith(
                                       fontSize: 11,
