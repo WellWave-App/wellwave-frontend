@@ -15,17 +15,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ProfileRepositories profileRepository;
   final NotificationsRepository notificationsRepository;
   final LoginStreakRepository loginStreakRepository;
+  final HealthDataRepository healthDataRepository;
   final Map<String, Map<DateTime, bool>> completionStatus = {};
   List<int> weeklyAverages = [];
   List<String> readNotifications = [];
 
-  HomeBloc({
-    required this.currentDate,
-    required this.healthAssessmentRepository,
-    required this.loginStreakRepository,
-    required this.notificationsRepository,
-    required this.profileRepository,
-  }) : super(HomeState(
+  HomeBloc(
+      {required this.currentDate,
+      required this.healthAssessmentRepository,
+      required this.loginStreakRepository,
+      required this.notificationsRepository,
+      required this.profileRepository,
+      required this.healthDataRepository})
+      : super(HomeState(
           homeStep: 0,
         )) {
     on<FetchHomeEvent>((event, emit) async {
@@ -38,12 +40,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final healthData = await healthAssessmentRepository.fetchHealthData();
         final loginStreak = await loginStreakRepository.fetchLoginStreakData();
         final notiData = await notificationsRepository.fetchNotiData();
-
-        // if (profile == null || healthData == null) {
-        //   throw Exception("Failed to fetch required data");
-        // }
-
-        debugPrint("Parsed Profile: $profile");
+        final healthStepAndExData =
+            await healthDataRepository.fetchStepAndExTimeData();
 
         emit(HomeLoadedState(
           step: 0,
@@ -51,6 +49,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           healthData: healthData,
           loginStreak: loginStreak,
           notiData: notiData,
+          healthStepAndExData: healthStepAndExData,
         ));
       } catch (e) {
         debugPrint("Error fetching home data: $e");
@@ -284,23 +283,3 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 //     ));
 //   }
 // }
-
-List<int> calculateWeeklyAverages(List<Map<String, dynamic>> data) {
-  List<int> weeklyAverages = [];
-  int weekSum = 0;
-  int dayCount = 0;
-
-  for (int i = 0; i < data.length; i++) {
-    int value = data[i]['value'] as int;
-    weekSum += value;
-    dayCount++;
-
-    if (dayCount == 7 || i == data.length - 1) {
-      int average = (weekSum / dayCount).round();
-      weeklyAverages.add(average);
-      weekSum = 0;
-      dayCount = 0;
-    }
-  }
-  return weeklyAverages;
-}

@@ -7,20 +7,21 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/enums/greeting_message.dart';
+import 'package:wellwave_frontend/config/constants/enums/calculate_weekly_averages.dart';
 import 'package:wellwave_frontend/features/home/data/models/challenge.dart';
 import 'package:wellwave_frontend/features/home/data/models/progress.dart';
 import 'package:wellwave_frontend/features/home/data/models/progress_step_ex.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
-import 'package:wellwave_frontend/features/home/widget/challenge_show_card.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/exercise_steps/progress_ex_card.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/exercise_steps/progress_step_card.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/exercise_steps/progress_step_ex_card_data.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/health_data_card.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/mock_data.dart';
-import 'package:wellwave_frontend/features/home/widget/mockup_data/challenge_data.dart';
-import 'package:wellwave_frontend/features/home/widget/mockup_data/progress_data.dart';
-import 'package:wellwave_frontend/features/home/widget/progress_show_card.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/challenge_show_card.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/exercise_steps/progress_ex_card.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/exercise_steps/progress_step_card.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/exercise_steps/progress_step_ex_card_data.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/health_data_card.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/mock_data.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/mockup_data/challenge_data.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/mockup_data/progress_data.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/progress_show_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 bool _isSameDay(DateTime date1, DateTime date2) {
@@ -58,7 +59,6 @@ class _ProgressWidgetState extends State<ProgressWidget> {
           Stack(
             clipBehavior: Clip.none,
             children: [
-              // Main Content Container
               Padding(
                 padding: const EdgeInsets.only(top: 128.0),
                 child: Container(
@@ -258,20 +258,30 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              // BlocBuilder<HomeBloc, HomeState>(
-                              //   builder: (context, state) {
-                              //     if (state is HomeLoadedState) {
-                              //       return HealthDataCard(
-                              //           weeklyAverages: state.weeklyAverages);
-                              //     } else if (state is HomeErrorState) {
-                              //       return Center(
-                              //           child:
-                              //               Text('Error: ${state.errorMessage}'));
-                              //     }
-                              //     return Center(
-                              //         child: CircularProgressIndicator());
-                              //   },
-                              // ),
+                              // ใน BlocBuilder หรือ StatefulWidget
+                              BlocBuilder<HomeBloc, HomeState>(
+                                builder: (context, state) {
+                                  if (state is HomeLoadedState &&
+                                      state.healthStepAndExData != null) {
+                                    final healthData =
+                                        state.healthStepAndExData!.data;
+                                    List<Map<String, dynamic>> weeklyAverages =
+                                        calculateWeeklyAverage(healthData.step);
+
+                                    String result =
+                                        weeklyAverages.map((weekData) {
+                                      return 'Week: ${weekData['week']}, Average Steps: ${weekData['average']}';
+                                    }).join("\n");
+
+                                    print(result);
+                                    return Center(
+                                      child: Text(result),
+                                    );
+                                  }
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                },
+                              ),
                             ],
                           ),
                         ),

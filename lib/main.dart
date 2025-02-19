@@ -43,6 +43,7 @@ class MainApp extends StatelessWidget {
               healthAssessmentRepository: HealthAssessmentRepository(),
               loginStreakRepository: LoginStreakRepository(),
               notificationsRepository: NotificationsRepository(),
+              healthDataRepository: HealthDataRepository(),
             )..add(FetchHomeEvent()),
           ),
           BlocProvider<StartRecommendBloc>(

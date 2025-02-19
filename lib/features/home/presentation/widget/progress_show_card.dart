@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wellwave_frontend/features/home/widget/action_slider_button.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/action_slider_button.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/common/widget/gradient_circular_progress_indicator.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
@@ -9,8 +9,8 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/data/models/progress.dart';
-import 'package:wellwave_frontend/features/home/widget/mockup_data/progress_data.dart';
-import 'package:wellwave_frontend/features/home/widget/progress_stepper.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/mockup_data/progress_data.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/progress_stepper.dart';
 
 class ProgressShowCard extends StatelessWidget {
   final Progress progress;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/daily_bar_chart_painter.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/mock_data.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/weekly_bar_chart_painter.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/daily_bar_chart_painter.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/mock_data.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/weekly_bar_chart_painter.dart';
 
 class BarChart extends StatelessWidget {
   final List<Map<String, dynamic>> data;

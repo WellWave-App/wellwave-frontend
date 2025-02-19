@@ -13,9 +13,9 @@ import 'package:wellwave_frontend/features/health_assessment/data/models/health_
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
-import 'package:wellwave_frontend/features/home/widget/check_fat.dart';
-import 'package:wellwave_frontend/features/home/widget/check_pressure.dart';
-import 'package:wellwave_frontend/features/home/widget/check_weight_and_waist.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/check_fat.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/check_pressure.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/check_weight_and_waist.dart';
 
 class ReAssessmentScreen extends StatelessWidget {
   const ReAssessmentScreen({super.key});

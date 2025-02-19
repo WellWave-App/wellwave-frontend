@@ -7,10 +7,10 @@ import 'package:wellwave_frontend/features/home/data/models/notifications_data_r
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
-import 'package:wellwave_frontend/features/home/widget/floating_button_with_shake.dart';
-import 'package:wellwave_frontend/features/home/widget/progress_widget.dart';
-import 'package:wellwave_frontend/features/home/widget/show_result_week_popup.dart';
-import 'package:wellwave_frontend/features/home/widget/top_of_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/floating_button_with_shake.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/progress_widget.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/show_result_week_popup.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/top_of_screen.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
 class HomeScreen extends StatelessWidget {

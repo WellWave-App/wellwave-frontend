@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
-import 'package:wellwave_frontend/features/home/widget/action_slider_button.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/action_slider_button.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
@@ -11,7 +11,7 @@ import 'package:wellwave_frontend/config/constants/enums/thai_date_formatter.dar
 import 'package:wellwave_frontend/features/home/data/models/progress.dart';
 import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
-import 'package:wellwave_frontend/features/home/widget/gradient_button.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/gradient_button.dart';
 
 class ProgressStepperWidget extends StatelessWidget {
   final Progress progress;

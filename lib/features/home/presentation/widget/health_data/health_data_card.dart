@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/bar_chart.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/mock_data.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/bar_chart.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/health_data/mock_data.dart';
 
 class HealthDataCard extends StatelessWidget {
   final List<int> weeklyAverages;

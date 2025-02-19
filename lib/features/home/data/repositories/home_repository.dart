@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
+import 'package:wellwave_frontend/features/home/data/models/health_data_step_and_ex_respone_model.dart';
 import 'package:wellwave_frontend/features/home/data/models/login_streak_data_respone_model.dart';
 import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
@@ -135,7 +136,6 @@ class NotificationsRepository {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         final List<dynamic> data = jsonData['data'];
-        debugPrint('notification data updated successfully: ${response.body}');
         return data
             .map((item) => NotificationsDataResponseModel.fromJson(item))
             .toList();
@@ -165,12 +165,12 @@ class NotificationsRepository {
       );
 
       if (response.statusCode == 200) {
-        debugPrint('Notification marked as read successfully');
+        // debugPrint('Notification marked as read successfully');
         return true;
       } else {
         debugPrint(
             'Failed to mark notification as read: ${response.statusCode}');
-        debugPrint('Response Body: ${response.body}');
+
         return false;
       }
     } catch (e) {
@@ -210,6 +210,35 @@ class NotificationsRepository {
     } catch (e) {
       debugPrint('Error marking notification as read: $e');
       return false;
+    }
+  }
+}
+
+class HealthDataRepository {
+  final String baseUrl = AppStrings.baseUrl;
+  static const token = AppStrings.token;
+
+  Future<HealthDataStepAndExResponeModel?> fetchStepAndExTimeData() async {
+    try {
+      final response = await http.get(
+        Uri.parse("$baseUrl/users/logs-progress"),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        debugPrint('updated successfully: ${response.body}');
+        return HealthDataStepAndExResponeModel.fromJson(jsonData);
+      } else {
+        debugPrint('Error: Server responded with ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
+      return null;
     }
   }
 }

@@ -11,7 +11,7 @@ import 'package:wellwave_frontend/features/home/data/models/notifications_data_r
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
-import 'package:wellwave_frontend/features/home/widget/notification_item.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/notification_item.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);

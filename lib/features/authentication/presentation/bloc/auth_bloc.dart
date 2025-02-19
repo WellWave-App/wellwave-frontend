@@ -51,7 +51,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
 
-        // หากต้องการเก็บ token จาก response จะต้องปรับ repository ให้ส่ง token มาด้วย
         emit(AuthSuccess(message: "Registration successful", statusCode: 201));
         emit(Authenticated());
       } else {
@@ -76,8 +75,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         final responseData = await authRepository.getLoginResponse();
         if (responseData != null && responseData['accessToken'] != null) {
-          final token =
-              responseData['accessToken'];
+          final token = responseData['accessToken'];
           await _secureStorage.write(key: _tokenKey, value: token);
           print('Token saved: $token');
         } else {

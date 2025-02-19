@@ -10,7 +10,7 @@ import 'package:wellwave_frontend/features/home/data/models/notifications_data_r
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
-import 'package:wellwave_frontend/features/home/widget/showpoint.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/showpoint.dart';
 
 class TopOfScreen extends StatelessWidget {
   final List<NotificationsDataResponseModel> notifications;

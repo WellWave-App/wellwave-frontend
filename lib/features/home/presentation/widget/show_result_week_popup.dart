@@ -8,7 +8,7 @@ import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wellwave_frontend/features/home/widget/circular_chart_widget.dart';
+import 'package:wellwave_frontend/features/home/presentation/widget/circular_chart_widget.dart';
 
 void showResultWeekPopup(BuildContext context) {
   showDialog(
