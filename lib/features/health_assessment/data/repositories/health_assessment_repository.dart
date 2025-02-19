@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../../config/constants/app_url.dart';
+
 class HealthAssessmentRepository {
   HealthAssessmentRepository();
 
-  String baseUrl = AppStrings.baseUrl;
   String userID = '7';
   static const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6Im1tMnRlc3RpbmdAZXhhbXBsZS5jb20iLCJVSUQiOjcsIlJPTEUiOiJ1c2VyIiwiaWF0IjoxNzM4ODY4MTMwLCJleHAiOjE3Mzg5NTQ1MzB9.qUGetJqaZdLvVmmsAkEZpDSOTDsfCWlImzUGb36rNFc';

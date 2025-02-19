@@ -5,7 +5,7 @@ class AppStrings {
   }
 
   static const emptyText = '';
-  static const baseUrl = 'http://10.0.2.2:3000';
+  static const uid = 3;
 
   //logs screen
   static const historyText = 'ประวัติ';
@@ -148,5 +148,4 @@ class AppStrings {
   //authentication
   static const registerText = 'สมัครสมาชิก';
   static const loginText = 'เข้าสู่ระบบ';
-
 }

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_waistline.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weekly.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weight.dart';
+import '../../../../config/constants/app_url.dart';
 import '../../../logs/data/models/logs_request_model.dart';
 
 class LogsRequestRepository {
@@ -13,10 +14,9 @@ class LogsRequestRepository {
     required int uid,
     required String date,
   }) async {
-    String baseUrl = 'http://10.0.2.2:3000/logs';
     try {
       final response = await http.post(
-        Uri.parse(baseUrl),
+        Uri.parse("$baseUrl/logs"),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -48,7 +48,6 @@ class LogsRequestRepository {
     required String logName,
     required String date,
   }) async {
-    String baseUrl = 'http://10.0.2.2:3000';
     try {
       final response = await http.patch(
         Uri.parse("$baseUrl/logs/$uid/$logName/$date"),
@@ -74,33 +73,32 @@ class LogsRequestRepository {
   }
 
   Future<bool> logExists({
-  required String logName,
-  required int uid,
-  required String date,
-}) async {
-  String baseUrl = 'http://10.0.2.2:3000/logs';
-  try {
-    final response = await http.get(
-      Uri.parse('$baseUrl/$uid/$logName/$date'),
-    );
+    required String logName,
+    required int uid,
+    required String date,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse('$baseUrl/logs/$uid/$logName/$date'),
+      );
 
-    debugPrint('Log Exists Check Response: ${response.statusCode}, Body: ${response.body}');
+      debugPrint(
+          'Log Exists Check Response: ${response.statusCode}, Body: ${response.body}');
 
-    if (response.statusCode == 200) {
-      return true; 
-    } else if (response.statusCode == 404) {
-      return false; 
+      if (response.statusCode == 200) {
+        return true;
+      } else if (response.statusCode == 404) {
+        return false;
+      }
+      return false;
+    } catch (e) {
+      debugPrint('Error checking log existence: $e');
+      return false;
     }
-    return false;
-  } catch (e) {
-    debugPrint('Error checking log existence: $e');
-    return false;
   }
-}
 
   Future<List<LogsRequestModel?>> getLogsById(num uID, DateTime date) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       final response = await http.get(
         Uri.parse(
             "$baseUrl/logs/user/$uID?startDate=${date.toIso8601String()}&&endDate=${date.toIso8601String()}"),
@@ -128,7 +126,6 @@ class LogsRequestRepository {
   Future<List<LogsWeeklyRequestModel?>> getWeeklyLogs(
       num uID, DateTime date) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       final response = await http.get(
         Uri.parse(
           "$baseUrl/logs/userWeekly/$uID?date=${date.toIso8601String()}",
@@ -158,7 +155,6 @@ class LogsRequestRepository {
   Future<List<LogsWeightRequestModel?>> getWeightLogs(
       num uID, DateTime today) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       List<LogsWeightRequestModel?> logsList = [];
 
       // Fetch logs for the past 4 weeks, one for each week
@@ -196,7 +192,6 @@ class LogsRequestRepository {
   Future<List<LogsWaistLineRequestModel?>> getWaistLineLogs(
       num uID, DateTime today) async {
     try {
-      String baseUrl = 'http://10.0.2.2:3000';
       List<LogsWaistLineRequestModel?> logsList = [];
 
       // Fetch logs for the past 4 weeks, one for each week

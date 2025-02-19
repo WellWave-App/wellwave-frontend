@@ -59,6 +59,7 @@ flutter:
      - assets/icons/moon_icon/
      - assets/icons/health_assessment/
      - assets/icons/nav-icon/
+     - assets/icons/logs_Icons/
      - assets/icons/health_assessment/bg/
 
   fonts:
