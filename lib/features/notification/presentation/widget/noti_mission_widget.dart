@@ -6,6 +6,8 @@ class NotiMissionWidget extends StatefulWidget {
   final String day;
   final String? title;
   final bool isSwitched;
+  final VoidCallback? onTimeTap;
+  final Widget switchWidget;
 
   const NotiMissionWidget({
     super.key,
@@ -13,6 +15,8 @@ class NotiMissionWidget extends StatefulWidget {
     required this.day,
     this.title,
     required this.isSwitched,
+    this.onTimeTap,
+    required this.switchWidget,
   });
 
   @override
@@ -20,12 +24,12 @@ class NotiMissionWidget extends StatefulWidget {
 }
 
 class _NotiMissionWidgetState extends State<NotiMissionWidget> {
-  late bool _isSwitched = false;
+  // late bool _isSwitched = false;
 
   @override
   void initState() {
     super.initState();
-    _isSwitched = widget.isSwitched;
+    // bool _isSwitched = widget.isSwitched;
   }
 
   @override
@@ -48,24 +52,32 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
                     ? MainAxisAlignment.center
                     : MainAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        widget.time,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () {
+                      widget.onTimeTap?.call();
+                    },
+                    child: GestureDetector(
+                      onTap: widget.onTimeTap,
+                      child: Row(
+                        children: [
+                          Text(
+                            widget.time,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            widget.day,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(color: AppColors.darkGrayColor),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        widget.day,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: AppColors.darkGrayColor),
-                      ),
-                    ],
+                    ),
                   ),
                   if (widget.title != null) ...[
                     const SizedBox(height: 8),
@@ -76,18 +88,7 @@ class _NotiMissionWidgetState extends State<NotiMissionWidget> {
                   ],
                 ],
               ),
-              Switch(
-                value: _isSwitched,
-                onChanged: (value) {
-                  setState(() {
-                    _isSwitched = value;
-                  });
-                },
-                activeColor: Colors.white,
-                activeTrackColor: const Color(0xFF34C759),
-                inactiveThumbColor: AppColors.whiteColor,
-                inactiveTrackColor: AppColors.darkGrayColor,
-              ),
+              widget.switchWidget,
             ],
           ),
         ),

@@ -7,6 +7,7 @@ class AppStrings {
   static const emptyText = '';
 
   static const baseUrl = 'http://10.0.2.2:3000';
+
   static String token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InRlc3R4eEBleGFtcGxlLmNvbSIsIlVJRCI6NSwiUk9MRSI6InVzZXIiLCJpYXQiOjE3Mzk5NTA0NjgsImV4cCI6MTc0MDAzNjg2OH0.AmowvEkjI4LQ0iZE98JQMAmrgxYFtkx43n5OzfeWtT0';
   static const uid = 5;
@@ -111,6 +112,7 @@ class AppStrings {
 
   //notification
   static const selectAllText = 'เลือกทั้งหมด';
+  static const deselectAllText = 'ปิดทั้งหมด';
   static const drinkingText = 'การดื่มน้ำ';
   static const timeText = 'เวลา';
   static const setTimeText = 'ตั้งเวลา';

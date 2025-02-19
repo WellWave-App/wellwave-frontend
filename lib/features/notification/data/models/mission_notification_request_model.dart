@@ -1,28 +1,36 @@
 class MissionNotificationModel {
-  final int hid;
+  final int challengeId;
   final String title;
+  final String notiTime;
+  final String status;
   final bool isNotificationEnabled;
   final Map<String, bool> weekdaysNoti;
 
   MissionNotificationModel({
-    required this.hid,
+    required this.challengeId,
     required this.title,
+    required this.notiTime,
     required this.isNotificationEnabled,
     required this.weekdaysNoti,
+    this.status = 'active',
   });
 
   MissionNotificationModel copyWith({
-    int? hid,
+    int? challengeId,
     String? title,
+    String? notiTime,
     bool? isNotificationEnabled,
+    String? status,
     Map<String, bool>? weekdaysNoti,
   }) {
     return MissionNotificationModel(
-      hid: hid ?? this.hid,
+      challengeId: challengeId ?? this.challengeId,
       title: title ?? this.title,
+      notiTime: notiTime ?? this.notiTime,
       isNotificationEnabled:
           isNotificationEnabled ?? this.isNotificationEnabled,
       weekdaysNoti: weekdaysNoti ?? this.weekdaysNoti,
+      status: status ?? this.status,
     );
   }
 
@@ -30,8 +38,10 @@ class MissionNotificationModel {
     return MissionNotificationModel(
       isNotificationEnabled: json['IS_NOTIFICATION_ENABLED'] ?? false,
       title: json['habits']?['TITLE'] ?? '',
+      notiTime: json['NOTI_TIME'] ?? '',
       weekdaysNoti: Map<String, bool>.from(json['WEEKDAYS_NOTI'] ?? {}),
-      hid: json['habits']?['HID'] ?? 0, // Updated to get HID from habits object
+      challengeId: json['CHALLENGE_ID'] ?? 0,
+      status: json['STATUS'] ?? '',
     );
   }
 }

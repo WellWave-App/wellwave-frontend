@@ -25,7 +25,9 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     on<UpdateDrinkRangeEvent>(_onUpdateDrinkRangeEvent);
 
     on<FetchMissionEvent>(_onFetchMissionEvent);
-    on<ToggleAllSwitchesEvent>(_onToggleAllSwitchesEvent);
+    on<ToggleAllMissionsEvent>(_onToggleAllMissionsEvent);
+    on<CreateMissionEvent>(_onCreateMissionEvent);
+    on<UpdateMissionEvent>(_onUpdateMissionEvent);
   }
 
   int uid = AppStrings.uid;
@@ -105,7 +107,7 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
         }
       }
     } catch (error) {
-      debugPrint('Error fetching bedtime: $error');
+      debugPrint('Error in _onFetchBedtimeEvent: $error');
     }
   }
 
@@ -401,12 +403,12 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
 
       if (missions.isNotEmpty) {
         debugPrint('Fetched ${missions.length} missions:');
-        for (var mission in missions) {
-          debugPrint('Mission: hid = ${mission.hid}, '
-              'title = ${mission.title}, '
-              'isNotificationEnabled = ${mission.isNotificationEnabled}, '
-              'weekdaysNoti = ${mission.weekdaysNoti}');
-        }
+        // for (var mission in missions) {
+        //   debugPrint('Mission: challengeId = ${mission.challengeId}, '
+        //       'title = ${mission.title}, '
+        //       'isNotificationEnabled = ${mission.isNotificationEnabled}, '
+        //       'weekdaysNoti = ${mission.weekdaysNoti}');
+        // }
 
         final missionState = MissionState(
           missions: missions,
@@ -430,19 +432,175 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     }
   }
 
-  Future<void> _onToggleAllSwitchesEvent(
-      ToggleAllSwitchesEvent event, Emitter<NotiState> emit) async {
+  Future<void> _onToggleAllMissionsEvent(
+      ToggleAllMissionsEvent event, Emitter<NotiState> emit) async {
     if (state is NotiLoadedState) {
       final currentState = state as NotiLoadedState;
-      final updatedMissions =
-          currentState.missionState!.missions.map((mission) {
-        return mission.copyWith(isNotificationEnabled: true);
+      final missions = currentState.missionState?.missions ?? [];
+
+      for (var mission in missions) {
+        try {
+          await _notificationSettingRepository.updateMissionSetting(
+            challengeId: mission.challengeId,
+            isNotificationEnabled: event.enableAll,
+            notiTime: mission.notiTime,
+            weekdaysNoti: mission.weekdaysNoti,
+          );
+        } catch (error) {
+          debugPrint(
+              '❌ Failed to update mission ${mission.challengeId}: $error');
+          continue; // Continue with other missions even if one fails
+        }
+      }
+
+      // Update local state after all API calls
+      final updatedMissions = missions.map((mission) {
+        return mission.copyWith(isNotificationEnabled: event.enableAll);
       }).toList();
 
-      emit(NotiLoadedState(
+      emit(currentState.copyWith(
         missionState:
-            currentState.missionState!.copyWith(missions: updatedMissions),
+            currentState.missionState?.copyWith(missions: updatedMissions),
       ));
+    }
+  }
+
+  Future<void> _onCreateMissionEvent(
+      CreateMissionEvent event, Emitter<NotiState> emit) async {
+    try {
+      // Ensure API call is made
+      await createMissionEvent(event.challengeId, event.isNotificationEnabled,
+          event.notiTime, event.weekdaysNoti, event.title);
+
+      // Debug log to check if API call was successful
+      // debugPrint(
+      //     'Mission setting created successfully for ${event.challengeId}, ${event.isNotificationEnabled}, ${event.notiTime}, ${event.weekdaysNoti}');
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+        final updatedMissions = List<MissionNotificationModel>.from(
+            currentState.missionState!.missions);
+
+        // Check if challenge already exists, update or add new
+        int index = updatedMissions
+            .indexWhere((mission) => mission.challengeId == event.challengeId);
+        if (index != -1) {
+          updatedMissions[index] = MissionNotificationModel(
+            challengeId: event.challengeId,
+            notiTime: event.notiTime,
+            isNotificationEnabled: event.isNotificationEnabled,
+            weekdaysNoti: event.weekdaysNoti,
+            title: event.title,
+          );
+        } else {
+          updatedMissions.add(MissionNotificationModel(
+            challengeId: event.challengeId,
+            notiTime: event.notiTime,
+            isNotificationEnabled: event.isNotificationEnabled,
+            weekdaysNoti: event.weekdaysNoti,
+            title: event.title,
+          ));
+        }
+
+        emit(currentState.copyWith(
+          missionState: MissionState(missions: updatedMissions),
+        ));
+      } else {
+        emit(NotiLoadedState(
+          missionState: MissionState(missions: [
+            MissionNotificationModel(
+              challengeId: event.challengeId,
+              notiTime: event.notiTime,
+              isNotificationEnabled: event.isNotificationEnabled,
+              weekdaysNoti: event.weekdaysNoti,
+              title: event.title,
+            )
+          ]),
+        ));
+      }
+    } catch (error) {
+      debugPrint('Error creating mission: $error');
+      emit(NotiError(message: error.toString()));
+    }
+  }
+
+  Future<void> _onUpdateMissionEvent(
+      UpdateMissionEvent event, Emitter<NotiState> emit) async {
+    try {
+      // debugPrint('🔹 Sending API request: challengeId=${event.challengeId}, '
+      //     'isNotificationEnabled=${event.isNotificationEnabled}, '
+      //     'notiTime=${event.notiTime}, weekdaysNoti=${event.weekdaysNoti}');
+
+      await _notificationSettingRepository.updateMissionSetting(
+        challengeId: event.challengeId,
+        isNotificationEnabled: event.isNotificationEnabled,
+        notiTime: event.notiTime,
+        weekdaysNoti: event.weekdaysNoti,
+      );
+
+      if (state is NotiLoadedState) {
+        final currentState = state as NotiLoadedState;
+
+        final updatedMissions =
+            currentState.missionState!.missions.map((mission) {
+          if (mission.challengeId == event.challengeId) {
+            return mission.copyWith(
+              isNotificationEnabled: event.isNotificationEnabled,
+              notiTime:
+                  event.notiTime.isNotEmpty ? event.notiTime : mission.notiTime,
+              weekdaysNoti: event.weekdaysNoti.isNotEmpty
+                  ? event.weekdaysNoti
+                  : mission.weekdaysNoti,
+            );
+          }
+          return mission;
+        }).toList();
+
+        emit(currentState.copyWith(
+          missionState:
+              currentState.missionState?.copyWith(missions: updatedMissions),
+        ));
+      }
+    } catch (error) {
+      debugPrint('❌ Failed to update mission: $error');
+      return; // Prevent state update if API call fails
+    }
+  }
+
+  Future<void> createMissionEvent(int challengeId, bool isNotificationEnabled,
+      String notiTime, Map<String, bool> weekdaysNoti, String title) async {
+    try {
+      await _notificationSettingRepository.createMissionSetting(
+        challengeId: challengeId,
+        isNotificationEnabled: isNotificationEnabled,
+        notiTime: notiTime,
+        weekdaysNoti: weekdaysNoti,
+        title: title,
+      );
+      // debugPrint(
+      //     'Mission setting created successfully for $challengeId, $isNotificationEnabled, $notiTime, $weekdaysNoti');
+    } catch (error) {
+      debugPrint('Error submitting log: $error');
+    }
+  }
+
+  Future<void> updateMissionEvent(
+      int challengeId,
+      bool isNotificationEnabled,
+      String notiTime,
+      Map<String, bool> weekdaysNoti,
+      NotificationSettingRepository notiRepository) async {
+    try {
+      await notiRepository.updateMissionSetting(
+        challengeId: challengeId,
+        isNotificationEnabled: isNotificationEnabled,
+        notiTime: notiTime,
+        weekdaysNoti: weekdaysNoti,
+      );
+      // debugPrint(
+      //     'Mission setting updated successfully for $challengeId, $isNotificationEnabled');
+    } catch (error) {
+      debugPrint('Error update mission: $error');
     }
   }
 }

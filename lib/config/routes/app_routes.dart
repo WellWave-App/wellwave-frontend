@@ -22,12 +22,13 @@ import '../../features/authentication/presentation/screen/widget/register_succes
 import '../../features/leaderboard/presentation/screen/leaderboard_screen.dart';
 import '../../features/notification/presentation/screen/drink_plan_screen.dart';
 import '../../features/notification/presentation/screen/reminder_screen.dart';
-import '../../features/notification/presentation/screen/test_noti.dart';
+// import '../../features/notification/presentation/screen/test_noti.dart';
 import '../../features/home/presentation/screen/home/health_reassessment.dart';
 import '../../features/profile/presentation/screen/achievement_screen.dart';
 import '../../features/profile/presentation/screen/edit_profile_screen.dart';
 import '../../features/profile/presentation/screen/profile_screen.dart';
 import '../../features/profile/presentation/screen/set_weekly_goal_screen.dart';
+// import '../../features/notification/presentation/screen/test_noti.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
@@ -147,13 +148,13 @@ final GoRouter goRouter = GoRouter(
                       },
                     ),
                   ]),
-              GoRoute(
-                path: AppPages.testNotiPage,
-                name: AppPages.testNotiName,
-                pageBuilder: (BuildContext context, GoRouterState state) {
-                  return const NoTransitionPage(child: TestNotiScreen());
-                },
-              ),
+              // GoRoute(
+              //   path: AppPages.testNotiPage,
+              //   name: AppPages.testNotiName,
+              //   pageBuilder: (BuildContext context, GoRouterState state) {
+              //     return const NoTransitionPage(child: TestNotiScreen());
+              //   },
+              // ),
             ]),
         GoRoute(
             path: AppPages.logPage,

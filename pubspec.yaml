@@ -7,7 +7,7 @@ environment:
   sdk: ">=3.2.3 <4.0.0"
 
 dependencies:
-  flutter_health_connect: ^1.2.3
+  
   flutter:
     sdk: flutter
 
@@ -35,6 +35,12 @@ dependencies:
   percent_indicator: ^4.2.4
   path: ^1.8.0
   http_parser: ^4.0.0
+  flutter_local_notifications: ^18.0.1
+  permission_handler: ^11.3.1
+  timezone: ^0.10.0
+  firebase_messaging: ^15.2.2
+  firebase_core: ^3.11.0
+  
   
   
 
