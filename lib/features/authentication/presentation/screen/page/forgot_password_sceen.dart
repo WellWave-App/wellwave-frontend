@@ -115,7 +115,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         ),
                       );
                     } else {
-                      print('next');
+                      debugPrint('next');
                       BlocProvider.of<AuthBloc>(context)
                           .add(ConfirmCodeEvent());
                     }
@@ -199,7 +199,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    print('forget password!!');
+                    debugPrint('forget password!!');
                     context.goNamed(AppPages.forgetPasswordName);
                   },
                   child: Text(
@@ -229,7 +229,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     //     ),
                     //   );
                     // } else {
-                    print('next');
+                    debugPrint('next');
                     BlocProvider.of<AuthBloc>(context)
                         .add(ResetPasswordEvent());
 
@@ -335,7 +335,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         ),
                       );
                     } else {
-                      print('next');
+                      debugPrint('next');
                       BlocProvider.of<AuthBloc>(context)
                           .add(ConfirmCodeEvent());
                     }
