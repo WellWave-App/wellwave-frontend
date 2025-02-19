@@ -15,6 +15,10 @@ import 'package:wellwave_frontend/features/home/presentation/screen/splash_scree
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
 import '../../features/authentication/presentation/screen/authentication_screen.dart';
+import '../../features/authentication/presentation/screen/page/forgot_password_sceen.dart';
+import '../../features/authentication/presentation/screen/page/login_screen.dart';
+import '../../features/authentication/presentation/screen/page/register_screen.dart';
+import '../../features/authentication/presentation/screen/widget/register_success.dart';
 import '../../features/leaderboard/presentation/screen/leaderboard_screen.dart';
 import '../../features/notification/presentation/screen/drink_plan_screen.dart';
 import '../../features/notification/presentation/screen/reminder_screen.dart';
@@ -42,34 +46,34 @@ final GoRouter goRouter = GoRouter(
             return const NoTransitionPage(child: AuthenticationScreen());
           },
         ),
-        // GoRoute(
-        //   path: AppPages.registerPage,
-        //   name: AppPages.registerName,
-        //   pageBuilder: (BuildContext context, GoRouterState state) {
-        //     return NoTransitionPage(child: RegisterScreen());
-        //   },
-        // ),
-        // GoRoute(
-        //   path: AppPages.registerSuccessPage,
-        //   name: AppPages.registerSuccessName,
-        //   pageBuilder: (BuildContext context, GoRouterState state) {
-        //     return NoTransitionPage(child: RegisterSuccess());
-        //   },
-        // ),
-        // GoRoute(
-        //   path: AppPages.loginPage,
-        //   name: AppPages.loginName,
-        //   pageBuilder: (BuildContext context, GoRouterState state) {
-        //     return NoTransitionPage(child: LoginScreen());
-        //   },
-        // ),
-        // GoRoute(
-        //   path: AppPages.forgotPasswordPage,
-        //   name: AppPages.forgetPasswordName,
-        //   pageBuilder: (BuildContext context, GoRouterState state) {
-        //     return NoTransitionPage(child: ForgotPasswordScreen());
-        //   },
-        // ),
+        GoRoute(
+          path: AppPages.registerPage,
+          name: AppPages.registerName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: RegisterScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.registerSuccessPage,
+          name: AppPages.registerSuccessName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return const NoTransitionPage(child: RegisterSuccess());
+          },
+        ),
+        GoRoute(
+          path: AppPages.loginPage,
+          name: AppPages.loginName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: LoginScreen());
+          },
+        ),
+        GoRoute(
+          path: AppPages.forgotPasswordPage,
+          name: AppPages.forgetPasswordName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: ForgotPasswordScreen());
+          },
+        ),
         GoRoute(
           path: AppPages.startPage,
           name: AppPages.startName,
