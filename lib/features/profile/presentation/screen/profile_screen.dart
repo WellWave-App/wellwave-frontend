@@ -102,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 text: AppStrings.rewardRedeemText,
                                 svgPath: AppImages.giftIcon,
                                 isShowNavi: true,
-                                appPages: AppPages.articleName,
+                                appPages: AppPages.exchangeName,
                                 horizontal: 12,
                               ),
                             ),

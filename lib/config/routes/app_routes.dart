@@ -30,7 +30,6 @@ import '../../features/profile/presentation/screen/achievement_screen.dart';
 import '../../features/profile/presentation/screen/edit_profile_screen.dart';
 import '../../features/profile/presentation/screen/profile_screen.dart';
 import '../../features/profile/presentation/screen/set_weekly_goal_screen.dart';
-// import '../../features/notification/presentation/screen/test_noti.dart';
 
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
@@ -112,6 +111,13 @@ final GoRouter goRouter = GoRouter(
                       pageBuilder: (BuildContext context, GoRouterState state) {
                         return const NoTransitionPage(
                             child: LeaderboardScreen());
+                      },
+                    ),
+                    GoRoute(
+                      path: AppPages.exchangePage,
+                      name: AppPages.exchangeName,
+                      pageBuilder: (BuildContext context, GoRouterState state) {
+                        return const NoTransitionPage(child: ExchangeScreen());
                       },
                     ),
                     GoRoute(

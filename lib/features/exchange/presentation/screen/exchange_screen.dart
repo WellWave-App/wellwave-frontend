@@ -19,6 +19,7 @@ class ExchangeScreen extends StatelessWidget {
         context: context,
         onLeading: true,
         backgroundColor: AppColors.transparentColor,
+        title: '',
       ),
       body: SingleChildScrollView(
         child: Padding(
