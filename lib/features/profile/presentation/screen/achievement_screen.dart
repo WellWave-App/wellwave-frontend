@@ -6,7 +6,6 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
-import '../../data/models/archeivement_request_model.dart';
 import '../bloc/archeivement_bloc/archeivement_bloc.dart';
 import '../bloc/archeivement_bloc/archeivement_event.dart';
 import '../bloc/archeivement_bloc/archeivement_state.dart';
@@ -154,7 +153,7 @@ class AchievementScreen extends StatelessWidget {
                             onTap: () => _showAchievementPopup(
                                 context, achievement, true),
                             child: ColorFiltered(
-                              colorFilter: ColorFilter.mode(
+                              colorFilter: const ColorFilter.mode(
                                 AppColors.blueGrayColor,
                                 BlendMode.srcIn,
                               ),
@@ -251,7 +250,7 @@ void _showAchievementPopup(
                     children: [
                       ColorFiltered(
                         colorFilter: isUnearned
-                            ? ColorFilter.mode(
+                            ? const ColorFilter.mode(
                                 AppColors.blueGrayColor, BlendMode.srcIn)
                             : const ColorFilter.mode(
                                 Colors.transparent, BlendMode.dst),
