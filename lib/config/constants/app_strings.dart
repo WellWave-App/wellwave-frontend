@@ -265,4 +265,7 @@ class AppStrings {
   //authentication
   static const registerText = 'สมัครสมาชิก';
   static const loginText = 'เข้าสู่ระบบ';
+  //exchange
+  static const randomBoxText = 'กล่องสุ่ม';
+  static const exchangeItemText = 'แลกไอเทม';
 }

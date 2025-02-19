@@ -176,4 +176,8 @@ class AppImages {
   static const seaBgImage = 'assets/icons/sea.svg';
   static const googleIcon = 'assets/icons/google_Icon.svg';
   static const sunnyIcon = 'assets/icons/sunny.svg';
+  //exchange
+  static const expCoinSvg = 'assets/icons/exp_coin_svg.svg';
+  static const gemSvg = 'assets/icons/gem_svg.svg';
+  static const giftSvg = 'assets/icons/gift_svg.svg';
 }
