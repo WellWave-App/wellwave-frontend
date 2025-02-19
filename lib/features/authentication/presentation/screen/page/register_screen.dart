@@ -224,7 +224,7 @@ class RegisterScreen extends StatelessWidget {
                                 ),
                               );
                           context.goNamed(AppPages.registerSuccessName);
-                          print('สมัครสมาชิกเรียบร้อย');
+                          debugPrint('สมัครสมาชิกเรียบร้อย');
                         }
                       },
                       child: Text(
@@ -294,7 +294,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    print('เข้าสู่ระบบ clicked!');
+                    debugPrint('เข้าสู่ระบบ clicked!');
                     context.goNamed(AppPages.loginName);
                   },
                   child: RichText(

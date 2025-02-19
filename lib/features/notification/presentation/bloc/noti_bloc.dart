@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import '../../../../config/constants/app_strings.dart';
 import '../../data/models/drink_plan_notification_response_model.dart';
 import '../../data/models/mission_notification_request_model.dart';
 import '../../data/repositories/notification_repositories.dart';
@@ -29,8 +29,6 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
     on<CreateMissionEvent>(_onCreateMissionEvent);
     on<UpdateMissionEvent>(_onUpdateMissionEvent);
   }
-
-  int uid = AppStrings.uid;
 
   Future<void> _onCreateBedtimeEvent(
       CreateBedtimeEvent event, Emitter<NotiState> emit) async {

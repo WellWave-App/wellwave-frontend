@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../config/constants/app_colors.dart';
@@ -17,6 +18,7 @@ class WaterPlanWidget extends StatefulWidget {
 }
 
 class _WaterPlanWidgetState extends State<WaterPlanWidget> {
+  final _secureStorage = const FlutterSecureStorage();
   List<TimeOfDay?> glassTimes = List.generate(8, (index) => null);
 
   @override
@@ -99,11 +101,15 @@ class _WaterPlanWidgetState extends State<WaterPlanWidget> {
     );
   }
 
-  void _submitLogs(int index, TimeOfDay selectedTime) {
+  Future<void> _submitLogs(int index, TimeOfDay selectedTime) async {
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
     final String formattedTime = _formatTimeOfDay(selectedTime);
 
     context.read<NotiBloc>().add(CreateDrinkPlanEvent(
-          uid: AppStrings.uid,
+          uid: uid as int,
           glassNumber: index + 1,
           notitime: formattedTime,
         ));

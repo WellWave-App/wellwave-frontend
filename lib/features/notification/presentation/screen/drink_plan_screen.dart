@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_strings.dart';
@@ -14,6 +15,7 @@ class DrinkPlanScreen extends StatefulWidget {
 
 class _DrinkPlanScreenState extends State<DrinkPlanScreen> {
   bool _isSwitched = false;
+  final _secureStorage = const FlutterSecureStorage();
 
   @override
   void initState() {
@@ -21,14 +23,20 @@ class _DrinkPlanScreenState extends State<DrinkPlanScreen> {
     BlocProvider.of<NotiBloc>(context).add(FetchDrinkPlanEvent());
   }
 
-  void _toggleSwitch(bool value) {
+  Future<void> _toggleSwitch(bool value) async {
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
+
     if (_isSwitched != value) {
       setState(() {
         _isSwitched = value;
       });
 
-      context.read<NotiBloc>().add(
-          UpdateDrinkPlanEvent(uid: AppStrings.uid, isActive: _isSwitched));
+      context
+          .read<NotiBloc>()
+          .add(UpdateDrinkPlanEvent(uid: uid as int, isActive: _isSwitched));
     }
   }
 

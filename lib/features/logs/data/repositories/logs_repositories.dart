@@ -21,7 +21,7 @@ class LogsRequestRepository {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse(baseUrl),
+        Uri.parse("$baseUrl/logs"),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -45,7 +45,7 @@ class LogsRequestRepository {
   }
 
   Future<bool> editLogsRequest({
-    required num uid,
+    required String uid,
     required int value,
     required String logName,
     required String date,
@@ -99,7 +99,7 @@ class LogsRequestRepository {
     }
   }
 
-  Future<List<LogsRequestModel?>> getLogsById(num uID, DateTime date) async {
+  Future<List<LogsRequestModel?>> getLogsById(String uID, DateTime date) async {
     try {
       final response = await http.get(
         Uri.parse(
@@ -123,7 +123,7 @@ class LogsRequestRepository {
   }
 
   Future<List<LogsWeeklyRequestModel?>> getWeeklyLogs(
-      num uID, DateTime date) async {
+      String uID, DateTime date) async {
     try {
       final response = await http.get(
         Uri.parse(
@@ -150,7 +150,7 @@ class LogsRequestRepository {
   }
 
   Future<List<T>> _fetchLogs<T>({
-    required num uID,
+    required String uID,
     required DateTime today,
     required String logName,
     required T Function(Map<String, dynamic>) fromJson,
@@ -179,7 +179,8 @@ class LogsRequestRepository {
     }
   }
 
-  Future<List<LogsWeightRequestModel>> getWeightLogs(num uID, DateTime today) {
+  Future<List<LogsWeightRequestModel>> getWeightLogs(
+      String uID, DateTime today) {
     return _fetchLogs(
       uID: uID,
       today: today,
@@ -189,7 +190,7 @@ class LogsRequestRepository {
   }
 
   Future<List<LogsWaistLineRequestModel>> getWaistLineLogs(
-      num uID, DateTime today) {
+      String uID, DateTime today) {
     return _fetchLogs(
       uID: uID,
       today: today,
@@ -198,7 +199,7 @@ class LogsRequestRepository {
     );
   }
 
-  Future<List<LogsDrinkRequestModel>> getDrinkLogs(num uID, DateTime today) {
+  Future<List<LogsDrinkRequestModel>> getDrinkLogs(String uID, DateTime today) {
     return _fetchLogs(
       uID: uID,
       today: today,
@@ -207,7 +208,7 @@ class LogsRequestRepository {
     );
   }
 
-  Future<List<LogsStepRequestModel>> getStepLogs(num uID, DateTime today) {
+  Future<List<LogsStepRequestModel>> getStepLogs(String uID, DateTime today) {
     return _fetchLogs(
       uID: uID,
       today: today,
@@ -216,7 +217,7 @@ class LogsRequestRepository {
     );
   }
 
-  Future<List<LogsSleepRequestModel>> getSleepLogs(num uID, DateTime today) {
+  Future<List<LogsSleepRequestModel>> getSleepLogs(String uID, DateTime today) {
     return _fetchLogs(
       uID: uID,
       today: today,

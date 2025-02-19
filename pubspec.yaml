@@ -76,10 +76,12 @@ flutter:
     - assets/icons/moods_color/
     - assets/icons/water_drop/
     - assets/icons/moon_icon/
-    # - assets/icons/health_assessment/
-    # - assets/icons/nav-icon/
-    # - assets/icons/health_assessment/bg/
+    - assets/icons/health_assessment/
+    - assets/icons/nav-icon/
+    - assets/icons/health_assessment/bg/
     - assets/icons/league/
+    - assets/icons/logs_Icons/
+    
 
   fonts:
     - family: NotoSansThai

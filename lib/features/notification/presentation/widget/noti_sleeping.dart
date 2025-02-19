@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
@@ -20,6 +21,7 @@ class NotificationSleeping extends StatefulWidget {
 }
 
 class _NotificationSleepingState extends State<NotificationSleeping> {
+  final _secureStorage = const FlutterSecureStorage();
   bool _isSwitched = false;
   DateTime time = DateTime.now();
   List<bool> selectedDays = List.filled(7, false);
@@ -28,49 +30,54 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
   @override
   void initState() {
     super.initState();
-    _initializeNotifications();
+    // _initializeNotifications();
   }
 
-  Future<void> _initializeNotifications() async {
-    try {
-      final service = NotificationService();
-      await service.initializeNotifications();
+  // Future<void> _initializeNotifications() async {
+  //   try {
+  //     final service = NotificationService();
+  //     await service.initializeNotifications();
 
-      // Test if permissions are granted
-      final bool? granted = await service.flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
-          ?.areNotificationsEnabled();
+  //     // Test if permissions are granted
+  //     final bool? granted = await service.flutterLocalNotificationsPlugin
+  //         .resolvePlatformSpecificImplementation<
+  //             AndroidFlutterLocalNotificationsPlugin>()
+  //         ?.areNotificationsEnabled();
 
-      debugPrint('Notifications permission status: $granted');
+  //     debugPrint('Notifications permission status: $granted');
 
-      // Test immediate notification
-      await service.showImmediateNotification('Test Notification',
-          'Testing notification system at ${DateTime.now().toString()}');
+  //     // Test immediate notification
+  //     await service.showImmediateNotification('Test Notification',
+  //         'Testing notification system at ${DateTime.now().toString()}');
 
-      // Get current time for testing
-      final now = DateTime.now();
-      final testTime =
-          '${now.hour.toString().padLeft(2, '0')}:${(now.minute + 1).toString().padLeft(2, '0')}';
+  //     // Get current time for testing
+  //     final now = DateTime.now();
+  //     final testTime =
+  //         '${now.hour.toString().padLeft(2, '0')}:${(now.minute + 1).toString().padLeft(2, '0')}';
 
-      debugPrint('Scheduling test notification for: $testTime');
+  //     debugPrint('Scheduling test notification for: $testTime');
 
-      // Schedule a test notification for 1 minute from now
-      await service.scheduleBedtimeNotifications(
-        bedtime: testTime,
-        weekdays: {
-          DateTime.now().weekday == DateTime.sunday ? "Sunday" : "Monday": true,
-        },
-      );
+  //     // Schedule a test notification for 1 minute from now
+  //     await service.scheduleBedtimeNotifications(
+  //       bedtime: testTime,
+  //       weekdays: {
+  //         DateTime.now().weekday == DateTime.sunday ? "Sunday" : "Monday": true,
+  //       },
+  //     );
 
-      // Then fetch bedtime settings
-      BlocProvider.of<NotiBloc>(context).add(FetchBedtimeEvent());
-    } catch (e) {
-      debugPrint('Error in _initializeNotifications: $e');
+  //     // Then fetch bedtime settings
+  //     BlocProvider.of<NotiBloc>(context).add(FetchBedtimeEvent());
+  //   } catch (e) {
+  //     debugPrint('Error in _initializeNotifications: $e');
+  //   }
+  // }
+
+  Future<void> _toggleSwitch(bool value) async {
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
     }
-  }
 
-  void _toggleSwitch(bool value) {
     if (_isSwitched != value) {
       setState(() {
         _isSwitched = value;
@@ -78,7 +85,7 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
 
       context
           .read<NotiBloc>()
-          .add(UpdateBedtimeEvent(uid: AppStrings.uid, isActive: _isSwitched));
+          .add(UpdateDrinkPlanEvent(uid: uid as int, isActive: _isSwitched));
     }
   }
 
@@ -116,9 +123,12 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
   }
 
   Future<void> _submitLogs() async {
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
     updateSelectedDaysText();
-    String formattedTime =
-        DateFormat('HH:mm').format(time); // Change format to include seconds
+    String formattedTime = DateFormat('HH:mm').format(time);
     debugPrint('Submitting bedtime: $formattedTime');
 
     List<String> days = [
@@ -137,7 +147,7 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
     debugPrint('Selected weekdays: $weekdays');
 
     context.read<NotiBloc>().add(CreateBedtimeEvent(
-          uid: AppStrings.uid,
+          uid: uid as int,
           isActive: true,
           bedtime: formattedTime,
           weekdays: weekdays,

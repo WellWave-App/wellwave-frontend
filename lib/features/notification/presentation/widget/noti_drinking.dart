@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,7 @@ class NotificationDrinking extends StatefulWidget {
 }
 
 class _NotificationDrinkingState extends State<NotificationDrinking> {
+  final _secureStorage = const FlutterSecureStorage();
   bool _isSwitched = false;
   DateTime startTime = DateTime.now();
   DateTime endTime = DateTime.now();
@@ -40,24 +42,34 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
     BlocProvider.of<NotiBloc>(context).add(FetchDrinkRangeEvent());
   }
 
-  void _toggleSwitch(bool value) {
+  Future<void> _toggleSwitch(bool value) async {
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
+
     if (_isSwitched != value) {
       setState(() {
         _isSwitched = value;
       });
 
-      context.read<NotiBloc>().add(
-          UpdateDrinkRangeEvent(uid: AppStrings.uid, isActive: _isSwitched));
+      context
+          .read<NotiBloc>()
+          .add(UpdateDrinkPlanEvent(uid: uid as int, isActive: _isSwitched));
     }
   }
 
-  void _submitLogs() {
+  Future<void> _submitLogs() async {
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
     String formattedtimeStarttime = DateFormat('HH:mm').format(startTime);
     String formattedtimeEndtime = DateFormat('HH:mm').format(endTime);
     int intervalMinute = (double.parse(hourSet) * 60).toInt();
 
     context.read<NotiBloc>().add(CreateDrinkRangeEvent(
-          uid: AppStrings.uid,
+          uid: uid as int,
           startTime: formattedtimeStarttime,
           endTime: formattedtimeEndtime,
           intervalMinute: intervalMinute,
