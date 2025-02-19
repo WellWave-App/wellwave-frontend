@@ -1,16 +1,16 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/authentication/data/models/auth_model.dart';
 
+import '../../../../config/constants/app_url.dart';
+
 class AuthRepository {
-  final String baseUrl = '${AppStrings.baseUrl}/auth';
   Map<String, dynamic>? _lastLoginResponse;
 
   // Register
   Future<bool> register(AuthModel authModel) async {
-    final url = Uri.parse('$baseUrl/register');
+    final url = Uri.parse('$baseUrl/auth/register');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode(authModel.toJson());
 
@@ -35,7 +35,7 @@ class AuthRepository {
 
   // Login
   Future<bool> login(AuthModel authModel) async {
-    final url = Uri.parse('$baseUrl/login');
+    final url = Uri.parse('$baseUrl/auth/login');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode(authModel.toJson());
 

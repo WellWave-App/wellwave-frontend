@@ -87,19 +87,71 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     }
   }
 
+  // Future<void> submitLog(String logName, int value, String selectedDate,
+  //     LogsRequestRepository logsRepository) async {
+  //   final uid = await _secureStorage.read(key: 'user_uid');
+  //   if (uid == null) {
+  //     throw Exception("No access uid found");
+  //   }
+  //   try {
+  //     String formattedDate =
+  //         DateFormat('yyyy-MM-dd').format(DateTime.parse(selectedDate));
+
+  //     bool logExists = await logsRepository.logExists(
+  //       logName: logName,
+  //       uid: uid as int,
+  //       date: formattedDate,
+  //     );
+
+  //     bool success;
+  //     if (logExists) {
+  //       success = await logsRepository.editLogsRequest(
+  //         value: value,
+  //         logName: logName,
+  //         uid: uid,
+  //         date: formattedDate,
+  //       );
+  //     } else {
+  //       success = await logsRepository.createLogsRequest(
+  //         value: value,
+  //         logName: logName,
+  //         uid: uid as int,
+  //         date: formattedDate,
+  //       );
+  //     }
+
+  //     // if (success) {
+  //     //   debugPrint('Log operation successful');
+  //     // } else {
+  //     //   debugPrint('Log operation failed');
+  //     // }
+  //   } catch (error) {
+  //     debugPrint('Error submitting log: $error');
+  //   }
+  // }
   Future<void> submitLog(String logName, int value, String selectedDate,
       LogsRequestRepository logsRepository) async {
     final uid = await _secureStorage.read(key: 'user_uid');
     if (uid == null) {
       throw Exception("No access uid found");
     }
+
     try {
       String formattedDate =
           DateFormat('yyyy-MM-dd').format(DateTime.parse(selectedDate));
 
+      // Safely parse the uid as int, ensuring it's a valid number
+      int parsedUid = int.tryParse(uid) ?? 0; // Default to 0 if parsing fails
+
+      // Check if parsedUid is valid (non-zero)
+      if (parsedUid == 0) {
+        throw Exception("Invalid user UID");
+      }
+
+      // Pass the parsedUid as an int to the repository methods
       bool logExists = await logsRepository.logExists(
         logName: logName,
-        uid: uid as int,
+        uid: parsedUid, // Pass as int
         date: formattedDate,
       );
 
@@ -108,16 +160,20 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
         success = await logsRepository.editLogsRequest(
           value: value,
           logName: logName,
-          uid: uid,
+          uid: parsedUid, // Pass as int
           date: formattedDate,
         );
+        print(
+            'Edited Log Date: $formattedDate, Value: $value, Log Name: $logName, User ID: $parsedUid');
       } else {
         success = await logsRepository.createLogsRequest(
           value: value,
           logName: logName,
-          uid: uid as int,
+          uid: parsedUid, // Pass as int
           date: formattedDate,
         );
+        print(
+            'Edited Log Date: $formattedDate, Value: $value, Log Name: $logName, User ID: $parsedUid');
       }
 
       // if (success) {

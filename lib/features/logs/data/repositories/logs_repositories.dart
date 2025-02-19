@@ -21,7 +21,7 @@ class LogsRequestRepository {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse("$baseUrl/logs"),
+        Uri.parse(baseUrl),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -34,7 +34,6 @@ class LogsRequestRepository {
       );
 
       if (response.statusCode == 201) {
-        // debugPrint('Success: ${response.body}');
         return true;
       }
       return false;
@@ -45,7 +44,7 @@ class LogsRequestRepository {
   }
 
   Future<bool> editLogsRequest({
-    required String uid,
+    required int uid,
     required int value,
     required String logName,
     required String date,
@@ -85,7 +84,7 @@ class LogsRequestRepository {
       );
 
       debugPrint(
-          'Log Exists Check Response: ${response.statusCode}, Body: ${response.body}');
+          'be Log Exists Check Response: ${response.statusCode}, Body: ${response.body}');
 
       if (response.statusCode == 200) {
         return true;
