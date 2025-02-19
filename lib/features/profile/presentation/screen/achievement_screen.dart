@@ -100,7 +100,7 @@ class AchievementScreen extends StatelessWidget {
                           earnedAchievementsMap[achievement.achId];
 
                       if (earnedAchievement != null) {
-                        // Add earned achievements
+                        // Earned achievements
                         final selectedLevel = earnedAchievement
                             .achievement.levels
                             .firstWhere((level) =>
@@ -111,7 +111,7 @@ class AchievementScreen extends StatelessWidget {
                         achievementWidgets.add(
                           GestureDetector(
                             onTap: () => _showAchievementPopup(
-                                context, earnedAchievement),
+                                context, earnedAchievement, false),
                             child: Stack(
                               clipBehavior: Clip.none,
                               children: [
@@ -143,27 +143,31 @@ class AchievementScreen extends StatelessWidget {
                           ),
                         );
                       } else {
-                        // Add unearned achievements
+                        // Unearned achievements
                         final level1Icon = achievement.levels
                             .firstWhere((level) => level.level == 1)
                             .iconUrl;
                         final levelIcon = "http://10.0.2.2:3000$level1Icon";
 
                         unearnedWidgets.add(
-                          ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                              AppColors.blueGrayColor,
-                              BlendMode.srcIn,
-                            ),
-                            child: Image.network(
-                              levelIcon,
-                              height: 128,
-                              errorBuilder: (context, error, stackTrace) {
-                                return SvgPicture.asset(
-                                  AppImages.medalSvg,
-                                  height: 128,
-                                );
-                              },
+                          GestureDetector(
+                            onTap: () => _showAchievementPopup(
+                                context, achievement, true),
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                AppColors.blueGrayColor,
+                                BlendMode.srcIn,
+                              ),
+                              child: Image.network(
+                                levelIcon,
+                                height: 128,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return SvgPicture.asset(
+                                    AppImages.medalSvg,
+                                    height: 128,
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         );
@@ -177,8 +181,8 @@ class AchievementScreen extends StatelessWidget {
                         runSpacing: 16.0,
                         alignment: WrapAlignment.start,
                         children: [
-                          ...achievementWidgets, // Earned achievements shown first
-                          ...unearnedWidgets, // Unearned achievements shown last
+                          ...achievementWidgets,
+                          ...unearnedWidgets,
                         ],
                       ),
                     );
@@ -196,15 +200,25 @@ class AchievementScreen extends StatelessWidget {
 }
 
 void _showAchievementPopup(
-    BuildContext context, ArcheivementRequestModel achievement) {
-  final selectedLevel = achievement.achievement.levels
-      .firstWhere((level) => level.level == achievement.level);
-  final levelIcon = "http://10.0.2.2:3000${selectedLevel.iconUrl}";
+    BuildContext context, dynamic achievement, bool isUnearned) {
+  final String levelIcon;
 
-  context.read<ArcheivementBloc>().add(ReadArcheivement(
-      uid: achievement.uid,
-      achId: achievement.achId,
-      level: achievement.level));
+  if (isUnearned) {
+    // Use level 1 icon for unearned achievements
+    final level1 = achievement.levels.firstWhere((level) => level.level == 1);
+    levelIcon = "http://10.0.2.2:3000${level1.iconUrl}";
+  } else {
+    // Use the earned level icon
+    final selectedLevel = achievement.achievement.levels
+        .firstWhere((level) => level.level == achievement.level);
+    levelIcon = "http://10.0.2.2:3000${selectedLevel.iconUrl}";
+
+    // Mark achievement as read
+    context.read<ArcheivementBloc>().add(ReadArcheivement(
+        uid: achievement.uid,
+        achId: achievement.achId,
+        level: achievement.level));
+  }
 
   showDialog(
     context: context,
@@ -235,26 +249,37 @@ void _showAchievementPopup(
                       vertical: 48.0, horizontal: 16),
                   child: Column(
                     children: [
-                      Image.network(
-                        levelIcon,
-                        height: 160,
-                        errorBuilder: (context, error, stackTrace) {
-                          return SvgPicture.asset(
-                            AppImages.medalSvg,
-                            height: 100,
-                          );
-                        },
+                      ColorFiltered(
+                        colorFilter: isUnearned
+                            ? ColorFilter.mode(
+                                AppColors.blueGrayColor, BlendMode.srcIn)
+                            : const ColorFilter.mode(
+                                Colors.transparent, BlendMode.dst),
+                        child: Image.network(
+                          levelIcon,
+                          height: 160,
+                          errorBuilder: (context, error, stackTrace) {
+                            return SvgPicture.asset(
+                              AppImages.medalSvg,
+                              height: 100,
+                            );
+                          },
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        achievement.achievement.title,
+                        isUnearned
+                            ? achievement.title
+                            : achievement.achievement.title,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                             ),
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        achievement.achievement.description,
+                        isUnearned
+                            ? achievement.description
+                            : achievement.achievement.description,
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
