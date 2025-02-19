@@ -9,15 +9,11 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/enums/greeting_message.dart';
 import 'package:wellwave_frontend/features/home/data/models/challenge.dart';
 import 'package:wellwave_frontend/features/home/data/models/progress.dart';
-import 'package:wellwave_frontend/features/home/data/models/progress_step_ex.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/widget/challenge_show_card.dart';
 import 'package:wellwave_frontend/features/home/widget/health_data/exercise_steps/progress_ex_card.dart';
 import 'package:wellwave_frontend/features/home/widget/health_data/exercise_steps/progress_step_card.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/exercise_steps/progress_step_ex_card_data.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/health_data_card.dart';
-import 'package:wellwave_frontend/features/home/widget/health_data/mock_data.dart';
 import 'package:wellwave_frontend/features/home/widget/mockup_data/challenge_data.dart';
 import 'package:wellwave_frontend/features/home/widget/mockup_data/progress_data.dart';
 import 'package:wellwave_frontend/features/home/widget/progress_show_card.dart';
@@ -148,7 +144,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                                 .bodyMedium
                                                 ?.copyWith(
                                                   color:
-                                                      AppColors.darkgrayColor,
+                                                      AppColors.darkGrayColor,
                                                 ),
                                           ),
                                         ),
@@ -167,7 +163,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                       .textTheme
                                       .bodyMedium
                                       ?.copyWith(
-                                        color: AppColors.darkgrayColor,
+                                        color: AppColors.darkGrayColor,
                                       ),
                                 ),
                               ),
@@ -219,7 +215,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                     .textTheme
                                     .bodyMedium
                                     ?.copyWith(
-                                      color: AppColors.darkgrayColor,
+                                      color: AppColors.darkGrayColor,
                                     ),
                               ),
                             ),

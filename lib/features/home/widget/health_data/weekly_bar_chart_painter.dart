@@ -65,7 +65,7 @@ class WeeklyBarChartPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     Paint overallAveragePaint = Paint()
-      ..color = AppColors.grayColor
+      ..color = AppColors.greyColor
       ..strokeWidth = 2
       ..style = PaintingStyle.stroke;
 
@@ -124,7 +124,7 @@ class WeeklyBarChartPainter extends CustomPainter {
       text: TextSpan(
         text: 'เฉลี่ย ${overallAverage.toInt()} นาที',
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: AppColors.grayColor,
+              color: AppColors.greyColor,
               fontWeight: FontWeight.bold,
             ),
       ),

@@ -44,7 +44,7 @@ class PersonalInfoStep extends StatelessWidget {
           Text(
             "เพศกำเนิด*",
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: AppColors.bluegrayColor,
+                  color: AppColors.blueGrayColor,
                 ),
           ),
           const SizedBox(
@@ -75,7 +75,7 @@ class PersonalInfoStep extends StatelessWidget {
                       style: TextStyle(
                         color: state.formData['gender'] == 'male'
                             ? AppColors.blackColor
-                            : AppColors.grayColor,
+                            : AppColors.greyColor,
                       ),
                     ),
                   ],
@@ -103,7 +103,7 @@ class PersonalInfoStep extends StatelessWidget {
                       style: TextStyle(
                         color: state.formData['gender'] == 'female'
                             ? AppColors.blackColor
-                            : AppColors.grayColor,
+                            : AppColors.greyColor,
                       ),
                     ),
                   ],

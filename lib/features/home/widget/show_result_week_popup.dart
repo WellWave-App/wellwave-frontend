@@ -142,9 +142,9 @@ void showResultWeekPopup(BuildContext context) {
                     child: Text(
                       "ปิดหน้าต่างนี้",
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.grayColor,
+                            color: AppColors.greyColor,
                             decoration: TextDecoration.underline,
-                            decorationColor: AppColors.grayColor,
+                            decorationColor: AppColors.greyColor,
                           ),
                     ),
                   ),

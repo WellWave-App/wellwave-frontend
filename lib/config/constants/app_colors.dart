@@ -12,10 +12,7 @@ class AppColors {
   static const blackColor = Colors.black;
   static const skyblueColor = Color(0xfff53c7fe);
   static const lightgrayColor = Color(0xfffd9d9d9);
-  static const grayColor = Color(0xfff919191);
   static const gray50Color = Color(0xfffececec);
-  static const darkgrayColor = Color(0xfff707070);
-  static const bluegrayColor = Color(0xfff5a6684);
   static const darkblueColor = Color(0xfff16006d);
   static const orangeColor = Color(0xffff8623f);
   static const greenColor = Color(0xfff16a34a);

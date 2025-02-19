@@ -71,7 +71,7 @@ class HealthConnectScreen extends StatelessWidget {
                         const SizedBox(height: 12),
                         CustomButton(
                           bgColor: Colors.transparent,
-                          textColor: AppColors.darkgrayColor,
+                          textColor: AppColors.darkGrayColor,
                           width: 250,
                           onPressed: () {
                             context

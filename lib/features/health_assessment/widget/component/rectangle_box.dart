@@ -107,7 +107,7 @@ class RectangleBox extends StatelessWidget {
                           subtitle ?? '',
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AppColors.darkgrayColor,
+                                    color: AppColors.darkGrayColor,
                                   ),
                         ),
                       ),

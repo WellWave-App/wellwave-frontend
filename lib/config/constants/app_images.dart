@@ -16,7 +16,8 @@ class AppImages {
   static const sleepLogsIcon = 'assets/icons/logs_Icons/sleep_logs_img.svg';
   static const threeWaterIcon = 'assets/icons/logs_Icons/three_water_img.svg';
   static const weightIcon = 'assets/icons/logs_Icons/weight_log_icon.svg';
-  static const waistLineIcon = 'assets/icons/logs_Icons/waist_line_log_icon.svg';
+  static const waistLineIcon =
+      'assets/icons/logs_Icons/waist_line_log_icon.svg';
   static const stepCountImage = 'assets/icons/logs_Icons/step_log_icon.svg';
   static const hdlImage = 'assets/images/hdl_img.png';
   static const ldlImage = 'assets/images/ldl_img.png';
@@ -66,6 +67,7 @@ class AppImages {
   static const moon9Icon = 'assets/icons/moon_icon/moon_9.svg';
   static const moon10Icon = 'assets/icons/moon_icon/moon_10.svg';
 
+  // health_assessment
   static const metabolicSyndromeImage = 'assets/images/metabolic.png';
   static const metaEffectImage = 'assets/images/meta_effect.png';
   static const metaBehaviorImage = 'assets/images/meta_behavior.png';

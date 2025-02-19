@@ -68,7 +68,7 @@ class ReAssessmentScreen extends StatelessWidget {
                           CustomButton(
                             width: 250,
                             bgColor: isStep0Invalid || isStep1Invalid
-                                ? AppColors.grayColor
+                                ? AppColors.greyColor
                                 : AppColors.primaryColor,
                             textColor: AppColors.whiteColor,
                             title: state.homeStep == 2 ? 'ยืนยัน' : 'ถัดไป',

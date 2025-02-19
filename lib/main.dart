@@ -11,6 +11,8 @@ import 'package:wellwave_frontend/features/profile/presentation/bloc/archeivemen
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
+import 'features/authentication/data/repositories/auth_repository.dart';
+import 'features/authentication/presentation/bloc/auth_bloc.dart';
 import 'features/notification/presentation/bloc/noti_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/home/data/repositories/home_repository.dart';
@@ -27,6 +29,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authRepository = AuthRepository();
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<LogsRequestRepository>(
@@ -50,8 +54,8 @@ class MainApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<StartOverviewBloc>(
-            create: (context) => StartOverviewBloc(),
+          BlocProvider<StartRecommendBloc>(
+            create: (context) => StartRecommendBloc(totalPages: 3),
           ),
           BlocProvider<LogsBloc>(
             create: (context) =>
@@ -82,20 +86,14 @@ class MainApp extends StatelessWidget {
               notificationsRepository: NotificationsRepository(),
             )..add(FetchHomeEvent()),
           ),
-          // BlocProvider<StartRecommendBloc>(
-          //   create: (context) => StartRecommendBloc(totalPages: 3),
-          // ),
-          // BlocProvider<AuthBloc>(
-          //   create: (context) => AuthBloc(authRepository: authRepository),
-          // ),
+
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(authRepository: authRepository),
+          ),
           // BlocProvider<FriendBloc>(
           //   create: (context) => FriendBloc(
           //       profileRepositories: context.read<ProfileRepositories>()),
           //   lazy: false,
-          // ),
-          // BlocProvider<HealthAssessmentPageBloc>(
-          //   create: (context) => HealthAssessmentPageBloc(
-          //       context.read<HealthAssessmentRepository>()),
           // ),
         ],
         child: MaterialApp.router(

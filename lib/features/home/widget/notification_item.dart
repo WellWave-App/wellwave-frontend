@@ -28,7 +28,7 @@ class NotificationItem extends StatelessWidget {
             title: Text(notification.message,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: notification.isRead
-                          ? AppColors.darkgrayColor
+                          ? AppColors.darkGrayColor
                           : AppColors.blackColor,
                     )),
             leading: CircleAvatar(
