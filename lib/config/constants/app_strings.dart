@@ -1,11 +1,14 @@
 class AppStrings {
   static String uppercaseFirst(String text) {
-    if (text.isEmpty) return text;
+    if (text.isEmpty) return text; // Handle empty string case
     return text[0].toUpperCase() + text.substring(1);
   }
 
   static const emptyText = '';
-  static const uid = 3;
+
+  static const baseUrl = 'http://10.0.2.2:3000';
+
+  // static const uid = 5;
 
   //logs screen
   static const historyText = 'ประวัติ';
@@ -14,9 +17,12 @@ class AppStrings {
   static const glassesText = 'แก้ว';
   static const hoursOfSleepText = 'ชั่วโมงการนอน';
   static const hoursText = 'ชั่วโมง';
+  static const shortHoursText = 'ชม.';
   static const weeklyLogsText = 'บันทึกสุขภาพประจำสัปดาห์';
   static const hdlText = 'HDL';
   static const ldlText = 'LDL';
+  static const hdlReText = 'คอเลสเตอรอลชนิดดี (HDL)';
+  static const ldlReText = 'คอเลสเตอรอลชนิดไม่ดี (LDL)';
   static const mgPerDlText = 'มก./ดล';
   static const confirmText = 'ยืนยัน';
   static const weightRecordText = 'บันทึกค่าน้ำหนัก';
@@ -47,6 +53,39 @@ class AppStrings {
   static const aboveCriteria = 'ค่าเกินเกณฑ์';
   static const underCriteria = 'ค่าต่ำกว่าเกณฑ์';
 
+  //profile screen
+  static const userNameText = 'ชื่อผู้ใช้';
+  static const idText = 'ไอดี';
+  static const leagueText = 'ระดับ';
+  static const firstLeaugeText = 'มือใหม่สุขภาพดี';
+  static const secondLeaugeText = 'ผู้เสาะหาความแข็งแรง';
+  static const thirdLeaugeText = 'ยอดนักรบสุดฟิต';
+  static const forthLeaugeText = 'ปรมาจารย์ด้านสุขภาพ';
+  static const fifthLeaugeText = 'ตำนานแชมป์สุดแข็งแกร่ง';
+  static const gemText = 'gem';
+  static const expText = 'exp';
+  static const checkinText = 'เช็คอินเพื่อสะสมคะแนน';
+  static const archeivementText = 'ความสำเร็จ';
+  static const archeiveText = 'สำเร็จ';
+  static const seeAllText = 'ดูทั้งหมด';
+  static const dayText = 'วัน';
+  static const googleConnectText = 'Google Connect';
+  static const signOutText = 'ออกจากระบบ';
+  static const rewardRedeemText = 'แลกรางวัล';
+  static const progressText = 'ความก้าวหน้า';
+  static const exerciseProgressText = 'ออกกำลังกายไปแล้ว';
+  static const copyToClipboardText = 'คัดลอกไปยังคลิปบอร์ด';
+
+  static const taskProgressText = 'จำนวนทำภารกิจ';
+  static const taskText = 'ภารกิจ';
+  static const minuteText = 'นาที';
+  static const alertText = 'แจ้งเตือน';
+  static const youReceivedText = 'คุณได้รับ';
+  static const closeWindowText = 'ปิดหน้าต่างนี้';
+  static const genderText = 'เพศ';
+  static const birthYearText = 'ปีเกิด';
+  static const heightText = 'ส่วนสูง';
+
   static const metabolicSyndromeText = 'ภาวะเมตาบอลิกซินโดรม';
   static const metabolicDescriptionText =
       'คือ ภาวะที่เกิดจากระบบการเผาผลาญของร่างกาย ทำงานผิดปกติไป ทำให้เกิดการอ้วนลงพุง น้ำหนักตัว เกินมาตรฐาน น้ำตาลในเลือดสูง ความดันโลหิตสูง';
@@ -56,6 +95,31 @@ class AppStrings {
   static const metaBehaviorText = 'การปรับพฤติกรรม';
   static const metaBehaviorDescriptionText =
       'โดยการรับประทานอาหารที่เหมาะสม ออกกำลังกายอย่างสม่ำเสมอ โดย WellWave จะเป็นตัวช่วยสำคัญในการปรับพฤติกรรมของคุณ ';
+
+  static const leagueList = [
+    AppStrings.firstLeaugeText,
+    AppStrings.secondLeaugeText,
+    AppStrings.thirdLeaugeText,
+    AppStrings.forthLeaugeText,
+    AppStrings.fifthLeaugeText,
+  ];
+
+  //arcievement
+  static const yourRecordText = 'สถิติของคุณ';
+  static const medalText = 'เหรียญรางวัล';
+
+  //notification
+  static const selectAllText = 'เลือกทั้งหมด';
+  static const deselectAllText = 'ปิดทั้งหมด';
+  static const drinkingText = 'การดื่มน้ำ';
+  static const timeText = 'เวลา';
+  static const setTimeText = 'ตั้งเวลา';
+  static const startTimeText = 'เวลาเริ่ม';
+  static const endTimeText = 'เวลาจบ';
+  static const notiEveryText = 'แจ้งเตือนทุก';
+  static const setDrinkPlanText = 'กำหนดแผนดื่มน้ำโดยละเอียด >';
+  static const sleepingText = 'การเข้านอน';
+  static const drinkPlanText = 'แผนการดื่มน้ำ';
 
   //Chart
   static const errorShow = 'Error';
@@ -69,6 +133,37 @@ class AppStrings {
   static const hdlLogText = 'HDL_LOG';
   static const ldlLogText = 'LDL_LOG';
   static const stepLogText = 'STEP_LOG';
+  static const sleepLogText = 'SLEEP_LOG';
+  static const drinkLogText = 'DRINK_LOG';
+
+  static const amoutOfStepText = 'จำนวนก้าวเดิน';
+  static const goalText = 'เป้าหมาย';
+
+  static const thaiMonths = [
+    'มกราคม',
+    'กุมภาพันธ์',
+    'มีนาคม',
+    'เมษายน',
+    'พฤษภาคม',
+    'มิถุนายน',
+    'กรกฎาคม',
+    'สิงหาคม',
+    'กันยายน',
+    'ตุลาคม',
+    'พฤศจิกายน',
+    'ธันวาคม'
+  ];
+
+  //goal
+  static const goalAmountText = 'จำนวนเป้าหมาย';
+  static const stepPerWeekText = 'ก้าวเดินต่อสัปดาห์';
+  static const exercisePerWeekText = 'ออกกำลังกายต่อสัปดาห์';
+
+  static const noDataAvaliableText = 'No data available.';
+  static const clickToEditText = 'กดเพื่อแก้ไข';
+
+  //leaderboard
+  static const leaderboardText = 'กระดานจัดอันดับ';
   static const healthAssessmentText = 'แบบประเมินสุขภาพ';
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
@@ -145,7 +240,30 @@ class AppStrings {
   static const goalHealthyText = 'สุขภาพดี';
   static const goalLoseweightText = 'ลดน้ำหนัก';
 
+  static const challengeText = 'พิสูจน์ฝีมือ';
+  static const healthdataText = 'ข้อมูลสุขภาพประจำสัปดาห์';
+
+  static const seeMissionText = 'ดูภารกิจ';
+  static const continueMissionText = 'ทำต่อ';
+
+  static const exerciseText = 'ออกกำลังกาย';
+  static const gotoAssessmentPageText = 'เข้าสู่หน้าประเมิน';
+  static const timeToAssessmentText = 'ถึงเวลาประเมินสุขภาพอีกครั้ง';
+  static const howMuchHaveYouChangedText = 'คุณเปลี่ยนแปลงไปมากแค่ไหนกันนะ?';
+
+  static const resultThisWeekText = 'สรุปผลสัปดาห์ที่ผ่านมา';
+  static const greatjobText = 'สุดยอดไปเลย! สัปดาห์นี้ไปกันต่อ~';
+
+  static const noNotiText = 'ยังไม่มีการแจ้งเตือน';
+  static const weightAndWaistReAssessmentText = 'อันดับแรก มาเช็กหุ่นกันหน่อย!';
+  static const pressureReAssessmentText =
+      'มาต่อกันที่ความดัน เดือนนี้เป็นไงบ้าง?';
+  static const fatReAssessmentText = 'แล้วระดับไขมันของคุณโอเคไหม?';
+  static const nextTimeFieldText = 'ไว้กรอกทีหลัง';
   //authentication
   static const registerText = 'สมัครสมาชิก';
   static const loginText = 'เข้าสู่ระบบ';
+  //exchange
+  static const randomBoxText = 'กล่องสุ่ม';
+  static const exchangeItemText = 'แลกไอเทม';
 }

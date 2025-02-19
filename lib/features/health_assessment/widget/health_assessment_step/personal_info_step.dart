@@ -5,8 +5,9 @@ import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
+
+import '../../presentation/bloc/health_assessment_page/health_assessment_page_bloc.dart';
+import '../../presentation/bloc/health_assessment_page/health_assessment_page_event.dart';
 
 class PersonalInfoStep extends StatelessWidget {
   const PersonalInfoStep({Key? key}) : super(key: key);
@@ -43,7 +44,7 @@ class PersonalInfoStep extends StatelessWidget {
           Text(
             "เพศกำเนิด*",
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: AppColors.bluegrayColor,
+                  color: AppColors.blueGrayColor,
                 ),
           ),
           const SizedBox(
@@ -74,7 +75,7 @@ class PersonalInfoStep extends StatelessWidget {
                       style: TextStyle(
                         color: state.formData['gender'] == 'male'
                             ? AppColors.blackColor
-                            : AppColors.grayColor,
+                            : AppColors.greyColor,
                       ),
                     ),
                   ],
@@ -102,7 +103,7 @@ class PersonalInfoStep extends StatelessWidget {
                       style: TextStyle(
                         color: state.formData['gender'] == 'female'
                             ? AppColors.blackColor
-                            : AppColors.grayColor,
+                            : AppColors.greyColor,
                       ),
                     ),
                   ],

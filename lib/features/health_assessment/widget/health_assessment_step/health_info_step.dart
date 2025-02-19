@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
+
+import '../../presentation/bloc/health_assessment_page/health_assessment_page_bloc.dart';
+import '../../presentation/bloc/health_assessment_page/health_assessment_page_event.dart';
 
 class HealthInfoStep extends StatelessWidget {
   const HealthInfoStep({Key? key}) : super(key: key);
@@ -65,8 +66,8 @@ class HealthInfoStep extends StatelessWidget {
             height: 24,
           ),
           CustomTextFormField(
-            labelText: AppStrings.hdlmoreText,
-            hintText: AppStrings.hdlmoreText,
+            labelText: AppStrings.hdlReText,
+            hintText: AppStrings.hdlReText,
             suffixText: AppStrings.suffixmgPerdLText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['hdl'] ?? '',
@@ -82,8 +83,8 @@ class HealthInfoStep extends StatelessWidget {
             height: 24,
           ),
           CustomTextFormField(
-            labelText: AppStrings.ldlmoreText,
-            hintText: AppStrings.ldlmoreText,
+            labelText: AppStrings.ldlReText,
+            hintText: AppStrings.ldlReText,
             suffixText: AppStrings.suffixmgPerdLText,
             keyboardType: TextInputType.number,
             initialValue: state.formData['ldl'] ?? '',

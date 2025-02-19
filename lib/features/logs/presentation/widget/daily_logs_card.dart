@@ -47,7 +47,10 @@ class DailyLogCard extends StatelessWidget {
               children: [
                 Text(
                   '$selectedLevel $unitLabel',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.bold),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineLarge
+                      ?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -62,17 +65,17 @@ class DailyLogCard extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         children: [
                           SvgPicture.asset(
-                            svgIcons[selectedLevel.clamp(0, svgIcons.length - 1)],
+                            svgIcons[
+                                selectedLevel.clamp(0, svgIcons.length - 1)],
                             width: 43,
                             height: 86,
                           ),
-                          // Floating SVG at bottom-right corner
                           Positioned(
-                            bottom: 0, 
-                            right: 0, 
+                            bottom: 0,
+                            right: 0,
                             child: SvgPicture.asset(
-                              AppImages.addIcon, 
-                              width: 32, 
+                              AppImages.addIcon,
+                              width: 32,
                               height: 32,
                             ),
                           ),

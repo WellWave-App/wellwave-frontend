@@ -67,18 +67,18 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         labelText: widget.labelText,
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.darkgrayColor,
+              color: AppColors.darkGrayColor,
             ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixText: widget.suffixText,
         labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.bluegrayColor,
+              color: AppColors.blueGrayColor,
             ),
         suffixStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.darkgrayColor,
+              color: AppColors.darkGrayColor,
             ),
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.grayColor),
+          borderSide: BorderSide(color: AppColors.greyColor),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor),
@@ -170,24 +170,125 @@ class _CustomTextFormFieldLargeState extends State<CustomTextFormFieldLarge> {
         labelText: widget.labelText,
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.darkgrayColor,
+              color: AppColors.darkGrayColor,
             ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixText: widget.suffixText,
         labelStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.bluegrayColor,
+              color: AppColors.blueGrayColor,
             ),
         suffixStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.darkgrayColor,
+              color: AppColors.darkGrayColor,
             ),
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.grayColor),
+          borderSide: BorderSide(color: AppColors.greyColor),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor),
         ),
         filled: true,
         fillColor: AppColors.transparentColor,
+        contentPadding: EdgeInsets.zero,
+      ),
+    );
+  }
+
+  List<TextInputFormatter>? _getInputFormatters() {
+    List<TextInputFormatter>? formatters = widget.inputFormatters;
+
+    if (widget.keyboardType == TextInputType.number) {
+      formatters = (formatters ?? [])
+        ..add(FilteringTextInputFormatter.digitsOnly);
+    }
+
+    return formatters;
+  }
+}
+
+class CustomTextFormFieldMD extends StatefulWidget {
+  final String? labelText;
+  final String hintText;
+  final String? suffixText;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final Function(String)? onChanged;
+  final String initialValue;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextEditingController? controller;
+
+  const CustomTextFormFieldMD({
+    super.key,
+    this.labelText,
+    required this.hintText,
+    this.suffixText,
+    this.keyboardType,
+    this.validator,
+    this.onChanged,
+    this.initialValue = '',
+    this.inputFormatters,
+    this.controller,
+  });
+
+  @override
+  _CustomTextFormFieldMDState createState() => _CustomTextFormFieldMDState();
+}
+
+class _CustomTextFormFieldMDState extends State<CustomTextFormFieldMD> {
+  final FocusNode _focusNode = FocusNode();
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        widget.controller ?? TextEditingController(text: widget.initialValue);
+    _focusNode.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      focusNode: _focusNode,
+      controller: _controller,
+      keyboardType: widget.keyboardType,
+      inputFormatters: _getInputFormatters(),
+      style: Theme.of(context).textTheme.labelLarge,
+      validator: widget.validator,
+      onChanged: (value) {
+        widget.onChanged?.call(value);
+      },
+      decoration: InputDecoration(
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        hintStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: AppColors.greyColor,
+            ),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixText: widget.suffixText,
+        labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: AppColors.blueGrayColor,
+            ),
+        suffixStyle: Theme.of(context).textTheme.headlineLarge?.copyWith(
+              color: AppColors.darkGrayColor,
+            ),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.greyColor),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: AppColors.primaryColor),
+        ),
+        filled: false,
         contentPadding: EdgeInsets.zero,
       ),
     );

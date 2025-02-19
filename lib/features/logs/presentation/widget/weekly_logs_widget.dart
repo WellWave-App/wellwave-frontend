@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
+import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/logs_history_card.dart';
 
 class WeeklyLogsWidget extends StatelessWidget {
@@ -19,13 +19,13 @@ class WeeklyLogsWidget extends StatelessWidget {
     context.read<LogsBloc>().add(LogsFetched(selectedDate));
 
     DateTime startOfWeek(DateTime date) {
-      // Adjust the start of the week (Monday)
+      // Monday
       int difference = date.weekday - DateTime.monday;
       return date.subtract(Duration(days: difference));
     }
 
     DateTime endOfWeek(DateTime date) {
-      // Adjust the end of the week (Sunday)
+      // Sunday
       int difference = DateTime.sunday - date.weekday;
       return date.add(Duration(days: difference));
     }
@@ -50,26 +50,28 @@ class WeeklyLogsWidget extends StatelessWidget {
           const SizedBox(height: 16),
           BlocBuilder<LogsBloc, LogsState>(builder: (context, state) {
             if (state is LogsLoadInProgress) {
-              debugPrint('weekly log widget');
+              // debugPrint('weekly log widget');
 
               return const Center(child: CircularProgressIndicator());
             } else if (state is LogsLoadSuccess) {
               final currentWeekLogs = state.logsWeeklyList;
               final lastWeekLogs = state.logsLastWeekList;
-              double? stepCount;
+
               double? weightCount;
               double? waistLineCount;
               double? hdlCount;
               double? ldlCount;
-              double lastWeekStep = 0.0;
+
               double lastWeekWeight = 0.0;
               double lastWeekWaistLine = 0.0;
               double lastWeekHdl = 0.0;
               double lastWeekLdl = 0.0;
 
+              double totalSteps = 0.0;
+
               for (var log in currentWeekLogs) {
                 if (log?.logName == AppStrings.stepLogText) {
-                  stepCount = log?.value;
+                  totalSteps += log?.value ?? 0.0;
                 } else if (log?.logName == AppStrings.weightLogText) {
                   weightCount = log?.value;
                 } else if (log?.logName == AppStrings.waistLineLogText) {
@@ -82,9 +84,7 @@ class WeeklyLogsWidget extends StatelessWidget {
               }
 
               for (var log in lastWeekLogs) {
-                if (log?.logName == AppStrings.stepLogText) {
-                  lastWeekStep = log?.value ?? 0.0;
-                } else if (log?.logName == AppStrings.weightLogText) {
+                if (log?.logName == AppStrings.weightLogText) {
                   lastWeekWeight = log?.value ?? 0.0;
                 } else if (log?.logName == AppStrings.waistLineLogText) {
                   lastWeekWaistLine = log?.value ?? 0.0;
@@ -101,7 +101,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'วันที่ $formattedStart - $formattedEnd',
+                        '${AppStrings.xdateText} $formattedStart - $formattedEnd',
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
@@ -110,15 +110,21 @@ class WeeklyLogsWidget extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  if (stepCount != null)
+                  if (totalSteps != 0.0)
                     Row(
                       children: [
                         LogsHistoryCard(
                           svgPath: AppImages.stepCountImage,
                           title: AppStrings.stepWalkText,
                           isShow: true,
-                          value: stepCount,
-                          lastWeekValue: lastWeekStep,
+                          value: totalSteps,
+                          lastWeekValue: state.logsLastWeekList.fold<double>(
+                            0.0,
+                            (previousValue, log) =>
+                                log?.logName == AppStrings.stepLogText
+                                    ? previousValue + (log?.value ?? 0.0)
+                                    : previousValue,
+                          ),
                           unit: AppStrings.stepText,
                           isSvg: true,
                           svgWidth: 64,
@@ -168,7 +174,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                       children: [
                         LogsHistoryCard(
                           pngPath: AppImages.hdlImage,
-                          title: AppStrings.hdlmoreText,
+                          title: AppStrings.hdlText,
                           isShow: true,
                           value: hdlCount,
                           lastWeekValue: lastWeekHdl,
@@ -188,7 +194,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                       children: [
                         LogsHistoryCard(
                           pngPath: AppImages.ldlImage,
-                          title: AppStrings.ldlmoreText,
+                          title: AppStrings.ldlText,
                           isShow: true,
                           value: ldlCount,
                           lastWeekValue: lastWeekLdl,
@@ -202,7 +208,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                       ],
                     ),
                   const SizedBox(height: 8.0),
-                  if (stepCount == null &&
+                  if (totalSteps == 0.0 &&
                       weightCount == null &&
                       waistLineCount == null &&
                       hdlCount == null &&
@@ -232,23 +238,8 @@ class WeeklyLogsWidget extends StatelessWidget {
 }
 
 String formatDateThai(DateTime date) {
-  final thaiMonths = [
-    'มกราคม',
-    'กุมภาพันธ์',
-    'มีนาคม',
-    'เมษายน',
-    'พฤษภาคม',
-    'มิถุนายน',
-    'กรกฎาคม',
-    'สิงหาคม',
-    'กันยายน',
-    'ตุลาคม',
-    'พฤศจิกายน',
-    'ธันวาคม'
-  ];
-
   int day = date.day;
-  String month = thaiMonths[date.month - 1];
+  String month = AppStrings.thaiMonths[date.month - 1];
   int year = date.year + 543; // Buddhist calendar
 
   return '$day $month $year';

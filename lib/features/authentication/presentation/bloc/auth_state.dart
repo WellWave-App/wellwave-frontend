@@ -36,5 +36,4 @@ class AuthFailure extends AuthState {
   AuthFailure({required this.statusCode, required this.message});
 }
 
-
 class AuthLoading extends AuthState {}

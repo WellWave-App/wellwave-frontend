@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/daily_logs.dart';
-import 'package:wellwave_frontend/features/logs/presentation/widget/history_button.dart';
+// import 'package:wellwave_frontend/features/logs/presentation/widget/history_button.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/weekly_logs.dart';
-import '../logs_bloc/logs_bloc.dart';
+import '../../../../config/constants/app_colors.dart';
+import '../../../../config/constants/app_strings.dart';
+import '../bloc/logs_bloc.dart';
 
 class LogsScreen extends StatefulWidget {
   const LogsScreen({super.key});
@@ -32,14 +36,26 @@ class _LogsScreenState extends State<LogsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          LogsBloc(LogsRequestRepository()), 
+      create: (context) => LogsBloc(LogsRequestRepository()),
       child: Scaffold(
         appBar: AppBar(
-          title: const Row(
+          title: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              HistoryButton(),
+              TextButton(
+                style: ButtonStyle(
+                  foregroundColor: WidgetStateProperty.all<Color>(Colors.grey),
+                ),
+                onPressed: () {
+                  context.goNamed(AppPages.logHistoryName);
+                },
+                child: Text(
+                  AppStrings.historyText,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.greyColor,
+                      ),
+                ),
+              )
             ],
           ),
         ),
