@@ -5,17 +5,19 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_bloc.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_event.dart';
-import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_state.dart';
+
 import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/chart_section_widget.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/profile/check_in_card.dart';
 
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/progress_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/round_border_text.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/user_info.dart';
 
 import '../../../logs/presentation/bloc/logs_bloc.dart';
+import '../bloc/profile_bloc/profile_bloc.dart';
+import '../bloc/profile_bloc/profile_event.dart';
+import '../bloc/profile_bloc/profile_state.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -108,30 +110,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 24),
 
                         //CheckIn
-                        // CheckInWidget(profileState: state),
+                        CheckInWidget(profileState: state),
                         const SizedBox(height: 24),
 
                         //progress
                         ProgressCard(
                           daysRemain:
                               state.userProfile.weeklyGoal?.daysLeft ?? 0,
-                          exerciseTime: state.userProfile.weeklyGoal?.progress
-                                  .exerciseTime.current ??
-                              0,
-                          taskAmount: state.userProfile.weeklyGoal?.progress
-                                  .mission.current ??
-                              0,
+                          exerciseTime: state.userProfile.weeklyGoal!.progress
+                              .exerciseTime.current,
+                          taskAmount: state
+                              .userProfile.weeklyGoal!.progress.mission.current,
                           maxExerciseTime:
-                              state.userProfile.exercisePerWeek ?? 0,
-                          maxTaskAmount: state.userProfile.weeklyGoal?.progress
-                                  .mission.goal ??
-                              0,
-                          maxStepCount: state.userProfile.stepPerWeek ?? 0,
+                              state.userProfile.exercisePerWeek != null
+                                  ? state.userProfile.exercisePerWeek!
+                                  : 0,
+                          maxTaskAmount: state
+                              .userProfile.weeklyGoal!.progress.mission.goal,
+                          maxStepCount: state.userProfile.stepPerWeek != null
+                              ? state.userProfile.stepPerWeek!
+                              : 0,
                           stepAmount: totalSteps.toInt(),
                         ),
                         const SizedBox(height: 24),
-
-                        //Achievement
                         const AchievementCard(),
                         const SizedBox(height: 24),
 
