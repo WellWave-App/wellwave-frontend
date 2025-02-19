@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/authentication/presentation/bloc/auth_bloc.dart';
 
 import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/chart_section_widget.dart';
@@ -168,11 +170,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         //sign out
                         GestureDetector(
                           onTap: () {
-                            context.read<ProfileBloc>().add(LogOutEvent());
+                            context.read<AuthBloc>().add(LogoutEvent());
 
                             Future.delayed(const Duration(milliseconds: 300),
                                 () {
-                              Navigator.pop(context);
+                              context.goNamed(AppPages.loginName);
                             });
                           },
                           child: Text(
