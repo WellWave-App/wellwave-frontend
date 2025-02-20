@@ -5,9 +5,6 @@ import 'dart:ui' as ui;
 
 import 'package:wellwave_frontend/config/constants/enums/thai_date_formatter.dart';
 
-import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
-
 class DailyBarChartPainter extends CustomPainter {
   final List<Map<String, dynamic>> data;
   final List<int> weeklyAverages;
@@ -27,16 +24,23 @@ class DailyBarChartPainter extends CustomPainter {
         (max, item) =>
             item['value'].toDouble() > max ? item['value'].toDouble() : max);
 
-    double barWidth = size.width / data.length;
+    maxData = maxData > 0 ? maxData : 1;
 
-    // วาดแถบแท่ง
-    for (int i = 0; i < data.length; i++) {
-      bool isRecentWeek = i >= data.length - 7;
+    double barWidth = size.width / 7;
+
+    List<Map<String, dynamic>> completeData = _fillMissingDays(data);
+
+    for (int i = 0; i < completeData.length; i++) {
+      bool isRecentWeek = i >= completeData.length - 7;
 
       Paint barPaint = Paint()
         ..color = isRecentWeek ? AppColors.green25Color : AppColors.gray50Color;
 
       double barHeight = (data[i]['value'].toDouble() / maxData) * maxHeight;
+      if (barHeight.isNaN || barHeight <= 0) {
+        barHeight = 0;
+      }
+
       canvas.drawRect(
         Rect.fromLTWH(
             i * barWidth, size.height - barHeight, barWidth - 4, barHeight),
@@ -44,36 +48,13 @@ class DailyBarChartPainter extends CustomPainter {
       );
     }
 
-    // คำนวณค่าเฉลี่ยของ 7 วันล่าสุด
-    double recentAverage =
-        weeklyAverages.isNotEmpty ? weeklyAverages.last.toDouble() : 0.0;
+    double recentStartX = (completeData.length - 7) * barWidth;
+    double recentEndX = completeData.length * barWidth - 4;
 
-    Paint recentAveragePaint = Paint()
-      ..color = AppColors.greenColor
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
-
-    double recentAverageHeight = (recentAverage / maxData) * maxHeight;
-    double recentStartX = (data.length - 7) * barWidth;
-    double recentEndX = data.length * barWidth - 4;
-
-    Path recentAveragePath = Path();
-    double distance = 0.0;
-    while (distance < recentEndX - recentStartX) {
-      recentAveragePath.moveTo(
-          recentStartX + distance, size.height - recentAverageHeight);
-      distance += 8.0;
-      recentAveragePath.lineTo(
-          recentStartX + distance, size.height - recentAverageHeight);
-      distance += 5.0;
-    }
-    canvas.drawPath(recentAveragePath, recentAveragePaint);
-
-    // วาดช่วงวันที่ของ 7 วันล่าสุด
-    DateTime firstDate =
-        DateFormat('dd-MM-yyyy').parse(data[data.length - 7]['date']);
-    DateTime lastDate =
-        DateFormat('dd-MM-yyyy').parse(data[data.length - 1]['date']);
+    DateTime firstDate = DateFormat('dd-MM-yyyy')
+        .parse(completeData[completeData.length - 7]['date']);
+    DateTime lastDate = DateFormat('dd-MM-yyyy')
+        .parse(completeData[completeData.length - 1]['date']);
 
     String dateRangeText =
         ThaiDateFormatter.formatDateRange(firstDate, lastDate);
@@ -94,25 +75,27 @@ class DailyBarChartPainter extends CustomPainter {
         (dateTextPainter.width / 2);
 
     dateTextPainter.paint(canvas, Offset(centerX, size.height + 4));
+  }
 
-    double overallAverageHeight = (recentAverage / maxData) * maxHeight;
+  List<Map<String, dynamic>> _fillMissingDays(List<Map<String, dynamic>> data) {
+    List<Map<String, dynamic>> completedData = [];
 
-    // วาดข้อความค่าเฉลี่ยทั้งหมด
-    TextPainter overallTextPainter = TextPainter(
-      text: TextSpan(
-        text: 'เฉลี่ย ${recentAverage.toInt()} นาที',
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: AppColors.greenColor,
-              fontWeight: FontWeight.bold,
-            ),
-      ),
-      textDirection: ui.TextDirection.ltr,
-    )..layout(minWidth: 0, maxWidth: double.infinity);
+    Set<String> existingDates = data.map((e) => e['date'] as String).toSet();
 
-    double overallTextX = 0;
-    double overallTextY = size.height - overallAverageHeight - 20;
+    DateTime today = DateTime.now();
+    for (int i = 6; i >= 0; i--) {
+      DateTime date = today.subtract(Duration(days: i));
+      String formattedDate = DateFormat('dd-MM-yyyy').format(date);
 
-    overallTextPainter.paint(canvas, Offset(overallTextX, overallTextY));
+      if (existingDates.contains(formattedDate)) {
+        completedData
+            .add(data.firstWhere((entry) => entry['date'] == formattedDate));
+      } else {
+        completedData.add({'date': formattedDate, 'value': 0});
+      }
+    }
+
+    return completedData;
   }
 
   @override

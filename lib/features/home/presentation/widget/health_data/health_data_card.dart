@@ -5,9 +5,13 @@ import 'package:wellwave_frontend/features/home/presentation/widget/health_data/
 
 class HealthDataCard extends StatelessWidget {
   final List<int> weeklyAverages;
+  final List<Map<String, dynamic>> chartData;
 
-  const HealthDataCard({super.key, required this.weeklyAverages});
-  // debugPrint(weeklyAverages);
+  const HealthDataCard({
+    super.key,
+    required this.weeklyAverages,
+    required this.chartData,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,10 @@ class HealthDataCard extends StatelessWidget {
                 ),
           ),
           SizedBox(height: 16),
-          BarChart(data: mockData),
+          BarChart(
+            data: chartData,
+            weeklyAverages: weeklyAverages,
+          ),
           SizedBox(height: 16),
         ],
       ),

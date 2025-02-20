@@ -258,26 +258,41 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              // ใน BlocBuilder หรือ StatefulWidget
                               BlocBuilder<HomeBloc, HomeState>(
                                 builder: (context, state) {
                                   if (state is HomeLoadedState &&
                                       state.healthStepAndExData != null) {
                                     final healthData =
                                         state.healthStepAndExData!.data;
-                                    List<Map<String, dynamic>> weeklyAverages =
+
+                                    List<Map<String, dynamic>>
+                                        weeklyStepsAverages =
                                         calculateWeeklyAverage(healthData.step);
+                                    List<Map<String, dynamic>>
+                                        weeklyExAverages =
+                                        calculateWeeklyAverage(
+                                            healthData.habits);
+                                    List<int> weeklyExValues = weeklyExAverages
+                                        .map((weekData) =>
+                                            weekData['average'] as int)
+                                        .toList();
 
-                                    String result =
-                                        weeklyAverages.map((weekData) {
-                                      return 'Week: ${weekData['week']}, Average Steps: ${weekData['average']}';
-                                    }).join("\n");
+                                    List<Map<String, dynamic>> chartData;
+                                    chartData = healthData.step.map((entry) {
+                                      return {
+                                        'date': entry.date,
+                                        'value': entry.value,
+                                      };
+                                    }).toList();
 
-                                    print(result);
-                                    return Center(
-                                      child: Text(result),
+                                    print(chartData);
+
+                                    return HealthDataCard(
+                                      weeklyAverages: weeklyExValues,
+                                      chartData: chartData,
                                     );
                                   }
+
                                   return Center(
                                       child: CircularProgressIndicator());
                                 },
@@ -302,7 +317,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$greetingMessage, ${(state is HomeLoadedState) ? state.profile!.username : "User"}',
+                          '$greetingMessage, ${(state is HomeLoadedState) ? state.profile?.username ?? "User" : "User"}',
                           style: Theme.of(context)
                               .textTheme
                               .headlineSmall
@@ -321,7 +336,8 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                           children: [
                             if (state is HomeLoadedState)
                               Text(
-                                state.loginStreak!.currentStreak.toString(),
+                                state.loginStreak?.currentStreak.toString() ??
+                                    '0',
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge

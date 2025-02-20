@@ -43,6 +43,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final healthStepAndExData =
             await healthDataRepository.fetchStepAndExTimeData();
 
+        print("Fetched Profile: $profile");
+
         emit(HomeLoadedState(
           step: 0,
           profile: profile,

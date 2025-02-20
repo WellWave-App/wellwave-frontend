@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 
 class NotificationItem extends StatelessWidget {
   final NotificationsDataResponseModel notification;
@@ -33,8 +33,7 @@ class NotificationItem extends StatelessWidget {
                     )),
             leading: CircleAvatar(
               radius: 24,
-              backgroundImage:
-                  NetworkImage('${AppStrings.baseUrl}${notification.imageUrl}'),
+              backgroundImage: NetworkImage('$baseUrl${notification.imageUrl}'),
             ),
             trailing: Icon(
               Icons.circle,

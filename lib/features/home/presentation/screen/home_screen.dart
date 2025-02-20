@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                       padding: EdgeInsets.only(
                           top: 40.0, left: 24, right: 24, bottom: 24),
                       child: TopOfScreen(
-                        notifications: notifications!,
+                        notifications: notifications ?? [],
                       ),
                     ),
                     ProgressWidget(),

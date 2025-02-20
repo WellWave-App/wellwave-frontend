@@ -5,12 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
-import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/showpoint.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 
 class TopOfScreen extends StatelessWidget {
   final List<NotificationsDataResponseModel> notifications;
@@ -25,12 +24,10 @@ class TopOfScreen extends StatelessWidget {
       builder: (context, state) {
         Widget profilePicture;
         if (state is HomeLoadedState) {
-          // debugPrint(
-          //     "Full IMAGE_URL: '${AppStrings.baseUrl}${state.profile!.imageUrl}");
-
-          if (state.profile!.imageUrl != '') {
+          if (state.profile?.imageUrl != null &&
+              state.profile!.imageUrl != '') {
             profilePicture = Image.network(
-              '${AppStrings.baseUrl}${state.profile!.imageUrl}',
+              '$baseUrl${state.profile!.imageUrl}',
               height: 32.0,
               errorBuilder: (context, error, stackTrace) {
                 return SvgPicture.asset(
@@ -59,14 +56,14 @@ class TopOfScreen extends StatelessWidget {
               children: [
                 CoinDisplay(
                   pointText: (state is HomeLoadedState)
-                      ? state.profile!.exp.toString()
+                      ? state.profile?.exp.toString() ?? '0'
                       : '0',
                   icon: AppImages.expIcon,
                 ),
                 const SizedBox(width: 16),
                 CoinDisplay(
                   pointText: (state is HomeLoadedState)
-                      ? state.profile!.gem.toString()
+                      ? state.profile?.gem.toString() ?? '0'
                       : '0',
                   icon: AppImages.gemIcon,
                 ),
