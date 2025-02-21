@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
-
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
 class ProfileRepositories {
-  String baseUrl = AppStrings.baseUrl;
-  String token = AppStrings.token;
+  final _secureStorage = const FlutterSecureStorage();
+  final _tokenKey = 'access_token';
 
   Future<bool> editUserRequest({
     required int uid,
@@ -22,6 +23,9 @@ class ProfileRepositories {
     required num weight,
     int? gem,
   }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
+
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
 
@@ -59,6 +63,8 @@ class ProfileRepositories {
       {required int uid,
       required int stepPerWeek,
       required int exercisePerWeek}) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
 
@@ -89,6 +95,7 @@ class ProfileRepositories {
   }
 
   Future<ProfileRequestModel?> getUSer() async {
+    final token = await _secureStorage.read(key: _tokenKey);
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/users/profile"),
@@ -97,7 +104,7 @@ class ProfileRepositories {
         },
       );
       debugPrint('Response status: ${response.statusCode}');
-      // debugPrint('Response body: ${response.body}');
+      debugPrint('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -111,6 +118,8 @@ class ProfileRepositories {
   }
 
   Future<String?> uploadProfileImage(File imageFile, int uid) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
       var request = http.MultipartRequest('PATCH', uri);
@@ -143,7 +152,7 @@ class ProfileRepositories {
       request.files.add(multipartFile);
 
       // Add authorization header if needed
-      if (token.isNotEmpty) {
+      if (token != null) {
         request.headers['Authorization'] = 'Bearer $token';
       }
 
@@ -172,6 +181,8 @@ class ProfileRepositories {
   Future<bool> createCheckInResponse({
     required String date,
   }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+
     try {
       final uri = Uri.parse("$baseUrl/checkin-challenge/check");
 
