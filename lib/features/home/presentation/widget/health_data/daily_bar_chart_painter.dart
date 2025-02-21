@@ -19,7 +19,10 @@ class DailyBarChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     double maxHeight = 64;
-    double maxData = data.fold(
+
+    List<Map<String, dynamic>> completeData = _fillMissingDays(data);
+
+    double maxData = completeData.fold(
         0.0,
         (max, item) =>
             item['value'].toDouble() > max ? item['value'].toDouble() : max);
@@ -28,15 +31,14 @@ class DailyBarChartPainter extends CustomPainter {
 
     double barWidth = size.width / 7;
 
-    List<Map<String, dynamic>> completeData = _fillMissingDays(data);
-
     for (int i = 0; i < completeData.length; i++) {
       bool isRecentWeek = i >= completeData.length - 7;
 
       Paint barPaint = Paint()
         ..color = isRecentWeek ? AppColors.green25Color : AppColors.gray50Color;
 
-      double barHeight = (data[i]['value'].toDouble() / maxData) * maxHeight;
+      double barHeight =
+          (completeData[i]['value'].toDouble() / maxData) * maxHeight;
       if (barHeight.isNaN || barHeight <= 0) {
         barHeight = 0;
       }
@@ -80,21 +82,38 @@ class DailyBarChartPainter extends CustomPainter {
   List<Map<String, dynamic>> _fillMissingDays(List<Map<String, dynamic>> data) {
     List<Map<String, dynamic>> completedData = [];
 
-    Set<String> existingDates = data.map((e) => e['date'] as String).toSet();
+    Map<String, Map<String, dynamic>> formattedData = {
+      for (var entry in data)
+        DateFormat('dd-MM-yyyy')
+            .format(DateTime.parse(entry['date'].toString())): {
+          'date': DateFormat('dd-MM-yyyy')
+              .format(DateTime.parse(entry['date'].toString())),
+          'value': entry['value']
+        }
+    };
 
     DateTime today = DateTime.now();
+    DateTime thisWeekSunday = today
+        .subtract(Duration(days: today.weekday))
+        .subtract(Duration(days: 7));
+
     for (int i = 6; i >= 0; i--) {
-      DateTime date = today.subtract(Duration(days: i));
+      DateTime date = thisWeekSunday.add(Duration(days: i));
       String formattedDate = DateFormat('dd-MM-yyyy').format(date);
 
-      if (existingDates.contains(formattedDate)) {
-        completedData
-            .add(data.firstWhere((entry) => entry['date'] == formattedDate));
+      if (formattedData.containsKey(formattedDate)) {
+        completedData.add(formattedData[formattedDate]!);
       } else {
         completedData.add({'date': formattedDate, 'value': 0});
       }
     }
 
+    completedData.sort((a, b) {
+      DateTime dateA = DateFormat('dd-MM-yyyy').parse(a['date']);
+      DateTime dateB = DateFormat('dd-MM-yyyy').parse(b['date']);
+      return dateA.compareTo(dateB);
+    });
+    // print(completedData);
     return completedData;
   }
 

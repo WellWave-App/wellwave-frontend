@@ -266,9 +266,6 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                         state.healthStepAndExData!.data;
 
                                     List<Map<String, dynamic>>
-                                        weeklyStepsAverages =
-                                        calculateWeeklyAverage(healthData.step);
-                                    List<Map<String, dynamic>>
                                         weeklyExAverages =
                                         calculateWeeklyAverage(
                                             healthData.habits);

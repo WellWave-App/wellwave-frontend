@@ -20,19 +20,9 @@ class WeeklyBarChartPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     double maxHeight = 64;
 
-    // คำนวณค่าเฉลี่ยรายสัปดาห์
-    List<double> weeklyAverages = [];
-    for (int i = 0; i < data.length; i += 7) {
-      int end = (i + 7 < data.length) ? i + 7 : data.length;
-      List<Map<String, dynamic>> weeklyData = data.sublist(i, end);
-      double weeklyAverage =
-          weeklyData.fold(0.0, (sum, item) => sum + item['value'].toDouble()) /
-              weeklyData.length;
-      weeklyAverages.add(weeklyAverage);
-    }
-
-    double maxData =
-        weeklyAverages.fold(0.0, (max, value) => value > max ? value : max);
+    double maxData = weeklyAverages.fold<double>(0.0, (double max, int value) {
+      return (value > max ? value : max).toDouble();
+    });
 
     double barWidth = size.width / weeklyAverages.length;
 
@@ -56,7 +46,10 @@ class WeeklyBarChartPainter extends CustomPainter {
         : 0.0;
 
     double overallAverage = weeklyAverages.isNotEmpty
-        ? weeklyAverages.reduce((a, b) => a + b) / weeklyAverages.length
+        ? weeklyAverages
+                .take(weeklyAverages.length - 1)
+                .fold(0.0, (a, b) => a + b) /
+            (weeklyAverages.length - 1)
         : 0.0;
 
     Paint recentAveragePaint = Paint()
@@ -73,7 +66,6 @@ class WeeklyBarChartPainter extends CustomPainter {
     double recentStartX = (weeklyAverages.length - 1) * barWidth;
     double recentEndX = recentStartX + barWidth - 4;
 
-    // ใช้เส้นประสำหรับเส้นเฉลี่ยล่าสุด
     Path recentAveragePath = Path();
     double distance = 0.0;
     while (distance < recentEndX - recentStartX) {
@@ -86,7 +78,6 @@ class WeeklyBarChartPainter extends CustomPainter {
     }
     canvas.drawPath(recentAveragePath, recentAveragePaint);
 
-    // วาดข้อความค่าเฉลี่ยของ 7 วันล่าสุด
     TextPainter recentTextPainter = TextPainter(
       text: TextSpan(
         text: 'เฉลี่ย ${recentAverage.toInt()} นาที',
@@ -119,7 +110,6 @@ class WeeklyBarChartPainter extends CustomPainter {
     }
     canvas.drawPath(overallAveragePath, overallAveragePaint);
 
-    // วาดข้อความค่าเฉลี่ยทั้งหมด
     TextPainter overallTextPainter = TextPainter(
       text: TextSpan(
         text: 'เฉลี่ย ${overallAverage.toInt()} นาที',
@@ -137,9 +127,10 @@ class WeeklyBarChartPainter extends CustomPainter {
     overallTextPainter.paint(canvas, Offset(overallTextX, overallTextY));
 
     DateTime firstDateOfRecentWeek =
-        DateFormat('dd-MM-yyyy').parse(data[data.length - 7]['date']);
+        DateFormat('yyyy-MM-dd HH:mm:ss').parse(data[data.length - 7]['date']);
     DateTime lastDateOfRecentWeek =
-        DateFormat('dd-MM-yyyy').parse(data[data.length - 1]['date']);
+        DateFormat('yyyy-MM-dd HH:mm:ss').parse(data[data.length - 1]['date']);
+
     String recentWeekDateRange = ThaiDateFormatter.formatDateRange(
         firstDateOfRecentWeek, lastDateOfRecentWeek);
 

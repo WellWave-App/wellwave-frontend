@@ -1,56 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/health_data/daily_bar_chart_painter.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data/mock_data.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/health_data/weekly_bar_chart_painter.dart';
 
 class BarChart extends StatelessWidget {
   final List<Map<String, dynamic>> data;
-  const BarChart({Key? key, required this.data}) : super(key: key);
+  final List<int> weeklyAverages;
+
+  const BarChart({Key? key, required this.data, required this.weeklyAverages})
+      : super(key: key);
+
+  List<Map<String, dynamic>> _getPreviousWeekData(
+      List<Map<String, dynamic>> data) {
+    List<Map<String, dynamic>> sortedData = List.from(data)
+      ..sort((a, b) => DateTime.parse(a['date'].toString())
+          .compareTo(DateTime.parse(b['date'].toString())));
+
+    DateTime today = DateTime.now();
+
+    DateTime thisWeekSunday = today
+        .subtract(Duration(days: today.weekday % 7))
+        .toLocal()
+        .copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
+
+    DateTime previousWeekSunday = thisWeekSunday.subtract(Duration(days: 8));
+
+    DateTime previousWeekSaturday = previousWeekSunday.add(Duration(days: 6));
+
+    List<Map<String, dynamic>> previousWeekData = sortedData.where((entry) {
+      DateTime entryDate = DateTime.parse(entry['date'].toString())
+          .toLocal()
+          .copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
+
+      return entryDate.isAfter(previousWeekSunday) &&
+          entryDate.isBefore(previousWeekSaturday.add(Duration(days: 1)));
+    }).toList();
+
+    return previousWeekData;
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> latestData = mockData.length > 84
-        ? mockData.sublist(mockData.length - 84)
-        : mockData;
-
-    List<int> weeklyAverages = _calculateWeeklyAverages(latestData);
+    List<Map<String, dynamic>> previousWeekData = _getPreviousWeekData(data);
 
     return Column(
       children: [
         CustomPaint(
           size: Size(double.infinity, 64),
-          painter: latestData.length >= 28
+          painter: weeklyAverages.length >= 5
               ? WeeklyBarChartPainter(
-                  data: latestData,
+                  data: data,
                   weeklyAverages: weeklyAverages,
                   context: context,
                 )
               : DailyBarChartPainter(
-                  data: latestData,
+                  data: previousWeekData,
                   weeklyAverages: weeklyAverages,
                   context: context,
                 ),
         ),
       ],
     );
-  }
-
-  List<int> _calculateWeeklyAverages(List<Map<String, dynamic>> data) {
-    List<int> weeklyAverages = [];
-    double sum = 0.0;
-    int count = 0;
-
-    for (int i = 0; i < data.length; i++) {
-      sum += data[i]['value'].toDouble();
-      count++;
-
-      if (count == 7 || i == data.length - 1) {
-        weeklyAverages.add((sum / count).round());
-        sum = 0.0;
-        count = 0;
-      }
-    }
-
-    return weeklyAverages;
   }
 }

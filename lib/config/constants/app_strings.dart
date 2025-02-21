@@ -6,9 +6,7 @@ class AppStrings {
 
   static const emptyText = '';
   static const baseUrl = 'http://10.0.2.2:3000';
-  static const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIxM0BleGFtcGxlLmNvbSIsIlVJRCI6MTMsIlJPTEUiOiJ1c2VyIiwiaWF0IjoxNzM5ODc3NDk4LCJleHAiOjE3Mzk5NjM4OTh9.cqlYrJhCaR35AJpYUQ3k8ExQ-LD4sYwlr6e8WrFXam0';
-  static const userID = '13';
+
   static const uid = 13;
 
   //logs screen
@@ -165,6 +163,13 @@ class AppStrings {
   //leaderboard
   static const leaderboardText = 'กระดานจัดอันดับ';
   static const healthAssessmentText = 'แบบประเมินสุขภาพ';
+
+  //home
+  static const exerciseTimeMessageLessThanPrevious =
+      'คุณใช้เวลาออกกำลังกายเฉลี่ย {0} นาทีในสัปดาห์ที่ผ่านมา หยุดพักแล้วอย่าลืมกลับมาสู้ต่อ!';
+  static const exerciseTimeMessageContinuity =
+      'คุณใช้เวลาออกกำลังกายเฉลี่ย {0} นาทีในสัปดาห์ที่ผ่านมา อย่าลืมรักษาความต่อเนื่องนี้ไว้!';
+
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';

@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/notification/data/models/drink_plan_notification_response_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/drink_range_notification_response_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/mission_notification_request_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/sleep_notification_response_model.dart';
-
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 import '../../../../config/constants/app_strings.dart';
 
 class NotificationSettingRepository {
-  final String baseUrl = AppStrings.baseUrl;
-  String token = AppStrings.token;
+  final _secureStorage = const FlutterSecureStorage();
+  final _tokenKey = 'access_token';
 
   Future<bool> createBedSetting({
     required int uid,
@@ -18,6 +19,8 @@ class NotificationSettingRepository {
     required String bedtime,
     required Map<String, bool> weekdays,
   }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -30,7 +33,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-bed-time'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -50,12 +53,14 @@ class NotificationSettingRepository {
   }
 
   Future<SleepNotificationResponseModel?> fetchBedSetting() async {
+    final token = await _secureStorage.read(key: _tokenKey);
+
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/noti-setting/get-noti/BEDTIME'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -97,6 +102,8 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
   }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -107,7 +114,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-bed-time'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -130,6 +137,8 @@ class NotificationSettingRepository {
     required int glassNumber,
     required String notitime,
   }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
     final body = {
       "UID": uid,
       "GLASS_NUMBER": glassNumber,
@@ -141,7 +150,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-water-plan'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -162,12 +171,14 @@ class NotificationSettingRepository {
   }
 
   Future<DrinkPlanNotificationResponseModel?> fetchDrinkPlanSetting() async {
+    final token = await _secureStorage.read(key: _tokenKey);
+
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/noti-setting/get-noti/WATER_PLAN'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -215,6 +226,8 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
   }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -225,7 +238,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-water-plan'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -251,6 +264,8 @@ class NotificationSettingRepository {
     required String endTime,
     required int intervalMinute,
   }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
     final body = {
       "UID": uid,
       "START_TIME": startTime,
@@ -263,7 +278,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-water-range'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -285,11 +300,13 @@ class NotificationSettingRepository {
 
   Future<DrinkRangeNotificationResponseModel?> fetchDrinkRangeSetting() async {
     try {
+      final token = await _secureStorage.read(key: _tokenKey);
+
       final response = await http.get(
         Uri.parse('$baseUrl/noti-setting/get-noti/WATER_RANGE'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
       );
 
@@ -333,6 +350,8 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
   }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -343,7 +362,7 @@ class NotificationSettingRepository {
         Uri.parse('$baseUrl/noti-setting/set-water-range'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
         body: jsonEncode(body),
       );
@@ -369,11 +388,13 @@ class NotificationSettingRepository {
   //mission
   Future<List<MissionNotificationModel>> fetchMissionSetting() async {
     try {
+      final token = await _secureStorage.read(key: _tokenKey);
+
       final response = await http.get(
         Uri.parse('$baseUrl/habit/user'),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AppStrings.token}',
+          'Authorization': 'Bearer $token',
         },
       );
       debugPrint('Fetching from URL: $baseUrl/habit/user');

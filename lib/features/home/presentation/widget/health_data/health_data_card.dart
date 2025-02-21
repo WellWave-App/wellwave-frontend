@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/health_data/bar_chart.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/health_data/mock_data.dart';
 
 class HealthDataCard extends StatelessWidget {
   final List<int> weeklyAverages;
@@ -19,8 +19,10 @@ class HealthDataCard extends StatelessWidget {
         weeklyAverages.last < weeklyAverages[weeklyAverages.length - 2];
 
     String message = isLessThanPrevious
-        ? 'คุณใช้เวลาออกกำลังกายเฉลี่ย ${weeklyAverages.last} นาทีในสัปดาห์นี้ หยุดพักแล้วอย่าลืมกลับมาสู้ต่อ!'
-        : 'คุณใช้เวลาออกกำลังกายเฉลี่ย ${weeklyAverages.last} นาทีในสัปดาห์นี้ อย่าลืมรักษาความต่อเนื่องนี้ไว้!';
+        ? AppStrings.exerciseTimeMessageLessThanPrevious
+            .replaceFirst('{0}', '${weeklyAverages.last}')
+        : AppStrings.exerciseTimeMessageContinuity
+            .replaceFirst('{0}', '${weeklyAverages.last}');
 
     return Container(
       decoration: BoxDecoration(

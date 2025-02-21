@@ -4,6 +4,8 @@ import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/authentication/data/repositories/auth_repository.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/bloc/auth_bloc.dart';
+import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
+import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
@@ -30,6 +32,9 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<ProfileRepositories>(
           create: (context) => ProfileRepositories(),
         ),
+        RepositoryProvider<LogsRequestRepository>(
+          create: (context) => LogsRequestRepository(),
+        ),
         RepositoryProvider<LoginStreakRepository>(
           create: (context) => LoginStreakRepository(),
         ),
@@ -51,6 +56,11 @@ class MainApp extends StatelessWidget {
           ),
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(authRepository: authRepository),
+          ),
+          BlocProvider<LogsBloc>(
+            create: (context) =>
+                LogsBloc(context.read<LogsRequestRepository>()),
+            lazy: false,
           ),
           // BlocProvider<FriendBloc>(
           //   create: (context) => FriendBloc(

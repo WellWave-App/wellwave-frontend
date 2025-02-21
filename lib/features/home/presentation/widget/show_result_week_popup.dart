@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/circular_chart_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void showResultWeekPopup(BuildContext context) {
+Future<void> checkAndShowPopup(BuildContext context) async {
+  final prefs = await SharedPreferences.getInstance();
+  final lastShownDate = prefs.getString('lastShownDate');
+
+  final currentDate = DateTime.now();
+  final isSunday = currentDate.weekday == DateTime.sunday;
+
+  if (isSunday &&
+      (lastShownDate == null ||
+          lastShownDate != currentDate.weekday.toString())) {
+    showResultWeekPopup(context);
+    await prefs.setString('lastShownDate', currentDate.weekday.toString());
+  }
+}
+
+Future<void> showResultWeekPopup(BuildContext context) async {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -62,28 +77,64 @@ void showResultWeekPopup(BuildContext context) {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularChartWidget(),
-                              const SizedBox(width: 16.0),
-                              CircularChartWidget(),
-                              const SizedBox(width: 16.0),
-                              CircularChartWidget(),
-                              const SizedBox(width: 16.0),
-                              CircularChartWidget(),
-                            ],
-                          ),
-                          const SizedBox(height: 24.0),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularChartWidget(),
-                              const SizedBox(width: 24.0),
-                              CircularChartWidget(),
-                              const SizedBox(width: 24.0),
-                              CircularChartWidget(),
-                            ],
+                          BlocBuilder<HomeBloc, HomeState>(
+                            builder: (context, state) {
+                              if (state is HomeLoadedState) {
+                                final healthData =
+                                    state.healthStepAndExData!.data;
+                                final lastWeekDates = getLastWeekDates();
+
+                                final dailyHabitGoal =
+                                    (state.profile?.exercisePerWeek ?? 1)
+                                            .toDouble() /
+                                        7;
+                                final dailyStepGoal =
+                                    (state.profile?.stepPerWeek ?? 1)
+                                            .toDouble() /
+                                        7;
+
+                                return Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        for (int i = 0; i < 4; i++)
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12.0),
+                                            child: CircularChartWidget(
+                                              date: lastWeekDates[i],
+                                              healthData: healthData,
+                                              dailyHabitGoal: dailyHabitGoal,
+                                              dailyStepGoal: dailyStepGoal,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 20.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        for (int i = 4; i < 7; i++)
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 12.0),
+                                            child: CircularChartWidget(
+                                              date: lastWeekDates[i],
+                                              healthData: healthData,
+                                              dailyHabitGoal: dailyHabitGoal,
+                                              dailyStepGoal: dailyStepGoal,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              }
+                              return CircularProgressIndicator();
+                            },
                           ),
                           const SizedBox(height: 24.0),
                           Row(
@@ -164,4 +215,10 @@ void showResultWeekPopup(BuildContext context) {
       );
     },
   );
+}
+
+List<DateTime> getLastWeekDates() {
+  DateTime now = DateTime.now();
+  DateTime lastWeekStart = now.subtract(Duration(days: now.weekday + 7));
+  return List.generate(7, (index) => lastWeekStart.add(Duration(days: index)));
 }

@@ -240,7 +240,7 @@ class HealthDataRepository {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        debugPrint('updated successfully: ${response.body}');
+        // debugPrint('response ${response.body}');
         return HealthDataStepAndExResponeModel.fromJson(jsonData);
       } else {
         debugPrint('Error: Server responded with ${response.statusCode}');
