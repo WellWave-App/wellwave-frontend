@@ -11,6 +11,7 @@ import 'package:wellwave_frontend/features/profile/data/models/profile_request_m
 class ProfileRepositories {
   String baseUrl = AppStrings.baseUrl;
   String token = AppStrings.token;
+  // int uid = AppStrings.uid;
 
   Future<bool> editUserRequest({
     required int uid,
@@ -97,7 +98,7 @@ class ProfileRepositories {
         },
       );
       debugPrint('Response status: ${response.statusCode}');
-      // debugPrint('Response body: ${response.body}');
+      debugPrint('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);

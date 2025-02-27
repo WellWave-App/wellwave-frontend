@@ -77,10 +77,10 @@ class ProfileRequestModel {
       gender: json['userInfo']['GENDER'] as bool? ?? false,
       height: (json['userInfo']['HEIGHT'] as num?)?.toDouble() ?? 0.0,
       weight: (json['userInfo']['WEIGHT'] as num?)?.toDouble() ?? 0.0,
-      exp: json['userInfo']['EXP'] as int,
-      gem: json['userInfo']['GEM'] as int,
-      stepPerWeek: json['userInfo']['USER_GOAL_STEP_WEEK'] ?? 0,
-      exercisePerWeek: json['userInfo']['USER_GOAL_EX_TIME_WEEK'] ?? 0,
+      exp: json['userInfo']['EXP'] as int? ?? 0,
+      gem: json['userInfo']['GEM'] as int? ?? 0,
+      stepPerWeek: json['userInfo']['USER_GOAL_STEP_WEEK'] as int? ?? 0,
+      exercisePerWeek: json['userInfo']['USER_GOAL_EX_TIME_WEEK'] as int? ?? 0,
       userLeague: json['userLeague'] != null
           ? UserLeague.fromJson(json['userLeague'])
           : null,
@@ -119,10 +119,10 @@ class UserLeague {
 
   factory UserLeague.fromJson(Map<String, dynamic> json) {
     return UserLeague(
-      id: json['LB_ID'] as int,
-      name: json['LEAGUE_NAME'] as String,
-      minExp: json['MIN_EXP'] as int,
-      maxExp: json['MAX_EXP'] as int,
+      id: json['UID'] as int? ?? 0,
+      name: json['CURRENT_LEAGUE'] as String? ?? "Unknown",
+      minExp: json['CURRENT_EXP'] as int? ?? 0,
+      maxExp: json['PREVIOUS_RANK'] as int? ?? 0,
     );
   }
 }

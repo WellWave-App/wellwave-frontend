@@ -88,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     AppImages.leagueListIcon[userLeague - 1],
                                 isShowNavi: true,
                                 appPages: AppPages.leaderboardlPage,
-                                horizontal: 12,
+                                horizontal: 11,
                               ),
                             ),
                             const SizedBox(width: 16),
