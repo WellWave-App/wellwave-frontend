@@ -10,6 +10,10 @@ import '../../../profile/presentation/bloc/profile_bloc.dart';
 import '../../../profile/presentation/bloc/profile_event.dart';
 import '../../../profile/presentation/bloc/profile_state.dart';
 import '../../../profile/presentation/widget/profile/round_border_text.dart';
+import '../../data/models/leaderboard_request_model.dart';
+import '../bloc/leaderboard_bloc.dart';
+import '../bloc/leaderboard_event.dart';
+import '../bloc/leaderboard_state.dart';
 import '../widget/switch_button.dart';
 
 class LeaderboardScreen extends StatelessWidget {
@@ -17,44 +21,11 @@ class LeaderboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(FetchUserProfile());
+    // context.read<ProfileBloc>().add(FetchUserProfile());
+    context.read<LeaderBoardBloc>().add(FetchUserBoard());
 
-    int weekday = DateTime.now().weekday;
-    int daysRemain = (14 - weekday) % 14;
-    int userRank = 16;
-
-    final List<Map<String, dynamic>> rankData = [
-      {"rank": 1, "name": "มงคล", "exp": 12034, "avatar": "assets/avatar3.png"},
-      {
-        "rank": 2,
-        "name": "เปี๊ยก",
-        "exp": 12000,
-        "avatar": "assets/avatar1.png"
-      },
-      {"rank": 3, "name": "ฟ้า", "exp": 11944, "avatar": "assets/avatar1.png"},
-      {
-        "rank": 4,
-        "name": "มายด์",
-        "exp": 11370,
-        "avatar": "assets/avatar1.png"
-      },
-      {
-        "rank": 5,
-        "name": "ยี่หวา",
-        "exp": 10270,
-        "avatar": "assets/avatar2.png"
-      },
-      {"rank": 6, "name": "ลิน", "exp": 9820, "avatar": "assets/avatar3.png"},
-      {"rank": 7, "name": "มายด์", "exp": 8370, "avatar": "assets/avatar1.png"},
-      {
-        "rank": 8,
-        "name": "ยี่หวา",
-        "exp": 8270,
-        "avatar": "assets/avatar2.png"
-      },
-      {"rank": 9, "name": "ลิน", "exp": 7820, "avatar": "assets/avatar3.png"},
-      {"rank": 10, "name": "ลิน", "exp": 6820, "avatar": "assets/avatar3.png"},
-    ];
+    // int weekday = DateTime.now().weekday;
+    // int daysRemain = (14 - weekday) % 14;
 
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
@@ -63,29 +34,22 @@ class LeaderboardScreen extends StatelessWidget {
           textColor: AppColors.whiteColor,
           context: context,
           onLeading: true),
-      body: BlocBuilder<ProfileBloc, ProfileState>(
+      body: BlocBuilder<LeaderBoardBloc, LeaderBoardState>(
         builder: (context, state) {
-          if (state is ProfileLoaded) {
-            final profile = state.userProfile;
-            final userLeague = profile.userLeague?.id ?? 0;
+          if (state is LeaderBoardLoaded) {
+            final userBoard = state.userBoard;
+            final userLeague = userBoard.league;
+            final userImage = userBoard.userStats.user.imageUrl;
+            final username = userBoard.userStats.user.username;
+            final boardMembers = userBoard.boardMembers;
 
             Widget profileImage;
 
-            if (state.userProfile.imageUrl.isNotEmpty) {
-              final imageUrl =
-                  "http://10.0.2.2:3000${state.userProfile.imageUrl}";
+            if (userImage!.isNotEmpty) {
+              final imageUrl = "${AppStrings.baseUrl}$userImage";
               profileImage = ClipOval(
                 child: Image.network(
                   imageUrl,
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                ),
-              );
-            } else if (state.selectedImage != null) {
-              profileImage = ClipOval(
-                child: Image.file(
-                  state.selectedImage!,
                   width: 40,
                   height: 40,
                   fit: BoxFit.cover,
@@ -115,9 +79,8 @@ class LeaderboardScreen extends StatelessWidget {
                               children: [
                                 RoundedText(
                                   text:
-                                      '${AppStrings.leagueText}${AppStrings.leagueList[userLeague - 1]}',
-                                  svgPath:
-                                      AppImages.leagueListIcon[userLeague - 1],
+                                      '${AppStrings.leagueText}${AppStrings.leagueList[userLeague]}',
+                                  svgPath: AppImages.leagueListIcon[userLeague],
                                   backgroundColor: Colors.transparent,
                                   textColor: AppColors.whiteColor,
                                 ),
@@ -125,14 +88,17 @@ class LeaderboardScreen extends StatelessWidget {
                             ),
 
                             //switch
-                            const SwitchButton(),
+                            // const SwitchButton(),
+                            SizedBox(
+                              height: 24,
+                            ),
                             //day remain
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 RoundedText(
-                                  text: daysRemain != 0
-                                      ? '$daysRemain ${AppStrings.dayText}'
+                                  text: userBoard.dayLeft != 0
+                                      ? '${userBoard.dayLeft} ${AppStrings.dayText}'
                                       : 'วันสุดท้าย',
                                   svgPath: AppImages.clockIcon,
                                   backgroundColor: const Color(0xFF2352BC),
@@ -151,67 +117,67 @@ class LeaderboardScreen extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Container(
-                        padding: const EdgeInsets.only(
-                            top: 33, bottom: 95, left: 20, right: 20),
-                        color: AppColors.whiteColor,
-                        child: ListView.separated(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            itemCount: rankData.length - 3,
-                            separatorBuilder: (context, index) => Divider(
-                                  color: Colors.grey.shade300,
-                                  thickness: 1,
+                      padding: const EdgeInsets.only(
+                          top: 33, bottom: 95, left: 20, right: 20),
+                      color: AppColors.whiteColor,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        itemCount: boardMembers.members.length - 3,
+                        separatorBuilder: (context, index) => Divider(
+                          color: Colors.grey.shade300,
+                          thickness: 1,
+                        ),
+                        itemBuilder: (context, index) {
+                          final member = boardMembers.members[index + 3];
+
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 42,
+                                  child: Text(
+                                    '#${member.currentRank}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ),
-                            itemBuilder: (context, index) {
-                              final rankItem = rankData[index + 3];
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 8),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 42,
-                                      child: Text(
-                                        '#${rankItem["rank"]}',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 24),
-                                    CircleAvatar(
-                                      radius: 20,
-                                      backgroundImage:
-                                          AssetImage(rankItem["avatar"]),
-                                    ),
-                                    const SizedBox(width: 36),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(rankItem["name"],
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.copyWith()),
-                                          const SizedBox(height: 4),
-                                          Text('${rankItem["exp"]} EXP',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
-                                                  ?.copyWith()),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                const SizedBox(width: 24),
+                                CircleAvatar(
+                                  radius: 20,
+                                  backgroundImage: NetworkImage(
+                                      "${AppStrings.baseUrl}${member.user.imageUrl}"),
                                 ),
-                              );
-                            })),
+                                const SizedBox(width: 36),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('${member.user.username}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
+                                      const SizedBox(height: 4),
+                                      Text('${member.currentExp} EXP',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -225,15 +191,16 @@ class LeaderboardScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    _buildPodium(
-                        context, rankData[1], AppColors.yellowColor, 93),
-                    _buildPodium(context, rankData[0], AppColors.mintColor, 123,
+                    _buildPodium(context, boardMembers.members[1],
+                        AppColors.yellowColor, 93),
+                    _buildPodium(context, boardMembers.members[0],
+                        AppColors.mintColor, 123,
                         isFirst: true),
-                    _buildPodium(context, rankData[2], AppColors.pinkColor, 63),
+                    _buildPodium(context, boardMembers.members[2],
+                        AppColors.pinkColor, 63),
                   ],
                 ),
               ),
-
               //my rank
               Positioned(
                 bottom: 0,
@@ -256,7 +223,7 @@ class LeaderboardScreen extends StatelessWidget {
                         SizedBox(
                           width: 42,
                           child: Text(
-                            '#$userRank',
+                            '#${userBoard.userStats.currentRank}',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
@@ -272,13 +239,13 @@ class LeaderboardScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(profile.username,
+                              Text(username!,
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyMedium
                                       ?.copyWith()),
                               const SizedBox(height: 4),
-                              Text('${profile.exp} EXP',
+                              Text('${userBoard.userStats.currentExp} EXP',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall
@@ -292,9 +259,9 @@ class LeaderboardScreen extends StatelessWidget {
                 ),
               ),
             ]);
-          } else if (state is ProfileError) {
+          } else if (state is LeaderBoardError) {
             return Center(child: Text(state.errorMessage));
-          } else if (state is ProfileLoading) {
+          } else if (state is LeaderBoardLoading) {
             return const Center(child: CircularProgressIndicator());
           } else {
             return const Center(child: Text(AppStrings.noDataAvaliableText));
@@ -304,8 +271,8 @@ class LeaderboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPodium(BuildContext context, Map<String, dynamic> user,
-      Color color, double height,
+  Widget _buildPodium(
+      BuildContext context, MemberRequestModel user, Color color, double height,
       {bool isFirst = false}) {
     return Column(
       children: [
@@ -315,8 +282,9 @@ class LeaderboardScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 16.0),
               child: CircleAvatar(
-                radius: 24,
-                backgroundImage: AssetImage(user['avatar']),
+                radius: 36,
+                backgroundImage:
+                    NetworkImage("${AppStrings.baseUrl}${user.user.imageUrl}"),
               ),
             ),
             if (isFirst)
@@ -330,7 +298,7 @@ class LeaderboardScreen extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 4.0),
           child: Text(
-            user['name'],
+            user.user.username ?? '',
             style: const TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold),
           ),
@@ -341,7 +309,7 @@ class LeaderboardScreen extends StatelessWidget {
             color: color,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: Text('${user['exp']} exp',
+          child: Text('${user.currentExp} EXP',
               style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   color: AppColors.whiteColor, fontWeight: FontWeight.bold)),
         ),
@@ -353,7 +321,7 @@ class LeaderboardScreen extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
           ),
-          child: Text(user['rank'].toString(),
+          child: Text(user.currentRank.toString(),
               style: isFirst
                   ? Theme.of(context)
                       .textTheme

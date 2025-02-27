@@ -1,5 +1,5 @@
 class LeaderboardRequestModel {
-  final String league;
+  final int league;
   final int dayLeft;
   final UserStatsRequestModel userStats;
   final BoardMembersRequestModel boardMembers;
@@ -13,11 +13,28 @@ class LeaderboardRequestModel {
 
   factory LeaderboardRequestModel.fromJson(Map<String, dynamic> json) {
     return LeaderboardRequestModel(
-      league: json['league'] ?? '',
+      league: _mapLeagueToInt(json['league'] ?? ''),
       dayLeft: json['date']['dayLeft'] ?? 0,
       userStats: UserStatsRequestModel.fromJson(json['userStats']),
       boardMembers: BoardMembersRequestModel.fromJson(json['boardMembers']),
     );
+  }
+
+  static int _mapLeagueToInt(String league) {
+    switch (league.toLowerCase()) {
+      case 'bronze':
+        return 0;
+      case 'silver':
+        return 1;
+      case 'gold':
+        return 2;
+      case 'diamond':
+        return 3;
+      case 'emerald':
+        return 4;
+      default:
+        return -1; // Default case for unknown league names
+    }
   }
 }
 
