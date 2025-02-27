@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:flutter_svg/svg.dart';
-
 class CustomNavigationBarItem extends StatelessWidget {
   final int index;
   final int selectedIndex;
@@ -35,7 +33,7 @@ class CustomNavigationBarItem extends StatelessWidget {
         children: [
           SizedBox(
             width: width,
-            height: height + 20,
+            height: height + 20, 
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -46,9 +44,9 @@ class CustomNavigationBarItem extends StatelessWidget {
                 ),
                 if (isSelected && showDot)
                   Positioned(
-                    bottom: 0,
+                    bottom: 0, 
                     child: Container(
-                      width: 6,
+                      width: 6, 
                       height: 6,
                       decoration: const BoxDecoration(
                         color: AppColors.primaryColor,
@@ -64,3 +62,4 @@ class CustomNavigationBarItem extends StatelessWidget {
     );
   }
 }
+

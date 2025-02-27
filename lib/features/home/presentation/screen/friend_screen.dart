@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/config/routes/app_routes.dart';
 
 class FriendScreen extends StatelessWidget {
   const FriendScreen({super.key});
@@ -35,7 +30,7 @@ class FriendScreen extends StatelessWidget {
             Text(
               'ยังไม่มีข้อมูล เพิ่มเพื่อนเลย!',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.darkgrayColor,
+                    color: AppColors.darkGrayColor,
                   ),
             ),
           ],

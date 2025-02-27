@@ -5,13 +5,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:http_parser/http_parser.dart';
-import 'package:wellwave_frontend/config/constants/app_url.dart';
+
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
+import '../../../../config/constants/app_url.dart';
+
 class ProfileRepositories {
   final _secureStorage = const FlutterSecureStorage();
-  final _tokenKey = 'access_token';
 
   Future<bool> editUserRequest({
     required int uid,
@@ -23,9 +24,10 @@ class ProfileRepositories {
     required num weight,
     int? gem,
   }) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-    final uid = await _secureStorage.read(key: 'user_uid');
-
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
 
@@ -63,8 +65,10 @@ class ProfileRepositories {
       {required int uid,
       required int stepPerWeek,
       required int exercisePerWeek}) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-    final uid = await _secureStorage.read(key: 'user_uid');
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
 
@@ -95,7 +99,10 @@ class ProfileRepositories {
   }
 
   Future<ProfileRequestModel?> getUSer() async {
-    final token = await _secureStorage.read(key: _tokenKey);
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/users/profile"),
@@ -118,8 +125,10 @@ class ProfileRepositories {
   }
 
   Future<String?> uploadProfileImage(File imageFile, int uid) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-    final uid = await _secureStorage.read(key: 'user_uid');
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
       var request = http.MultipartRequest('PATCH', uri);
@@ -152,7 +161,7 @@ class ProfileRepositories {
       request.files.add(multipartFile);
 
       // Add authorization header if needed
-      if (token != null) {
+      if (token.isNotEmpty) {
         request.headers['Authorization'] = 'Bearer $token';
       }
 
@@ -181,8 +190,10 @@ class ProfileRepositories {
   Future<bool> createCheckInResponse({
     required String date,
   }) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final uri = Uri.parse("$baseUrl/checkin-challenge/check");
 
@@ -232,29 +243,4 @@ class ProfileRepositories {
       rethrow;
     }
   }
-
-  // Future<bool> logOut() async {
-  //   try {
-  //     final response = await http.get(
-  //       Uri.parse("$baseUrl/auth/logout"),
-  //       headers: {
-  //         'Authorization': 'Bearer $token',
-  //       },
-  //     );
-
-  //     debugPrint('Logout Response Status: ${response.statusCode}');
-  //     debugPrint('Logout Response Body: ${response.body}');
-
-  //     if (response.statusCode == 200) {
-  //       AppStrings.token = '';
-  //       return true;
-  //     } else {
-  //       throw Exception(
-  //           'Failed to log out. Status code: ${response.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     debugPrint('Logout Error: $e');
-  //     return false;
-  //   }
-  // }
 }

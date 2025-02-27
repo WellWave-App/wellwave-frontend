@@ -111,11 +111,11 @@ class DrinkRangeState extends NotiState {
 
 class MissionState extends NotiState {
   final List<MissionNotificationModel> missions;
-  final int total;
+  final int? total;
 
   MissionState({
     required this.missions,
-    required this.total,
+    this.total,
   });
 
   MissionState copyWith({

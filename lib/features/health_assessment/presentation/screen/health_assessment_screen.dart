@@ -8,11 +8,6 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment/bloc/health_assessment_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
-import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/add_pic_username_step.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/family_history_step.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/alcohol_step.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/health_assessment_step/goal_step.dart';
@@ -25,6 +20,13 @@ import 'package:wellwave_frontend/features/health_assessment/widget/result_and_g
 import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/recommend_screen.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/result_assessment.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
+
+import '../../widget/health_assessment_step/add_pic_username_step.dart';
+import '../bloc/health_assessment/health_assessment_bloc.dart';
+import '../bloc/health_assessment/health_assessment_event.dart';
+import '../bloc/health_assessment_page/health_assessment_page_bloc.dart';
+import '../bloc/health_assessment_page/health_assessment_page_event.dart';
+import '../bloc/health_assessment_page/health_assessment_page_state.dart';
 
 class AssessmentScreen extends StatelessWidget {
   const AssessmentScreen({super.key});
@@ -265,15 +267,15 @@ class StepContent extends StatelessWidget {
           case 6:
             return const GoalStep();
           case 7:
-            return ResultAssessment();
+            return const ResultAssessment();
           case 8:
-            return RecommendScreen();
+            return const RecommendScreen();
           case 9:
             return GoalStepScreen();
           case 10:
             return GoalExerciseScreen();
           case 11:
-            return CongratsScreen();
+            return const CongratsScreen();
 
           default:
             return const Center(child: Text('Unknown Step'));

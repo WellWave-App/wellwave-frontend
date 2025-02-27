@@ -24,7 +24,8 @@ class ProgressBarWidget extends StatelessWidget {
             value: progress,
             minHeight: 10,
             backgroundColor: AppColors.gray50Color,
-            valueColor: AlwaysStoppedAnimation<Color>(AppColors.primaryColor),
+            valueColor:
+                const AlwaysStoppedAnimation<Color>(AppColors.primaryColor),
           ),
         ),
       ],

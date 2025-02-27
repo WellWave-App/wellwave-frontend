@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/component/goal_box.dart';
+
+import '../../presentation/bloc/health_assessment_page/health_assessment_page_bloc.dart';
+import '../../presentation/bloc/health_assessment_page/health_assessment_page_state.dart';
 
 class GoalStep extends StatelessWidget {
   const GoalStep({Key? key}) : super(key: key);

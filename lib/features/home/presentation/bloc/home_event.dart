@@ -91,6 +91,4 @@ class MarkAsReadNotiEvent extends HomeEvent {
   List<Object> get props => [notificationId];
 }
 
-class MarkAllAsReadNotiEvent extends HomeEvent {}
-
 class FetchHomeEvent extends HomeEvent {}

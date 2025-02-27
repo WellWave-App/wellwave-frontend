@@ -120,8 +120,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     await _secureStorage.delete(key: _tokenKey);
+    await _secureStorage.delete(key: 'user_uid');
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', false);
+    debugPrint(('User logged out, all data cleared.'));
     emit(Unauthenticated());
   }
 }

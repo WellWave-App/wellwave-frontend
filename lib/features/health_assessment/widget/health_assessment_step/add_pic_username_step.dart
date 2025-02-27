@@ -8,11 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_bloc.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_event.dart';
-import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/lib/features/health_assessment/presentation/health_assessment_page/health_assessment_page_state.dart';
-
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
+
+import '../../presentation/bloc/health_assessment_page/health_assessment_page_bloc.dart';
+import '../../presentation/bloc/health_assessment_page/health_assessment_page_event.dart';
+import '../../presentation/bloc/health_assessment_page/health_assessment_page_state.dart';
 
 class AddPicUsernameStep extends StatefulWidget {
   final HealthAssessmentPageState state;

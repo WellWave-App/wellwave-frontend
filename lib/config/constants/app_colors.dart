@@ -12,10 +12,7 @@ class AppColors {
   static const blackColor = Colors.black;
   static const skyblueColor = Color(0xfff53c7fe);
   static const lightgrayColor = Color(0xfffd9d9d9);
-  static const grayColor = Color(0xfff919191);
   static const gray50Color = Color(0xfffececec);
-  static const darkgrayColor = Color(0xfff707070);
-  static const bluegrayColor = Color(0xfff5a6684);
   static const darkblueColor = Color(0xfff16006d);
   static const orangeColor = Color(0xffff8623f);
   static const greenColor = Color(0xfff16a34a);
@@ -41,8 +38,8 @@ class AppColors {
   static const graphLevelOrangeColor = Color.fromARGB(255, 255, 162, 135);
   static const graphLevelPinkColor = Color.fromARGB(255, 255, 128, 169);
 
-  static const gradientBlueColor = Color(0xfff3843D0);
-  static const gradientSkyColor = Color(0xffff388AC7);
+  static const gradientBlueColor = Color(0xfff3843d0);
+  static const gradientSkyColor = Color(0xffff388ac7);
 
   static const blackShadow12Color = Colors.black12;
   static const transparentColor = Colors.transparent;
@@ -51,6 +48,6 @@ class AppColors {
   static const darkSkyBlueColor = Color(0xFF179CDB);
   static const darkPinkColor = Color(0xFFF74E85);
 
-  static const darkerBlueColor = Color(0xFFF446993);
-  static const popUpSkyBlueColor = Color(0xFFFB2D6E7);
+  static const darkerBlueColor = Color(0xfff446993);
+  static const popUpSkyBlueColor = Color(0xfffb2d6e7);
 }

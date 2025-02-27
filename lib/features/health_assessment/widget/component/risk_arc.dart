@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'dart:math' as math;
 
-import 'package:wellwave_frontend/config/constants/enums/risk_condition.dart';
+import '../../../../config/constants/enums/risk_condition.dart';
 
 class RiskArc extends CustomPainter {
   final double percentage;

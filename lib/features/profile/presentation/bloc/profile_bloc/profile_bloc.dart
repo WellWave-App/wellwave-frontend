@@ -15,7 +15,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<ImagePicked>(_onImagePicked);
     on<UpdateProfileImage>(_onUpdateProfileImage);
     on<CreateCheckInEvent>(_onCreateCheckInResponse);
-    // on<LogOutEvent>(_onLogOut);
   }
 
   Future<void> _onFetchUserProfile(
@@ -35,21 +34,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(ProfileError(e.toString(), selectedImage: state.selectedImage));
     }
   }
-
-  // Future<void> _onLogOut(
-  //   LogOutEvent event,
-  //   Emitter<ProfileState> emit,
-  // ) async {
-  //   emit(ProfileLoading(selectedImage: state.selectedImage));
-
-  //   try {
-  //     await profileRepositories.logOut();
-
-  //     // emit(ProfileUnauthenticated()); // Redirect to login screen
-  //   } catch (e) {
-  //     emit(ProfileError(e.toString(), selectedImage: state.selectedImage));
-  //   }
-  // }
 
   Future<void> _onEditUserProfile(
     EditUserProfile event,

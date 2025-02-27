@@ -1,13 +1,12 @@
 class AppStrings {
   static String uppercaseFirst(String text) {
-    if (text.isEmpty) return text;
+    if (text.isEmpty) return text; // Handle empty string case
     return text[0].toUpperCase() + text.substring(1);
   }
 
   static const emptyText = '';
-  static const baseUrl = 'http://10.0.2.2:3000';
 
-  static const uid = 13;
+  static const uid = 5;
 
   //logs screen
   static const historyText = 'ประวัติ';
@@ -109,6 +108,7 @@ class AppStrings {
 
   //notification
   static const selectAllText = 'เลือกทั้งหมด';
+  static const deselectAllText = 'ปิดทั้งหมด';
   static const drinkingText = 'การดื่มน้ำ';
   static const timeText = 'เวลา';
   static const setTimeText = 'ตั้งเวลา';
@@ -163,13 +163,6 @@ class AppStrings {
   //leaderboard
   static const leaderboardText = 'กระดานจัดอันดับ';
   static const healthAssessmentText = 'แบบประเมินสุขภาพ';
-
-  //home
-  static const exerciseTimeMessageLessThanPrevious =
-      'คุณใช้เวลาออกกำลังกายเฉลี่ย {0} นาทีในสัปดาห์ที่ผ่านมา หยุดพักแล้วอย่าลืมกลับมาสู้ต่อ!';
-  static const exerciseTimeMessageContinuity =
-      'คุณใช้เวลาออกกำลังกายเฉลี่ย {0} นาทีในสัปดาห์ที่ผ่านมา อย่าลืมรักษาความต่อเนื่องนี้ไว้!';
-
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';
@@ -260,7 +253,6 @@ class AppStrings {
   static const greatjobText = 'สุดยอดไปเลย! สัปดาห์นี้ไปกันต่อ~';
 
   static const noNotiText = 'ยังไม่มีการแจ้งเตือน';
-  static const MarkAsReadAllText = 'อ่านทั้งหมด';
   static const weightAndWaistReAssessmentText = 'อันดับแรก มาเช็กหุ่นกันหน่อย!';
   static const pressureReAssessmentText =
       'มาต่อกันที่ความดัน เดือนนี้เป็นไงบ้าง?';
@@ -269,4 +261,7 @@ class AppStrings {
   //authentication
   static const registerText = 'สมัครสมาชิก';
   static const loginText = 'เข้าสู่ระบบ';
+  //exchange
+  static const randomBoxText = 'กล่องสุ่ม';
+  static const exchangeItemText = 'แลกไอเทม';
 }

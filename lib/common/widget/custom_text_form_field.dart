@@ -67,18 +67,18 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         labelText: widget.labelText,
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.darkgrayColor,
+              color: AppColors.darkGrayColor,
             ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixText: widget.suffixText,
         labelStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.bluegrayColor,
+              color: AppColors.blueGrayColor,
             ),
         suffixStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.darkgrayColor,
+              color: AppColors.darkGrayColor,
             ),
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.grayColor),
+          borderSide: BorderSide(color: AppColors.greyColor),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor),
@@ -170,18 +170,18 @@ class _CustomTextFormFieldLargeState extends State<CustomTextFormFieldLarge> {
         labelText: widget.labelText,
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.darkgrayColor,
+              color: AppColors.darkGrayColor,
             ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixText: widget.suffixText,
         labelStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.bluegrayColor,
+              color: AppColors.blueGrayColor,
             ),
         suffixStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.darkgrayColor,
+              color: AppColors.darkGrayColor,
             ),
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.grayColor),
+          borderSide: BorderSide(color: AppColors.greyColor),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor),
@@ -272,18 +272,18 @@ class _CustomTextFormFieldMDState extends State<CustomTextFormFieldMD> {
         labelText: widget.labelText,
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: AppColors.grayColor,
+              color: AppColors.greyColor,
             ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixText: widget.suffixText,
         labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: AppColors.bluegrayColor,
+              color: AppColors.blueGrayColor,
             ),
         suffixStyle: Theme.of(context).textTheme.headlineLarge?.copyWith(
-              color: AppColors.darkgrayColor,
+              color: AppColors.darkGrayColor,
             ),
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.grayColor),
+          borderSide: BorderSide(color: AppColors.greyColor),
         ),
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: AppColors.primaryColor),

@@ -10,6 +10,7 @@ class ArcheivementBloc extends Bloc<ArcheivementEvent, ArcheivementState> {
   ArcheivementBloc({required this.archeivementRepositories})
       : super(ArcheivementInitial()) {
     on<FetchArcheivement>(_onFetchArcheivement);
+    on<FetchAllArcheivement>(_onFetchAllArcheivement);
     on<ReadArcheivement>(_onReadArcheivement);
   }
 
@@ -30,12 +31,37 @@ class ArcheivementBloc extends Bloc<ArcheivementEvent, ArcheivementState> {
     }
   }
 
+  Future<void> _onFetchAllArcheivement(
+    FetchAllArcheivement event,
+    Emitter<ArcheivementState> emit,
+  ) async {
+    emit(ArcheivementLoading());
+    try {
+      final allAchievements =
+          await archeivementRepositories.getAllArcheivement();
+      final earnedAchievements =
+          await archeivementRepositories.getUserArcheivement();
+
+      if (allAchievements == null) {
+        emit(ArcheivementError('Achievements not found'));
+      } else {
+        emit(AllArcheivementLoaded(
+          allAchievements: allAchievements,
+          earnedAchievements: earnedAchievements ?? [],
+        ));
+      }
+    } catch (e) {
+      emit(ArcheivementError(e.toString()));
+    }
+  }
+
   Future<void> _onReadArcheivement(
     ReadArcheivement event,
     Emitter<ArcheivementState> emit,
   ) async {
-    if (state is! ArcheivementLoaded)
+    if (state is! ArcheivementLoaded) {
       return; // Ensure we have achievements loaded
+    }
 
     final currentState = state as ArcheivementLoaded;
     emit(ArcheivementLoaded(currentState.achievements)); // Maintain UI state

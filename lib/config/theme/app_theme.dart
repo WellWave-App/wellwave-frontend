@@ -52,7 +52,7 @@ TextTheme textTheme(BuildContext context) {
     headlineSmall: TextStyle(
       fontFamily: 'NotoSansThai',
       fontWeight: FontWeight.w600,
-      fontSize: 14,
+      fontSize: 16,
       color: AppColors.blackColor,
     ),
     titleLargeBold: TextStyle(

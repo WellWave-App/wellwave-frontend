@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class NotificationsDataResponseModel {
   final String message;
   final String from;

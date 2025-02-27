@@ -15,33 +15,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ProfileRepositories profileRepository;
   final NotificationsRepository notificationsRepository;
   final LoginStreakRepository loginStreakRepository;
-  final HealthDataRepository healthDataRepository;
   final Map<String, Map<DateTime, bool>> completionStatus = {};
   List<int> weeklyAverages = [];
   List<String> readNotifications = [];
 
-  HomeBloc(
-      {required this.currentDate,
-      required this.healthAssessmentRepository,
-      required this.loginStreakRepository,
-      required this.notificationsRepository,
-      required this.profileRepository,
-      required this.healthDataRepository})
-      : super(HomeState(
+  HomeBloc({
+    required this.currentDate,
+    required this.healthAssessmentRepository,
+    required this.loginStreakRepository,
+    required this.notificationsRepository,
+    required this.profileRepository,
+  }) : super(const HomeState(
           homeStep: 0,
         )) {
     on<FetchHomeEvent>((event, emit) async {
       debugPrint("FetchHomeEvent called");
 
-      emit(HomeLoading(homeStep: 0));
+      emit(const HomeLoading(homeStep: 0));
 
       try {
         final profile = await profileRepository.getUSer();
         final healthData = await healthAssessmentRepository.fetchHealthData();
         final loginStreak = await loginStreakRepository.fetchLoginStreakData();
         final notiData = await notificationsRepository.fetchNotiData();
-        final healthStepAndExData =
-            await healthDataRepository.fetchStepAndExTimeData();
+
+        // if (profile == null || healthData == null) {
+        //   throw Exception("Failed to fetch required data");
+        // }
+
+        debugPrint("Parsed Profile: $profile");
 
         emit(HomeLoadedState(
           step: 0,
@@ -49,7 +51,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           healthData: healthData,
           loginStreak: loginStreak,
           notiData: notiData,
-          healthStepAndExData: healthStepAndExData,
         ));
       } catch (e) {
         debugPrint("Error fetching home data: $e");
@@ -164,7 +165,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<MarkAsReadNotiEvent>(_onMarkAsReadNotiEvent);
-    on<MarkAllAsReadNotiEvent>(_onMarkAllAsReadNotiEvent);
   }
   Future<void> _onMarkAsReadNotiEvent(
     MarkAsReadNotiEvent event,
@@ -184,31 +184,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               return notification.copyWith(isRead: true);
             }
             return notification;
-          }).toList();
-
-          emit(currentState.copyWith(notiData: updatedNotifications));
-        }
-      } else {
-        debugPrint('Failed to mark as read');
-      }
-    } catch (e) {
-      debugPrint('Failed to mark as read: $e');
-    }
-  }
-
-  Future<void> _onMarkAllAsReadNotiEvent(
-    MarkAllAsReadNotiEvent event,
-    Emitter<HomeState> emit,
-  ) async {
-    try {
-      final success = await notificationsRepository.markAllAsReadNotification();
-
-      if (success) {
-        if (state is HomeLoadedState) {
-          final currentState = state as HomeLoadedState;
-          final updatedNotifications =
-              currentState.notiData!.map((notification) {
-            return notification.copyWith(isRead: true);
           }).toList();
 
           emit(currentState.copyWith(notiData: updatedNotifications));
@@ -283,3 +258,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 //     ));
 //   }
 // }
+
+List<int> calculateWeeklyAverages(List<Map<String, dynamic>> data) {
+  List<int> weeklyAverages = [];
+  int weekSum = 0;
+  int dayCount = 0;
+
+  for (int i = 0; i < data.length; i++) {
+    int value = data[i]['value'] as int;
+    weekSum += value;
+    dayCount++;
+
+    if (dayCount == 7 || i == data.length - 1) {
+      int average = (weekSum / dayCount).round();
+      weeklyAverages.add(average);
+      weekSum = 0;
+      dayCount = 0;
+    }
+  }
+  return weeklyAverages;
+}

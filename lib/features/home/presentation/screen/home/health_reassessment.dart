@@ -13,10 +13,9 @@ import 'package:wellwave_frontend/features/health_assessment/data/models/health_
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/check_fat.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/check_pressure.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/check_weight_and_waist.dart';
+import 'package:wellwave_frontend/features/home/widget/check_fat.dart';
+import 'package:wellwave_frontend/features/home/widget/check_pressure.dart';
+import 'package:wellwave_frontend/features/home/widget/check_weight_and_waist.dart';
 
 class ReAssessmentScreen extends StatelessWidget {
   const ReAssessmentScreen({super.key});
@@ -69,11 +68,11 @@ class ReAssessmentScreen extends StatelessWidget {
                           CustomButton(
                             width: 250,
                             bgColor: isStep0Invalid || isStep1Invalid
-                                ? AppColors.grayColor
+                                ? AppColors.greyColor
                                 : AppColors.primaryColor,
                             textColor: AppColors.whiteColor,
                             title: state.homeStep == 2 ? 'ยืนยัน' : 'ถัดไป',
-                            onPressed: () async {
+                            onPressed: () {
                               if (FormValidator.isFormValid(
                                   state.homeStep, state.formDataReassessment)) {
                                 context.read<HomeBloc>().add(NextStep());
@@ -137,7 +136,7 @@ class ReAssessmentScreen extends StatelessWidget {
                                         SubmitHealthDataEvent(healthDataModel));
                                   }
                                 }
-                                await setLastButtonPressedDate(DateTime.now());
+
                                 context.goNamed(AppPages.homePage);
                               }
                             },

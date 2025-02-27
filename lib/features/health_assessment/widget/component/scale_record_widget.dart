@@ -56,7 +56,7 @@ class _ScaleRecordWidgetState extends State<ScaleRecordWidget> {
             Text(
               widget.label,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                    color: AppColors.grayColor,
+                    color: AppColors.greyColor,
                   ),
             ),
           ],

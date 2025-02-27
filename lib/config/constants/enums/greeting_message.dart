@@ -1,22 +1,20 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
 class GreetingTimeText {
-
-  static  String getGreetingMessage() {
+  static String getGreetingMessage() {
     final now = DateTime.now();
     final hour = now.hour;
 
     if (hour >= 5 && hour < 12) {
-      return 'อรุณสวัสดิ์'; 
+      return 'อรุณสวัสดิ์';
     } else if (hour >= 12 && hour < 18) {
-      return 'สวัสดีตอนบ่าย'; 
+      return 'สวัสดีตอนบ่าย';
     } else {
       return 'สวัสดีตอนกลางคืน';
     }
   }
 }
+
 class DailyMessage {
   final List<String> _messages = [
     'ทุกก้าวเล็ก ๆ ที่ทำสำคัญเสมอ!',

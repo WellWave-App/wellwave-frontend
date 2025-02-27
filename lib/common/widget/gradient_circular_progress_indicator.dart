@@ -12,7 +12,7 @@ class GradientCircularProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      size: Size.square(36),
+      size: const Size.square(36),
       painter: _GradientCircularProgressPainter(
         value: value,
         gradientColors: [AppColors.primaryColor, AppColors.skyblueColor],

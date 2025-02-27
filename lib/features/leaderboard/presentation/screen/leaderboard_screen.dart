@@ -67,8 +67,8 @@ class LeaderboardScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is ProfileLoaded) {
             final profile = state.userProfile;
-            final userLeague = profile.userLeague;
-            int leagueIndex = _getLeagueIndex(userLeague?.name ?? 'Bronze');
+            final userLeague = profile.userLeague?.id ?? 0;
+
             Widget profileImage;
 
             if (state.userProfile.imageUrl.isNotEmpty) {
@@ -77,8 +77,8 @@ class LeaderboardScreen extends StatelessWidget {
               profileImage = ClipOval(
                 child: Image.network(
                   imageUrl,
-                  width: 34,
-                  height: 34,
+                  width: 40,
+                  height: 40,
                   fit: BoxFit.cover,
                 ),
               );
@@ -86,14 +86,14 @@ class LeaderboardScreen extends StatelessWidget {
               profileImage = ClipOval(
                 child: Image.file(
                   state.selectedImage!,
-                  width: 34,
-                  height: 34,
+                  width: 40,
+                  height: 40,
                   fit: BoxFit.cover,
                 ),
               );
             } else {
               profileImage = const CircleAvatar(
-                radius: 17,
+                radius: 20,
                 backgroundImage: AssetImage(AppImages.crabImg),
               );
             }
@@ -115,9 +115,9 @@ class LeaderboardScreen extends StatelessWidget {
                               children: [
                                 RoundedText(
                                   text:
-                                      '${AppStrings.leagueText}${AppStrings.leagueList[leagueIndex]}',
+                                      '${AppStrings.leagueText}${AppStrings.leagueList[userLeague - 1]}',
                                   svgPath:
-                                      AppImages.leagueListIcon[leagueIndex],
+                                      AppImages.leagueListIcon[userLeague - 1],
                                   backgroundColor: Colors.transparent,
                                   textColor: AppColors.whiteColor,
                                 ),
@@ -169,7 +169,6 @@ class LeaderboardScreen extends StatelessWidget {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    // Rank Number
                                     SizedBox(
                                       width: 42,
                                       child: Text(
@@ -182,14 +181,12 @@ class LeaderboardScreen extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(width: 24),
-                                    // Avatar
                                     CircleAvatar(
-                                      radius: 17,
+                                      radius: 20,
                                       backgroundImage:
                                           AssetImage(rankItem["avatar"]),
                                     ),
                                     const SizedBox(width: 36),
-                                    // Name and EXP
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment:
@@ -256,7 +253,6 @@ class LeaderboardScreen extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Rank Number
                         SizedBox(
                           width: 42,
                           child: Text(
@@ -269,14 +265,8 @@ class LeaderboardScreen extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 24),
-                        // Avatar
-                        // CircleAvatar(
-                        //   radius: 17,
-                        //   backgroundImage: AssetImage(profileImage),
-                        // ),
                         profileImage,
                         const SizedBox(width: 36),
-                        // Name and EXP
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,22 +366,5 @@ class LeaderboardScreen extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  int _getLeagueIndex(String leagueName) {
-    switch (leagueName.toLowerCase()) {
-      case 'bronze':
-        return 0;
-      case 'silver':
-        return 1;
-      case 'gold':
-        return 2;
-      case 'diamond':
-        return 3;
-      case 'emerald':
-        return 4;
-      default:
-        return 0;
-    }
   }
 }

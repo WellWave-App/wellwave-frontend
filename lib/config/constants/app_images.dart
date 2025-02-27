@@ -1,32 +1,29 @@
 class AppImages {
   static const wellwaveLogo = 'assets/images/wellwave_logo.png';
 
-//navbar
-  static const homeIcon = 'assets/icons/nav-icon/home_icon.svg';
-  static const logIcon = 'assets/icons/nav-icon/log_icon.svg';
-  static const missionIcon = 'assets/icons/nav-icon/mission_icon.svg';
-  static const friendIcon = 'assets/icons/nav-icon/friend_icon.svg';
-  static const articleIcon = 'assets/icons/nav-icon/article_icon.svg';
+  static const homeIcon = 'assets/icons/home_icon.svg';
+  static const logIcon = 'assets/icons/log_icon.svg';
+  static const missionIcon = 'assets/icons/mission_icon.svg';
+  static const friendIcon = 'assets/icons/friend_icon.svg';
+  static const articleIcon = 'assets/icons/article_icon.svg';
 
-  static const homeIconActive = 'assets/icons/nav-icon/home_active_icon.svg';
-  static const logIconActive = 'assets/icons/nav-icon/log_active_icon.svg';
-  static const friendIconActive =
-      'assets/icons/nav-icon/friend_active_icon.svg';
-  static const articleIconActive =
-      'assets/icons/nav-icon/article_active_icon.svg';
+  static const homeIconActive = 'assets/icons/home_active_icon.svg';
+  static const logIconActive = 'assets/icons/log_active_icon.svg';
+  static const friendIconActive = 'assets/icons/friend_active_icon.svg';
+  static const articleIconActive = 'assets/icons/article_active_icon.svg';
 
   //logs history screen
-  static const sleepLogsIcon = 'assets/icons/logs_Icons/sleep_logs_img.svg';
-  static const threeWaterIcon = 'assets/icons/logs_Icons/three_water_img.svg';
-  static const weightIcon = 'assets/icons/logs_Icons/weight_log_icon.svg';
-  static const waistLineIcon = 'assets/icons/logs_Icons/waist_line_log_icon.svg';
-  static const stepCountImage = 'assets/icons/logs_Icons/step_log_icon.svg';
+  static const sleepLogsIcon = 'assets/icons/sleep_logs_img.svg';
+  static const threeWaterIcon = 'assets/icons/three_water_img.svg';
+  static const weightIcon = 'assets/icons/weight_log_icon.svg';
+  static const waistLineIcon = 'assets/icons/waist_line_log_icon.svg';
+  static const stepCountImage = 'assets/icons/step_log_icon.svg';
   static const hdlImage = 'assets/images/hdl_img.png';
   static const ldlImage = 'assets/images/ldl_img.png';
-  static const completeIcon = 'assets/icons/logs_Icons/complete_icon.svg';
+  static const completeIcon = 'assets/icons/complete_icon.svg';
 
   //logs screen
-  static const addIcon = 'assets/icons/logs_Icons/add_round_button.svg';
+  static const addIcon = 'assets/icons/add_round_button.svg';
 
   //grey mood
   static const happyGreyIcon = 'assets/icons/moods_grey/happy_grey.svg';
@@ -69,7 +66,7 @@ class AppImages {
   static const moon9Icon = 'assets/icons/moon_icon/moon_9.svg';
   static const moon10Icon = 'assets/icons/moon_icon/moon_10.svg';
 
-// health_assessment
+  // health_assessment
   static const metabolicSyndromeImage = 'assets/images/metabolic.png';
   static const metaEffectImage = 'assets/images/meta_effect.png';
   static const metaBehaviorImage = 'assets/images/meta_behavior.png';
@@ -178,4 +175,8 @@ class AppImages {
   static const seaBgImage = 'assets/icons/sea.svg';
   static const googleIcon = 'assets/icons/google_Icon.svg';
   static const sunnyIcon = 'assets/icons/sunny.svg';
+  //exchange
+  static const expCoinSvg = 'assets/icons/exp_coin_svg.svg';
+  static const gemSvg = 'assets/icons/gem_svg.svg';
+  static const giftSvg = 'assets/icons/gift_svg.svg';
 }

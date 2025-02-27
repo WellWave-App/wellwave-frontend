@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_waistline.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weekly.dart';
@@ -7,7 +8,6 @@ import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_w
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../config/constants/app_strings.dart';
 import '../../data/models/logs_request_model_sleep.dart';
 import '../../data/models/logs_request_model_drink.dart';
 import '../../data/models/logs_request_model_step.dart';
@@ -16,6 +16,7 @@ part 'logs_event.dart';
 part 'logs_state.dart';
 
 class LogsBloc extends Bloc<LogsEvent, LogsState> {
+  final _secureStorage = const FlutterSecureStorage();
   final LogsRequestRepository _logsRequestRepository;
 
   LogsBloc(this._logsRequestRepository) : super(LogsInitial()) {
@@ -27,10 +28,12 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     });
   }
 
-  int uid = AppStrings.uid;
-
   Future<void> _onLogsFetches(
       LogsFetched event, Emitter<LogsState> emit) async {
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
     emit(LogsLoadInProgress());
 
     try {
@@ -53,6 +56,10 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
 
   Future<void> _onGraphLogsFetches(
       LogsFetchedGraph event, Emitter<LogsState> emit) async {
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
     emit(LogsLoadGraphInProgress());
 
     try {
@@ -81,13 +88,24 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
 
   Future<void> submitLog(String logName, int value, String selectedDate,
       LogsRequestRepository logsRepository) async {
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
+
     try {
       String formattedDate =
           DateFormat('yyyy-MM-dd').format(DateTime.parse(selectedDate));
 
+      int parsedUid = int.tryParse(uid) ?? 0;
+
+      if (parsedUid == 0) {
+        throw Exception("Invalid user UID");
+      }
+
       bool logExists = await logsRepository.logExists(
         logName: logName,
-        uid: uid,
+        uid: parsedUid,
         date: formattedDate,
       );
 
@@ -96,25 +114,23 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
         success = await logsRepository.editLogsRequest(
           value: value,
           logName: logName,
-          uid: uid,
+          uid: parsedUid,
           date: formattedDate,
         );
+        print(
+            'Edited Log Date: $formattedDate, Value: $value, Log Name: $logName, User ID: $parsedUid');
       } else {
         success = await logsRepository.createLogsRequest(
           value: value,
           logName: logName,
-          uid: uid,
+          uid: parsedUid,
           date: formattedDate,
         );
+        print(
+            'Edited Log Date: $formattedDate, Value: $value, Log Name: $logName, User ID: $parsedUid');
       }
-
-      // if (success) {
-      //   debugPrint('Log operation successful');
-      // } else {
-      //   debugPrint('Log operation failed');
-      // }
     } catch (error) {
-      debugPrint('Error submitting log: $error');
+      debugPrint('Log operation successful');
     }
   }
 }

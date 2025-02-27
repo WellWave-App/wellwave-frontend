@@ -1,3 +1,4 @@
+import '../../../data/models/all_archeivement_request_model.dart';
 import '../../../data/models/archeivement_request_model.dart';
 
 abstract class ArcheivementState {}
@@ -10,6 +11,16 @@ class ArcheivementLoaded extends ArcheivementState {
   final List<ArcheivementRequestModel> achievements;
 
   ArcheivementLoaded(this.achievements);
+}
+
+class AllArcheivementLoaded extends ArcheivementState {
+  final List<AllArcheivementRequestModel> allAchievements;
+  final List<ArcheivementRequestModel> earnedAchievements;
+
+  AllArcheivementLoaded({
+    required this.allAchievements,
+    required this.earnedAchievements,
+  });
 }
 
 class ArcheivementError extends ArcheivementState {

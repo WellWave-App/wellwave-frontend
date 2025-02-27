@@ -6,12 +6,11 @@ import 'package:wellwave_frontend/features/notification/data/models/drink_plan_n
 import 'package:wellwave_frontend/features/notification/data/models/drink_range_notification_response_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/mission_notification_request_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/sleep_notification_response_model.dart';
-import 'package:wellwave_frontend/config/constants/app_url.dart';
-import '../../../../config/constants/app_strings.dart';
+
+import '../../../../config/constants/app_url.dart';
 
 class NotificationSettingRepository {
   final _secureStorage = const FlutterSecureStorage();
-  final _tokenKey = 'access_token';
 
   Future<bool> createBedSetting({
     required int uid,
@@ -19,8 +18,10 @@ class NotificationSettingRepository {
     required String bedtime,
     required Map<String, bool> weekdays,
   }) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-    final uid = await _secureStorage.read(key: 'user_uid');
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -53,8 +54,10 @@ class NotificationSettingRepository {
   }
 
   Future<SleepNotificationResponseModel?> fetchBedSetting() async {
-    final token = await _secureStorage.read(key: _tokenKey);
-
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/noti-setting/get-noti/BEDTIME'),
@@ -102,8 +105,11 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
   }) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-    final uid = await _secureStorage.read(key: 'user_uid');
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -137,8 +143,10 @@ class NotificationSettingRepository {
     required int glassNumber,
     required String notitime,
   }) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-    final uid = await _secureStorage.read(key: 'user_uid');
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     final body = {
       "UID": uid,
       "GLASS_NUMBER": glassNumber,
@@ -171,8 +179,10 @@ class NotificationSettingRepository {
   }
 
   Future<DrinkPlanNotificationResponseModel?> fetchDrinkPlanSetting() async {
-    final token = await _secureStorage.read(key: _tokenKey);
-
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/noti-setting/get-noti/WATER_PLAN'),
@@ -226,8 +236,11 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
   }) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-    final uid = await _secureStorage.read(key: 'user_uid');
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -264,8 +277,10 @@ class NotificationSettingRepository {
     required String endTime,
     required int intervalMinute,
   }) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-    final uid = await _secureStorage.read(key: 'user_uid');
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     final body = {
       "UID": uid,
       "START_TIME": startTime,
@@ -299,9 +314,11 @@ class NotificationSettingRepository {
   }
 
   Future<DrinkRangeNotificationResponseModel?> fetchDrinkRangeSetting() async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
-      final token = await _secureStorage.read(key: _tokenKey);
-
       final response = await http.get(
         Uri.parse('$baseUrl/noti-setting/get-noti/WATER_RANGE'),
         headers: {
@@ -350,8 +367,10 @@ class NotificationSettingRepository {
     required int uid,
     required bool isActive,
   }) async {
-    final token = await _secureStorage.read(key: _tokenKey);
-    final uid = await _secureStorage.read(key: 'user_uid');
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     final body = {
       "UID": uid,
       "IS_ACTIVE": isActive,
@@ -387,9 +406,11 @@ class NotificationSettingRepository {
 
   //mission
   Future<List<MissionNotificationModel>> fetchMissionSetting() async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
     try {
-      final token = await _secureStorage.read(key: _tokenKey);
-
       final response = await http.get(
         Uri.parse('$baseUrl/habit/user'),
         headers: {
@@ -408,12 +429,12 @@ class NotificationSettingRepository {
             .toList();
 
         debugPrint('Fetched ${missions.length} missions:');
-        for (var mission in missions) {
-          debugPrint('Mission: hid = ${mission.hid}, '
-              'title = ${mission.title}, '
-              'isNotificationEnabled = ${mission.isNotificationEnabled}, '
-              'weekdaysNoti = ${mission.weekdaysNoti}');
-        }
+        // for (var mission in missions) {
+        //   debugPrint('Mission: challengeId = ${mission.challengeId}, '
+        //       'title = ${mission.title}, '
+        //       'isNotificationEnabled = ${mission.isNotificationEnabled}, '
+        //       'weekdaysNoti = ${mission.weekdaysNoti}');
+        // }
 
         return missions;
       } else {
@@ -424,6 +445,95 @@ class NotificationSettingRepository {
     } catch (e) {
       debugPrint('Error: $e');
       return [];
+    }
+  }
+
+  Future<bool> createMissionSetting({
+    required int challengeId,
+    required bool isNotificationEnabled,
+    required String notiTime,
+    required Map<String, bool> weekdaysNoti,
+    String? title,
+  }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
+    final body = {
+      "CHALLENGE_ID": challengeId,
+      "IS_NOTIFICATION_ENABLED": isNotificationEnabled,
+      "NOTI_TIME": notiTime,
+      "WEEKDAYS_NOTI": weekdaysNoti,
+    };
+
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/habit/noti-set'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        // debugPrint(
+        //     'Mission setting created successfully for $challengeId, $isNotificationEnabled, $notiTime,$weekdaysNoti');
+        return true;
+      } else {
+        debugPrint('Failed to update Mission setting: ${response.statusCode}');
+        return false;
+      }
+    } catch (error) {
+      debugPrint('Error updating Mission setting: $error');
+      return false;
+    }
+  }
+
+  Future<bool> updateMissionSetting({
+    required int challengeId,
+    required bool isNotificationEnabled,
+    required String notiTime,
+    required Map<String, bool> weekdaysNoti,
+  }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+    // Ensure notiTime is in HH:mm format
+    final formattedNotiTime = notiTime.substring(0, 5); // Extract HH:mm
+
+    final body = {
+      "CHALLENGE_ID": challengeId,
+      "IS_NOTIFICATION_ENABLED": isNotificationEnabled,
+      "NOTI_TIME": formattedNotiTime,
+      "WEEKDAYS_NOTI": weekdaysNoti,
+    };
+
+    try {
+      final response = await http.patch(
+        Uri.parse('$baseUrl/habit/noti-set'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        // debugPrint(
+        //     '✅ Mission setting updated successfully for $challengeId, $isNotificationEnabled');
+        return true;
+      } else {
+        debugPrint(
+            '❌ Failed to update Mission setting: ${response.statusCode}');
+        debugPrint('Response body: ${response.body}');
+        return false;
+      }
+    } catch (error) {
+      debugPrint('❌ Error updating mission setting: $error');
+      return false;
     }
   }
 }

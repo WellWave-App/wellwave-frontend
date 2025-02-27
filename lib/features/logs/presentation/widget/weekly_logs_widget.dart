@@ -101,7 +101,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '${AppStrings.xdateText} $formattedStart - $formattedEnd',
+                        '${AppStrings.xDateText} $formattedStart - $formattedEnd',
                         style: Theme.of(context)
                             .textTheme
                             .bodySmall
@@ -174,7 +174,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                       children: [
                         LogsHistoryCard(
                           pngPath: AppImages.hdlImage,
-                          title: AppStrings.hdlReText,
+                          title: AppStrings.hdlText,
                           isShow: true,
                           value: hdlCount,
                           lastWeekValue: lastWeekHdl,
@@ -194,7 +194,7 @@ class WeeklyLogsWidget extends StatelessWidget {
                       children: [
                         LogsHistoryCard(
                           pngPath: AppImages.ldlImage,
-                          title: AppStrings.ldlReText,
+                          title: AppStrings.ldlText,
                           isShow: true,
                           value: ldlCount,
                           lastWeekValue: lastWeekLdl,
