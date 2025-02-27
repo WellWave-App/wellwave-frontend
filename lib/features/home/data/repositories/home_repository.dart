@@ -9,8 +9,9 @@ import 'package:wellwave_frontend/features/home/data/models/login_streak_data_re
 import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
+import '../../../../config/constants/app_url.dart';
+
 const _secureStorage = FlutterSecureStorage();
-String baseUrl = AppStrings.baseUrl;
 String userID = '$AppStrings.uid';
 
 extension HomeHealthDataRepository on HealthAssessmentRepository {
@@ -170,7 +171,6 @@ class NotificationsRepository {
     if (token == null) {
       throw Exception("No access token found");
     }
-    const baseUrl = AppStrings.baseUrl;
 
     final url = Uri.parse('$baseUrl/notification-history/read/$notificationId');
 

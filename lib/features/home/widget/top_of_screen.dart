@@ -11,6 +11,8 @@ import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/widget/showpoint.dart';
 
+import '../../../config/constants/app_url.dart';
+
 class TopOfScreen extends StatelessWidget {
   final List<NotificationsDataResponseModel> notifications;
   const TopOfScreen({super.key, required this.notifications});
@@ -29,7 +31,7 @@ class TopOfScreen extends StatelessWidget {
 
           if (state.profile!.imageUrl != '') {
             profilePicture = Image.network(
-              '${AppStrings.baseUrl}${state.profile!.imageUrl}',
+              '$baseUrl${state.profile!.imageUrl}',
               height: 32.0,
               errorBuilder: (context, error, stackTrace) {
                 return SvgPicture.asset(

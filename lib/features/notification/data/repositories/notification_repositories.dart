@@ -7,10 +7,9 @@ import 'package:wellwave_frontend/features/notification/data/models/drink_range_
 import 'package:wellwave_frontend/features/notification/data/models/mission_notification_request_model.dart';
 import 'package:wellwave_frontend/features/notification/data/models/sleep_notification_response_model.dart';
 
-import '../../../../config/constants/app_strings.dart';
+import '../../../../config/constants/app_url.dart';
 
 class NotificationSettingRepository {
-  final String baseUrl = AppStrings.baseUrl;
   final _secureStorage = const FlutterSecureStorage();
 
   Future<bool> createBedSetting({

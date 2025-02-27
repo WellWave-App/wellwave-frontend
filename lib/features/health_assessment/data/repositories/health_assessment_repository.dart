@@ -7,17 +7,17 @@ import 'package:wellwave_frontend/features/health_assessment/data/models/health_
 import 'package:flutter/foundation.dart';
 
 import '../../../../config/constants/app_strings.dart';
+import '../../../../config/constants/app_url.dart';
 
 class HealthAssessmentRepository {
   HealthAssessmentRepository();
 
-  String baseUrl = AppStrings.baseUrl;
-  String userID = '$AppStrings.uid';
   final _secureStorage = const FlutterSecureStorage();
 
   Future<bool> sendHealthAssessmentPersonalData(
       HealthAssessmentPersonalDataRequestModel model) async {
     final token = await _secureStorage.read(key: 'access_token'); // ดึง token
+    final userID = await _secureStorage.read(key: 'user_uid');
     if (token == null) {
       throw Exception("No access token found");
     }
@@ -38,8 +38,8 @@ class HealthAssessmentRepository {
       );
 
       if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        userID = responseData['UID'].toString();
+        // final responseData = jsonDecode(response.body);
+        // userID = responseData['UID'].toString();
         debugPrint('Success: ${response.body}');
         return true;
       } else {
@@ -54,6 +54,8 @@ class HealthAssessmentRepository {
 
   Future<bool> sendHealthAssessmentHealthData(
       HealthAssessmentHealthDataRequestModel model) async {
+    final userID = await _secureStorage.read(key: 'user_uid');
+
     final url = Uri.parse('$baseUrl/risk-assessment/$userID');
     final body = jsonEncode(model.toJson());
 

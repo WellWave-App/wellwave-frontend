@@ -9,6 +9,8 @@ import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 
+import '../../../config/constants/app_url.dart';
+
 class NotificationItem extends StatelessWidget {
   final NotificationsDataResponseModel notification;
   final VoidCallback? onTap;
@@ -34,7 +36,7 @@ class NotificationItem extends StatelessWidget {
             leading: CircleAvatar(
               radius: 24,
               backgroundImage:
-                  NetworkImage('${AppStrings.baseUrl}${notification.imageUrl}'),
+                  NetworkImage('${baseUrl}${notification.imageUrl}'),
             ),
             trailing: Icon(
               Icons.circle,

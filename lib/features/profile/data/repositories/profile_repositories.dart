@@ -9,8 +9,9 @@ import 'package:http_parser/http_parser.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
+import '../../../../config/constants/app_url.dart';
+
 class ProfileRepositories {
-  String baseUrl = AppStrings.baseUrl;
   final _secureStorage = const FlutterSecureStorage();
 
   Future<bool> editUserRequest({

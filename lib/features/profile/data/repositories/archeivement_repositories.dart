@@ -7,9 +7,9 @@ import 'package:wellwave_frontend/features/profile/data/models/archeivement_requ
 import 'package:http/http.dart' as http;
 
 import '../../../../config/constants/app_strings.dart';
+import '../../../../config/constants/app_url.dart';
 
 class ArcheivementRepositories {
-  String baseUrl = AppStrings.baseUrl;
   final _secureStorage = const FlutterSecureStorage();
 
   Future<List<ArcheivementRequestModel>?> getUserArcheivement() async {
