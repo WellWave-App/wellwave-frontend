@@ -28,24 +28,21 @@ class TopOfScreen extends StatelessWidget {
         if (state is HomeLoadedState) {
           // debugPrint(
           //     "Full IMAGE_URL: '${AppStrings.baseUrl}${state.profile!.imageUrl}");
-
-          if (state.profile!.imageUrl != '') {
-            profilePicture = Image.network(
-              '$baseUrl${state.profile!.imageUrl}',
-              height: 32.0,
-              errorBuilder: (context, error, stackTrace) {
-                return SvgPicture.asset(
+          profilePicture = (state.profile?.imageUrl?.isNotEmpty ?? false)
+              ? Image.network(
+                  '$baseUrl${state.profile!.imageUrl}',
+                  height: 32.0,
+                  errorBuilder: (context, error, stackTrace) {
+                    return SvgPicture.asset(
+                      AppImages.avatarDefaultIcon,
+                      height: 32.0,
+                    );
+                  },
+                )
+              : SvgPicture.asset(
                   AppImages.avatarDefaultIcon,
                   height: 32.0,
                 );
-              },
-            );
-          } else {
-            profilePicture = SvgPicture.asset(
-              AppImages.avatarDefaultIcon,
-              height: 32.0,
-            );
-          }
         } else {
           profilePicture = SvgPicture.asset(
             AppImages.avatarDefaultIcon,
@@ -59,18 +56,20 @@ class TopOfScreen extends StatelessWidget {
             Row(
               children: [
                 CoinDisplay(
-                  pointText: (state is HomeLoadedState)
-                      ? state.profile!.exp.toString()
-                      : '0',
+                  pointText:
+                      (state is HomeLoadedState && state.profile?.exp != null)
+                          ? state.profile!.exp.toString()
+                          : '0',
                   icon: AppImages.expIcon,
                 ),
                 const SizedBox(width: 16),
                 CoinDisplay(
-                  pointText: (state is HomeLoadedState)
-                      ? state.profile!.gem.toString()
-                      : '0',
+                  pointText:
+                      (state is HomeLoadedState && state.profile?.gem != null)
+                          ? state.profile!.gem.toString()
+                          : '0',
                   icon: AppImages.gemIcon,
-                ),
+                )
               ],
             ),
             Row(
