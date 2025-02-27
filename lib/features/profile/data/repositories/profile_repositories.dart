@@ -11,7 +11,6 @@ import 'package:wellwave_frontend/features/profile/data/models/profile_request_m
 class ProfileRepositories {
   String baseUrl = AppStrings.baseUrl;
   String token = AppStrings.token;
-  // int uid = AppStrings.uid;
 
   Future<bool> editUserRequest({
     required int uid,
