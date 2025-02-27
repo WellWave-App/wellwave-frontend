@@ -105,25 +105,36 @@ class ProfileRequestModel {
 }
 
 class UserLeague {
-  final int id;
-  final String name;
-  final int minExp;
-  final int maxExp;
+  final int uid;
+  final int currentLeague;
 
   UserLeague({
-    required this.id,
-    required this.name,
-    required this.minExp,
-    required this.maxExp,
+    required this.uid,
+    required this.currentLeague,
   });
 
   factory UserLeague.fromJson(Map<String, dynamic> json) {
     return UserLeague(
-      id: json['UID'] as int? ?? 0,
-      name: json['CURRENT_LEAGUE'] as String? ?? "Unknown",
-      minExp: json['CURRENT_EXP'] as int? ?? 0,
-      maxExp: json['PREVIOUS_RANK'] as int? ?? 0,
+      uid: json['UID'] as int? ?? 0,
+      currentLeague: _mapLeagueToInt(json['CURRENT_LEAGUE'] ?? ''),
     );
+  }
+
+  static int _mapLeagueToInt(String league) {
+    switch (league.toLowerCase()) {
+      case 'bronze':
+        return 0;
+      case 'silver':
+        return 1;
+      case 'gold':
+        return 2;
+      case 'diamond':
+        return 3;
+      case 'emerald':
+        return 4;
+      default:
+        return -1;
+    }
   }
 }
 

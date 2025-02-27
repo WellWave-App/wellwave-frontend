@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (state is ProfileLoaded) {
                     final profile = state.userProfile;
 
-                    final userLeague = profile.userLeague?.id ?? 0;
+                    final userLeague = profile.userLeague?.currentLeague ?? 0;
 
                     return Column(
                       children: [
@@ -84,8 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Expanded(
                               child: RoundedText(
                                 text: AppStrings.leaderboardText,
-                                svgPath:
-                                    AppImages.leagueListIcon[userLeague - 1],
+                                svgPath: AppImages.leagueListIcon[userLeague],
                                 isShowNavi: true,
                                 appPages: AppPages.leaderboardlPage,
                                 horizontal: 11,

@@ -89,7 +89,7 @@ class LeaderboardScreen extends StatelessWidget {
 
                             //switch
                             // const SwitchButton(),
-                            SizedBox(
+                            const SizedBox(
                               height: 24,
                             ),
                             //day remain
