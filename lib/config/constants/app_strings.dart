@@ -6,9 +6,7 @@ class AppStrings {
 
   static const emptyText = '';
 
-  static const baseUrl = 'http://10.0.2.2:3001';
-
-  // static const uid = 5;
+  static const uid = 5;
 
   //logs screen
   static const historyText = 'ประวัติ';
