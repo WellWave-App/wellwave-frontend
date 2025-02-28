@@ -11,7 +11,6 @@ class ProfileRequestModel {
   final int? stepPerWeek;
   final int? exercisePerWeek;
   final UserLeague? userLeague;
-  final LogInStats? loginStats;
   final WeeklyGoal? weeklyGoal;
   final DateTime? createAt;
 
@@ -25,7 +24,6 @@ class ProfileRequestModel {
     required this.weight,
     required this.exp,
     required this.gem,
-    this.loginStats,
     this.userLeague,
     this.stepPerWeek,
     this.exercisePerWeek,
@@ -94,7 +92,6 @@ class ProfileRequestModel {
       userLeague: json['userLeague'] != null
           ? UserLeague.fromJson(json['userLeague'])
           : null,
-      loginStats: LogInStats.fromJson(json['loginStats'] ?? {}),
       weeklyGoal: json['weeklyGoal'] != null
           ? WeeklyGoal.fromJson(json['weeklyGoal'])
           : null,
@@ -270,16 +267,16 @@ class CheckInStats {
 
 class OverAllStats {
   final int uid;
-  final String streakStartDate;
-  final String lastLoginDate;
+  final String? streakStartDate;
+  final String? lastLoginDate;
   final int currentStreak;
   final int longestStreak;
   final int totalPointsEarned;
 
   OverAllStats({
     required this.uid,
-    required this.streakStartDate,
-    required this.lastLoginDate,
+    this.streakStartDate,
+    this.lastLoginDate,
     required this.currentStreak,
     required this.longestStreak,
     required this.totalPointsEarned,
