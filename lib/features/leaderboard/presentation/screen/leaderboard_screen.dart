@@ -6,26 +6,22 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
-import '../../../profile/presentation/bloc/profile_bloc/profile_bloc.dart';
-import '../../../profile/presentation/bloc/profile_bloc/profile_event.dart';
-import '../../../profile/presentation/bloc/profile_bloc/profile_state.dart';
 import '../../../profile/presentation/widget/profile/round_border_text.dart';
 import '../../data/models/leaderboard_request_model.dart';
 import '../bloc/leaderboard_bloc.dart';
 import '../bloc/leaderboard_event.dart';
 import '../bloc/leaderboard_state.dart';
-import '../widget/switch_button.dart';
+import '../../../../config/constants/app_url.dart';
 
 class LeaderboardScreen extends StatelessWidget {
   const LeaderboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // context.read<ProfileBloc>().add(FetchUserProfile());
+    
     context.read<LeaderBoardBloc>().add(FetchUserBoard());
 
-    // int weekday = DateTime.now().weekday;
-    // int daysRemain = (14 - weekday) % 14;
+   
 
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
@@ -46,7 +42,7 @@ class LeaderboardScreen extends StatelessWidget {
             Widget profileImage;
 
             if (userImage!.isNotEmpty) {
-              final imageUrl = "${AppStrings.baseUrl}$userImage";
+              final imageUrl = "$baseUrl$userImage";
               profileImage = ClipOval(
                 child: Image.network(
                   imageUrl,
@@ -151,7 +147,7 @@ class LeaderboardScreen extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 20,
                                   backgroundImage: NetworkImage(
-                                      "${AppStrings.baseUrl}${member.user.imageUrl}"),
+                                      "$baseUrl${member.user.imageUrl}"),
                                 ),
                                 const SizedBox(width: 36),
                                 Expanded(
@@ -284,7 +280,7 @@ class LeaderboardScreen extends StatelessWidget {
               child: CircleAvatar(
                 radius: 36,
                 backgroundImage:
-                    NetworkImage("${AppStrings.baseUrl}${user.user.imageUrl}"),
+                    NetworkImage("$baseUrl${user.user.imageUrl}"),
               ),
             ),
             if (isFirst)

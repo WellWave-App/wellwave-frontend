@@ -101,17 +101,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   AppImages.cloudImage,
                 ),
               ),
-              SingleChildScrollView(
+              const SingleChildScrollView(
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                           top: 40.0, left: 24, right: 24, bottom: 24),
-                      child: TopOfScreen(
-                        notifications: notifications!,
-                      ),
+                      child: const TopOfScreen(
+                          // notifications: notifications!,
+                          ),
                     ),
-                    const ProgressWidget(),
+                    ProgressWidget(),
                   ],
                 ),
               ),

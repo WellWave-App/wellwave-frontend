@@ -14,13 +14,14 @@ import 'package:wellwave_frontend/features/home/widget/showpoint.dart';
 import '../../../config/constants/app_url.dart';
 
 class TopOfScreen extends StatelessWidget {
-  final List<NotificationsDataResponseModel> notifications;
-  const TopOfScreen({super.key, required this.notifications});
+  // final List<NotificationsDataResponseModel> notifications;
+  // const TopOfScreen({super.key, required this.notifications});
+  const TopOfScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    bool hasUnread =
-        notifications.take(7).any((notification) => !notification.isRead);
+    bool hasUnread = true;
+    // notifications.take(7).any((notification) => !notification.isRead);
 
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {

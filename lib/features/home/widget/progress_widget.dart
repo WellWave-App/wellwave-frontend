@@ -307,7 +307,8 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                           children: [
                             if (state is HomeLoadedState)
                               Text(
-                                state.loginStreak!.currentStreak.toString(),
+                                // state.loginStreak!.currentStreak.toString(),
+                                '',
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge

@@ -24,7 +24,6 @@ import '../../features/authentication/presentation/screen/widget/register_succes
 import '../../features/leaderboard/presentation/screen/leaderboard_screen.dart';
 import '../../features/notification/presentation/screen/drink_plan_screen.dart';
 import '../../features/notification/presentation/screen/reminder_screen.dart';
-// import '../../features/notification/presentation/screen/test_noti.dart';
 import '../../features/home/presentation/screen/home/health_reassessment.dart';
 import '../../features/profile/presentation/screen/achievement_screen.dart';
 import '../../features/profile/presentation/screen/edit_profile_screen.dart';

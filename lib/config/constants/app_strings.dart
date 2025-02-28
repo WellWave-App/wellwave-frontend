@@ -6,8 +6,6 @@ class AppStrings {
 
   static const emptyText = '';
 
-  // static const uid = 5;
-
   //logs screen
   static const historyText = 'ประวัติ';
   static const dailyLogsText = 'บันทึกสุขภาพประจำวัน';

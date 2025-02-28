@@ -57,7 +57,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         gender: event.gender,
         height: event.height,
         weight: event.weight,
-        gem: event.gem ?? 0,
+        gem: event.gem,
       );
 
       if (isEdited) {
