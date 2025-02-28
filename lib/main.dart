@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
+import 'package:wellwave_frontend/features/leaderboard/data/repositories/leaderboard_repositories.dart';
+import 'package:wellwave_frontend/features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/notification/data/repositories/notification_repositories.dart';
@@ -67,6 +69,11 @@ class MainApp extends StatelessWidget {
           BlocProvider<ProfileBloc>(
             create: (context) =>
                 ProfileBloc(profileRepositories: ProfileRepositories()),
+            lazy: false,
+          ),
+          BlocProvider<LeaderBoardBloc>(
+            create: (context) => LeaderBoardBloc(
+                leaderBoardRepositories: LeaderboardRepositories()),
             lazy: false,
           ),
           BlocProvider<NotiBloc>(
