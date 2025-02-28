@@ -4,8 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_waistline.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weekly.dart';
 import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_weight.dart';
-import '../../../../config/constants/app_url.dart';
+import '../../../../config/constants/app_strings.dart';
 import '../../../logs/data/models/logs_request_model.dart';
+import '../models/logs_request_model_sleep.dart';
+import '../models/logs_request_model_step.dart';
+import '../models/logs_request_model_drink.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 
 class LogsRequestRepository {
   Future<bool> createLogsRequest({
@@ -28,11 +32,8 @@ class LogsRequestRepository {
         }),
       );
 
-      debugPrint(
-          'Create Log Response: ${response.statusCode}, Body: ${response.body}');
-
       if (response.statusCode == 201) {
-        debugPrint('Success: ${response.body}');
+        // debugPrint('Success: ${response.body}');
         return true;
       }
       return false;
@@ -43,14 +44,14 @@ class LogsRequestRepository {
   }
 
   Future<bool> editLogsRequest({
-    required num uid,
+    required String uid,
     required int value,
     required String logName,
     required String date,
   }) async {
     try {
       final response = await http.patch(
-        Uri.parse("$baseUrl/logs/$uid/$logName/$date"),
+        Uri.parse("$baseUrl/$uid/$logName/$date"),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -79,7 +80,7 @@ class LogsRequestRepository {
   }) async {
     try {
       final response = await http.get(
-        Uri.parse('$baseUrl/logs/$uid/$logName/$date'),
+        Uri.parse('$baseUrl/$uid/$logName/$date'),
       );
 
       debugPrint(
@@ -97,11 +98,11 @@ class LogsRequestRepository {
     }
   }
 
-  Future<List<LogsRequestModel?>> getLogsById(num uID, DateTime date) async {
+  Future<List<LogsRequestModel?>> getLogsById(String uID, DateTime date) async {
     try {
       final response = await http.get(
         Uri.parse(
-            "$baseUrl/logs/user/$uID?startDate=${date.toIso8601String()}&&endDate=${date.toIso8601String()}"),
+            "$baseUrl/user/$uID?startDate=${date.toIso8601String()}&&endDate=${date.toIso8601String()}"),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -110,10 +111,7 @@ class LogsRequestRepository {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         List<dynamic> logsJson = jsonData['LOGS'];
-        debugPrint('--------------------');
-        debugPrint('daily Fetched Logs: ${response.body}');
-        debugPrint(
-            "$baseUrl/logs/user/$uID?startDate=${date.toIso8601String()}&&endDate=${date.toIso8601String()}");
+
         return logsJson.map((log) => LogsRequestModel.fromJson(log)).toList();
       }
       return [];
@@ -124,11 +122,11 @@ class LogsRequestRepository {
   }
 
   Future<List<LogsWeeklyRequestModel?>> getWeeklyLogs(
-      num uID, DateTime date) async {
+      String uID, DateTime date) async {
     try {
       final response = await http.get(
         Uri.parse(
-          "$baseUrl/logs/userWeekly/$uID?date=${date.toIso8601String()}",
+          "$baseUrl/userWeekly/$uID?date=${date.toIso8601String()}",
         ),
         headers: {
           'Content-Type': 'application/json',
@@ -138,9 +136,7 @@ class LogsRequestRepository {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         List<dynamic> logsJson = jsonData['LOGS'];
-        debugPrint('week Fetched Weekly Logs: ${response.body}');
-        debugPrint(
-            "$baseUrl/logs/userWeekly/$uID?date=${date.toIso8601String()}");
+
         return logsJson
             .map((log) => LogsWeeklyRequestModel.fromJson(log))
             .toList();
@@ -152,36 +148,29 @@ class LogsRequestRepository {
     }
   }
 
-  Future<List<LogsWeightRequestModel?>> getWeightLogs(
-      num uID, DateTime today) async {
+  Future<List<T>> _fetchLogs<T>({
+    required String uID,
+    required DateTime today,
+    required String logName,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
     try {
-      List<LogsWeightRequestModel?> logsList = [];
-
-      // Fetch logs for the past 4 weeks, one for each week
+      List<T> logsList = [];
       for (int i = 0; i < 4; i++) {
         final dateBegin = today.subtract(const Duration(days: 21));
-        final DateTime targetDate =
-            dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
+        final DateTime targetDate = dateBegin.add(Duration(days: i * 7));
         final response = await http.get(
           Uri.parse(
-            '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WEIGHT_LOG',
+            '$baseUrl/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=$logName',
           ),
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: {'Content-Type': 'application/json'},
         );
-
         if (response.statusCode == 200) {
           final jsonData = jsonDecode(response.body);
           List<dynamic> logsJson = jsonData['LOGS'];
-          debugPrint(
-              'Filtered weight logs for week ${i + 1}: ${response.body}');
-          logsList.addAll(logsJson
-              .map((log) => LogsWeightRequestModel.fromJson(log))
-              .toList());
+          logsList.addAll(logsJson.map((log) => fromJson(log)).toList());
         }
       }
-
       return logsList;
     } catch (e) {
       debugPrint('Error fetching logs: $e');
@@ -189,40 +178,50 @@ class LogsRequestRepository {
     }
   }
 
-  Future<List<LogsWaistLineRequestModel?>> getWaistLineLogs(
-      num uID, DateTime today) async {
-    try {
-      List<LogsWaistLineRequestModel?> logsList = [];
+  Future<List<LogsWeightRequestModel>> getWeightLogs(
+      String uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.weightLogText,
+      fromJson: (json) => LogsWeightRequestModel.fromJson(json),
+    );
+  }
 
-      // Fetch logs for the past 4 weeks, one for each week
-      for (int i = 0; i < 4; i++) {
-        final dateBegin = today.subtract(const Duration(days: 21));
-        final DateTime targetDate =
-            dateBegin.add(Duration(days: i * 7)); // 1 day per week from today
-        final response = await http.get(
-          Uri.parse(
-            '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=WAIST_LINE_LOG',
-          ),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        );
+  Future<List<LogsWaistLineRequestModel>> getWaistLineLogs(
+      String uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.waistLineLogText,
+      fromJson: (json) => LogsWaistLineRequestModel.fromJson(json),
+    );
+  }
 
-        if (response.statusCode == 200) {
-          final jsonData = jsonDecode(response.body);
-          List<dynamic> logsJson = jsonData['LOGS'];
-          debugPrint(
-              'Filtered waist line logs for week ${i + 1}: ${response.body}');
-          logsList.addAll(logsJson
-              .map((log) => LogsWaistLineRequestModel.fromJson(log))
-              .toList());
-        }
-      }
+  Future<List<LogsDrinkRequestModel>> getDrinkLogs(String uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.drinkLogText,
+      fromJson: (json) => LogsDrinkRequestModel.fromJson(json),
+    );
+  }
 
-      return logsList;
-    } catch (e) {
-      debugPrint('Error fetching logs: $e');
-      return [];
-    }
+  Future<List<LogsStepRequestModel>> getStepLogs(String uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.stepLogText,
+      fromJson: (json) => LogsStepRequestModel.fromJson(json),
+    );
+  }
+
+  Future<List<LogsSleepRequestModel>> getSleepLogs(String uID, DateTime today) {
+    return _fetchLogs(
+      uID: uID,
+      today: today,
+      logName: AppStrings.sleepLogText,
+      fromJson: (json) => LogsSleepRequestModel.fromJson(json),
+    );
   }
 }

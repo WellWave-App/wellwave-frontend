@@ -1,16 +1,19 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/data/models/archeivement_request_model.dart';
 import 'package:http/http.dart' as http;
-
-import '../../../../config/constants/app_strings.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 
 class ArcheivementRepositories {
-  String baseUrl = AppStrings.baseUrl;
-  String token = AppStrings.token;
+  final _secureStorage = const FlutterSecureStorage();
+  final _tokenKey = 'access_token';
 
   Future<List<ArcheivementRequestModel>?> getUserArcheivement() async {
+    final token = await _secureStorage.read(key: _tokenKey);
+
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/achievement/user-achieveds"),
@@ -41,6 +44,8 @@ class ArcheivementRepositories {
     required String achId,
     required int level,
   }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
     try {
       final uri =
           Uri.parse("$baseUrl/achievement/mark-as-read/$uid/$achId/$level");

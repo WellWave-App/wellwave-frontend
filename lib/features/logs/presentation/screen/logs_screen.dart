@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/daily_logs.dart';
-// import 'package:wellwave_frontend/features/logs/presentation/widget/history_button.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/weekly_logs.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_strings.dart';
