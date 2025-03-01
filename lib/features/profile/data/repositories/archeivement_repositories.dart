@@ -6,7 +6,6 @@ import 'package:wellwave_frontend/features/profile/data/models/all_archeivement_
 import 'package:wellwave_frontend/features/profile/data/models/archeivement_request_model.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../../config/constants/app_strings.dart';
 import '../../../../config/constants/app_url.dart';
 
 class ArcheivementRepositories {

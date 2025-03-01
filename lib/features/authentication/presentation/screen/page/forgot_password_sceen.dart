@@ -19,7 +19,7 @@ class ForgotPasswordScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.backgroundColor,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: AppColors.blackColor,
           ),
@@ -74,14 +74,14 @@ class ForgotPasswordScreen extends StatelessWidget {
               children: [
                 Text('ลืมรหัสผ่าน',
                     style: Theme.of(context).textTheme.titleLarge),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                     'ลืมรหัสผ่านใช่ไหม? ไม่เป็นไร!\nกรอกอีเมลที่คุณใช้สมัครได้เลย',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
                         .copyWith(color: AppColors.darkGrayColor)),
-                SizedBox(height: 36),
+                const SizedBox(height: 36),
                 TextField(
                   controller: _emailController,
                   style: Theme.of(context).textTheme.bodySmall,
@@ -96,12 +96,12 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: AppColors.whiteColor,
                     backgroundColor: AppColors.primaryColor,
-                    minimumSize: Size(350, 60),
+                    minimumSize: const Size(350, 60),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -109,7 +109,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   onPressed: () {
                     if (_emailController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
                           backgroundColor: Colors.red,
                         ),
@@ -168,7 +168,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge
                     // style: Theme.of(context).textTheme.titleLarge)
                     ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                   'เราได้ส่งรหัสกู้คืนไปที่อีเมลของคุณแล้ว\nกรอกรหัสที่ได้รับเพื่อดำเนินการต่อ',
                   style: Theme.of(context)
@@ -177,11 +177,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                       .copyWith(color: AppColors.darkGrayColor),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 64),
+                const SizedBox(height: 64),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: List.generate(4, (index) {
-                    return SizedBox(
+                    return const SizedBox(
                       width: 72,
                       child: TextField(
                         textAlign: TextAlign.center,
@@ -194,7 +194,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     );
                   }),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 32,
                 ),
                 GestureDetector(
@@ -210,12 +210,12 @@ class ForgotPasswordScreen extends StatelessWidget {
                         ),
                   ),
                 ),
-                SizedBox(height: 64),
+                const SizedBox(height: 64),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: AppColors.whiteColor,
                     backgroundColor: AppColors.primaryColor,
-                    minimumSize: Size(350, 60),
+                    minimumSize: const Size(350, 60),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -284,9 +284,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                   'ตั้งรหัสผ่านใหม่',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                SizedBox(height: 16),
-                Text('สร้างรหัสผ่านใหม่สำหรับบัญชีของคุณกันเถอะ'),
-                SizedBox(height: 46),
+                const SizedBox(height: 16),
+                const Text('สร้างรหัสผ่านใหม่สำหรับบัญชีของคุณกันเถอะ'),
+                const SizedBox(height: 46),
                 TextField(
                   controller: _emailController,
                   style: Theme.of(context).textTheme.bodySmall,
@@ -301,7 +301,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 TextField(
                   controller: _emailController,
                   style: Theme.of(context).textTheme.bodySmall,
@@ -316,12 +316,12 @@ class ForgotPasswordScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     foregroundColor: AppColors.whiteColor,
                     backgroundColor: AppColors.primaryColor,
-                    minimumSize: Size(350, 60),
+                    minimumSize: const Size(350, 60),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -329,7 +329,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   onPressed: () {
                     if (_emailController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
                           backgroundColor: Colors.red,
                         ),

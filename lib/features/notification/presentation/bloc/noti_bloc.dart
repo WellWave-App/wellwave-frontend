@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../data/models/drink_plan_notification_response_model.dart';
 import '../../data/models/mission_notification_request_model.dart';

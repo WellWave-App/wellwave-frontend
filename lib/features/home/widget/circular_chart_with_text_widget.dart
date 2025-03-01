@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CircularChartWidget extends StatelessWidget {
   const CircularChartWidget({super.key});

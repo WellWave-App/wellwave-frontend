@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class CircularChartWidget extends StatelessWidget {

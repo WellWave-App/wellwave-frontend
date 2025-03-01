@@ -15,14 +15,14 @@ class RegisterSuccess extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SvgPicture.asset(AppImages.sunnyIcon),
-          SizedBox(
+          const SizedBox(
             height: 52,
           ),
           Text(
             'สมัครสมาชิกสำเร็จ',
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Text(
@@ -33,14 +33,14 @@ class RegisterSuccess extends StatelessWidget {
                 .copyWith(color: AppColors.darkGrayColor),
             textAlign: TextAlign.center,
           ),
-          SizedBox(
+          const SizedBox(
             height: 48,
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               foregroundColor: AppColors.whiteColor,
               backgroundColor: AppColors.primaryColor,
-              minimumSize: Size(350, 60),
+              minimumSize: const Size(350, 60),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.0),
               ),

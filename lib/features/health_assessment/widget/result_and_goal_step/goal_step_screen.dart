@@ -10,6 +10,8 @@ import '../../presentation/bloc/health_assessment_page/health_assessment_page_ev
 import '../../presentation/bloc/health_assessment_page/health_assessment_page_state.dart';
 
 class GoalStepScreen extends StatefulWidget {
+  const GoalStepScreen({super.key});
+
   @override
   _GoalStepScreen createState() => _GoalStepScreen();
 }
@@ -89,8 +91,8 @@ class _GoalStepScreen extends State<GoalStepScreen> {
               const SizedBox(height: 64),
               if (userGoalStep == recommendGoalStep.toString())
                 Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 4.0, horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 4.0, horizontal: 24.0),
                   decoration: BoxDecoration(
                     color: AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(12),
@@ -104,8 +106,8 @@ class _GoalStepScreen extends State<GoalStepScreen> {
                 )
               else
                 Container(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 4.0, horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 4.0, horizontal: 24.0),
                   decoration: BoxDecoration(
                     color: AppColors.transparentColor,
                     borderRadius: BorderRadius.circular(12),

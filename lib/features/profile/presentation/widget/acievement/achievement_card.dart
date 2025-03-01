@@ -7,7 +7,6 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../../config/constants/app_images.dart';
 import '../../../../../config/constants/app_pages.dart';
-import '../../../data/models/archeivement_request_model.dart';
 import '../../bloc/archeivement_bloc/archeivement_bloc.dart';
 import '../../bloc/archeivement_bloc/archeivement_event.dart';
 import '../../bloc/archeivement_bloc/archeivement_state.dart';

@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/home/data/models/login_streak_data_respone_model.dart';
@@ -12,7 +11,6 @@ import 'package:wellwave_frontend/features/profile/data/repositories/profile_rep
 import '../../../../config/constants/app_url.dart';
 
 const _secureStorage = FlutterSecureStorage();
-String userID = '$AppStrings.uid';
 
 extension HomeHealthDataRepository on HealthAssessmentRepository {
   Future<HealthAssessmentHealthDataRequestModel?> fetchHealthData() async {
@@ -20,9 +18,14 @@ extension HomeHealthDataRepository on HealthAssessmentRepository {
     if (token == null) {
       throw Exception("No access token found");
     }
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
+
     try {
       final response = await http.get(
-        Uri.parse("$baseUrl/risk-assessment/$userID"),
+        Uri.parse("$baseUrl/risk-assessment/$uid"),
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -45,8 +48,12 @@ extension HomeHealthDataRepository on HealthAssessmentRepository {
     if (token == null) {
       throw Exception("No access token found");
     }
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
 
-    final url = Uri.parse('$baseUrl/risk-assessment/$userID');
+    final url = Uri.parse('$baseUrl/risk-assessment/$uid');
     final body = jsonEncode(data);
 
     debugPrint('Request body: $body');
@@ -81,7 +88,12 @@ extension HomePersonaDataRepository on ProfileRepositories {
     if (token == null) {
       throw Exception("No access token found");
     }
-    final url = Uri.parse('$baseUrl/users/$userID');
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
+
+    final url = Uri.parse('$baseUrl/users/$uid');
     final body = jsonEncode({'WEIGHT': weight});
 
     debugPrint('Sending PATCH request to $url');

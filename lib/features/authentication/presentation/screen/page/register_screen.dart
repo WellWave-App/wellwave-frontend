@@ -142,7 +142,7 @@ class RegisterScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Row(
                         children: [
-                          Container(
+                          SizedBox(
                             width: 16.0,
                             height: 16.0,
                             child: Checkbox(
@@ -154,7 +154,7 @@ class RegisterScreen extends StatelessWidget {
                               checkColor: AppColors.whiteColor,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 12,
                           ),
                           Flexible(
@@ -175,13 +175,13 @@ class RegisterScreen extends StatelessWidget {
                 BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
                     if (state is AuthInitial) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                     return ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor: AppColors.whiteColor,
                         backgroundColor: AppColors.primaryColor,
-                        minimumSize: Size(350, 60),
+                        minimumSize: const Size(350, 60),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
                         ),
@@ -191,7 +191,7 @@ class RegisterScreen extends StatelessWidget {
                             'Email: ${_emailController.text}, Password: ${_passwordController.text}');
                         if (!_isChecked.value) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content:
                                   Text('กรุณายอมรับข้อตกลงก่อนสมัครสมาชิก'),
                               backgroundColor: Colors.red,
@@ -203,7 +203,7 @@ class RegisterScreen extends StatelessWidget {
                             _passwordController.text.isEmpty ||
                             _confirmPasswordController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
                               backgroundColor: Colors.red,
                             ),
@@ -211,7 +211,7 @@ class RegisterScreen extends StatelessWidget {
                         } else if (_passwordController.text !=
                             _confirmPasswordController.text) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('รหัสผ่านไม่ตรงกัน'),
                               backgroundColor: Colors.red,
                             ),
@@ -268,7 +268,7 @@ class RegisterScreen extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.darkGrayColor,
                       backgroundColor: AppColors.whiteColor,
-                      minimumSize: Size(350, 60),
+                      minimumSize: const Size(350, 60),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16.0),
                       ),
@@ -278,7 +278,7 @@ class RegisterScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SvgPicture.asset(AppImages.googleIcon),
-                        SizedBox(
+                        const SizedBox(
                           width: 24,
                         ),
                         Text(

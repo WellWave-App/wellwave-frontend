@@ -271,9 +271,9 @@ class StepContent extends StatelessWidget {
           case 8:
             return const RecommendScreen();
           case 9:
-            return GoalStepScreen();
+            return const GoalStepScreen();
           case 10:
-            return GoalExerciseScreen();
+            return const GoalExerciseScreen();
           case 11:
             return const CongratsScreen();
 

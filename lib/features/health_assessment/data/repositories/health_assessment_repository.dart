@@ -6,7 +6,6 @@ import 'package:wellwave_frontend/features/health_assessment/data/models/health_
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../../config/constants/app_strings.dart';
 import '../../../../config/constants/app_url.dart';
 
 class HealthAssessmentRepository {
