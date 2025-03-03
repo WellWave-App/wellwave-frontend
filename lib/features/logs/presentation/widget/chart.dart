@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
+import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
 
 class LineChartSample2 extends StatelessWidget {
   final String logType;
+  final List<dynamic> logs;
+  final String? selectedPeriod;
 
-  const LineChartSample2({super.key, required this.logType});
+  const LineChartSample2(
+      {super.key,
+      required this.logType,
+      required this.logs,
+      this.selectedPeriod});
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +25,6 @@ class LineChartSample2 extends StatelessWidget {
           return Center(
               child: Text('${AppStrings.errorShow}: ${state.message}'));
         } else if (state is LogsLoadGraphSuccess) {
-          List<dynamic> logs = logType == AppStrings.weightLogText
-              ? state.logsWeightlist
-              : state.logsWaistLinelist;
-
           if (logs.isEmpty) {
             return const Center(child: Text(AppStrings.noLogsAvailableText));
           }
@@ -138,14 +140,45 @@ class LineChartSample2 extends StatelessWidget {
 
   Widget bottomTitleWidgets(List<dynamic> logs, double value, TitleMeta meta) {
     const style = TextStyle(fontSize: 10);
-    if (value.toInt() < logs.length) {
-      final log = logs[value.toInt()];
-      final date = DateTime.parse(log.date.toIso8601String());
-      final formattedDate =
-          '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}';
-      return SideTitleWidget(
-          axisSide: meta.axisSide, child: Text(formattedDate, style: style));
+    if (value.toInt() >= logs.length) {
+      return const Text('/', style: style);
     }
-    return const Text('/', style: style);
+
+    final log = logs[value.toInt()];
+    final date = DateTime.parse(log.date.toIso8601String());
+
+    // For 14 days view - show every other day
+
+    if (selectedPeriod == '14 วัน') {
+      if (value.toInt() % 2 == 0) {
+        return SideTitleWidget(
+          axisSide: meta.axisSide,
+          child: Text(
+              '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}',
+              style: style),
+        );
+      }
+      return const Text('', style: style);
+    }
+
+    //3เดือน
+    if (selectedPeriod == '3 เดือน') {
+      String month = AppStrings.thaiMonths[date.month - 1];
+      if (value.toInt() % 4 == 0) {
+        return SideTitleWidget(
+          axisSide: AxisSide.right,
+          space: 36.0,
+          child: Text(month, style: const TextStyle(fontSize: 14)),
+        );
+      }
+      return const Text('', style: style);
+    }
+
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: Text(
+          '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}',
+          style: style),
+    );
   }
 }

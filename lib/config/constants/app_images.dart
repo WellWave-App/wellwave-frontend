@@ -66,9 +66,109 @@ class AppImages {
   static const moon9Icon = 'assets/icons/moon_icon/moon_9.svg';
   static const moon10Icon = 'assets/icons/moon_icon/moon_10.svg';
 
+  // health_assessment
   static const metabolicSyndromeImage = 'assets/images/metabolic.png';
   static const metaEffectImage = 'assets/images/meta_effect.png';
   static const metaBehaviorImage = 'assets/images/meta_behavior.png';
+
+  //profile
+  static const copyIcon = 'assets/icons/copy_icon.svg';
+  static const crabImg = 'assets/images/crab.png';
+  static const gemIcon = 'assets/icons/gem_icon.svg';
+  static const expIcon = 'assets/icons/exp_icon.svg';
+  static const editProfileIcon = 'assets/icons/edit_profile_icon.svg';
+  static const giftIcon = 'assets/icons/gift_icon.svg';
+  static const progressBgSvg = 'assets/icons/progress_background.svg';
+  static const medalSvg = 'assets/icons/medal_icon.svg';
+  static const alarmIcon = 'assets/icons/alarm_icon.svg';
+  static const editUserProfileSvg = 'assets/icons/edit_user_img.svg';
+  static const gemCheckSvg = 'assets/icons/gem_check_icon.svg';
+  static const gemNotCheckSvg = 'assets/icons/gem_not_check_icon.svg';
+  static const greyTreasureSvg = 'assets/icons/grey_treasure.svg';
+  static const colorTreasureSvg = 'assets/icons/color_treasure.svg';
+  static const openTreasureSvg = 'assets/icons/open_treasure.svg';
+
+  static const diamondLeagueIcon = 'assets/icons/league/diamond_league.svg';
+  static const bronzeLeaugeIcon = 'assets/icons/league/bronze_league.svg';
+  static const silverLeaugeIcon = 'assets/icons/league/silver_league.svg';
+  static const goldLeaugeIcon = 'assets/icons/league/gold_league.svg';
+  static const emeraldLeaugeIcon = 'assets/icons/league/emerald_league.svg';
+  static const barSuccessImage = 'assets/images/success_bar.png';
+  static const fireIcon = 'assets/icons/fire_icon.svg';
+  static const waterIcon = 'assets/icons/water_icon.svg';
+  static const sleepingIcon = 'assets/icons/sleeping_icon.svg';
+  static const goalIcon = 'assets/icons/goal_icon.svg';
+  static const glassIcon = 'assets/icons/glass_icon.svg';
+  static const fireGoalIcon = 'assets/icons/fire_goal_icon.svg';
+
+  static const leagueListIcon = [
+    AppImages.bronzeLeaugeIcon,
+    AppImages.silverLeaugeIcon,
+    AppImages.goldLeaugeIcon,
+    AppImages.diamondLeagueIcon,
+    AppImages.emeraldLeaugeIcon,
+  ];
+
+  static const clockIcon = 'assets/icons/clock_icon.svg';
+  static const firstRankIcon = 'assets/icons/first_rank_icon.svg';
+  static const cameraIcon = 'assets/icons/health_assessment/camera.svg';
+  static const avatarDefaultIcon =
+      'assets/icons/health_assessment/avatar_default.svg';
+  static const checkmarkIcon = 'assets/icons/health_assessment/checkmark.svg';
+  static const femaleImage = 'assets/icons/health_assessment/female_image.png';
+  static const maleImage = 'assets/icons/health_assessment/male_image.png';
+  static const femaleImageUnselected =
+      'assets/icons/health_assessment/female_gray_image.png';
+  static const maleImageUnselected =
+      'assets/icons/health_assessment/male_gray_image.png';
+  static const alcoholSometimesIcon =
+      'assets/icons/health_assessment/alcohol_sometimes.svg';
+  static const alcoholNeverIcon =
+      'assets/icons/health_assessment/alcohol_usedto.svg';
+  static const alcoholUsedtoIcon =
+      'assets/icons/health_assessment/alcohol_never.svg';
+  static const alcoholUsuallyIcon =
+      'assets/icons/health_assessment/alcohol_usually.svg';
+  static const famhistoryArteryIcon =
+      'assets/icons/health_assessment/famhistory_artery.svg';
+  static const famhistoryConfusedIcon =
+      'assets/icons/health_assessment/famhistory_confused.svg';
+  static const famhistoryDiabetesIcon =
+      'assets/icons/health_assessment/famhistory_diabetes.svg';
+  static const famhistoryHyperIcon =
+      'assets/icons/health_assessment/famhistory_hyper.svg';
+  static const famhistoryParalysisIcon =
+      'assets/icons/famhistory_paralysis.svg';
+  static const goalHealthyIcon = 'assets/icons/goal_healthy.svg';
+  static const goalLoseweightIcon = 'assets/icons/goal_loseweight.svg';
+  static const goalMuscleIcon = 'assets/icons/goal_muscle.svg';
+
+  static const famhistoryVascularIcon = 'assets/icons/famhistory_vascular.svg';
+  static const smokeUedtoIcon = 'assets/icons/smoke_usedto.svg';
+  static const smokeNeverIcon = 'assets/icons/smoke_never.svg';
+  static const smokeUsuallyIcon = 'assets/icons/smoke_usually.svg';
+  static const healthassessmentIMG = 'assets/icons/health_assessment_step1.svg';
+  static const healthassessmentBG = 'assets/images/health_assessment_bg.png';
+  static const recommendIcon = 'assets/icons/recommend.svg';
+  static const recommendPlanIcon = 'assets/icons/recommend_plan.svg';
+  static const healthconnectIcon = 'assets/icons/health_connect.svg';
+
+  static const notiIcon = 'assets/icons/homepage/noti.svg';
+  static const cloudImage = 'assets/icons/homepage/cloud.svg';
+  static const avatarImage = 'assets/icons/homepage/default.svg';
+  static const avatarNotiImage = 'assets/icons/homepage/notification.svg';
+  static const avatarAssessmentImage = 'assets/icons/homepage/assessment.svg';
+  static const avatarFloatingAssessmentImage =
+      'assets/icons/homepage/floating_assesment.svg';
+  static const stepImage = 'assets/icons/homepage/step_image.svg';
+  static const exerciseImage = 'assets/icons/homepage/exercise_image.svg';
+  static const hatIcon = 'assets/icons/homepage/hat.svg';
+  static const slideIcon = 'assets/icons/homepage/slide.svg';
+  static const healthreassessmentBG =
+      'assets/icons/homepage/assessment/reassessment_bg.svg';
+
+  static const healthassessmentGoalBG =
+      'assets/icons/health_assessment/bg/goal_bg.png';
 
   //authentication
   static const skyBgImage = 'assets/icons/sky.svg';
@@ -85,4 +185,8 @@ class AppImages {
       'assets/icons/disease/hypercholesterolemia.png';
 
   static const obesityIcon = 'assets/icons/disease/obesity.png';
+  //exchange
+  static const expCoinSvg = 'assets/icons/exp_coin_svg.svg';
+  static const gemSvg = 'assets/icons/gem_svg.svg';
+  static const giftSvg = 'assets/icons/gift_svg.svg';
 }

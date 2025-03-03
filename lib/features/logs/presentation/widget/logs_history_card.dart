@@ -94,25 +94,29 @@ class LogsHistoryCard extends StatelessWidget {
                                 '${AppStrings.aboveCriteria} ${value - upperBand} $unit',
                                 style: Theme.of(context)
                                     .textTheme
-                                    .caption2
-                                    ?.copyWith(color: AppColors.darkGrayColor),
+                                    .bodySmall
+                                    ?.copyWith(
+                                        color: AppColors.darkGrayColor,
+                                        fontSize: 11.0),
                               )
                             : value < lowerBand && lowerBand != 0.0
                                 ? Text(
                                     '${AppStrings.underCriteria} ${lowerBand - value} $unit',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .caption2
+                                        .bodySmall
                                         ?.copyWith(
-                                            color: AppColors.darkGrayColor),
+                                            color: AppColors.darkGrayColor,
+                                            fontSize: 11.0),
                                   )
                                 : Text(
                                     AppStrings.goodCriteria,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .caption2
+                                        .bodySmall
                                         ?.copyWith(
-                                            color: AppColors.darkGrayColor),
+                                            color: AppColors.darkGrayColor,
+                                            fontSize: 11.0),
                                   )
                         : Container(),
                   ],

@@ -27,17 +27,17 @@ class LogsWaistLineRequestModel {
   return LogsWaistLineRequestModel(
     lid: json['LID'] is int
         ? json['LID'] as int
-        : int.tryParse(json['LID'] ?? '0') ?? 0, // Handle String to int conversion
+        : int.tryParse(json['LID'] ?? '0') ?? 0, 
     logName: json['LOG_NAME'] ?? "", 
     date: json['DATE'] is int 
         ? DateTime.fromMillisecondsSinceEpoch(json['DATE']) 
-        : DateTime.tryParse(json['DATE']) ?? DateTime.now(), // Handle date as String
+        : DateTime.tryParse(json['DATE']) ?? DateTime.now(), 
     value: (json['VALUE'] is num) 
         ? (json['VALUE'] as num).toDouble() 
-        : double.tryParse(json['VALUE'] ?? '0.0') ?? 0.0, // Handle String to double
+        : double.tryParse(json['VALUE'] ?? '0.0') ?? 0.0, 
     uid: json['UID'] is int
         ? json['UID'] as int
-        : int.tryParse(json['UID'] ?? '0') ?? 0, // Handle String to int conversion
+        : int.tryParse(json['UID'] ?? '0') ?? 0, 
   );
 }
 

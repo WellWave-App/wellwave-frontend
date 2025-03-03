@@ -51,7 +51,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
 
-        // หากต้องการเก็บ token จาก response จะต้องปรับ repository ให้ส่ง token มาด้วย
         emit(AuthSuccess(message: "Registration successful", statusCode: 201));
         emit(Authenticated());
       } else {
@@ -74,11 +73,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isLoggedIn', true);
 
-        // Store token if available in response
-        final responseData = await authRepository.getLoginResponse();
-        if (responseData != null && responseData['token'] != null) {
-          await _secureStorage.write(
-              key: _tokenKey, value: responseData['token']);
+        final responseData = authRepository.getLoginResponse();
+        if (responseData != null &&
+            responseData['accessToken'] != null &&
+            responseData['user'] != null) {
+          final token = responseData['accessToken'];
+          final uid = responseData['user']['UID'].toString();
+
+          await _secureStorage.write(key: _tokenKey, value: token);
+          await _secureStorage.write(key: 'user_uid', value: uid);
+
+          debugPrint('Token saved: $token');
+          debugPrint('User UID saved: $uid');
+        } else {
+          debugPrint('No token or user data found in response');
         }
 
         emit(AuthSuccess(message: "Login successful", statusCode: 201));
@@ -98,6 +106,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final prefs = await SharedPreferences.getInstance();
     final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
+    debugPrint('Token from Secure Storage: $token');
+    debugPrint('isLoggedIn from SharedPreferences: $isLoggedIn');
+
     if (isLoggedIn && token != null) {
       emit(Authenticated());
     } else {
@@ -109,8 +120,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
     await _secureStorage.delete(key: _tokenKey);
+    await _secureStorage.delete(key: 'user_uid');
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', false);
+    debugPrint(('User logged out, all data cleared.'));
     emit(Unauthenticated());
   }
 }

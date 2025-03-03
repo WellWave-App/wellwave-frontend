@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/logs/presentation/logs_bloc/logs_bloc.dart';
+import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/logs_history_card.dart';
 
 class DailyLogsWidget extends StatelessWidget {
@@ -36,20 +36,24 @@ class DailyLogsWidget extends StatelessWidget {
           BlocBuilder<LogsBloc, LogsState>(
             builder: (context, state) {
               if (state is LogsLoadInProgress) {
-                debugPrint('daily log widget');
+                // debugPrint('daily log widget');
 
                 return const Center(child: CircularProgressIndicator());
               } else if (state is LogsLoadSuccess) {
-                debugPrint(
-                    'Received LogsLoadDailySuccess with ${state.logslist.length} logs');
+                // debugPrint(
+                // 'Received LogsLoadDailySuccess with ${state.logslist.length} logs');
                 double? selectedSleepHours;
                 double? selectedDrinkLogs;
+                double? stepCount;
 
                 for (var log in state.logslist) {
-                  if (log?.logName == 'SLEEP_LOG') {
+                  if (log?.logName == AppStrings.sleepLogText) {
                     selectedSleepHours = log?.value;
-                  } else if (log?.logName == 'DRINK_LOG') {
+                  } else if (log?.logName == AppStrings.drinkLogText) {
                     selectedDrinkLogs = log?.value;
+                  }
+                  if (log?.logName == AppStrings.stepLogText) {
+                    stepCount = log?.value;
                   }
                 }
 
@@ -89,7 +93,28 @@ class DailyLogsWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                    if (selectedSleepHours == null && selectedDrinkLogs == null)
+                    const SizedBox(height: 8.0),
+                    if (stepCount != null)
+                      Row(
+                        children: [
+                          LogsHistoryCard(
+                            svgPath: AppImages.stepCountImage,
+                            title: AppStrings.stepWalkText,
+                            isShow: true,
+                            value: stepCount,
+                            lastWeekValue: 0,
+                            unit: AppStrings.stepText,
+                            isSvg: true,
+                            svgWidth: 64,
+                            svgHeight: 64,
+                            isOpposite: true,
+                            isDecimal: false,
+                          ),
+                        ],
+                      ),
+                    if (selectedSleepHours == null &&
+                        selectedDrinkLogs == null &&
+                        stepCount == null)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

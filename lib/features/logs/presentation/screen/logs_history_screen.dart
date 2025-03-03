@@ -14,21 +14,20 @@ class LogsHistoryScreen extends StatefulWidget {
 
 class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
   DateTime _selectedDate = DateTime.now();
-  DateTime _selectedDateWeek = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
+          backgroundColor: AppColors.primaryColor,
           title: Text(
-        AppStrings.healthHistoryText,
-        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: AppColors.whiteColor,
-              fontWeight: FontWeight.bold,
-            ),
-      )),
+            AppStrings.healthHistoryText,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: AppColors.whiteColor,
+                  fontWeight: FontWeight.bold,
+                ),
+          )),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -43,12 +42,11 @@ class _LogsHistoryScreenState extends State<LogsHistoryScreen> {
               onDateSelected: (date) {
                 setState(() {
                   _selectedDate = date;
-                  _selectedDateWeek = date;
                 });
               },
             ),
             DailyLogsWidget(selectedDate: _selectedDate),
-            WeeklyLogsWidget(selectedDate: _selectedDateWeek),
+            WeeklyLogsWidget(selectedDate: _selectedDate),
           ],
         ),
       ),
