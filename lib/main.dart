@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
+import 'package:wellwave_frontend/features/article/data/repositories/article_repository.dart';
+import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
 import 'package:wellwave_frontend/features/leaderboard/data/repositories/leaderboard_repositories.dart';
 import 'package:wellwave_frontend/features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
@@ -55,6 +57,9 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<LoginStreakRepository>(
           create: (context) => LoginStreakRepository(),
         ),
+        RepositoryProvider<ArticleRepository>(
+          create: (context) => ArticleRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -86,6 +91,11 @@ class MainApp extends StatelessWidget {
                 archeivementRepositories: ArcheivementRepositories()),
             lazy: false,
           ),
+          BlocProvider(
+            create: (context) => ArticleBloc(
+              ArticleRepository(),
+            ), // ✅ ใช้ BlocProvider ที่นี่
+          ),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(
               profileRepository: ProfileRepositories(),
@@ -99,6 +109,7 @@ class MainApp extends StatelessWidget {
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(authRepository: authRepository),
           ),
+
           // BlocProvider<FriendBloc>(
           //   create: (context) => FriendBloc(
           //       profileRepositories: context.read<ProfileRepositories>()),

@@ -27,8 +27,18 @@ class ArticleRepository {
     final response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((json) => ArticleModel.fromJson(json)).toList();
+      print("Raw Response: ${response.body}"); // 🔍 Debug JSON
+
+      final Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+      // ✅ เช็คให้ถูกต้องว่า API ส่ง `data` ไม่ใช่ `articles`
+      if (!jsonResponse.containsKey('data')) {
+        throw Exception("API response does not contain 'data'");
+      }
+
+      List<dynamic> articlesJson = jsonResponse['data'];
+
+      return articlesJson.map((json) => ArticleModel.fromJson(json)).toList();
     } else {
       throw Exception("Failed to load articles");
     }

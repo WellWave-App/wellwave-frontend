@@ -35,7 +35,8 @@ class CheckInWidget extends StatelessWidget {
         loginStats.checkInStats.where((stat) => stat.isLogin).length;
 
     // Check if user can check in today
-    final lastLoginDate = DateTime.parse(overallStats.lastLoginDate);
+    final lastLoginDate = DateTime.parse(
+        overallStats.lastLoginDate ?? DateTime.now().toIso8601String());
     final today = DateTime.now();
     final canCheckInToday = lastLoginDate.year != today.year ||
         lastLoginDate.month != today.month ||

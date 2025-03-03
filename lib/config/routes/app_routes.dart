@@ -37,7 +37,7 @@ final GoRouter goRouter = GoRouter(
   routes: [
     GoRoute(
       path: AppPages.splashPath,
-      name: AppPages.splashPath,
+      name: AppPages.splashName,
       pageBuilder: (BuildContext context, GoRouterState state) {
         return const NoTransitionPage(child: SplashScreen());
       },
@@ -208,13 +208,14 @@ final GoRouter goRouter = GoRouter(
                   pageBuilder: (BuildContext context, GoRouterState state) {
                     return const NoTransitionPage(child: ArticleDetailScreen());
                   })
-            ]),GoRoute(
-          path: AppPages.articlePage,
-          name: AppPages.articleName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const ArticleScreen());
-          },
-        ),
+            ]),
+        // GoRoute(
+        //   path: AppPages.articlePage,
+        //   name: AppPages.articleName,
+        //   pageBuilder: (BuildContext context, GoRouterState state) {
+        //     return _buildPageWithNavBar(context, state, const ArticleScreen());
+        //   },
+        // ),
         GoRoute(
           path: AppPages.reassessmentPage,
           name: AppPages.reassessmentName,

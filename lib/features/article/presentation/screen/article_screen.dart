@@ -137,6 +137,7 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
 import '../bloc/article_state.dart';
 
@@ -174,8 +175,33 @@ class _ArticleScreenState extends State<ArticleScreen> {
               itemCount: state.articles.length,
               itemBuilder: (context, index) {
                 final article = state.articles[index];
-                return ListTile(
-                  title: Text(article.topic),
+                return Container(
+                  margin: EdgeInsets.symmetric(
+                      vertical: 8, horizontal: 12), // ✅ เพิ่มช่องว่างรอบๆ
+                  decoration: BoxDecoration(
+                    color: AppColors.gradientBlueColor,
+                    borderRadius: BorderRadius.circular(10), // ✅ ทำมุมโค้ง
+                    border: Border.all(
+                        color: Colors.grey.shade300, width: 1), // ✅ ใส่เส้นขอบ
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 5,
+                        spreadRadius: 2,
+                        offset: Offset(2, 2),
+                      ),
+                    ], // ✅ ใส่เงาให้ดูมีมิติ
+                  ),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8), // ✅ เพิ่มระยะห่างใน ListTile
+                    title: Text(
+                      article.topic,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 );
               },
             );

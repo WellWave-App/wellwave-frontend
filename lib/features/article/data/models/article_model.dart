@@ -58,7 +58,6 @@
 //   }
 // }
 
-
 class DiseaseModel {
   final int diseaseId;
   final String thName;
@@ -108,13 +107,16 @@ class ArticleModel {
       topic: json['TOPIC'],
       body: json['BODY'],
       estimatedReadTime: json['ESTIMATED_READ_TIME'],
-      author: json['AUTHOR'],
+      author: json['AUTHOR'], // อนุญาตให้เป็น null ได้อยู่แล้ว
       thumbnailUrl: json['THUMBNAIL_URL'],
       viewCount: json['VIEW_COUNT'],
       publishDate: DateTime.parse(json['PUBLISH_DATE']),
-      diseases: (json['diseases'] as List)
-          .map((d) => DiseaseModel.fromJson(d))
-          .toList(),
+
+      // ✅ ป้องกัน null โดยใช้ ?? []
+      diseases: (json['diseases'] as List?)
+              ?.map((d) => DiseaseModel.fromJson(d))
+              .toList() ??
+          [],
     );
   }
 }
