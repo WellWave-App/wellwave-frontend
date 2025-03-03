@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
 import 'package:flutter/foundation.dart';
@@ -13,15 +14,12 @@ class HealthAssessmentRepository {
   HealthAssessmentRepository();
 
   final _secureStorage = const FlutterSecureStorage();
-
+  final _tokenKey = 'access_token';
   Future<bool> sendHealthAssessmentPersonalData(
       HealthAssessmentPersonalDataRequestModel model) async {
-    final token = await _secureStorage.read(key: 'access_token'); // ดึง token
-    final userID = await _secureStorage.read(key: 'user_uid');
-    if (token == null) {
-      throw Exception("No access token found");
-    }
-    final url = Uri.parse('$baseUrl/users/$userID');
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
+    final url = Uri.parse('$baseUrl/users/$uid');
     final body = jsonEncode(model.toJson());
 
     debugPrint('Sending request to $url');
@@ -38,8 +36,6 @@ class HealthAssessmentRepository {
       );
 
       if (response.statusCode == 200) {
-        // final responseData = jsonDecode(response.body);
-        // userID = responseData['UID'].toString();
         debugPrint('Success: ${response.body}');
         return true;
       } else {
@@ -54,9 +50,9 @@ class HealthAssessmentRepository {
 
   Future<bool> sendHealthAssessmentHealthData(
       HealthAssessmentHealthDataRequestModel model) async {
-    final userID = await _secureStorage.read(key: 'user_uid');
-
-    final url = Uri.parse('$baseUrl/risk-assessment/$userID');
+    final token = await _secureStorage.read(key: _tokenKey);
+    final uid = await _secureStorage.read(key: 'user_uid');
+    final url = Uri.parse('$baseUrl/risk-assessment/$uid');
     final body = jsonEncode(model.toJson());
 
     debugPrint('Sending POST request to: $url');
@@ -67,6 +63,7 @@ class HealthAssessmentRepository {
         url,
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
         },
         body: body,
       );

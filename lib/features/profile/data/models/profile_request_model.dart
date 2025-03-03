@@ -13,6 +13,7 @@ class ProfileRequestModel {
   final UserLeague? userLeague;
   final LogInStats? loginStats;
   final WeeklyGoal? weeklyGoal;
+  final DateTime? createAt;
 
   ProfileRequestModel({
     required this.uid,
@@ -29,6 +30,7 @@ class ProfileRequestModel {
     this.stepPerWeek,
     this.exercisePerWeek,
     this.weeklyGoal,
+    this.createAt,
   });
 
   ProfileRequestModel copyWith(
@@ -41,19 +43,22 @@ class ProfileRequestModel {
       int? userGoal,
       String? email,
       int? stepPerWeek,
-      int? exercisePerWeek}) {
+      int? exercisePerWeek,
+      DateTime? createAt}) {
     return ProfileRequestModel(
-        imageUrl: imageUrl ?? this.imageUrl,
-        username: username ?? this.username,
-        yearOfBirth: yearOfBirth ?? this.yearOfBirth,
-        gender: gender ?? this.gender,
-        height: height ?? this.height,
-        weight: weight ?? this.weight,
-        uid: uid,
-        exp: exp,
-        gem: gem,
-        stepPerWeek: stepPerWeek,
-        exercisePerWeek: exercisePerWeek);
+      imageUrl: imageUrl ?? this.imageUrl,
+      username: username ?? this.username,
+      yearOfBirth: yearOfBirth ?? this.yearOfBirth,
+      gender: gender ?? this.gender,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      uid: uid,
+      exp: exp,
+      gem: gem,
+      stepPerWeek: stepPerWeek,
+      exercisePerWeek: exercisePerWeek,
+      createAt: createAt,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -68,7 +73,8 @@ class ProfileRequestModel {
       'EXP': exp,
       'GEM': gem,
       'USER_GOAL_STEP_WEEK': stepPerWeek,
-      'USER_GOAL_EX_TIME_WEEK': exercisePerWeek
+      'USER_GOAL_EX_TIME_WEEK': exercisePerWeek,
+      'CREATE_AT': createAt,
     };
   }
 
@@ -94,6 +100,9 @@ class ProfileRequestModel {
       weeklyGoal: json['weeklyGoal'] != null
           ? WeeklyGoal.fromJson(json['weeklyGoal'])
           : null,
+      createAt: json['userInfo']['createAt'] != null
+          ? DateTime.parse(json['userInfo']['createAt'])
+          : null,
     );
   }
 
@@ -109,7 +118,7 @@ class ProfileRequestModel {
       'EXP': exp,
       'GEM': gem,
       'USER_GOAL_STEP_WEEK': stepPerWeek,
-      'USER_GOAL_EX_TIME_WEEK': exercisePerWeek
+      'USER_GOAL_EX_TIME_WEEK': exercisePerWeek,
     };
   }
 }
@@ -274,16 +283,16 @@ class CheckInStats {
 
 class OverAllStats {
   final int uid;
-  final String streakStartDate;
-  final String lastLoginDate;
+  final String? streakStartDate;
+  final String? lastLoginDate;
   final int currentStreak;
   final int longestStreak;
   final int totalPointsEarned;
 
   OverAllStats({
     required this.uid,
-    required this.streakStartDate,
-    required this.lastLoginDate,
+    this.streakStartDate,
+    this.lastLoginDate,
     required this.currentStreak,
     required this.longestStreak,
     required this.totalPointsEarned,

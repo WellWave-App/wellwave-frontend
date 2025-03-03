@@ -92,7 +92,6 @@ class LogsBloc extends Bloc<LogsEvent, LogsState> {
     if (uid == null) {
       throw Exception("No access uid found");
     }
-
     try {
       String formattedDate =
           DateFormat('yyyy-MM-dd').format(DateTime.parse(selectedDate));
