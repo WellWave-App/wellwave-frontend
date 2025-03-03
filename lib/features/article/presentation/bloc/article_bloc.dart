@@ -1,6 +1,7 @@
 // article_bloc.dart
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
 import '../../data/models/article_model.dart';
@@ -21,6 +22,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
         emit(ArticleLoaded(articles)); // ส่งข้อมูลเมื่อโหลดสำเร็จ
       } catch (e) {
         emit(ArticleError("ไม่สามารถโหลดข้อมูลได้: ${e.toString()}"));
+        debugPrint("ไม่สามารถโหลดข้อมูลได้: ${e.toString()}");
       }
     });
   }

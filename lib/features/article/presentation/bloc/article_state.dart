@@ -2,7 +2,6 @@
 
 import 'package:wellwave_frontend/features/article/data/models/article_model.dart';
 
-
 abstract class ArticleState {}
 
 class ArticleInitial extends ArticleState {}
@@ -10,7 +9,7 @@ class ArticleInitial extends ArticleState {}
 class ArticleLoading extends ArticleState {}
 
 class ArticleLoaded extends ArticleState {
-  final List<Article> articles;
+  final List<ArticleModel> articles;
 
   ArticleLoaded(this.articles);
 }
