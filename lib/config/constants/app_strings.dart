@@ -262,4 +262,5 @@ class AppStrings {
   //exchange
   static const randomBoxText = 'กล่องสุ่ม';
   static const exchangeItemText = 'แลกไอเทม';
+  static const myItemText = 'ไอเทมของฉัน';
 }
