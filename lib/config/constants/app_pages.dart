@@ -28,6 +28,7 @@ class AppPages {
   static const String registerSuccessPage = 'registerSuccess';
   static const String forgotPasswordPage = 'forgotPassword';
   static const String exchangePage = 'exchange';
+  static const String myItemPage = 'myItem';
 
   // Name of the route
   static const String splashName = 'splash';
@@ -59,4 +60,5 @@ class AppPages {
   static const String registerSuccessName = 'registerSuccess';
   static const String forgetPasswordName = 'forgotPassword';
   static const String exchangeName = 'exchange';
+  static const String myItemName = 'myItem';
 }

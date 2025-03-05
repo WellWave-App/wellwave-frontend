@@ -263,4 +263,6 @@ class AppStrings {
   static const randomBoxText = 'กล่องสุ่ม';
   static const exchangeItemText = 'แลกไอเทม';
   static const myItemText = 'ไอเทมของฉัน';
+  static const activeText = 'ไอเทมที่กำลังใช้งาน';
+  static const myAllItemText = 'ไอเทมทั้งหมด';
 }

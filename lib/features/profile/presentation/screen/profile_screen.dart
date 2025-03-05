@@ -132,6 +132,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               : 0,
                           stepAmount: totalSteps.toInt(),
                         ),
+
+                        //achievement
                         const SizedBox(height: 24),
                         const AchievementCard(),
                         const SizedBox(height: 24),

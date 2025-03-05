@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path/path.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_bloc.dart';
 import 'package:wellwave_frontend/features/exchange/presentation/widget/exchange_item_component.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_bloc.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_event.dart';
@@ -85,18 +83,14 @@ class ExchangeScreen extends StatelessWidget {
                           WidgetStateProperty.all<Color>(Colors.grey),
                     ),
                     onPressed: () {
-                      context.goNamed(AppPages.logHistoryName);
+                      context.goNamed(AppPages.myItemName);
                     },
                     child: Text(
                       AppStrings.myItemText,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        shadows: [
-                          const Shadow(
-                              color: Colors.transparent, offset: Offset(0, 5))
-                        ],
-                        color: AppColors.greyColor,
-                        decoration: TextDecoration.underline,
-                      ),
+                            color: AppColors.greyColor,
+                            decoration: TextDecoration.underline,
+                          ),
                     ),
                   )
                 ],
