@@ -90,7 +90,7 @@ class ExchangeRepositories {
     }
   }
 
-  Future<bool> openMysteryBox({
+  Future<Object> openMysteryBox({
     required String boxName,
   }) async {
     final token = await _secureStorage.read(key: 'access_token');
@@ -108,7 +108,34 @@ class ExchangeRepositories {
       );
 
       if (response.statusCode == 201) {
-        return true;
+        return jsonDecode(response.body) as Map<String, dynamic>;
+      }
+      return false;
+    } catch (e) {
+      debugPrint('Error: $e');
+      return false;
+    }
+  }
+
+  Future<Object> activeItem({
+    required int userItemId,
+  }) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/users/active-item/$userItemId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 201) {
+        return jsonDecode(response.body) as Map<String, dynamic>;
       }
       return false;
     } catch (e) {

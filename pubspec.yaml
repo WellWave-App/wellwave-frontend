@@ -81,6 +81,7 @@ flutter:
     - assets/icons/health_assessment/bg/
     - assets/icons/league/
     - assets/icons/logs_Icons/
+    - assets/icons/shop/
     
 
   fonts:

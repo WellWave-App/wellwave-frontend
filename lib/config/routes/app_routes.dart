@@ -126,7 +126,7 @@ final GoRouter goRouter = GoRouter(
                           pageBuilder:
                               (BuildContext context, GoRouterState state) {
                             return const NoTransitionPage(
-                                child: const MyItemScreen());
+                                child: MyItemScreen());
                           },
                         ),
                       ],

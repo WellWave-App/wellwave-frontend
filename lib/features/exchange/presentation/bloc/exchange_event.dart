@@ -11,3 +11,9 @@ class BuyItemEvent extends ExchangeEvent {
 class OpenMysteryBoxEvent extends ExchangeEvent {
   OpenMysteryBoxEvent();
 }
+
+class ActiveItemEvent extends ExchangeEvent {
+  final int userItemId;
+
+  ActiveItemEvent(this.userItemId);
+}

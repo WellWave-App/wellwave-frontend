@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../common/widget/app_bar.dart';

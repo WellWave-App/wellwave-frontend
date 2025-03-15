@@ -31,3 +31,12 @@ class ExchangeError extends ExchangeState {
 
   const ExchangeError(this.errorMessage) : super();
 }
+
+class ExchangeOpened extends ExchangeState {
+  final String itemName;
+  final String description;
+  final String itemType;
+  final int userItemId;
+  const ExchangeOpened(
+      this.itemName, this.description, this.itemType, this.userItemId);
+}

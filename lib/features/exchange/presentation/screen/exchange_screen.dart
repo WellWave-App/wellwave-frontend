@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_bloc.dart';
+import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_state.dart';
 import 'package:wellwave_frontend/features/exchange/presentation/widget/exchange_item_component.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_bloc.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_event.dart';
@@ -12,6 +14,8 @@ import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_blo
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_pages.dart';
 import '../../../profile/presentation/bloc/profile_bloc/profile_state.dart';
+import '../../../profile/presentation/widget/profile/success_dialog.dart';
+import '../bloc/exchange_event.dart';
 import '../widget/exp_gem_component.dart';
 
 class ExchangeScreen extends StatelessWidget {
@@ -120,7 +124,71 @@ class ExchangeScreen extends StatelessWidget {
                         children: [
                           GestureDetector(
                               onTap: () {
-                                debugPrint("congrats!");
+                                context
+                                    .read<ExchangeBloc>()
+                                    .add(OpenMysteryBoxEvent());
+
+                                Future.delayed(
+                                    const Duration(milliseconds: 100), () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return BlocBuilder<ExchangeBloc,
+                                          ExchangeState>(
+                                        builder: (context, state) {
+                                          if (state is ExchangeLoading) {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          } else if (state is ExchangeOpened) {
+                                            return SuccessDialog(
+                                              title: state.itemName,
+                                              description: state.description,
+                                              iconPath:
+                                                  state.itemType == "exp_boost"
+                                                      ? AppImages.boostIcon
+                                                      : AppImages.gemIcon,
+                                              onClose: () {
+                                                if (state.itemType ==
+                                                    "gem_exchange") {
+                                                  context
+                                                      .read<ExchangeBloc>()
+                                                      .add(ActiveItemEvent(
+                                                          state.userItemId));
+                                                }
+
+                                                context
+                                                    .read<ProfileBloc>()
+                                                    .add(FetchUserProfile());
+                                                Navigator.of(context).pop();
+                                              },
+                                            );
+                                          } else if (state is ExchangeError) {
+                                            return Center(
+                                                child:
+                                                    Text(state.errorMessage));
+                                          } else {
+                                            // Check what state we're actually in
+                                            debugPrint(
+                                                "Current state: ${state.runtimeType}");
+                                            return AlertDialog(
+                                              title: const Text("Loading Box"),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const CircularProgressIndicator(),
+                                                  const SizedBox(height: 20),
+                                                  Text(
+                                                      "Current state: ${state.runtimeType}")
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      );
+                                    },
+                                  );
+                                });
                               },
                               child: SvgPicture.asset(AppImages.giftSvg))
                         ],
