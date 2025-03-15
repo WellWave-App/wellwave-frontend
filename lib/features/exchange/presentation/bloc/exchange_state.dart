@@ -14,16 +14,18 @@ class ExchangeLoading extends ExchangeState {
 
 class ExchangeLoaded extends ExchangeState {
   final ExchangeRequestModels userExchange;
+  final String? itemName;
+  final String? description;
+  final String? itemType;
+  final int? userItemId;
 
-  const ExchangeLoaded(this.userExchange) : super();
-
-  ExchangeLoaded copyWith({
-    ExchangeRequestModels? userExchange,
-  }) {
-    return ExchangeLoaded(
-      userExchange ?? this.userExchange,
-    );
-  }
+  const ExchangeLoaded(
+    this.userExchange, {
+    this.itemName,
+    this.description,
+    this.itemType,
+    this.userItemId,
+  }) : super();
 }
 
 class ExchangeError extends ExchangeState {
@@ -32,11 +34,11 @@ class ExchangeError extends ExchangeState {
   const ExchangeError(this.errorMessage) : super();
 }
 
-class ExchangeOpened extends ExchangeState {
-  final String itemName;
-  final String description;
-  final String itemType;
-  final int userItemId;
-  const ExchangeOpened(
-      this.itemName, this.description, this.itemType, this.userItemId);
-}
+// class ExchangeOpened extends ExchangeState {
+//   final String itemName;
+//   final String description;
+//   final String itemType;
+//   final int userItemId;
+//   const ExchangeOpened(
+//       this.itemName, this.description, this.itemType, this.userItemId);
+// }

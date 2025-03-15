@@ -28,6 +28,7 @@ class ExchangeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ProfileBloc>(context).add(FetchUserProfile());
+    BlocProvider.of<ExchangeBloc>(context).add(FetchAllItemEvent());
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -140,7 +141,7 @@ class ExchangeScreen extends StatelessWidget {
                                             return const Center(
                                                 child:
                                                     CircularProgressIndicator());
-                                          } else if (state is ExchangeOpened) {
+                                          } else if (state is ExchangeLoaded) {
                                             return SuccessDialog(
                                               title: state.itemName,
                                               description: state.description,
@@ -154,9 +155,11 @@ class ExchangeScreen extends StatelessWidget {
                                                   context
                                                       .read<ExchangeBloc>()
                                                       .add(ActiveItemEvent(
-                                                          state.userItemId));
+                                                          state.userItemId!));
                                                 }
-
+                                                context
+                                                    .read<ExchangeBloc>()
+                                                    .add(FetchAllItemEvent());
                                                 context
                                                     .read<ProfileBloc>()
                                                     .add(FetchUserProfile());
@@ -214,48 +217,48 @@ class ExchangeScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 32),
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 16,
-                    alignment: WrapAlignment.spaceBetween,
-                    children: [
-                      ExchangeItemComponent(
-                        itemImagePath: AppImages.gemSvg,
-                        requiredImagePath: AppImages.expCoinSvg,
-                        itemValue: 15,
-                        requiredValue: 1200,
-                        onButtonClick: () {
-                          debugPrint("Blue button clicked!");
-                        },
-                      ),
-                      ExchangeItemComponent(
-                        itemImagePath: AppImages.gemSvg,
-                        requiredImagePath: AppImages.expCoinSvg,
-                        itemValue: 20,
-                        requiredValue: 1500,
-                        onButtonClick: () {
-                          debugPrint("Blue button clicked!");
-                        },
-                      ),
-                      ExchangeItemComponent(
-                        itemImagePath: AppImages.gemSvg,
-                        requiredImagePath: AppImages.expCoinSvg,
-                        itemValue: 50,
-                        requiredValue: 4000,
-                        onButtonClick: () {
-                          debugPrint("Blue button clicked!");
-                        },
-                      ),
-                      ExchangeItemComponent(
-                        itemImagePath: AppImages.gemSvg,
-                        requiredImagePath: AppImages.expCoinSvg,
-                        itemValue: 100,
-                        requiredValue: 7500,
-                        onButtonClick: () {
-                          debugPrint("Blue button clicked!");
-                        },
-                      ),
-                    ],
+                  BlocBuilder<ExchangeBloc, ExchangeState>(
+                    builder: (context, state) {
+                      if (state is ExchangeLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state is ExchangeError) {
+                        return Center(child: Text(state.errorMessage));
+                      } else if (state is ExchangeLoaded) {
+                        final exchangeItems =
+                            state.userExchange.items; // Use the list here
+                        return Wrap(
+                          spacing: 16,
+                          runSpacing: 16,
+                          alignment: WrapAlignment.spaceBetween,
+                          children: exchangeItems.map((exchangeItem) {
+                            // Now correctly mapping over a list
+                            return ExchangeItemComponent(
+                              itemImagePath:
+                                  exchangeItem.item.itemType == "exp_boost"
+                                      ? AppImages.boostIcon
+                                      : AppImages.gemIcon,
+                              requiredImagePath:
+                                  exchangeItem.item.itemType == "exp_boost"
+                                      ? AppImages.gemIcon
+                                      : AppImages.expCoinSvg,
+                              itemValue: exchangeItem.item.itemType ==
+                                      "exp_boost"
+                                  ? exchangeItem
+                                      .item.expBooster?.boostMultiplier as int
+                                  : exchangeItem.item.gemExchange?.gemReward ??
+                                      0,
+                              requiredValue: 7500,
+                              onButtonClick: () {
+                                debugPrint("Blue button clicked!");
+                              },
+                            );
+                          }).toList(),
+                        );
+                      } else {
+                        return const Center(
+                            child: Text(AppStrings.noDataAvaliableText));
+                      }
+                    },
                   )
                 ],
               )

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/features/exchange/data/repositories/exchange_repositories.dart';
 import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_state.dart';
 
@@ -39,15 +40,24 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     Emitter<ExchangeState> emit,
   ) async {
     emit(const ExchangeLoading());
+    debugPrint("Fetching all exchange items...");
+
     try {
       final userExchange = await exchangeRepositories.getAllItem();
-      if (userExchange == null) {
-        emit(const ExchangeError('Item not found'));
-      } else {
-        emit(ExchangeLoaded(userExchange));
+
+      debugPrint("UserExchange Data: $userExchange");
+
+      if (userExchange == null || userExchange.items.isEmpty) {
+        debugPrint("No exchange items found.");
+        emit(const ExchangeError('No exchange items found.'));
+        return;
       }
+
+      debugPrint("Fetched \${userExchange.items.length} items.");
+      emit(ExchangeLoaded(userExchange));
     } catch (e) {
-      emit(ExchangeError(e.toString()));
+      debugPrint("Error fetching items: \${e.toString()}");
+      emit(ExchangeError('Error: \${e.toString()}'));
     }
   }
 
@@ -57,7 +67,7 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
   ) async {
     if (state is ExchangeLoaded) {
       final currentState = state as ExchangeLoaded;
-      emit(currentState.copyWith());
+      emit(currentState);
     }
   }
 
@@ -73,19 +83,31 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
         boxName: "main",
       );
 
+      if (result == null) {
+        throw Exception("Failed to open mystery box");
+      }
+
       // Parse the result into the model
       final exchangeRequest =
           ExchangeRequestModels.fromJson(result as Map<String, dynamic>);
 
-      // Extract itemName and description
-      final itemName = exchangeRequest.item.itemName;
-      final description = exchangeRequest.item.description;
-      final itemType = exchangeRequest.item.itemType;
-      final userItemId = exchangeRequest.userItemId;
+      // Extract item details
+      final item = exchangeRequest.items.first.item;
+      final itemName = item.itemName;
+      final description = item.description;
+      final itemType = item.itemType;
+      final userItemId = exchangeRequest.items.first.userItemId;
 
-      emit(ExchangeOpened(itemName, description, itemType, userItemId));
+      // Emit ExchangeLoaded with item details
+      emit(ExchangeLoaded(
+        exchangeRequest,
+        itemName: itemName,
+        description: description,
+        itemType: itemType,
+        userItemId: userItemId,
+      ));
     } catch (e) {
-      emit(ExchangeError('Error: ${e.toString()}'));
+      emit(ExchangeError('Error: \${e.toString()}'));
     }
   }
 
@@ -100,15 +122,29 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
         userItemId: event.userItemId,
       );
 
+      // Parse the response into the updated model
       final exchangeRequest =
           ExchangeRequestModels.fromJson(result as Map<String, dynamic>);
 
-      final userItemId = exchangeRequest.userItemId;
-      final itemName = exchangeRequest.item.itemName;
-      final description = exchangeRequest.item.description;
-      final itemType = exchangeRequest.item.itemType;
+      if (exchangeRequest.items.isNotEmpty) {
+        // Extract item details
+        final item = exchangeRequest.items.first.item;
+        final itemName = item.itemName;
+        final description = item.description;
+        final itemType = item.itemType;
+        final userItemId = exchangeRequest.items.first.userItemId;
 
-      emit(ExchangeOpened(itemName, description, itemType, userItemId));
+        // Emit ExchangeLoaded with item details
+        emit(ExchangeLoaded(
+          exchangeRequest,
+          itemName: itemName,
+          description: description,
+          itemType: itemType,
+          userItemId: userItemId,
+        ));
+      } else {
+        emit(const ExchangeError("No item found for activation"));
+      }
     } catch (e) {
       emit(ExchangeError('Error: ${e.toString()}'));
     }

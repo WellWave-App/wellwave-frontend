@@ -25,7 +25,7 @@ class ArcheivementRepositories {
       );
 
       debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
+      // debugPrint('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
@@ -55,7 +55,7 @@ class ArcheivementRepositories {
       );
 
       debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
+      // debugPrint('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);

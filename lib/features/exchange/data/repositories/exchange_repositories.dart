@@ -54,7 +54,21 @@ class ExchangeRepositories {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        return ExchangeRequestModels.fromJson(jsonData);
+        debugPrint('Decoded JSON: $jsonData');
+
+        if (jsonData is Map<String, dynamic> && jsonData.containsKey("data")) {
+          final List<dynamic> itemsJson = jsonData["data"];
+
+          if (itemsJson.isEmpty) {
+            debugPrint("API returned an empty item list.");
+            return null;
+          }
+
+          debugPrint("Parsed items: ${itemsJson.length}");
+          return ExchangeRequestModels.fromJson({"items": itemsJson});
+        }
+      } else {
+        debugPrint("Error: API returned status code ${response.statusCode}");
       }
       return null;
     } catch (e) {
@@ -90,7 +104,7 @@ class ExchangeRepositories {
     }
   }
 
-  Future<Object> openMysteryBox({
+  Future<Map<String, dynamic>?> openMysteryBox({
     required String boxName,
   }) async {
     final token = await _secureStorage.read(key: 'access_token');
@@ -110,10 +124,10 @@ class ExchangeRepositories {
       if (response.statusCode == 201) {
         return jsonDecode(response.body) as Map<String, dynamic>;
       }
-      return false;
+      return null;
     } catch (e) {
       debugPrint('Error: $e');
-      return false;
+      return null;
     }
   }
 
