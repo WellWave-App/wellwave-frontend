@@ -1,4 +1,4 @@
-import 'package:wellwave_frontend/features/exchange/data/models/exchange_request_models.dart';
+import 'package:wellwave_frontend/features/exchange/data/models/exchange_response_models.dart';
 
 abstract class ExchangeState {
   const ExchangeState();
@@ -13,19 +13,17 @@ class ExchangeLoading extends ExchangeState {
 }
 
 class ExchangeLoaded extends ExchangeState {
-  final ExchangeRequestModels userExchange;
-  final String? itemName;
-  final String? description;
-  final String? itemType;
-  final int? userItemId;
+  final ExchangeResponseModels userExchange;
 
-  const ExchangeLoaded(
-    this.userExchange, {
-    this.itemName,
-    this.description,
-    this.itemType,
-    this.userItemId,
-  }) : super();
+  const ExchangeLoaded(this.userExchange) : super();
+
+  ExchangeLoaded copyWith({
+    ExchangeResponseModels? userExchange,
+  }) {
+    return ExchangeLoaded(
+      userExchange ?? this.userExchange,
+    );
+  }
 }
 
 class ExchangeError extends ExchangeState {
@@ -42,3 +40,19 @@ class ExchangeError extends ExchangeState {
 //   const ExchangeOpened(
 //       this.itemName, this.description, this.itemType, this.userItemId);
 // }
+
+class MysteryBoxLoading extends ExchangeState {
+  const MysteryBoxLoading() : super();
+}
+
+class MysteryBoxOpened extends ExchangeState {
+  final String itemName;
+  final String description;
+  final String itemType;
+  final int userItemId;
+  final ExchangeResponseModels? previousExchangeItems;
+
+  const MysteryBoxOpened(
+      this.itemName, this.description, this.itemType, this.userItemId,
+      {this.previousExchangeItems});
+}

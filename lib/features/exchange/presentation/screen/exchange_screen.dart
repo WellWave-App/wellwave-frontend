@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -133,15 +135,17 @@ class ExchangeScreen extends StatelessWidget {
                                     const Duration(milliseconds: 100), () {
                                   showDialog(
                                     context: context,
+                                    barrierDismissible: false,
                                     builder: (BuildContext context) {
                                       return BlocBuilder<ExchangeBloc,
                                           ExchangeState>(
                                         builder: (context, state) {
-                                          if (state is ExchangeLoading) {
+                                          if (state is MysteryBoxLoading) {
                                             return const Center(
                                                 child:
                                                     CircularProgressIndicator());
-                                          } else if (state is ExchangeLoaded) {
+                                          } else if (state
+                                              is MysteryBoxOpened) {
                                             return SuccessDialog(
                                               title: state.itemName,
                                               description: state.description,
@@ -150,30 +154,52 @@ class ExchangeScreen extends StatelessWidget {
                                                       ? AppImages.boostIcon
                                                       : AppImages.gemIcon,
                                               onClose: () {
-                                                if (state.itemType ==
-                                                    "gem_exchange") {
-                                                  context
-                                                      .read<ExchangeBloc>()
-                                                      .add(ActiveItemEvent(
-                                                          state.userItemId!));
-                                                }
-                                                context
-                                                    .read<ExchangeBloc>()
-                                                    .add(FetchAllItemEvent());
+                                                // Close dialog first
+                                                Navigator.of(context).pop();
+
+                                                // Handle item activation if needed
+                                                // if (state.itemType ==
+                                                //     "gem_exchange") {
+                                                //   context
+                                                //       .read<ExchangeBloc>()
+                                                //       .add(ActiveItemEvent(
+                                                //           state.userItemId));
+                                                // }
+
+                                                // Update profile
                                                 context
                                                     .read<ProfileBloc>()
                                                     .add(FetchUserProfile());
-                                                Navigator.of(context).pop();
+
+                                                // Restore previous exchange state if available
+                                                if (state
+                                                        .previousExchangeItems !=
+                                                    null) {
+                                                  context
+                                                      .read<ExchangeBloc>()
+                                                      .add(FetchAllItemEvent());
+                                                } else {
+                                                  // Fetch if no previous state exists
+                                                  context
+                                                      .read<ExchangeBloc>()
+                                                      .add(FetchAllItemEvent());
+                                                }
                                               },
                                             );
                                           } else if (state is ExchangeError) {
-                                            return Center(
-                                                child:
-                                                    Text(state.errorMessage));
+                                            return AlertDialog(
+                                              title: const Text("Error"),
+                                              content: Text(state.errorMessage),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("OK"),
+                                                ),
+                                              ],
+                                            );
                                           } else {
-                                            // Check what state we're actually in
-                                            debugPrint(
-                                                "Current state: ${state.runtimeType}");
                                             return AlertDialog(
                                               title: const Text("Loading Box"),
                                               content: Column(
@@ -217,6 +243,7 @@ class ExchangeScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 32),
+                  // In your UI file, modify the BlocBuilder for exchange items
                   BlocBuilder<ExchangeBloc, ExchangeState>(
                     builder: (context, state) {
                       if (state is ExchangeLoading) {
@@ -224,14 +251,38 @@ class ExchangeScreen extends StatelessWidget {
                       } else if (state is ExchangeError) {
                         return Center(child: Text(state.errorMessage));
                       } else if (state is ExchangeLoaded) {
-                        final exchangeItems =
-                            state.userExchange.items; // Use the list here
+                        final exchangeItems = state.userExchange.items;
+
+                        // Debug each item thoroughly
+                        // for (int i = 0; i < exchangeItems.length; i++) {
+                        //   final item = exchangeItems[i].item;
+                        //   debugPrint("Item $i - ITEM_TYPE: '${item.itemType}'");
+                        //   debugPrint(
+                        //       "Item $i - ExpBooster: ${item.expBooster}");
+                        //   if (item.expBooster != null) {
+                        //     debugPrint(
+                        //         "Item $i - Multiplier: ${item.expBooster!.boostMultiplier}");
+                        //   }
+                        //   debugPrint(
+                        //       "Item $i - GemExchange: ${item.gemExchange}");
+                        //   if (item.gemExchange != null) {
+                        //     debugPrint(
+                        //         "Item $i - Gem reward: ${item.gemExchange!.gemReward}");
+                        //   }
+                        // }
+
                         return Wrap(
                           spacing: 16,
                           runSpacing: 16,
                           alignment: WrapAlignment.spaceBetween,
                           children: exchangeItems.map((exchangeItem) {
-                            // Now correctly mapping over a list
+                            debugPrint(
+                                "Parsed ItemType: ${exchangeItem.item.itemType}");
+                            debugPrint(
+                                "Parsed ExpBooster: ${exchangeItem.item.expBooster?.boostMultiplier}");
+                            debugPrint(
+                                "Parsed GemExchange: ${exchangeItem.item.gemExchange?.gemReward}");
+
                             return ExchangeItemComponent(
                               itemImagePath:
                                   exchangeItem.item.itemType == "exp_boost"
@@ -243,10 +294,55 @@ class ExchangeScreen extends StatelessWidget {
                                       : AppImages.expCoinSvg,
                               itemValue: exchangeItem.item.itemType ==
                                       "exp_boost"
-                                  ? exchangeItem
-                                      .item.expBooster?.boostMultiplier as int
-                                  : exchangeItem.item.gemExchange?.gemReward ??
-                                      0,
+                                  ? (exchangeItem.item.expBooster
+                                              ?.boostMultiplier ??
+                                          0.0)
+                                      .toDouble()
+                                  : (exchangeItem.item.gemExchange?.gemReward ??
+                                          0)
+                                      .toDouble(),
+                              dayBoost:
+                                  exchangeItem.item.itemType == "exp_boost"
+                                      ? exchangeItem.item.expBooster?.boostDays
+                                      : null,
+                              requiredValue:
+                                  exchangeItem.item.itemType == "exp_boost"
+                                      ? exchangeItem.item.priceGem
+                                      : exchangeItem.item.priceExp,
+                              onButtonClick: () {
+                                debugPrint("Blue button clicked!");
+                              },
+                            );
+                          }).toList(),
+                        );
+                      } else if (state is MysteryBoxOpened &&
+                          state.previousExchangeItems != null) {
+                        // Important: show the previous exchange items during mystery box dialog
+                        final exchangeItems =
+                            state.previousExchangeItems!.items;
+                        return Wrap(
+                          spacing: 16,
+                          runSpacing: 16,
+                          alignment: WrapAlignment.spaceBetween,
+                          children: exchangeItems.map((exchangeItem) {
+                            return ExchangeItemComponent(
+                              itemImagePath:
+                                  exchangeItem.item.itemType == "exp_boost"
+                                      ? AppImages.boostIcon
+                                      : AppImages.gemIcon,
+                              requiredImagePath:
+                                  exchangeItem.item.itemType == "exp_boost"
+                                      ? AppImages.gemIcon
+                                      : AppImages.expCoinSvg,
+                              itemValue: exchangeItem.item.itemType ==
+                                      "exp_boost"
+                                  ? (exchangeItem.item.expBooster
+                                              ?.boostMultiplier ??
+                                          0.0)
+                                      .toDouble()
+                                  : (exchangeItem.item.gemExchange?.gemReward ??
+                                          0)
+                                      .toDouble(),
                               requiredValue: 7500,
                               onButtonClick: () {
                                 debugPrint("Blue button clicked!");

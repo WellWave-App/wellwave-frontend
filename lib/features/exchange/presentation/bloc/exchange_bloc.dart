@@ -4,6 +4,7 @@ import 'package:wellwave_frontend/features/exchange/data/repositories/exchange_r
 import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_state.dart';
 
 import '../../data/models/exchange_request_models.dart';
+import '../../data/models/exchange_response_models.dart';
 import 'exchange_event.dart';
 
 class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
@@ -16,6 +17,7 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     on<BuyItemEvent>(_onBuyItem);
     on<OpenMysteryBoxEvent>(_onOpenMysteryBox);
     on<ActiveItemEvent>(_onActiveItem);
+    on<RestoreExchangeItemsEvent>(_onRestoreExchangeItems);
   }
 
   Future<void> _onFetchUserItem(
@@ -57,7 +59,7 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
       emit(ExchangeLoaded(userExchange));
     } catch (e) {
       debugPrint("Error fetching items: \${e.toString()}");
-      emit(ExchangeError('Error: \${e.toString()}'));
+      emit(const ExchangeError('Error: \${e.toString()}'));
     }
   }
 
@@ -75,39 +77,38 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     OpenMysteryBoxEvent event,
     Emitter<ExchangeState> emit,
   ) async {
-    emit(const ExchangeLoading());
+    // Capture current exchange items if available
+    ExchangeResponseModels? currentItems;
+    if (state is ExchangeLoaded) {
+      currentItems = (state as ExchangeLoaded).userExchange;
+    }
+
+    // We'll use a different state specifically for mystery box loading
+    emit(const MysteryBoxLoading());
 
     try {
-      // Fetch the mystery box content
       final result = await exchangeRepositories.openMysteryBox(
         boxName: "main",
       );
 
-      if (result == null) {
-        throw Exception("Failed to open mystery box");
-      }
-
-      // Parse the result into the model
       final exchangeRequest =
           ExchangeRequestModels.fromJson(result as Map<String, dynamic>);
 
-      // Extract item details
-      final item = exchangeRequest.items.first.item;
-      final itemName = item.itemName;
-      final description = item.description;
-      final itemType = item.itemType;
-      final userItemId = exchangeRequest.items.first.userItemId;
+      final itemName = exchangeRequest.item.itemName;
+      final description = exchangeRequest.item.description;
+      final itemType = exchangeRequest.item.itemType;
+      final userItemId = exchangeRequest.userItemId;
 
-      // Emit ExchangeLoaded with item details
-      emit(ExchangeLoaded(
-        exchangeRequest,
-        itemName: itemName,
-        description: description,
-        itemType: itemType,
-        userItemId: userItemId,
-      ));
+      // Include the current items in the MysteryBoxOpened state
+      emit(MysteryBoxOpened(itemName, description, itemType, userItemId,
+          previousExchangeItems: currentItems));
     } catch (e) {
-      emit(ExchangeError('Error: \${e.toString()}'));
+      // If error, restore previous exchange items if available
+      if (currentItems != null) {
+        emit(ExchangeLoaded(currentItems));
+      } else {
+        emit(const ExchangeError('Error opening mystery box'));
+      }
     }
   }
 
@@ -115,38 +116,31 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     ActiveItemEvent event,
     Emitter<ExchangeState> emit,
   ) async {
-    emit(const ExchangeLoading());
+    emit(const MysteryBoxLoading());
 
     try {
       final result = await exchangeRepositories.activeItem(
         userItemId: event.userItemId,
       );
 
-      // Parse the response into the updated model
       final exchangeRequest =
           ExchangeRequestModels.fromJson(result as Map<String, dynamic>);
 
-      if (exchangeRequest.items.isNotEmpty) {
-        // Extract item details
-        final item = exchangeRequest.items.first.item;
-        final itemName = item.itemName;
-        final description = item.description;
-        final itemType = item.itemType;
-        final userItemId = exchangeRequest.items.first.userItemId;
+      final userItemId = exchangeRequest.userItemId;
+      final itemName = exchangeRequest.item.itemName;
+      final description = exchangeRequest.item.description;
+      final itemType = exchangeRequest.item.itemType;
 
-        // Emit ExchangeLoaded with item details
-        emit(ExchangeLoaded(
-          exchangeRequest,
-          itemName: itemName,
-          description: description,
-          itemType: itemType,
-          userItemId: userItemId,
-        ));
-      } else {
-        emit(const ExchangeError("No item found for activation"));
-      }
+      emit(MysteryBoxOpened(itemName, description, itemType, userItemId));
     } catch (e) {
       emit(ExchangeError('Error: ${e.toString()}'));
     }
+  }
+
+  void _onRestoreExchangeItems(
+    RestoreExchangeItemsEvent event,
+    Emitter<ExchangeState> emit,
+  ) {
+    emit(ExchangeLoaded(event.items));
   }
 }

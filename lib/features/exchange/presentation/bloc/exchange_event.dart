@@ -1,3 +1,5 @@
+import '../../data/models/exchange_response_models.dart';
+
 abstract class ExchangeEvent {}
 
 class FetchUserItemEvent extends ExchangeEvent {}
@@ -16,4 +18,10 @@ class ActiveItemEvent extends ExchangeEvent {
   final int userItemId;
 
   ActiveItemEvent(this.userItemId);
+}
+
+class RestoreExchangeItemsEvent extends ExchangeEvent {
+  final ExchangeResponseModels items;
+
+  RestoreExchangeItemsEvent(this.items);
 }

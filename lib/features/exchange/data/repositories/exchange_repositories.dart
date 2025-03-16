@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:wellwave_frontend/features/exchange/data/models/exchange_request_models.dart';
+import 'package:wellwave_frontend/features/exchange/data/models/exchange_response_models.dart';
 import 'package:http/http.dart' as http;
 import '../../../../config/constants/app_url.dart';
 
 class ExchangeRepositories {
   final _secureStorage = const FlutterSecureStorage();
 
-  Future<ExchangeRequestModels?> getUserItem() async {
+  Future<ExchangeResponseModels?> getUserItem() async {
     final token = await _secureStorage.read(key: 'access_token');
     if (token == null) {
       throw Exception("No access token found");
@@ -27,7 +27,7 @@ class ExchangeRepositories {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        return ExchangeRequestModels.fromJson(jsonData);
+        return ExchangeResponseModels.fromJson(jsonData);
       }
       return null;
     } catch (e) {
@@ -36,7 +36,7 @@ class ExchangeRepositories {
     }
   }
 
-  Future<ExchangeRequestModels?> getAllItem() async {
+  Future<ExchangeResponseModels?> getAllItem() async {
     final token = await _secureStorage.read(key: 'access_token');
     if (token == null) {
       throw Exception("No access token found");
@@ -64,12 +64,36 @@ class ExchangeRepositories {
             return null;
           }
 
-          debugPrint("Parsed items: ${itemsJson.length}");
-          return ExchangeRequestModels.fromJson({"items": itemsJson});
+          debugPrint("Original items count: ${itemsJson.length}");
+
+          // Create exchange response items with proper structure
+          final List<Map<String, dynamic>> exchangeItems =
+              itemsJson.map((item) {
+            // In the actual API response, we don't have USER_ITEM_ID, UID, etc.
+            // So we'll use the item ID as a fallback for these fields
+            return {
+              'USER_ITEM_ID': item['ITEM_ID'] ?? 0,
+              'UID': 0, // Default value
+              'ITEM_ID': item['ITEM_ID'] ?? 0,
+              'PURCHASE_DATE': DateTime.now().toIso8601String(),
+              'EXPIRE_DATE': null,
+              'IS_ACTIVE': true,
+              'item': item, // Include the full item data here
+            };
+          }).toList();
+
+          debugPrint("Processed exchangeItems: ${exchangeItems.length}");
+
+          // Debug the first item to verify structure
+          if (exchangeItems.isNotEmpty) {
+            debugPrint("First item sample: ${exchangeItems[0]}");
+            debugPrint("Item data in first item: ${exchangeItems[0]['item']}");
+          }
+
+          return ExchangeResponseModels.fromJson({"items": exchangeItems});
         }
-      } else {
-        debugPrint("Error: API returned status code ${response.statusCode}");
       }
+      debugPrint("Error: API returned status code ${response.statusCode}");
       return null;
     } catch (e) {
       debugPrint('Error: $e');
@@ -104,7 +128,7 @@ class ExchangeRepositories {
     }
   }
 
-  Future<Map<String, dynamic>?> openMysteryBox({
+  Future<Object> openMysteryBox({
     required String boxName,
   }) async {
     final token = await _secureStorage.read(key: 'access_token');
@@ -124,10 +148,10 @@ class ExchangeRepositories {
       if (response.statusCode == 201) {
         return jsonDecode(response.body) as Map<String, dynamic>;
       }
-      return null;
+      return false;
     } catch (e) {
       debugPrint('Error: $e');
-      return null;
+      return false;
     }
   }
 
