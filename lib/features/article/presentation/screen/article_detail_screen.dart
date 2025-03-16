@@ -1,20 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
+
+import '../../data/models/article_model.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
   const ArticleDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final state = GoRouterState.of(context);
+    final article = state.extra as ArticleModel?;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Image.network(
-            'https://i0.wp.com/www.michigandaily.com/wp-content/uploads/2021/03/0-1.jpg?fit=1200%2C960&ssl=1',
-            width: double.infinity,
-            height: 250,
-            fit: BoxFit.cover,
-          ),
+          article?.thumbnailUrl.isNotEmpty == true
+              ? Image.network(
+                  "http://10.0.2.2:3000${article!.thumbnailUrl}",
+                  width: double.infinity,
+                  height: 250,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      width: double.infinity,
+                      height: 250,
+                      color: AppColors
+                          .blueGrayColor, // สีชมพูเมื่อไม่สามารถโหลดภาพได้
+                      child: Center(
+                        child: Icon(
+                          Icons.error, // ไอคอนแสดงข้อผิดพลาด
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : const SizedBox.shrink(),
           Align(
             alignment: Alignment.topCenter,
             child: Container(
@@ -27,41 +49,44 @@ class ArticleDetailScreen extends StatelessWidget {
                   topRight: Radius.circular(12),
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 16),
-                  Text(
-                    'title title title title title title title title title title',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+              child: article == null
+                  ? const Center(child: Text("ไม่พบข้อมูลบทความ"))
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 16),
+                        Text(
+                          article.topic,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Icon(Icons.menu_book_rounded,
+                                size: 20, color: Colors.grey),
+                            SizedBox(width: 4),
+                            Text(
+                              'readingTime',
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            article.body,
+                            style: TextStyle(fontSize: 14, color: Colors.black),
+                          ),
+                        ),
+                      ],
                     ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(Icons.menu_book_rounded,
-                          size: 20, color: Colors.grey),
-                      SizedBox(width: 4),
-                      Text(
-                        'readingTime',
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'ภาวะเมทาบอลิกซินโดรม (Metabolic Syndrome) คือ ภาวะที่เกิดจากระบบการเผาผลาญของร่างกาย ทำงานผิดปกติไป ทำให้เกิดภาวะอ้วนลงพุง น้ำหนักตัวเกิน น้ำตาลในเลือดสูง ความดันโลหิตสูง และไขมันในเลือดสูง ซึ่งภาวะต่างๆ เหล่านี้ เมื่อเป็นนานๆ เข้าก็จะส่งผลให้เกิดโรคหลอดเลือดหัวใจ กล้ามเนื้อหัวใจขาดเลือด โรคหลอดเลือดสมองที่ทำให้เป็นอัมพฤกษ์ อัมพาต ตามมาได้ภาวะอ้วนลงพุง (Central Obesity) คือการที่ร่างกายมีไขมันสะสมบริเวณช่องท้องมากขึ้น ซึ่งไขมันเหล่านี้จะทำให้เกิดปฏิกิริยาการอักเสบ ความสมดุลของฮอร์โมนผิดปกติ และเกิดภาวะดื้อต่ออินซูลิน (Insulin Resistance) เมื่อการออกฤทธิ์ของอินซูลินทำได้ไม่ดี จึงมีน้ำตาลสะสมในเลือดสูง และทำให้เป็นโรคเบาหวานได้ในที่สุด',
-                      style: TextStyle(fontSize: 14, color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
           Positioned(

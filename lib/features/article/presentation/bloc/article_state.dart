@@ -1,6 +1,4 @@
-// article_state.dart
-
-import 'package:wellwave_frontend/features/article/data/models/article_model.dart';
+import '../../data/models/article_model.dart';
 
 abstract class ArticleState {}
 

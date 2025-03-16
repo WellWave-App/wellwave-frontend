@@ -5,6 +5,7 @@ import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/article/data/repositories/article_repository.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
+import 'package:wellwave_frontend/features/article/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/leaderboard/data/repositories/leaderboard_repositories.dart';
 import 'package:wellwave_frontend/features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';

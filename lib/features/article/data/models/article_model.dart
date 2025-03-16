@@ -78,6 +78,10 @@ class DiseaseModel {
   }
 }
 
+String getThumbnailUrl(String? url) {
+  return url ?? 'https://path/to/default-image.jpg'; // ใช้ภาพสำรองหาก url เป็น null
+}
+
 class ArticleModel {
   final int aid;
   final String topic;
@@ -108,7 +112,7 @@ class ArticleModel {
       body: json['BODY'],
       estimatedReadTime: json['ESTIMATED_READ_TIME'],
       author: json['AUTHOR'], // อนุญาตให้เป็น null ได้อยู่แล้ว
-      thumbnailUrl: json['THUMBNAIL_URL'],
+        thumbnailUrl: json['THUMBNAIL_URL'] ?? '', 
       viewCount: json['VIEW_COUNT'],
       publishDate: DateTime.parse(json['PUBLISH_DATE']),
 

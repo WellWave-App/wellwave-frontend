@@ -122,7 +122,7 @@ TextTheme textTheme(BuildContext context) {
     labelSmall: TextStyle(
       fontFamily: 'NotoSansThai',
       fontWeight: FontWeight.w600,
-      fontSize: 11,
+      fontSize: 12,
       color: AppColors.blackColor,
     ),
     // caption1: TextStyle(
