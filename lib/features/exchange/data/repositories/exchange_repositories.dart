@@ -27,8 +27,23 @@ class ExchangeRepositories {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        return ExchangeResponseModels.fromJson(jsonData);
+
+        if (jsonData is Map<String, dynamic> && jsonData.containsKey("data")) {
+          final List<dynamic> itemsJson = jsonData["data"];
+
+          if (itemsJson.isEmpty) {
+            debugPrint("API returned an empty item list.");
+            return null;
+          }
+
+          debugPrint("Original items count: ${itemsJson.length}");
+
+          // IMPORTANT: Don't restructure the data - use it as is
+          // The API is already sending the correct structure
+          return ExchangeResponseModels.fromJson({"items": itemsJson});
+        }
       }
+      debugPrint("Error: API returned status code ${response.statusCode}");
       return null;
     } catch (e) {
       debugPrint('Error: $e');

@@ -26,16 +26,23 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     FetchUserItemEvent event,
     Emitter<ExchangeState> emit,
   ) async {
-    emit(const ExchangeLoading());
+    emit(const ExchangeUserItemLoading());
     try {
       final userExchange = await exchangeRepositories.getUserItem();
-      if (userExchange == null) {
-        emit(const ExchangeError('User item not found'));
-      } else {
-        emit(ExchangeLoaded(userExchange));
+
+      // debugPrint("UserExchange Data: $userExchange");
+
+      if (userExchange == null || userExchange.items.isEmpty) {
+        debugPrint("No user items found.");
+        emit(const ExchangeError('No user items found.'));
+        return;
       }
+
+      // debugPrint("Fetched \${userExchange.items.length} items.");
+      emit(ExchangeUserItemLoaded(userExchange));
     } catch (e) {
-      emit(ExchangeError(e.toString()));
+      debugPrint("Error fetching user items: \${e.toString()}");
+      emit(const ExchangeError('Error: \${e.toString()}'));
     }
   }
 

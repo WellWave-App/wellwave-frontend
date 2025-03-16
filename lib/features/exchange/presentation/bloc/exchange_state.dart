@@ -26,6 +26,24 @@ class ExchangeLoaded extends ExchangeState {
   }
 }
 
+class ExchangeUserItemLoading extends ExchangeState {
+  const ExchangeUserItemLoading() : super();
+}
+
+class ExchangeUserItemLoaded extends ExchangeState {
+  final ExchangeResponseModels userExchange;
+
+  const ExchangeUserItemLoaded(this.userExchange) : super();
+
+  ExchangeUserItemLoaded copyWith({
+    ExchangeResponseModels? userExchange,
+  }) {
+    return ExchangeUserItemLoaded(
+      userExchange ?? this.userExchange,
+    );
+  }
+}
+
 class ExchangeError extends ExchangeState {
   final String errorMessage;
 
