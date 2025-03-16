@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -275,13 +273,15 @@ class ExchangeScreen extends StatelessWidget {
                           spacing: 16,
                           runSpacing: 16,
                           alignment: WrapAlignment.spaceBetween,
-                          children: exchangeItems.map((exchangeItem) {
-                            debugPrint(
-                                "Parsed ItemType: ${exchangeItem.item.itemType}");
-                            debugPrint(
-                                "Parsed ExpBooster: ${exchangeItem.item.expBooster?.boostMultiplier}");
-                            debugPrint(
-                                "Parsed GemExchange: ${exchangeItem.item.gemExchange?.gemReward}");
+                          children: exchangeItems.asMap().entries.map((entry) {
+                            final int index = entry.key; // Get the index
+                            final exchangeItem = entry.value; // Get the item
+                            // debugPrint(
+                            //     "Parsed ItemType: ${exchangeItem.item.itemType}");
+                            // debugPrint(
+                            //     "Parsed ExpBooster: ${exchangeItem.item.expBooster?.boostMultiplier}");
+                            // debugPrint(
+                            //     "Parsed GemExchange: ${exchangeItem.item.gemExchange?.gemReward}");
 
                             return ExchangeItemComponent(
                               itemImagePath:
@@ -310,7 +310,53 @@ class ExchangeScreen extends StatelessWidget {
                                       ? exchangeItem.item.priceGem
                                       : exchangeItem.item.priceExp,
                               onButtonClick: () {
-                                debugPrint("Blue button clicked!");
+                                debugPrint(
+                                    "${exchangeItem.itemId}Blue button clicked!");
+                                debugPrint(
+                                    "${exchangeItem.item.itemName} ${exchangeItem.item.expBooster?.boostMultiplier} ${exchangeItem.item.expBooster?.boostDays} ${exchangeItem.item.gemExchange?.gemReward} ${exchangeItem.item.priceGem} ${exchangeItem.item.priceExp}");
+                                context
+                                    .read<ExchangeBloc>()
+                                    .add(BuyItemEvent());
+
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext context) {
+                                    return SuccessDialog(
+                                      title: state.userExchange.items[index]
+                                          .item.itemName,
+                                      description: state.userExchange
+                                          .items[index].item.description,
+                                      iconPath: state.userExchange.items[index]
+                                                  .item.itemType ==
+                                              "exp_boost"
+                                          ? AppImages.boostIcon
+                                          : AppImages.gemIcon,
+                                      onClose: () {
+                                        // Close dialog first
+                                        Navigator.of(context).pop();
+
+                                        // Handle item activation if needed
+                                        // if (state.itemType ==
+                                        //     "gem_exchange") {
+                                        //   context
+                                        //       .read<ExchangeBloc>()
+                                        //       .add(ActiveItemEvent(
+                                        //           state.userItemId));
+                                        // }
+
+                                        // Update profile
+                                        context
+                                            .read<ProfileBloc>()
+                                            .add(FetchUserProfile());
+
+                                        context
+                                            .read<ExchangeBloc>()
+                                            .add(FetchAllItemEvent());
+                                      },
+                                    );
+                                  },
+                                );
                               },
                             );
                           }).toList(),
@@ -351,8 +397,7 @@ class ExchangeScreen extends StatelessWidget {
                           }).toList(),
                         );
                       } else {
-                        return const Center(
-                            child: Text(AppStrings.noDataAvaliableText));
+                        return const Center(child: Text(''));
                       }
                     },
                   )

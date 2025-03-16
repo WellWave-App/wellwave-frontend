@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wellwave_frontend/features/exchange/data/repositories/exchange_repositories.dart';
 import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_state.dart';
 
@@ -9,6 +10,7 @@ import 'exchange_event.dart';
 
 class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
   final ExchangeRepositories exchangeRepositories;
+  final _secureStorage = const FlutterSecureStorage();
 
   ExchangeBloc({required this.exchangeRepositories})
       : super(const ExchangeInitial()) {
@@ -42,12 +44,12 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     Emitter<ExchangeState> emit,
   ) async {
     emit(const ExchangeLoading());
-    debugPrint("Fetching all exchange items...");
+    // debugPrint("Fetching all exchange items...");
 
     try {
       final userExchange = await exchangeRepositories.getAllItem();
 
-      debugPrint("UserExchange Data: $userExchange");
+      // debugPrint("UserExchange Data: $userExchange");
 
       if (userExchange == null || userExchange.items.isEmpty) {
         debugPrint("No exchange items found.");
@@ -55,7 +57,7 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
         return;
       }
 
-      debugPrint("Fetched \${userExchange.items.length} items.");
+      // debugPrint("Fetched \${userExchange.items.length} items.");
       emit(ExchangeLoaded(userExchange));
     } catch (e) {
       debugPrint("Error fetching items: \${e.toString()}");
@@ -67,9 +69,24 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     BuyItemEvent event,
     Emitter<ExchangeState> emit,
   ) async {
-    if (state is ExchangeLoaded) {
-      final currentState = state as ExchangeLoaded;
-      emit(currentState);
+    final uid = await _secureStorage.read(key: 'user_uid');
+    if (uid == null) {
+      throw Exception("No access uid found");
+    }
+
+    emit(const ExchangeLoading());
+
+    try {
+      final result = await exchangeRepositories.buyItem(
+        uid: int.parse(uid),
+      );
+
+      final exchangeRequest =
+          ExchangeResponseModels.fromJson(result as Map<String, dynamic>);
+
+      emit(ExchangeLoaded(exchangeRequest));
+    } catch (e) {
+      emit(const ExchangeError('Error buying item'));
     }
   }
 

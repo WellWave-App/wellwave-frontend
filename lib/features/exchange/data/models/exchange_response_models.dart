@@ -35,11 +35,11 @@ class ExchangeResponseModel {
   });
 
   factory ExchangeResponseModel.fromJson(Map<String, dynamic> json) {
-    debugPrint('Parsing ExchangeResponseModel: $json');
+    // debugPrint('Parsing ExchangeResponseModel: $json');
 
     // Check if the item field exists as expected
     if (json['item'] == null) {
-      debugPrint('WARNING: No "item" field found in the JSON: $json');
+      // debugPrint('WARNING: No "item" field found in the JSON: $json');
       // The item data is probably at the root level
     }
 
@@ -94,12 +94,12 @@ class Item {
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
-    debugPrint('Parsing Item: $json');
+    // debugPrint('Parsing Item: $json');
 
     // Debug the expBooster and gemExchange
-    debugPrint('expBooster data: ${json['expBooster']}');
-    debugPrint('gemExchange data: ${json['gemExchange']}');
-    debugPrint('ITEM_TYPE data: ${json['ITEM_TYPE']}');
+    // debugPrint('expBooster data: ${json['expBooster']}');
+    // debugPrint('gemExchange data: ${json['gemExchange']}');
+    // debugPrint('ITEM_TYPE data: ${json['ITEM_TYPE']}');
 
     final itemType = json['ITEM_TYPE'] ?? '';
     final expBooster = json['expBooster'] != null
@@ -109,8 +109,8 @@ class Item {
         ? GemExchange.fromJson(json['gemExchange'])
         : null;
 
-    debugPrint(
-        'Parsed Item - Type: $itemType, ExpBooster: $expBooster, GemExchange: $gemExchange');
+    // debugPrint(
+    // 'Parsed Item - Type: $itemType, ExpBooster: $expBooster, GemExchange: $gemExchange');
 
     return Item(
       itemId: json['ITEM_ID'] ?? 0,

@@ -49,12 +49,12 @@ class ExchangeRepositories {
           'Authorization': 'Bearer $token',
         },
       );
-      debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
+      // debugPrint('Response status: ${response.statusCode}');
+      // debugPrint('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        debugPrint('Decoded JSON: $jsonData');
+        // debugPrint('Decoded JSON: $jsonData');
 
         if (jsonData is Map<String, dynamic> && jsonData.containsKey("data")) {
           final List<dynamic> itemsJson = jsonData["data"];
@@ -73,22 +73,22 @@ class ExchangeRepositories {
             // So we'll use the item ID as a fallback for these fields
             return {
               'USER_ITEM_ID': item['ITEM_ID'] ?? 0,
-              'UID': 0, // Default value
+              'UID': 5,
               'ITEM_ID': item['ITEM_ID'] ?? 0,
               'PURCHASE_DATE': DateTime.now().toIso8601String(),
               'EXPIRE_DATE': null,
               'IS_ACTIVE': true,
-              'item': item, // Include the full item data here
+              'item': item,
             };
           }).toList();
 
-          debugPrint("Processed exchangeItems: ${exchangeItems.length}");
+          // debugPrint("Processed exchangeItems: ${exchangeItems.length}");
 
-          // Debug the first item to verify structure
-          if (exchangeItems.isNotEmpty) {
-            debugPrint("First item sample: ${exchangeItems[0]}");
-            debugPrint("Item data in first item: ${exchangeItems[0]['item']}");
-          }
+          // // Debug the first item to verify structure
+          // if (exchangeItems.isNotEmpty) {
+          //   debugPrint("First item sample: ${exchangeItems[0]}");
+          //   debugPrint("Item data in first item: ${exchangeItems[0]['item']}");
+          // }
 
           return ExchangeResponseModels.fromJson({"items": exchangeItems});
         }
@@ -101,7 +101,7 @@ class ExchangeRepositories {
     }
   }
 
-  Future<bool> buyItem({
+  Future<Object> buyItem({
     required int uid,
   }) async {
     final token = await _secureStorage.read(key: 'access_token');
@@ -119,7 +119,7 @@ class ExchangeRepositories {
       );
 
       if (response.statusCode == 201) {
-        return true;
+        return jsonDecode(response.body);
       }
       return false;
     } catch (e) {
