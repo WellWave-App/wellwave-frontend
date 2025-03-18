@@ -79,7 +79,8 @@ class DiseaseModel {
 }
 
 String getThumbnailUrl(String? url) {
-  return url ?? 'https://path/to/default-image.jpg'; // ใช้ภาพสำรองหาก url เป็น null
+  return url ??
+      'https://path/to/default-image.jpg'; // ใช้ภาพสำรองหาก url เป็น null
 }
 
 class ArticleModel {
@@ -107,14 +108,16 @@ class ArticleModel {
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) {
     return ArticleModel(
-      aid: json['AID'],
-      topic: json['TOPIC'],
+      aid: json['AID'] ?? 0,
+      topic: json['TOPIC'] ?? '',
       body: json['BODY'],
-      estimatedReadTime: json['ESTIMATED_READ_TIME'],
+      estimatedReadTime: json['ESTIMATED_READ_TIME'] ?? 0,
       author: json['AUTHOR'], // อนุญาตให้เป็น null ได้อยู่แล้ว
-        thumbnailUrl: json['THUMBNAIL_URL'] ?? '', 
+      thumbnailUrl: json['THUMBNAIL_URL'] ?? '',
       viewCount: json['VIEW_COUNT'],
-      publishDate: DateTime.parse(json['PUBLISH_DATE']),
+      publishDate: json['PUBLISH_DATE'] != null
+          ? DateTime.parse(json['PUBLISH_DATE'])
+          : DateTime.now(),
 
       // ✅ ป้องกัน null โดยใช้ ?? []
       diseases: (json['diseases'] as List?)

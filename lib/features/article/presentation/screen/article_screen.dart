@@ -19,6 +19,7 @@ class ArticleScreen extends StatelessWidget {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<ArticleBloc>().add(FetchArticlesEvent());
     });
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SingleChildScrollView(
@@ -49,7 +50,16 @@ class ArticleScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 10),
-                  SvgPicture.asset(AppImages.bookmarkIcon),
+                  GestureDetector(
+                    onTap: () {
+                      // Navigate using GoRouter
+                      context.goNamed(
+                        AppPages.allArticleName,
+                        queryParameters: {'diseaseIds': '0'},
+                      );
+                    },
+                    child: SvgPicture.asset(AppImages.bookmarkIcon),
+                  )
                 ],
               ),
             ),

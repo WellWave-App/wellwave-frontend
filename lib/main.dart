@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
+import 'package:wellwave_frontend/features/article/data/models/article_bookmark.dart';
 import 'package:wellwave_frontend/features/article/data/repositories/article_repository.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
 import 'package:wellwave_frontend/features/article/presentation/screen/article_screen.dart';
@@ -93,10 +94,10 @@ class MainApp extends StatelessWidget {
             lazy: false,
           ),
           BlocProvider(
-            create: (context) => ArticleBloc(
-              ArticleRepository(),
-            ), // ✅ ใช้ BlocProvider ที่นี่
-          ),
+              create: (context) => ArticleBloc(
+                    ArticleRepository(),
+                    // Pass a default instance of BookmarkModel
+                  )),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(
               profileRepository: ProfileRepositories(),
