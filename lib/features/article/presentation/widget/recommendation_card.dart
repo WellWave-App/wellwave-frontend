@@ -44,7 +44,7 @@ class RecommendationCard extends StatelessWidget {
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(
-                    imageUrl, // ใช้ imageUrl ที่ได้รับ
+                    "http://10.0.2.2:3000${article!.thumbnailUrl}", // ใช้ imageUrl ที่ได้รับ
                     width: double.infinity,
                     height: 86,
                     fit: BoxFit.cover,

@@ -37,7 +37,8 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       emit(ArticleLoading());
 
       try {
-        final articles = await articleRepository.fetchArticles();
+        final articles =
+            await articleRepository.fetchArticles(diseaseIds: event.diseaseIds);
         emit(ArticleLoaded(articles));
       } catch (e) {
         emit(ArticleError("ไม่สามารถโหลดข้อมูลได้: ${e.toString()}"));

@@ -67,21 +67,50 @@ class ArticleScreen extends StatelessWidget {
                     height: 148,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: const [
+                      children: [
                         DiseaseCard(
-                            svgAsset: AppImages.bloodPressureIcon,
-                            title: 'โรค\nความดันโลหิตสูง'),
+                          svgAsset: AppImages.bloodPressureIcon,
+                          title: 'โรค\nความดันโลหิตสูง',
+                          onTap: () {
+                            context.pushNamed(
+                              AppPages.allArticleName,
+                              queryParameters: {'diseaseIds': '2'},
+                            );
+                          },
+                        ),
                         SizedBox(width: 8),
                         DiseaseCard(
-                            svgAsset: AppImages.diabetesIcon,
-                            title: 'โรค\nเบาหวาน'),
+                          svgAsset: AppImages.diabetesIcon,
+                          title: 'โรค\nเบาหวาน',
+                          onTap: () {
+                            context.pushNamed(
+                              AppPages.allArticleName,
+                              queryParameters: {'diseaseIds': '1'},
+                            );
+                          },
+                        ),
                         SizedBox(width: 8),
                         DiseaseCard(
-                            svgAsset: AppImages.obesityIcon, title: 'โรคอ้วน'),
+                          svgAsset: AppImages.obesityIcon,
+                          title: 'โรคอ้วน',
+                          onTap: () {
+                            context.pushNamed(
+                              AppPages.allArticleName,
+                              queryParameters: {'diseaseIds': '4'},
+                            );
+                          },
+                        ),
                         SizedBox(width: 8),
                         DiseaseCard(
-                            svgAsset: AppImages.hyperChoLesTeRoLeMiaIcon,
-                            title: 'โรคไขมัน\nในเลือดสูง'),
+                          svgAsset: AppImages.hyperChoLesTeRoLeMiaIcon,
+                          title: 'โรคไขมัน\nในเลือดสูง',
+                          onTap: () {
+                            context.pushNamed(
+                              AppPages.allArticleName,
+                              queryParameters: {'diseaseIds': '3'},
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -103,15 +132,20 @@ class ArticleScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 12.0),
-                        child: Text(
-                          'ดูทั้งหมด',
-                          style: TextStyle(
-                            fontSize: 12,
+                        child: InkWell(
+                          onTap: () {
+                            context.goNamed(
+                                AppPages.allArticleName); // ใช้ GoRouter
+                          },
+                          child: Text(
+                            'ดูทั้งหมด',
+                            style: TextStyle(fontSize: 12),
                           ),
                         ),
                       ),
                     ],
                   ),
+
                   // BlocBuilder to load the article grid
                   BlocBuilder<ArticleBloc, ArticleState>(
                       builder: (context, state) {
@@ -120,30 +154,43 @@ class ArticleScreen extends StatelessWidget {
                     if (state is ArticleInitial) {
                       return Center(child: CircularProgressIndicator());
                     } else if (state is ArticleLoaded) {
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, // Number of columns
-                          crossAxisSpacing: 5, // Spacing between columns
-                          mainAxisSpacing: 4, // Spacing between rows
-                        ),
-                        itemCount: state.articles.length,
-                        itemBuilder: (context, index) {
-                          final article = state.articles[index];
-                          return RecommendationCard(
-                              title: article.topic, // Use article topic
-                              readingTime: article.estimatedReadTime,
-                              imageUrl:
-                                  article.thumbnailUrl, // Use article image URL
-                              article: article);
-                        },
-                      );
+                      if (state.articles.isEmpty) {
+                        // ถ้า articles เป็นค่าว่าง แสดงข้อความว่าไม่มีบทความ
+                        return Center(
+                          heightFactor: 15,
+                          child: Text('ไม่มีบทความที่แสดงในขณะนี้'),
+                        );
+                      } else {
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // Number of columns
+                            crossAxisSpacing: 5, // Spacing between columns
+                            mainAxisSpacing: 4, // Spacing between rows
+                          ),
+                          itemCount: state.articles.length,
+                          itemBuilder: (context, index) {
+                            final article = state.articles[index];
+                            return RecommendationCard(
+                                title: article.topic, // Use article topic
+                                readingTime: article.estimatedReadTime,
+                                imageUrl: article
+                                    .thumbnailUrl, // Use article image URL
+                                article: article);
+                          },
+                        );
+                      }
                     } else if (state is ArticleError) {
                       return Center(
                           child: Text('Error: ${state.errorMessage}'));
                     } else {
-                      return Container();
+                      print('object');
+                      return Container(
+                        color: AppColors.blueGrayColor,
+                        child: Text('ไม่มีบทความที่แสดงในขณะนี้'),
+                      );
                     }
                   }),
                 ],

@@ -28,6 +28,7 @@ class AppPages {
   static const String registerSuccessPage = 'registerSuccess';
   static const String forgotPasswordPage = 'forgotPassword';
   static const String articleDetailPage = 'articleDetail';
+  static const String allArticlePage = 'allArticle';
 
   static const String exchangePage = 'exchange';
 
@@ -61,6 +62,7 @@ class AppPages {
   static const String registerSuccessName = 'registerSuccess';
   static const String forgetPasswordName = 'forgotPassword';
   static const String articleDetailName = 'articleDetail';
+  static const String allArticleName = 'allArticle';
 
   static const String exchangeName = 'exchange';
 }

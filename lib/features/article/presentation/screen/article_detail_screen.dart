@@ -93,7 +93,7 @@ class ArticleDetailScreen extends StatelessWidget {
             top: 40,
             left: 8,
             child: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.arrow_back, color: Colors.black),
               onPressed: () {
                 Navigator.pop(context);
               },

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
+import 'package:wellwave_frontend/features/article/presentation/screen/all_article_screen.dart';
 import 'package:wellwave_frontend/features/article/presentation/screen/article_detail_screen.dart';
 
 import 'package:wellwave_frontend/features/exchange/presentation/screen/exchange_screen.dart';
@@ -207,6 +208,12 @@ final GoRouter goRouter = GoRouter(
                   name: AppPages.articleDetailName,
                   pageBuilder: (BuildContext context, GoRouterState state) {
                     return const NoTransitionPage(child: ArticleDetailScreen());
+                  }),
+              GoRoute(
+                  path: AppPages.allArticlePage,
+                  name: AppPages.allArticleName,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    return const NoTransitionPage(child: AllArticlesScreen());
                   })
             ]),
         // GoRoute(
