@@ -94,14 +94,16 @@ class AllArticlesScreen extends StatelessWidget {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Trigger fetching of bookmarked articles if diseaseIds is '0' (or based on your logic)
+      final articleBloc = context.read<ArticleBloc>();
+
       if (diseaseIds == '0') {
-        context
-            .read<ArticleBloc>()
-            .add(FetchArticlesBookmarkEvent(userId: userId));
-      } else {
-        context
-            .read<ArticleBloc>()
-            .add(FetchArticlesEvent(diseaseIds: diseaseIds));
+        articleBloc.add(FetchArticlesBookmarkEvent(userId: userId));
+      } 
+      else if (diseaseIds == '5') {
+      articleBloc.add(FetchRecommendArticleEvent());
+      } 
+      else {
+        articleBloc.add(FetchArticlesEvent(diseaseIds: diseaseIds));
       }
     });
 
@@ -122,6 +124,7 @@ class AllArticlesScreen extends StatelessWidget {
         backgroundColor: AppColors.whiteColor,
         foregroundColor: AppColors.blackColor,
         iconTheme: IconThemeData(color: Colors.black),
+        
       ),
       body: BlocBuilder<ArticleBloc, ArticleState>(
         builder: (context, state) {
@@ -143,6 +146,7 @@ class AllArticlesScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final article = state.articles[index];
                   return RecommendationCard(
+                    aid: article.aid,
                     title: article.topic,
                     readingTime: article.estimatedReadTime,
                     imageUrl: article.thumbnailUrl,
@@ -173,6 +177,33 @@ class AllArticlesScreen extends StatelessWidget {
                     readingTime: article.estimatedReadTime,
                     imageUrl: article.thumbnailUrl,
                     article: article,
+                    aid: article.aid,
+                  );
+                },
+              ),
+            );
+          } else if (state is ArticleRecommendLoaded) {
+            if (state.articles.isEmpty) {
+              return Center(child: Text('ไม่มีบทความที่บันทึกไว้ในขณะนี้'));
+            }
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 4,
+                ),
+                itemCount: state.articles.length,
+                itemBuilder: (context, index) {
+                  final article = state.articles[index];
+
+                  return RecommendationCard(
+                    title: article.topic,
+                    readingTime: article.estimatedReadTime,
+                    imageUrl: article.thumbnailUrl,
+                    article: article,
+                    aid: article.aid,
                   );
                 },
               ),

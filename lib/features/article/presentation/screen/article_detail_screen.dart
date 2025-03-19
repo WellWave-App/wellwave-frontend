@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
+import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
 
 import '../../data/models/article_model.dart';
 
@@ -11,6 +14,7 @@ class ArticleDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = GoRouterState.of(context);
     final article = state.extra as ArticleModel?;
+    final aid = article?.aid is int ? article?.aid as int : 0;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -93,26 +97,80 @@ class ArticleDetailScreen extends StatelessWidget {
             top: 40,
             left: 8,
             child: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black),
+              icon: Container(
+                padding: EdgeInsets.all(6.0), // ระยะห่างระหว่างไอคอนและกรอบ
+                decoration: BoxDecoration(
+                  color: Colors.white, // สีของกรอบ
+                  shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
+                ),
+                width: 30, // กำหนดขนาดของกรอบวงกลม
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black, // สีของไอคอน
+                ),
+              ),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
           ),
-          Positioned(
-            top: 40,
-            right: 48,
-            child: IconButton(
-              icon: Icon(Icons.bookmark_border, color: Colors.white),
-              onPressed: () {},
-            ),
+          BlocBuilder<ArticleBloc, ArticleState>(
+            builder: (context, state) {
+              bool isBookmarked = false;
+
+              // ตรวจสอบสถานะของ Bookmark จาก state ที่ได้รับ
+              if (state is BookmarkUpdated && state.aid == aid) {
+                isBookmarked = state.isBookmarked;
+              }
+
+              return Positioned(
+                top: 40,
+                right: 70,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 2),
+                  width: 36,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      isBookmarked ? Icons.bookmark : Icons.bookmark_border,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      // ส่ง event เพื่อเปลี่ยนสถานะ bookmark
+                      context.read<ArticleBloc>().add(
+                            ToggleBookmarkEvent(
+                              aid: aid,
+                              isBookmark: isBookmarked, // สลับสถานะของ Bookmark
+                            ),
+                          );
+                    },
+                  ),
+                ),
+              );
+            },
           ),
           Positioned(
             top: 40,
             right: 16,
             child: IconButton(
-              icon: Icon(Icons.share, color: Colors.white),
-              onPressed: () {},
+              icon: Container(
+                padding: EdgeInsets.all(6.0), // ระยะห่างระหว่างไอคอนและกรอบ
+                decoration: BoxDecoration(
+                  color: Colors.white, // สีของกรอบ
+                  shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
+                ),
+                width: 36, // กำหนดขนาดของกรอบวงกลม
+                child: Icon(
+                  Icons.share,
+                  color: Colors.black, // สีของไอคอน
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ),
         ],

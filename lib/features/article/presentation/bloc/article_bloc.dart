@@ -54,12 +54,48 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       emit(ArticleBookmarkLoading());
       try {
         final articlesBookmark =
-            await articleRepository.fetchBookmarkedArticles(event.userId);
+            await articleRepository.fetchBookmarkedArticles();
         emit(ArticleBookmarkLoaded(
             articlesBookmark)); // ส่งออก state ที่โหลดแล้ว
       } catch (e) {
         emit(ArticleError("ไม่สามารถโหลดข้อมูลการบันทึก: ${e.toString()}"));
         debugPrint("ไม่สามารถโหลดข้อมูลการบันทึก: ${e.toString()}");
+      }
+    });
+
+    on<ToggleBookmarkEvent>((event, emit) async {
+      try {
+        // ก่อนที่จะไปเปลี่ยนสถานะ bookmark ใน repository, ทำการเปลี่ยนแปลงสถานะใน UI ก่อน
+        emit(BookmarkUpdated(aid: event.aid, isBookmarked: !event.isBookmark));
+
+        // เรียกใช้ repository เพื่อเปลี่ยนสถานะ Bookmark
+        final success =
+            await articleRepository.toggleBookmark(event.aid, event.isBookmark);
+
+        if (success) {
+          // ถ้าการอัปเดตสำเร็จแล้ว ส่งสถานะการอัปเดต
+          emit(
+              BookmarkUpdated(aid: event.aid, isBookmarked: !event.isBookmark));
+        } else {
+          emit(ArticleError("❌ ไม่สามารถเปลี่ยนสถานะ Bookmark ได้"));
+        }
+      } catch (e) {
+        emit(ArticleError(
+            "❌ เกิดข้อผิดพลาดในการอัปเดต Bookmark: ${e.toString()}"));
+      }
+    });
+
+    on<FetchRecommendArticleEvent>((event, emit) async {
+      emit(ArticleRecommendLoading()); // แสดงสถานะกำลังโหลด
+
+      try {
+        // เรียกใช้ fetchCommentArticle จาก repository
+        final articles = await articleRepository.fetchRecommendArticle();
+        emit(ArticleRecommendLoaded(
+            articles)); // ส่งข้อมูลบทความที่ดึงมาในสถานะ ArticleLoaded
+      } catch (e) {
+        emit(ArticleError("ไม่สามารถดึงข้อมูลบทความ: ${e.toString()}"));
+        print(e.toString());
       }
     });
   }

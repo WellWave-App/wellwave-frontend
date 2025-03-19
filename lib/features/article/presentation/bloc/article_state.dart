@@ -14,6 +14,14 @@ class ArticleLoaded extends ArticleState {
   ArticleLoaded(this.articles);
 }
 
+class ArticleRecommendLoading extends ArticleState {}
+
+class ArticleRecommendLoaded extends ArticleState {
+  final List<ArticleModel> articles;
+
+  ArticleRecommendLoaded(this.articles);
+}
+
 class ArticleBookmarkLoading extends ArticleState {}
 
 class ArticleBookmarkLoaded extends ArticleState {
@@ -26,4 +34,11 @@ class ArticleError extends ArticleState {
   final String errorMessage;
 
   ArticleError(this.errorMessage);
+}
+
+class BookmarkUpdated extends ArticleState {
+  final int aid;
+  final bool isBookmarked;
+
+  BookmarkUpdated({required this.aid, required this.isBookmarked});
 }

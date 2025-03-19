@@ -11,14 +11,26 @@ import 'package:wellwave_frontend/features/article/presentation/widget/recommend
 import '../widget/disease_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ArticleScreen extends StatelessWidget {
+class ArticleScreen extends StatefulWidget {
   const ArticleScreen({super.key});
 
   @override
+  _ArticleScreenState createState() => _ArticleScreenState();
+}
+
+class _ArticleScreenState extends State<ArticleScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // โหลดข้อมูลเมื่อเข้าหน้านี้ทุกครั้ง
+    context.read<ArticleBloc>().add(FetchRecommendArticleEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ArticleBloc>().add(FetchArticlesEvent());
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   context.read<ArticleBloc>().add(FetchRecommendArticleEvent());
+    // });
 
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
@@ -53,10 +65,16 @@ class ArticleScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       // Navigate using GoRouter
-                      context.goNamed(
+                      context.pushNamed(
                         AppPages.allArticleName,
                         queryParameters: {'diseaseIds': '0'},
-                      );
+                      ).then((_) {
+                        if (context.mounted) {
+                          context
+                              .read<ArticleBloc>()
+                              .add(FetchRecommendArticleEvent());
+                        }
+                      });
                     },
                     child: SvgPicture.asset(AppImages.bookmarkIcon),
                   )
@@ -85,7 +103,13 @@ class ArticleScreen extends StatelessWidget {
                             context.pushNamed(
                               AppPages.allArticleName,
                               queryParameters: {'diseaseIds': '2'},
-                            );
+                            ).then((_) {
+                              if (context.mounted) {
+                                context
+                                    .read<ArticleBloc>()
+                                    .add(FetchRecommendArticleEvent());
+                              }
+                            });
                           },
                         ),
                         SizedBox(width: 8),
@@ -96,7 +120,13 @@ class ArticleScreen extends StatelessWidget {
                             context.pushNamed(
                               AppPages.allArticleName,
                               queryParameters: {'diseaseIds': '1'},
-                            );
+                            ).then((_) {
+                              if (context.mounted) {
+                                context
+                                    .read<ArticleBloc>()
+                                    .add(FetchRecommendArticleEvent());
+                              }
+                            });
                           },
                         ),
                         SizedBox(width: 8),
@@ -107,7 +137,13 @@ class ArticleScreen extends StatelessWidget {
                             context.pushNamed(
                               AppPages.allArticleName,
                               queryParameters: {'diseaseIds': '4'},
-                            );
+                            ).then((_) {
+                              if (context.mounted) {
+                                context
+                                    .read<ArticleBloc>()
+                                    .add(FetchRecommendArticleEvent());
+                              }
+                            });
                           },
                         ),
                         SizedBox(width: 8),
@@ -118,7 +154,13 @@ class ArticleScreen extends StatelessWidget {
                             context.pushNamed(
                               AppPages.allArticleName,
                               queryParameters: {'diseaseIds': '3'},
-                            );
+                            ).then((_) {
+                              if (context.mounted) {
+                                context
+                                    .read<ArticleBloc>()
+                                    .add(FetchRecommendArticleEvent());
+                              }
+                            });
                           },
                         ),
                       ],
@@ -128,24 +170,27 @@ class ArticleScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          context.goNamed(AppPages.articleDetailName);
-                        },
-                        child: Text(
-                          'แนะนำสำหรับคุณ',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      Text(
+                        'แนะนำสำหรับคุณ',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 12.0),
                         child: InkWell(
                           onTap: () {
-                            context.goNamed(
-                                AppPages.allArticleName); // ใช้ GoRouter
+                            context.pushNamed(
+                              AppPages.allArticleName,
+                              queryParameters: {'diseaseIds': '5'},
+                            ).then((_) {
+                              if (context.mounted) {
+                                context
+                                    .read<ArticleBloc>()
+                                    .add(FetchRecommendArticleEvent());
+                              }
+                            });
                           },
                           child: Text(
                             'ดูทั้งหมด',
@@ -163,7 +208,7 @@ class ArticleScreen extends StatelessWidget {
 
                     if (state is ArticleInitial) {
                       return Center(child: CircularProgressIndicator());
-                    } else if (state is ArticleLoaded) {
+                    } else if (state is ArticleRecommendLoaded) {
                       if (state.articles.isEmpty) {
                         // ถ้า articles เป็นค่าว่าง แสดงข้อความว่าไม่มีบทความ
                         return Center(
@@ -184,11 +229,12 @@ class ArticleScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final article = state.articles[index];
                             return RecommendationCard(
-                                title: article.topic, // Use article topic
-                                readingTime: article.estimatedReadTime,
-                                imageUrl: article
-                                    .thumbnailUrl, // Use article image URL
-                                article: article);
+                              title: article.topic,
+                              readingTime: article.estimatedReadTime,
+                              imageUrl: article.thumbnailUrl,
+                              article: article, // Pass the article object
+                              aid: article.aid, // Pass the required aid
+                            );
                           },
                         );
                       }
