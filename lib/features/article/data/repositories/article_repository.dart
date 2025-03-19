@@ -189,4 +189,34 @@ class ArticleRepository {
       throw Exception("Failed to toggle bookmark");
     }
   }
+
+  Future<List<ArticleModel>> searchArticles(String query) async {
+    try {
+      final response =
+          await http.get(Uri.parse('${baseUrl}article/search?search=$query'));
+
+      print('search :${response.statusCode}');
+      print('search :${response.body}');
+
+      if (response.statusCode == 200) {
+        // แปลง JSON ที่ได้รับจาก API
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+        // ตรวจสอบว่า 'data' มีอยู่ใน JSON หรือไม่
+        if (!jsonResponse.containsKey('data')) {
+          throw Exception("API response does not contain 'data'");
+        }
+
+        // ดึงข้อมูลจากคีย์ 'data' ซึ่งเป็น List ของ articles
+        List<dynamic> data = jsonResponse['data'];
+
+        // แปลงข้อมูลใน 'data' ให้เป็น List ของ ArticleModel
+        return data.map((e) => ArticleModel.fromJson(e)).toList();
+      } else {
+        throw Exception('ไม่สามารถดึงข้อมูลได้');
+      }
+    } catch (e) {
+      throw Exception('เกิดข้อผิดพลาดในการค้นหา: $e');
+    }
+  }
 }

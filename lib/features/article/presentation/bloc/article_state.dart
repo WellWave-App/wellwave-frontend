@@ -42,3 +42,19 @@ class BookmarkUpdated extends ArticleState {
 
   BookmarkUpdated({required this.aid, required this.isBookmarked});
 }
+
+class SearchArticleInitial extends ArticleState {}
+
+class SearchArticleLoading extends ArticleState {}
+
+class SearchArticleLoaded extends ArticleState {
+  final List<ArticleModel> articles;
+
+  SearchArticleLoaded(this.articles);
+}
+
+class SearchArticleError extends ArticleState {
+  final String message;
+
+  SearchArticleError(this.message);
+}

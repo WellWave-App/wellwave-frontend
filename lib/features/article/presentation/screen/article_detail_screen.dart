@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
@@ -98,15 +99,17 @@ class ArticleDetailScreen extends StatelessWidget {
             left: 8,
             child: IconButton(
               icon: Container(
-                padding: EdgeInsets.all(6.0), // ระยะห่างระหว่างไอคอนและกรอบ
+                padding: EdgeInsets.all(10.0), // ระยะห่างระหว่างไอคอนและกรอบ
                 decoration: BoxDecoration(
                   color: Colors.white, // สีของกรอบ
                   shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
                 ),
-                width: 30, // กำหนดขนาดของกรอบวงกลม
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black, // สีของไอคอน
+                width: 36, // กำหนดขนาดของกรอบวงกลม
+                child: Center(
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black, // สีของไอคอน
+                  ),
                 ),
               ),
               onPressed: () {
@@ -128,7 +131,7 @@ class ArticleDetailScreen extends StatelessWidget {
                 right: 70,
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 2),
-                  width: 36,
+                  width: 40,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
@@ -162,14 +165,16 @@ class ArticleDetailScreen extends StatelessWidget {
                   color: Colors.white, // สีของกรอบ
                   shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
                 ),
-                width: 36, // กำหนดขนาดของกรอบวงกลม
+                width: 40, // กำหนดขนาดของกรอบวงกลม
                 child: Icon(
                   Icons.share,
                   color: Colors.black, // สีของไอคอน
                 ),
               ),
               onPressed: () {
-                Navigator.pop(context);
+                String articleLink =
+                    "http://10.0.2.2:3000/$aid"; // แก้ไขลิงก์ตามต้องการ
+                Share.share("อ่านบทความนี้ได้ที่: $articleLink");
               },
             ),
           ),

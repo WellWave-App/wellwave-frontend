@@ -98,5 +98,19 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
         print(e.toString());
       }
     });
+
+    on<SearchArticleEvent>((event, emit) async {
+      emit(ArticleRecommendLoading()); // แสดงสถานะกำลังโหลด
+
+      try {
+        // เรียกใช้ fetchSearchArticle จาก repository โดยส่งคำค้นหาจาก event
+        final articles = await articleRepository.searchArticles(event.query);
+        emit(ArticleRecommendLoaded(
+            articles)); // ส่งข้อมูลบทความที่ดึงมาในสถานะ ArticleRecommendLoaded
+      } catch (e) {
+        emit(ArticleError("ไม่สามารถดึงข้อมูลบทความ: ${e.toString()}"));
+        print(e.toString());
+      }
+    });
   }
 }

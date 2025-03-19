@@ -24,3 +24,9 @@ class ToggleBookmarkEvent extends ArticleEvent {
 class FetchRecommendArticleEvent extends ArticleEvent {
   FetchRecommendArticleEvent();
 }
+
+class SearchArticleEvent extends ArticleEvent {
+  final String query;
+  
+  SearchArticleEvent({required this.query});
+}
