@@ -152,19 +152,8 @@ class ExchangeScreen extends StatelessWidget {
                                                       ? AppImages.boostIcon
                                                       : AppImages.gemIcon,
                                               onClose: () {
-                                                // Close dialog first
                                                 Navigator.of(context).pop();
 
-                                                // Handle item activation if needed
-                                                // if (state.itemType ==
-                                                //     "gem_exchange") {
-                                                //   context
-                                                //       .read<ExchangeBloc>()
-                                                //       .add(ActiveItemEvent(
-                                                //           state.userItemId));
-                                                // }
-
-                                                // Update profile
                                                 context
                                                     .read<ProfileBloc>()
                                                     .add(FetchUserProfile());
@@ -251,24 +240,6 @@ class ExchangeScreen extends StatelessWidget {
                       } else if (state is ExchangeLoaded) {
                         final exchangeItems = state.userExchange.items;
 
-                        // Debug each item thoroughly
-                        // for (int i = 0; i < exchangeItems.length; i++) {
-                        //   final item = exchangeItems[i].item;
-                        //   debugPrint("Item $i - ITEM_TYPE: '${item.itemType}'");
-                        //   debugPrint(
-                        //       "Item $i - ExpBooster: ${item.expBooster}");
-                        //   if (item.expBooster != null) {
-                        //     debugPrint(
-                        //         "Item $i - Multiplier: ${item.expBooster!.boostMultiplier}");
-                        //   }
-                        //   debugPrint(
-                        //       "Item $i - GemExchange: ${item.gemExchange}");
-                        //   if (item.gemExchange != null) {
-                        //     debugPrint(
-                        //         "Item $i - Gem reward: ${item.gemExchange!.gemReward}");
-                        //   }
-                        // }
-
                         return Wrap(
                           spacing: 16,
                           runSpacing: 16,
@@ -276,12 +247,6 @@ class ExchangeScreen extends StatelessWidget {
                           children: exchangeItems.asMap().entries.map((entry) {
                             final int index = entry.key; // Get the index
                             final exchangeItem = entry.value; // Get the item
-                            // debugPrint(
-                            //     "Parsed ItemType: ${exchangeItem.item.itemType}");
-                            // debugPrint(
-                            //     "Parsed ExpBooster: ${exchangeItem.item.expBooster?.boostMultiplier}");
-                            // debugPrint(
-                            //     "Parsed GemExchange: ${exchangeItem.item.gemExchange?.gemReward}");
 
                             return ExchangeItemComponent(
                               itemImagePath:
@@ -311,12 +276,13 @@ class ExchangeScreen extends StatelessWidget {
                                       : exchangeItem.item.priceExp,
                               onButtonClick: () {
                                 debugPrint(
-                                    "${exchangeItem.itemId}Blue button clicked!");
+                                    "${exchangeItem.itemId} Blue button clicked!");
                                 debugPrint(
                                     "${exchangeItem.item.itemName} ${exchangeItem.item.expBooster?.boostMultiplier} ${exchangeItem.item.expBooster?.boostDays} ${exchangeItem.item.gemExchange?.gemReward} ${exchangeItem.item.priceGem} ${exchangeItem.item.priceExp}");
-                                context
-                                    .read<ExchangeBloc>()
-                                    .add(BuyItemEvent());
+
+                                // Pass the correct price based on item type
+                                context.read<ExchangeBloc>().add(
+                                    BuyItemEvent(itemId: exchangeItem.itemId));
 
                                 showDialog(
                                   context: context,
@@ -335,15 +301,6 @@ class ExchangeScreen extends StatelessWidget {
                                       onClose: () {
                                         // Close dialog first
                                         Navigator.of(context).pop();
-
-                                        // Handle item activation if needed
-                                        // if (state.itemType ==
-                                        //     "gem_exchange") {
-                                        //   context
-                                        //       .read<ExchangeBloc>()
-                                        //       .add(ActiveItemEvent(
-                                        //           state.userItemId));
-                                        // }
 
                                         // Update profile
                                         context

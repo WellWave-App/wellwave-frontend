@@ -213,11 +213,9 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                         ],
                                       ),
                                     ));
-                            if (result != null) {
-                              setState(() {
-                                startTime = result as DateTime;
-                              });
-                            }
+                            setState(() {
+                              startTime = result as DateTime;
+                            });
                           },
                           child: Row(
                             children: [
@@ -299,11 +297,9 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                         ],
                                       ),
                                     ));
-                            if (result != null) {
-                              setState(() {
-                                endTime = result as DateTime;
-                              });
-                            }
+                            setState(() {
+                              endTime = result as DateTime;
+                            });
                           },
                           child: Row(
                             children: [
@@ -395,11 +391,9 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                         ],
                                       ),
                                     ));
-                            if (result != null) {
-                              setState(() {
-                                hourSet = result as String;
-                              });
-                            }
+                            setState(() {
+                              hourSet = result as String;
+                            });
                           },
                           child: Row(
                             children: [

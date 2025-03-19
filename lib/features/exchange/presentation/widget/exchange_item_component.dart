@@ -24,7 +24,7 @@ class ExchangeItemComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 160,
-      height: 210,
+      height: 225,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
@@ -52,17 +52,17 @@ class ExchangeItemComponent extends StatelessWidget {
                 ? Column(
                     children: [
                       Text(
-                        "${itemValue}X $dayBoost days",
+                        "$itemValue เท่า",
                         style:
                             Theme.of(context).textTheme.labelMedium?.copyWith(),
                       ),
-                      // Text(
-                      //   "for $dayBoost days",
-                      //   style: Theme.of(context)
-                      //       .textTheme
-                      //       .labelMedium
-                      //       ?.copyWith(fontSize: 18),
-                      // )
+                      Text(
+                        "$dayBoost วัน",
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelMedium
+                            ?.copyWith(fontSize: 18),
+                      )
                     ],
                   )
                 : Text(

@@ -105,7 +105,7 @@ class SuccessDialog extends StatelessWidget {
                                               width: MediaQuery.of(context)
                                                       .size
                                                       .width *
-                                                  0.6, // Restrict width
+                                                  0.6,
                                               child: Text(
                                                 description!,
                                                 style: Theme.of(context)

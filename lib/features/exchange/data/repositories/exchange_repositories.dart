@@ -117,7 +117,7 @@ class ExchangeRepositories {
   }
 
   Future<Object> buyItem({
-    required int uid,
+    required int itemId,
   }) async {
     final token = await _secureStorage.read(key: 'access_token');
     if (token == null) {
@@ -126,7 +126,7 @@ class ExchangeRepositories {
 
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/shop/buy-item/$uid'),
+        Uri.parse('$baseUrl/shop/buy-item/$itemId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',

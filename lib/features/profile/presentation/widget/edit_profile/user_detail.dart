@@ -253,11 +253,9 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                     ],
                                   ),
                                 ));
-                        if (result != null) {
-                          setState(() {
-                            gender = result as String;
-                          });
-                        }
+                        setState(() {
+                          gender = result as String;
+                        });
                       },
                       child: const Icon(
                         Icons.navigate_next_rounded,
@@ -353,11 +351,9 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                     ],
                                   ),
                                 ));
-                        if (result != null) {
-                          setState(() {
-                            birthYear = result;
-                          });
-                        }
+                        setState(() {
+                          birthYear = result!;
+                        });
                       },
                       child: const Icon(
                         Icons.navigate_next_rounded,
@@ -430,11 +426,9 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                     ],
                                   ),
                                 ));
-                        if (result != null) {
-                          setState(() {
-                            weight = result;
-                          });
-                        }
+                        setState(() {
+                          weight = result as num;
+                        });
                       },
                       child: const Icon(
                         Icons.navigate_next_rounded,
@@ -505,11 +499,9 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                     ],
                                   ),
                                 ));
-                        if (result != null) {
-                          setState(() {
-                            height = result;
-                          });
-                        }
+                        setState(() {
+                          height = result as num;
+                        });
                       },
                       child: const Icon(
                         Icons.navigate_next_rounded,

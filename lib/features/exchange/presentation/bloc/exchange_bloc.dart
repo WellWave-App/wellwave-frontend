@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:wellwave_frontend/features/exchange/data/repositories/exchange_repositories.dart';
 import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_state.dart';
 
@@ -10,7 +9,6 @@ import 'exchange_event.dart';
 
 class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
   final ExchangeRepositories exchangeRepositories;
-  final _secureStorage = const FlutterSecureStorage();
 
   ExchangeBloc({required this.exchangeRepositories})
       : super(const ExchangeInitial()) {
@@ -76,16 +74,11 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     BuyItemEvent event,
     Emitter<ExchangeState> emit,
   ) async {
-    final uid = await _secureStorage.read(key: 'user_uid');
-    if (uid == null) {
-      throw Exception("No access uid found");
-    }
-
     emit(const ExchangeLoading());
 
     try {
       final result = await exchangeRepositories.buyItem(
-        uid: int.parse(uid),
+        itemId: event.itemId,
       );
 
       final exchangeRequest =

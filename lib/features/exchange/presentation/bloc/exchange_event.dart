@@ -7,7 +7,9 @@ class FetchUserItemEvent extends ExchangeEvent {}
 class FetchAllItemEvent extends ExchangeEvent {}
 
 class BuyItemEvent extends ExchangeEvent {
-  BuyItemEvent();
+  final int itemId;
+
+  BuyItemEvent({required this.itemId});
 }
 
 class OpenMysteryBoxEvent extends ExchangeEvent {
