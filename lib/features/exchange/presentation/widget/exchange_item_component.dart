@@ -9,6 +9,7 @@ class ExchangeItemComponent extends StatelessWidget {
   final int? dayBoost;
   final int requiredValue;
   final VoidCallback onButtonClick;
+  final bool isEnabled;
 
   const ExchangeItemComponent({
     Key? key,
@@ -18,6 +19,7 @@ class ExchangeItemComponent extends StatelessWidget {
     required this.requiredValue,
     required this.onButtonClick,
     this.dayBoost,
+    this.isEnabled = true,
   }) : super(key: key);
 
   @override
@@ -73,12 +75,13 @@ class ExchangeItemComponent extends StatelessWidget {
                   ),
             const SizedBox(height: 12),
             GestureDetector(
-              onTap: onButtonClick,
+              onTap: isEnabled ? onButtonClick : null,
               child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
                 decoration: BoxDecoration(
-                  color: AppColors.primaryColor,
+                  color:
+                      isEnabled ? AppColors.primaryColor : AppColors.greyColor,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.white, width: 1),
                   boxShadow: const [

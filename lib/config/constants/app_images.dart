@@ -182,4 +182,5 @@ class AppImages {
   static const gemSvg = 'assets/icons/gem_svg.svg';
   static const giftSvg = 'assets/icons/gift_svg.svg';
   static const boostIcon = 'assets/icons/shop/boost_icon.svg';
+  static const greyGiftSvg = 'assets/icons/shop/gift_grey_icon.svg';
 }

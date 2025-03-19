@@ -21,10 +21,6 @@ import '../widget/exp_gem_component.dart';
 class ExchangeScreen extends StatelessWidget {
   const ExchangeScreen({super.key});
 
-  // void initState() {
-
-  // }
-
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ProfileBloc>(context).add(FetchUserProfile());
@@ -120,94 +116,117 @@ class ExchangeScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                              onTap: () {
-                                context
-                                    .read<ExchangeBloc>()
-                                    .add(OpenMysteryBoxEvent());
+                      child: BlocBuilder<ProfileBloc, ProfileState>(
+                        builder: (context, profileState) {
+                          int userGems = 0;
 
-                                Future.delayed(
-                                    const Duration(milliseconds: 100), () {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (BuildContext context) {
-                                      return BlocBuilder<ExchangeBloc,
-                                          ExchangeState>(
-                                        builder: (context, state) {
-                                          if (state is MysteryBoxLoading) {
-                                            return const Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          } else if (state
-                                              is MysteryBoxOpened) {
-                                            return SuccessDialog(
-                                              title: state.itemName,
-                                              description: state.description,
-                                              iconPath:
-                                                  state.itemType == "exp_boost"
+                          if (profileState is ProfileLoaded) {
+                            userGems = profileState.userProfile.gem;
+                          }
+                          final bool canAfford = userGems >= 30;
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                  onTap: () {
+                                    context
+                                        .read<ExchangeBloc>()
+                                        .add(OpenMysteryBoxEvent());
+
+                                    Future.delayed(
+                                        const Duration(milliseconds: 100), () {
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return BlocBuilder<ExchangeBloc,
+                                              ExchangeState>(
+                                            builder: (context, state) {
+                                              if (state is MysteryBoxLoading) {
+                                                return const Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              } else if (state
+                                                  is MysteryBoxOpened) {
+                                                return SuccessDialog(
+                                                  title: state.itemName,
+                                                  description:
+                                                      state.description,
+                                                  iconPath: state.itemType ==
+                                                          "exp_boost"
                                                       ? AppImages.boostIcon
                                                       : AppImages.gemIcon,
-                                              onClose: () {
-                                                Navigator.of(context).pop();
-
-                                                context
-                                                    .read<ProfileBloc>()
-                                                    .add(FetchUserProfile());
-
-                                                // Restore previous exchange state if available
-                                                if (state
-                                                        .previousExchangeItems !=
-                                                    null) {
-                                                  context
-                                                      .read<ExchangeBloc>()
-                                                      .add(FetchAllItemEvent());
-                                                } else {
-                                                  // Fetch if no previous state exists
-                                                  context
-                                                      .read<ExchangeBloc>()
-                                                      .add(FetchAllItemEvent());
-                                                }
-                                              },
-                                            );
-                                          } else if (state is ExchangeError) {
-                                            return AlertDialog(
-                                              title: const Text("Error"),
-                                              content: Text(state.errorMessage),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
+                                                  onClose: () {
                                                     Navigator.of(context).pop();
+
+                                                    context
+                                                        .read<ProfileBloc>()
+                                                        .add(
+                                                            FetchUserProfile());
+
+                                                    // Restore previous exchange state if available
+                                                    if (state
+                                                            .previousExchangeItems !=
+                                                        null) {
+                                                      context
+                                                          .read<ExchangeBloc>()
+                                                          .add(
+                                                              FetchAllItemEvent());
+                                                    } else {
+                                                      // Fetch if no previous state exists
+                                                      context
+                                                          .read<ExchangeBloc>()
+                                                          .add(
+                                                              FetchAllItemEvent());
+                                                    }
                                                   },
-                                                  child: const Text("OK"),
-                                                ),
-                                              ],
-                                            );
-                                          } else {
-                                            return AlertDialog(
-                                              title: const Text("Loading Box"),
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const CircularProgressIndicator(),
-                                                  const SizedBox(height: 20),
-                                                  Text(
-                                                      "Current state: ${state.runtimeType}")
-                                                ],
-                                              ),
-                                            );
-                                          }
+                                                );
+                                              } else if (state
+                                                  is ExchangeError) {
+                                                return AlertDialog(
+                                                  title: const Text("Error"),
+                                                  content:
+                                                      Text(state.errorMessage),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: const Text("OK"),
+                                                    ),
+                                                  ],
+                                                );
+                                              } else {
+                                                return AlertDialog(
+                                                  title:
+                                                      const Text("Loading Box"),
+                                                  content: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      const CircularProgressIndicator(),
+                                                      const SizedBox(
+                                                          height: 20),
+                                                      Text(
+                                                          "Current state: ${state.runtimeType}")
+                                                    ],
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                          );
                                         },
                                       );
-                                    },
-                                  );
-                                });
-                              },
-                              child: SvgPicture.asset(AppImages.giftSvg))
-                        ],
+                                    });
+                                  },
+                                  child: canAfford
+                                      ? SvgPicture.asset(AppImages.giftSvg)
+                                      : SvgPicture.asset(
+                                          AppImages.greyGiftSvg)),
+                            ],
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -240,83 +259,107 @@ class ExchangeScreen extends StatelessWidget {
                       } else if (state is ExchangeLoaded) {
                         final exchangeItems = state.userExchange.items;
 
-                        return Wrap(
-                          spacing: 16,
-                          runSpacing: 16,
-                          alignment: WrapAlignment.spaceBetween,
-                          children: exchangeItems.asMap().entries.map((entry) {
-                            final int index = entry.key; // Get the index
-                            final exchangeItem = entry.value; // Get the item
+                        return BlocBuilder<ProfileBloc, ProfileState>(
+                          builder: (context, profileState) {
+                            int userGems = 0;
+                            int userExp = 0;
 
-                            return ExchangeItemComponent(
-                              itemImagePath:
-                                  exchangeItem.item.itemType == "exp_boost"
-                                      ? AppImages.boostIcon
-                                      : AppImages.gemIcon,
-                              requiredImagePath:
-                                  exchangeItem.item.itemType == "exp_boost"
-                                      ? AppImages.gemIcon
-                                      : AppImages.expCoinSvg,
-                              itemValue: exchangeItem.item.itemType ==
-                                      "exp_boost"
-                                  ? (exchangeItem.item.expBooster
-                                              ?.boostMultiplier ??
-                                          0.0)
-                                      .toDouble()
-                                  : (exchangeItem.item.gemExchange?.gemReward ??
-                                          0)
-                                      .toDouble(),
-                              dayBoost:
-                                  exchangeItem.item.itemType == "exp_boost"
-                                      ? exchangeItem.item.expBooster?.boostDays
-                                      : null,
-                              requiredValue:
-                                  exchangeItem.item.itemType == "exp_boost"
-                                      ? exchangeItem.item.priceGem
-                                      : exchangeItem.item.priceExp,
-                              onButtonClick: () {
-                                debugPrint(
-                                    "${exchangeItem.itemId} Blue button clicked!");
-                                debugPrint(
-                                    "${exchangeItem.item.itemName} ${exchangeItem.item.expBooster?.boostMultiplier} ${exchangeItem.item.expBooster?.boostDays} ${exchangeItem.item.gemExchange?.gemReward} ${exchangeItem.item.priceGem} ${exchangeItem.item.priceExp}");
+                            if (profileState is ProfileLoaded) {
+                              userGems = profileState.userProfile.gem;
+                              userExp = profileState.userProfile.exp;
+                            }
 
-                                // Pass the correct price based on item type
-                                context.read<ExchangeBloc>().add(
-                                    BuyItemEvent(itemId: exchangeItem.itemId));
+                            return Wrap(
+                              spacing: 16,
+                              runSpacing: 16,
+                              alignment: WrapAlignment.spaceBetween,
+                              children:
+                                  exchangeItems.asMap().entries.map((entry) {
+                                final int index = entry.key;
+                                final exchangeItem = entry.value;
 
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (BuildContext context) {
-                                    return SuccessDialog(
-                                      title: state.userExchange.items[index]
-                                          .item.itemName,
-                                      description: state.userExchange
-                                          .items[index].item.description,
-                                      iconPath: state.userExchange.items[index]
-                                                  .item.itemType ==
-                                              "exp_boost"
+                                final bool canAfford =
+                                    exchangeItem.item.itemType == "exp_boost"
+                                        ? userGems >= exchangeItem.item.priceGem
+                                        : userExp >= exchangeItem.item.priceExp;
+
+                                return ExchangeItemComponent(
+                                  itemImagePath:
+                                      exchangeItem.item.itemType == "exp_boost"
                                           ? AppImages.boostIcon
                                           : AppImages.gemIcon,
-                                      onClose: () {
-                                        // Close dialog first
-                                        Navigator.of(context).pop();
+                                  requiredImagePath:
+                                      exchangeItem.item.itemType == "exp_boost"
+                                          ? canAfford
+                                              ? AppImages.gemIcon
+                                              : AppImages.gemNotCheckSvg
+                                          : AppImages.expCoinSvg,
+                                  itemValue:
+                                      exchangeItem.item.itemType == "exp_boost"
+                                          ? (exchangeItem.item.expBooster
+                                                      ?.boostMultiplier ??
+                                                  0.0)
+                                              .toDouble()
+                                          : (exchangeItem.item.gemExchange
+                                                      ?.gemReward ??
+                                                  0)
+                                              .toDouble(),
+                                  dayBoost: exchangeItem.item.itemType ==
+                                          "exp_boost"
+                                      ? exchangeItem.item.expBooster?.boostDays
+                                      : null,
+                                  requiredValue:
+                                      exchangeItem.item.itemType == "exp_boost"
+                                          ? exchangeItem.item.priceGem
+                                          : exchangeItem.item.priceExp,
+                                  isEnabled: canAfford,
+                                  onButtonClick: () {
+                                    // Only execute if the user can afford it
+                                    if (canAfford) {
+                                      debugPrint(
+                                          "${exchangeItem.itemId} Blue button clicked!");
+                                      debugPrint(
+                                          "${exchangeItem.item.itemName} ${exchangeItem.item.expBooster?.boostMultiplier} ${exchangeItem.item.expBooster?.boostDays} ${exchangeItem.item.gemExchange?.gemReward} ${exchangeItem.item.priceGem} ${exchangeItem.item.priceExp}");
 
-                                        // Update profile
-                                        context
-                                            .read<ProfileBloc>()
-                                            .add(FetchUserProfile());
+                                      context.read<ExchangeBloc>().add(
+                                          BuyItemEvent(
+                                              itemId: exchangeItem.itemId));
 
-                                        context
-                                            .read<ExchangeBloc>()
-                                            .add(FetchAllItemEvent());
-                                      },
-                                    );
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return SuccessDialog(
+                                            title: state.userExchange
+                                                .items[index].item.itemName,
+                                            description: state.userExchange
+                                                .items[index].item.description,
+                                            iconPath: state
+                                                        .userExchange
+                                                        .items[index]
+                                                        .item
+                                                        .itemType ==
+                                                    "exp_boost"
+                                                ? AppImages.boostIcon
+                                                : AppImages.gemIcon,
+                                            onClose: () {
+                                              Navigator.of(context).pop();
+                                              context
+                                                  .read<ProfileBloc>()
+                                                  .add(FetchUserProfile());
+                                              context
+                                                  .read<ExchangeBloc>()
+                                                  .add(FetchAllItemEvent());
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }
                                   },
                                 );
-                              },
+                              }).toList(),
                             );
-                          }).toList(),
+                          },
                         );
                       } else if (state is MysteryBoxOpened &&
                           state.previousExchangeItems != null) {
