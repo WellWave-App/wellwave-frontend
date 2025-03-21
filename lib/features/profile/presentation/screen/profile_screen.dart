@@ -86,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             //leaderboard
                             Expanded(
                               child: RoundedText(
-                                text: AppStrings.leaderboardText,
+                                text: AppStrings.leagueList[userLeague],
                                 svgPath: AppImages.leagueListIcon[userLeague],
                                 isShowNavi: true,
                                 appPages: AppPages.leaderboardlPage,
