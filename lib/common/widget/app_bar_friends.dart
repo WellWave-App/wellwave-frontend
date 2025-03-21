@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../config/constants/app_colors.dart';
 
 class CustomAppBar extends AppBar {
@@ -12,7 +12,7 @@ class CustomAppBar extends AppBar {
     Color? textColor,
     Function? onBackPressed,
     Function? action,
-    Widget? actionIcon,
+    Widget? actionIcon, // Updated to accept any Widget
   }) : super(
           title: Text(
             title ?? '',
@@ -25,21 +25,27 @@ class CustomAppBar extends AppBar {
           automaticallyImplyLeading: false,
           leading: onLeading
               ? GestureDetector(
-                  onTap: () => context.pop(),
+                  onTap: () {
+                    if (onBackPressed != null) {
+                      onBackPressed();
+                    } else {
+                      Navigator.of(context).pop();
+                    }
+                  },
                   child: Icon(
-                    Icons.arrow_back,
-                    size: 24,
-                    color: textColor ?? AppColors.blackColor,
+                    Icons.arrow_back_ios_new_sharp,
+                    size: 14.9,
+                    color: textColor ?? Colors.black,
                   ),
                 )
-              : null,
+              : const SizedBox.shrink(),
           actions: [
             if (action != null && actionIcon != null)
               GestureDetector(
                 onTap: () => action(),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: actionIcon,
+                  child: actionIcon, // Use the custom widget directly
                 ),
               ),
           ],
@@ -53,8 +59,6 @@ class CustomAppBarWithStep extends AppBar {
     required bool onLeading,
     required int totalSteps,
     required int currentStep,
-    bool showStepIndicator = true,
-    String? titleText,
     Color? textColor,
     Color? bgColor,
     Function? onBackPressed,
@@ -83,16 +87,10 @@ class CustomAppBarWithStep extends AppBar {
               : const SizedBox(width: 48),
           actions: [
             if (action != null && actionIcon != null)
-              if (action != null && actionIcon != null)
-                IconButton(
-                  onPressed: () => action(),
-                  icon: Icon(actionIcon),
-                  color: textColor ?? Colors.black,
-                ),
-            if (additionalAction != null && additionalIcon != null)
-              GestureDetector(
-                onTap: () => additionalAction(),
-                child: additionalIcon,
+              IconButton(
+                onPressed: () => action(),
+                icon: Icon(actionIcon),
+                color: textColor ?? Colors.black,
               ),
             if (additionalAction != null && additionalIcon != null)
               GestureDetector(
@@ -100,32 +98,21 @@ class CustomAppBarWithStep extends AppBar {
                 child: additionalIcon,
               ),
           ],
-          title: Column(
+          title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (titleText != null)
-                Text(
-                  titleText,
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        color: AppColors.blackColor,
-                      ),
+              SizedBox(
+                width: 200,
+                height: 20,
+                child: StepProgressIndicator(
+                  totalSteps: totalSteps,
+                  currentStep: currentStep + 1,
+                  size: 4,
+                  padding: 0,
+                  selectedColor: AppColors.primaryColor,
+                  unselectedColor: AppColors.lightgrayColor,
                 ),
-              // if (showStepIndicator)
-              //   Padding(
-              //     padding: const EdgeInsets.only(top: 4.0),
-              //     child: SizedBox(
-              //       width: 200,
-              //       height: 20,
-              //       child: StepProgressIndicator(
-              //         totalSteps: totalSteps,
-              //         currentStep: currentStep + 1,
-              //         size: 4,
-              //         padding: 0,
-              //         selectedColor: AppColors.primaryColor,
-              //         unselectedColor: AppColors.lightgrayColor,
-              //       ),
-              //     ),
-              //   ),
+              ),
             ],
           ),
         );

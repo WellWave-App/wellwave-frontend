@@ -18,7 +18,7 @@ class _SearchByIdTextFieldState extends State<SearchByIdTextField> {
       decoration: InputDecoration(
         hintText: 'เพิ่มเพื่อนด้วยไอดี',
         hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: AppColors.grayColor,
+              color: AppColors.greyColor,
             ),
         fillColor: AppColors.whiteColor,
         filled: true,
@@ -26,14 +26,14 @@ class _SearchByIdTextFieldState extends State<SearchByIdTextField> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
-            color: AppColors.grayColor,
+            color: AppColors.greyColor,
             width: 1.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
-            color: AppColors.grayColor,
+            color: AppColors.greyColor,
             width: 1.0,
           ),
         ),

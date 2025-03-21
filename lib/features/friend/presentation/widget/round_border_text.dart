@@ -67,7 +67,7 @@ class RoundedText extends StatelessWidget {
                       },
                       child: Icon(
                         Icons.navigate_next_rounded,
-                        color: AppColors.grayColor,
+                        color: AppColors.greyColor,
                         size: iconSize,
                       ),
                     ),

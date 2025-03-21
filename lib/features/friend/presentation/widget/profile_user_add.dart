@@ -3,7 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 import 'package:wellwave_frontend/features/friend/data/repositories/friend_repositories.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_event.dart';
@@ -34,7 +35,7 @@ class ProfileUserAdd extends StatelessWidget {
               children: [
                 CircleAvatar(
                   backgroundImage: imageUrl.isNotEmpty
-                      ? NetworkImage('${AppStrings.baseUrl}$imageUrl')
+                      ? NetworkImage('$baseUrl$imageUrl')
                       : AssetImage(AppImages.avatarDefaultIcon)
                           as ImageProvider<Object>,
                   radius: 52.0,

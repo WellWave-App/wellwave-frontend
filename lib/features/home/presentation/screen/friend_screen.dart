@@ -47,7 +47,7 @@ class FriendScreen extends StatelessWidget {
               Text(
                 'ยังไม่มีข้อมูล เพิ่มเพื่อนเลย!',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.darkgrayColor,
+                      color: AppColors.darkGrayColor,
                     ),
               ),
             ],

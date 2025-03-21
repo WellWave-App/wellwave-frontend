@@ -102,7 +102,7 @@ class UserInfoCard extends StatelessWidget {
                           'ก้าวเดิน',
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AppColors.darkgrayColor,
+                                    color: AppColors.darkGrayColor,
                                   ),
                         ),
                         SizedBox(height: 8),
@@ -123,7 +123,7 @@ class UserInfoCard extends StatelessWidget {
                           'การนอน',
                           style:
                               Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: AppColors.darkgrayColor,
+                                    color: AppColors.darkGrayColor,
                                   ),
                         ),
                         SizedBox(height: 8),

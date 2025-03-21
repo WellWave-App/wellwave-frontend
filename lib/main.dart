@@ -96,15 +96,14 @@ class MainApp extends StatelessWidget {
               notificationsRepository: NotificationsRepository(),
             )..add(FetchHomeEvent()),
           ),
-
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(authRepository: authRepository),
           ),
-          // BlocProvider<FriendBloc>(
-          //   create: (context) => FriendBloc(
-          //       profileRepositories: context.read<ProfileRepositories>()),
-          //   lazy: false,
-          // ),
+          BlocProvider<FriendBloc>(
+            create: (context) => FriendBloc(
+                profileRepositories: context.read<ProfileRepositories>()),
+            lazy: false,
+          ),
         ],
         child: MaterialApp.router(
           routerConfig: goRouter,

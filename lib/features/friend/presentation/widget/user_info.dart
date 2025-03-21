@@ -143,7 +143,7 @@ class _UserInformationState extends State<UserInformation> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SvgPicture.asset(
-                        AppImages.LeadDiamondIcon,
+                        AppImages.actionIcon,
                         height: 20,
                       ),
                       const SizedBox(width: 8),
