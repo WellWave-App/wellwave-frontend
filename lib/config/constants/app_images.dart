@@ -183,4 +183,10 @@ class AppImages {
   static const giftSvg = 'assets/icons/gift_svg.svg';
   static const boostIcon = 'assets/icons/shop/boost_icon.svg';
   static const greyGiftSvg = 'assets/icons/shop/gift_grey_icon.svg';
+  static const exchangeSuccessBar =
+      'assets/icons/shop/bar_exchange_success.svg';
+  static const catNoItemimage = 'assets/images/exchange/cat_no_item.png';
+
+  //profile
+  static const catImg = 'assets/images/profile/cat.png';
 }

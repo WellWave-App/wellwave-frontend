@@ -82,7 +82,8 @@ flutter:
     - assets/icons/league/
     - assets/icons/logs_Icons/
     - assets/icons/shop/
-    
+    - assets/images/profile/    
+    - assets/images/exchange/ 
 
   fonts:
     - family: NotoSansThai

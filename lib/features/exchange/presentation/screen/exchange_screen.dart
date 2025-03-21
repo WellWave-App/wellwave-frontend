@@ -149,9 +149,10 @@ class ExchangeScreen extends StatelessWidget {
                                               } else if (state
                                                   is MysteryBoxOpened) {
                                                 return SuccessDialog(
-                                                  title: state.itemName,
-                                                  description:
-                                                      state.description,
+                                                  reward: state.gemReward,
+                                                  dayBoostValue:
+                                                      state.boostMultiplier,
+                                                  dayBoost: state.boostDays,
                                                   iconPath: state.itemType ==
                                                           "exp_boost"
                                                       ? AppImages.boostIcon
@@ -249,13 +250,19 @@ class ExchangeScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 32),
-                  // In your UI file, modify the BlocBuilder for exchange items
                   BlocBuilder<ExchangeBloc, ExchangeState>(
                     builder: (context, state) {
                       if (state is ExchangeLoading) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (state is ExchangeError) {
-                        return Center(child: Text(state.errorMessage));
+                        return Center(
+                            child: Column(
+                          children: [
+                            Image.asset(AppImages.catNoItemimage, height: 128),
+                            const SizedBox(height: 32),
+                            Text(state.errorMessage),
+                          ],
+                        ));
                       } else if (state is ExchangeLoaded) {
                         final exchangeItems = state.userExchange.items;
 
@@ -330,10 +337,12 @@ class ExchangeScreen extends StatelessWidget {
                                         barrierDismissible: false,
                                         builder: (BuildContext context) {
                                           return SuccessDialog(
-                                            title: state.userExchange
-                                                .items[index].item.itemName,
-                                            description: state.userExchange
-                                                .items[index].item.description,
+                                            reward: exchangeItem
+                                                .item.gemExchange?.gemReward,
+                                            dayBoostValue: exchangeItem.item
+                                                .expBooster?.boostMultiplier,
+                                            dayBoost: exchangeItem
+                                                .item.expBooster?.boostDays,
                                             iconPath: state
                                                         .userExchange
                                                         .items[index]
@@ -389,7 +398,10 @@ class ExchangeScreen extends StatelessWidget {
                                   : (exchangeItem.item.gemExchange?.gemReward ??
                                           0)
                                       .toDouble(),
-                              requiredValue: 7500,
+                              requiredValue:
+                                  exchangeItem.item.itemType == "exp_boost"
+                                      ? exchangeItem.item.priceGem
+                                      : exchangeItem.item.priceExp,
                               onButtonClick: () {
                                 debugPrint("Blue button clicked!");
                               },

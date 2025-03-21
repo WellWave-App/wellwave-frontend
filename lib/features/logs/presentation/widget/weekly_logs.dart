@@ -6,6 +6,8 @@ import 'package:wellwave_frontend/features/logs/presentation/widget/chart.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/input_button.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/weekly_logs_card.dart';
 
+import '../../../../config/constants/app_images.dart';
+
 class WeeklyLogs extends StatefulWidget {
   const WeeklyLogs({super.key});
 
@@ -141,11 +143,24 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                   ],
                 );
               } else if (state is LogsError) {
-                return const Center(
-                    child: Text(AppStrings.errorLoadingLogsText));
+                return Center(
+                    child: Column(
+                  children: [
+                    Image.asset(AppImages.catNoItemimage, height: 128),
+                    const SizedBox(height: 32),
+                    const Text(AppStrings.errorLoadingLogsText),
+                  ],
+                ));
               }
 
-              return Container();
+              return Center(
+                  child: Column(
+                children: [
+                  Image.asset(AppImages.catNoItemimage, height: 128),
+                  const SizedBox(height: 32),
+                  const Text(AppStrings.noLogsAvailableText),
+                ],
+              ));
             },
           ),
         ],

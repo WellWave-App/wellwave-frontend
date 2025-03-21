@@ -60,7 +60,14 @@ class AchievementCard extends StatelessWidget {
                 BlocBuilder<ArcheivementBloc, ArcheivementState>(
                   builder: (context, state) {
                     if (state is ArcheivementError) {
-                      return Center(child: Text(state.message));
+                      return Center(
+                          child: Column(
+                        children: [
+                          Image.asset(AppImages.catNoItemimage, height: 128),
+                          const SizedBox(height: 32),
+                          Text(state.message),
+                        ],
+                      ));
                     }
 
                     if (state is AllArcheivementLoaded) {

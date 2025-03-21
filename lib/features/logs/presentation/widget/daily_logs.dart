@@ -53,8 +53,13 @@ class _DailyLogsState extends State<DailyLogs> {
                 }
               } else if (state is LogsError) {
                 return Center(
-                    child: Text(
-                        '${AppStrings.errorLoadingLogsText}: ${state.message}'));
+                    child: Column(
+                  children: [
+                    Image.asset(AppImages.catNoItemimage, height: 128),
+                    const SizedBox(height: 32),
+                    Text('${AppStrings.errorLoadingLogsText}: ${state.message}')
+                  ],
+                ));
               }
 
               return Row(

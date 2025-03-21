@@ -170,7 +170,7 @@ class ExchangeRepositories {
     }
   }
 
-  Future<Object> activeItem({
+  Future<Map<String, dynamic>> activeItem({
     required int userItemId,
   }) async {
     final token = await _secureStorage.read(key: 'access_token');
@@ -189,11 +189,13 @@ class ExchangeRepositories {
 
       if (response.statusCode == 201) {
         return jsonDecode(response.body) as Map<String, dynamic>;
+      } else {
+        throw Exception(
+            "Failed to activate item. Status code: ${response.statusCode}");
       }
-      return false;
     } catch (e) {
       debugPrint('Error: $e');
-      return false;
+      throw Exception("Failed to activate item: $e");
     }
   }
 }

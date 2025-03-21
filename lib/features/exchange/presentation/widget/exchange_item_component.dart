@@ -4,19 +4,19 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 
 class ExchangeItemComponent extends StatelessWidget {
   final String itemImagePath;
-  final String requiredImagePath;
+  final String? requiredImagePath;
   final double itemValue;
   final int? dayBoost;
-  final int requiredValue;
+  final int? requiredValue;
   final VoidCallback onButtonClick;
   final bool isEnabled;
 
   const ExchangeItemComponent({
     Key? key,
     required this.itemImagePath,
-    required this.requiredImagePath,
+    this.requiredImagePath,
     required this.itemValue,
-    required this.requiredValue,
+    this.requiredValue,
     required this.onButtonClick,
     this.dayBoost,
     this.isEnabled = true,
@@ -95,18 +95,34 @@ class ExchangeItemComponent extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SvgPicture.asset(
-                      requiredImagePath,
-                      height: 21,
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      requiredValue.toString(),
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                          color: Colors.white),
-                    ),
+                    requiredImagePath == null
+                        ? const SizedBox()
+                        : SvgPicture.asset(
+                            requiredImagePath!,
+                            height: 21,
+                          ),
+                    if (requiredImagePath != null) const SizedBox(width: 10),
+                    requiredValue == null
+                        ? Text(
+                            'ใช้งาน',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                          )
+                        : Text(
+                            requiredValue.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                    color: Colors.white),
+                          ),
                   ],
                 ),
               ),

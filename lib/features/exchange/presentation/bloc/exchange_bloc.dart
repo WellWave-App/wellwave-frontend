@@ -17,7 +17,7 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     on<BuyItemEvent>(_onBuyItem);
     on<OpenMysteryBoxEvent>(_onOpenMysteryBox);
     on<ActiveItemEvent>(_onActiveItem);
-    on<RestoreExchangeItemsEvent>(_onRestoreExchangeItems);
+    // on<RestoreExchangeItemsEvent>(_onRestoreExchangeItems);
   }
 
   Future<void> _onFetchUserItem(
@@ -115,9 +115,13 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
       final description = exchangeRequest.item.description;
       final itemType = exchangeRequest.item.itemType;
       final userItemId = exchangeRequest.userItemId;
+      final boostMultiplier = exchangeRequest.item.expBooster?.boostMultiplier;
+      final gemReward = exchangeRequest.item.gemExchange?.gemReward;
+      final boostDays = exchangeRequest.item.expBooster?.boostDays;
 
       // Include the current items in the MysteryBoxOpened state
       emit(MysteryBoxOpened(itemName, description, itemType, userItemId,
+          boostMultiplier, gemReward, boostDays,
           previousExchangeItems: currentItems));
     } catch (e) {
       // If error, restore previous exchange items if available
@@ -129,35 +133,25 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     }
   }
 
-  Future<void> _onActiveItem(
-    ActiveItemEvent event,
-    Emitter<ExchangeState> emit,
-  ) async {
-    emit(const MysteryBoxLoading());
+  Future _onActiveItem(ActiveItemEvent event, Emitter emit) async {
+    emit(const ExchangeUserItemLoading());
 
     try {
-      final result = await exchangeRepositories.activeItem(
+      // Activate the item
+      await exchangeRepositories.activeItem(
         userItemId: event.userItemId,
       );
 
-      final exchangeRequest =
-          ExchangeRequestModels.fromJson(result as Map<String, dynamic>);
+      // After activation, fetch the updated list of user items
+      final userItemsResult = await exchangeRepositories.getUserItem();
 
-      final userItemId = exchangeRequest.userItemId;
-      final itemName = exchangeRequest.item.itemName;
-      final description = exchangeRequest.item.description;
-      final itemType = exchangeRequest.item.itemType;
+      // Parse the user items into your model
+      final exchangeRequest = ExchangeResponseModels.fromJson(
+          userItemsResult as Map<String, dynamic>);
 
-      emit(MysteryBoxOpened(itemName, description, itemType, userItemId));
+      emit(ExchangeUserItemLoaded(exchangeRequest));
     } catch (e) {
       emit(ExchangeError('Error: ${e.toString()}'));
     }
-  }
-
-  void _onRestoreExchangeItems(
-    RestoreExchangeItemsEvent event,
-    Emitter<ExchangeState> emit,
-  ) {
-    emit(ExchangeLoaded(event.items));
   }
 }

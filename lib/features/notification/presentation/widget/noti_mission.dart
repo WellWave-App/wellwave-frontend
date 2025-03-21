@@ -229,7 +229,14 @@ class _NotificationMissionState extends State<NotificationMission> {
                   }).toList(),
                 );
               } else if (state is NotiError) {
-                return Center(child: Text("Error: ${state.message}"));
+                return Center(
+                    child: Column(
+                  children: [
+                    Image.asset(AppImages.catNoItemimage, height: 128),
+                    const SizedBox(height: 32),
+                    Text(state.message),
+                  ],
+                ));
               } else {
                 return const Center(child: CircularProgressIndicator());
               }

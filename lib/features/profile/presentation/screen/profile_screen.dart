@@ -193,7 +193,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     );
                   } else if (state is ProfileError) {
-                    return Center(child: Text(state.errorMessage));
+                    return Center(
+                        child: Column(
+                      children: [
+                        Image.asset(AppImages.catNoItemimage, height: 128),
+                        const SizedBox(height: 32),
+                        Text(state.errorMessage),
+                      ],
+                    ));
                   } else if (state is ProfileLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else {

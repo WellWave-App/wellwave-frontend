@@ -53,46 +53,96 @@ class MyItemScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: Row(
-                                spacing: 16,
-                                children: [
-                                  ExchangeItemComponent(
-                                    itemImagePath: AppImages.gemSvg,
-                                    requiredImagePath: AppImages.expCoinSvg,
-                                    itemValue: 15,
-                                    requiredValue: 1200,
-                                    onButtonClick: () {
-                                      debugPrint("Blue button clicked!");
-                                    },
-                                  ),
-                                  ExchangeItemComponent(
-                                    itemImagePath: AppImages.gemSvg,
-                                    requiredImagePath: AppImages.expCoinSvg,
-                                    itemValue: 20,
-                                    requiredValue: 1500,
-                                    onButtonClick: () {
-                                      debugPrint("Blue button clicked!");
-                                    },
-                                  ),
-                                  ExchangeItemComponent(
-                                    itemImagePath: AppImages.gemSvg,
-                                    requiredImagePath: AppImages.expCoinSvg,
-                                    itemValue: 50,
-                                    requiredValue: 4000,
-                                    onButtonClick: () {
-                                      debugPrint("Blue button clicked!");
-                                    },
-                                  ),
-                                  ExchangeItemComponent(
-                                    itemImagePath: AppImages.gemSvg,
-                                    requiredImagePath: AppImages.expCoinSvg,
-                                    itemValue: 100,
-                                    requiredValue: 7500,
-                                    onButtonClick: () {
-                                      debugPrint("Blue button clicked!");
-                                    },
-                                  ),
-                                ],
+                              child: BlocBuilder<ExchangeBloc, ExchangeState>(
+                                builder: (context, state) {
+                                  if (state is ExchangeUserItemLoading) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  } else if (state is ExchangeError) {
+                                    return Center(
+                                        child: Column(
+                                      children: [
+                                        Image.asset(AppImages.catNoItemimage,
+                                            height: 128),
+                                        Text(state.errorMessage),
+                                      ],
+                                    ));
+                                  } else if (state is ExchangeUserItemLoaded) {
+                                    final filteredItems = state
+                                        .userExchange.items
+                                        .where((item) =>
+                                            item.isActive == true &&
+                                            item.item.itemType == "exp_boost")
+                                        .toList();
+
+                                    if (filteredItems.isEmpty) {
+                                      return const Center(
+                                          child: Text(
+                                              "No inactive experience boost items available"));
+                                    }
+
+                                    return Wrap(
+                                      spacing: 16,
+                                      runSpacing: 16,
+                                      alignment: WrapAlignment.spaceBetween,
+                                      children: filteredItems
+                                          .asMap()
+                                          .entries
+                                          .map((entry) {
+                                        final int index = entry.key;
+                                        final exchangeItem = entry.value;
+
+                                        return ExchangeItemComponent(
+                                          itemImagePath: AppImages
+                                              .boostIcon, // Always boost icon since we're filtering for exp_boost
+                                          itemValue: (exchangeItem
+                                                      .item
+                                                      .expBooster
+                                                      ?.boostMultiplier ??
+                                                  0.0)
+                                              .toDouble(),
+                                          dayBoost: exchangeItem
+                                              .item.expBooster?.boostDays,
+                                          onButtonClick: () {
+                                            debugPrint(
+                                                "${exchangeItem.itemId}Active button clicked!");
+
+                                            context.read<ExchangeBloc>().add(
+                                                ActiveItemEvent(
+                                                    filteredItems[index]
+                                                        .userItemId));
+
+                                            showDialog(
+                                              context: context,
+                                              barrierDismissible: false,
+                                              builder: (BuildContext context) {
+                                                return SuccessDialog(
+                                                  dayBoost: filteredItems[index]
+                                                      .item
+                                                      .expBooster
+                                                      ?.boostDays,
+                                                  dayBoostValue:
+                                                      filteredItems[index]
+                                                          .item
+                                                          .expBooster
+                                                          ?.boostMultiplier,
+                                                  iconPath: AppImages.boostIcon,
+                                                  onClose: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                );
+                                              },
+                                            );
+                                          },
+                                        );
+                                      }).toList(),
+                                    );
+                                  } else {
+                                    return const Center(
+                                        child: Text(
+                                            AppStrings.noDataAvaliableText));
+                                  }
+                                },
                               ),
                             )),
                       ],
@@ -121,27 +171,26 @@ class MyItemScreen extends StatelessWidget {
                             return const Center(
                                 child: CircularProgressIndicator());
                           } else if (state is ExchangeError) {
-                            return Center(child: Text(state.errorMessage));
+                            return Center(
+                                child: Column(
+                              children: [
+                                Image.asset(AppImages.catNoItemimage,
+                                    height: 128),
+                                const SizedBox(height: 32),
+                                Text(state.errorMessage),
+                              ],
+                            ));
                           } else if (state is ExchangeUserItemLoaded) {
-                            final exchangeItems = state.userExchange.items;
+                            final filteredItems = state.userExchange.items
+                                .where((item) =>
+                                    item.isActive == false &&
+                                    item.item.itemType == "exp_boost")
+                                .toList();
 
-                            // Debug each item thoroughly
-                            for (int i = 0; i < exchangeItems.length; i++) {
-                              final item = exchangeItems[i].item;
-                              debugPrint(
-                                  "Item $i - ITEM_TYPE: '${item.itemType}'");
-                              debugPrint(
-                                  "Item $i - ExpBooster: ${item.expBooster}");
-                              if (item.expBooster != null) {
-                                debugPrint(
-                                    "Item $i - Multiplier: ${item.expBooster!.boostMultiplier}");
-                              }
-                              debugPrint(
-                                  "Item $i - GemExchange: ${item.gemExchange}");
-                              if (item.gemExchange != null) {
-                                debugPrint(
-                                    "Item $i - Gem reward: ${item.gemExchange!.gemReward}");
-                              }
+                            if (filteredItems.isEmpty) {
+                              return const Center(
+                                  child: Text(
+                                      "No inactive experience boost items available"));
                             }
 
                             return Wrap(
@@ -149,85 +198,43 @@ class MyItemScreen extends StatelessWidget {
                               runSpacing: 16,
                               alignment: WrapAlignment.spaceBetween,
                               children:
-                                  exchangeItems.asMap().entries.map((entry) {
-                                final int index = entry.key; // Get the index
-                                final exchangeItem =
-                                    entry.value; // Get the item
-                                // debugPrint(
-                                //     "Parsed ItemType: ${exchangeItem.item.itemType}");
-                                // debugPrint(
-                                //     "Parsed ExpBooster: ${exchangeItem.item.expBooster?.boostMultiplier}");
-                                // debugPrint(
-                                //     "Parsed GemExchange: ${exchangeItem.item.gemExchange?.gemReward}");
+                                  filteredItems.asMap().entries.map((entry) {
+                                final int index = entry.key;
+                                final exchangeItem = entry.value;
 
                                 return ExchangeItemComponent(
-                                  itemImagePath:
-                                      exchangeItem.item.itemType == "exp_boost"
-                                          ? AppImages.boostIcon
-                                          : AppImages.gemIcon,
-                                  requiredImagePath:
-                                      exchangeItem.item.itemType == "exp_boost"
-                                          ? AppImages.gemIcon
-                                          : AppImages.expCoinSvg,
-                                  itemValue:
-                                      exchangeItem.item.itemType == "exp_boost"
-                                          ? (exchangeItem.item.expBooster
-                                                      ?.boostMultiplier ??
-                                                  0.0)
-                                              .toDouble()
-                                          : (exchangeItem.item.gemExchange
-                                                      ?.gemReward ??
-                                                  0)
-                                              .toDouble(),
-                                  dayBoost: exchangeItem.item.itemType ==
-                                          "exp_boost"
-                                      ? exchangeItem.item.expBooster?.boostDays
-                                      : null,
-                                  requiredValue:
-                                      exchangeItem.item.itemType == "exp_boost"
-                                          ? exchangeItem.item.priceGem
-                                          : exchangeItem.item.priceExp,
+                                  itemImagePath: AppImages
+                                      .boostIcon, // Always boost icon since we're filtering for exp_boost
+                                  itemValue: (exchangeItem.item.expBooster
+                                              ?.boostMultiplier ??
+                                          0.0)
+                                      .toDouble(),
+                                  dayBoost:
+                                      exchangeItem.item.expBooster?.boostDays,
                                   onButtonClick: () {
                                     debugPrint(
-                                        "${exchangeItem.itemId}Blue button clicked!");
-                                    debugPrint(
-                                        "${exchangeItem.item.itemName} ${exchangeItem.item.expBooster?.boostMultiplier} ${exchangeItem.item.expBooster?.boostDays} ${exchangeItem.item.gemExchange?.gemReward} ${exchangeItem.item.priceGem} ${exchangeItem.item.priceExp}");
+                                        "${exchangeItem.itemId}Active button clicked!");
+
+                                    context.read<ExchangeBloc>().add(
+                                        ActiveItemEvent(
+                                            filteredItems[index].userItemId));
 
                                     showDialog(
                                       context: context,
                                       barrierDismissible: false,
                                       builder: (BuildContext context) {
                                         return SuccessDialog(
-                                          title: state.userExchange.items[index]
-                                              .item.itemName,
-                                          description: state.userExchange
-                                              .items[index].item.description,
-                                          iconPath: state
-                                                      .userExchange
-                                                      .items[index]
-                                                      .item
-                                                      .itemType ==
-                                                  "exp_boost"
-                                              ? AppImages.boostIcon
-                                              : AppImages.gemIcon,
+                                          dayBoost: filteredItems[index]
+                                              .item
+                                              .expBooster
+                                              ?.boostDays,
+                                          dayBoostValue: filteredItems[index]
+                                              .item
+                                              .expBooster
+                                              ?.boostMultiplier,
+                                          iconPath: AppImages.boostIcon,
                                           onClose: () {
-                                            // Close dialog first
                                             Navigator.of(context).pop();
-
-                                            // Handle item activation if needed
-                                            // if (state.itemType ==
-                                            //     "gem_exchange") {
-                                            //   context
-                                            //       .read<ExchangeBloc>()
-                                            //       .add(ActiveItemEvent(
-                                            //           state.userItemId));
-                                            // }
-
-                                            // Update profile
-
-                                            context
-                                                .read<ExchangeBloc>()
-                                                .add(FetchUserItemEvent());
                                           },
                                         );
                                       },

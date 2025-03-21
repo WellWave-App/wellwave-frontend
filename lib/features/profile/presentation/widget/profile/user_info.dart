@@ -261,25 +261,9 @@ Widget _buildProfileImage(ProfileState state) {
   );
 }
 
-// Widget _buildFallbackImage() {
-//   return Container(
-//     width: 104,
-//     height: 104,
-//     decoration: BoxDecoration(
-//       shape: BoxShape.circle,
-//       color: Colors.grey[200],
-//     ),
-//     child: const Icon(
-//       Icons.person,
-//       size: 52,
-//       color: Colors.grey,
-//     ),
-//   );
-// }
-
 Widget _buildFallbackImage() {
   return const CircleAvatar(
     radius: 52,
-    backgroundImage: AssetImage(AppImages.crabImg),
+    backgroundImage: AssetImage(AppImages.catImg),
   );
 }

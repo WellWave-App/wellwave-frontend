@@ -50,15 +50,6 @@ class ExchangeError extends ExchangeState {
   const ExchangeError(this.errorMessage) : super();
 }
 
-// class ExchangeOpened extends ExchangeState {
-//   final String itemName;
-//   final String description;
-//   final String itemType;
-//   final int userItemId;
-//   const ExchangeOpened(
-//       this.itemName, this.description, this.itemType, this.userItemId);
-// }
-
 class MysteryBoxLoading extends ExchangeState {
   const MysteryBoxLoading() : super();
 }
@@ -68,9 +59,12 @@ class MysteryBoxOpened extends ExchangeState {
   final String description;
   final String itemType;
   final int userItemId;
+  final double? boostMultiplier;
+  final int? gemReward;
+  final int? boostDays;
   final ExchangeResponseModels? previousExchangeItems;
 
-  const MysteryBoxOpened(
-      this.itemName, this.description, this.itemType, this.userItemId,
+  const MysteryBoxOpened(this.itemName, this.description, this.itemType,
+      this.userItemId, this.boostMultiplier, this.gemReward, this.boostDays,
       {this.previousExchangeItems});
 }

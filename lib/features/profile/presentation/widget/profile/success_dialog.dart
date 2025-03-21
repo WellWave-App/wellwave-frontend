@@ -7,16 +7,18 @@ class SuccessDialog extends StatelessWidget {
   final String iconPath;
   final int? reward;
   final VoidCallback onClose;
-  final String? title;
-  final String? description;
+  final bool isExchange;
+  final int? dayBoost;
+  final double? dayBoostValue;
 
   const SuccessDialog({
     Key? key,
     this.reward,
     required this.iconPath,
     required this.onClose,
-    this.title,
-    this.description,
+    this.dayBoost,
+    this.dayBoostValue,
+    this.isExchange = false,
   }) : super(key: key);
 
   @override
@@ -70,9 +72,9 @@ class SuccessDialog extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         SvgPicture.asset(iconPath, height: 36),
-                                        const SizedBox(width: 4),
+                                        const SizedBox(width: 12),
                                         Text(
-                                          'x${reward.toString()}',
+                                          'x ${reward.toString()}',
                                           style: Theme.of(context)
                                               .textTheme
                                               .labelLarge
@@ -86,36 +88,19 @@ class SuccessDialog extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Column(
+                                        Row(
                                           children: [
                                             SvgPicture.asset(iconPath,
-                                                height: 72),
-                                            const SizedBox(height: 16),
+                                                height: 36),
+                                            const SizedBox(height: 12),
                                             Text(
-                                              title!,
+                                              '$dayBoostValue เท่า $dayBoost วัน',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .labelLarge
                                                   ?.copyWith(
                                                     fontWeight: FontWeight.bold,
                                                   ),
-                                            ),
-                                            const SizedBox(height: 4),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.6,
-                                              child: Text(
-                                                description!,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .caption2
-                                                    ?.copyWith(),
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.center,
-                                              ),
                                             ),
                                           ],
                                         ),
@@ -146,7 +131,9 @@ class SuccessDialog extends StatelessWidget {
               ),
               reward != null
                   ? Image.asset(AppImages.barCheckInSuccessImage)
-                  : Image.asset(AppImages.barCongratsImage),
+                  : isExchange
+                      ? SvgPicture.asset(AppImages.exchangeSuccessBar)
+                      : Image.asset(AppImages.barCongratsImage),
             ],
           ),
         ),
