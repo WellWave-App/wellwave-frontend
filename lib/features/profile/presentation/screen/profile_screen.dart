@@ -20,6 +20,7 @@ import '../../../logs/presentation/bloc/logs_bloc.dart';
 import '../bloc/profile_bloc/profile_bloc.dart';
 import '../bloc/profile_bloc/profile_event.dart';
 import '../bloc/profile_bloc/profile_state.dart';
+import '../widget/cancle_confirm_button.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -173,14 +174,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         //sign out
                         GestureDetector(
-                          onTap: () {
-                            context.read<AuthBloc>().add(LogoutEvent());
-
-                            Future.delayed(const Duration(milliseconds: 300),
-                                () {
-                              context.goNamed(AppPages.loginName);
-                            });
-                          },
+                          onTap: () => _showSignOutDialog(context),
                           child: Text(
                             AppStrings.signOutText,
                             style: Theme.of(context)
@@ -215,4 +209,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+}
+
+void _showSignOutDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        backgroundColor: Colors.transparent,
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppColors.whiteColor,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFFB2D6E7).withOpacity(1),
+                offset: const Offset(0, 6),
+                blurRadius: 0,
+                spreadRadius: 0,
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  "แน่ใจหรือไม่ว่าต้องการออกจากระบบ?",
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                ConfirmCancelButtons(
+                  onConfirm: () {
+                    Navigator.pop(context);
+                    context.read<AuthBloc>().add(LogoutEvent());
+
+                    Future.delayed(const Duration(milliseconds: 300), () {
+                      context.goNamed(AppPages.loginName);
+                    });
+                  },
+                  onCancel: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }
