@@ -91,6 +91,7 @@ class ExchangeScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: AppColors.greyColor,
                             decoration: TextDecoration.underline,
+                            decorationColor: AppColors.greyColor,
                           ),
                     ),
                   )
@@ -394,6 +395,120 @@ class ExchangeScreen extends StatelessWidget {
                               },
                             );
                           }).toList(),
+                        );
+                      } else if (state is ExchangeError) {
+                        return Center(
+                            child: Column(
+                          children: [
+                            Image.asset(AppImages.catNoItemimage, height: 128),
+                            const SizedBox(height: 32),
+                            Text(state.errorMessage),
+                          ],
+                        ));
+                      } else if (state is ExchangeUserItemLoaded) {
+                        final exchangeItems = state.userExchange.items;
+
+                        return BlocBuilder<ProfileBloc, ProfileState>(
+                          builder: (context, profileState) {
+                            int userGems = 0;
+                            int userExp = 0;
+
+                            if (profileState is ProfileLoaded) {
+                              userGems = profileState.userProfile.gem;
+                              userExp = profileState.userProfile.exp;
+                            }
+                            return Wrap(
+                              spacing: 16,
+                              runSpacing: 16,
+                              alignment: WrapAlignment.spaceBetween,
+                              children:
+                                  exchangeItems.asMap().entries.map((entry) {
+                                final int index = entry.key;
+                                final exchangeItem = entry.value;
+
+                                final bool canAfford =
+                                    exchangeItem.item.itemType == "exp_boost"
+                                        ? userGems >= exchangeItem.item.priceGem
+                                        : userExp >= exchangeItem.item.priceExp;
+
+                                return ExchangeItemComponent(
+                                  itemImagePath:
+                                      exchangeItem.item.itemType == "exp_boost"
+                                          ? AppImages.boostIcon
+                                          : AppImages.gemIcon,
+                                  requiredImagePath:
+                                      exchangeItem.item.itemType == "exp_boost"
+                                          ? canAfford
+                                              ? AppImages.gemIcon
+                                              : AppImages.gemNotCheckSvg
+                                          : AppImages.expCoinSvg,
+                                  itemValue:
+                                      exchangeItem.item.itemType == "exp_boost"
+                                          ? (exchangeItem.item.expBooster
+                                                      ?.boostMultiplier ??
+                                                  0.0)
+                                              .toDouble()
+                                          : (exchangeItem.item.gemExchange
+                                                      ?.gemReward ??
+                                                  0)
+                                              .toDouble(),
+                                  dayBoost: exchangeItem.item.itemType ==
+                                          "exp_boost"
+                                      ? exchangeItem.item.expBooster?.boostDays
+                                      : null,
+                                  requiredValue:
+                                      exchangeItem.item.itemType == "exp_boost"
+                                          ? exchangeItem.item.priceGem
+                                          : exchangeItem.item.priceExp,
+                                  isEnabled: canAfford,
+                                  onButtonClick: () {
+                                    if (canAfford) {
+                                      debugPrint(
+                                          "${exchangeItem.itemId} Blue button clicked!");
+                                      debugPrint(
+                                          "${exchangeItem.item.itemName} ${exchangeItem.item.expBooster?.boostMultiplier} ${exchangeItem.item.expBooster?.boostDays} ${exchangeItem.item.gemExchange?.gemReward} ${exchangeItem.item.priceGem} ${exchangeItem.item.priceExp}");
+
+                                      context.read<ExchangeBloc>().add(
+                                          BuyItemEvent(
+                                              itemId: exchangeItem.itemId));
+
+                                      showDialog(
+                                        context: context,
+                                        barrierDismissible: false,
+                                        builder: (BuildContext context) {
+                                          return SuccessDialog(
+                                            reward: exchangeItem
+                                                .item.gemExchange?.gemReward,
+                                            dayBoostValue: exchangeItem.item
+                                                .expBooster?.boostMultiplier,
+                                            dayBoost: exchangeItem
+                                                .item.expBooster?.boostDays,
+                                            iconPath: state
+                                                        .userExchange
+                                                        .items[index]
+                                                        .item
+                                                        .itemType ==
+                                                    "exp_boost"
+                                                ? AppImages.boostIcon
+                                                : AppImages.gemIcon,
+                                            onClose: () {
+                                              Navigator.of(context).pop();
+                                              context
+                                                  .read<ProfileBloc>()
+                                                  .add(FetchUserProfile());
+                                              context
+                                                  .read<ExchangeBloc>()
+                                                  .add(FetchAllItemEvent());
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
+                                );
+                              }).toList(),
+                            );
+                          },
                         );
                       } else {
                         return const Center(child: Text(''));

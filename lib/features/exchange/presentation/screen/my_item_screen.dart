@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../common/widget/app_bar.dart';
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
+import '../../../../config/constants/app_pages.dart';
 import '../bloc/exchange_bloc.dart';
 import '../bloc/exchange_event.dart';
 import '../bloc/exchange_state.dart';
@@ -19,11 +21,14 @@ class MyItemScreen extends StatelessWidget {
 
     return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: CustomAppBar(
+        appBar: CustomAppBarWithStep(
           context: context,
           onLeading: true,
-          backgroundColor: AppColors.transparentColor,
-          title: AppStrings.myItemText,
+          onBackPressed: () => context.goNamed(AppPages.exchangeName),
+          bgColor: AppColors.transparentColor,
+          titleText: AppStrings.myItemText,
+          totalSteps: 1,
+          currentStep: 1,
         ),
         body: SingleChildScrollView(
             child: Padding(
