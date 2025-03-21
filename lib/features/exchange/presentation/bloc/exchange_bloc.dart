@@ -70,23 +70,51 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     }
   }
 
-  Future<void> _onBuyItem(
+  Future _onBuyItem(
     BuyItemEvent event,
-    Emitter<ExchangeState> emit,
+    Emitter emit,
   ) async {
-    emit(const ExchangeLoading());
+    // Store the current state to preserve exchange items during the transaction
+    final currentState = state;
+    final ExchangeLoaded? loadedState =
+        currentState is ExchangeLoaded ? currentState : null;
+
+    // Only emit loading if we don't have previous items to show
+    if (loadedState == null) {
+      emit(const ExchangeLoading());
+    }
 
     try {
       final result = await exchangeRepositories.buyItem(
         itemId: event.itemId,
       );
 
-      final exchangeRequest =
-          ExchangeResponseModels.fromJson(result as Map<String, dynamic>);
+      // Properly handle the Map type conversion
+      if (result is Map) {
+        // Convert Map<dynamic, dynamic> to Map<String, dynamic>
+        final Map<String, dynamic> typedResult = {};
+        result.forEach((key, value) {
+          typedResult[key.toString()] = value;
+        });
 
-      emit(ExchangeLoaded(exchangeRequest));
+        final exchangeRequest = ExchangeResponseModels.fromJson(typedResult);
+        emit(ExchangeLoaded(exchangeRequest));
+      } else {
+        // If result is not a Map (like when it returns false)
+        if (loadedState != null) {
+          // Restore previous state if we had one
+          emit(loadedState);
+        } else {
+          emit(const ExchangeError('Error buying item'));
+        }
+      }
     } catch (e) {
-      emit(const ExchangeError('Error buying item'));
+      if (loadedState != null) {
+        // Restore previous state if we had one
+        emit(loadedState);
+      } else {
+        emit(ExchangeError('Error buying item: ${e.toString()}'));
+      }
     }
   }
 

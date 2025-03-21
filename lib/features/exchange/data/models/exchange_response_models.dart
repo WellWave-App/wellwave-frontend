@@ -4,12 +4,35 @@ class ExchangeResponseModels {
   ExchangeResponseModels({required this.items});
 
   factory ExchangeResponseModels.fromJson(Map<String, dynamic> json) {
-    final itemsList = json['items'] as List;
-    return ExchangeResponseModels(
-      items: itemsList
-          .map((item) => ExchangeResponseModel.fromJson(item))
-          .toList(),
-    );
+    // Handle case where 'items' might not be a list
+    if (json['items'] == null) {
+      return ExchangeResponseModels(items: []);
+    }
+
+    final dynamic itemsList = json['items'];
+    if (itemsList is List) {
+      return ExchangeResponseModels(
+        items: itemsList
+            .map((item) =>
+                ExchangeResponseModel.fromJson(_ensureStringKeys(item)))
+            .toList(),
+      );
+    }
+
+    // Return empty list if items is not a List
+    return ExchangeResponseModels(items: []);
+  }
+
+  // Helper method to ensure Map has String keys
+  static Map<String, dynamic> _ensureStringKeys(dynamic map) {
+    if (map is Map) {
+      final Map<String, dynamic> result = {};
+      map.forEach((key, value) {
+        result[key.toString()] = value;
+      });
+      return result;
+    }
+    return {}; // Return empty map if input is not a Map
   }
 }
 
@@ -33,31 +56,35 @@ class ExchangeResponseModel {
   });
 
   factory ExchangeResponseModel.fromJson(Map<String, dynamic> json) {
-    // debugPrint('Parsing ExchangeResponseModel: $json');
-
     // Check if the item field exists as expected
-    if (json['item'] == null) {
-      // debugPrint('WARNING: No "item" field found in the JSON: $json');
-      // The item data is probably at the root level
+    Map<String, dynamic> itemData;
+    if (json['item'] != null) {
+      if (json['item'] is Map) {
+        // Convert to Map<String, dynamic>
+        itemData = {};
+        (json['item'] as Map).forEach((key, value) {
+          itemData[key.toString()] = value;
+        });
+      } else {
+        itemData = {}; // Fallback empty map
+      }
+    } else {
+      // Try to parse from the root if 'item' is missing
+      itemData = json;
     }
-
-    final item = json['item'] != null
-        ? Item.fromJson(json['item'])
-        : Item.fromJson(
-            json); // Try to parse from the root if 'item' is missing
 
     return ExchangeResponseModel(
       userItemId: json['USER_ITEM_ID'] ?? 0,
       uid: json['UID'] ?? 0,
       itemId: json['ITEM_ID'] ?? 0,
       purchaseDate: json['PURCHASE_DATE'] != null
-          ? DateTime.parse(json['PURCHASE_DATE'])
+          ? DateTime.parse(json['PURCHASE_DATE'].toString())
           : DateTime.now(),
       expireDate: json['EXPIRE_DATE'] != null
-          ? DateTime.tryParse(json['EXPIRE_DATE'])
+          ? DateTime.tryParse(json['EXPIRE_DATE'].toString())
           : null,
       isActive: json['IS_ACTIVE'] ?? false,
-      item: item,
+      item: Item.fromJson(itemData),
     );
   }
 }

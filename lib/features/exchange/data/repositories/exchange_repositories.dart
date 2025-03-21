@@ -134,12 +134,28 @@ class ExchangeRepositories {
       );
 
       if (response.statusCode == 201) {
-        return jsonDecode(response.body);
+        // Parse the response body first
+        final dynamic decodedJson = jsonDecode(response.body);
+
+        // Check if it's a Map and convert it to Map<String, dynamic>
+        if (decodedJson is Map) {
+          final Map<String, dynamic> typedMap = {};
+          decodedJson.forEach((key, value) {
+            typedMap[key.toString()] = value;
+          });
+          return typedMap;
+        }
+        return decodedJson;
+      } else {
+        // Return more detailed error information as a properly typed Map
+        return <String, dynamic>{
+          'error': 'Server returned ${response.statusCode}',
+          'message': response.body
+        };
       }
-      return false;
     } catch (e) {
       debugPrint('Error: $e');
-      return false;
+      throw Exception('Network error: $e');
     }
   }
 
