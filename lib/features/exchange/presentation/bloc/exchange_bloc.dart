@@ -32,7 +32,7 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
 
       if (userExchange == null || userExchange.items.isEmpty) {
         debugPrint("No user items found.");
-        emit(const ExchangeError('No user items found.'));
+        emit(const ExchangeError('ไม่พบไอเทม'));
         return;
       }
 
@@ -137,19 +137,17 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     emit(const ExchangeUserItemLoading());
 
     try {
-      // Activate the item
       await exchangeRepositories.activeItem(
         userItemId: event.userItemId,
       );
 
-      // After activation, fetch the updated list of user items
-      final userItemsResult = await exchangeRepositories.getUserItem();
+      final exchangeRequest = await exchangeRepositories.getUserItem();
 
-      // Parse the user items into your model
-      final exchangeRequest = ExchangeResponseModels.fromJson(
-          userItemsResult as Map<String, dynamic>);
-
-      emit(ExchangeUserItemLoaded(exchangeRequest));
+      if (exchangeRequest != null) {
+        emit(ExchangeUserItemLoaded(exchangeRequest));
+      } else {
+        emit(const ExchangeError('Failed to load user items after activation'));
+      }
     } catch (e) {
       emit(ExchangeError('Error: ${e.toString()}'));
     }

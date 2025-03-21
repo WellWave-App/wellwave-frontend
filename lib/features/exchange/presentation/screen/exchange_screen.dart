@@ -199,21 +199,9 @@ class ExchangeScreen extends StatelessWidget {
                                                   ],
                                                 );
                                               } else {
-                                                return AlertDialog(
-                                                  title:
-                                                      const Text("Loading Box"),
-                                                  content: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      const CircularProgressIndicator(),
-                                                      const SizedBox(
-                                                          height: 20),
-                                                      Text(
-                                                          "Current state: ${state.runtimeType}")
-                                                    ],
-                                                  ),
-                                                );
+                                                return const Center(
+                                                    child:
+                                                        CircularProgressIndicator());
                                               }
                                             },
                                           );
@@ -321,7 +309,6 @@ class ExchangeScreen extends StatelessWidget {
                                           : exchangeItem.item.priceExp,
                                   isEnabled: canAfford,
                                   onButtonClick: () {
-                                    // Only execute if the user can afford it
                                     if (canAfford) {
                                       debugPrint(
                                           "${exchangeItem.itemId} Blue button clicked!");
