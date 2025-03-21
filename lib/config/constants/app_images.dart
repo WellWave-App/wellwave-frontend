@@ -179,4 +179,11 @@ class AppImages {
   static const expCoinSvg = 'assets/icons/exp_coin_svg.svg';
   static const gemSvg = 'assets/icons/gem_svg.svg';
   static const giftSvg = 'assets/icons/gift_svg.svg';
+
+// friends
+  static const addfriendIcon = 'assets/icons/addfriends.svg';
+  static const waveIcon = 'assets/icons/wave.svg';
+  static const waveIconActive = 'assets/icons/wave_active.svg';
+  static const actionIcon = 'assets/icons/action.svg';
+  static const findFriendAvatar = 'assets/avatar/findfriend.svg';
 }

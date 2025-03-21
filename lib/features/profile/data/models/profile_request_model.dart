@@ -8,12 +8,18 @@ class ProfileRequestModel {
   final num weight;
   final int gem;
   final int exp;
+<<<<<<< HEAD
   final int? stepPerWeek;
   final int? exercisePerWeek;
   final UserLeague? userLeague;
   final LogInStats? loginStats;
   final WeeklyGoal? weeklyGoal;
   final DateTime? createAt;
+=======
+  final UserLeague? userLeague;
+  final int? stepPerWeek;
+  final int? exercisePerWeek;
+>>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
 
   ProfileRequestModel({
     required this.uid,
@@ -25,12 +31,18 @@ class ProfileRequestModel {
     required this.weight,
     required this.exp,
     required this.gem,
+<<<<<<< HEAD
     this.loginStats,
     this.userLeague,
     this.stepPerWeek,
     this.exercisePerWeek,
     this.weeklyGoal,
     this.createAt,
+=======
+    this.userLeague,
+    this.stepPerWeek,
+    this.exercisePerWeek,
+>>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
   });
 
   ProfileRequestModel copyWith(
@@ -43,6 +55,7 @@ class ProfileRequestModel {
       int? userGoal,
       String? email,
       int? stepPerWeek,
+<<<<<<< HEAD
       int? exercisePerWeek,
       DateTime? createAt}) {
     return ProfileRequestModel(
@@ -59,6 +72,21 @@ class ProfileRequestModel {
       exercisePerWeek: exercisePerWeek,
       createAt: createAt,
     );
+=======
+      int? exercisePerWeek}) {
+    return ProfileRequestModel(
+        imageUrl: imageUrl ?? this.imageUrl,
+        username: username ?? this.username,
+        yearOfBirth: yearOfBirth ?? this.yearOfBirth,
+        gender: gender ?? this.gender,
+        height: height ?? this.height,
+        weight: weight ?? this.weight,
+        uid: uid,
+        exp: exp,
+        gem: gem,
+        stepPerWeek: stepPerWeek,
+        exercisePerWeek: exercisePerWeek);
+>>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
   }
 
   Map<String, dynamic> toJson() {
@@ -73,8 +101,12 @@ class ProfileRequestModel {
       'EXP': exp,
       'GEM': gem,
       'USER_GOAL_STEP_WEEK': stepPerWeek,
+<<<<<<< HEAD
       'USER_GOAL_EX_TIME_WEEK': exercisePerWeek,
       'CREATE_AT': createAt,
+=======
+      'USER_GOAL_EX_TIME_WEEK': exercisePerWeek
+>>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
     };
   }
 
@@ -87,6 +119,7 @@ class ProfileRequestModel {
       gender: json['userInfo']['GENDER'] as bool? ?? false,
       height: (json['userInfo']['HEIGHT'] as num?)?.toDouble() ?? 0.0,
       weight: (json['userInfo']['WEIGHT'] as num?)?.toDouble() ?? 0.0,
+<<<<<<< HEAD
       exp: json['userInfo']['EXP'] as int? ?? 0,
       gem: json['userInfo']['GEM'] as int? ?? 0,
       stepPerWeek: json['userInfo']['USER_GOAL_STEP_WEEK'] as int? ?? 0,
@@ -103,6 +136,15 @@ class ProfileRequestModel {
       createAt: json['userInfo']['createAt'] != null
           ? DateTime.parse(json['userInfo']['createAt'])
           : null,
+=======
+      exp: json['userInfo']['EXP'] as int,
+      gem: json['userInfo']['GEM'] as int,
+      stepPerWeek: json['userInfo']['USER_GOAL_STEP_WEEK'] ?? 0,
+      exercisePerWeek: json['userInfo']['USER_GOAL_EX_TIME_WEEK'] ?? 0,
+      userLeague: json['userLeague'] != null
+          ? UserLeague.fromJson(json['userLeague'])
+          : null,
+>>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
     );
   }
 
@@ -118,22 +160,40 @@ class ProfileRequestModel {
       'EXP': exp,
       'GEM': gem,
       'USER_GOAL_STEP_WEEK': stepPerWeek,
+<<<<<<< HEAD
       'USER_GOAL_EX_TIME_WEEK': exercisePerWeek,
+=======
+      'USER_GOAL_EX_TIME_WEEK': exercisePerWeek
+>>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
     };
   }
 }
 
 class UserLeague {
+<<<<<<< HEAD
   final int uid;
   final int currentLeague;
 
   UserLeague({
     required this.uid,
     required this.currentLeague,
+=======
+  final int id;
+  final String name;
+  final int minExp;
+  final int maxExp;
+
+  UserLeague({
+    required this.id,
+    required this.name,
+    required this.minExp,
+    required this.maxExp,
+>>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
   });
 
   factory UserLeague.fromJson(Map<String, dynamic> json) {
     return UserLeague(
+<<<<<<< HEAD
       uid: json['UID'] as int? ?? 0,
       currentLeague: _mapLeagueToInt(json['CURRENT_LEAGUE'] ?? ''),
     );
@@ -319,6 +379,14 @@ class OverAllStats {
       'TOTAL_POINTS_EARNED': totalPointsEarned,
     };
   }
+=======
+      id: json['LB_ID'] as int,
+      name: json['LEAGUE_NAME'] as String,
+      minExp: json['MIN_EXP'] as int,
+      maxExp: json['MAX_EXP'] as int,
+    );
+  }
+>>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
 }
 
 class UsersAchievement {

@@ -29,7 +29,6 @@ class AppPages {
   static const String forgotPasswordPage = 'forgotPassword';
   static const String exchangePage = 'exchange';
 
-  // Name of the route
   static const String splashName = 'splash';
   static const String homeName = 'home';
   static const String logName = 'log';
