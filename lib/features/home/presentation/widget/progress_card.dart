@@ -33,7 +33,6 @@ class ProgressCard extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // ข้อมูลข้อความ
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

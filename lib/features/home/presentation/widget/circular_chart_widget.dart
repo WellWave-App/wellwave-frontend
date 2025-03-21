@@ -4,7 +4,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/enums/thai_date_formatter.dart';
-import 'package:wellwave_frontend/features/home/data/models/health_data_step_and_ex_respone_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/health_data_step_and_ex_response_model.dart';
 
 class CircularChartWidget extends StatelessWidget {
   final DateTime date;

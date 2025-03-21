@@ -1,14 +1,14 @@
-class HealthDataStepAndExResponeModel {
+class HealthDataStepAndExResponseModel {
   final DateRange dateRange;
   final HealthData data;
 
-  HealthDataStepAndExResponeModel({
+  HealthDataStepAndExResponseModel({
     required this.dateRange,
     required this.data,
   });
 
-  factory HealthDataStepAndExResponeModel.fromJson(Map<String, dynamic> json) {
-    return HealthDataStepAndExResponeModel(
+  factory HealthDataStepAndExResponseModel.fromJson(Map<String, dynamic> json) {
+    return HealthDataStepAndExResponseModel(
       dateRange: DateRange.fromJson(json['dateRange']),
       data: HealthData.fromJson(json['data']),
     );

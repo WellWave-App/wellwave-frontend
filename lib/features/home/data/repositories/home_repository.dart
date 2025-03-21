@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/app_url.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
-import 'package:wellwave_frontend/features/home/data/models/health_data_step_and_ex_respone_model.dart';
-import 'package:wellwave_frontend/features/home/data/models/login_streak_data_respone_model.dart';
-import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/get_user_challenges_request_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/health_data_step_and_ex_response_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/login_streak_data_response_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/notifications_data_response_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/recommend_habit_response_model.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
-import 'package:wellwave_frontend/config/constants/app_url.dart';
 
 extension HomeHealthDataRepository on HealthAssessmentRepository {
   static final _secureStorage = const FlutterSecureStorage();
@@ -213,7 +213,7 @@ class NotificationsRepository {
       } else {
         debugPrint(
             'Failed to mark notification as read: ${response.statusCode}');
-        debugPrint('Response Body: ${response.body}');
+        // debugPrint('Response Body: ${response.body}');
         return false;
       }
     } catch (e) {
@@ -227,7 +227,7 @@ class HealthDataRepository {
   final _secureStorage = const FlutterSecureStorage();
   final _tokenKey = 'access_token';
 
-  Future<HealthDataStepAndExResponeModel?> fetchStepAndExTimeData() async {
+  Future<HealthDataStepAndExResponseModel?> fetchStepAndExTimeData() async {
     final token = await _secureStorage.read(key: _tokenKey);
     try {
       final response = await http.get(
@@ -241,7 +241,7 @@ class HealthDataRepository {
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         // debugPrint('response ${response.body}');
-        return HealthDataStepAndExResponeModel.fromJson(jsonData);
+        return HealthDataStepAndExResponseModel.fromJson(jsonData);
       } else {
         debugPrint('Error: Server responded with ${response.statusCode}');
         return null;
@@ -249,6 +249,87 @@ class HealthDataRepository {
     } catch (e) {
       debugPrint('Error: $e');
       return null;
+    }
+  }
+}
+
+class RecommendHabitRepository {
+  final _secureStorage = const FlutterSecureStorage();
+  final _tokenKey = 'access_token';
+
+  Future<RecommendHabitResponseModel?> fetchRecommendHabitData() async {
+    final token = await _secureStorage.read(key: _tokenKey);
+
+    try {
+      final response = await http.get(
+        Uri.parse("$baseUrl/get-rec/test-habits"),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        return RecommendHabitResponseModel.fromJson(jsonData);
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Error: $e');
+      return null;
+    }
+  }
+}
+
+class UserChallengesRepository {
+  final _secureStorage = const FlutterSecureStorage();
+  final _tokenKey = 'access_token';
+
+  Future<GetUserChallengesRequestModel?> fetchUserChallengesData() async {
+    final token = await _secureStorage.read(key: _tokenKey);
+
+    try {
+      final response = await http.get(
+        Uri.parse("$baseUrl/habit/user?status=active&page&limit&pagination"),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        return GetUserChallengesRequestModel.fromJson(jsonData);
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Error: $e');
+      return null;
+    }
+  }
+
+  Future<void> updateUserChallengesData({
+    required int challengeId,
+    required bool completed,
+  }) async {
+    final token = await _secureStorage.read(key: _tokenKey);
+
+    try {
+      final response = await http.post(
+        Uri.parse("$baseUrl/habit/track"),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'CHALLENGE_ID': challengeId,
+          'TRACK_DATE': DateTime.now().toIso8601String(),
+          'COMPLETED': completed,
+        }),
+      );
+
+      if (response.statusCode != 201) {
+        throw Exception('Failed to update completion status');
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
+      throw Exception('Failed to update completion status');
     }
   }
 }

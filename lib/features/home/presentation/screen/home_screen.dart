@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               FutureBuilder<bool>(
-                future: isCreateAtDateWithin30Days(profileCreateAt!),
+                future: _checkShowFloatingButton(profileCreateAt),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -80,23 +80,27 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+Future<bool> _checkShowFloatingButton(DateTime? profileCreateAt) async {
+  final prefs = await SharedPreferences.getInstance();
+  final lastPressedTimestamp = prefs.getInt('last_button_pressed');
+
+  if (lastPressedTimestamp == null) {
+    if (profileCreateAt != null) {
+      final isProfileOld = await isCreateAtDateWithin30Days(profileCreateAt);
+      return isProfileOld;
+    }
+    return false;
+  } else {
+    final isButtonOld = await isButtonPressedRecently();
+    return isButtonOld;
+  }
+}
+
 Future<bool> isCreateAtDateWithin30Days(DateTime createAt) async {
   final currentDate = DateTime.now();
   final difference = currentDate.difference(createAt).inDays;
 
   return difference > 30;
-}
-
-Future<void> setButtonPressedForCurrentMonth() async {
-  final prefs = await SharedPreferences.getInstance();
-  final currentMonth = DateTime.now().month;
-  await prefs.setInt('lastPressedMonth', currentMonth);
-}
-
-Future<void> setLastButtonPressedDate(DateTime dateTime) async {
-  final prefs = await SharedPreferences.getInstance();
-
-  await prefs.setInt('last_button_pressed', dateTime.millisecondsSinceEpoch);
 }
 
 Future<bool> isButtonPressedRecently() async {
@@ -113,4 +117,9 @@ Future<bool> isButtonPressedRecently() async {
 
   final difference = currentDate.difference(lastPressedDate).inDays;
   return difference > 30;
+}
+
+Future<void> setLastButtonPressedDate(DateTime dateTime) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setInt('last_button_pressed', dateTime.millisecondsSinceEpoch);
 }

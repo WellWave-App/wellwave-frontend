@@ -21,7 +21,7 @@ class GradientButton extends StatelessWidget {
           height: 34,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Color(0xFF3870AB), Color(0xFF3D93BD)],
+              colors: [Color(0xFF3659A3), Color(0xFF3D93BD)],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
@@ -41,6 +41,58 @@ class GradientButton extends StatelessWidget {
                     color: AppColors.whiteColor,
                   ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class GradientFinishButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const GradientFinishButton({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          width: 164,
+          height: 34,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF3659A3), Color(0xFF3D93BD)],
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+            ),
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                offset: Offset(0, 2),
+                blurRadius: 4,
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(width: 6),
+              CircleAvatar(
+                radius: 12,
+                backgroundColor: AppColors.whiteColor,
+                child: Icon(
+                  Icons.check,
+                  color: AppColors.primaryColor,
+                  size: 20,
+                ),
+              ),
+            ],
           ),
         ),
       ),

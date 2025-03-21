@@ -2,6 +2,7 @@ import 'package:action_slider/action_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
@@ -53,18 +54,20 @@ class ActionSliderButton extends StatelessWidget {
               ),
               action: (controller) async {
                 controller.loading();
-                await Future.delayed(const Duration(seconds: 1));
-                context.read<HomeBloc>().add(
-                      UpdateCompletionStatusEvent(
+                try {
+                  context.read<HomeBloc>().add(UpdateCompletionStatusEvent(
                         progressId: progressId,
                         date: date,
                         isComplete: true,
-                      ),
-                    );
-                controller.success();
+                      ));
+
+                  controller.success();
+                } catch (e) {
+                  controller.failure();
+                }
               },
               child: Text(
-                'สไลด์เมื่อเสร็จสิ้น',
+                AppStrings.slideMissionText,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: AppColors.whiteColor,
                     ),

@@ -6,12 +6,13 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/home/data/models/challenge.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
+import 'package:wellwave_frontend/features/home/data/models/recommend_habit_response_model.dart';
 
-class ChallengeShowCard extends StatelessWidget {
-  final Challenge challenge;
+class HabitShowCard extends StatelessWidget {
+  final HabitSimpleModel habit;
 
-  ChallengeShowCard({required this.challenge});
+  const HabitShowCard({Key? key, required this.habit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class ChallengeShowCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: AppColors.blackColor.withOpacity(0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: Offset(0, 2),
@@ -35,58 +36,56 @@ class ChallengeShowCard extends StatelessWidget {
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image.network(
-            challenge.image,
-            width: 64,
+            "$baseUrl/${habit.thumbnailUrl}",
+            height: 64,
             errorBuilder: (context, error, stackTrace) {
               return Icon(Icons.image_not_supported, size: 64);
             },
           ),
           SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (challenge.rewardType == 'EXP')
-                SvgPicture.asset(
-                  AppImages.expIcon,
-                  height: 20,
-                ),
-              if (challenge.rewardType == 'GEM')
-                SvgPicture.asset(
-                  AppImages.gemIcon,
-                  height: 20,
-                ),
-              SizedBox(width: 4),
-              Text(
-                challenge.points.toString(),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.blackColor,
-                    ),
-              ),
-              SizedBox(width: 4),
-              Text(
-                challenge.rewardType,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.blackColor,
-                    ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
           Container(
-            height: 72,
+            height: 48,
             child: Text(
-              challenge.taskDescription,
-              textAlign: TextAlign.center,
-              maxLines: 3,
+              habit.title,
               overflow: TextOverflow.ellipsis,
+              maxLines: 2,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColors.blackColor,
                   ),
             ),
+          ),
+          SizedBox(height: 16),
+          Row(
+            children: [
+              if (habit.expReward != 0) ...[
+                SvgPicture.asset(
+                  AppImages.expIcon,
+                  height: 20,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  "${habit.expReward.toString()} ${AppStrings.expText.toUpperCase()}",
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.blackColor,
+                      ),
+                ),
+              ] else if (habit.gemReward != 0) ...[
+                SvgPicture.asset(
+                  AppImages.gemIcon,
+                  height: 20,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  "${habit.gemReward.toString()} ${AppStrings.gemText.toUpperCase()}",
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.blackColor,
+                      ),
+                ),
+              ],
+            ],
           ),
           SizedBox(height: 16),
           CardButton(

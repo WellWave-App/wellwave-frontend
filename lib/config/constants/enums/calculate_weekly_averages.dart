@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:wellwave_frontend/features/home/data/models/health_data_step_and_ex_respone_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/health_data_step_and_ex_response_model.dart';
 
 List<Map<String, dynamic>> calculateWeeklyAverage(
     List<HealthEntry> stepEntries) {

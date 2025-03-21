@@ -165,10 +165,10 @@ class AppStrings {
   static const healthAssessmentText = 'แบบประเมินสุขภาพ';
 
   //home
-  static const exerciseTimeMessageLessThanPrevious =
-      'คุณใช้เวลาออกกำลังกายเฉลี่ย {0} นาทีในสัปดาห์ที่ผ่านมา หยุดพักแล้วอย่าลืมกลับมาสู้ต่อ!';
-  static const exerciseTimeMessageContinuity =
-      'คุณใช้เวลาออกกำลังกายเฉลี่ย {0} นาทีในสัปดาห์ที่ผ่านมา อย่าลืมรักษาความต่อเนื่องนี้ไว้!';
+  static const stepTimeMessageLessThanPrevious =
+      'คุณเดินไปทั้งหมด {0} ก้าวในสัปดาห์ที่ผ่านมา หยุดพักแล้วอย่าลืมกลับมาสู้ต่อ!';
+  static const stepTimeMessageContinuity =
+      'คุณเดินไปทั้งหมด {0} ก้าวในสัปดาห์ที่ผ่านมา อย่าลืมรักษาความต่อเนื่องนี้ไว้!';
 
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
@@ -249,6 +249,8 @@ class AppStrings {
   static const healthdataText = 'ข้อมูลสุขภาพประจำสัปดาห์';
 
   static const seeMissionText = 'ดูภารกิจ';
+  static const doMissionText = 'ทำภารกิจ';
+  static const slideMissionText = 'สไลด์เมื่อเสร็จสิ้น';
   static const continueMissionText = 'ทำต่อ';
 
   static const exerciseText = 'ออกกำลังกาย';

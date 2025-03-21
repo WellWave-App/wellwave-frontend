@@ -38,6 +38,15 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<LoginStreakRepository>(
           create: (context) => LoginStreakRepository(),
         ),
+        RepositoryProvider<HealthDataRepository>(
+          create: (context) => HealthDataRepository(),
+        ),
+        RepositoryProvider<UserChallengesRepository>(
+          create: (context) => UserChallengesRepository(),
+        ),
+        RepositoryProvider<RecommendHabitRepository>(
+          create: (context) => RecommendHabitRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -49,6 +58,8 @@ class MainApp extends StatelessWidget {
               loginStreakRepository: LoginStreakRepository(),
               notificationsRepository: NotificationsRepository(),
               healthDataRepository: HealthDataRepository(),
+              userChallengesRepository: UserChallengesRepository(),
+              recommendHabitRepository: RecommendHabitRepository(),
             )..add(FetchHomeEvent()),
           ),
           BlocProvider<StartRecommendBloc>(

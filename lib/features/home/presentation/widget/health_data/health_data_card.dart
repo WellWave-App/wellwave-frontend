@@ -15,14 +15,18 @@ class HealthDataCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isLessThanPrevious = weeklyAverages.length > 1 &&
-        weeklyAverages.last < weeklyAverages[weeklyAverages.length - 2];
+    String message = '';
 
-    String message = isLessThanPrevious
-        ? AppStrings.exerciseTimeMessageLessThanPrevious
-            .replaceFirst('{0}', '${weeklyAverages.last}')
-        : AppStrings.exerciseTimeMessageContinuity
-            .replaceFirst('{0}', '${weeklyAverages.last}');
+    if (weeklyAverages != null && weeklyAverages.isNotEmpty) {
+      bool isLessThanPrevious = weeklyAverages.length > 1 &&
+          weeklyAverages.last < weeklyAverages[weeklyAverages.length - 2];
+
+      message = isLessThanPrevious
+          ? AppStrings.stepTimeMessageLessThanPrevious
+              .replaceFirst('{0}', '${weeklyAverages.last}')
+          : AppStrings.stepTimeMessageContinuity
+              .replaceFirst('{0}', '${weeklyAverages.last}');
+    }
 
     return Container(
       decoration: BoxDecoration(

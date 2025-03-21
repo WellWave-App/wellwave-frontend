@@ -2,8 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
-import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
-import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
 @immutable
 sealed class HomeEvent {
@@ -94,3 +92,8 @@ class MarkAsReadNotiEvent extends HomeEvent {
 class MarkAllAsReadNotiEvent extends HomeEvent {}
 
 class FetchHomeEvent extends HomeEvent {}
+
+class FetchUserChallengesEvent extends HomeEvent {
+  @override
+  List<Object> get props => [];
+}

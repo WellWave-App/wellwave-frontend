@@ -1,49 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/action_slider_button.dart';
-import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/common/widget/gradient_circular_progress_indicator.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/home/data/models/progress.dart';
-import 'package:wellwave_frontend/features/home/presentation/widget/mockup_data/progress_data.dart';
+import 'package:wellwave_frontend/features/home/data/models/get_user_challenges_request_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/widget/progress_stepper.dart';
 
 class ProgressShowCard extends StatelessWidget {
-  final Progress progress;
+  final Challenge progressData;
 
-  const ProgressShowCard({Key? key, required this.progress}) : super(key: key);
-
-  bool _hasDateNow(Progress progress) {
-    final dates = List.generate(
-      progress.totalDays,
-      (index) => progress.startDate.add(Duration(days: index)),
-    );
-    return dates.any((date) => _isSameDay(date, DateTime.now()));
-  }
-
-  bool _isSameDay(DateTime date1, DateTime date2) {
-    return date1.year == date2.year &&
-        date1.month == date2.month &&
-        date1.day == date2.day;
-  }
+  const ProgressShowCard({Key? key, required this.progressData})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // if (!_hasDateNow(progress)) {
-    //   return SizedBox.shrink();
-    // }
+    final habit = progressData.habits;
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: AppColors.blackColor.withOpacity(0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: Offset(0, 2),
@@ -62,7 +42,7 @@ class ProgressShowCard extends StatelessWidget {
               Expanded(
                 flex: 4,
                 child: Text(
-                  progress.taskDescription,
+                  habit.title,
                   textAlign: TextAlign.left,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -75,49 +55,69 @@ class ProgressShowCard extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: GradientCircularProgressWithText(
-                  value: progress.progress,
+                  value: _calculateProgress(progressData),
                 ),
               ),
             ],
           ),
           SizedBox(height: 8),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (progress.rewardType == 'EXP')
-                SvgPicture.asset(
-                  AppImages.expIcon,
-                  height: 20,
-                ),
-              if (progress.rewardType == 'GEM')
-                SvgPicture.asset(
-                  AppImages.gemIcon,
-                  height: 20,
-                ),
-              const SizedBox(
-                width: 4,
-              ),
-              Text(
-                progress.rewards.toString(),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.blackColor,
+              Row(
+                children: [
+                  if (habit.expReward != 0) ...[
+                    SvgPicture.asset(
+                      AppImages.expIcon,
+                      height: 20,
                     ),
-              ),
-              const SizedBox(
-                width: 4,
+                    const SizedBox(width: 4),
+                    Text(
+                      "${habit.expReward.toString()} ${AppStrings.expText.toUpperCase()}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.blackColor,
+                          ),
+                    ),
+                  ] else if (habit.gemReward != 0) ...[
+                    SvgPicture.asset(
+                      AppImages.gemIcon,
+                      height: 20,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      "${habit.gemReward.toString()} ${AppStrings.gemText.toUpperCase()}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.blackColor,
+                          ),
+                    ),
+                  ],
+                ],
               ),
               Text(
-                progress.rewardType,
+                "${progressData.streakCount.toString()}/${progressData.daysGoal.toString()} วัน",
+                textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.blackColor,
+                      color: AppColors.darkGrayColor,
                     ),
               ),
             ],
           ),
           SizedBox(height: 16),
           ProgressStepperWidget(
-              progress: progress, progressId: progress.id.toString()),
+            progressData: progressData,
+            progressId: progressData.challengeId.toString(),
+          ),
         ],
       ),
     );
+  }
+
+  double _calculateProgress(Challenge progressData) {
+    final totalDays = progressData.daysGoal;
+    final completedDays =
+        progressData.dailyTracks.where((track) => track.completed!).length;
+    return completedDays / totalDays;
   }
 }
