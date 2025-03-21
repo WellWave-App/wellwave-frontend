@@ -9,6 +9,7 @@ import '../../../../config/constants/app_colors.dart';
 import '../bloc/archeivement_bloc/archeivement_bloc.dart';
 import '../bloc/archeivement_bloc/archeivement_event.dart';
 import '../bloc/archeivement_bloc/archeivement_state.dart';
+import '../../../../config/constants/app_url.dart';
 
 class AchievementScreen extends StatelessWidget {
   const AchievementScreen({super.key});
@@ -30,74 +31,30 @@ class AchievementScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, top: 36, bottom: 20),
+          padding:
+              const EdgeInsets.only(left: 20, top: 36, bottom: 20, right: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //  Record Section
-              // Text(
-              //   AppStrings.yourRecordText,
-              //   style: Theme.of(context)
-              //       .textTheme
-              //       .headlineMedium
-              //       ?.copyWith(fontWeight: FontWeight.bold),
-              // ),
-              // const SizedBox(height: 24),
-              // SizedBox(
-              //   height: 169, // Constrain the height of the horizontal scroll
-              //   child: ListView(
-              //     scrollDirection: Axis.horizontal,
-              //     children: const [
-              //       ArchievementRecordCard(
-              //         svgPath: AppImages.medalSvg,
-              //         archievementName: 'ยอดนักแข่ง EXP',
-              //       ),
-              //       ArchievementRecordCard(
-              //         svgPath: AppImages.medalSvg,
-              //         archievementName: 'ยอดนักแข่ง EXP',
-              //       ),
-              //       ArchievementRecordCard(
-              //         svgPath: AppImages.medalSvg,
-              //         archievementName: 'ยอดนักแข่ง EXP',
-              //       ),
-              //       ArchievementRecordCard(
-              //         svgPath: AppImages.medalSvg,
-              //         archievementName: 'ยอดนักแข่ง EXP',
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // const SizedBox(height: 32),
-
-              // Medals Section
-              // Text(
-              //   AppStrings.medalText,
-              //   style: Theme.of(context)
-              //       .textTheme
-              //       .headlineMedium
-              //       ?.copyWith(fontWeight: FontWeight.bold),
-              // ),
-              // const SizedBox(height: 24),
               BlocBuilder<ArcheivementBloc, ArcheivementState>(
                 builder: (context, state) {
                   if (state is ArcheivementError) {
                     return Center(
-                        child: Column(
-                      children: [
-                        Image.asset(AppImages.catNoItemimage, height: 128),
-                        const SizedBox(height: 32),
-                        Text(state.message),
-                      ],
-                    ));
+                      child: Column(
+                        children: [
+                          Image.asset(AppImages.catNoItemimage, height: 128),
+                          const SizedBox(height: 32),
+                          Text(state.message),
+                        ],
+                      ),
+                    );
                   }
 
                   if (state is AllArcheivementLoaded) {
-                    // Create a map of achievement ID to highest level earned
                     final earnedAchievementsMap = Map.fromEntries(state
                         .earnedAchievements
                         .map((e) => MapEntry(e.achId, e)));
 
-                    // Separate earned and unearned achievements
                     final List<Widget> achievementWidgets = [];
                     final List<Widget> unearnedWidgets = [];
 
@@ -106,91 +63,41 @@ class AchievementScreen extends StatelessWidget {
                           earnedAchievementsMap[achievement.achId];
 
                       if (earnedAchievement != null) {
-                        // Earned achievements
                         final selectedLevel = earnedAchievement
                             .achievement.levels
                             .firstWhere((level) =>
                                 level.level == earnedAchievement.level);
-                        final levelIcon =
-                            "http://10.0.2.2:3000${selectedLevel.iconUrl}";
+                        final levelIcon = "$baseUrl${selectedLevel.iconUrl}";
 
-                        achievementWidgets.add(
-                          GestureDetector(
-                            onTap: () => _showAchievementPopup(
-                                context, earnedAchievement, false),
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Image.network(
-                                  levelIcon,
-                                  height: 128,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return SvgPicture.asset(
-                                      AppImages.medalSvg,
-                                      height: 128,
-                                    );
-                                  },
-                                ),
-                                if (!earnedAchievement.isRead)
-                                  Positioned(
-                                    top: -4,
-                                    right: -4,
-                                    child: Container(
-                                      width: 16,
-                                      height: 16,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            ),
-                          ),
-                        );
+                        achievementWidgets.add(_buildAchievementCard(
+                          context,
+                          levelIcon,
+                          earnedAchievement.achievement.description,
+                          isEarned: true,
+                        ));
                       } else {
-                        // Unearned achievements
                         final level1Icon = achievement.levels
                             .firstWhere((level) => level.level == 1)
                             .iconUrl;
-                        final levelIcon = "http://10.0.2.2:3000$level1Icon";
+                        final levelIcon = "$baseUrl$level1Icon";
 
-                        unearnedWidgets.add(
-                          GestureDetector(
-                            onTap: () => _showAchievementPopup(
-                                context, achievement, true),
-                            child: ColorFiltered(
-                              colorFilter: const ColorFilter.mode(
-                                AppColors.blueGrayColor,
-                                BlendMode.srcIn,
-                              ),
-                              child: Image.network(
-                                levelIcon,
-                                height: 128,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return SvgPicture.asset(
-                                    AppImages.medalSvg,
-                                    height: 128,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        );
+                        unearnedWidgets.add(_buildAchievementCard(
+                          context,
+                          levelIcon,
+                          achievement.description,
+                          isEarned: false,
+                        ));
                       }
                     }
 
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 22.5),
-                      child: Wrap(
-                        spacing: 45.0,
-                        runSpacing: 16.0,
-                        alignment: WrapAlignment.start,
-                        children: [
-                          ...achievementWidgets,
-                          ...unearnedWidgets,
-                        ],
-                      ),
+                    return Wrap(
+                      spacing: 16,
+                      runSpacing: 32,
+                      alignment: WrapAlignment.spaceBetween,
+                      children: [
+                        ...achievementWidgets,
+                        ...unearnedWidgets,
+                      ],
                     );
                   }
 
@@ -203,118 +110,52 @@ class AchievementScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-void _showAchievementPopup(
-    BuildContext context, dynamic achievement, bool isUnearned) {
-  final String levelIcon;
-
-  if (isUnearned) {
-    // Use level 1 icon for unearned achievements
-    final level1 = achievement.levels.firstWhere((level) => level.level == 1);
-    levelIcon = "http://10.0.2.2:3000${level1.iconUrl}";
-  } else {
-    // Use the earned level icon
-    final selectedLevel = achievement.achievement.levels
-        .firstWhere((level) => level.level == achievement.level);
-    levelIcon = "http://10.0.2.2:3000${selectedLevel.iconUrl}";
-
-    // Mark achievement as read
-    context.read<ArcheivementBloc>().add(ReadArcheivement(
-        uid: achievement.uid,
-        achId: achievement.achId,
-        level: achievement.level));
-  }
-
-  showDialog(
-    context: context,
-    barrierColor: Colors.black.withOpacity(0.5),
-    builder: (context) {
-      return Dialog(
-        backgroundColor: Colors.transparent,
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(21),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFFB2D6E7).withOpacity(1),
-                      offset: const Offset(0, 6),
-                      blurRadius: 0,
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 48.0, horizontal: 16),
-                  child: Column(
-                    children: [
-                      ColorFiltered(
-                        colorFilter: isUnearned
-                            ? const ColorFilter.mode(
-                                AppColors.blueGrayColor, BlendMode.srcIn)
-                            : const ColorFilter.mode(
-                                Colors.transparent, BlendMode.dst),
-                        child: Image.network(
-                          levelIcon,
-                          height: 160,
-                          errorBuilder: (context, error, stackTrace) {
-                            return SvgPicture.asset(
-                              AppImages.medalSvg,
-                              height: 100,
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        isUnearned
-                            ? achievement.title
-                            : achievement.achievement.title,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        isUnearned
-                            ? achievement.description
-                            : achievement.achievement.description,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(fontSize: 11.0),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 34),
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: const Text(
-                  AppStrings.closeWindowText,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: AppColors.whiteColor,
-                    decoration: TextDecoration.underline,
-                    decorationColor: AppColors.whiteColor,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-            ],
+  Widget _buildAchievementCard(
+      BuildContext context, String iconUrl, String description,
+      {bool isEarned = false}) {
+    return Container(
+      width: 167,
+      height: 190,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFB2D6E7).withOpacity(0.1),
+            offset: const Offset(0, 4),
+            blurRadius: 0,
+            spreadRadius: 0,
           ),
-        ),
-      );
-    },
-  );
+        ],
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      child: Column(
+        children: [
+          ColorFiltered(
+            colorFilter: isEarned
+                ? const ColorFilter.mode(Colors.transparent, BlendMode.dst)
+                : const ColorFilter.mode(
+                    AppColors.blueGrayColor, BlendMode.srcIn),
+            child: Image.network(
+              iconUrl,
+              height: 126,
+              errorBuilder: (context, error, stackTrace) {
+                return SvgPicture.asset(
+                  AppImages.medalSvg,
+                  height: 126,
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            description,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(),
+          ),
+        ],
+      ),
+    );
+  }
 }
