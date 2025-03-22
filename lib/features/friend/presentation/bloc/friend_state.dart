@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:wellwave_frontend/features/friend/data/models/all_friends_request_model.dart';
 import 'package:wellwave_frontend/features/friend/data/models/friend_request_model.dart';
 
 abstract class FriendState extends Equatable {
@@ -20,13 +21,21 @@ class FriendLoading extends FriendState {
 
 class FriendLoaded extends FriendState {
   final FriendRequestModel friends;
+  final AllFriendsRequestModel? allFriends;
   final bool isFriend;
+  final bool? isWaveActive;
 
-  FriendLoaded(String searchId, this.friends, {this.isFriend = false})
-      : super(searchId: searchId);
+  FriendLoaded(
+    String searchId,
+    this.friends,
+    this.allFriends, {
+    this.isFriend = false,
+    this.isWaveActive,
+  }) : super(searchId: searchId);
 
   @override
-  List<Object?> get props => [searchId, friends, isFriend];
+  List<Object?> get props =>
+      [searchId, friends, isFriend, allFriends, isWaveActive];
 }
 
 class FriendError extends FriendState {
@@ -36,13 +45,4 @@ class FriendError extends FriendState {
 
   @override
   List<Object?> get props => [searchId, message];
-}
-
-class FriendShowWaveIcon extends FriendState {
-  final bool isWaveActive;
-
-  FriendShowWaveIcon(this.isWaveActive);
-
-  @override
-  List<Object?> get props => [searchId, isWaveActive];
 }

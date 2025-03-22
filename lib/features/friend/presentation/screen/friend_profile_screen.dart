@@ -91,12 +91,29 @@ class _FriendProfileScreenState extends State<FriendProfileScreen> {
                 outlineColor: AppColors.lightgrayColor,
                 textColor: AppColors.blackColor,
                 title: 'เลิกเป็นเพื่อน',
-                onPressed: () {
+                onPressed: () async {
                   debugPrint('เลิกเป็นเพื่อน');
-                  context
-                      .read<FriendBloc>()
-                      .add(UnfriendButtonEvent(searchId: widget.friendUid));
-                  context.goNamed(AppPages.friendPage);
+
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  );
+
+                  context.read<FriendBloc>()
+                    ..add(UnfriendButtonEvent(searchId: widget.friendUid))
+                    ..add(LoadFriendsEvent());
+
+                  await Future.delayed(const Duration(seconds: 1));
+
+                  if (mounted) {
+                    Navigator.of(context).pop();
+                    context.goNamed(AppPages.friendPage);
+                  }
                 },
               ),
             ),

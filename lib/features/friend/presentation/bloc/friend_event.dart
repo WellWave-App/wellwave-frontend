@@ -48,3 +48,5 @@ class LoadFriendEvent extends FriendEvent {
     this.toDate,
   });
 }
+
+class LoadFriendsEvent extends FriendEvent {}

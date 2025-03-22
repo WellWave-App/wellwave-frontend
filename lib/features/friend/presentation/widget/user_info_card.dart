@@ -2,22 +2,90 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_event.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_state.dart';
-import 'package:wellwave_frontend/features/friend/presentation/screen/find_friend_screen.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
+import 'package:wellwave_frontend/config/constants/enums/thai_date_formatter.dart';
 
 class UserInfoCard extends StatelessWidget {
+  final String uid;
+  final String? username;
+  final String? imageUrl;
+  final int steps;
+  final int sleepHours;
+  final String? lastLogin;
+
+  const UserInfoCard({
+    Key? key,
+    required this.uid,
+    this.username,
+    this.imageUrl,
+    required this.steps,
+    required this.sleepHours,
+    this.lastLogin,
+  }) : super(key: key);
+
+  Widget _buildWaveIcon(BuildContext context) {
+    return BlocBuilder<FriendBloc, FriendState>(
+      builder: (context, state) {
+        return FutureBuilder<bool>(
+          future: _getWaveStatus(),
+          builder: (context, snapshot) {
+            bool isWaveActive = snapshot.data ?? false;
+
+            return GestureDetector(
+              onTap: () async {
+                if (!isWaveActive) {
+                  await _setWaveStatus(true);
+                  context.read<FriendBloc>().add(ToggleWaveIconEvent());
+                }
+              },
+              child: SvgPicture.asset(
+                isWaveActive ? AppImages.waveIconActive : AppImages.waveIcon,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Future<bool> _getWaveStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String today = DateTime.now().toString().split(' ')[0];
+    final String? lastWaveDate = prefs.getString('last_wave_date');
+
+    if (lastWaveDate != today) {
+      await prefs.setBool('is_wave_active', false);
+      await prefs.setString('last_wave_date', today);
+      return false;
+    }
+
+    return prefs.getBool('is_wave_active') ?? false;
+  }
+
+  Future<void> _setWaveStatus(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String today = DateTime.now().toString().split(' ')[0];
+
+    await prefs.setBool('is_wave_active', value);
+    await prefs.setString('last_wave_date', today);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: GestureDetector(
         onTap: () {
-          context.goNamed(AppPages.profileFriendPage);
+          context.goNamed(
+            AppPages.profileFriendName,
+            pathParameters: {'uid': uid},
+          );
         },
         child: Container(
           decoration: BoxDecoration(
@@ -27,7 +95,7 @@ class UserInfoCard extends StatelessWidget {
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),
                 blurRadius: 6,
-                offset: Offset(0, 4),
+                offset: const Offset(0, 4),
               ),
             ],
           ),
@@ -37,62 +105,58 @@ class UserInfoCard extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgPicture.asset(
-                      AppImages.avatarDefaultIcon,
-                      width: 64.0,
-                    ),
-                    SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'ปลายฟ้า',
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                        SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Text(
-                              'อัพเดท:',
-                              style: Theme.of(context).textTheme.bodySmall,
+                    imageUrl != null && imageUrl != 'false'
+                        ? Image.network(
+                            '$baseUrl$imageUrl',
+                            width: 64.0,
+                            height: 64.0,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                SvgPicture.asset(
+                              AppImages.avatarDefaultIcon,
+                              width: 64.0,
                             ),
-                            SizedBox(width: 4),
-                            Text(
-                              '13 สิงหาคม 2567',
-                              style: Theme.of(context).textTheme.bodySmall,
+                          )
+                        : SvgPicture.asset(
+                            AppImages.avatarDefaultIcon,
+                            width: 64.0,
+                          ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            username ?? 'User',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                          if (lastLogin != null) ...[
+                            const SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Text(
+                                  'อัพเดท:',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  ThaiDateFormatter.formatSingleDate(
+                                    DateTime.parse(lastLogin!),
+                                  ),
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
                             ),
                           ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                    Spacer(),
-                    BlocBuilder<FriendBloc, FriendState>(
-                      builder: (context, state) {
-                        bool isWaveActive = false;
-                        if (state is FriendShowWaveIcon) {
-                          isWaveActive = state.isWaveActive;
-                        }
-
-                        return GestureDetector(
-                          onTap: () {
-                            if (!isWaveActive) {
-                              context
-                                  .read<FriendBloc>()
-                                  .add(ToggleWaveIconEvent());
-                            }
-                          },
-                          child: SvgPicture.asset(
-                            isWaveActive
-                                ? AppImages.waveIconActive
-                                : AppImages.waveIcon,
-                          ),
-                        );
-                      },
-                    ),
+                    _buildWaveIcon(context),
                   ],
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -105,9 +169,9 @@ class UserInfoCard extends StatelessWidget {
                                     color: AppColors.darkGrayColor,
                                   ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
-                          '6895 ก้าว',
+                          '$steps ก้าว',
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ],
@@ -126,9 +190,9 @@ class UserInfoCard extends StatelessWidget {
                                     color: AppColors.darkGrayColor,
                                   ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
-                          '7 ชม.',
+                          '$sleepHours ชม.',
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ],

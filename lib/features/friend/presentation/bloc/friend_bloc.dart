@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wellwave_frontend/features/friend/data/models/friend_request_model.dart';
 import 'package:wellwave_frontend/features/friend/data/repositories/friend_repositories.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_event.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_state.dart';
@@ -17,6 +18,7 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
     on<ToggleAddfriendButtonEvent>(_onAddFriend);
     on<UnfriendButtonEvent>(_onUnfriend);
     on<LoadFriendEvent>(_onLoadFriend);
+    on<LoadFriendsEvent>(_onLoadFriends);
     on<ToggleWaveIconEvent>(_onToggleWaveIcon);
     _loadWaveStatus();
   }
@@ -34,13 +36,39 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
         fromDate: event.fromDate,
         toDate: event.toDate,
       );
+      final allFriends = await friendRepositories.getUserFriends();
 
       if (friend == null) {
         emit(FriendError('User not found'));
         return;
       }
 
-      emit(FriendLoaded(event.friendUid, friend));
+      emit(FriendLoaded(event.friendUid, friend, allFriends));
+    } catch (e) {
+      emit(FriendError('Error: $e'));
+    }
+  }
+
+  void _onLoadFriends(LoadFriendsEvent event, Emitter<FriendState> emit) async {
+    emit(FriendLoading());
+    try {
+      final friends = await friendRepositories.getUserFriends();
+      if (friends != null) {
+        final emptyFriend = FriendRequestModel(
+          uid: 0,
+          username: '',
+          imageUrl: '',
+          lastLogin: '',
+          stepsLog: [],
+          sleepLog: [],
+          exp: 0,
+          gem: 0,
+          league: 'none',
+        );
+        emit(FriendLoaded('', emptyFriend, friends));
+      } else {
+        emit(FriendError('Failed to load friends'));
+      }
     } catch (e) {
       emit(FriendError('Error: $e'));
     }
@@ -75,9 +103,11 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
       }
 
       final userFriends = await friendRepositories.getUserFriends();
-      final isFriend = userFriends.any((friend) => friend['UID'] == userId);
+      final isFriend =
+          userFriends?.data.any((friend) => friend.uid == userId) ?? false;
 
-      emit(FriendLoaded(event.searchId, friends, isFriend: isFriend));
+      emit(FriendLoaded(event.searchId, friends, userFriends,
+          isFriend: isFriend));
     } catch (e) {
       emit(FriendError('Error: $e'));
     }
@@ -90,10 +120,12 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
       final addFriend =
           await friendRepositories.addFriend(int.parse(event.searchId));
       if (addFriend != null) {
+        final allFriends = await friendRepositories.getUserFriends();
         final updatedUser =
             await friendRepositories.getUserById(int.parse(event.searchId));
         if (updatedUser != null) {
-          emit(FriendLoaded(event.searchId, updatedUser, isFriend: true));
+          emit(FriendLoaded(event.searchId, updatedUser, allFriends,
+              isFriend: true));
         } else {
           emit(FriendError('Failed to fetch updated user data'));
         }
@@ -110,16 +142,12 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
     try {
       final unfriend =
           await friendRepositories.unFriend(int.parse(event.searchId));
+
       if (unfriend != null) {
-        final updatedUser =
-            await friendRepositories.getUserById(int.parse(event.searchId));
-        if (updatedUser != null) {
-          emit(FriendLoaded(event.searchId, updatedUser, isFriend: false));
-        } else {
-          emit(FriendError('Failed to fetch updated user data'));
-        }
+        final friends = await friendRepositories.getUserFriends();
+        emit(FriendLoaded('', unfriend, friends));
       } else {
-        emit(FriendError('cant unfriend'));
+        emit(FriendError('Cannot unfriend'));
       }
     } catch (e) {
       emit(FriendError('Error: $e'));
@@ -133,26 +161,40 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
 
   void _onToggleWaveIcon(
       ToggleWaveIconEvent event, Emitter<FriendState> emit) async {
-    final prefs = await SharedPreferences.getInstance();
-    String today = DateTime.now().toString().split(" ")[0];
+    if (state is FriendLoaded) {
+      final currentState = state as FriendLoaded;
+      final prefs = await SharedPreferences.getInstance();
+      String today = DateTime.now().toString().split(" ")[0];
 
-    String? lastGreetDate = prefs.getString("last_greet_date");
-    bool hasGreetedToday = lastGreetDate == today;
-
-    if (!hasGreetedToday) {
       await prefs.setString("last_greet_date", today);
       await prefs.setBool("has_greeted", true);
-      emit(FriendShowWaveIcon(true));
+
+      emit(FriendLoaded(
+        currentState.searchId,
+        currentState.friends,
+        currentState.allFriends,
+        isFriend: currentState.isFriend,
+        isWaveActive: true,
+      ));
     }
   }
 
   void _loadWaveStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    String today = DateTime.now().toString().split(" ")[0];
+    if (state is FriendLoaded) {
+      final currentState = state as FriendLoaded;
+      final prefs = await SharedPreferences.getInstance();
+      String today = DateTime.now().toString().split(" ")[0];
 
-    String? lastGreetDate = prefs.getString("last_greet_date");
-    bool hasGreetedToday = lastGreetDate == today;
+      String? lastGreetDate = prefs.getString("last_greet_date");
+      bool hasGreetedToday = lastGreetDate == today;
 
-    emit(FriendShowWaveIcon(hasGreetedToday));
+      emit(FriendLoaded(
+        currentState.searchId,
+        currentState.friends,
+        currentState.allFriends,
+        isFriend: currentState.isFriend,
+        isWaveActive: hasGreetedToday,
+      ));
+    }
   }
 }

@@ -39,7 +39,7 @@ class _UserInformationState extends State<UserInformation> {
     return BlocBuilder<FriendBloc, FriendState>(
       builder: (context, state) {
         final leagueMap = {
-          'broze': AppStrings.firstLeaugeText,
+          'bronze': AppStrings.firstLeaugeText,
           'silver': AppStrings.secondLeaugeText,
           'gold': AppStrings.thirdLeaugeText,
           'diamond': AppStrings.forthLeaugeText,
@@ -47,7 +47,7 @@ class _UserInformationState extends State<UserInformation> {
         };
 
         final leagueIconMap = {
-          'broze': AppImages.firstLeagueIcon,
+          'bronze': AppImages.firstLeagueIcon,
           'silver': AppImages.secondLeagueIcon,
           'gold': AppImages.thirdLeagueIcon,
           'diamond': AppImages.forthLeagueIcon,
@@ -101,7 +101,7 @@ class _UserInformationState extends State<UserInformation> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: AppColors.backgroundColor,
+                    color: AppColors.whiteColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -136,7 +136,7 @@ class _UserInformationState extends State<UserInformation> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: AppColors.backgroundColor,
+                    color: AppColors.whiteColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

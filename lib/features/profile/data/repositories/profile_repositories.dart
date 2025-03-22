@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
@@ -14,16 +13,6 @@ import '../../../../config/constants/app_url.dart';
 
 class ProfileRepositories {
   final _secureStorage = const FlutterSecureStorage();
-=======
-import 'package:http/http.dart' as http;
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
-
-class ProfileRepositories {
-  String baseUrl = AppStrings.baseUrl;
-  String token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFTUFJTCI6InVzZXIxQGV4YW1wbGUuY29tIiwiVUlEIjoyLCJpYXQiOjE3MzgzMTAxNDMsImV4cCI6MTczODM5NjU0M30.bDGjnK2_YktPQ3fYgLdehlqzfg6PeYItXMrOZYKhfqw';
->>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
 
   Future<bool> editUserRequest({
     required int uid,
@@ -33,16 +22,12 @@ class ProfileRepositories {
     required bool gender,
     required num height,
     required num weight,
-<<<<<<< HEAD
     int? gem,
   }) async {
     final token = await _secureStorage.read(key: 'access_token');
     if (token == null) {
       throw Exception("No access token found");
     }
-=======
-  }) async {
->>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
 
@@ -53,29 +38,16 @@ class ProfileRepositories {
         'HEIGHT': height.toString(),
         'WEIGHT': weight.toString(),
         'IMAGE_URL': imageUrl,
-<<<<<<< HEAD
         'GEM': gem?.toString() ?? AppStrings.emptyText,
-=======
->>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
       };
 
       final request = http.MultipartRequest('PATCH', uri)
         ..headers['Authorization'] = 'Bearer $token'
         ..fields.addAll(userDetails);
 
-<<<<<<< HEAD
       final response = await request.send();
 
       debugPrint('Edit Profile: ${response.statusCode}');
-=======
-      // request.files.add(await http.MultipartFile.fromPath('image', imageFile.path));
-
-      final response = await request.send();
-      final responseBody = await response.stream.bytesToString();
-
-      debugPrint('Edit Profile: ${response.statusCode}');
-      debugPrint('Response Body: $responseBody');
->>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
 
       if (response.statusCode == 200) {
         return true;
@@ -93,13 +65,10 @@ class ProfileRepositories {
       {required int uid,
       required int stepPerWeek,
       required int exercisePerWeek}) async {
-<<<<<<< HEAD
     final token = await _secureStorage.read(key: 'access_token');
     if (token == null) {
       throw Exception("No access token found");
     }
-=======
->>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
     try {
       final uri = Uri.parse("$baseUrl/users/$uid");
 
@@ -130,13 +99,10 @@ class ProfileRepositories {
   }
 
   Future<ProfileRequestModel?> getUSer() async {
-<<<<<<< HEAD
     final token = await _secureStorage.read(key: 'access_token');
     if (token == null) {
       throw Exception("No access token found");
     }
-=======
->>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/users/profile"),
@@ -158,7 +124,6 @@ class ProfileRepositories {
     }
   }
 
-<<<<<<< HEAD
   Future<String?> uploadProfileImage(File imageFile, int uid) async {
     final token = await _secureStorage.read(key: 'access_token');
     if (token == null) {
@@ -216,35 +181,11 @@ class ProfileRepositories {
       } else {
         throw Exception(
             'Upload failed with status: ${response.statusCode}, message: ${response.body}');
-=======
-  Future<String?> uploadProfileImage(
-    File imageFile,
-    int uid,
-  ) async {
-    try {
-      final uri = Uri.parse("$baseUrl/users/$uid");
-      final request = http.MultipartRequest('PATCH', uri)
-        ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));
-
-      // Add headers if necessary
-      request.headers['Authorization'] = 'Bearer $token';
-
-      final response = await request.send();
-
-      if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final responseJson = jsonDecode(responseBody);
-        final imageUrl = responseJson['IMAGE_URL'] as String?;
-        return imageUrl;
-      } else {
-        throw Exception('Failed to upload image');
->>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
       }
     } catch (e) {
       throw Exception('Error uploading image: $e');
     }
   }
-<<<<<<< HEAD
 
   Future<bool> createCheckInResponse({
     required String date,
@@ -302,6 +243,4 @@ class ProfileRepositories {
       rethrow;
     }
   }
-=======
->>>>>>> 2a4b6a782119ad442510a02e8dcabc1f303062c2
 }

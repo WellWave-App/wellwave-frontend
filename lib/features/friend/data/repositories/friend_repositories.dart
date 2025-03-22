@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:wellwave_frontend/features/friend/data/models/all_friends_request_model.dart';
 import 'package:wellwave_frontend/features/friend/data/models/friend_request_model.dart';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 import 'package:wellwave_frontend/config/constants/app_url.dart';
@@ -77,7 +78,7 @@ class FriendRepositories {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getUserFriends() async {
+  Future<AllFriendsRequestModel?> getUserFriends() async {
     final token = await _secureStorage.read(key: 'access_token');
     if (token == null) {
       throw Exception("No access token found");
@@ -94,12 +95,11 @@ class FriendRepositories {
         },
       );
 
-      debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
+      debugPrint('Response getUserFriends: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        return List<Map<String, dynamic>>.from(jsonData['data']);
+        return AllFriendsRequestModel.fromJson(jsonData);
       } else {
         throw Exception('Failed to get user friends: ${response.statusCode}');
       }
