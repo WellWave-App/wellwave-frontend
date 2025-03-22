@@ -263,4 +263,8 @@ class AppStrings {
   static const randomBoxText = 'กล่องสุ่ม';
   static const exchangeItemText = 'แลกไอเทม';
   static const userNotFoundText = 'ไม่พบข้อมูลผู้ใช้';
+  // friends
+  static const AlreadyFriendText = 'เป็นเพื่อนกับคุณแล้ว!';
+  static const seeDetailsText = 'ดูข้อมูล';
+  static const addText = 'เพิ่ม';
 }

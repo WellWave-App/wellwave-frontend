@@ -11,11 +11,6 @@ import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_state
 import 'package:wellwave_frontend/features/friend/presentation/widget/profile_user_add.dart';
 import 'package:wellwave_frontend/features/friend/presentation/widget/search_by_id_text_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
 
 class FindFriendScreen extends StatelessWidget {
   const FindFriendScreen({super.key});
@@ -60,11 +55,12 @@ class FindFriendScreen extends StatelessWidget {
             const SizedBox(height: 64),
             BlocBuilder<FriendBloc, FriendState>(
               builder: (context, state) {
-                if (state is FriendLoaded) {
+                final searchId = searchController.text;
+                if (state is FriendLoaded && searchId.isNotEmpty) {
                   return ProfileUserAdd(searchId: state.searchId);
                 } else if (state is FriendLoading) {
                   return Center(child: CircularProgressIndicator());
-                } else if (state is FriendError) {
+                } else if (state is FriendError && searchId.isNotEmpty) {
                   return Center(
                     child: Text(
                       AppStrings.userNotFoundText,

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_state.dart';
 
@@ -15,7 +16,8 @@ class UserInformation extends StatefulWidget {
   final String userName;
   final int gemAmount;
   final int expAmount;
-  // final ProfileState state;
+  final String imgUrl;
+  final String league;
 
   const UserInformation({
     Key? key,
@@ -23,7 +25,8 @@ class UserInformation extends StatefulWidget {
     required this.userName,
     required this.gemAmount,
     required this.expAmount,
-    // required this.state
+    required this.imgUrl,
+    required this.league,
   }) : super(key: key);
 
   @override
@@ -35,41 +38,46 @@ class _UserInformationState extends State<UserInformation> {
   Widget build(BuildContext context) {
     return BlocBuilder<FriendBloc, FriendState>(
       builder: (context, state) {
-        Widget profileImage;
-        profileImage = CircleAvatar(
-          radius: 52,
-          backgroundColor: Colors.transparent,
-          child: SvgPicture.asset(
-            AppImages.avatarDefaultIcon,
-          ),
-        );
-        // if (
-        //     state is ProfileLoaded &&
-        //     state.userProfile.imageUrl.isNotEmpty) {
-        //   final imageUrl = "http://10.0.2.2:3000${state.userProfile.imageUrl}";
-        //   profileImage = ClipOval(
-        //     child: Image.network(
-        //       imageUrl,
-        //       width: 104,
-        //       height: 104,
-        //       fit: BoxFit.cover,
-        //     ),
-        //   );
-        // } else if (state.selectedImage != null) {
-        //   profileImage = ClipOval(
-        //     child: Image.file(
-        //       state.selectedImage!,
-        //       width: 104,
-        //       height: 104,
-        //       fit: BoxFit.cover,
-        //     ),
-        //   );
-        // } else {
-        //   profileImage = const CircleAvatar(
-        //     radius: 52,
-        //     backgroundImage: AssetImage(AppImages.crabImg),
-        //   );
+        final leagueMap = {
+          'broze': AppStrings.firstLeaugeText,
+          'silver': AppStrings.secondLeaugeText,
+          'gold': AppStrings.thirdLeaugeText,
+          'diamond': AppStrings.forthLeaugeText,
+          'emerald': AppStrings.fifthLeaugeText,
+        };
 
+        final leagueIconMap = {
+          'broze': AppImages.firstLeagueIcon,
+          'silver': AppImages.secondLeagueIcon,
+          'gold': AppImages.thirdLeagueIcon,
+          'diamond': AppImages.forthLeagueIcon,
+          'emerald': AppImages.fifthLeagueIcon,
+        };
+
+        final leagueText = (widget.league == 'none')
+            ? AppStrings.firstLeaugeText
+            : leagueMap[widget.league] ?? widget.league;
+
+        Widget profileImage;
+
+        if (widget.imgUrl == null || widget.imgUrl.isEmpty) {
+          profileImage = CircleAvatar(
+            radius: 52,
+            backgroundColor: Colors.transparent,
+            child: SvgPicture.asset(
+              AppImages.avatarDefaultIcon,
+            ),
+          );
+        } else {
+          profileImage = CircleAvatar(
+            radius: 52,
+            backgroundColor: Colors.transparent,
+            backgroundImage: Image.network(
+              "$baseUrl${widget.imgUrl}",
+              fit: BoxFit.cover,
+            ).image,
+          );
+        }
         return Row(
           children: [
             Stack(
@@ -87,22 +95,13 @@ class _UserInformationState extends State<UserInformation> {
                   widget.userName,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(),
                 ),
-                const SizedBox(height: 4),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Text(
-                //       '#${widget.userID}',
-                //       style: Theme.of(context).textTheme.bodySmall?.copyWith(),
-                //     ),
-                //   ],
-                // ),
+                const SizedBox(height: 8),
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: AppColors.whiteColor,
+                    color: AppColors.backgroundColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -137,18 +136,19 @@ class _UserInformationState extends State<UserInformation> {
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: AppColors.whiteColor,
+                    color: AppColors.backgroundColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SvgPicture.asset(
-                        AppImages.actionIcon,
+                        leagueIconMap[widget.league] ??
+                            AppImages.firstLeagueIcon,
                         height: 20,
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${AppStrings.leagueText}ไดมอนด์',
+                        '$leagueText',
                         style:
                             Theme.of(context).textTheme.bodySmall?.copyWith(),
                       ),

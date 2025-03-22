@@ -185,5 +185,12 @@ class AppImages {
   static const waveIcon = 'assets/icons/wave.svg';
   static const waveIconActive = 'assets/icons/wave_active.svg';
   static const actionIcon = 'assets/icons/action.svg';
-  static const findFriendAvatar = 'assets/avatar/findfriend.svg';
+  static const findFriendAvatar = 'assets/icons/findfriend.svg';
+
+  // league
+  static const firstLeagueIcon = 'assets/icons/first_league_icon.svg';
+  static const secondLeagueIcon = 'assets/icons/second_league_icon.svg';
+  static const thirdLeagueIcon = 'assets/icons/third_league_icon.svg';
+  static const forthLeagueIcon = 'assets/icons/forth_league_icon.svg';
+  static const fifthLeagueIcon = 'assets/icons/fifth_league_icon.svg';
 }

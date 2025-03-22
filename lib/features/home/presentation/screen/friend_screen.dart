@@ -5,8 +5,6 @@ import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/config/routes/app_routes.dart';
-import 'package:wellwave_frontend/features/friend/presentation/widget/user_info_card.dart';
 
 class FriendScreen extends StatelessWidget {
   const FriendScreen({super.key});

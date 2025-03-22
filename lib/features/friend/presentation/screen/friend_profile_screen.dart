@@ -10,11 +10,23 @@ import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_event.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_state.dart';
+import 'package:wellwave_frontend/features/friend/presentation/widget/friend_chart_section_widget.dart';
 import 'package:wellwave_frontend/features/friend/presentation/widget/user_info.dart';
-import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
-class ProfileFriends extends StatelessWidget {
-  const ProfileFriends({super.key});
+class FriendProfileScreen extends StatefulWidget {
+  final String friendUid;
+
+  const FriendProfileScreen({
+    Key? key,
+    required this.friendUid,
+  }) : super(key: key);
+
+  @override
+  State<FriendProfileScreen> createState() => _FriendProfileScreenState();
+}
+
+class _FriendProfileScreenState extends State<FriendProfileScreen> {
+  bool showUnfriendButton = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,52 +41,65 @@ class ProfileFriends extends StatelessWidget {
         },
         actionIcon: SvgPicture.asset(AppImages.actionIcon),
         action: () {
-          context.read<FriendBloc>().add(ToggleUnfriendButtonEvent());
+          setState(() {
+            showUnfriendButton = !showUnfriendButton;
+          });
         },
       ),
       body: Stack(
         children: [
           SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 24),
-                  UserInformation(
-                    userID: 'UID',
-                    userName: 'ปลายฟ้า',
-                    gemAmount: 20,
-                    expAmount: 10,
+                  BlocBuilder<FriendBloc, FriendState>(
+                    builder: (context, state) {
+                      if (state is FriendLoaded &&
+                          state.searchId == widget.friendUid) {
+                        print('stepsLog ${state.friends.stepsLog}');
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            UserInformation(
+                              userID: state.friends.uid.toString(),
+                              userName: state.friends.username,
+                              gemAmount: state.friends.gem,
+                              expAmount: state.friends.exp,
+                              imgUrl: state.friends.imageUrl,
+                              league: state.friends.league,
+                            ),
+                            const SizedBox(height: 32),
+                          ],
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
                   ),
-                  // Add any additional widgets here, like charts, etc.
+                  FriendChartSectionWidget(friendUid: widget.friendUid),
                 ],
               ),
             ),
           ),
-          BlocBuilder<FriendBloc, FriendState>(
-            builder: (context, state) {
-              return Stack(
-                children: [
-                  if (state is FriendShowUnfriendButton && state.isVisible)
-                    Positioned(
-                      top: 0,
-                      right: 24,
-                      child: CustomButtonSmall(
-                        bgColor: AppColors.whiteColor,
-                        outlineColor: AppColors.lightgrayColor,
-                        textColor: AppColors.blackColor,
-                        title: 'เลิกเป็นเพื่อน',
-                        onPressed: () {
-                          debugPrint('เลิกเป็นเพื่อน');
-                          context.read<FriendBloc>().add(ResetEvent());
-                          context.goNamed(AppPages.friendPage);
-                        },
-                      ),
-                    ),
-                ],
-              );
-            },
-          ),
+          if (showUnfriendButton)
+            Positioned(
+              top: 0,
+              right: 24,
+              child: CustomButtonSmall(
+                bgColor: AppColors.whiteColor,
+                outlineColor: AppColors.lightgrayColor,
+                textColor: AppColors.blackColor,
+                title: 'เลิกเป็นเพื่อน',
+                onPressed: () {
+                  debugPrint('เลิกเป็นเพื่อน');
+                  context
+                      .read<FriendBloc>()
+                      .add(UnfriendButtonEvent(searchId: widget.friendUid));
+                  context.goNamed(AppPages.friendPage);
+                },
+              ),
+            ),
         ],
       ),
     );

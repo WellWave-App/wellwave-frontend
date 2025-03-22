@@ -1,37 +1,41 @@
 import 'package:equatable/equatable.dart';
-import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
+import 'package:wellwave_frontend/features/friend/data/models/friend_request_model.dart';
 
 abstract class FriendState extends Equatable {
+  final String searchId;
+
+  FriendState({this.searchId = ''});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [searchId];
 }
 
-class FriendInitial extends FriendState {}
+class FriendInitial extends FriendState {
+  FriendInitial() : super(searchId: '');
+}
 
-class FriendLoading extends FriendState {}
+class FriendLoading extends FriendState {
+  FriendLoading() : super(searchId: '');
+}
 
 class FriendLoaded extends FriendState {
-  final String searchId;
-  final ProfileRequestModel profile;
+  final FriendRequestModel friends;
+  final bool isFriend;
 
-  FriendLoaded(this.searchId, this.profile);
+  FriendLoaded(String searchId, this.friends, {this.isFriend = false})
+      : super(searchId: searchId);
+
+  @override
+  List<Object?> get props => [searchId, friends, isFriend];
 }
 
 class FriendError extends FriendState {
-  final String error;
+  final String message;
 
-  FriendError(this.error);
-
-  @override
-  List<Object?> get props => [error];
-}
-
-class FriendShowUnfriendButton extends FriendState {
-  final bool isVisible;
-  FriendShowUnfriendButton(this.isVisible);
+  FriendError(this.message) : super(searchId: '');
 
   @override
-  List<Object?> get props => [isVisible];
+  List<Object?> get props => [searchId, message];
 }
 
 class FriendShowWaveIcon extends FriendState {
@@ -40,5 +44,5 @@ class FriendShowWaveIcon extends FriendState {
   FriendShowWaveIcon(this.isWaveActive);
 
   @override
-  List<Object?> get props => [isWaveActive];
+  List<Object?> get props => [searchId, isWaveActive];
 }

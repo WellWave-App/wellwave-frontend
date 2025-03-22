@@ -236,10 +236,11 @@ final GoRouter goRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: AppPages.profileFriendPage,
+          path: '${AppPages.profileFriendPage}/:uid',
           name: AppPages.profileFriendName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return NoTransitionPage(child: ProfileFriends());
+          builder: (context, state) {
+            final uid = state.pathParameters['uid'];
+            return FriendProfileScreen(friendUid: uid ?? '-1');
           },
         ),
       ],
