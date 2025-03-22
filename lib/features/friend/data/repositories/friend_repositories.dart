@@ -116,7 +116,7 @@ class FriendRepositories {
 
     try {
       final url = '$baseUrl/friend/unfriend/$uid';
-      debugPrint('Calling API URL: $url');
+      // debugPrint('Calling API URL: $url');
 
       final response = await http.post(
         Uri.parse(url),
@@ -182,6 +182,32 @@ class FriendRepositories {
       return null;
     } catch (e) {
       throw Exception('Error caught in getFriendProfile: $e');
+    }
+  }
+
+  Future<void> sendWaveNotification(String uid) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
+    try {
+      final url = '$baseUrl/friend/send-noti/$uid';
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+      debugPrint('Response body: ${response.body}');
+      if (response.statusCode != 201) {
+        throw Exception(
+            'Failed to send wave notification: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error sending wave notification: $e');
+      throw Exception('Error caught in sendWaveNotification: $e');
     }
   }
 }

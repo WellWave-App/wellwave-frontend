@@ -162,20 +162,41 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
   void _onToggleWaveIcon(
       ToggleWaveIconEvent event, Emitter<FriendState> emit) async {
     if (state is FriendLoaded) {
-      final currentState = state as FriendLoaded;
-      final prefs = await SharedPreferences.getInstance();
-      String today = DateTime.now().toString().split(" ")[0];
+      try {
+        final currentState = state as FriendLoaded;
+        final prefs = await SharedPreferences.getInstance();
+        final String today = DateTime.now().toString().split(' ')[0];
 
-      await prefs.setString("last_greet_date", today);
-      await prefs.setBool("has_greeted", true);
+        // Send wave notification first
+        await friendRepositories.sendWaveNotification(event.friendId);
+        print('Wave sent to friend ${event.friendId}');
 
-      emit(FriendLoaded(
-        currentState.searchId,
-        currentState.friends,
-        currentState.allFriends,
-        isFriend: currentState.isFriend,
-        isWaveActive: true,
-      ));
+        // Update SharedPreferences for this specific friend
+        await prefs.setString('last_wave_date_${event.friendId}', today);
+        print('Updated wave date for friend ${event.friendId}');
+
+        // Get current wave status for all friends
+        final allFriendsWaveStatus =
+            currentState.allFriends?.data.map((friend) {
+                  final lastWaveDate =
+                      prefs.getString('last_wave_date_${friend.uid}');
+                  return lastWaveDate == today;
+                }).toList() ??
+                [];
+
+        print('All friends wave status: $allFriendsWaveStatus');
+
+        emit(FriendLoaded(
+          currentState.searchId,
+          currentState.friends,
+          currentState.allFriends,
+          isFriend: currentState.isFriend,
+          isWaveActive: true,
+        ));
+      } catch (e) {
+        print('Error in _onToggleWaveIcon: $e');
+        emit(FriendError('Failed to send wave: $e'));
+      }
     }
   }
 
@@ -185,15 +206,19 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
       final prefs = await SharedPreferences.getInstance();
       String today = DateTime.now().toString().split(" ")[0];
 
-      String? lastGreetDate = prefs.getString("last_greet_date");
-      bool hasGreetedToday = lastGreetDate == today;
+      // Get friend ID from current state
+      final friendId = currentState.friends.uid.toString();
+
+      // Use friend-specific keys
+      String? lastWaveDate = prefs.getString('last_wave_date_$friendId');
+      bool isWaveActive = lastWaveDate == today;
 
       emit(FriendLoaded(
         currentState.searchId,
         currentState.friends,
         currentState.allFriends,
         isFriend: currentState.isFriend,
-        isWaveActive: hasGreetedToday,
+        isWaveActive: isWaveActive,
       ));
     }
   }

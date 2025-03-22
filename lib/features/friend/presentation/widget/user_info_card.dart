@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +13,7 @@ import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_event
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_state.dart';
 import 'package:wellwave_frontend/config/constants/enums/thai_date_formatter.dart';
 
-class UserInfoCard extends StatelessWidget {
+class UserInfoCard extends StatefulWidget {
   final String uid;
   final String? username;
   final String? imageUrl;
@@ -30,24 +31,47 @@ class UserInfoCard extends StatelessWidget {
     this.lastLogin,
   }) : super(key: key);
 
+  @override
+  State<UserInfoCard> createState() => _UserInfoCardState();
+}
+
+class _UserInfoCardState extends State<UserInfoCard> {
+  final _refreshController = StreamController<void>();
+
+  @override
+  void dispose() {
+    _refreshController.close();
+    super.dispose();
+  }
+
   Widget _buildWaveIcon(BuildContext context) {
     return BlocBuilder<FriendBloc, FriendState>(
       builder: (context, state) {
-        return FutureBuilder<bool>(
-          future: _getWaveStatus(),
-          builder: (context, snapshot) {
-            bool isWaveActive = snapshot.data ?? false;
+        return StreamBuilder<void>(
+          stream: _refreshController.stream,
+          builder: (context, _) {
+            return FutureBuilder<bool>(
+              future: _getWaveStatus(),
+              builder: (context, snapshot) {
+                final bool isWaveActive = snapshot.data ?? false;
 
-            return GestureDetector(
-              onTap: () async {
-                if (!isWaveActive) {
-                  await _setWaveStatus(true);
-                  context.read<FriendBloc>().add(ToggleWaveIconEvent());
-                }
+                return GestureDetector(
+                  onTap: () async {
+                    if (!isWaveActive) {
+                      context
+                          .read<FriendBloc>()
+                          .add(ToggleWaveIconEvent(friendId: widget.uid));
+                      await _setWaveStatus(true);
+                      _refreshController.add(null);
+                    }
+                  },
+                  child: SvgPicture.asset(
+                    isWaveActive
+                        ? AppImages.waveIconActive
+                        : AppImages.waveIcon,
+                  ),
+                );
               },
-              child: SvgPicture.asset(
-                isWaveActive ? AppImages.waveIconActive : AppImages.waveIcon,
-              ),
             );
           },
         );
@@ -58,23 +82,18 @@ class UserInfoCard extends StatelessWidget {
   Future<bool> _getWaveStatus() async {
     final prefs = await SharedPreferences.getInstance();
     final String today = DateTime.now().toString().split(' ')[0];
-    final String? lastWaveDate = prefs.getString('last_wave_date');
+    final String? lastWaveDate =
+        prefs.getString('last_wave_date_${widget.uid}');
 
-    if (lastWaveDate != today) {
-      await prefs.setBool('is_wave_active', false);
-      await prefs.setString('last_wave_date', today);
-      return false;
-    }
-
-    return prefs.getBool('is_wave_active') ?? false;
+    return lastWaveDate == today;
   }
 
   Future<void> _setWaveStatus(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     final String today = DateTime.now().toString().split(' ')[0];
 
-    await prefs.setBool('is_wave_active', value);
-    await prefs.setString('last_wave_date', today);
+    await prefs.setBool('is_wave_active_${widget.uid}', value);
+    await prefs.setString('last_wave_date_${widget.uid}', today);
   }
 
   @override
@@ -84,7 +103,7 @@ class UserInfoCard extends StatelessWidget {
         onTap: () {
           context.goNamed(
             AppPages.profileFriendName,
-            pathParameters: {'uid': uid},
+            pathParameters: {'uid': widget.uid},
           );
         },
         child: Container(
@@ -107,9 +126,9 @@ class UserInfoCard extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    imageUrl != null && imageUrl != 'false'
+                    widget.imageUrl != null && widget.imageUrl != 'false'
                         ? Image.network(
-                            '$baseUrl$imageUrl',
+                            '$baseUrl${widget.imageUrl}',
                             width: 64.0,
                             height: 64.0,
                             fit: BoxFit.cover,
@@ -129,10 +148,10 @@ class UserInfoCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            username ?? 'User',
+                            widget.username ?? 'User',
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
-                          if (lastLogin != null) ...[
+                          if (widget.lastLogin != null) ...[
                             const SizedBox(height: 4),
                             Row(
                               children: [
@@ -143,7 +162,7 @@ class UserInfoCard extends StatelessWidget {
                                 const SizedBox(width: 4),
                                 Text(
                                   ThaiDateFormatter.formatSingleDate(
-                                    DateTime.parse(lastLogin!),
+                                    DateTime.parse(widget.lastLogin!),
                                   ),
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
@@ -171,7 +190,7 @@ class UserInfoCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          '$steps ก้าว',
+                          '${widget.steps} ก้าว',
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ],
@@ -192,7 +211,7 @@ class UserInfoCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          '$sleepHours ชม.',
+                          '${widget.sleepHours} ชม.',
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                       ],

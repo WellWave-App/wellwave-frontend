@@ -21,7 +21,14 @@ class ToggleAddfriendButtonEvent extends FriendEvent {
   ToggleAddfriendButtonEvent({required this.searchId});
 }
 
-class ToggleWaveIconEvent extends FriendEvent {}
+class ToggleWaveIconEvent extends FriendEvent {
+  final String friendId;
+
+  ToggleWaveIconEvent({required this.friendId});
+
+  @override
+  List<Object?> get props => [friendId];
+}
 
 class UnfriendButtonEvent extends FriendEvent {
   final String searchId;
