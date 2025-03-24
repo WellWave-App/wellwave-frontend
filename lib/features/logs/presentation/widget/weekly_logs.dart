@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/logs/data/models/logs_request_model_waistline.dart';
 import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
-import 'package:wellwave_frontend/features/logs/presentation/widget/chart.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/input_button.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/weekly_logs_card.dart';
 
 import '../../../../config/constants/app_images.dart';
+import '../../data/models/logs_request_model_weight.dart';
 
 class WeeklyLogs extends StatefulWidget {
   const WeeklyLogs({super.key});
@@ -20,7 +21,6 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
   void initState() {
     super.initState();
     final today = DateTime.now();
-
     context.read<LogsBloc>().add(LogsFetchedGraph(today));
     // debugPrint('Dispatched LogsFetchedGraph event');
   }
@@ -37,36 +37,35 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
           BlocBuilder<LogsBloc, LogsState>(
             builder: (context, state) {
               bool logsRecorded = false;
-              double weight = 0.0;
-              double lastWeekWeight = 0.0;
-              double waistLine = 0.0;
-              double lastWeekWaistLine = 0.0;
+              DateTime startOfWeek(DateTime date) {
+                // Monday
+                int difference = date.weekday - DateTime.monday;
+                return date.subtract(Duration(days: difference));
+              }
+
+              DateTime endOfWeek(DateTime date) {
+                // Sunday
+                int difference = DateTime.sunday - date.weekday;
+                return date.add(Duration(days: difference));
+              }
 
               if (state is LogsLoadGraphInProgress) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is LogsLoadGraphSuccess) {
-                if (state.logsWeightlist.isNotEmpty) {
-                  weight = state.logsWeightlist.last?.value ?? 0.0;
-                  lastWeekWeight = state.logsWeightlist.length > 1
-                      ? state.logsWeightlist[state.logsWeightlist.length - 2]
-                              ?.value ??
-                          0.0
-                      : 0.0;
+                bool isCurrentWeek(DateTime logDate, DateTime today) {
+                  DateTime startOfCurrentWeek = startOfWeek(today);
+                  DateTime endOfCurrentWeek = endOfWeek(today);
+
+                  return logDate.isAfter(startOfCurrentWeek
+                          .subtract(const Duration(days: 1))) &&
+                      logDate.isBefore(
+                          endOfCurrentWeek.add(const Duration(days: 1)));
                 }
 
-                if (state.logsWaistLinelist.isNotEmpty) {
-                  waistLine = state.logsWaistLinelist.last?.value ?? 0.0;
-                  lastWeekWaistLine = state.logsWaistLinelist.length > 1
-                      ? state
-                              .logsWaistLinelist[
-                                  state.logsWaistLinelist.length - 2]
-                              ?.value ??
-                          0.0
-                      : 0.0;
-                }
-
-                logsRecorded = state.logsWaistLinelist.length >= 4 ||
-                    state.logsWeightlist.length >= 4;
+                logsRecorded = (state.logsWaistLinelist.any(
+                        (log) => isCurrentWeek(log.date, DateTime.now())) ||
+                    state.logsWeightlist
+                        .any((log) => isCurrentWeek(log.date, DateTime.now())));
 
                 return Column(
                   children: [
@@ -106,39 +105,55 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                    BlocBuilder<LogsBloc, LogsState>(
+                      builder: (context, state) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            WeeklyLogsCard(
-                              title: AppStrings.weightText,
-                              value: weight,
-                              unit: AppStrings.kgText,
-                              lastWeekValue: lastWeekWeight,
-                              chart: LineChartSample2(
-                                logType: AppStrings.weightLogText,
-                                logs: state.logsWeightlist,
-                              ),
+                            Row(
+                              children: [
+                                WeeklyLogsCard<LogsWeightRequestModel>(
+                                  title: AppStrings.weightText,
+                                  unit: AppStrings.kgText,
+                                  logType: AppStrings.weightLogText,
+                                  getLogs: (state) {
+                                    if (state is LogsLoadGraphSuccess) {
+                                      return state.logsWeightlist;
+                                    }
+                                    return [];
+                                  },
+                                  getValue: (log) => log.value,
+                                  getDate: (log) => log.date,
+                                  createLog: (date, value) =>
+                                      LogsWeightRequestModel(
+                                          date: date, value: value),
+                                ),
+                              ],
                             ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                WeeklyLogsCard<LogsWaistLineRequestModel>(
+                                  title: AppStrings.waistLineText,
+                                  unit: AppStrings.cmText,
+                                  logType: AppStrings.waistLineLogText,
+                                  getLogs: (state) {
+                                    if (state is LogsLoadGraphSuccess) {
+                                      return state.logsWaistLinelist;
+                                    }
+                                    return [];
+                                  },
+                                  getValue: (log) => log.value,
+                                  getDate: (log) => log.date,
+                                  createLog: (date, value) =>
+                                      LogsWaistLineRequestModel(
+                                          date: date, value: value),
+                                ),
+                              ],
+                            )
                           ],
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            WeeklyLogsCard(
-                              title: AppStrings.waistLineText,
-                              value: waistLine,
-                              unit: AppStrings.cmText,
-                              lastWeekValue: lastWeekWaistLine,
-                              chart: LineChartSample2(
-                                logType: AppStrings.waistLineLogText,
-                                logs: state.logsWaistLinelist,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                        );
+                      },
                     )
                   ],
                 );

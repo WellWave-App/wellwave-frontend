@@ -12,7 +12,6 @@ import '../models/logs_request_model_step.dart';
 import '../models/logs_request_model_drink.dart';
 
 class LogsRequestRepository {
-
   Future<bool> createLogsRequest({
     required int value,
     required String logName,
@@ -156,9 +155,9 @@ class LogsRequestRepository {
   }) async {
     try {
       List<T> logsList = [];
-      for (int i = 0; i < 4; i++) {
-        final dateBegin = today.subtract(const Duration(days: 21));
-        final DateTime targetDate = dateBegin.add(Duration(days: i * 7));
+
+      for (int i = 0; i < 12; i++) {
+        final DateTime targetDate = today.subtract(Duration(days: i * 7));
         final response = await http.get(
           Uri.parse(
             '$baseUrl/logs/userWeekly/$uID?date=${targetDate.toIso8601String()}&&logName=$logName',

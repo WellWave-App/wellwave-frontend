@@ -344,6 +344,8 @@ class _InputWeeklyLogsState extends State<InputWeeklyLogs> {
         ),
     ];
 
+    context.read<LogsBloc>().add(LogsFetchedGraph(DateTime.now()));
+
     for (var event in logEvents) {
       logsBloc.add(event);
     }
