@@ -84,8 +84,11 @@ class DailyTaskList extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Image.asset(AppImages.expIcon),
-                                Text(' x $exp',
+                                SvgPicture.asset(
+                                  AppImages.expIcon,
+                                  width: 20,
+                                ),
+                                Text(' +$exp',
                                     style:
                                         Theme.of(context).textTheme.bodySmall),
                               ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
@@ -33,11 +34,8 @@ class DailyTaskPage extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               color: AppColors.secondaryDarkColor,
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(100),
-              ),
             ),
-            height: MediaQuery.of(context).size.height * 0.18,
+            height: MediaQuery.of(context).size.height * 0.1,
           ),
           Column(
             children: [
@@ -51,7 +49,7 @@ class DailyTaskPage extends StatelessWidget {
                           color: AppColors.whiteColor,
                         ),
                   ),
-                  Image.asset(
+                  SvgPicture.asset(
                     AppImages.gemIcon,
                     width: 24,
                     height: 24,
@@ -91,7 +89,7 @@ class DailyTaskPage extends StatelessWidget {
                                 builder: (_) => SuccessDialog(
                                   // taskId: taskId,
                                   reward: 15,
-                                  iconPath: Image.asset(AppImages.gemIcon),
+                                  iconPath: SvgPicture.asset(AppImages.gemIcon),
                                 ),
                               );
                             }
@@ -118,8 +116,7 @@ class DailyTaskPage extends StatelessWidget {
                   itemCount: selectedTasks.length,
                   itemBuilder: (context, index) {
                     final task = selectedTasks[index];
-                    return 
-                    DailyTaskList(
+                    return DailyTaskList(
                       imagePath: task['imagePath'],
                       taskId: task['taskId'],
                       taskName: task['taskName'],

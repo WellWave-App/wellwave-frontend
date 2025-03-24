@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
 import '../../../../config/constants/app_colors.dart';
@@ -14,11 +15,17 @@ class TaskList extends StatelessWidget {
   final String imagePath;
   final int taskId;
   final String taskName;
-  const TaskList(
-      {super.key,
-      required this.imagePath,
-      required this.taskId,
-      required this.taskName});
+  final int? expReward;
+  final int? gemReward;
+
+  const TaskList({
+    super.key,
+    required this.imagePath,
+    required this.taskId,
+    required this.taskName,
+    this.expReward,
+    this.gemReward,
+  });
 
   Color _getProgressColor(double progress) {
     if (progress <= 0.3) {
@@ -60,9 +67,26 @@ class TaskList extends StatelessWidget {
                     children: [
                       Flexible(
                         flex: 1,
-                        child: Image.asset(
-                          imagePath,
-                          fit: BoxFit.cover,
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: AppColors.transparentColor,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              '$baseUrl${imagePath}',
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
+                                Icons.error,
+                                size: 32,
+                                color: AppColors.darkGrayColor,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(width: 8), // Add spacing if needed
@@ -85,16 +109,36 @@ class TaskList extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    Image.asset(AppImages.expIcon),
-                                    Text(
-                                      ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
-                                    ),
-                                  ],
-                                ),
+                                if (expReward != null && gemReward == null)
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        AppImages.expIcon,
+                                        width: 20,
+                                      ),
+                                      Text(
+                                        ' +$expReward/วัน',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ],
+                                  ),
+                                if (expReward == null && gemReward != null)
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        AppImages.gemIcon,
+                                        width: 20,
+                                      ),
+                                      Text(
+                                        ' +$gemReward/วัน',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ],
+                                  ),
                               ],
                             ),
                             SizedBox(height: 8),

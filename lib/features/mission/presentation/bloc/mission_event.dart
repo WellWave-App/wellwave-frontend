@@ -3,7 +3,7 @@ part of 'mission_bloc.dart';
 abstract class MissionEvent {
   const MissionEvent();
 
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // Habit Challenge Events
@@ -42,4 +42,18 @@ class CompleteTaskEvent extends MissionEvent {
 
   @override
   List<Object> get props => [taskId];
+}
+
+class LoadHabitsEvent extends MissionEvent {
+  final String? category;
+
+  const LoadHabitsEvent({this.category});
+
+  @override
+  List<Object?> get props => [category];
+}
+
+class LoadRecHabitsEvent extends MissionEvent {
+  @override
+  List<Object?> get props => [];
 }

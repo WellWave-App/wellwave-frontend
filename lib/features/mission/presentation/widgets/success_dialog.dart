@@ -7,14 +7,14 @@ import 'package:wellwave_frontend/features/mission/data/daily_mockup_data.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 
 class SuccessDialog extends StatelessWidget {
-  final Image iconPath;
   final int reward;
+  final Widget iconPath; // Change from Image to Widget
 
   const SuccessDialog({
-    Key? key,
+    super.key,
     required this.reward,
     required this.iconPath,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

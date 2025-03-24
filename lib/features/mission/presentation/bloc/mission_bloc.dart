@@ -1,9 +1,16 @@
 import 'package:bloc/bloc.dart';
+import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/rec_habit_respone_model.dart';
+import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
 part 'mission_event.dart';
 part 'mission_state.dart';
 
 class MissionBloc extends Bloc<MissionEvent, MissionState> {
-  MissionBloc() : super(MissionInitial()) {
+  final HabitRepositories habitRepositories;
+
+  MissionBloc({
+    required this.habitRepositories,
+  }) : super(MissionInitial()) {
     on<IncrementDailyCountEvent>(_onIncreaseDailyCount);
     on<DecrementDailyCountEvent>(_onDecreaseDailyCount);
     on<IncrementMinuteCountEvent>(_onIncreaseMinuteCount);
@@ -12,6 +19,8 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     on<ResetGoalEvent>(_onResetGoal);
     on<CompleteTaskEvent>(_onCompleteTaskEvent);
     on<StartProgressEvent>(_onStartProgress);
+    on<LoadHabitsEvent>(_onLoadHabits);
+    on<LoadRecHabitsEvent>(_onLoadRecHabits); // Add this line
   }
 
   void _onIncreaseDailyCount(
@@ -98,5 +107,43 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
 
   void _onStartProgress(StartProgressEvent event, Emitter<MissionState> emit) {
     emit(ProgressState());
+  }
+
+  void _onLoadHabits(LoadHabitsEvent event, Emitter<MissionState> emit) async {
+    emit(HabitLoading());
+    try {
+      final habits =
+          await habitRepositories.getHabitAll(category: event.category);
+      if (habits != null) {
+        emit(HabitLoaded(habits, null)); // Pass null for recHabits
+      } else {
+        emit(const HabitError('Failed to load habits'));
+      }
+    } catch (e) {
+      emit(HabitError('Error loading habits: $e'));
+    }
+  }
+
+  void _onLoadRecHabits(
+      LoadRecHabitsEvent event, Emitter<MissionState> emit) async {
+    emit(HabitLoading());
+    try {
+      final recHabits = await habitRepositories.getRecHabit();
+      print('Received recHabits: $recHabits'); // Debug print
+
+      if (recHabits != null) {
+        final emptyHabits = HabitRequestModel(
+            habits: [], meta: HabitMetaRequestModel(total: 0));
+        emit(HabitLoaded(emptyHabits, recHabits));
+      } else {
+        print('RecHabits is null'); // Debug print
+        emit(const HabitError(
+            'Failed to load recommended habits - null response'));
+      }
+    } catch (e, stackTrace) {
+      print('Error in _onLoadRecHabits: $e'); // Debug print
+      print('Stack trace: $stackTrace'); // Debug print
+      emit(HabitError('Error loading recommended habits: $e'));
+    }
   }
 }

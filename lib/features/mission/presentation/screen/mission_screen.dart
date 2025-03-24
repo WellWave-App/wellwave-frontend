@@ -84,8 +84,7 @@ class MissionScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceBetween, // จัดตำแหน่งให้ชิดขอบ
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [

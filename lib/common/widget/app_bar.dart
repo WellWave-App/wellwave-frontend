@@ -6,20 +6,21 @@ class CustomAppBar extends AppBar {
   CustomAppBar({
     super.key,
     super.backgroundColor,
-    required String title,
+    String? title,
     required BuildContext context,
     required bool onLeading,
     Color? textColor,
+    Color? titleColor,
     Function? action,
     Widget? actionIcon,
   }) : super(
           title: Text(
-            title,
+            title ?? '',
             style: TextStyle(
               fontFamily: 'NotoSansThai',
               fontWeight: FontWeight.bold,
               fontSize: 20,
-              color: textColor ?? AppColors.blackColor,
+              color: titleColor ?? textColor ?? AppColors.blackColor,
             ),
           ),
           titleSpacing: 0,

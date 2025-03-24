@@ -61,10 +61,14 @@ class QuestDetailPage extends StatelessWidget {
                               3, // Limits the number of lines (adjust as needed)
                           overflow: TextOverflow.ellipsis,
                         ),
+                        const SizedBox(height: 12),
                         Row(
                           children: [
-                            SvgPicture.asset(AppImages.gemIcon),
-                            const SizedBox(width: 12),
+                            SvgPicture.asset(
+                              AppImages.calendarIcon,
+                              width: 24,
+                            ),
+                            const SizedBox(width: 8),
                             Text(
                               questLabel,
                               style: Theme.of(context)
@@ -100,13 +104,13 @@ class QuestDetailPage extends StatelessWidget {
                       const SizedBox(height: 12),
                       Row(
                         children: [
-                          Image.asset(
+                          SvgPicture.asset(
                             iconPath,
                             height: 36,
                             fit: BoxFit.cover,
                           ),
                           Text(
-                            '   x$amountOfReward',
+                            '   +$amountOfReward',
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium

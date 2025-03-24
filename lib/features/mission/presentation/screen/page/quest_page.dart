@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/mission/data/daily_mockup_data.dart';
+import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 import 'package:wellwave_frontend/features/mission/presentation/widgets/task_list.dart';
 
 class QuestPage extends StatelessWidget {
@@ -10,7 +11,7 @@ class QuestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> tasks = mockTasks;
+    context.read<MissionBloc>().add(LoadHabitsEvent());
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -23,33 +24,47 @@ class QuestPage extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // Background Container
           Container(
             decoration: const BoxDecoration(
               color: AppColors.pinkColor,
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(100),
-              ),
             ),
-            height: MediaQuery.of(context).size.height * 0.15,
+            height: MediaQuery.of(context).size.height * 0.1,
           ),
-          // Main Content
           Padding(
-            padding: const EdgeInsets.only(top: 0.0), // Adjust as necessary
+            padding: const EdgeInsets.only(top: 0.0),
             child: Column(
               children: [
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: tasks.isNotEmpty ? tasks.length : 1,
-                    itemBuilder: (context, index) {
-                      if (tasks.isEmpty) {
-                        return Center(child: Text('No tasks available'));
+                  child: BlocBuilder<MissionBloc, MissionState>(
+                    builder: (context, state) {
+                      if (state is HabitLoading) {
+                        return const Center(child: CircularProgressIndicator());
                       }
-                      final task = tasks[index];
-                      return TaskList(
-                        imagePath: task['imagePath'],
-                        taskId: task['taskId'],
-                        taskName: task['taskName'],
+
+                      if (state is HabitLoaded) {
+                        final habits = state.habits.habits;
+                        if (habits.isEmpty) {
+                          return const Center(
+                            child: Text('No quests available'),
+                          );
+                        }
+
+                        return ListView.builder(
+                          itemCount: habits.length,
+                          itemBuilder: (context, index) {
+                            final habit = habits[index];
+                            return TaskList(
+                              imagePath: habit.thumbnailUrl,
+                              taskId: habit.hid,
+                              taskName: habit.title,
+                              gemReward: habit.gemReward,
+                            );
+                          },
+                        );
+                      }
+
+                      return const Center(
+                        child: Text('Failed to load quests'),
                       );
                     },
                   ),

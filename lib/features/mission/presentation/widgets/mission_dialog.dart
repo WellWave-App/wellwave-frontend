@@ -67,9 +67,12 @@ class MissionDialog extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 12.0),
                 child: Row(
                   children: [
-                    Image.asset(AppImages.expIcon),
+                    SvgPicture.asset(
+                      AppImages.expIcon,
+                      width: 20,
+                    ),
                     Text(
-                      ' x${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
+                      ' +${mockTasks.firstWhere((task) => task['taskId'] == taskId)['exp']}',
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ],
