@@ -179,4 +179,14 @@ class AppImages {
   static const expCoinSvg = 'assets/icons/exp_coin_svg.svg';
   static const gemSvg = 'assets/icons/gem_svg.svg';
   static const giftSvg = 'assets/icons/gift_svg.svg';
+
+  static const emptyComponentImage = 'assets/images/empty_component.png';
+  static const dailyTaskImage = 'assets/images/daily_task.png';
+  static const habitChallengeImage = 'assets/images/habit_challenge.png';
+  static const questImage = 'assets/images/quest.png';
+
+  static const calendarIcon = 'assets/icons/calendar.svg';
+  static const arrowForwardIcon = 'assets/icons/arrow_forward.svg';
+  static const closeBTIcon = 'assets/icons/close_btn.svg';
+  static const taskSuccessIcon = 'assets/icons/task_success_icon.svg';
 }

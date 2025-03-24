@@ -262,4 +262,33 @@ class AppStrings {
   //exchange
   static const randomBoxText = 'กล่องสุ่ม';
   static const exchangeItemText = 'แลกไอเทม';
+
+  static const iDoTodayText = 'วันนี้ทำอะไรดี?';
+  static const chooseActivityText = 'เลือกกิจกรรมที่คุณต้องการทำได้เลย!';
+  static const dailyTaskEnterText = 'ภารกิจ\nประจำวัน';
+  static const habitChallengeEnterText = 'ภารกิจ\nปรับนิสัย';
+  static const dailyTaskText = 'ภารกิจประจำวัน';
+  static const habitChallengeText = 'ภารกิจปรับนิสัย';
+  static const questText = 'เควส';
+
+  static const suggestText = 'แนะนำ';
+  static const eatingText = 'การทานอาหาร';
+
+  static const taskInProgressText = 'ทำกิจกรรมนี้';
+  static const taskDoing = 'กำลังทำกิจกรรม';
+  static const taskCompletedText = 'สำเร็จ';
+
+  static const taskCompletedWithGemText = 'ทำภารกิจให้ครบเพื่อรับ ';
+  static const chooseText = 'เลือก ';
+  static const collectRewards = 'เก็บรางวัล ';
+
+  static const setGoalText = 'กำหนดเป้าหมายภารกิจ ';
+  static const tellGoalText = 'บอกให้เรารู้ถึงเป้าหมายของคุณ ';
+  static const setDayText = 'จำนวนวัน ';
+
+  static const joinDateText = 'วันที่เข้าร่วม ';
+  static const prizesToBeReceivedText = 'รางวัลที่จะได้รับ ';
+  static const slideForSuccessText = 'สไลด์เมื่อเสร็จสิ้น ';
+
+  static const joinProgram = 'เข้าร่วมโปรแกรม';
 }

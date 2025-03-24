@@ -12,6 +12,7 @@ import 'package:wellwave_frontend/features/profile/data/repositories/archeivemen
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/archeivement_bloc/archeivement_bloc.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_bloc.dart';
+import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
 import 'features/authentication/data/repositories/auth_repository.dart';
