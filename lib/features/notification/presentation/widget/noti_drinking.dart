@@ -394,7 +394,8 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                       ),
                                     ));
                             setState(() {
-                              hourSet = result as String;
+                              hourSet =
+                                  result != null ? result as String : hourSet;
                             });
                           },
                           child: Row(
