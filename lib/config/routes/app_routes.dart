@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path/path.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
+import 'package:wellwave_frontend/features/article/presentation/screen/all_article_screen.dart';
+import 'package:wellwave_frontend/features/article/presentation/screen/article_detail_screen.dart';
 
 import 'package:wellwave_frontend/features/exchange/presentation/screen/exchange_screen.dart';
 import 'package:wellwave_frontend/features/exchange/presentation/screen/my_item_screen.dart';
@@ -13,7 +16,7 @@ import 'package:wellwave_frontend/features/authentication/presentation/screen/au
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/forgot_password_sceen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/login_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/register_screen.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
+
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home/notification_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
@@ -23,6 +26,8 @@ import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
+import '../../features/article/presentation/bloc/article_bloc.dart';
+import '../../features/article/presentation/screen/article_screen.dart';
 import '../../features/authentication/presentation/screen/widget/register_success.dart';
 import '../../features/leaderboard/presentation/screen/leaderboard_screen.dart';
 import '../../features/notification/presentation/screen/drink_plan_screen.dart';
@@ -34,6 +39,7 @@ import '../../features/profile/presentation/screen/profile_screen.dart';
 import '../../features/profile/presentation/screen/set_weekly_goal_screen.dart';
 
 final GoRouter goRouter = GoRouter(
+  
   initialLocation: AppPages.splashPath,
   routes: [
     GoRoute(
@@ -207,12 +213,33 @@ final GoRouter goRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: AppPages.articlePage,
-          name: AppPages.articleName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const ArticleScreen());
-          },
-        ),
+            path: AppPages.articlePage,
+            name: AppPages.articleName,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _buildPageWithNavBar(
+                  context, state, const ArticleScreen());
+            },
+            routes: [
+              GoRoute(
+                  path: AppPages.articleDetailPage,
+                  name: AppPages.articleDetailName,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    return const NoTransitionPage(child: ArticleDetailScreen());
+                  }),
+              GoRoute(
+                  path: AppPages.allArticlePage,
+                  name: AppPages.allArticleName,
+                  pageBuilder: (BuildContext context, GoRouterState state) {
+                    return const NoTransitionPage(child: AllArticlesScreen());
+                  })
+            ]),
+        // GoRoute(
+        //   path: AppPages.articlePage,
+        //   name: AppPages.articleName,
+        //   pageBuilder: (BuildContext context, GoRouterState state) {
+        //     return _buildPageWithNavBar(context, state, const ArticleScreen());
+        //   },
+        // ),
         GoRoute(
           path: AppPages.reassessmentPage,
           name: AppPages.reassessmentName,

@@ -50,6 +50,7 @@ dependencies:
   confetti: ^0.6.0
   action_slider: ^0.7.0
   syncfusion_flutter_charts: ^21.1.35
+  share_plus: ^10.1.4
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.2
@@ -83,6 +84,8 @@ flutter:
     - assets/icons/shop/
     - assets/images/profile/    
     - assets/images/exchange/ 
+    - assets/icons/disease/
+    
 
   fonts:
     - family: NotoSansThai

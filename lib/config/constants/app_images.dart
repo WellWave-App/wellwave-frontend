@@ -177,6 +177,16 @@ class AppImages {
   static const seaBgImage = 'assets/icons/sea.svg';
   static const googleIcon = 'assets/icons/google_Icon.svg';
   static const sunnyIcon = 'assets/icons/sunny.svg';
+
+  //article
+  static const bookmarkIcon = 'assets/icons/bookmark.svg';
+  // static const bloodPressureIcon = 'assets/icons/disease/blood_pressure.svg';
+  static const bloodPressureIcon = 'assets/icons/disease/blood_pressure.png';
+  static const diabetesIcon = 'assets/icons/disease/diabetes.png';
+  static const hyperChoLesTeRoLeMiaIcon =
+      'assets/icons/disease/hypercholesterolemia.png';
+
+  static const obesityIcon = 'assets/icons/disease/obesity.png';
   //exchange
   static const expCoinSvg = 'assets/icons/exp_coin_svg.svg';
   static const gemSvg = 'assets/icons/gem_svg.svg';

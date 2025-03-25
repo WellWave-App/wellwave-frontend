@@ -7,6 +7,10 @@ import 'package:wellwave_frontend/features/exchange/data/repositories/exchange_r
 import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_bloc.dart';
 import 'package:wellwave_frontend/features/friend/data/repositories/friend_repositories.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
+import 'package:wellwave_frontend/features/article/data/models/article_bookmark.dart';
+import 'package:wellwave_frontend/features/article/data/repositories/article_repository.dart';
+import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
+import 'package:wellwave_frontend/features/article/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/leaderboard/data/repositories/leaderboard_repositories.dart';
 import 'package:wellwave_frontend/features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
@@ -71,6 +75,9 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<RecommendHabitRepository>(
           create: (context) => RecommendHabitRepository(),
         ),
+        RepositoryProvider<ArticleRepository>(
+          create: (context) => ArticleRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -107,6 +114,11 @@ class MainApp extends StatelessWidget {
                 archeivementRepositories: ArcheivementRepositories()),
             lazy: false,
           ),
+          BlocProvider(
+              create: (context) => ArticleBloc(
+                    ArticleRepository(),
+                    // Pass a default instance of BookmarkModel
+                  )),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(
               profileRepository: ProfileRepositories(),
