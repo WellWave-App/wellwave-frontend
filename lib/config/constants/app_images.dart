@@ -180,6 +180,7 @@ class AppImages {
 
   //article
   static const bookmarkIcon = 'assets/icons/bookmark.svg';
+  static const readIcon = 'assets/icons/read.svg';
   // static const bloodPressureIcon = 'assets/icons/disease/blood_pressure.svg';
   static const bloodPressureIcon = 'assets/icons/disease/blood_pressure.png';
   static const diabetesIcon = 'assets/icons/disease/diabetes.png';

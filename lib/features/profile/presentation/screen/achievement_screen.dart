@@ -69,6 +69,11 @@ class AchievementScreen extends StatelessWidget {
                                 level.level == earnedAchievement.level);
                         final levelIcon = "$baseUrl${selectedLevel.iconUrl}";
 
+                        context.read<ArcheivementBloc>().add(ReadArcheivement(
+                            uid: earnedAchievement.uid,
+                            achId: earnedAchievement.achId,
+                            level: earnedAchievement.level));
+
                         achievementWidgets.add(_buildAchievementCard(
                           context,
                           levelIcon,

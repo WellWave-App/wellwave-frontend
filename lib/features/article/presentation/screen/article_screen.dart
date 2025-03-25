@@ -579,15 +579,16 @@ class _ArticleScreenState extends State<ArticleScreen> {
                           child: Text('Error: ${state.errorMessage}'));
                     } else {
                       return Center(
-                        heightFactor: 8,
-                        child: Text(
-                          'ไม่มีบทความที่แสดงในขณะนี้',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[600],
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(AppImages.catNoItemimage, height: 128),
+                          SizedBox(
+                            height: 20,
                           ),
-                        ),
-                      );
+                          Text('ไม่มีบทความที่แสดงในขณะนี้'),
+                        ],
+                      ));
                     }
                   }),
                 ],

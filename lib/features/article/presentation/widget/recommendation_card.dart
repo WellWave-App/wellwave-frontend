@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
 import '../bloc/article_bloc.dart';
@@ -119,11 +121,16 @@ class RecommendationCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 2),
-                  Text(
-                    '$readingTime min read',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppColors.darkGrayColor, fontSize: 12),
+                  SizedBox(height: 5),
+                  Row(
+                    children: [
+                      SvgPicture.asset(AppImages.readIcon),
+                      Text(
+                        ' $readingTime นาที',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkGrayColor, fontSize: 12),
+                      ),
+                    ],
                   ),
                 ],
               ),
