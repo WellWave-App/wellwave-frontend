@@ -88,7 +88,11 @@ class InputButton extends StatelessWidget {
           onPressed: onPressed ?? () {},
           child: Row(
             children: [
-              const Icon(Icons.add, size: 16.0),
+              const Icon(
+                Icons.add,
+                size: 16.0,
+                color: AppColors.whiteColor,
+              ),
               const SizedBox(width: 4),
               Text(
                 buttonText,

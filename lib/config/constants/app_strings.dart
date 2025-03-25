@@ -161,6 +161,15 @@ class AppStrings {
   //leaderboard
   static const leaderboardText = 'กระดานจัดอันดับ';
   static const healthAssessmentText = 'แบบประเมินสุขภาพ';
+
+  //home
+  static const stepTimeMessageLessThanPrevious =
+      'สัปดาห์ที่ผ่านมาอาจจะช้าลงบ้าง พักให้หายเหนื่อยแล้วลุยต่อไปนะ!';
+  static const stepTimeMessageContinuity =
+      'สัปดาห์นี้คุณทำได้ดีมาก! รักษาความต่อเนื่องนี้ไว้และก้าวต่อไป!';
+
+  static const MarkAsReadAllText = 'อ่านทั้งหมด';
+
   static const riskText = 'เสี่ยง';
   static const lowRiskText = 'เสี่ยงต่ำ';
   static const moderateRiskText = 'เสี่ยงปานกลาง';
@@ -240,6 +249,8 @@ class AppStrings {
   static const healthdataText = 'ข้อมูลสุขภาพประจำสัปดาห์';
 
   static const seeMissionText = 'ดูภารกิจ';
+  static const doMissionText = 'ทำภารกิจ';
+  static const slideMissionText = 'สไลด์เมื่อเสร็จสิ้น';
   static const continueMissionText = 'ทำต่อ';
 
   static const exerciseText = 'ออกกำลังกาย';

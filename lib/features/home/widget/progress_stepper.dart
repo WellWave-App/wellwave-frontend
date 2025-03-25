@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/home/data/models/get_user_challenges_request_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
-import 'package:wellwave_frontend/features/home/widget/action_slider_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/thai_date_formatter.dart';
-import 'package:wellwave_frontend/features/home/data/models/progress.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/widget/gradient_button.dart';
 
+import 'action_slider_button.dart';
+
 class ProgressStepperWidget extends StatelessWidget {
-  final Progress progress;
+  final Challenge progressData;
   final String progressId;
 
-  const ProgressStepperWidget(
-      {super.key, required this.progress, required this.progressId});
+  ProgressStepperWidget({required this.progressData, required this.progressId});
 
-  List<DateTime> _generateDates(Progress progress) {
+  List<DateTime> _generateDates(DateTime startDate, DateTime endDate) {
+    final days = endDate.difference(startDate).inDays + 1;
     return List.generate(
-      progress.totalDays,
-      (index) => progress.startDate.add(Duration(days: index)),
+      days,
+      (index) => startDate.add(Duration(days: index)),
     );
   }
 
@@ -28,18 +30,15 @@ class ProgressStepperWidget extends StatelessWidget {
     final activeIndex =
         dates.indexWhere((date) => _isSameDay(date, activeDate));
 
-    // หากไม่พบวันที่ active ให้เริ่มจาก index 0
-    if (activeIndex == -1) return dates.take(4).toList();
+    if (activeIndex == -1) {
+      return dates.take(4).toList();
+    }
 
-    // ให้วันที่ active อยู่ตำแหน่งที่ 3 ของ visibleDates
     int startIndex = activeIndex - 2;
 
-    // ตรวจสอบขอบเขตด้านซ้าย
     if (startIndex < 0) {
       startIndex = 0;
-    }
-    // ตรวจสอบขอบเขตด้านขวา
-    else if (startIndex + 4 > dates.length) {
+    } else if (startIndex + 4 > dates.length) {
       startIndex = dates.length - 4;
     }
 
@@ -56,7 +55,11 @@ class ProgressStepperWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        final dates = _generateDates(progress);
+        final startDate = DateTime.parse(progressData.startDate);
+        final endDate = DateTime.parse(progressData.endDate);
+
+        final dates = _generateDates(startDate, endDate);
+
         final activeDate = DateTime.now();
         final visibleDates = _getVisibleDates(dates, activeDate);
 
@@ -83,7 +86,7 @@ class ProgressStepperWidget extends StatelessWidget {
                     context,
                     visibleDates,
                     context.read<HomeBloc>(),
-                    progress.dailyCompletion ?? {},
+                    progressData.dailyTracks,
                     progressId,
                   ),
                 ],
@@ -92,18 +95,37 @@ class ProgressStepperWidget extends StatelessWidget {
             Positioned(
               bottom: 0,
               left: 0,
-              child: progress.activityType == 'exercise'
-                  ? GradientButton(
-                      text: 'ทำภารกิจ',
+              child: Builder(
+                builder: (context) {
+                  final isCompleted = progressData.dailyTracks.any((track) =>
+                      _isSameDay(
+                          DateTime.parse(track.trackDate), visibleDate) &&
+                      track.completed);
+
+                  if (isCompleted) {
+                    return GradientFinishButton(
                       onPressed: () {
                         context.goNamed(AppPages.missionPage);
                       },
-                    )
-                  : ActionSliderButton(
-                      stepNumber: stepNumber,
-                      date: visibleDate,
-                      progressId: progressId,
-                    ),
+                    );
+                  }
+
+                  if (progressData.habits.exerciseType != null) {
+                    return GradientButton(
+                      text: AppStrings.doMissionText,
+                      onPressed: () {
+                        context.goNamed(AppPages.missionPage);
+                      },
+                    );
+                  }
+
+                  return ActionSliderButton(
+                    stepNumber: stepNumber,
+                    date: visibleDate,
+                    progressId: progressId,
+                  );
+                },
+              ),
             ),
           ],
         );
@@ -113,13 +135,14 @@ class ProgressStepperWidget extends StatelessWidget {
 }
 
 Widget _buildStep(
-    int stepNumber,
-    DateTime date,
-    BuildContext context,
-    List<DateTime> visibleDates,
-    HomeBloc bloc,
-    Map<String, dynamic> dailyCompletion,
-    String progressId) {
+  int stepNumber,
+  DateTime date,
+  BuildContext context,
+  List<DateTime> visibleDates,
+  HomeBloc bloc,
+  List<DailyTrack> dailyTracks,
+  String progressId,
+) {
   bool isComplete = bloc.completionStatus[progressId]?[date] ?? false;
   bool isActive = _isSameDay(date, DateTime.now());
 
@@ -132,7 +155,12 @@ Widget _buildStep(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildStepCircle(
-                  isComplete, isActive, date, context, dailyCompletion),
+                isComplete,
+                isActive,
+                date,
+                context,
+                dailyTracks,
+              ),
               if (stepNumber < visibleDates.length)
                 _buildStepConnector(visibleDates.length),
             ],
@@ -161,46 +189,98 @@ bool _isSameDay(DateTime date1, DateTime date2) {
       date1.day == date2.day;
 }
 
-Widget _buildStepCircle(bool isComplete, bool isActive, DateTime date,
-    BuildContext context, Map<String, dynamic> dailyCompletion) {
-  return Container(
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      border: Border.all(
-        color: isComplete
-            ? AppColors.skyblueColor
-            : isActive
-                ? AppColors.darkSkyBlueColor
-                : AppColors.lightgrayColor,
-        width: 4.0,
-      ),
+Widget _buildStepCircle(
+  bool isComplete,
+  bool isActive,
+  DateTime date,
+  BuildContext context,
+  List<DailyTrack> dailyTracks,
+) {
+  final track = dailyTracks.firstWhere(
+    (track) => _isSameDay(DateTime.parse(track.trackDate), date),
+    orElse: () => DailyTrack(
+      trackId: -1,
+      challengeId: -1,
+      trackDate: date.toIso8601String(),
+      completed: false,
+      durationMinutes: null,
+      distanceKm: null,
+      countValue: null,
+      stepsCalculated: null,
+      caloriesBurned: null,
+      heartRate: null,
+      moodFeedback: null,
     ),
-    child: CircleAvatar(
-      radius: 10,
-      backgroundColor: isComplete
+  );
+
+  final hasData = track.trackId != -1;
+  final isCompleted = track.completed;
+  final isFutureDate = date.isAfter(DateTime.now());
+  final isPastDate = date.isBefore(DateTime.now());
+  final isToday = _isSameDay(date, DateTime.now());
+
+  final backgroundColor = isCompleted
+      ? AppColors.skyblueColor
+      : (isToday && !hasData)
           ? AppColors.skyblueColor
-          : isActive
-              ? AppColors.skyblueColor
-              : AppColors.lightgrayColor,
-      child: isComplete
-          ? const Icon(
-              Icons.check,
-              color: Colors.white,
-              size: 16,
-            )
-          : dailyCompletion[date.toString()] == false
-              ? const Icon(
-                  Icons.close,
-                  color: Colors.red,
-                  size: 16,
-                )
-              : Text(
-                  '${date.day}',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+          : (isToday && hasData && !isCompleted) ||
+                  (isPastDate && !hasData) ||
+                  (hasData && !isCompleted)
+              ? AppColors.redLevelColor
+              : AppColors.lightgrayColor;
+
+  final borderColor = isCompleted
+      ? AppColors.skyblueColor
+      : (isToday && !hasData)
+          ? AppColors.darkSkyBlueColor
+          : (isToday && hasData && !isCompleted) ||
+                  (isPastDate && !hasData) ||
+                  (hasData && !isCompleted)
+              ? AppColors.redLevelColor
+              : AppColors.lightgrayColor;
+
+  return Stack(
+    alignment: Alignment.center,
+    children: [
+      CustomPaint(
+        size: const Size(28, 28),
+        painter: InsideBorderCirclePainter(
+          borderColor: borderColor,
+          strokeWidth: 4.0,
+        ),
+      ),
+      CircleAvatar(
+        radius: 12,
+        backgroundColor: backgroundColor,
+        child: isCompleted
+            ? const Icon(
+                Icons.check,
+                color: Colors.white,
+                size: 16,
+              )
+            : (isToday && !hasData)
+                ? Text(
+                    '${date.day}',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.white,
+                        ),
+                  )
+                : (isToday && hasData && !isCompleted) ||
+                        (isPastDate && !hasData) ||
+                        (hasData && !isCompleted)
+                    ? const Icon(
+                        Icons.close,
                         color: Colors.white,
+                        size: 16,
+                      )
+                    : Text(
+                        '${date.day}',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.white,
+                            ),
                       ),
-                ),
-    ),
+      ),
+    ],
   );
 }
 
@@ -222,4 +302,28 @@ Widget _buildStepConnector(int totalSteps) {
     width: width,
     color: AppColors.lightgrayColor,
   );
+}
+
+class InsideBorderCirclePainter extends CustomPainter {
+  final Color borderColor;
+  final double strokeWidth;
+
+  InsideBorderCirclePainter({
+    required this.borderColor,
+    this.strokeWidth = 4.0,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint paint = Paint()
+      ..color = borderColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = strokeWidth;
+
+    final double radius = (size.width / 2) - (strokeWidth / 2);
+    canvas.drawCircle(size.center(Offset.zero), radius, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

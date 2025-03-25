@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_health_data_request_model.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/models/health_assessment_personal_data_request_model.dart';
@@ -88,4 +89,11 @@ class MarkAsReadNotiEvent extends HomeEvent {
   List<Object> get props => [notificationId];
 }
 
+class MarkAllAsReadNotiEvent extends HomeEvent {}
+
 class FetchHomeEvent extends HomeEvent {}
+
+class FetchUserChallengesEvent extends HomeEvent {
+  @override
+  List<Object> get props => [];
+}

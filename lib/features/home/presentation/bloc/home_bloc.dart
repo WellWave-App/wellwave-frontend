@@ -12,17 +12,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ProfileRepositories profileRepository;
   final NotificationsRepository notificationsRepository;
   final LoginStreakRepository loginStreakRepository;
+  final RecommendHabitRepository recommendHabitRepository;
+  final HealthDataRepository healthDataRepository;
+  final UserChallengesRepository userChallengesRepository;
   final Map<String, Map<DateTime, bool>> completionStatus = {};
   List<int> weeklyAverages = [];
   List<String> readNotifications = [];
 
-  HomeBloc({
-    required this.currentDate,
-    required this.healthAssessmentRepository,
-    required this.loginStreakRepository,
-    required this.notificationsRepository,
-    required this.profileRepository,
-  }) : super(const HomeState(
+  HomeBloc(
+      {required this.currentDate,
+      required this.healthAssessmentRepository,
+      required this.loginStreakRepository,
+      required this.notificationsRepository,
+      required this.profileRepository,
+      required this.recommendHabitRepository,
+      required this.healthDataRepository,
+      required this.userChallengesRepository})
+      : super(const HomeState(
           homeStep: 0,
         )) {
     on<FetchHomeEvent>((event, emit) async {
@@ -35,12 +41,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final healthData = await healthAssessmentRepository.fetchHealthData();
         final loginStreak = await loginStreakRepository.fetchLoginStreakData();
         final notiData = await notificationsRepository.fetchNotiData();
-
-        // if (profile == null || healthData == null) {
-        //   throw Exception("Failed to fetch required data");
-        // }
-
-        debugPrint("Parsed Profile: $profile");
+        final healthStepAndExData =
+            await healthDataRepository.fetchStepAndExTimeData();
+        final userChallengesData =
+            await userChallengesRepository.fetchUserChallengesData();
+        final recommendHabitData =
+            await recommendHabitRepository.fetchRecommendHabitData();
 
         emit(HomeLoadedState(
           step: 0,
@@ -48,6 +54,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           healthData: healthData,
           loginStreak: loginStreak,
           notiData: notiData,
+          healthStepAndExData: healthStepAndExData,
+          userChallengesData: userChallengesData,
+          recommendHabitData: recommendHabitData,
         ));
       } catch (e) {
         debugPrint("Error fetching home data: $e");
@@ -162,7 +171,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<MarkAsReadNotiEvent>(_onMarkAsReadNotiEvent);
+    on<MarkAllAsReadNotiEvent>(_onMarkAllAsReadNotiEvent);
+    on<UpdateCompletionStatusEvent>(_onUpdateCompletionStatus);
   }
+
   Future<void> _onMarkAsReadNotiEvent(
     MarkAsReadNotiEvent event,
     Emitter<HomeState> emit,
@@ -192,86 +204,104 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       debugPrint('Failed to mark as read: $e');
     }
   }
-}
-// Future<void> _onLoadNotifications(
-//   LoadNotificationsEvent event,
-//   Emitter<HomeState> emit,
-// ) async {
-//   final prefs = await SharedPreferences.getInstance();
-//   final readNotifications = prefs.getStringList('read_notifications') ?? [];
 
-//   final latestNotifications = notificationlist.reversed.take(7).toList();
+  Future<void> _onMarkAllAsReadNotiEvent(
+    MarkAllAsReadNotiEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    try {
+      final success = await notificationsRepository.markAllAsReadNotification();
 
-//   bool hasNewNotification = latestNotifications.any(
-//     (notification) => !readNotifications.contains(notification.id.toString()),
-//   );
+      if (success) {
+        if (state is HomeLoadedState) {
+          final currentState = state as HomeLoadedState;
+          final updatedNotifications =
+              currentState.notiData!.map((notification) {
+            return notification.copyWith(isRead: true);
+          }).toList();
 
-//   if (state is HomeLoadedState) {
-//     final currentState = state as HomeLoadedState;
-//     emit(currentState.copyWith(
-//       readNotifications: readNotifications,
-//       hasNewNotification: hasNewNotification,
-//     ));
-//   }
-// }
-
-// Future<void> _onMarkNotificationAsRead(
-//     MarkNotificationAsReadEvent event, Emitter<HomeState> emit) async {
-//   final prefs = await SharedPreferences.getInstance();
-//   final currentState = state as HomeLoadedState;
-//   final readNotifications = List<String>.from(currentState.readNotifications);
-
-//   if (!readNotifications.contains(event.notificationId.toString())) {
-//     readNotifications.add(event.notificationId.toString());
-//     await prefs.setStringList('read_notifications', readNotifications);
-
-//     bool hasNewNotification = notificationlist.any(
-//       (notification) =>
-//           !readNotifications.contains(notification.id.toString()),
-//     );
-
-//     emit(currentState.copyWith(
-//       readNotifications: readNotifications,
-//       hasNewNotification: hasNewNotification,
-//     ));
-//   }
-// }
-
-// void _onNewNotificationReceived(
-//     NewNotificationReceived event, Emitter<HomeState> emit) {
-//   if (state is HomeLoadedState) {
-//     final currentState = state as HomeLoadedState;
-//     notificationlist.add(event.notification);
-//     emit(currentState.copyWith(hasNewNotification: true));
-//   }
-// }
-
-// void _onUpdateHealthData(
-//     UpdateDataFromReAssessmentEvent event, Emitter<HomeState> emit) {
-//   weeklyAverages = calculateWeeklyAverages(event.newData);
-//   if (state is HomeLoadedState) {
-//     emit((state as HomeLoadedState).copyWith(
-//       weeklyAverages: weeklyAverages,
-//     ));
-//   }
-// }
-
-List<int> calculateWeeklyAverages(List<Map<String, dynamic>> data) {
-  List<int> weeklyAverages = [];
-  int weekSum = 0;
-  int dayCount = 0;
-
-  for (int i = 0; i < data.length; i++) {
-    int value = data[i]['value'] as int;
-    weekSum += value;
-    dayCount++;
-
-    if (dayCount == 7 || i == data.length - 1) {
-      int average = (weekSum / dayCount).round();
-      weeklyAverages.add(average);
-      weekSum = 0;
-      dayCount = 0;
+          emit(currentState.copyWith(notiData: updatedNotifications));
+        }
+      } else {
+        debugPrint('Failed to mark as read');
+      }
+    } catch (e) {
+      debugPrint('Failed to mark as read: $e');
     }
   }
-  return weeklyAverages;
+
+  Future<void> _onUpdateCompletionStatus(
+    UpdateCompletionStatusEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    if (state is! HomeLoadedState) return;
+
+    final currentState = state as HomeLoadedState;
+    final challengeId = int.tryParse(event.progressId);
+
+    if (challengeId == null) {
+      debugPrint('Invalid progressId: ${event.progressId}');
+      return;
+    }
+
+    // Create a deep copy to prevent reference issues
+    final updatedCompletionStatus = Map<String, Map<DateTime, bool>>.from(
+        currentState.completionStatus.map(
+            (key, value) => MapEntry(key, Map<DateTime, bool>.from(value))));
+
+    // Use string comparison for dates to solve comparison issues
+    final dateString = event.date.toIso8601String().split('T')[0]; // YYYY-MM-DD
+    final dateKey = DateTime.parse(dateString);
+
+    if (updatedCompletionStatus[event.progressId] == null) {
+      updatedCompletionStatus[event.progressId] = {};
+    }
+    updatedCompletionStatus[event.progressId]![dateKey] = event.isComplete;
+
+    // Update UI immediately
+    debugPrint(
+        'Updating status for ${event.progressId} on $dateString to ${event.isComplete}');
+    emit(currentState.copyWith(
+      completionStatus: updatedCompletionStatus,
+    ));
+
+    try {
+      await userChallengesRepository.updateUserChallengesData(
+        challengeId: challengeId,
+        completed: event.isComplete,
+      );
+
+      debugPrint('API update success - fetching fresh challenge data');
+
+      // Fetch fresh data after successful update
+      final updatedUserChallengesData =
+          await userChallengesRepository.fetchUserChallengesData();
+
+      // Emit updated state with fresh data while preserving UI state
+      if (state is HomeLoadedState) {
+        final newestState = state as HomeLoadedState;
+        emit(newestState.copyWith(
+          userChallengesData: updatedUserChallengesData,
+          // Keep the latest completion status to ensure UI consistency
+          completionStatus: newestState.completionStatus,
+        ));
+      }
+    } catch (e) {
+      debugPrint('Error in _onUpdateCompletionStatus: $e');
+
+      // Revert status in case of error
+      final revertedStatus = Map<String, Map<DateTime, bool>>.from(currentState
+          .completionStatus
+          .map((key, value) => MapEntry(key, Map<DateTime, bool>.from(value))));
+
+      if (revertedStatus[event.progressId] == null) {
+        revertedStatus[event.progressId] = {};
+      }
+      revertedStatus[event.progressId]![dateKey] = !event.isComplete;
+
+      emit(currentState.copyWith(
+        completionStatus: revertedStatus,
+      ));
+    }
+  }
 }

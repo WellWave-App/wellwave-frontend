@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/features/home/widget/show_assessment_popup.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
+
+import 'show_assessment_popup.dart';
 
 class FloatingButtonWithShake extends StatefulWidget {
   const FloatingButtonWithShake({Key? key}) : super(key: key);
@@ -47,8 +49,9 @@ class _FloatingButtonWithShakeState extends State<FloatingButtonWithShake>
       bottom: 16.0,
       right: 16.0,
       child: InkWell(
-        onTap: () {
-          // showResultWeekPopup(context);
+        onTap: () async {
+          await setLastButtonPressedDate(DateTime.now());
+
           showAssessmentPopup(context);
         },
         child: AnimatedBuilder(

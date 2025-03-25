@@ -89,7 +89,7 @@ class WeeklyBarChartPainter extends CustomPainter {
     // วาดข้อความค่าเฉลี่ยของ 7 วันล่าสุด
     TextPainter recentTextPainter = TextPainter(
       text: TextSpan(
-        text: 'เฉลี่ย ${recentAverage.toInt()} นาที',
+        text: 'เฉลี่ย ${recentAverage.toInt()} ก้าว',
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: AppColors.greenColor,
               fontWeight: FontWeight.bold,
@@ -122,7 +122,7 @@ class WeeklyBarChartPainter extends CustomPainter {
     // วาดข้อความค่าเฉลี่ยทั้งหมด
     TextPainter overallTextPainter = TextPainter(
       text: TextSpan(
-        text: 'เฉลี่ย ${overallAverage.toInt()} นาที',
+        text: 'เฉลี่ย ${overallAverage.toInt()} ก้าว',
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: AppColors.greyColor,
               fontWeight: FontWeight.bold,
@@ -136,10 +136,13 @@ class WeeklyBarChartPainter extends CustomPainter {
 
     overallTextPainter.paint(canvas, Offset(overallTextX, overallTextY));
 
-    DateTime firstDateOfRecentWeek =
-        DateFormat('dd-MM-yyyy').parse(data[data.length - 7]['date']);
-    DateTime lastDateOfRecentWeek =
-        DateFormat('dd-MM-yyyy').parse(data[data.length - 1]['date']);
+    // แสดงช่วงวันที่ของสัปดาห์ล่าสุด
+    int lastIndex = data.length - 1;
+    int startIndex = lastIndex - 6;
+    if (startIndex < 0) startIndex = 0;
+
+    DateTime firstDateOfRecentWeek = DateTime.parse(data[startIndex]['date']);
+    DateTime lastDateOfRecentWeek = DateTime.parse(data[lastIndex]['date']);
     String recentWeekDateRange = ThaiDateFormatter.formatDateRange(
         firstDateOfRecentWeek, lastDateOfRecentWeek);
 
