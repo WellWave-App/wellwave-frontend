@@ -148,8 +148,8 @@ class _UserDetailCardState extends State<UserDetailCard> {
                               onSubmitted: (value) {
                                 setState(() {
                                   userName = value;
-                                  _isEditing = false;
                                   _submitLogs();
+                                  _isEditing = false;
                                 });
                               },
                             ),
