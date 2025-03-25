@@ -143,8 +143,12 @@ class LeaderboardScreen extends StatelessWidget {
                                 const SizedBox(width: 24),
                                 CircleAvatar(
                                   radius: 20,
-                                  backgroundImage: NetworkImage(
-                                      "$baseUrl${member.user.imageUrl}"),
+                                  backgroundImage: member.user.imageUrl != null
+                                      ? NetworkImage(
+                                              "$baseUrl${member.user.imageUrl}")
+                                          as ImageProvider<Object>
+                                      : const AssetImage(AppImages.catImg)
+                                          as ImageProvider<Object>,
                                 ),
                                 const SizedBox(width: 36),
                                 Expanded(
@@ -283,7 +287,11 @@ class LeaderboardScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 16.0),
               child: CircleAvatar(
                 radius: 36,
-                backgroundImage: NetworkImage("$baseUrl${user.user.imageUrl}"),
+                backgroundImage: user.user.imageUrl != null
+                    ? NetworkImage("$baseUrl${user.user.imageUrl}")
+                        as ImageProvider<Object>
+                    : const AssetImage(AppImages.catImg)
+                        as ImageProvider<Object>,
               ),
             ),
             if (isFirst)
