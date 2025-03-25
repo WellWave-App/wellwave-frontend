@@ -5,6 +5,8 @@ import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/exchange/data/repositories/exchange_repositories.dart';
 import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_bloc.dart';
+import 'package:wellwave_frontend/features/friend/data/repositories/friend_repositories.dart';
+import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
 import 'package:wellwave_frontend/features/leaderboard/data/repositories/leaderboard_repositories.dart';
 import 'package:wellwave_frontend/features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
@@ -50,6 +52,9 @@ class MainApp extends StatelessWidget {
         ),
         RepositoryProvider<HealthAssessmentRepository>(
           create: (context) => HealthAssessmentRepository(),
+        ),
+        RepositoryProvider<FriendRepositories>(
+          create: (context) => FriendRepositories(),
         ),
         RepositoryProvider<ProfileRepositories>(
           create: (context) => ProfileRepositories(),
@@ -114,15 +119,16 @@ class MainApp extends StatelessWidget {
               recommendHabitRepository: RecommendHabitRepository(),
             )..add(FetchHomeEvent()),
           ),
-
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(authRepository: authRepository),
           ),
-          // BlocProvider<FriendBloc>(
-          //   create: (context) => FriendBloc(
-          //       profileRepositories: context.read<ProfileRepositories>()),
-          //   lazy: false,
-          // ),
+          BlocProvider<FriendBloc>(
+            create: (context) => FriendBloc(
+              friendRepositories: context.read<FriendRepositories>(),
+              profileRepositories: context.read<ProfileRepositories>(),
+            ),
+            lazy: false,
+          ),
         ],
         child: MaterialApp.router(
           routerConfig: goRouter,

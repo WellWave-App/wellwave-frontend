@@ -30,7 +30,6 @@ class AppPages {
   static const String exchangePage = 'exchange';
   static const String myItemPage = 'myItem';
 
-  // Name of the route
   static const String splashName = 'splash';
   static const String homeName = 'home';
   static const String logName = 'log';

@@ -6,6 +6,8 @@ import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
 
 import 'package:wellwave_frontend/features/exchange/presentation/screen/exchange_screen.dart';
 import 'package:wellwave_frontend/features/exchange/presentation/screen/my_item_screen.dart';
+import 'package:wellwave_frontend/features/friend/presentation/screen/find_friend_screen.dart';
+import 'package:wellwave_frontend/features/friend/presentation/screen/friend_profile_screen.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/screen/health_assessment_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/authentication_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/forgot_password_sceen.dart';
@@ -236,6 +238,21 @@ final GoRouter goRouter = GoRouter(
           name: AppPages.assessmentName,
           builder: (BuildContext context, GoRouterState state) {
             return const AssessmentScreen();
+          },
+        ),
+        GoRoute(
+          path: AppPages.findFriendPage,
+          name: AppPages.findFriendName,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return NoTransitionPage(child: FindFriendScreen());
+          },
+        ),
+        GoRoute(
+          path: '${AppPages.profileFriendPage}/:uid',
+          name: AppPages.profileFriendName,
+          builder: (context, state) {
+            final uid = state.pathParameters['uid'];
+            return FriendProfileScreen(friendUid: uid ?? '-1');
           },
         ),
       ],

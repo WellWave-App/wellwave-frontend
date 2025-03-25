@@ -6,21 +6,19 @@ class CustomAppBar extends AppBar {
   CustomAppBar({
     super.key,
     super.backgroundColor,
-    required String title,
+    String? title,
     required BuildContext context,
     required bool onLeading,
     Color? textColor,
+    Function? onBackPressed,
     Function? action,
     Widget? actionIcon,
   }) : super(
           title: Text(
-            title,
-            style: TextStyle(
-              fontFamily: 'NotoSansThai',
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: textColor ?? AppColors.blackColor,
-            ),
+            title ?? '',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: AppColors.blackColor,
+                ),
           ),
           titleSpacing: 0,
           centerTitle: true,
@@ -85,10 +83,16 @@ class CustomAppBarWithStep extends AppBar {
               : const SizedBox(width: 48),
           actions: [
             if (action != null && actionIcon != null)
-              IconButton(
-                onPressed: () => action(),
-                icon: Icon(actionIcon),
-                color: textColor ?? Colors.black,
+              if (action != null && actionIcon != null)
+                IconButton(
+                  onPressed: () => action(),
+                  icon: Icon(actionIcon),
+                  color: textColor ?? Colors.black,
+                ),
+            if (additionalAction != null && additionalIcon != null)
+              GestureDetector(
+                onTap: () => additionalAction(),
+                child: additionalIcon,
               ),
             if (additionalAction != null && additionalIcon != null)
               GestureDetector(

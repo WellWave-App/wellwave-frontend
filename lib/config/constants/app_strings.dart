@@ -276,4 +276,9 @@ class AppStrings {
   static const myItemText = 'ไอเทมของฉัน';
   static const activeText = 'ไอเทมที่กำลังใช้งาน';
   static const myAllItemText = 'ไอเทมทั้งหมด';
+  static const userNotFoundText = 'ไม่พบข้อมูลผู้ใช้';
+  // friends
+  static const AlreadyFriendText = 'เป็นเพื่อนกับคุณแล้ว!';
+  static const seeDetailsText = 'ดูข้อมูล';
+  static const addText = 'เพิ่ม';
 }

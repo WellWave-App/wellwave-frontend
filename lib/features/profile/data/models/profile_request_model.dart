@@ -284,7 +284,7 @@ class CheckInStats {
 class OverAllStats {
   final int uid;
   final String? streakStartDate;
-  final String? lastLoginDate;
+  final String lastLoginDate;
   final int currentStreak;
   final int longestStreak;
   final int totalPointsEarned;
@@ -292,7 +292,7 @@ class OverAllStats {
   OverAllStats({
     required this.uid,
     this.streakStartDate,
-    this.lastLoginDate,
+    required this.lastLoginDate,
     required this.currentStreak,
     required this.longestStreak,
     required this.totalPointsEarned,
