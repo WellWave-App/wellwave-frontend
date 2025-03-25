@@ -108,7 +108,8 @@ class _DailyLogsState extends State<DailyLogs> {
                         ),
                       );
                       setState(() {
-                        selectedWaterLevel = result as num;
+                        selectedWaterLevel =
+                            result != null ? result as num : selectedWaterLevel;
                       });
 
                       BlocProvider.of<LogsBloc>(context).add(
@@ -164,7 +165,8 @@ class _DailyLogsState extends State<DailyLogs> {
                         ),
                       );
                       setState(() {
-                        selectedSleepHours = result as num;
+                        selectedSleepHours =
+                            result != null ? result as num : selectedSleepHours;
                       });
 
                       BlocProvider.of<LogsBloc>(context).add(
