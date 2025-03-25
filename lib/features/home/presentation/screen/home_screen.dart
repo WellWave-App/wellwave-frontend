@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.only(
                           top: 40.0, left: 24, right: 24, bottom: 24),
-                      child: const TopOfScreen(
+                      child: TopOfScreen(
                           // notifications: notifications!,
                           ),
                     ),

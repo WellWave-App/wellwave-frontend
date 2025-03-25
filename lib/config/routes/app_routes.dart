@@ -5,6 +5,7 @@ import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
 
 import 'package:wellwave_frontend/features/exchange/presentation/screen/exchange_screen.dart';
+import 'package:wellwave_frontend/features/exchange/presentation/screen/my_item_screen.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/screen/health_assessment_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/authentication_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/forgot_password_sceen.dart';
@@ -118,6 +119,17 @@ final GoRouter goRouter = GoRouter(
                       pageBuilder: (BuildContext context, GoRouterState state) {
                         return const NoTransitionPage(child: ExchangeScreen());
                       },
+                      routes: [
+                        GoRoute(
+                          path: AppPages.myItemPage,
+                          name: AppPages.myItemName,
+                          pageBuilder:
+                              (BuildContext context, GoRouterState state) {
+                            return const NoTransitionPage(
+                                child: MyItemScreen());
+                          },
+                        ),
+                      ],
                     ),
                     GoRoute(
                       path: AppPages.achievementPage,

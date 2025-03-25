@@ -124,7 +124,7 @@ class _EditProfileImageState extends State<EditProfileImage> {
   Widget _buildDefaultImage() {
     return const CircleAvatar(
       radius: 64,
-      backgroundImage: AssetImage(AppImages.crabImg),
+      backgroundImage: AssetImage(AppImages.catImg),
     );
   }
 

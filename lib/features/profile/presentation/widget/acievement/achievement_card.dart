@@ -7,7 +7,6 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../../config/constants/app_images.dart';
 import '../../../../../config/constants/app_pages.dart';
-import '../../../data/models/archeivement_request_model.dart';
 import '../../bloc/archeivement_bloc/archeivement_bloc.dart';
 import '../../bloc/archeivement_bloc/archeivement_event.dart';
 import '../../bloc/archeivement_bloc/archeivement_state.dart';
@@ -61,7 +60,14 @@ class AchievementCard extends StatelessWidget {
                 BlocBuilder<ArcheivementBloc, ArcheivementState>(
                   builder: (context, state) {
                     if (state is ArcheivementError) {
-                      return Center(child: Text(state.message));
+                      return Center(
+                          child: Column(
+                        children: [
+                          Image.asset(AppImages.catNoItemimage, height: 128),
+                          const SizedBox(height: 32),
+                          Text(state.message),
+                        ],
+                      ));
                     }
 
                     if (state is AllArcheivementLoaded) {

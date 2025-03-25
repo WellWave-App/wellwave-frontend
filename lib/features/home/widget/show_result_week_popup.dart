@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:wellwave_frontend/common/widget/custom_button.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/features/home/widget/circular_chart_widget.dart';
 
@@ -62,26 +58,26 @@ void showResultWeekPopup(BuildContext context) {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24.0),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircularChartWidget(),
-                              const SizedBox(width: 16.0),
+                              SizedBox(width: 16.0),
                               CircularChartWidget(),
-                              const SizedBox(width: 16.0),
+                              SizedBox(width: 16.0),
                               CircularChartWidget(),
-                              const SizedBox(width: 16.0),
+                              SizedBox(width: 16.0),
                               CircularChartWidget(),
                             ],
                           ),
                           const SizedBox(height: 24.0),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircularChartWidget(),
-                              const SizedBox(width: 24.0),
+                              SizedBox(width: 24.0),
                               CircularChartWidget(),
-                              const SizedBox(width: 24.0),
+                              SizedBox(width: 24.0),
                               CircularChartWidget(),
                             ],
                           ),

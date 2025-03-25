@@ -228,10 +228,24 @@ class WeeklyLogsWidget extends StatelessWidget {
                 ],
               );
             } else if (state is LogsError) {
-              return const Center(child: Text(AppStrings.errorLoadingLogsText));
+              return Center(
+                  child: Column(
+                children: [
+                  Image.asset(AppImages.catNoItemimage, height: 128),
+                  const SizedBox(height: 32),
+                  const Text(AppStrings.errorLoadingLogsText),
+                ],
+              ));
             }
 
-            return const Center(child: Text(AppStrings.noLogsAvailableText));
+            return Center(
+                child: Column(
+              children: [
+                Image.asset(AppImages.catNoItemimage, height: 128),
+                const SizedBox(height: 32),
+                const Text(AppStrings.noLogsAvailableText),
+              ],
+            ));
           })
         ]));
   }

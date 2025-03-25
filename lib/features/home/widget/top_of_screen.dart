@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/home/data/models/notifications_data_respone_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/widget/showpoint.dart';
@@ -29,7 +27,7 @@ class TopOfScreen extends StatelessWidget {
         if (state is HomeLoadedState) {
           // debugPrint(
           //     "Full IMAGE_URL: '${AppStrings.baseUrl}${state.profile!.imageUrl}");
-          profilePicture = (state.profile?.imageUrl?.isNotEmpty ?? false)
+          profilePicture = (state.profile?.imageUrl.isNotEmpty ?? false)
               ? Image.network(
                   '$baseUrl${state.profile!.imageUrl}',
                   height: 32.0,

@@ -46,14 +46,16 @@ class ProfileRepositories {
         ..fields.addAll(userDetails);
 
       final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
 
-      debugPrint('Edit Profile: ${response.statusCode}');
+      // debugPrint('Edit Profile: ${response.statusCode}');
+      // debugPrint('Response Body: $responseBody');
 
       if (response.statusCode == 200) {
         return true;
       } else {
         throw Exception(
-            'Failed to edit user. Status code: ${response.statusCode}');
+            'Failed to edit user. Status code: ${response.statusCode}, Body: $responseBody');
       }
     } catch (e) {
       debugPrint('Error: $e');
@@ -110,8 +112,8 @@ class ProfileRepositories {
           'Authorization': 'Bearer $token',
         },
       );
-      debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.body}');
+      // debugPrint('Response status: ${response.statusCode}');
+      // debugPrint('Response body: ${response.body}');
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);

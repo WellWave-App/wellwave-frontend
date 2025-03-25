@@ -233,7 +233,14 @@ class _WaterPlanWidgetState extends State<WaterPlanWidget> {
       } else if (state is NotiLoading) {
         return const Center(child: CircularProgressIndicator());
       } else if (state is NotiError) {
-        return Center(child: Text(state.message));
+        return Center(
+            child: Column(
+          children: [
+            Image.asset(AppImages.catNoItemimage, height: 128),
+            const SizedBox(height: 32),
+            Text(state.message),
+          ],
+        ));
       } else {
         return const Text(AppStrings.noDataAvaliableText);
       }

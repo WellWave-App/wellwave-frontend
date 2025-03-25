@@ -5,14 +5,20 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 
 class SuccessDialog extends StatelessWidget {
   final String iconPath;
-  final int reward;
+  final int? reward;
   final VoidCallback onClose;
+  final bool isExchange;
+  final int? dayBoost;
+  final double? dayBoostValue;
 
   const SuccessDialog({
     Key? key,
-    required this.reward,
+    this.reward,
     required this.iconPath,
     required this.onClose,
+    this.dayBoost,
+    this.dayBoostValue,
+    this.isExchange = false,
   }) : super(key: key);
 
   @override
@@ -37,42 +43,69 @@ class SuccessDialog extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(21),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFFB2D6E7).withOpacity(1),
-                                offset: const Offset(0, 6),
-                                blurRadius: 0,
-                                spreadRadius: 0,
-                              ),
-                            ]),
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFFB2D6E7).withOpacity(1),
+                              offset: const Offset(0, 6),
+                              blurRadius: 0,
+                              spreadRadius: 0,
+                            ),
+                          ],
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 64.0, bottom: 48),
                           child: Column(
                             children: [
-                              Text(AppStrings.youReceivedText,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith()),
-                              const SizedBox(height: 16),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(iconPath, height: 36),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    'x${reward.toString()}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                ],
+                              Text(
+                                AppStrings.youReceivedText,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(),
                               ),
+                              const SizedBox(height: 16),
+                              reward != null
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(iconPath, height: 36),
+                                        const SizedBox(width: 12),
+                                        Text(
+                                          'x ${reward.toString()}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(iconPath,
+                                                height: 36),
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              '$dayBoostValue เท่า $dayBoost วัน',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelLarge
+                                                  ?.copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                             ],
                           ),
                         ),
@@ -84,18 +117,23 @@ class SuccessDialog extends StatelessWidget {
                           AppStrings.closeWindowText,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 13,
-                              color: Color(0xFFBFBFBF),
-                              decoration: TextDecoration.underline,
-                              decorationColor: Color(0xFFBFBFBF),
-                              fontWeight: FontWeight.w400),
+                            fontSize: 13,
+                            color: Color(0xFFBFBFBF),
+                            decoration: TextDecoration.underline,
+                            decorationColor: Color(0xFFBFBFBF),
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              Image.asset(AppImages.barSuccessImage),
+              reward != null
+                  ? Image.asset(AppImages.barCheckInSuccessImage)
+                  : isExchange
+                      ? SvgPicture.asset(AppImages.exchangeSuccessBar)
+                      : Image.asset(AppImages.barCongratsImage),
             ],
           ),
         ),

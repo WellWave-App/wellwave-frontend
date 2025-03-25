@@ -53,8 +53,13 @@ class _DailyLogsState extends State<DailyLogs> {
                 }
               } else if (state is LogsError) {
                 return Center(
-                    child: Text(
-                        '${AppStrings.errorLoadingLogsText}: ${state.message}'));
+                    child: Column(
+                  children: [
+                    Image.asset(AppImages.catNoItemimage, height: 128),
+                    const SizedBox(height: 32),
+                    Text('${AppStrings.errorLoadingLogsText}: ${state.message}')
+                  ],
+                ));
               }
 
               return Row(
@@ -102,19 +107,18 @@ class _DailyLogsState extends State<DailyLogs> {
                           ],
                         ),
                       );
-                      if (result != null) {
-                        setState(() {
-                          selectedWaterLevel = result;
-                        });
+                      setState(() {
+                        selectedWaterLevel =
+                            result != null ? result as num : selectedWaterLevel;
+                      });
 
-                        BlocProvider.of<LogsBloc>(context).add(
-                          SubmitLogEvent(
-                            logName: AppStrings.drinkLogText,
-                            value: selectedWaterLevel.toInt(),
-                            selectedDate: selectedDate.toIso8601String(),
-                          ),
-                        );
-                      }
+                      BlocProvider.of<LogsBloc>(context).add(
+                        SubmitLogEvent(
+                          logName: AppStrings.drinkLogText,
+                          value: selectedWaterLevel.toInt(),
+                          selectedDate: selectedDate.toIso8601String(),
+                        ),
+                      );
                     },
                   ),
                   const SizedBox(width: 20),
@@ -160,19 +164,18 @@ class _DailyLogsState extends State<DailyLogs> {
                           ],
                         ),
                       );
-                      if (result != null) {
-                        setState(() {
-                          selectedSleepHours = result;
-                        });
+                      setState(() {
+                        selectedSleepHours =
+                            result != null ? result as num : selectedSleepHours;
+                      });
 
-                        BlocProvider.of<LogsBloc>(context).add(
-                          SubmitLogEvent(
-                            logName: AppStrings.sleepLogText,
-                            value: selectedSleepHours.toInt(),
-                            selectedDate: selectedDate.toIso8601String(),
-                          ),
-                        );
-                      }
+                      BlocProvider.of<LogsBloc>(context).add(
+                        SubmitLogEvent(
+                          logName: AppStrings.sleepLogText,
+                          value: selectedSleepHours.toInt(),
+                          selectedDate: selectedDate.toIso8601String(),
+                        ),
+                      );
                     },
                   ),
                 ],

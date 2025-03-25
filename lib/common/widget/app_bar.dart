@@ -77,8 +77,8 @@ class CustomAppBarWithStep extends AppBar {
                     }
                   },
                   child: Icon(
-                    Icons.arrow_back_ios_new_sharp,
-                    size: 16,
+                    Icons.arrow_back,
+                    size: 24,
                     color: textColor ?? Colors.black,
                   ),
                 )

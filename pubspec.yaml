@@ -70,7 +70,6 @@ flutter:
     - assets/icons/
     - assets/icons/homepage/
     - assets/icons/homepage/assessment/
-    - assets/icons/
     - assets/images/
     - assets/icons/moods_grey/
     - assets/icons/moods_color/
@@ -81,7 +80,9 @@ flutter:
     - assets/icons/health_assessment/bg/
     - assets/icons/league/
     - assets/icons/logs_Icons/
-    
+    - assets/icons/shop/
+    - assets/images/profile/    
+    - assets/images/exchange/ 
 
   fonts:
     - family: NotoSansThai

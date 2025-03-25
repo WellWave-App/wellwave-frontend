@@ -93,7 +93,9 @@ class AppImages {
   static const silverLeaugeIcon = 'assets/icons/league/silver_league.svg';
   static const goldLeaugeIcon = 'assets/icons/league/gold_league.svg';
   static const emeraldLeaugeIcon = 'assets/icons/league/emerald_league.svg';
-  static const barSuccessImage = 'assets/images/success_bar.png';
+  static const barCheckInSuccessImage =
+      'assets/images/check_in_success_bar.png';
+  static const barCongratsImage = 'assets/images/congrats_bar.png';
   static const fireIcon = 'assets/icons/fire_icon.svg';
   static const waterIcon = 'assets/icons/water_icon.svg';
   static const sleepingIcon = 'assets/icons/sleeping_icon.svg';
@@ -179,4 +181,12 @@ class AppImages {
   static const expCoinSvg = 'assets/icons/exp_coin_svg.svg';
   static const gemSvg = 'assets/icons/gem_svg.svg';
   static const giftSvg = 'assets/icons/gift_svg.svg';
+  static const boostIcon = 'assets/icons/shop/boost_icon.svg';
+  static const greyGiftSvg = 'assets/icons/shop/gift_grey_icon.svg';
+  static const exchangeSuccessBar =
+      'assets/icons/shop/bar_exchange_success.svg';
+  static const catNoItemimage = 'assets/images/exchange/cat_no_item.png';
+
+  //profile
+  static const catImg = 'assets/images/profile/cat.png';
 }

@@ -23,7 +23,7 @@ class RoundedText extends StatelessWidget {
     required this.svgPath,
     this.isShowNavi = false,
     this.appPages = '',
-    this.horizontal = 16,
+    this.horizontal = 8,
     this.vertical = 4,
     this.iconSize = 24,
     this.isBold = false,

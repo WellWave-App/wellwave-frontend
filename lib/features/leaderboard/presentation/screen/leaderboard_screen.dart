@@ -18,10 +18,7 @@ class LeaderboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     context.read<LeaderBoardBloc>().add(FetchUserBoard());
-
-   
 
     return Scaffold(
       backgroundColor: AppColors.primaryColor,
@@ -54,7 +51,7 @@ class LeaderboardScreen extends StatelessWidget {
             } else {
               profileImage = const CircleAvatar(
                 radius: 20,
-                backgroundImage: AssetImage(AppImages.crabImg),
+                backgroundImage: AssetImage(AppImages.catImg),
               );
             }
 
@@ -256,7 +253,14 @@ class LeaderboardScreen extends StatelessWidget {
               ),
             ]);
           } else if (state is LeaderBoardError) {
-            return Center(child: Text(state.errorMessage));
+            return Center(
+                child: Column(
+              children: [
+                Image.asset(AppImages.catNoItemimage, height: 128),
+                const SizedBox(height: 32),
+                Text(state.errorMessage),
+              ],
+            ));
           } else if (state is LeaderBoardLoading) {
             return const Center(child: CircularProgressIndicator());
           } else {
@@ -279,8 +283,7 @@ class LeaderboardScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 16.0),
               child: CircleAvatar(
                 radius: 36,
-                backgroundImage:
-                    NetworkImage("$baseUrl${user.user.imageUrl}"),
+                backgroundImage: NetworkImage("$baseUrl${user.user.imageUrl}"),
               ),
             ),
             if (isFirst)

@@ -130,7 +130,7 @@ class LoginScreen extends StatelessWidget {
                         state.statusCode == 401) {
                       // Show error message for invalid credentials
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('อีเมลหรือรหัสผ่านไม่ถูกต้อง'),
                           backgroundColor: Colors.red,
                         ),
@@ -139,14 +139,14 @@ class LoginScreen extends StatelessWidget {
                   },
                   builder: (context, state) {
                     if (state is AuthLoading) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
 
                     return ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor: AppColors.whiteColor,
                         backgroundColor: AppColors.primaryColor,
-                        minimumSize: Size(350, 60),
+                        minimumSize: const Size(350, 60),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
                         ),
@@ -158,7 +158,7 @@ class LoginScreen extends StatelessWidget {
                         if (_emailController.text.isEmpty ||
                             _passwordController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
                               backgroundColor: Colors.red,
                             ),
