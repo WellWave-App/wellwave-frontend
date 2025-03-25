@@ -26,7 +26,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
   int birthYear = 2546;
   num height = 155.0;
   num weight = 50.5;
-  String imageUrl = "/get-image/1735328381445-636206.jpg";
+  String imageUrl = '';
 
   @override
   void initState() {
@@ -82,16 +82,17 @@ class _UserDetailCardState extends State<UserDetailCard> {
   void _submitLogs() {
     final profileBloc = BlocProvider.of<ProfileBloc>(context);
 
+    // debugPrint('Sending gender: $gender');
+    // debugPrint('Converted gender: ${gender == 'หญิง' ? false : true}');
+
     profileBloc.add(EditUserProfile(
       imageUrl: imageUrl,
-      username: userName,
+      username: _isEditing ? (userName) : '',
       yearOfBirth: birthYear,
       gender: gender == 'หญิง' ? false : true,
       height: height,
       weight: weight,
     ));
-
-    Navigator.pop(context);
   }
 
   @override
@@ -246,7 +247,10 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       ),
                                       const SizedBox(height: 24),
                                       ConfirmCancelButtons(
-                                        onConfirm: _submitLogs,
+                                        onConfirm: () {
+                                          _submitLogs();
+                                          Navigator.pop(context);
+                                        },
                                         onCancel: () => setState(
                                             () => Navigator.pop(context)),
                                       ),
@@ -254,7 +258,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                   ),
                                 ));
                         setState(() {
-                          gender = result as String;
+                          gender = result != null ? result as String : gender;
                         });
                       },
                       child: const Icon(
@@ -344,7 +348,10 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                       ),
                                       const SizedBox(height: 24),
                                       ConfirmCancelButtons(
-                                        onConfirm: _submitLogs,
+                                        onConfirm: () {
+                                          _submitLogs();
+                                          Navigator.pop(context);
+                                        },
                                         onCancel: () => setState(
                                             () => Navigator.pop(context)),
                                       ),
@@ -352,7 +359,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                   ),
                                 ));
                         setState(() {
-                          birthYear = result!;
+                          birthYear = result ?? birthYear;
                         });
                       },
                       child: const Icon(
@@ -419,7 +426,10 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                           (value) => weight = value),
                                       const SizedBox(height: 24),
                                       ConfirmCancelButtons(
-                                        onConfirm: _submitLogs,
+                                        onConfirm: () {
+                                          _submitLogs();
+                                          Navigator.pop(context);
+                                        },
                                         onCancel: () => setState(
                                             () => Navigator.pop(context)),
                                       ),
@@ -427,7 +437,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                   ),
                                 ));
                         setState(() {
-                          weight = result as num;
+                          weight = result != null ? result as num : weight;
                         });
                       },
                       child: const Icon(
@@ -492,7 +502,10 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                           (value) => height = value),
                                       const SizedBox(height: 24),
                                       ConfirmCancelButtons(
-                                        onConfirm: _submitLogs,
+                                        onConfirm: () {
+                                          _submitLogs();
+                                          Navigator.pop(context);
+                                        },
                                         onCancel: () => setState(
                                             () => Navigator.pop(context)),
                                       ),
@@ -500,7 +513,7 @@ class _UserDetailCardState extends State<UserDetailCard> {
                                   ),
                                 ));
                         setState(() {
-                          height = result as num;
+                          height = result != null ? result as num : height;
                         });
                       },
                       child: const Icon(
