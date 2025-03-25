@@ -61,3 +61,43 @@ class HabitError extends MissionState {
   @override
   List<Object> get props => [message];
 }
+
+class QuestLoading extends MissionState {}
+
+class QuestLoaded extends MissionState {
+  final QuestRequestModel quests;
+
+  const QuestLoaded(this.quests);
+
+  @override
+  List<Object?> get props => [quests];
+}
+
+class QuestError extends MissionState {
+  final String message;
+
+  const QuestError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class DailyTaskLoading extends MissionState {}
+
+class DailyTaskLoaded extends MissionState {
+  final HabitRequestModel dailyTasks;
+
+  const DailyTaskLoaded(this.dailyTasks);
+
+  @override
+  List<Object?> get props => [dailyTasks];
+}
+
+class DailyTaskError extends MissionState {
+  final String message;
+
+  const DailyTaskError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}

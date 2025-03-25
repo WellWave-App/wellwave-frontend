@@ -57,3 +57,13 @@ class LoadRecHabitsEvent extends MissionEvent {
   @override
   List<Object?> get props => [];
 }
+
+class LoadQuestsEvent extends MissionEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class LoadDailyTasksEvent extends MissionEvent {
+  @override
+  List<Object?> get props => [];
+}

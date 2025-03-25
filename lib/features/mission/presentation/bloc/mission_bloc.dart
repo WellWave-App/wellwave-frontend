@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/quest_request_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/rec_habit_respone_model.dart';
 import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
 part 'mission_event.dart';
@@ -21,6 +22,9 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     on<StartProgressEvent>(_onStartProgress);
     on<LoadHabitsEvent>(_onLoadHabits);
     on<LoadRecHabitsEvent>(_onLoadRecHabits); // Add this line
+    on<LoadQuestsEvent>(_onLoadQuests); // Add this line
+    on<LoadQuestDetailEvent>(_onLoadQuestDetail); // Add this line
+    on<LoadDailyTasksEvent>(_onLoadDailyTasks); // Add this line
   }
 
   void _onIncreaseDailyCount(
@@ -129,21 +133,72 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     emit(HabitLoading());
     try {
       final recHabits = await habitRepositories.getRecHabit();
-      print('Received recHabits: $recHabits'); // Debug print
+      print('Received recHabits: $recHabits');
 
       if (recHabits != null) {
         final emptyHabits = HabitRequestModel(
             habits: [], meta: HabitMetaRequestModel(total: 0));
         emit(HabitLoaded(emptyHabits, recHabits));
       } else {
-        print('RecHabits is null'); // Debug print
+        print('RecHabits is null');
         emit(const HabitError(
             'Failed to load recommended habits - null response'));
       }
     } catch (e, stackTrace) {
-      print('Error in _onLoadRecHabits: $e'); // Debug print
-      print('Stack trace: $stackTrace'); // Debug print
+      print('Error in _onLoadRecHabits: $e');
+      print('Stack trace: $stackTrace');
       emit(HabitError('Error loading recommended habits: $e'));
     }
   }
+
+  void _onLoadQuests(LoadQuestsEvent event, Emitter<MissionState> emit) async {
+    emit(QuestLoading());
+    try {
+      final quests = await habitRepositories.getQuest();
+      if (quests != null) {
+        emit(QuestLoaded(quests));
+      } else {
+        emit(const QuestError('Failed to load quests'));
+      }
+    } catch (e) {
+      emit(QuestError('Error loading quests: $e'));
+    }
+  }
+
+  void _onLoadQuestDetail(
+      LoadQuestDetailEvent event, Emitter<MissionState> emit) async {
+    emit(QuestLoading());
+    try {
+      final quest = await habitRepositories.getQuest();
+      if (quest != null) {
+        emit(QuestLoaded(quest));
+      } else {
+        emit(const QuestError('Failed to load quest details'));
+      }
+    } catch (e) {
+      emit(QuestError('Error loading quest details: $e'));
+    }
+  }
+
+  void _onLoadDailyTasks(
+      LoadDailyTasksEvent event, Emitter<MissionState> emit) async {
+    emit(DailyTaskLoading());
+    try {
+      final dailyTasks = await habitRepositories.getDaily();
+      if (dailyTasks != null) {
+        emit(DailyTaskLoaded(dailyTasks));
+      }
+    } catch (e) {
+      emit(DailyTaskError('Error loading daily tasks: $e'));
+    }
+  }
+}
+
+class LoadQuestDetailEvent extends MissionEvent {
+  final int questId;
+
+  const LoadQuestDetailEvent({required this.questId});
+
+  @override
+  List<Object?> get props => [questId];
 }

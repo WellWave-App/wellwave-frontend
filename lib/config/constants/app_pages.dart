@@ -33,6 +33,7 @@ class AppPages {
   static const String questPage = 'quest';
   static const String questDetailPage = 'questDetail';
   static const String missionRecordPage = 'missionRecord';
+  static const String missionHistoryPage = 'missionHistory';
 
   // Name of the route
   static const String splashName = 'splash';
@@ -49,6 +50,7 @@ class AppPages {
   static const String questName = 'quest';
   static const String missionRecordName = 'missionRecord';
   static const String logHistoryName = 'loghistory';
+  static const String missionHistoryName = 'missionHistory';
   static const String editProfileName = 'editprofile';
   static const String reminderName = 'reminder';
   static const String achievementName = 'achievement';

@@ -1,156 +1,220 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/common/widget/button_widget.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
 class QuestDetailPage extends StatelessWidget {
+  final int questId;
+
   const QuestDetailPage({
     Key? key,
+    required this.questId,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String imagePath = AppImages.emptyComponentImage;
-    String questTitle = 'ทำกิจกรรม 15 นาที 3 กิจกรรม ใน 1 อาทิตย์ ';
-    String iconPath = AppImages.gemIcon;
-    String questLabel = '5 วัน';
-    int amountOfReward = 15;
-    String detailLabel =
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consecteturLorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, ';
+    double progressBarWidth = MediaQuery.of(context).size.width - 40;
 
-    return Scaffold(
-      backgroundColor: AppColors.whiteColor,
-      appBar: CustomAppBar(
-        context: context,
-        backgroundColor: AppColors.whiteColor,
-        onLeading: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      imagePath,
-                      width: 128,
-                      height: 128,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(width: 24),
-                    Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          questTitle,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(),
-                          softWrap:
-                              true, // Allows the text to wrap to the next line
-                          maxLines:
-                              3, // Limits the number of lines (adjust as needed)
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 12),
-                        Row(
+    context.read<MissionBloc>().add(LoadQuestDetailEvent(questId: questId));
+
+    return BlocBuilder<MissionBloc, MissionState>(
+      builder: (context, state) {
+        if (state is QuestLoaded) {
+          final quest = state.quests.quests.firstWhere(
+            (q) => q.qid == questId,
+            orElse: () => throw Exception('Quest not found'),
+          );
+
+          final progressValue = quest.progressInfo?.progressValue ?? 0.0;
+
+          return Scaffold(
+            backgroundColor: AppColors.whiteColor,
+            appBar: CustomAppBar(
+              context: context,
+              backgroundColor: AppColors.whiteColor,
+              onLeading: true,
+            ),
+            body: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            SvgPicture.asset(
-                              AppImages.calendarIcon,
-                              width: 24,
+                            Image.network(
+                              quest.imgUrl ?? AppImages.emptyComponentImage,
+                              width: 128,
+                              height: 128,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => Image.asset(
+                                AppImages.emptyComponentImage,
+                                width: 128,
+                                height: 128,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                              questLabel,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(),
+                            const SizedBox(width: 24),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    quest.title,
+                                    style:
+                                        Theme.of(context).textTheme.labelLarge,
+                                    softWrap: true,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(
+                                        AppImages.calendarIcon,
+                                        width: 24,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        '${quest.dayDuration} วัน',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             )
                           ],
+                        ),
+                      ),
+                      const SizedBox(height: 36),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.whiteColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24.0,
+                            vertical: 16,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'รางวัลที่จะได้รับ',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    AppImages.gemIcon,
+                                    height: 36,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Text(
+                                    '   +${quest.gemRewards}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.whiteColor,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24.0,
+                            vertical: 12,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'รายละเอียด',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                quest.description,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  quest.isActive
+                      ? Container(
+                          child: Column(
+                            children: [
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Container(
+                                    width: progressBarWidth,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: LinearProgressIndicator(
+                                        backgroundColor:
+                                            AppColors.grayProgressColor,
+                                        color: AppColors.skyBlueColor,
+                                        minHeight: 16,
+                                        value: progressValue,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    left: (progressBarWidth * progressValue),
+                                    top: -8,
+                                    child: SvgPicture.asset(
+                                        AppImages.processIcon,
+                                        height: 32),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         )
-                      ],
-                    ))
-                  ],
-                )),
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.whiteColor,
-                borderRadius: BorderRadius.circular(12),
+                      : const NextButton(text: AppStrings.joinProgram)
+                ],
               ),
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'รางวัลที่จะได้รับ',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 12),
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            iconPath,
-                            height: 36,
-                            fit: BoxFit.cover,
-                          ),
-                          Text(
-                            '   +$amountOfReward',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.whiteColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'รายละเอียด',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        detailLabel,
-                        style:
-                            Theme.of(context).textTheme.bodyMedium?.copyWith(),
-                      ),
-                    ],
-                  )),
-            ),
-            const NextButton(text: AppStrings.joinProgram)
-          ],
-        ),
-      ),
+          );
+        }
+
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      },
     );
   }
 }

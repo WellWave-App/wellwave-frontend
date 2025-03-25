@@ -291,4 +291,5 @@ class AppStrings {
   static const slideForSuccessText = 'สไลด์เมื่อเสร็จสิ้น ';
 
   static const joinProgram = 'เข้าร่วมโปรแกรม';
+  static const missionHistoryText = 'ประวัติภารกิจ';
 }

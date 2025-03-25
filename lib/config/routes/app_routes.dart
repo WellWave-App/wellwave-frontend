@@ -20,6 +20,7 @@ import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
 import 'package:wellwave_frontend/features/mission/presentation/screen/page/daily_task_page.dart';
 import 'package:wellwave_frontend/features/mission/presentation/screen/page/habit_challenge_page.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/mission_history_screen.dart';
 import 'package:wellwave_frontend/features/mission/presentation/screen/page/mission_record_page.dart';
 import 'package:wellwave_frontend/features/mission/presentation/screen/page/quest_page.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
@@ -200,8 +201,8 @@ final GoRouter goRouter = GoRouter(
                   },
                   routes: [
                     GoRoute(
-                      path: AppPages.missionPage,
-                      name: AppPages.missionRecordName,
+                      path: AppPages.missionRecordName,
+                      name: AppPages.missionRecordPage,
                       pageBuilder: (BuildContext context, GoRouterState state) {
                         return NoTransitionPage(child: MissionRecordPage());
                       },
@@ -215,20 +216,34 @@ final GoRouter goRouter = GoRouter(
                 },
               ),
               GoRoute(
-                  path: AppPages.questPage,
-                  name: AppPages.questName,
-                  pageBuilder: (BuildContext context, GoRouterState state) {
-                    return const NoTransitionPage(child: QuestPage());
-                  },
-                  routes: [
-                    GoRoute(
-                      path: AppPages.questDetailPage,
-                      name: AppPages.questDetailName,
-                      pageBuilder: (BuildContext context, GoRouterState state) {
-                        return const NoTransitionPage(child: QuestDetailPage());
-                      },
-                    )
-                  ]),
+                path: AppPages.questPage,
+                name: AppPages.questName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(child: QuestPage());
+                },
+                routes: [
+                  GoRoute(
+                    path: ':questId',
+                    name: AppPages.questDetailName,
+                    pageBuilder: (BuildContext context, GoRouterState state) {
+                      final questId =
+                          int.parse(state.pathParameters['questId'] ?? '0');
+                      return NoTransitionPage(
+                        child: QuestDetailPage(
+                          questId: questId,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              GoRoute(
+                path: AppPages.missionHistoryPage,
+                name: AppPages.missionHistoryName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(child: MissionHistoryScreen());
+                },
+              ),
             ]),
         GoRoute(
           path: AppPages.friendPage,

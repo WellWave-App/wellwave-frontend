@@ -189,4 +189,6 @@ class AppImages {
   static const arrowForwardIcon = 'assets/icons/arrow_forward.svg';
   static const closeBTIcon = 'assets/icons/close_btn.svg';
   static const taskSuccessIcon = 'assets/icons/task_success_icon.svg';
+
+  static const processIcon = 'assets/icons/progress_icon.svg';
 }

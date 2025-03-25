@@ -23,7 +23,9 @@ class MissionScreen extends StatelessWidget {
                 color: AppColors.darkGrayColor,
               ),
         ),
-        action: () {},
+        action: () {
+          context.goNamed(AppPages.missionHistoryPage);
+        },
       ),
       body: Center(
         child: Padding(
@@ -62,7 +64,7 @@ class MissionScreen extends StatelessWidget {
                 context,
                 AppStrings.questText,
                 AppImages.questImage,
-                AppPages.questDetailName,
+                AppPages.questName,
                 AppColors.pinkColor,
               ),
             ],

@@ -6,6 +6,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 import 'package:wellwave_frontend/config/routes/app_routes.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 import 'package:wellwave_frontend/features/mission/presentation/screen/page/mission_record_page.dart';
@@ -58,10 +59,20 @@ class DailyTaskList extends StatelessWidget {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(imagePath),
-                      ),
+                      borderRadius: BorderRadius.circular(8),
+                      image: imagePath.isNotEmpty
+                          ? DecorationImage(
+                              image: NetworkImage('$baseUrl$imagePath'),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
+                    child: imagePath.isEmpty
+                        ? Image.asset(
+                            AppImages.emptyComponentImage,
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
                 ),
                 const SizedBox(width: 5),
