@@ -53,9 +53,8 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
         _isSwitched = value;
       });
 
-      context
-          .read<NotiBloc>()
-          .add(UpdateDrinkPlanEvent(uid: uid as int, isActive: _isSwitched));
+      context.read<NotiBloc>().add(
+          UpdateDrinkPlanEvent(uid: int.parse(uid), isActive: _isSwitched));
     }
   }
 
@@ -69,7 +68,7 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
     int intervalMinute = (double.parse(hourSet) * 60).toInt();
 
     context.read<NotiBloc>().add(CreateDrinkRangeEvent(
-          uid: uid as int,
+          uid: int.parse(uid),
           startTime: formattedtimeStarttime,
           endTime: formattedtimeEndtime,
           intervalMinute: intervalMinute,
@@ -214,7 +213,9 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                       ),
                                     ));
                             setState(() {
-                              startTime = result as DateTime;
+                              startTime = result != null
+                                  ? result as DateTime
+                                  : startTime;
                             });
                           },
                           child: Row(
@@ -298,7 +299,8 @@ class _NotificationDrinkingState extends State<NotificationDrinking> {
                                       ),
                                     ));
                             setState(() {
-                              endTime = result as DateTime;
+                              endTime =
+                                  result != null ? result as DateTime : endTime;
                             });
                           },
                           child: Row(

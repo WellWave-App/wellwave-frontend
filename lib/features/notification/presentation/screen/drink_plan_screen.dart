@@ -34,9 +34,8 @@ class _DrinkPlanScreenState extends State<DrinkPlanScreen> {
         _isSwitched = value;
       });
 
-      context
-          .read<NotiBloc>()
-          .add(UpdateDrinkPlanEvent(uid: uid as int, isActive: _isSwitched));
+      context.read<NotiBloc>().add(
+          UpdateDrinkPlanEvent(uid: int.parse(uid), isActive: _isSwitched));
     }
   }
 

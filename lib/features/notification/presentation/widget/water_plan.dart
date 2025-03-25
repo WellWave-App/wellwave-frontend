@@ -109,7 +109,7 @@ class _WaterPlanWidgetState extends State<WaterPlanWidget> {
     final String formattedTime = _formatTimeOfDay(selectedTime);
 
     context.read<NotiBloc>().add(CreateDrinkPlanEvent(
-          uid: uid as int,
+          uid: int.parse(uid),
           glassNumber: index + 1,
           notitime: formattedTime,
         ));

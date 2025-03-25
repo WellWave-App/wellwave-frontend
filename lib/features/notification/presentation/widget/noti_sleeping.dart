@@ -83,9 +83,8 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
         _isSwitched = value;
       });
 
-      context
-          .read<NotiBloc>()
-          .add(UpdateDrinkPlanEvent(uid: uid as int, isActive: _isSwitched));
+      context.read<NotiBloc>().add(
+          UpdateDrinkPlanEvent(uid: int.parse(uid), isActive: _isSwitched));
     }
   }
 
@@ -147,17 +146,17 @@ class _NotificationSleepingState extends State<NotificationSleeping> {
     debugPrint('Selected weekdays: $weekdays');
 
     context.read<NotiBloc>().add(CreateBedtimeEvent(
-          uid: uid as int,
+          uid: int.parse(uid),
           isActive: true,
           bedtime: formattedTime,
           weekdays: weekdays,
         ));
 
-    final notificationService = NotificationService();
-    await notificationService.scheduleBedtimeNotifications(
-      bedtime: formattedTime,
-      weekdays: weekdays,
-    );
+    // final notificationService = NotificationService();
+    // await notificationService.scheduleBedtimeNotifications(
+    //   bedtime: formattedTime,
+    //   weekdays: weekdays,
+    // );
 
     Navigator.pop(context);
   }
