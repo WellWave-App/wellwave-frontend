@@ -6,6 +6,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
 
+import '../../../../config/constants/app_url.dart';
 import '../../data/models/article_model.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class ArticleDetailScreen extends StatelessWidget {
         children: [
           article?.thumbnailUrl.isNotEmpty == true
               ? Image.network(
-                  "http://10.0.2.2:3000${article!.thumbnailUrl}",
+                  "$baseUrl${article!.thumbnailUrl}",
                   width: double.infinity,
                   height: 250,
                   fit: BoxFit.cover,
@@ -173,7 +174,7 @@ class ArticleDetailScreen extends StatelessWidget {
               ),
               onPressed: () {
                 String articleLink =
-                    "http://10.0.2.2:3000/$aid"; // แก้ไขลิงก์ตามต้องการ
+                    "$baseUrl/$aid"; // แก้ไขลิงก์ตามต้องการ
                 Share.share("อ่านบทความนี้ได้ที่: $articleLink");
               },
             ),

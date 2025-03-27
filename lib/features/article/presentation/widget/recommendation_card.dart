@@ -6,6 +6,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
+import '../../../../config/constants/app_url.dart';
 import '../bloc/article_bloc.dart';
 
 class RecommendationCard extends StatelessWidget {
@@ -50,7 +51,7 @@ class RecommendationCard extends StatelessWidget {
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(
-                    "http://10.0.2.2:3000${article!.thumbnailUrl}",
+                    "$baseUrl${article!.thumbnailUrl}",
                     width: double.infinity,
                     height: 86,
                     fit: BoxFit.cover,

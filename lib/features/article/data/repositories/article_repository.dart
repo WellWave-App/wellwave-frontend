@@ -1,57 +1,19 @@
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
-// import 'package:wellwave_frontend/features/article/data/models/article_model.dart';
-
-// class ArticleRepository {
-//   final String apiUrl = "http://10.0.2.2:3000/article/search";
-
-//   Future<List<Article>> fetchArticles() async {
-//     final response = await http.get(Uri.parse(apiUrl));
-
-//     if (response.statusCode == 200) {
-//       List<dynamic> data = json.decode(response.body);
-//       return data.map((json) => Article.fromJson(json)).toList();
-//     } else {
-//       throw Exception("Failed to load articles");
-//     }
-//   }
-// }
 import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/article/data/models/article_model.dart';
 
+import '../../../../config/constants/app_url.dart';
 import '../models/article_bookmark.dart';
 
 class ArticleRepository {
-  final String baseUrl = "http://10.0.2.2:3000/";
   final _secureStorage = const FlutterSecureStorage();
 
-  // Future<List<ArticleModel>> fetchArticles() async {
-  //   final response = await http.get(Uri.parse(apiUrl));
-
-  //   if (response.statusCode == 200) {
-  //     print("Raw Response: ${response.body}"); // 🔍 Debug JSON
-
-  //     final Map<String, dynamic> jsonResponse = json.decode(response.body);
-
-  //     // ✅ เช็คให้ถูกต้องว่า API ส่ง `data` ไม่ใช่ `articles`
-  //     if (!jsonResponse.containsKey('data')) {
-  //       throw Exception("API response does not contain 'data'");
-  //     }
-
-  //     List<dynamic> articlesJson = jsonResponse['data'];
-
-  //     return articlesJson.map((json) => ArticleModel.fromJson(json)).toList();
-  //   } else {
-  //     throw Exception("Failed to load articles");
-  //   }
-  // }
   Future<List<ArticleModel>> fetchRecommendArticle() async {
     final uid = await _secureStorage.read(key: 'user_uid');
 
     final url =
-        Uri.parse('${baseUrl}get-rec/articles?uid=$uid&includeRead=true');
+        Uri.parse('$baseUrl/get-rec/articles?uid=$uid&includeRead=true');
 
     try {
       // ส่งคำขอ GET ไปยัง API
@@ -77,7 +39,7 @@ class ArticleRepository {
     print("🚀 fetchArticles() CALLED with diseaseIds: $diseaseIds");
 
     try {
-      String url = "${baseUrl}article/search";
+      String url = "$baseUrl/article/search";
       if (diseaseIds != null && diseaseIds.isNotEmpty) {
         url += "?diseaseIds=$diseaseIds";
         print("🔍 Querying with diseaseIds: $diseaseIds");
@@ -114,7 +76,7 @@ class ArticleRepository {
   Future<List<BookmarkModel>> fetchBookmarkedArticles() async {
     final uid = await _secureStorage.read(key: 'user_uid');
 
-    final url = "${baseUrl}user-read-history/bookmarks/$uid";
+    final url = "$baseUrl/user-read-history/bookmarks/$uid";
     print("📡 Fetching bookmarked articles from: $url");
 
     try {
@@ -157,7 +119,7 @@ class ArticleRepository {
     }
 
     final url =
-        "${baseUrl}user-read-history/updateBookmark"; // Your original API URL
+        "$baseUrl/user-read-history/updateBookmark"; // Your original API URL
     print("📡bookmarked articles from: $url");
 
     try {
@@ -193,7 +155,7 @@ class ArticleRepository {
   Future<List<ArticleModel>> searchArticles(String query) async {
     try {
       final response =
-          await http.get(Uri.parse('${baseUrl}article/search?search=$query'));
+          await http.get(Uri.parse('$baseUrl/article/search?search=$query'));
 
       print('search :${response.statusCode}');
       print('search :${response.body}');
