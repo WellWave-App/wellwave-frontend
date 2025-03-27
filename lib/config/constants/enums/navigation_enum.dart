@@ -6,7 +6,6 @@ enum NavigationPage {
   mission(AppPages.missionName),
   friend(AppPages.friendName),
   article(AppPages.articleName);
-
   final String name;
   const NavigationPage(this.name);
 }
