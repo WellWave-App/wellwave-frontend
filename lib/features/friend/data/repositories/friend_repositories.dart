@@ -85,7 +85,7 @@ class FriendRepositories {
     }
 
     try {
-      final url = '$baseUrl/friend/user-friends';
+      const url = '$baseUrl/friend/user-friends';
       debugPrint('Calling API URL: $url');
 
       final response = await http.get(

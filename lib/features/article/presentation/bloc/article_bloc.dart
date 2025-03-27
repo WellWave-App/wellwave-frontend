@@ -2,10 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-import 'package:wellwave_frontend/features/article/data/models/article_bookmark.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
-import '../../data/models/article_model.dart';
 import '../../data/repositories/article_repository.dart';
 
 part 'article_event.dart';

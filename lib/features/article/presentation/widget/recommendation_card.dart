@@ -15,7 +15,8 @@ class RecommendationCard extends StatelessWidget {
   final dynamic article;
   final int aid; // เพิ่ม aid ของบทความ
 
-  RecommendationCard({
+  const RecommendationCard({
+    super.key,
     required this.title,
     required this.readingTime,
     required this.imageUrl,
@@ -34,7 +35,7 @@ class RecommendationCard extends StatelessWidget {
       },
       child: Card(
         color: AppColors.whiteColor,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -45,7 +46,7 @@ class RecommendationCard extends StatelessWidget {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
@@ -59,7 +60,7 @@ class RecommendationCard extends StatelessWidget {
                         width: double.infinity,
                         height: 86,
                         color: Colors.pink,
-                        child: Center(
+                        child: const Center(
                           child: Icon(
                             Icons.broken_image,
                             color: Colors.white,
@@ -121,7 +122,7 @@ class RecommendationCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       SvgPicture.asset(AppImages.readIcon),

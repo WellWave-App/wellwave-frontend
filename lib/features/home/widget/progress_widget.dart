@@ -216,8 +216,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                       final healthData =
                                           state.healthStepAndExData!.data;
 
-                                      if (healthData == null ||
-                                          healthData.step.isEmpty) {
+                                      if (healthData.step.isEmpty) {
                                         return Container();
                                       }
 
@@ -275,7 +274,7 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            '$dailyMessage',
+                            dailyMessage,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
@@ -284,15 +283,14 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                           const SizedBox(height: 12),
                           Row(
                             children: [
-                              if (state is HomeLoadedState)
-                                Text(
-                                  state.loginStreak?.currentStreak.toString() ??
-                                      '0',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleLarge
-                                      ?.copyWith(color: AppColors.whiteColor),
-                                ),
+                              Text(
+                                state.loginStreak?.currentStreak.toString() ??
+                                    '0',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.copyWith(color: AppColors.whiteColor),
+                              ),
                               const SizedBox(width: 8),
                               Text(
                                 'วันต่อเนื่อง',

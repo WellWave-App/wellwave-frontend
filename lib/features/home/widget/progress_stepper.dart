@@ -16,7 +16,8 @@ class ProgressStepperWidget extends StatelessWidget {
   final Challenge progressData;
   final String progressId;
 
-  ProgressStepperWidget({required this.progressData, required this.progressId});
+  const ProgressStepperWidget(
+      {super.key, required this.progressData, required this.progressId});
 
   List<DateTime> _generateDates(DateTime startDate, DateTime endDate) {
     final days = endDate.difference(startDate).inDays + 1;

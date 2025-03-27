@@ -39,7 +39,6 @@ import '../../features/profile/presentation/screen/profile_screen.dart';
 import '../../features/profile/presentation/screen/set_weekly_goal_screen.dart';
 
 final GoRouter goRouter = GoRouter(
-  
   initialLocation: AppPages.splashPath,
   routes: [
     GoRoute(
@@ -271,7 +270,7 @@ final GoRouter goRouter = GoRouter(
           path: AppPages.findFriendPage,
           name: AppPages.findFriendName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return NoTransitionPage(child: FindFriendScreen());
+            return const NoTransitionPage(child: FindFriendScreen());
           },
         ),
         GoRoute(

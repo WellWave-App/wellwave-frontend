@@ -83,7 +83,7 @@ class CustomAppBarWithStep extends AppBar {
               : const SizedBox(width: 48),
           actions: [
             if (action != null && actionIcon != null)
-              if (action != null && actionIcon != null)
+              if (actionIcon != null)
                 IconButton(
                   onPressed: () => action(),
                   icon: Icon(actionIcon),

@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/notification/presentation/widget/noti_service.dart';
 
 import '../../../profile/presentation/widget/cancle_confirm_button.dart';
 import '../bloc/noti_bloc.dart';

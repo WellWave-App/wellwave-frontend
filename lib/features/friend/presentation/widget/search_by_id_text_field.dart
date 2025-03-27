@@ -4,7 +4,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 class SearchByIdTextField extends StatefulWidget {
   final TextEditingController controller;
 
-  SearchByIdTextField({required this.controller});
+  const SearchByIdTextField({super.key, required this.controller});
 
   @override
   _SearchByIdTextFieldState createState() => _SearchByIdTextFieldState();
@@ -22,17 +22,17 @@ class _SearchByIdTextFieldState extends State<SearchByIdTextField> {
             ),
         fillColor: AppColors.whiteColor,
         filled: true,
-        prefixIcon: Icon(Icons.search),
+        prefixIcon: const Icon(Icons.search),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.greyColor,
             width: 1.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: AppColors.greyColor,
             width: 1.0,
           ),

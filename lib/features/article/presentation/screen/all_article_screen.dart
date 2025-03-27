@@ -16,7 +16,7 @@ class AllArticlesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final diseaseIds =
         GoRouterState.of(context).uri.queryParameters['diseaseIds'];
-    final userId =
+    const userId =
         "3"; // Retrieve this value from context or wherever applicable
 
     print('🔍 OHH diseaseIds from queryParams: $diseaseIds');
@@ -50,12 +50,12 @@ class AllArticlesScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineMedium),
         backgroundColor: AppColors.whiteColor,
         foregroundColor: AppColors.blackColor,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: BlocBuilder<ArticleBloc, ArticleState>(
         builder: (context, state) {
           if (state is ArticleInitial || state is ArticleLoading) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (state is ArticleLoaded) {
             if (state.articles.isEmpty) {
               return Center(
@@ -63,17 +63,17 @@ class AllArticlesScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(AppImages.catNoItemimage, height: 128),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text('ไม่มีบทความที่แสดงในขณะนี้'),
+                  const Text('ไม่มีบทความที่แสดงในขณะนี้'),
                 ],
               ));
             }
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 4,
@@ -98,17 +98,17 @@ class AllArticlesScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(AppImages.catNoItemimage, height: 128),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text('ไม่มีบทความที่แสดงในขณะนี้'),
+                  const Text('ไม่มีบทความที่แสดงในขณะนี้'),
                 ],
               ));
             }
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 4,
@@ -135,17 +135,17 @@ class AllArticlesScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(AppImages.catNoItemimage, height: 128),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Text('ไม่มีบทความที่แสดงในขณะนี้'),
+                  const Text('ไม่มีบทความที่แสดงในขณะนี้'),
                 ],
               ));
             }
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 4,
@@ -172,10 +172,10 @@ class AllArticlesScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(AppImages.catNoItemimage, height: 128),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                Text('ไม่มีบทความที่แสดงในขณะนี้'),
+                const Text('ไม่มีบทความที่แสดงในขณะนี้'),
               ],
             ));
           }

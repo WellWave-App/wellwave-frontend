@@ -59,7 +59,7 @@ class FindFriendScreen extends StatelessWidget {
                 if (state is FriendLoaded && searchId.isNotEmpty) {
                   return ProfileUserAdd(searchId: state.searchId);
                 } else if (state is FriendLoading) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (state is FriendError && searchId.isNotEmpty) {
                   return Center(
                     child: Text(

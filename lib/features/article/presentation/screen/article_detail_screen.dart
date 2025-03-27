@@ -32,7 +32,7 @@ class ArticleDetailScreen extends StatelessWidget {
                       height: 250,
                       color: AppColors
                           .blueGrayColor, // สีชมพูเมื่อไม่สามารถโหลดภาพได้
-                      child: Center(
+                      child: const Center(
                         child: Icon(
                           Icons.error, // ไอคอนแสดงข้อผิดพลาด
                           color: Colors.white,
@@ -45,9 +45,9 @@ class ArticleDetailScreen extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              margin: EdgeInsets.only(top: 230),
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(top: 230),
+              padding: const EdgeInsets.all(12),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12),
@@ -59,10 +59,10 @@ class ArticleDetailScreen extends StatelessWidget {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         Text(
                           article.topic,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -70,8 +70,8 @@ class ArticleDetailScreen extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(height: 8),
-                        Row(
+                        const SizedBox(height: 8),
+                        const Row(
                           children: [
                             Icon(Icons.menu_book_rounded,
                                 size: 20, color: Colors.grey),
@@ -87,7 +87,8 @@ class ArticleDetailScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             article.body,
-                            style: TextStyle(fontSize: 14, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.black),
                           ),
                         ),
                       ],
@@ -99,13 +100,14 @@ class ArticleDetailScreen extends StatelessWidget {
             left: 8,
             child: IconButton(
               icon: Container(
-                padding: EdgeInsets.all(10.0), // ระยะห่างระหว่างไอคอนและกรอบ
-                decoration: BoxDecoration(
+                padding:
+                    const EdgeInsets.all(10.0), // ระยะห่างระหว่างไอคอนและกรอบ
+                decoration: const BoxDecoration(
                   color: Colors.white, // สีของกรอบ
                   shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
                 ),
                 width: 36, // กำหนดขนาดของกรอบวงกลม
-                child: Center(
+                child: const Center(
                   child: Icon(
                     Icons.arrow_back_ios,
                     color: Colors.black, // สีของไอคอน
@@ -130,9 +132,9 @@ class ArticleDetailScreen extends StatelessWidget {
                 top: 40,
                 right: 70,
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 2),
+                  padding: const EdgeInsets.symmetric(vertical: 2),
                   width: 40,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
@@ -160,13 +162,14 @@ class ArticleDetailScreen extends StatelessWidget {
             right: 16,
             child: IconButton(
               icon: Container(
-                padding: EdgeInsets.all(6.0), // ระยะห่างระหว่างไอคอนและกรอบ
-                decoration: BoxDecoration(
+                padding:
+                    const EdgeInsets.all(6.0), // ระยะห่างระหว่างไอคอนและกรอบ
+                decoration: const BoxDecoration(
                   color: Colors.white, // สีของกรอบ
                   shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
                 ),
                 width: 40, // กำหนดขนาดของกรอบวงกลม
-                child: Icon(
+                child: const Icon(
                   Icons.share,
                   color: Colors.black, // สีของไอคอน
                 ),

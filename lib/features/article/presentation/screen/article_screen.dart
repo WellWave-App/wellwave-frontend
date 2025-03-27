@@ -320,7 +320,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 36),
+            const SizedBox(height: 36),
             Padding(
               padding: const EdgeInsets.all(20),
               child: Row(
@@ -330,11 +330,12 @@ class _ArticleScreenState extends State<ArticleScreen> {
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: 'ค้นหาบทความ',
-                      hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
-                      prefixIcon: Icon(Icons.search),
+                      hintStyle:
+                          const TextStyle(fontSize: 14, color: Colors.grey),
+                      prefixIcon: const Icon(Icons.search),
                       suffixIcon: _isSearching
                           ? IconButton(
-                              icon: Icon(Icons.clear),
+                              icon: const Icon(Icons.clear),
                               onPressed: () {
                                 _searchController.clear();
                                 _performSearch('');
@@ -343,19 +344,20 @@ class _ArticleScreenState extends State<ArticleScreen> {
                           : null,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
                       ),
                       filled: true,
                       fillColor: AppColors.whiteColor,
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
                     ),
-                    style: TextStyle(fontSize: 16, color: Colors.black),
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
                     onSubmitted: (searchQuery) {
                       _performSearch(searchQuery);
                     },
                   )),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   GestureDetector(
                     onTap: () {
                       // Navigate using GoRouter
@@ -382,12 +384,12 @@ class _ArticleScreenState extends State<ArticleScreen> {
                 children: [
                   // ซ่อนส่วน "ประเภทของโรค" เมื่อมีการค้นหา
                   if (!_isSearching) ...[
-                    Text(
+                    const Text(
                       'ประเภทของโรค',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
                     SizedBox(
                       height: 148,
                       child: ListView(
@@ -409,7 +411,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
                               });
                             },
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           DiseaseCard(
                             svgAsset: AppImages.diabetesIcon,
                             title: 'โรค\nเบาหวาน',
@@ -426,7 +428,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
                               });
                             },
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           DiseaseCard(
                             svgAsset: AppImages.obesityIcon,
                             title: 'โรคอ้วน',
@@ -443,7 +445,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
                               });
                             },
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           DiseaseCard(
                             svgAsset: AppImages.hyperChoLesTeRoLeMiaIcon,
                             title: 'โรคไขมัน\nในเลือดสูง',
@@ -463,12 +465,12 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 36),
+                    const SizedBox(height: 36),
                     // ซ่อนส่วนหัวของ "แนะนำสำหรับคุณ" เมื่อมีการค้นหา
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           'แนะนำสำหรับคุณ',
                           style: TextStyle(
                             fontSize: 18,
@@ -490,7 +492,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
                                 }
                               });
                             },
-                            child: Text(
+                            child: const Text(
                               'ดูทั้งหมด',
                               style: TextStyle(fontSize: 12),
                             ),
@@ -503,17 +505,17 @@ class _ArticleScreenState extends State<ArticleScreen> {
                   if (_isSearching) ...[
                     Row(
                       children: [
-                        Text(
+                        const Text(
                           'ผลการค้นหา',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text(
                           "' ${_searchController.text} '",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: AppColors.darkerBlueColor,
@@ -521,7 +523,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                   ],
 
                   // BlocBuilder to load the article grid
@@ -530,7 +532,7 @@ class _ArticleScreenState extends State<ArticleScreen> {
                     print("Current State: $state"); // ตรวจสอบสถานะ
 
                     if (state is ArticleInitial) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     } else if (state is ArticleRecommendLoaded ||
                         state is SearchArticleLoaded) {
                       final articles = state is ArticleRecommendLoaded
@@ -554,9 +556,9 @@ class _ArticleScreenState extends State<ArticleScreen> {
                       } else {
                         return GridView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2, // Number of columns
                             crossAxisSpacing: 5, // Spacing between columns
                             mainAxisSpacing: 4, // Spacing between rows
@@ -583,10 +585,10 @@ class _ArticleScreenState extends State<ArticleScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image.asset(AppImages.catNoItemimage, height: 128),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text('ไม่มีบทความที่แสดงในขณะนี้'),
+                          const Text('ไม่มีบทความที่แสดงในขณะนี้'),
                         ],
                       ));
                     }

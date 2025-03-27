@@ -118,7 +118,7 @@ class ProgressShowCard extends StatelessWidget {
   double _calculateProgress(Challenge progressData) {
     final totalDays = progressData.daysGoal;
     final completedDays =
-        progressData.dailyTracks.where((track) => track.completed!).length;
+        progressData.dailyTracks.where((track) => track.completed).length;
     return completedDays / totalDays;
   }
 }

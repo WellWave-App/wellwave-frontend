@@ -5,7 +5,7 @@ import 'package:wellwave_frontend/features/friend/data/models/friend_request_mod
 abstract class FriendState extends Equatable {
   final String searchId;
 
-  FriendState({this.searchId = ''});
+  const FriendState({this.searchId = ''});
 
   @override
   List<Object?> get props => [searchId];

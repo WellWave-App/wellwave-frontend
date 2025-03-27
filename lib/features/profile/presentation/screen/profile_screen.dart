@@ -8,7 +8,7 @@ import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/bloc/auth_bloc.dart';
 
-import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/achievement/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/chart_section_widget.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/check_in_card.dart';
 
