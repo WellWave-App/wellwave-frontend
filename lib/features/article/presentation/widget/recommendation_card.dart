@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
-import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
 import '../../../../config/constants/app_url.dart';
-import '../bloc/article_bloc.dart';
 
 class RecommendationCard extends StatelessWidget {
   final String title;
@@ -35,7 +32,7 @@ class RecommendationCard extends StatelessWidget {
       },
       child: Card(
         color: AppColors.whiteColor,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -46,8 +43,8 @@ class RecommendationCard extends StatelessWidget {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: const Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(
@@ -60,7 +57,7 @@ class RecommendationCard extends StatelessWidget {
                         width: double.infinity,
                         height: 86,
                         color: Colors.pink,
-                        child: Center(
+                        child: const Center(
                           child: Icon(
                             Icons.broken_image,
                             color: Colors.white,
@@ -70,43 +67,6 @@ class RecommendationCard extends StatelessWidget {
                     },
                   ),
                 ),
-                // BlocBuilder<ArticleBloc, ArticleState>(
-                //   builder: (context, state) {
-                //     bool isBookmarked = false;
-
-                //     // ตรวจสอบสถานะของ Bookmark จาก state ที่ได้รับ
-                //     if (state is ArticleBookmarkLoaded) {
-                //       final bookmarkedArticles = state.articlesBookmark;
-                //       isBookmarked = bookmarkedArticles.any((article) => article.aid == aid);
-                //     }
-
-                //     return Positioned(
-                //       top: 5,
-                //       right: 5,
-                //       child: Container(
-                //         width: 38,
-                //         decoration: BoxDecoration(
-                //           color: Colors.white.withOpacity(0.8),
-                //           shape: BoxShape.circle,
-                //         ),
-                //         child: IconButton(
-                //           icon: Icon(
-                //             isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                //             color: Colors.black,
-                //           ),
-                //           onPressed: () {
-                //             context.read<ArticleBloc>().add(
-                //               ToggleBookmarkEvent(
-                //                 aid: aid,
-                //                 isBookmark: !isBookmarked, // สลับสถานะของ Bookmark
-                //               ),
-                //             );
-                //           },
-                //         ),
-                //       ),
-                //     );
-                //   },
-                // ),
               ],
             ),
             Padding(
@@ -122,7 +82,7 @@ class RecommendationCard extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       SvgPicture.asset(AppImages.readIcon),

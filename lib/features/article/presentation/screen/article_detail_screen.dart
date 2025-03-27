@@ -31,11 +31,10 @@ class ArticleDetailScreen extends StatelessWidget {
                     return Container(
                       width: double.infinity,
                       height: 250,
-                      color: AppColors
-                          .blueGrayColor, // สีชมพูเมื่อไม่สามารถโหลดภาพได้
-                      child: Center(
+                      color: AppColors.blueGrayColor,
+                      child: const Center(
                         child: Icon(
-                          Icons.error, // ไอคอนแสดงข้อผิดพลาด
+                          Icons.error,
                           color: Colors.white,
                         ),
                       ),
@@ -46,9 +45,9 @@ class ArticleDetailScreen extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              margin: EdgeInsets.only(top: 230),
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
+              margin: const EdgeInsets.only(top: 230),
+              padding: const EdgeInsets.all(12),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12),
@@ -60,10 +59,10 @@ class ArticleDetailScreen extends StatelessWidget {
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         Text(
                           article.topic,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -71,8 +70,8 @@ class ArticleDetailScreen extends StatelessWidget {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(height: 8),
-                        Row(
+                        const SizedBox(height: 8),
+                        const Row(
                           children: [
                             Icon(Icons.menu_book_rounded,
                                 size: 20, color: Colors.grey),
@@ -88,7 +87,8 @@ class ArticleDetailScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             article.body,
-                            style: TextStyle(fontSize: 14, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.black),
                           ),
                         ),
                       ],
@@ -100,16 +100,16 @@ class ArticleDetailScreen extends StatelessWidget {
             left: 8,
             child: IconButton(
               icon: Container(
-                padding: EdgeInsets.all(10.0), // ระยะห่างระหว่างไอคอนและกรอบ
-                decoration: BoxDecoration(
-                  color: Colors.white, // สีของกรอบ
-                  shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
+                padding: const EdgeInsets.all(10.0),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
                 ),
-                width: 36, // กำหนดขนาดของกรอบวงกลม
-                child: Center(
+                width: 36,
+                child: const Center(
                   child: Icon(
                     Icons.arrow_back_ios,
-                    color: Colors.black, // สีของไอคอน
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -122,7 +122,6 @@ class ArticleDetailScreen extends StatelessWidget {
             builder: (context, state) {
               bool isBookmarked = false;
 
-              // ตรวจสอบสถานะของ Bookmark จาก state ที่ได้รับ
               if (state is BookmarkUpdated && state.aid == aid) {
                 isBookmarked = state.isBookmarked;
               }
@@ -131,9 +130,9 @@ class ArticleDetailScreen extends StatelessWidget {
                 top: 40,
                 right: 70,
                 child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 2),
+                  padding: const EdgeInsets.symmetric(vertical: 2),
                   width: 40,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
@@ -143,11 +142,10 @@ class ArticleDetailScreen extends StatelessWidget {
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      // ส่ง event เพื่อเปลี่ยนสถานะ bookmark
                       context.read<ArticleBloc>().add(
                             ToggleBookmarkEvent(
                               aid: aid,
-                              isBookmark: isBookmarked, // สลับสถานะของ Bookmark
+                              isBookmark: isBookmarked,
                             ),
                           );
                     },
@@ -161,20 +159,19 @@ class ArticleDetailScreen extends StatelessWidget {
             right: 16,
             child: IconButton(
               icon: Container(
-                padding: EdgeInsets.all(6.0), // ระยะห่างระหว่างไอคอนและกรอบ
-                decoration: BoxDecoration(
-                  color: Colors.white, // สีของกรอบ
-                  shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
+                padding: const EdgeInsets.all(6.0),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
                 ),
-                width: 40, // กำหนดขนาดของกรอบวงกลม
-                child: Icon(
+                width: 40,
+                child: const Icon(
                   Icons.share,
-                  color: Colors.black, // สีของไอคอน
+                  color: Colors.black,
                 ),
               ),
               onPressed: () {
-                String articleLink =
-                    "$baseUrl/$aid"; // แก้ไขลิงก์ตามต้องการ
+                String articleLink = "$baseUrl/$aid";
                 Share.share("อ่านบทความนี้ได้ที่: $articleLink");
               },
             ),
