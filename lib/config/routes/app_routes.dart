@@ -10,6 +10,7 @@ import 'package:wellwave_frontend/features/authentication/presentation/screen/au
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/forgot_password_sceen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/login_screen.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/screen/page/register_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/health_connect_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home/notification_screen.dart';
@@ -100,7 +101,7 @@ final GoRouter goRouter = GoRouter(
                   path: AppPages.profilePage,
                   name: AppPages.profileName,
                   pageBuilder: (BuildContext context, GoRouterState state) {
-                    return const NoTransitionPage(child: ProfileScreen());
+                    return const NoTransitionPage(child: AssessmentScreen());
                   },
                   routes: [
                     GoRoute(
@@ -194,20 +195,24 @@ final GoRouter goRouter = GoRouter(
             },
             routes: [
               GoRoute(
-                  path: AppPages.dailyTaskPage,
-                  name: AppPages.dailyTaskName,
-                  pageBuilder: (BuildContext context, GoRouterState state) {
-                    return NoTransitionPage(child: DailyTaskPage());
-                  },
-                  routes: [
-                    GoRoute(
-                      path: AppPages.missionRecordName,
-                      name: AppPages.missionRecordPage,
-                      pageBuilder: (BuildContext context, GoRouterState state) {
-                        return NoTransitionPage(child: MissionRecordPage());
-                      },
-                    )
-                  ]),
+                path: 'record/:hid',
+                name: AppPages.missionRecordName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return NoTransitionPage(
+                    child: MissionRecordPage(
+                      hid: int.parse(state.pathParameters['hid']!),
+                      title: state.extra as String? ?? 'Mission Record',
+                    ),
+                  );
+                },
+              ),
+              GoRoute(
+                path: AppPages.dailyTaskPage,
+                name: AppPages.dailyTaskName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return NoTransitionPage(child: DailyTaskPage());
+                },
+              ),
               GoRoute(
                 path: AppPages.habitChallengePage,
                 name: AppPages.habitChallengeName,

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:calendar_slider/calendar_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
+import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
-class CalendarSilder extends StatelessWidget {
-  final DateTime? selectedDate;
+class CalendarSliderHistoryMission extends StatelessWidget {
+  final DateTime selectedDate;
   final Function(DateTime) onDateSelected;
 
-  const CalendarSilder({
+  const CalendarSliderHistoryMission({
     Key? key,
-    this.selectedDate,
+    required this.selectedDate,
     required this.onDateSelected,
   }) : super(key: key);
 
@@ -35,10 +37,12 @@ class CalendarSilder extends StatelessWidget {
             color: Colors.black.withOpacity(1),
           ),
           locale: 'th',
-          initialDate: DateTime.now(),
+          initialDate: selectedDate,
           firstDate: DateTime.now().subtract(const Duration(days: 100)),
           lastDate: DateTime.now().add(const Duration(days: 100)),
           onDateSelected: (date) {
+            // Load data directly here
+            context.read<MissionBloc>().add(LoadHistoryEvent(date));
             onDateSelected(date);
           },
         ),

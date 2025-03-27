@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_url.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
 import '../../../../config/constants/app_strings.dart';
-import '../../data/daily_mockup_data.dart';
-import 'mission_dialog.dart';
 import 'task_goal_bottom_sheet.dart';
 
 class TaskList extends StatelessWidget {
@@ -18,8 +18,11 @@ class TaskList extends StatelessWidget {
   final int? expReward;
   final int? gemReward;
   final VoidCallback? onTap;
-  final bool? isActive; // Add isActive property
-  final double? progressPercentage; // Add new property
+  final bool? isActive;
+  final double? progressPercentage;
+  final bool isQuest;
+  final int? defaultDailyMinuteGoal;
+  final int? defaultDaysGoal;
 
   const TaskList({
     super.key,
@@ -29,30 +32,55 @@ class TaskList extends StatelessWidget {
     this.expReward,
     this.gemReward,
     this.onTap,
-    this.isActive, // Add to constructor
-    this.progressPercentage, // Add to constructor
+    this.isActive,
+    this.progressPercentage,
+    this.isQuest = false,
+    this.defaultDailyMinuteGoal,
+    this.defaultDaysGoal,
   });
 
-  Color _getProgressColor(double progress) {
-    if (progress <= 0.3) {
-      return Colors.red;
-    } else if (progress <= 0.6) {
-      return Colors.yellow;
+  void _handleAction(BuildContext context) {
+    if (isQuest) {
+      context.goNamed(
+        AppPages.questDetailName,
+        pathParameters: {'questId': taskId.toString()},
+      );
+    } else if (isActive == false) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        barrierColor: Colors.black.withOpacity(0.3),
+        backgroundColor: Colors.transparent,
+        builder: (BuildContext context) {
+          return TaskGoalBottomSheet(
+            defaultDailyMinuteGoal: defaultDailyMinuteGoal ?? 0,
+            defaultDaysGoal: defaultDaysGoal ?? 0,
+            expReward: expReward ?? 0,
+            hid: taskId,
+          );
+        },
+      );
     } else {
-      return Colors.green;
+      context.goNamed(
+        AppPages.missionRecordName,
+        pathParameters: {
+          'hid': taskId.toString(),
+        },
+        extra: taskName,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double progressValue = progressPercentage ?? 0.0;
-    double progressBarWidth = MediaQuery.of(context).size.width - 40;
+    double progressValue = (progressPercentage ?? 0.0).clamp(0.0, 100.0) / 100;
+    double progressBarWidth = MediaQuery.of(context).size.width - 176;
 
     return BlocBuilder<MissionBloc, MissionState>(
       builder: (context, state) {
         bool isProgressVisible = state is ProgressState || isActive == true;
         return GestureDetector(
-          onTap: onTap,
+          onTap: onTap ?? () => _handleAction(context),
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -98,136 +126,160 @@ class TaskList extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(width: 8),
-                        Flexible(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      taskName,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
+                        const SizedBox(width: 8),
+                        if (progressValue < 1.0) ...[
+                          Flexible(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        taskName,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
-                                  ),
-                                  if (expReward != null && gemReward == null)
-                                    Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                          AppImages.expIcon,
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          ' +$expReward/วัน',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                      ],
-                                    ),
-                                  if (expReward == null && gemReward != null)
-                                    Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                          AppImages.gemIcon,
-                                          width: 20,
-                                        ),
-                                        Text(
-                                          ' +$gemReward/วัน',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                      ],
-                                    ),
-                                ],
-                              ),
-                              SizedBox(height: 16),
-                              isProgressVisible
-                                  ? Container(
-                                      child: Column(
+                                    if (expReward != null &&
+                                        gemReward == null &&
+                                        progressValue < 1.0)
+                                      Row(
                                         children: [
-                                          Stack(
-                                            clipBehavior: Clip.none,
-                                            children: [
-                                              Container(
-                                                width: progressBarWidth,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  child:
-                                                      LinearProgressIndicator(
-                                                    backgroundColor: AppColors
-                                                        .grayProgressColor,
-                                                    color:
-                                                        AppColors.skyBlueColor,
-                                                    minHeight: 16,
-                                                    value: progressValue,
-                                                  ),
-                                                ),
-                                              ),
-                                              Positioned(
-                                                left: (progressBarWidth *
-                                                    progressValue),
-                                                top: -6,
-                                                child: SvgPicture.asset(
-                                                    AppImages.processIcon,
-                                                    height: 24),
-                                              ),
-                                            ],
+                                          SvgPicture.asset(
+                                            AppImages.expIcon,
+                                            width: 20,
+                                          ),
+                                          Text(
+                                            ' +$expReward/วัน',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
                                           ),
                                         ],
                                       ),
-                                    )
-                                  : SizedBox(
-                                      height: 28,
-                                      width: double.infinity,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled: true,
-                                            barrierColor:
-                                                Colors.black.withOpacity(0.3),
-                                            builder: (BuildContext context) {
-                                              return const TaskGoalBottomSheet();
-                                            },
-                                          );
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              AppColors.primaryColor,
-                                          foregroundColor: AppColors.whiteColor,
-                                          minimumSize: const Size(64, 28),
-                                          side: const BorderSide(
-                                            color: AppColors.whiteColor,
-                                            width: 2.0,
+                                    if (expReward == null &&
+                                        gemReward != null &&
+                                        progressValue < 1.0)
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            AppImages.gemIcon,
+                                            width: 20,
                                           ),
-                                          elevation: 2,
-                                          shadowColor: AppColors.darkGrayColor,
+                                          Text(
+                                            ' +$gemReward',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        ],
+                                      ),
+                                  ],
+                                ),
+                                SizedBox(height: 16),
+                                isProgressVisible
+                                    ? Container(
+                                        child: Stack(
+                                          clipBehavior: Clip.none,
+                                          children: [
+                                            Container(
+                                              width: progressBarWidth,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                child: LinearProgressIndicator(
+                                                  backgroundColor: AppColors
+                                                      .grayProgressColor,
+                                                  color: AppColors.skyBlueColor,
+                                                  minHeight: 16,
+                                                  value: progressValue,
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              left: ((progressBarWidth *
+                                                          progressValue) -
+                                                      24)
+                                                  .clamp(0.0,
+                                                      progressBarWidth - 24),
+                                              top: -6,
+                                              child: SvgPicture.asset(
+                                                AppImages.processIcon,
+                                                height: 24,
+                                                width: 24,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        child: Text(
-                                          AppStrings.chooseText,
-                                          textAlign: TextAlign.center,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall
-                                              ?.copyWith(
-                                                  color: AppColors.whiteColor),
+                                      )
+                                    : SizedBox(
+                                        height: 28,
+                                        width: double.infinity,
+                                        child: ElevatedButton(
+                                          onPressed: () =>
+                                              _handleAction(context),
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.primaryColor,
+                                            foregroundColor:
+                                                AppColors.whiteColor,
+                                            minimumSize: const Size(64, 28),
+                                            side: const BorderSide(
+                                              color: AppColors.whiteColor,
+                                              width: 2.0,
+                                            ),
+                                            elevation: 2,
+                                            shadowColor:
+                                                AppColors.darkGrayColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            AppStrings.chooseText,
+                                            textAlign: TextAlign.center,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall
+                                                ?.copyWith(
+                                                    color:
+                                                        AppColors.whiteColor),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
+                        ] else ...[
+                          Flexible(
+                            flex: 2,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    taskName,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                                SvgPicture.asset(AppImages.completeProcessIcon,
+                                    width: 64),
+                              ],
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ],

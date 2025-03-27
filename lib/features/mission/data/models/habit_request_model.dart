@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class HabitRequestModel {
   final List<HabitItemRequestModel> habits;
   final HabitMetaRequestModel meta;
@@ -19,6 +21,7 @@ class HabitRequestModel {
 
 class HabitItemRequestModel {
   final int hid;
+  final int? challengeId;
   final String title;
   final String description;
   final String advice;
@@ -35,9 +38,11 @@ class HabitItemRequestModel {
   final bool isActive;
   final HabitChallengeInfoRequestModel? challengeInfo;
   final dynamic scoreInfo;
+  final List<DailyTrackModel>? dailyTracks;
 
   const HabitItemRequestModel({
     required this.hid,
+    this.challengeId,
     required this.title,
     required this.description,
     required this.advice,
@@ -54,21 +59,24 @@ class HabitItemRequestModel {
     required this.isActive,
     this.challengeInfo,
     this.scoreInfo,
+    this.dailyTracks,
   });
 
   factory HabitItemRequestModel.fromJson(Map<String, dynamic> json) {
     return HabitItemRequestModel(
-      hid: json['HID'] ?? 0,
+      hid: (json['HID'] as num?)?.toInt() ?? 0,
+      challengeId: (json['CHALLENGE_ID'] as num?)?.toInt(),
       title: json['TITLE'] ?? '',
       description: json['DESCRIPTION'] ?? '',
       advice: json['ADVICE'] ?? '',
       category: json['CATEGORY'] ?? '',
       exerciseType: json['EXERCISE_TYPE'],
       trackingType: json['TRACKING_TYPE'] ?? '',
-      expReward: json['EXP_REWARD'] ?? 0,
-      gemReward: json['GEM_REWARD'],
-      defaultDailyMinuteGoal: json['DEFAULT_DAILY_MINUTE_GOAL'],
-      defaultDaysGoal: json['DEFAULT_DAYS_GOAL'] ?? 0,
+      expReward: (json['EXP_REWARD'] as num?)?.toInt() ?? 0,
+      gemReward: (json['GEM_REWARD'] as num?)?.toInt(),
+      defaultDailyMinuteGoal:
+          (json['DEFAULT_DAILY_MINUTE_GOAL'] as num?)?.toInt(),
+      defaultDaysGoal: (json['DEFAULT_DAYS_GOAL'] as num?)?.toInt() ?? 0,
       thumbnailUrl: json['THUMBNAIL_URL'] ?? '',
       isDaily: json['IS_DAILY'] ?? false,
       conditions:
@@ -78,6 +86,11 @@ class HabitItemRequestModel {
           ? HabitChallengeInfoRequestModel.fromJson(json['challengeInfo'])
           : null,
       scoreInfo: json['scoreInfo'],
+      dailyTracks: json['dailyTracks'] != null
+          ? (json['dailyTracks'] as List)
+              .map((e) => DailyTrackModel.fromJson(e))
+              .toList()
+          : null,
     );
   }
 }
@@ -126,13 +139,13 @@ class HabitChallengeInfoRequestModel {
 
   factory HabitChallengeInfoRequestModel.fromJson(Map<String, dynamic> json) {
     return HabitChallengeInfoRequestModel(
-      challengeId: json['challengeId'] ?? 0,
+      challengeId: (json['challengeId'] as num?)?.toInt() ?? 0,
       startDate: json['startDate'] ?? '',
       endDate: json['endDate'] ?? '',
-      streakCount: json['streakCount'] ?? 0,
-      daysCompleted: json['daysCompleted'] ?? 0,
-      totalDays: json['totalDays'] ?? 0,
-      percentageProgress: json['percentageProgress'] ?? 0,
+      streakCount: (json['streakCount'] as num?)?.toInt() ?? 0,
+      daysCompleted: (json['daysCompleted'] as num?)?.toInt() ?? 0,
+      totalDays: (json['totalDays'] as num?)?.toInt() ?? 0,
+      percentageProgress: (json['percentageProgress'] as num?)?.toInt() ?? 0,
     );
   }
 }
@@ -146,7 +159,21 @@ class HabitMetaRequestModel {
 
   factory HabitMetaRequestModel.fromJson(Map<String, dynamic> json) {
     return HabitMetaRequestModel(
-      total: json['total'] ?? 0,
+      total: (json['total'] as num?)?.toInt() ?? 0,
+    );
+  }
+}
+
+class DailyTrackModel {
+  final String trackDate;
+
+  const DailyTrackModel({
+    required this.trackDate,
+  });
+
+  factory DailyTrackModel.fromJson(Map<String, dynamic> json) {
+    return DailyTrackModel(
+      trackDate: json['TRACK_DATE'] ?? '',
     );
   }
 }

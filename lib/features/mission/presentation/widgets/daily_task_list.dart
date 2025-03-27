@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
+
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/constants/app_pages.dart';
+
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/app_url.dart';
-import 'package:wellwave_frontend/config/routes/app_routes.dart';
-import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
-import 'package:wellwave_frontend/features/mission/presentation/screen/page/mission_record_page.dart';
 
-import 'mission_dialog.dart';
+import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
 class DailyTaskList extends StatelessWidget {
   final String imagePath;
   final int taskId;
   final String taskName;
-  final int exp;
+  final int? exp;
   final bool isCompleted;
 
   const DailyTaskList({
@@ -31,137 +28,127 @@ class DailyTaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MissionBloc, MissionState>(
-      builder: (context, state) {
-        final isTaskCompleted =
-            state is DailyTaskState && state.completedTaskIds.contains(taskId);
-
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.whiteColor,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.25),
-                  spreadRadius: 0.5,
-                  blurRadius: 4,
-                ),
-              ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.whiteColor,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.25),
+              spreadRadius: 0.5,
+              blurRadius: 4,
             ),
-            padding: const EdgeInsets.all(2.0),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: imagePath.isNotEmpty
-                          ? DecorationImage(
-                              image: NetworkImage('$baseUrl$imagePath'),
-                              fit: BoxFit.cover,
-                            )
-                          : null,
-                    ),
-                    child: imagePath.isEmpty
-                        ? Image.asset(
-                            AppImages.emptyComponentImage,
-                            fit: BoxFit.cover,
-                          )
-                        : null,
-                  ),
+          ],
+        ),
+        padding: const EdgeInsets.all(2.0),
+        child: Row(
+          children: [
+            // Thumbnail
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: imagePath.isNotEmpty
+                      ? DecorationImage(
+                          image: NetworkImage('$baseUrl$imagePath'),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
                 ),
-                const SizedBox(width: 5),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        taskName,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ],
+                child: imagePath.isEmpty
+                    ? Image.asset(
+                        AppImages.emptyComponentImage,
+                        fit: BoxFit.cover,
+                      )
+                    : null,
+              ),
+            ),
+            const SizedBox(width: 5),
+            // Task Title
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    taskName,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0, left: 4),
-                  child: isTaskCompleted
-                      ? SvgPicture.asset(AppImages.taskSuccessIcon)
-                      : Column(
+                ],
+              ),
+            ),
+            // Status & EXP
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0, left: 4),
+              child: isCompleted
+                  ? SvgPicture.asset(AppImages.completeProcessIcon, width: 64)
+                  : Column(
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  AppImages.expIcon,
-                                  width: 20,
-                                ),
-                                Text(' +$exp',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall),
-                              ],
+                            SvgPicture.asset(
+                              AppImages.expIcon,
+                              width: 20,
                             ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              height: 28,
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryColor,
-                                border: Border.all(
-                                    color: AppColors.whiteColor, width: 2.0),
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.15),
-                                    offset: const Offset(0, 2),
-                                    blurRadius: 0,
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  context.goNamed(AppPages.missionRecordName);
-                                  print('press');
-
-                                  // showDialog(
-                                  //   context: context,
-                                  //   builder: (_) => MissionDialog(
-                                  //     taskName: taskName,
-                                  //     taskId: taskId,
-                                  //   ),
-                                  // );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primaryColor,
-                                  minimumSize: const Size(64, 28),
-                                  side: const BorderSide(
-                                    color: AppColors.whiteColor,
-                                  ),
-                                  elevation: 0,
-                                ),
-                                child: Text(
-                                  AppStrings.chooseText,
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall
-                                      ?.copyWith(color: AppColors.whiteColor),
-                                ),
-                              ),
-                            ),
+                            Text(' +${exp ?? 0}',
+                                style: Theme.of(context).textTheme.bodySmall),
                           ],
                         ),
-                ),
-              ],
+                        const SizedBox(height: 10),
+                        // Action Button
+                        Container(
+                          height: 28,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            border: Border.all(
+                              color: AppColors.whiteColor,
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.15),
+                                offset: const Offset(0, 2),
+                                blurRadius: 0,
+                                spreadRadius: 0,
+                              ),
+                            ],
+                          ),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              debugPrint('Task $taskId button pressed');
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor,
+                              minimumSize: const Size(64, 28),
+                              side: const BorderSide(
+                                color: AppColors.whiteColor,
+                              ),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Text(
+                              AppStrings.chooseText,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(color: AppColors.whiteColor),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
             ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
     );
   }
 }

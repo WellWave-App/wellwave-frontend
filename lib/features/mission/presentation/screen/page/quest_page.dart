@@ -30,7 +30,7 @@ class QuestPage extends StatelessWidget {
             decoration: const BoxDecoration(
               color: AppColors.pinkColor,
             ),
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.15,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 0.0),
@@ -66,12 +66,20 @@ class QuestPage extends StatelessWidget {
                               taskName: quest.title,
                               gemReward: quest.gemRewards,
                               isActive: quest.isActive,
-                              onTap: () => context.goNamed(
-                                AppPages.questDetailName,
-                                pathParameters: {
-                                  'questId': quest.qid.toString()
-                                },
-                              ),
+                              isQuest: true,
+                              progressPercentage:
+                                  quest.progressInfo?.progressPercentage ?? 0.0,
+                              onTap: () {
+                                if (quest.progressInfo?.progressPercentage !=
+                                    100) {
+                                  context.goNamed(
+                                    AppPages.questDetailName,
+                                    pathParameters: {
+                                      'questId': quest.qid.toString()
+                                    },
+                                  );
+                                }
+                              },
                             );
                           },
                         );
@@ -83,9 +91,7 @@ class QuestPage extends StatelessWidget {
                         );
                       }
 
-                      return const Center(
-                        child: Text('Failed to load quests'),
-                      );
+                      return Container();
                     },
                   ),
                 ),

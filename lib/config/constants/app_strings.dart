@@ -278,7 +278,7 @@ class AppStrings {
   static const taskDoing = 'กำลังทำกิจกรรม';
   static const taskCompletedText = 'สำเร็จ';
 
-  static const taskCompletedWithGemText = 'ทำภารกิจให้ครบเพื่อรับ ';
+  static const taskCompletedWithGemText = 'ทำให้ครบเพื่อรับ ';
   static const chooseText = 'เลือก ';
   static const collectRewards = 'เก็บรางวัล ';
 
@@ -292,4 +292,14 @@ class AppStrings {
 
   static const joinProgram = 'เข้าร่วมโปรแกรม';
   static const missionHistoryText = 'ประวัติภารกิจ';
+  static const seeAllMissionStateText = 'ทั้งหมด';
+  static const activeMissionStateText = 'กำลังทำ';
+  static const completedMissionStateText = 'สำเร็จแล้ว';
+  static const failedMissionStateText = 'ล้มเหลว';
+  static const canceledMissionStateText = 'ยกเลิก';
+  static const successDailyMissionStateText =
+      'เก่งมาก! คุณทำภารกิจประจำวันครบแล้ว';
+  static const willReceievedText = 'จะได้รับ';
+
+  static const minPerDayText = 'จำนวนนาทีในแต่ละวัน';
 }

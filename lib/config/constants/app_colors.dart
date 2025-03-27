@@ -55,4 +55,5 @@ class AppColors {
   static const skyBlueColor = Color(0xFF53C7FE);
   static const grayProgressColor = Color(0xFFD8D8D8);
   static const purpleGemColor = Color(0xFF8935D4);
+  static const darkGreyWithPurpleColor = Color(0xFF70728E);
 }

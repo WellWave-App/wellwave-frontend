@@ -25,12 +25,25 @@ class DecrementMinuteCountEvent extends MissionEvent {
 
 class ConfirmGoalEvent extends MissionEvent {
   final int dailyCount;
-  final int minuteCount;
+  final int? minuteCount;
+  final int hid;
 
-  ConfirmGoalEvent({required this.dailyCount, required this.minuteCount});
+  ConfirmGoalEvent({
+    required this.dailyCount,
+    this.minuteCount,
+    required this.hid,
+  });
 }
 
-class ResetGoalEvent extends MissionEvent {}
+class ResetGoalEvent extends MissionEvent {
+  final int defaultDailyMinuteGoal;
+  final int defaultDaysGoal;
+
+  const ResetGoalEvent({
+    required this.defaultDailyMinuteGoal,
+    required this.defaultDaysGoal,
+  });
+}
 
 class StartProgressEvent extends MissionEvent {}
 
@@ -53,11 +66,6 @@ class LoadHabitsEvent extends MissionEvent {
   List<Object?> get props => [category];
 }
 
-class LoadRecHabitsEvent extends MissionEvent {
-  @override
-  List<Object?> get props => [];
-}
-
 class LoadQuestsEvent extends MissionEvent {
   @override
   List<Object?> get props => [];
@@ -66,4 +74,49 @@ class LoadQuestsEvent extends MissionEvent {
 class LoadDailyTasksEvent extends MissionEvent {
   @override
   List<Object?> get props => [];
+}
+
+class getDailyTasksEvent extends MissionEvent {
+  const getDailyTasksEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class LoadHistoryEvent extends MissionEvent {
+  final DateTime date;
+
+  const LoadHistoryEvent(this.date);
+
+  @override
+  List<Object?> get props => [date];
+}
+
+class StartQuestEvent extends MissionEvent {
+  final int questId;
+
+  const StartQuestEvent({required this.questId});
+
+  @override
+  List<Object?> get props => [questId];
+}
+
+class LoadQuestDetailEvent extends MissionEvent {
+  final int questId;
+
+  const LoadQuestDetailEvent({required this.questId});
+
+  @override
+  List<Object?> get props => [questId];
+}
+
+class UpdateGemsEvent extends MissionEvent {
+  final int gemsToAdd;
+
+  const UpdateGemsEvent({
+    required this.gemsToAdd,
+  });
+
+  @override
+  List<Object> get props => [gemsToAdd];
 }

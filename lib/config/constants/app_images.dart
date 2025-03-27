@@ -94,6 +94,7 @@ class AppImages {
   static const goldLeaugeIcon = 'assets/icons/league/gold_league.svg';
   static const emeraldLeaugeIcon = 'assets/icons/league/emerald_league.svg';
   static const barSuccessImage = 'assets/images/success_bar.png';
+  static const barMissionSuccessImage = 'assets/images/bar_success.png';
   static const fireIcon = 'assets/icons/fire_icon.svg';
   static const waterIcon = 'assets/icons/water_icon.svg';
   static const sleepingIcon = 'assets/icons/sleeping_icon.svg';
@@ -191,4 +192,5 @@ class AppImages {
   static const taskSuccessIcon = 'assets/icons/task_success_icon.svg';
 
   static const processIcon = 'assets/icons/progress_icon.svg';
+  static const completeProcessIcon = 'assets/icons/task_success_icon.svg';
 }

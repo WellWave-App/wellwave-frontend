@@ -74,17 +74,30 @@ class QuestItemModel {
 }
 
 class QuestProgressInfoModel {
-  final double? progressValue;
+  final String startDate;
+  final String endDate;
+  final int currentValue;
+  final int targetValue;
+  final double progressPercentage;
+  final int daysLeft;
 
   const QuestProgressInfoModel({
-    this.progressValue,
+    required this.startDate,
+    required this.endDate,
+    required this.currentValue,
+    required this.targetValue,
+    required this.progressPercentage,
+    required this.daysLeft,
   });
 
   factory QuestProgressInfoModel.fromJson(Map<String, dynamic> json) {
     return QuestProgressInfoModel(
-      progressValue: json['progressValue'] != null
-          ? (json['progressValue'] as num).toDouble()
-          : 0.0,
+      startDate: json['startDate'] ?? '',
+      endDate: json['endDate'] ?? '',
+      currentValue: json['currentValue'] ?? 0,
+      targetValue: json['targetValue'] ?? 0,
+      progressPercentage: json['progressPercentage']?.toDouble() ?? 0.0,
+      daysLeft: json['daysLeft'] ?? 0,
     );
   }
 }

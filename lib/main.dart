@@ -103,6 +103,7 @@ class MainApp extends StatelessWidget {
           BlocProvider<MissionBloc>(
             create: (context) => MissionBloc(
               habitRepositories: HabitRepositories(),
+              profileRepository: ProfileRepositories(),
             ),
           ),
         ],

@@ -33,7 +33,7 @@ class DailyTaskState extends MissionState {
   DailyTaskState({this.completedTaskIds = const []});
 
   @override
-  List<Object?> get props => [completedTaskIds]; // Update override
+  List<Object?> get props => [completedTaskIds];
 }
 
 // Add new states
@@ -41,7 +41,7 @@ class HabitLoading extends MissionState {}
 
 class HabitLoaded extends MissionState {
   final HabitRequestModel habits;
-  final RecHabitResponseModel? recHabits; // Make this nullable
+  final RecHabitResponseModel? recHabits;
 
   const HabitLoaded(
     this.habits,
@@ -85,7 +85,7 @@ class QuestError extends MissionState {
 class DailyTaskLoading extends MissionState {}
 
 class DailyTaskLoaded extends MissionState {
-  final HabitRequestModel dailyTasks;
+  final GetDailyHabitModel dailyTasks;
 
   const DailyTaskLoaded(this.dailyTasks);
 
@@ -100,4 +100,49 @@ class DailyTaskError extends MissionState {
 
   @override
   List<Object?> get props => [message];
+}
+
+class HistoryLoading extends MissionState {}
+
+class HistoryLoaded extends MissionState {
+  final GetHistoryModel history;
+
+  const HistoryLoaded(this.history);
+
+  @override
+  List<Object?> get props => [history];
+}
+
+class HistoryError extends MissionState {
+  final String message;
+
+  const HistoryError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class GetDailyTaskLoading extends MissionState {}
+
+class GetDailyTaskLoaded extends MissionState {
+  final DailyTaskListModel getDailyTasks;
+
+  const GetDailyTaskLoaded(this.getDailyTasks);
+
+  @override
+  List<Object?> get props => [getDailyTasks];
+}
+
+class GemsUpdating extends MissionState {}
+
+class GemsUpdateSuccess extends MissionState {
+  final int updatedAmount;
+
+  const GemsUpdateSuccess(this.updatedAmount);
+}
+
+class GemsUpdateFailure extends MissionState {
+  final String message;
+
+  const GemsUpdateFailure(this.message);
 }

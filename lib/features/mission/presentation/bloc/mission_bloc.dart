@@ -1,16 +1,25 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:wellwave_frontend/features/mission/data/models/daily_task_list_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/get_dailly_habit_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/get_history_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/quest_request_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/rec_habit_respone_model.dart';
 import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
+import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
+import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 part 'mission_event.dart';
 part 'mission_state.dart';
 
 class MissionBloc extends Bloc<MissionEvent, MissionState> {
   final HabitRepositories habitRepositories;
-
+  final ProfileRepositories profileRepository;
   MissionBloc({
     required this.habitRepositories,
+    required this.profileRepository,
   }) : super(MissionInitial()) {
     on<IncrementDailyCountEvent>(_onIncreaseDailyCount);
     on<DecrementDailyCountEvent>(_onDecreaseDailyCount);
@@ -21,22 +30,49 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     on<CompleteTaskEvent>(_onCompleteTaskEvent);
     on<StartProgressEvent>(_onStartProgress);
     on<LoadHabitsEvent>(_onLoadHabits);
-    on<LoadRecHabitsEvent>(_onLoadRecHabits); // Add this line
-    on<LoadQuestsEvent>(_onLoadQuests); // Add this line
-    on<LoadQuestDetailEvent>(_onLoadQuestDetail); // Add this line
-    on<LoadDailyTasksEvent>(_onLoadDailyTasks); // Add this line
+    on<LoadQuestsEvent>(_onLoadQuests);
+    on<LoadQuestDetailEvent>(_onLoadQuestDetail);
+    on<LoadDailyTasksEvent>(_onLoadDailyGetTasks);
+    on<LoadHistoryEvent>(_onLoadHistory);
+    on<StartQuestEvent>(_onStartQuest);
+    on<getDailyTasksEvent>(_onGetDailyTasks);
+
+    on<UpdateGemsEvent>((event, emit) async {
+      try {
+        debugPrint('Updating gems: +${event.gemsToAdd}');
+
+        final success = await profileRepository.updateGem(event.gemsToAdd);
+
+        if (success) {
+          debugPrint('Gems updated successfully');
+
+          // Get fresh data after update
+          final dailyTasks = await habitRepositories.getHabitDailyTask();
+
+          if (dailyTasks != null) {
+            emit(DailyTaskLoaded(dailyTasks));
+          } else {
+            emit(const DailyTaskError('Failed to refresh daily tasks'));
+          }
+        } else {
+          debugPrint('Failed to update gems');
+          emit(const DailyTaskError('Failed to update gems'));
+        }
+      } catch (e) {
+        debugPrint('Error updating gems: $e');
+        emit(DailyTaskError('Error updating gems: $e'));
+      }
+    });
   }
 
   void _onIncreaseDailyCount(
       IncrementDailyCountEvent event, Emitter<MissionState> emit) {
     if (state is HabitChallengeState) {
       final currentState = state as HabitChallengeState;
-      if (currentState.dailyCount < 7) {
-        emit(HabitChallengeState(
-          dailyCount: currentState.dailyCount + 1,
-          minuteCount: currentState.minuteCount,
-        ));
-      }
+      emit(HabitChallengeState(
+        dailyCount: currentState.dailyCount + 1,
+        minuteCount: currentState.minuteCount,
+      ));
     } else {
       emit(HabitChallengeState(dailyCount: 1, minuteCount: 5));
     }
@@ -81,15 +117,39 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     }
   }
 
-  void _onConfirmGoal(ConfirmGoalEvent event, Emitter<MissionState> emit) {
-    emit(HabitChallengeState(
-      dailyCount: event.dailyCount,
-      minuteCount: event.minuteCount,
-    ));
+  void _onConfirmGoal(
+      ConfirmGoalEvent event, Emitter<MissionState> emit) async {
+    try {
+      final success = await habitRepositories.startHabit(
+        hid: event.hid,
+        daysGoal: event.dailyCount,
+        dailyMinuteGoal: event.minuteCount! > 0 ? event.minuteCount : null,
+      );
+
+      if (success) {
+        emit(HabitChallengeState(
+          dailyCount: event.dailyCount,
+          minuteCount: event.minuteCount!,
+        ));
+        debugPrint('''
+          Habit challenge started successfully:
+          HID: ${event.hid}
+          Days Goal: ${event.dailyCount}
+          Daily Minutes: ${event.minuteCount! > 0 ? event.minuteCount : 'Not set'}
+        ''');
+      } else {
+        emit(const HabitError('Failed to start habit challenge'));
+      }
+    } catch (e) {
+      emit(HabitError('Error starting habit challenge: $e'));
+    }
   }
 
   void _onResetGoal(ResetGoalEvent event, Emitter<MissionState> emit) {
-    emit(HabitChallengeState(dailyCount: 1, minuteCount: 5));
+    emit(HabitChallengeState(
+      dailyCount: event.defaultDaysGoal,
+      minuteCount: event.defaultDailyMinuteGoal,
+    ));
   }
 
   void _onCompleteTaskEvent(
@@ -119,35 +179,12 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
       final habits =
           await habitRepositories.getHabitAll(category: event.category);
       if (habits != null) {
-        emit(HabitLoaded(habits, null)); // Pass null for recHabits
+        emit(HabitLoaded(habits, null));
       } else {
         emit(const HabitError('Failed to load habits'));
       }
     } catch (e) {
       emit(HabitError('Error loading habits: $e'));
-    }
-  }
-
-  void _onLoadRecHabits(
-      LoadRecHabitsEvent event, Emitter<MissionState> emit) async {
-    emit(HabitLoading());
-    try {
-      final recHabits = await habitRepositories.getRecHabit();
-      print('Received recHabits: $recHabits');
-
-      if (recHabits != null) {
-        final emptyHabits = HabitRequestModel(
-            habits: [], meta: HabitMetaRequestModel(total: 0));
-        emit(HabitLoaded(emptyHabits, recHabits));
-      } else {
-        print('RecHabits is null');
-        emit(const HabitError(
-            'Failed to load recommended habits - null response'));
-      }
-    } catch (e, stackTrace) {
-      print('Error in _onLoadRecHabits: $e');
-      print('Stack trace: $stackTrace');
-      emit(HabitError('Error loading recommended habits: $e'));
     }
   }
 
@@ -180,25 +217,79 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     }
   }
 
-  void _onLoadDailyTasks(
+  void _onLoadDailyGetTasks(
       LoadDailyTasksEvent event, Emitter<MissionState> emit) async {
-    emit(DailyTaskLoading());
     try {
-      final dailyTasks = await habitRepositories.getDaily();
+      emit(DailyTaskLoading());
+      final dailyTasks = await habitRepositories.getHabitDailyTask();
+
       if (dailyTasks != null) {
         emit(DailyTaskLoaded(dailyTasks));
+      } else {
+        emit(const DailyTaskError('Failed to load daily tasks'));
       }
     } catch (e) {
       emit(DailyTaskError('Error loading daily tasks: $e'));
     }
   }
-}
 
-class LoadQuestDetailEvent extends MissionEvent {
-  final int questId;
+  void _onGetDailyTasks(
+      getDailyTasksEvent event, Emitter<MissionState> emit) async {
+    try {
+      emit(GetDailyTaskLoading());
+      final getDailyTasks = await habitRepositories.getDaily();
 
-  const LoadQuestDetailEvent({required this.questId});
+      if (getDailyTasks != null) {
+        emit(GetDailyTaskLoaded(getDailyTasks));
+      }
+    } catch (e) {
+      emit(DailyTaskError('Error loading daily tasks: $e'));
+    }
+  }
 
-  @override
-  List<Object?> get props => [questId];
+  void _onLoadHistory(
+      LoadHistoryEvent event, Emitter<MissionState> emit) async {
+    emit(HistoryLoading());
+    try {
+      final history = await habitRepositories.getHistory(event.date);
+      if (history != null) {
+        emit(HistoryLoaded(history));
+      } else {
+        emit(const HistoryError('Failed to load history'));
+      }
+    } catch (e) {
+      emit(HistoryError('Error loading history: $e'));
+    }
+  }
+
+  Future<void> _onStartQuest(
+      StartQuestEvent event, Emitter<MissionState> emit) async {
+    debugPrint('Starting quest loading state');
+    emit(QuestLoading());
+
+    try {
+      debugPrint('Calling startQuest API for questId: ${event.questId}');
+      final startResult = await habitRepositories.startQuest(event.questId);
+
+      if (startResult != null) {
+        debugPrint('StartQuest successful, fetching updated quests');
+
+        // Get fresh quest list after starting
+        final updatedQuests = await habitRepositories.getQuest();
+        if (updatedQuests != null) {
+          debugPrint('Successfully fetched updated quests');
+          emit(QuestLoaded(updatedQuests));
+        } else {
+          debugPrint('Failed to fetch updated quests');
+          emit(const QuestError('Failed to update quest list'));
+        }
+      } else {
+        debugPrint('StartQuest API call failed');
+        emit(const QuestError('Failed to start quest. Please try again.'));
+      }
+    } catch (e) {
+      debugPrint('Error in _onStartQuest: $e');
+      emit(QuestError('Error starting quest: $e'));
+    }
+  }
 }

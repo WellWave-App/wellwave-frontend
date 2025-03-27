@@ -4,10 +4,23 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 import '../../../../common/widget/app_bar.dart';
 
-class MissionScreen extends StatelessWidget {
+class MissionScreen extends StatefulWidget {
   const MissionScreen({super.key});
+
+  @override
+  State<MissionScreen> createState() => _MissionScreenState();
+}
+
+class _MissionScreenState extends State<MissionScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<MissionBloc>().add(getDailyTasksEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +32,8 @@ class MissionScreen extends StatelessWidget {
         onLeading: false,
         actionIcon: Text(
           AppStrings.historyText,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppColors.darkGrayColor,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: AppColors.greyColor,
               ),
         ),
         action: () {

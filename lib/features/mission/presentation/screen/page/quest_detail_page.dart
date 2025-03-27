@@ -30,8 +30,10 @@ class QuestDetailPage extends StatelessWidget {
             orElse: () => throw Exception('Quest not found'),
           );
 
-          final progressValue = quest.progressInfo?.progressValue ?? 0.0;
-
+          final progressPercentage =
+              quest.progressInfo?.progressPercentage ?? 0.0;
+          double progressValue =
+              (progressPercentage ?? 0.0).clamp(0.0, 100.0) / 100;
           return Scaffold(
             backgroundColor: AppColors.whiteColor,
             appBar: CustomAppBar(
@@ -51,16 +53,24 @@ class QuestDetailPage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Image.network(
-                              quest.imgUrl ?? AppImages.emptyComponentImage,
-                              width: 128,
-                              height: 128,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => Image.asset(
-                                AppImages.emptyComponentImage,
-                                width: 128,
-                                height: 128,
-                                fit: BoxFit.cover,
+                            Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.whiteColor,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.network(
+                                  quest.imgUrl ?? AppImages.emptyComponentImage,
+                                  height: 128,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (_, __, ___) => Image.asset(
+                                    AppImages.emptyComponentImage,
+                                    width: 128,
+                                    height: 128,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
                             const SizedBox(width: 24),
@@ -193,7 +203,8 @@ class QuestDetailPage extends StatelessWidget {
                                     ),
                                   ),
                                   Positioned(
-                                    left: (progressBarWidth * progressValue),
+                                    left: (progressBarWidth * progressValue)
+                                        .clamp(0.0, progressBarWidth - 32),
                                     top: -8,
                                     child: SvgPicture.asset(
                                         AppImages.processIcon,
@@ -204,7 +215,14 @@ class QuestDetailPage extends StatelessWidget {
                             ],
                           ),
                         )
-                      : const NextButton(text: AppStrings.joinProgram)
+                      : NextButton(
+                          text: AppStrings.joinProgram,
+                          onPressed: () {
+                            context
+                                .read<MissionBloc>()
+                                .add(StartQuestEvent(questId: questId));
+                          },
+                        )
                 ],
               ),
             ),

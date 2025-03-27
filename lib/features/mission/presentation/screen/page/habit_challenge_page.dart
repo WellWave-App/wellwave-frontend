@@ -6,14 +6,25 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 import '../../widgets/task_list.dart';
 
-class HabitChallengePage extends StatelessWidget {
+class HabitChallengePage extends StatefulWidget {
   const HabitChallengePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Load recommended habits initially
-    context.read<MissionBloc>().add(LoadRecHabitsEvent());
+  State<HabitChallengePage> createState() => _HabitChallengePageState();
+}
 
+class _HabitChallengePageState extends State<HabitChallengePage> {
+  String category = 'rec';
+
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<MissionBloc>().add(LoadHabitsEvent(category: category));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -31,24 +42,21 @@ class HabitChallengePage extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: AppColors.mintColor,
               ),
-              height: MediaQuery.of(context).size.height * 0.1,
+              height: MediaQuery.of(context).size.height * 0.15,
             ),
             Column(
               children: [
                 TabBar(
-                  isScrollable: true,
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 10),
-                  padding: const EdgeInsets.only(left: 10),
+                  isScrollable: false,
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+                  padding: EdgeInsets.zero,
                   dividerColor: Colors.transparent,
                   labelColor: AppColors.whiteColor,
                   unselectedLabelColor: AppColors.mintTabTextGrayColor,
                   indicatorColor: AppColors.whiteColor,
                   labelStyle: Theme.of(context).textTheme.titleSmall,
                   onTap: (index) {
-                    if (index == 0) {
-                      context.read<MissionBloc>().add(LoadRecHabitsEvent());
-                    } else {
-                      String? category;
+                    setState(() {
                       switch (index) {
                         case 1:
                           category = 'diet';
@@ -59,11 +67,16 @@ class HabitChallengePage extends StatelessWidget {
                         case 3:
                           category = 'sleep';
                           break;
+                        default:
+                          category = 'rec';
+                          break;
                       }
-                      context
-                          .read<MissionBloc>()
-                          .add(LoadHabitsEvent(category: category));
-                    }
+                    });
+
+                    context
+                        .read<MissionBloc>()
+                        .add(LoadHabitsEvent(category: category));
+                    debugPrint('Loading habits for category: $category');
                   },
                   tabs: const [
                     Tab(text: AppStrings.suggestText),
@@ -72,6 +85,7 @@ class HabitChallengePage extends StatelessWidget {
                     Tab(text: AppStrings.sleepText),
                   ],
                 ),
+                const SizedBox(height: 16),
                 Expanded(
                   child: TabBarView(
                     children: [
@@ -81,34 +95,6 @@ class HabitChallengePage extends StatelessWidget {
                             return const Center(
                                 child: CircularProgressIndicator());
                           }
-                          if (state is HabitLoaded && state.recHabits != null) {
-                            final recommendations =
-                                state.recHabits!.recommendations;
-                            return ListView.builder(
-                              itemCount: recommendations.length,
-                              itemBuilder: (context, index) {
-                                final habit = recommendations[index].habit;
-                                return TaskList(
-                                  imagePath: habit.thumbnailUrl,
-                                  taskId: habit.hid,
-                                  taskName: habit.title,
-                                  expReward: habit.expReward,
-                                );
-                              },
-                            );
-                          }
-                          return const Center(
-                              child: Text('No recommended habits available'));
-                        },
-                      ),
-
-                      // Other tabs remain the same...
-                      BlocBuilder<MissionBloc, MissionState>(
-                        builder: (context, state) {
-                          if (state is HabitLoading) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
                           if (state is HabitLoaded) {
                             final habits = state.habits.habits;
                             return ListView.builder(
@@ -116,16 +102,23 @@ class HabitChallengePage extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 final habit = habits[index];
                                 return TaskList(
-                                  imagePath: habit.thumbnailUrl,
-                                  taskId: habit.hid,
-                                  taskName: habit.title,
-                                  expReward: habit.expReward,
-                                );
+                                        imagePath: habit.thumbnailUrl,
+                                        taskId: habit.hid,
+                                        taskName: habit.title,
+                                        expReward: habit.expReward,
+                                        defaultDailyMinuteGoal:
+                                            habit.defaultDailyMinuteGoal,
+                                        defaultDaysGoal: habit.defaultDaysGoal,
+                                        progressPercentage: habit.challengeInfo
+                                                ?.percentageProgress
+                                                .toDouble() ??
+                                            0.0,
+                                        isActive: habit.isActive)
+                                    .also((_) {});
                               },
                             );
                           }
-                          return const Center(
-                              child: Text('No habits available'));
+                          return Container();
                         },
                       ),
                       BlocBuilder<MissionBloc, MissionState>(
@@ -141,16 +134,23 @@ class HabitChallengePage extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 final habit = habits[index];
                                 return TaskList(
-                                  imagePath: habit.thumbnailUrl,
-                                  taskId: habit.hid,
-                                  taskName: habit.title,
-                                  expReward: habit.expReward,
-                                );
+                                        imagePath: habit.thumbnailUrl,
+                                        taskId: habit.hid,
+                                        taskName: habit.title,
+                                        expReward: habit.expReward,
+                                        defaultDailyMinuteGoal:
+                                            habit.defaultDailyMinuteGoal,
+                                        defaultDaysGoal: habit.defaultDaysGoal,
+                                        progressPercentage: habit.challengeInfo
+                                                ?.percentageProgress
+                                                .toDouble() ??
+                                            0.0,
+                                        isActive: habit.isActive)
+                                    .also((_) {});
                               },
                             );
                           }
-                          return const Center(
-                              child: Text('No habits available'));
+                          return Container();
                         },
                       ),
                       BlocBuilder<MissionBloc, MissionState>(
@@ -166,16 +166,46 @@ class HabitChallengePage extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 final habit = habits[index];
                                 return TaskList(
-                                  imagePath: habit.thumbnailUrl,
-                                  taskId: habit.hid,
-                                  taskName: habit.title,
-                                  expReward: habit.expReward,
-                                );
+                                        imagePath: habit.thumbnailUrl,
+                                        taskId: habit.hid,
+                                        taskName: habit.title,
+                                        expReward: habit.expReward,
+                                        defaultDailyMinuteGoal:
+                                            habit.defaultDailyMinuteGoal,
+                                        defaultDaysGoal: habit.defaultDaysGoal,
+                                        isActive: habit.isActive)
+                                    .also((_) {});
                               },
                             );
                           }
-                          return const Center(
-                              child: Text('No habits available'));
+                          return Container();
+                        },
+                      ),
+                      BlocBuilder<MissionBloc, MissionState>(
+                        builder: (context, state) {
+                          if (state is HabitLoading) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                          if (state is HabitLoaded) {
+                            final habits = state.habits.habits;
+                            return ListView.builder(
+                              itemCount: habits.length,
+                              itemBuilder: (context, index) {
+                                final habit = habits[index];
+                                return TaskList(
+                                    imagePath: habit.thumbnailUrl,
+                                    taskId: habit.hid,
+                                    taskName: habit.title,
+                                    expReward: habit.expReward,
+                                    defaultDailyMinuteGoal:
+                                        habit.defaultDailyMinuteGoal,
+                                    defaultDaysGoal: habit.defaultDaysGoal,
+                                    isActive: habit.isActive);
+                              },
+                            );
+                          }
+                          return Container();
                         },
                       ),
                     ],
@@ -187,5 +217,12 @@ class HabitChallengePage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+extension ObjectExt<T> on T {
+  T also(void Function(T) action) {
+    action(this);
+    return this;
   }
 }
