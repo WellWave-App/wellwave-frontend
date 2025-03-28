@@ -193,4 +193,8 @@ class AppImages {
 
   static const processIcon = 'assets/icons/progress_icon.svg';
   static const completeProcessIcon = 'assets/icons/task_success_icon.svg';
+  static const stopMissionRecordIcon = 'assets/icons/stopMissionRecord.svg';
+  static const resumeMissionRecordIcon = 'assets/icons/resumeMissionRecord.svg';
+  static const finishMissionRecordIcon = 'assets/icons/finishMissionRecord.svg';
+  static const fireMissionRecordIcon = 'assets/icons/fire_mission.svg';
 }
