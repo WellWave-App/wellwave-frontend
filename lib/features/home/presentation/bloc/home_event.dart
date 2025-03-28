@@ -72,10 +72,10 @@ class SubmitWeightDataEvent extends HomeEvent {
   List<Object> get props => [model];
 }
 
-class SubmitHealthDataEvent extends HomeEvent {
+class SubmitHealthDataHomeEvent extends HomeEvent {
   final HealthAssessmentHealthDataRequestModel model;
 
-  SubmitHealthDataEvent(this.model);
+  SubmitHealthDataHomeEvent(this.model);
   @override
   List<Object> get props => [model];
 }
