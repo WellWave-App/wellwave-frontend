@@ -6,20 +6,19 @@ class CustomAppBar extends AppBar {
   CustomAppBar({
     super.key,
     super.backgroundColor,
-    required String title,
+    String? title,
     required BuildContext context,
     required bool onLeading,
     Color? textColor,
+    Function? onBackPressed,
     Function? action,
-    IconData? actionIcon,
+    Widget? actionIcon,
   }) : super(
           title: Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: textColor ?? AppColors.blackColor,
-            ),
+            title ?? '',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: AppColors.blackColor,
+                ),
           ),
           titleSpacing: 0,
           centerTitle: true,
@@ -28,21 +27,90 @@ class CustomAppBar extends AppBar {
               ? GestureDetector(
                   onTap: () => context.pop(),
                   child: Icon(
-                    Icons.arrow_back_ios_new_sharp,
-                    size: 14.9,
+                    Icons.arrow_back,
+                    size: 24,
                     color: textColor ?? AppColors.blackColor,
                   ),
                 )
               : null,
           actions: [
-            if (action != null)
-              IconButton(
-                onPressed: () => action,
-                icon: actionIcon != null
-                    ? Icon(actionIcon)
-                    : const Icon(Icons.circle_outlined),
-                color: textColor ?? AppColors.blackColor,
+            if (action != null && actionIcon != null)
+              GestureDetector(
+                onTap: () => action(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: actionIcon,
+                ),
               ),
           ],
+        );
+}
+
+class CustomAppBarWithStep extends AppBar {
+  CustomAppBarWithStep({
+    super.key,
+    required BuildContext context,
+    required bool onLeading,
+    required int totalSteps,
+    required int currentStep,
+    bool showStepIndicator = true,
+    String? titleText,
+    Color? textColor,
+    Color? bgColor,
+    Function? onBackPressed,
+    Function? action,
+    IconData? actionIcon,
+    Widget? additionalIcon,
+    Function? additionalAction,
+  }) : super(
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          leading: onLeading
+              ? GestureDetector(
+                  onTap: () {
+                    if (onBackPressed != null) {
+                      onBackPressed();
+                    } else {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 24,
+                    color: textColor ?? Colors.black,
+                  ),
+                )
+              : const SizedBox(width: 48),
+          actions: [
+            if (action != null && actionIcon != null)
+              if (action != null && actionIcon != null)
+                IconButton(
+                  onPressed: () => action(),
+                  icon: Icon(actionIcon),
+                  color: textColor ?? Colors.black,
+                ),
+            if (additionalAction != null && additionalIcon != null)
+              GestureDetector(
+                onTap: () => additionalAction(),
+                child: additionalIcon,
+              ),
+            if (additionalAction != null && additionalIcon != null)
+              GestureDetector(
+                onTap: () => additionalAction(),
+                child: additionalIcon,
+              ),
+          ],
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (titleText != null)
+                Text(
+                  titleText,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        color: AppColors.blackColor,
+                      ),
+                ),
+            ],
+          ),
         );
 }
