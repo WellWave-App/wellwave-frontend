@@ -118,55 +118,35 @@ class _MissionRecordPageState extends State<MissionRecordPage> {
 
                 return Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                    if (completedCycles >= 1) ...[
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            decoration: BoxDecoration(
-                              color: completedCycles >= 1
-                                  ? AppColors.mintColor.withOpacity(0.1)
-                                  : AppColors.lightgrayColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  completedCycles >= 1
-                                      ? Icons.check_circle_rounded
-                                      : Icons.local_fire_department_rounded,
-                                  color: completedCycles >= 1
-                                      ? AppColors.mintColor
-                                      : AppColors.redLevelColor,
-                                  size: 20,
+                          Icon(
+                            Icons.local_fire_department_rounded,
+                            color: AppColors.redLevelColor,
+                            size: 24,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'ครบเป้าหมายแล้ว!',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: AppColors.darkGrayColor,
                                 ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  completedCycles >= 1
-                                      ? 'ครบเป้าหมายแล้ว!'
-                                      : 'เป้าหมาย: 1 รอบ',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                        color: completedCycles >= 1
-                                            ? AppColors.mintColor
-                                            : AppColors.darkGrayColor,
-                                        fontWeight: completedCycles >= 1
-                                            ? FontWeight.w600
-                                            : FontWeight.w500,
-                                      ),
-                                ),
-                              ],
-                            ),
                           ),
                         ],
                       ),
-                    ),
+                    ] else ...[
+                      Text(
+                        'ครบเป้าหมายแล้ว!',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: AppColors.transparentColor,
+                            ),
+                      ),
+                    ],
                     Stack(
                       alignment: Alignment.center,
                       children: [
@@ -249,116 +229,113 @@ class _MissionRecordPageState extends State<MissionRecordPage> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 0,
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_isRunning) {
+                        _stopTimer();
+                      } else {
+                        _resumeTimer();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.whiteColor,
+                      foregroundColor: AppColors.whiteColor,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      elevation: 0, // Remove default elevation
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(
                           color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 0,
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          _isRunning
+                              ? AppImages.stopMissionRecordIcon
+                              : AppImages.resumeMissionRecordIcon,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          _isRunning ? 'หยุดพัก' : 'ทำต่อ',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.blackColor,
+                                  ),
                         ),
                       ],
                     ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_isRunning) {
-                          _stopTimer();
-                        } else {
-                          _resumeTimer();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.whiteColor,
-                        foregroundColor: AppColors.whiteColor,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        elevation: 0, // Remove default elevation
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(
-                            color: Colors.black.withOpacity(0.1),
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            _isRunning
-                                ? AppImages.stopMissionRecordIcon
-                                : AppImages.resumeMissionRecordIcon,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            _isRunning ? 'หยุดพัก' : 'ทำต่อ',
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: AppColors.blackColor,
-                                    ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ),
-                const SizedBox(width: 8), // Reduced from 16 to 8
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 0,
+                        blurRadius: 2,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    onPressed: _completeTimer,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.whiteColor,
+                      foregroundColor: AppColors.whiteColor,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      elevation: 0, // Remove default elevation
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(
                           color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 0,
-                          blurRadius: 2,
-                          offset: const Offset(0, 2),
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          AppImages.finishMissionRecordIcon,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'เสร็จสิ้น',
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.blackColor,
+                                  ),
                         ),
                       ],
                     ),
-                    child: ElevatedButton(
-                      onPressed: _completeTimer,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.whiteColor,
-                        foregroundColor: AppColors.whiteColor,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        elevation: 0, // Remove default elevation
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(
-                            color: Colors.black.withOpacity(0.1),
-                            width: 1,
-                          ),
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            AppImages.finishMissionRecordIcon,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'เสร็จสิ้น',
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: AppColors.blackColor,
-                                    ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
