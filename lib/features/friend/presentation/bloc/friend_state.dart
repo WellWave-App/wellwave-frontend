@@ -12,11 +12,11 @@ abstract class FriendState extends Equatable {
 }
 
 class FriendInitial extends FriendState {
-  FriendInitial() : super(searchId: '');
+  const FriendInitial() : super(searchId: '');
 }
 
 class FriendLoading extends FriendState {
-  FriendLoading() : super(searchId: '');
+  const FriendLoading() : super(searchId: '');
 }
 
 class FriendLoaded extends FriendState {
@@ -25,7 +25,7 @@ class FriendLoaded extends FriendState {
   final bool isFriend;
   final bool? isWaveActive;
 
-  FriendLoaded(
+  const FriendLoaded(
     String searchId,
     this.friends,
     this.allFriends, {
@@ -41,7 +41,7 @@ class FriendLoaded extends FriendState {
 class FriendError extends FriendState {
   final String message;
 
-  FriendError(this.message) : super(searchId: '');
+  const FriendError(this.message) : super(searchId: '');
 
   @override
   List<Object?> get props => [searchId, message];

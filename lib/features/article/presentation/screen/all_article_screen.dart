@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-import 'package:wellwave_frontend/config/theme/app_theme.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
 import 'package:wellwave_frontend/features/article/presentation/widget/recommendation_card.dart';

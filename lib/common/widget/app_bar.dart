@@ -83,12 +83,11 @@ class CustomAppBarWithStep extends AppBar {
               : const SizedBox(width: 48),
           actions: [
             if (action != null && actionIcon != null)
-              if (actionIcon != null)
-                IconButton(
-                  onPressed: () => action(),
-                  icon: Icon(actionIcon),
-                  color: textColor ?? Colors.black,
-                ),
+              IconButton(
+                onPressed: () => action(),
+                icon: Icon(actionIcon),
+                color: textColor ?? Colors.black,
+              ),
             if (additionalAction != null && additionalIcon != null)
               GestureDetector(
                 onTap: () => additionalAction(),
