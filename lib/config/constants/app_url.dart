@@ -1,1 +1,1 @@
-const String baseUrl = 'http://10.0.2.2:3000';
+const String baseUrl = 'http://ce67-16.cloud.ce.kmitl.ac.th/api/v1';
