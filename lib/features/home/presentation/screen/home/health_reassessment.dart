@@ -133,7 +133,8 @@ class ReAssessmentScreen extends StatelessWidget {
                                       waistLine: waistLine,
                                     );
                                     context.read<HomeBloc>().add(
-                                        SubmitHealthDataEvent(healthDataModel));
+                                        SubmitHealthDataHomeEvent(
+                                            healthDataModel));
                                   }
                                 }
 

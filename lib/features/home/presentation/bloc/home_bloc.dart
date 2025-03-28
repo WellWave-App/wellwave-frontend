@@ -130,7 +130,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     });
 
-    on<SubmitHealthDataEvent>((event, emit) async {
+    on<SubmitHealthDataHomeEvent>((event, emit) async {
       final model = event.model;
       final diastolicBloodPressure = model.diastolicBloodPressure;
       final systolicBloodPressure = model.systolicBloodPressure;

@@ -23,6 +23,7 @@ import 'package:wellwave_frontend/features/health_assessment/widget/start_health
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 
+import '../../../home/presentation/bloc/home_event.dart';
 import '../../widget/health_assessment_step/add_pic_username_step.dart';
 import '../bloc/health_assessment/health_assessment_bloc.dart';
 import '../bloc/health_assessment/health_assessment_event.dart';
@@ -134,7 +135,7 @@ class AssessmentScreenView extends StatelessWidget {
                 : (state.currentStep >= 9 && state.currentStep <= 10)
                     ? const BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(AppImages.healthassessmentBG),
+                          image: AssetImage(AppImages.healthassessmentGoalBG),
                           fit: BoxFit.cover,
                         ),
                       )
@@ -221,7 +222,9 @@ class AssessmentScreenView extends StatelessWidget {
                               context
                                   .read<HealthAssessmentPageBloc>()
                                   .add(StepContinue());
-                              context.read<HomeBloc>().add(FetchHomeEvent());
+                              context
+                                  .read<HomeBloc>()
+                                  .add(FetchHomeEvent(context));
                             } else {
                               context
                                   .read<HealthAssessmentPageBloc>()
@@ -274,9 +277,9 @@ class StepContent extends StatelessWidget {
           case 8:
             return const RecommendScreen();
           case 9:
-            return const GoalStepScreen();
+            return GoalStepScreen();
           case 10:
-            return const GoalExerciseScreen();
+            return GoalExerciseScreen();
           case 11:
             return const CongratsScreen();
 
