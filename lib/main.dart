@@ -11,6 +11,7 @@ import 'package:wellwave_frontend/features/article/data/models/article_bookmark.
 import 'package:wellwave_frontend/features/article/data/repositories/article_repository.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
 import 'package:wellwave_frontend/features/article/presentation/screen/article_screen.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/leaderboard/data/repositories/leaderboard_repositories.dart';
 import 'package:wellwave_frontend/features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
 import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
@@ -78,6 +79,9 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<ArticleRepository>(
           create: (context) => ArticleRepository(),
         ),
+        RepositoryProvider<HealthAssessmentRepository>(
+          create: (context) => HealthAssessmentRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -129,10 +133,14 @@ class MainApp extends StatelessWidget {
               healthDataRepository: HealthDataRepository(),
               userChallengesRepository: UserChallengesRepository(),
               recommendHabitRepository: RecommendHabitRepository(),
-            )..add(FetchHomeEvent()),
+            )..add(FetchHomeEvent(context)),
           ),
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(authRepository: authRepository),
+          ),
+          BlocProvider<HealthAssessmentBloc>(
+            create: (context) =>
+                HealthAssessmentBloc(HealthAssessmentRepository()),
           ),
           BlocProvider<FriendBloc>(
             create: (context) => FriendBloc(

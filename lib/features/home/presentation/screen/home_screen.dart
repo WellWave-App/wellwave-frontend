@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppColors.primaryColor,
       body: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
         if (state is HomeLoading) {
+          
           return const Center(child: CircularProgressIndicator());
         } else if (state is HomeLoadedState) {
           final notifications = state.notiData;
@@ -74,7 +75,7 @@ class HomeScreen extends StatelessWidget {
         } else if (state is HomeError) {
           return Center(child: Text('Error: ${state.message}'));
         } else {
-          return const Center(child: Text('Initial State'));
+          return const Center(child: Text('data'));
         }
       }),
     );

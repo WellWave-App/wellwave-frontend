@@ -132,7 +132,9 @@ class _GoalStepScreen extends State<GoalStepScreen> {
                 onChanged: (value) => context
                     .read<HealthAssessmentPageBloc>()
                     .add(UpdateField('userGoalStepWeek', value)),
+                    
               ),
+              
             ],
           ),
         );

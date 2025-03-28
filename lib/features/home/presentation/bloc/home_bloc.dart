@@ -1,10 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:path/path.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
 import 'package:wellwave_frontend/features/home/data/repositories/home_repository.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
+
+import '../../../../config/constants/app_pages.dart';
+import '../../../../config/routes/app_routes.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final DateTime currentDate;
@@ -47,7 +52,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             await userChallengesRepository.fetchUserChallengesData();
         final recommendHabitData =
             await recommendHabitRepository.fetchRecommendHabitData();
-
+        if (healthData == null) {
+          debugPrint("No health data found, redirecting...");
+          navigatorKey.currentContext?.goNamed(AppPages.assessmentName);
+          return;
+        }
         emit(HomeLoadedState(
           step: 0,
           profile: profile,

@@ -20,6 +20,8 @@ import 'package:wellwave_frontend/features/health_assessment/widget/result_and_g
 import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/recommend_screen.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/result_assessment.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 
 import '../../widget/health_assessment_step/add_pic_username_step.dart';
 import '../bloc/health_assessment/health_assessment_bloc.dart';
@@ -219,6 +221,7 @@ class AssessmentScreenView extends StatelessWidget {
                               context
                                   .read<HealthAssessmentPageBloc>()
                                   .add(StepContinue());
+                              context.read<HomeBloc>().add(FetchHomeEvent());
                             } else {
                               context
                                   .read<HealthAssessmentPageBloc>()

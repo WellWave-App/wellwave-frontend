@@ -91,7 +91,11 @@ class MarkAsReadNotiEvent extends HomeEvent {
 
 class MarkAllAsReadNotiEvent extends HomeEvent {}
 
-class FetchHomeEvent extends HomeEvent {}
+class FetchHomeEvent extends HomeEvent {
+  final BuildContext context;
+
+  FetchHomeEvent(this.context);
+}
 
 class FetchUserChallengesEvent extends HomeEvent {
   @override

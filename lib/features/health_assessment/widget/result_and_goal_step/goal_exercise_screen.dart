@@ -108,6 +108,7 @@ class _GoalExerciseScreen extends State<GoalExerciseScreen> {
                 onChanged: (value) => context
                     .read<HealthAssessmentPageBloc>()
                     .add(UpdateField('userGoalExTimeWeek', value)),
+                   
               ),
             ],
           ),
