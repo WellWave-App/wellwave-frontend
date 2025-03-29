@@ -91,8 +91,7 @@ class AchievementCard extends StatelessWidget {
                               .achievement.levels
                               .firstWhere((level) =>
                                   level.level == earnedAchievement.level);
-                          final levelIcon =
-                              "$baseUrl${selectedLevel.iconUrl}";
+                          final levelIcon = "$baseUrl${selectedLevel.iconUrl}";
 
                           achievementWidgets.add(
                             Padding(
@@ -156,6 +155,19 @@ class AchievementCard extends StatelessWidget {
                             ),
                           );
                         }
+                      }
+
+                      if (achievementWidgets.isEmpty &&
+                          unearnedWidgets.isEmpty) {
+                        return Center(
+                          child: Text(
+                            AppStrings.haveNoAchievementYet,
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      color: AppColors.darkGrayColor,
+                                    ),
+                          ),
+                        );
                       }
 
                       return Align(

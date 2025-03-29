@@ -242,7 +242,12 @@ class _WaterPlanWidgetState extends State<WaterPlanWidget> {
           ],
         ));
       } else {
-        return const Text(AppStrings.noDataAvaliableText);
+        return Text(
+          AppStrings.noDataAvaliableText,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: AppColors.darkGrayColor,
+              ),
+        );
       }
     });
   }

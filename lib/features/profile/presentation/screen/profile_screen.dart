@@ -150,28 +150,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 16),
 
                         //noti
-                        const RoundedText(
-                          text: AppStrings.alertText,
-                          svgPath: AppImages.alarmIcon,
-                          isShowNavi: true,
-                          appPages: AppPages.reminderName,
-                          iconSize: 32,
-                          vertical: 16,
-                          radius: 16,
-                          isBold: true,
+                        const Row(
+                          children: [
+                            Expanded(
+                              child: RoundedText(
+                                text: AppStrings.alertText,
+                                svgPath: AppImages.alarmIcon,
+                                isShowNavi: true,
+                                appPages: AppPages.reminderName,
+                                iconSize: 32,
+                                vertical: 16,
+                                radius: 16,
+                                isBold: true,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 16),
 
                         //goal
-                        const RoundedText(
-                          text: AppStrings.goalText,
-                          svgPath: AppImages.goalIcon,
-                          isShowNavi: true,
-                          appPages: AppPages.setWeeklyGoalName,
-                          iconSize: 32,
-                          vertical: 16,
-                          radius: 16,
-                          isBold: true,
+                        const Row(
+                          children: [
+                            Expanded(
+                              child: RoundedText(
+                                text: AppStrings.goalText,
+                                svgPath: AppImages.goalIcon,
+                                isShowNavi: true,
+                                appPages: AppPages.setWeeklyGoalName,
+                                iconSize: 32,
+                                vertical: 16,
+                                radius: 16,
+                                isBold: true,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 36),
 
@@ -201,8 +213,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   } else if (state is ProfileLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else {
-                    return const Center(
-                        child: Text(AppStrings.noDataAvaliableText));
+                    return Center(
+                        child: Text(
+                      AppStrings.noDataAvaliableText,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkGrayColor,
+                          ),
+                    ));
                   }
                 },
               );
