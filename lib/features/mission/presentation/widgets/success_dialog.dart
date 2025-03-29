@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // Add this import
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 
@@ -287,7 +287,6 @@ class _SuccessHabitDialogState extends State<SuccessHabitDialog> {
                               Container(
                                 child: Stack(
                                   children: [
-                                    // Background image
                                     Positioned.fill(
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(12),
@@ -297,7 +296,6 @@ class _SuccessHabitDialogState extends State<SuccessHabitDialog> {
                                         ),
                                       ),
                                     ),
-                                    // Content
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16, vertical: 12),
@@ -326,7 +324,6 @@ class _SuccessHabitDialogState extends State<SuccessHabitDialog> {
                                 ),
                               ),
                               SizedBox(height: 24),
-                              // Rewards Section
                               Text(
                                 'รางวัลที่ได้รับ',
                                 style: Theme.of(context)
@@ -347,7 +344,6 @@ class _SuccessHabitDialogState extends State<SuccessHabitDialog> {
                                       "${widget.calorieReward} แคลอรี่"),
                                 ],
                               ),
-
                               if (widget.isFinished)
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -417,8 +413,8 @@ class _SuccessHabitDialogState extends State<SuccessHabitDialog> {
                                     );
                             }
                             Navigator.of(context)
-                              ..pop() // Close dialog
-                              ..pop(); // Return to previous screen
+                              ..pop()
+                              ..pop();
                           },
                           child: const Text(
                             AppStrings.closeWindowText,

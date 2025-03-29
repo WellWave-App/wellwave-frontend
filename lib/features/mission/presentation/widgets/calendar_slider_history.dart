@@ -41,7 +41,6 @@ class CalendarSliderHistoryMission extends StatelessWidget {
           firstDate: DateTime.now().subtract(const Duration(days: 100)),
           lastDate: DateTime.now().add(const Duration(days: 100)),
           onDateSelected: (date) {
-            // Load data directly here
             context.read<MissionBloc>().add(LoadHistoryEvent(date));
             onDateSelected(date);
           },

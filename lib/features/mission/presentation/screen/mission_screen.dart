@@ -123,13 +123,12 @@ class _MissionScreenState extends State<MissionScreen> {
                       ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
-                  textAlign: TextAlign.left, // ให้ text ชิดซ้าย
+                  textAlign: TextAlign.left,
                 ),
               ],
             ),
             const Padding(
-              padding:
-                  EdgeInsets.only(right: 16.0), // เพิ่ม padding ขวาให้กับไอคอน
+              padding: EdgeInsets.only(right: 16.0),
               child: Icon(
                 Icons.chevron_right_rounded,
                 size: 50,

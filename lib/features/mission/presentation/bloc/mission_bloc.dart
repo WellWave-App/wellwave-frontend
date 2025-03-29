@@ -50,7 +50,6 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
         if (success) {
           debugPrint('Gems updated successfully');
 
-          // Get fresh data after update
           final dailyTasks = await habitRepositories.getHabitDailyTask();
 
           if (dailyTasks != null) {
@@ -278,7 +277,6 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
       if (startResult != null) {
         debugPrint('StartQuest successful, fetching updated quests');
 
-        // Get fresh quest list after starting
         final updatedQuests = await habitRepositories.getQuest();
         if (updatedQuests != null) {
           debugPrint('Successfully fetched updated quests');
@@ -348,7 +346,6 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
       final activeHabitResponse = await habitRepositories.getActiveHabit();
 
       if (activeHabitResponse != null) {
-        // Find matching habit from data array
         final matchingHabit = activeHabitResponse.data.firstWhere(
           (habitData) => habitData.hid == event.taskId,
           orElse: () => throw Exception('Habit not found'),

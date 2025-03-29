@@ -7,7 +7,6 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/home/widget/action_slider_button.dart';
-import 'package:wellwave_frontend/features/home/widget/progress_stepper.dart';
 import 'package:wellwave_frontend/features/mission/data/models/stats_request_model.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 import 'package:wellwave_frontend/features/mission/presentation/widgets/progress_stepper_dialog_widget.dart';
@@ -16,12 +15,12 @@ class TaskInfoDialog extends StatelessWidget {
   final String title;
   final int totalDays;
   final int expReward;
-  final int taskId; // Add this
-  final String adviceText; // Add this
-  final int minutesGoal; // Add this
-  final int challengeId; // Add this
+  final int taskId;
+  final String adviceText;
+  final int minutesGoal;
+  final int challengeId;
   final int? defaultDailyMinuteGoal;
-  final String category; // Add this
+  final String category;
   final StatsRequestModel? statsData;
 
   const TaskInfoDialog({
@@ -29,13 +28,13 @@ class TaskInfoDialog extends StatelessWidget {
     required this.title,
     required this.totalDays,
     required this.expReward,
-    required this.taskId, // Add this
-    required this.adviceText, // Add this
-    required this.minutesGoal, // Add this
-    required this.challengeId, // Add this
-    required this.category, // Add this
+    required this.taskId,
+    required this.adviceText,
+    required this.minutesGoal,
+    required this.challengeId,
+    required this.category,
     this.defaultDailyMinuteGoal,
-    this.statsData, // Add this
+    this.statsData,
   });
 
   @override
@@ -48,7 +47,6 @@ class TaskInfoDialog extends StatelessWidget {
           final now = DateTime.now();
           final today = DateTime(now.year, now.month, now.day);
 
-          // Check if task is completed today using state.dailyTracks
           final bool isCompletedToday = state.dailyTracks.any((track) {
             final trackDateStr = track['TRACK_DATE'] as String;
             final trackDate = DateTime.parse(trackDateStr);
@@ -58,18 +56,15 @@ class TaskInfoDialog extends StatelessWidget {
             return trackDateOnly.isAtSameMomentAs(today);
           });
 
-          // Get minutesGoal from state
           final minutesGoal =
               state.habitData['DAILY_MINUTE_GOAL'] ?? defaultDailyMinuteGoal;
           final daysGoal = state.habitData['DAYS_GOAL'] ?? totalDays;
 
           return Dialog(
-            backgroundColor:
-                Colors.transparent, // Make dialog background transparent
+            backgroundColor: Colors.transparent,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Main white container
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -114,10 +109,9 @@ class TaskInfoDialog extends StatelessWidget {
                         }).toList(),
                         progressId: challengeId.toString(),
                         totalDays: state.habitData['DAYS_GOAL'] ?? totalDays,
-                        startDate: DateTime.parse(
-                            state.habitData['START_DATE']), // กำหนด startDate
-                        endDate: DateTime.parse(
-                            state.habitData['END_DATE']), // กำหนด endDate
+                        startDate:
+                            DateTime.parse(state.habitData['START_DATE']),
+                        endDate: DateTime.parse(state.habitData['END_DATE']),
                       ),
                       const SizedBox(height: 24),
                       Text(
@@ -236,7 +230,6 @@ class TaskInfoDialog extends StatelessWidget {
           );
         }
 
-        // Show loading or default state
         return const Center(child: CircularProgressIndicator());
       },
     );

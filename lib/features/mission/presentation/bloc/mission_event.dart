@@ -6,7 +6,6 @@ abstract class MissionEvent {
   List<Object?> get props => [];
 }
 
-// Habit Challenge Events
 class IncrementDailyCountEvent extends MissionEvent {}
 
 class DecrementDailyCountEvent extends MissionEvent {}
@@ -47,7 +46,6 @@ class ResetGoalEvent extends MissionEvent {
 
 class StartProgressEvent extends MissionEvent {}
 
-// Daily Task Events
 class CompleteTaskEvent extends MissionEvent {
   final int taskId;
 

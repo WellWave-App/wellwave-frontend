@@ -1,10 +1,8 @@
-import 'package:calendar_slider/calendar_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/app_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-import 'package:wellwave_frontend/features/logs/presentation/widget/calendar_slider.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 import 'package:wellwave_frontend/features/mission/presentation/widgets/calendar_slider_history.dart';
 import 'package:wellwave_frontend/features/mission/presentation/widgets/mission_type_and_card_widget.dart';

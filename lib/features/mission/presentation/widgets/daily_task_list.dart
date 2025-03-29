@@ -104,7 +104,6 @@ class DailyTaskList extends StatelessWidget {
         padding: const EdgeInsets.all(2.0),
         child: Row(
           children: [
-            // Thumbnail
             Padding(
               padding: const EdgeInsets.all(5.0),
               child: Container(
@@ -128,7 +127,6 @@ class DailyTaskList extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 5),
-            // Task Title
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,7 +138,6 @@ class DailyTaskList extends StatelessWidget {
                 ],
               ),
             ),
-            // Status & EXP
             Padding(
               padding: const EdgeInsets.only(right: 12.0, left: 4),
               child: isCompleted
@@ -158,7 +155,6 @@ class DailyTaskList extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        // Action Button
                         Container(
                           height: 28,
                           decoration: BoxDecoration(

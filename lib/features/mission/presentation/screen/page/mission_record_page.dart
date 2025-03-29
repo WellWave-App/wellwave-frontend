@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +33,6 @@ class MissionRecordPage extends StatefulWidget {
 }
 
 class _MissionRecordPageState extends State<MissionRecordPage> {
-  // Add timer controller
   StreamController<int>? _timerController;
   bool _isRunning = true;
   int _lastElapsedSeconds = 0;
@@ -185,19 +183,15 @@ class _MissionRecordPageState extends State<MissionRecordPage> {
       return;
     }
 
-    // If completed, proceed with normal submission
     _submitRecord(isCompleted);
   }
 
-  // Helper method to handle record submission
   void _submitRecord(bool isCompleted) async {
     _isRunning = false;
     final trackDate = DateTime.now().toUtc().toIso8601String();
 
-    // แก้ไขการแปลงค่า elapsedMinutes
     final double elapsedMinutesDouble = _lastElapsedSeconds / 60;
-    final int elapsedMinutes =
-        elapsedMinutesDouble.round(); // ใช้ round() แทน floor()
+    final int elapsedMinutes = elapsedMinutesDouble.round();
 
     try {
       debugPrint('Submitting record:');
@@ -216,7 +210,6 @@ class _MissionRecordPageState extends State<MissionRecordPage> {
             ),
           );
 
-      // Show loading dialog
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -224,7 +217,7 @@ class _MissionRecordPageState extends State<MissionRecordPage> {
       );
 
       await Future.delayed(const Duration(seconds: 2));
-      // Get stats data after delay
+
       final statsData =
           await context.read<HabitRepositories>().getStat(widget.challengeId);
 
@@ -232,11 +225,9 @@ class _MissionRecordPageState extends State<MissionRecordPage> {
         final bool isFinished = (statsData.status == 'completed' ||
             statsData.progressPercentage == 100);
 
-        // Close loading dialog
         if (!mounted) return;
         Navigator.of(context).pop();
 
-        // Show success dialog
         showDialog(
           context: context,
           barrierDismissible: false,
@@ -284,12 +275,9 @@ class _MissionRecordPageState extends State<MissionRecordPage> {
     return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}";
   }
 
-  // Update the calculateProgress method
   double calculateProgress(int elapsedSeconds) {
-    // Prevent division by zero
     if (widget.minutesGoal <= 0) return 0.0;
 
-    // Calculate progress based on minutesGoal
     double totalProgress = elapsedSeconds / (widget.minutesGoal * 60.0);
     return totalProgress;
   }
@@ -652,7 +640,6 @@ class CircularProgressPainter extends CustomPainter {
       tileMode: TileMode.mirror,
     );
 
-    // Draw completed circles first
     for (int i = 0; i < fullCircles; i++) {
       canvas.drawCircle(
         center,
@@ -667,7 +654,6 @@ class CircularProgressPainter extends CustomPainter {
       );
     }
 
-    // Draw current progress arc
     if (remainingProgress > 0) {
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
@@ -684,19 +670,15 @@ class CircularProgressPainter extends CustomPainter {
       );
     }
 
-    // Calculate total angle for end point position
     final totalAngle = (remainingProgress * 2 * pi) + (fullCircles * 2 * pi);
 
-    // Calculate end point for current position
     final endPoint = Offset(
       center.dx + radius * cos(-1.5708 + totalAngle),
       center.dy + radius * sin(-1.5708 + totalAngle),
     );
 
-    // Increase dot size
-    final dotSize = strokeWidth * 0.6; // Increased from 0.5
+    final dotSize = strokeWidth * 0.6;
 
-    // Draw shadow for yellow circle
     canvas.drawCircle(
       endPoint,
       dotSize,
@@ -706,7 +688,6 @@ class CircularProgressPainter extends CustomPainter {
         ..style = PaintingStyle.fill,
     );
 
-    // Draw yellow circle with gradient
     canvas.drawCircle(
       endPoint,
       dotSize,
@@ -732,7 +713,7 @@ class CircularProgressPainter extends CustomPainter {
       text: TextSpan(
         text: String.fromCharCode(icon.codePoint),
         style: TextStyle(
-          fontSize: dotSize * 1.5, // Increased from 0.8
+          fontSize: dotSize * 1.5,
           fontFamily: icon.fontFamily,
           color: Colors.white,
         ),

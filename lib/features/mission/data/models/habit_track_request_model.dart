@@ -1,5 +1,5 @@
 class HabitTrackRequestModel {
-  final int? trackId; // Add this field
+  final int? trackId;
   final int challengeId;
   final int durationMinutes;
   final String trackDate;
@@ -8,7 +8,7 @@ class HabitTrackRequestModel {
   final int? caloriesBurned;
 
   const HabitTrackRequestModel({
-    this.trackId, // Add this parameter
+    this.trackId,
     required this.challengeId,
     required this.durationMinutes,
     required this.trackDate,
@@ -31,7 +31,7 @@ class HabitTrackRequestModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'TRACK_ID': trackId, // Add this field
+      'TRACK_ID': trackId,
       'CHALLENGE_ID': challengeId,
       'DURATION_MINUTES': durationMinutes,
       'TRACK_DATE': trackDate,

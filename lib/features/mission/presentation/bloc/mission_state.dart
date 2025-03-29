@@ -3,13 +3,11 @@ part of 'mission_bloc.dart';
 abstract class MissionState {
   const MissionState();
 
-  List<Object?> get props => []; // Change to Object? in base class
+  List<Object?> get props => [];
 }
 
-// Initial State for Mission
 class MissionInitial extends MissionState {}
 
-// Habit Challenge State
 class HabitChallengeState extends MissionState {
   final int dailyCount;
   final int minuteCount;
@@ -20,12 +18,10 @@ class HabitChallengeState extends MissionState {
   });
 
   @override
-  List<Object?> get props => [dailyCount, minuteCount]; // Update override
+  List<Object?> get props => [dailyCount, minuteCount];
 }
 
 class ProgressState extends MissionState {}
-
-// Daily Task State
 
 class DailyTaskState extends MissionState {
   final List<int> completedTaskIds;
@@ -36,7 +32,6 @@ class DailyTaskState extends MissionState {
   List<Object?> get props => [completedTaskIds];
 }
 
-// Add new states
 class HabitLoading extends MissionState {}
 
 class HabitLoaded extends MissionState {
@@ -49,8 +44,7 @@ class HabitLoaded extends MissionState {
   );
 
   @override
-  List<Object?> get props =>
-      [habits, recHabits]; // Change to Object? for nullable values
+  List<Object?> get props => [habits, recHabits];
 }
 
 class HabitError extends MissionState {
@@ -147,7 +141,6 @@ class GemsUpdateFailure extends MissionState {
   const GemsUpdateFailure(this.message);
 }
 
-// Add these states
 class DailyTrackSubmitting extends MissionState {}
 
 class DailyTrackSuccess extends MissionState {
@@ -163,7 +156,6 @@ class DailyTrackSuccess extends MissionState {
   List<Object> get props => [trackId, trackData];
 }
 
-// Add these states
 class MoodTrackSubmitting extends MissionState {}
 
 class MoodTrackSuccess extends MissionState {

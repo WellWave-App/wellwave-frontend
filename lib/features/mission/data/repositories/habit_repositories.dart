@@ -32,7 +32,6 @@ extension GemUpdater on ProfileRepositories {
         return false;
       }
 
-      // Get current gems first
       final url = Uri.parse('$baseUrl/users/$uid');
       final getResponse = await http.get(
         url,
@@ -159,7 +158,7 @@ class HabitRepositories {
   Future<bool> startHabit({
     required int hid,
     required int daysGoal,
-    int? dailyMinuteGoal, // Make this optional
+    int? dailyMinuteGoal,
   }) async {
     final token = await _secureStorage.read(key: 'access_token');
     if (token == null) {
@@ -168,13 +167,11 @@ class HabitRepositories {
     }
 
     try {
-      // Create request body based on whether minuteCount exists
       final Map<String, dynamic> requestBody = {
         'HID': hid,
         'DAYS_GOAL': daysGoal,
       };
 
-      // Only add DAILY_MINUTE_GOAL if it exists and is not 0
       if (dailyMinuteGoal != null && dailyMinuteGoal > 0) {
         requestBody['DAILY_MINUTE_GOAL'] = dailyMinuteGoal;
       }

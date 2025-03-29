@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_url.dart';
-import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 import 'package:wellwave_frontend/features/mission/presentation/widgets/task_info_dialog.dart';
 
@@ -44,7 +43,7 @@ class TaskList extends StatelessWidget {
     this.defaultDaysGoal,
     this.adviceText,
     this.challengeId,
-    this.category, // Add category parameter
+    this.category,
   });
 
   void _handleAction(BuildContext context) {
@@ -74,7 +73,6 @@ class TaskList extends StatelessWidget {
       return;
     }
 
-    // Load habit data before showing dialog
     context.read<MissionBloc>().add(LoadActiveHabitEvent(taskId: taskId));
 
     showDialog(
@@ -83,8 +81,7 @@ class TaskList extends StatelessWidget {
       builder: (BuildContext dialogContext) {
         return TaskInfoDialog(
           title: taskName,
-          totalDays:
-              defaultDaysGoal ?? 0, // This will be replaced by state data
+          totalDays: defaultDaysGoal ?? 0,
           expReward: expReward ?? 0,
           taskId: taskId,
           adviceText: adviceText ?? '',

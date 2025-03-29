@@ -36,7 +36,6 @@ class ProgressStepperDialogWidget extends StatelessWidget {
           final currentDate = dates[index];
           final isPastDate = currentDate.isBefore(today);
 
-          // ตรวจสอบว่ามีข้อมูลใน progressData หรือไม่
           final hasData = progressData.any((data) {
             final trackDate = DateTime.parse(data['TRACK_DATE'] as String);
             return trackDate.year == currentDate.year &&
@@ -44,7 +43,6 @@ class ProgressStepperDialogWidget extends StatelessWidget {
                 trackDate.day == currentDate.day;
           });
 
-          // กำหนดสถานะต่างๆ
           final bool isComplete = hasData
               ? progressData.firstWhere(
                   (data) {

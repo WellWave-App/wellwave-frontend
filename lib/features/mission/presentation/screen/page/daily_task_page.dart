@@ -34,14 +34,12 @@ class _DailyTaskPageState extends State<DailyTaskPage> {
     final today = DateTime.now().toIso8601String().split('T')[0];
 
     if (lastCollectionDate != today) {
-      // Reset if it's a new day
       await prefs.setBool(_rewardsKey, false);
       await prefs.setString(_lastCollectionDateKey, today);
       setState(() {
         _rewardsCollected = false;
       });
     } else {
-      // Load saved state for today
       setState(() {
         _rewardsCollected = prefs.getBool(_rewardsKey) ?? false;
       });
