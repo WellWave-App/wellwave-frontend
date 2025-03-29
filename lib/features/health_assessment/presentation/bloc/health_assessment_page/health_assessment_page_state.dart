@@ -21,6 +21,8 @@ class HealthAssessmentPageState extends Equatable {
   final int riskObesityScore;
   final int? recommendGoalStep;
   final int? recommendExStep;
+  final bool isLoading;
+  final String? errorMessage;
 
   const HealthAssessmentPageState({
     required this.currentStep,
@@ -42,6 +44,8 @@ class HealthAssessmentPageState extends Equatable {
     this.riskObesityScore = 0,
     this.recommendGoalStep,
     this.recommendExStep,
+    this.isLoading = false,
+    this.errorMessage,
   });
 
   HealthAssessmentPageState copyWith({
@@ -69,6 +73,7 @@ class HealthAssessmentPageState extends Equatable {
     int? riskDyslipidemiaScore,
     int? riskObesityScore,
     bool? isLoading,
+    String? errorMessage,
     int? recommendGoalStep,
     int? recommendExStep,
   }) {
@@ -85,15 +90,17 @@ class HealthAssessmentPageState extends Equatable {
       famhisChoose: famhisChoose ?? this.famhisChoose,
       isResultCompleted: isResultCompleted ?? this.isResultCompleted,
       showStartStep: showStartStep ?? this.showStartStep,
+      showRecommendStep: showRecommendStep ?? this.showRecommendStep,
       riskDiabetesScore: riskDiabetesScore ?? this.riskDiabetesScore,
       riskHypertensionScore:
           riskHypertensionScore ?? this.riskHypertensionScore,
       riskDyslipidemiaScore:
           riskDyslipidemiaScore ?? this.riskDyslipidemiaScore,
       riskObesityScore: riskObesityScore ?? this.riskObesityScore,
-      showRecommendStep: showRecommendStep ?? this.showRecommendStep,
       recommendGoalStep: recommendGoalStep ?? this.recommendGoalStep,
       recommendExStep: recommendExStep ?? this.recommendExStep,
+      isLoading: isLoading ?? this.isLoading,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
@@ -112,7 +119,13 @@ class HealthAssessmentPageState extends Equatable {
         isResultCompleted,
         showStartStep,
         showRecommendStep,
+        riskDiabetesScore,
+        riskHypertensionScore,
+        riskDyslipidemiaScore,
+        riskObesityScore,
+        isLoading,
+        errorMessage,
+        recommendGoalStep,
+        recommendExStep,
       ];
-
-  get modelPersonalData => null;
 }

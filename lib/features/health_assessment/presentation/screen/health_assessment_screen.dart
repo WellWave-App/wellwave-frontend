@@ -21,6 +21,7 @@ import 'package:wellwave_frontend/features/health_assessment/widget/result_and_g
 import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/result_assessment.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
+import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
 import '../../../home/presentation/bloc/home_event.dart';
 import '../../widget/health_assessment_step/add_pic_username_step.dart';
@@ -36,7 +37,9 @@ class AssessmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HealthAssessmentPageBloc(HealthAssessmentRepository()),
+      create: (_) => HealthAssessmentPageBloc(
+          healthAssessmentRepository: HealthAssessmentRepository(),
+          profileRepositories: ProfileRepositories()),
       child: const AssessmentScreenStart(),
     );
   }
@@ -258,7 +261,7 @@ class StepContent extends StatelessWidget {
       child: () {
         switch (currentStep) {
           case 0:
-            return AddPicUsernameStep(state: state);
+            return AddPicUsernameStep();
           case 1:
             return const PersonalInfoStep();
           case 2:
@@ -274,7 +277,7 @@ class StepContent extends StatelessWidget {
           case 7:
             return const ResultAssessment();
           case 8:
-            return const RecommendScreen();
+            return AddPicUsernameStep();
           case 9:
             return GoalStepScreen();
           case 10:

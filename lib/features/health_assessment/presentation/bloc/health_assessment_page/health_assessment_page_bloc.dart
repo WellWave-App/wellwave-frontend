@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
+import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 import '../../../../../config/constants/enums/risk_condition.dart';
 import 'health_assessment_page_event.dart';
 import 'health_assessment_page_state.dart';
@@ -10,10 +11,13 @@ class ValidateGender extends HealthAssessmentPageEvent {}
 
 class HealthAssessmentPageBloc
     extends Bloc<HealthAssessmentPageEvent, HealthAssessmentPageState> {
+  final HealthAssessmentRepository healthAssessmentRepository;
+  final ProfileRepositories profileRepositories;
   final ScoreCalculator scoreCalculator = ScoreCalculator();
 
   HealthAssessmentPageBloc(
-      HealthAssessmentRepository healthAssessmentRepository)
+      {required this.healthAssessmentRepository,
+      required this.profileRepositories})
       : super(const HealthAssessmentPageState(
           currentStep: 0,
           formData: {},
@@ -47,15 +51,50 @@ class HealthAssessmentPageBloc
     on<ImagePicked>(_onImagePicked);
   }
 
-  void _onImagePicked(
-      ImagePicked event, Emitter<HealthAssessmentPageState> emit) {
-    final updatedFormData = Map<String, String>.from(state.formData);
-    updatedFormData['imageUrl'] = event.imageFile.path;
+  Future<void> _onImagePicked(
+    ImagePicked event,
+    Emitter<HealthAssessmentPageState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(isLoading: true));
 
-    emit(state.copyWith(
-      formData: updatedFormData,
-      selectedImage: event.imageFile,
-    ));
+      debugPrint('Processing ImagePicked event');
+      debugPrint('Image file path: ${event.imageFile.path}');
+
+      final userProfile = await profileRepositories.getUSer();
+      if (userProfile == null) {
+        throw Exception('User profile not found');
+      }
+
+      debugPrint('Uploading image for UID: ${userProfile.uid}');
+      final imagePath = await profileRepositories.uploadProfileImage(
+        event.imageFile,
+        userProfile.uid,
+      );
+
+      if (imagePath == null) {
+        throw Exception('Failed to get image URL from server');
+      }
+
+      debugPrint('Successfully got image URL: $imagePath');
+
+      // อัปเดต formData ด้วย path ใหม่
+      final updatedFormData = Map<String, String>.from(state.formData);
+      updatedFormData['imageUrl'] = imagePath;
+
+      emit(state.copyWith(
+        formData: updatedFormData,
+        selectedImage: event.imageFile,
+        isLoading: false,
+      ));
+    } catch (e, stackTrace) {
+      debugPrint('Error in ImagePicked event handler: $e');
+      debugPrint('Stack trace: $stackTrace');
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: 'Failed to upload image: ${e.toString()}',
+      ));
+    }
   }
 
   void _onStepContinue(
