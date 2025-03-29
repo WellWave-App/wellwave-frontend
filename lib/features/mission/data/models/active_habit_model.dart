@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class ActiveHabitModel {
   final List<ActiveHabitData> data;
   final Meta meta;

@@ -10,7 +10,6 @@ import 'package:wellwave_frontend/features/mission/data/models/habit_track_reque
 import 'package:wellwave_frontend/features/mission/data/models/quest_request_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/rec_habit_respone_model.dart';
 import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
-import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 part 'mission_event.dart';
 part 'mission_state.dart';
@@ -272,22 +271,16 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
 
     try {
       debugPrint('Calling startQuest API for questId: ${event.questId}');
-      final startResult = await habitRepositories.startQuest(event.questId);
 
-      if (startResult != null) {
-        debugPrint('StartQuest successful, fetching updated quests');
+      debugPrint('StartQuest successful, fetching updated quests');
 
-        final updatedQuests = await habitRepositories.getQuest();
-        if (updatedQuests != null) {
-          debugPrint('Successfully fetched updated quests');
-          emit(QuestLoaded(updatedQuests));
-        } else {
-          debugPrint('Failed to fetch updated quests');
-          emit(const QuestError('Failed to update quest list'));
-        }
+      final updatedQuests = await habitRepositories.getQuest();
+      if (updatedQuests != null) {
+        debugPrint('Successfully fetched updated quests');
+        emit(QuestLoaded(updatedQuests));
       } else {
-        debugPrint('StartQuest API call failed');
-        emit(const QuestError('Failed to start quest. Please try again.'));
+        debugPrint('Failed to fetch updated quests');
+        emit(const QuestError('Failed to update quest list'));
       }
     } catch (e) {
       debugPrint('Error in _onStartQuest: $e');
@@ -351,39 +344,37 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
           orElse: () => throw Exception('Habit not found'),
         );
 
-        if (matchingHabit != null) {
-          emit(ActiveHabitLoaded(
-            habitData: {
-              'HID': matchingHabit.hid,
-              'DAYS_GOAL': matchingHabit.daysGoal,
-              'DAILY_MINUTE_GOAL': matchingHabit.dailyMinuteGoal,
-              'START_DATE': matchingHabit.startDate,
-              'END_DATE': matchingHabit.endDate,
-              'habits': {
-                'TITLE': matchingHabit.habits.title,
-                'DESCRIPTION': matchingHabit.habits.description,
-                'ADVICE': matchingHabit.habits.advice,
-                'CATEGORY': matchingHabit.habits.category,
-                'EXERCISE_TYPE': matchingHabit.habits.exerciseType,
-                'TRACKING_TYPE': matchingHabit.habits.trackingType,
-              },
+        emit(ActiveHabitLoaded(
+          habitData: {
+            'HID': matchingHabit.hid,
+            'DAYS_GOAL': matchingHabit.daysGoal,
+            'DAILY_MINUTE_GOAL': matchingHabit.dailyMinuteGoal,
+            'START_DATE': matchingHabit.startDate,
+            'END_DATE': matchingHabit.endDate,
+            'habits': {
+              'TITLE': matchingHabit.habits.title,
+              'DESCRIPTION': matchingHabit.habits.description,
+              'ADVICE': matchingHabit.habits.advice,
+              'CATEGORY': matchingHabit.habits.category,
+              'EXERCISE_TYPE': matchingHabit.habits.exerciseType,
+              'TRACKING_TYPE': matchingHabit.habits.trackingType,
             },
-            dailyTracks: matchingHabit.dailyTracks
-                .map((track) => {
-                      'TRACK_ID': track.trackId,
-                      'CHALLENGE_ID': track.challengeId,
-                      'TRACK_DATE': track.trackDate,
-                      'COMPLETED': track.completed,
-                      'DURATION_MINUTES': track.durationMinutes,
-                      'DISTANCE_KM': track.distanceKm,
-                      'STEPS_CALCULATED': track.stepsCalculated,
-                      'CALORIES_BURNED': track.caloriesBurned,
-                      'HEART_RATE': track.heartRate,
-                      'MOOD_FEEDBACK': track.moodFeedback,
-                    })
-                .toList(),
-          ));
-        }
+          },
+          dailyTracks: matchingHabit.dailyTracks
+              .map((track) => {
+                    'TRACK_ID': track.trackId,
+                    'CHALLENGE_ID': track.challengeId,
+                    'TRACK_DATE': track.trackDate,
+                    'COMPLETED': track.completed,
+                    'DURATION_MINUTES': track.durationMinutes,
+                    'DISTANCE_KM': track.distanceKm,
+                    'STEPS_CALCULATED': track.stepsCalculated,
+                    'CALORIES_BURNED': track.caloriesBurned,
+                    'HEART_RATE': track.heartRate,
+                    'MOOD_FEEDBACK': track.moodFeedback,
+                  })
+              .toList(),
+        ));
       }
     } catch (e) {
       debugPrint('Error loading active habit: $e');

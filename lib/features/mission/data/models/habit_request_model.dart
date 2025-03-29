@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class HabitRequestModel {
   final List<HabitItemRequestModel> habits;
   final HabitMetaRequestModel meta;
