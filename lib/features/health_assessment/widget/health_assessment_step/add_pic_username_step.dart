@@ -23,7 +23,7 @@ class AddPicUsernameStep extends StatefulWidget {
 
 class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
   final ImagePicker _picker = ImagePicker();
-  bool _isUploading = false;
+  File? _temporaryImageFile;
   Future<void> _pickImage() async {
     try {
       final XFile? pickedFile = await _picker.pickImage(
@@ -34,21 +34,13 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
       );
 
       if (pickedFile != null) {
-        setState(() => _isUploading = true);
-
-        final File imageFile = File(pickedFile.path);
-        if (!mounted) return;
-
-        context.read<HealthAssessmentPageBloc>().add(
-              ImagePicked(imageFile),
-            );
-
-        setState(() => _isUploading = false);
+        setState(() {
+          _temporaryImageFile = File(pickedFile.path);
+        });
+        debugPrint('Selected image path: ${_temporaryImageFile?.path}');
       }
     } catch (e) {
-      setState(() => _isUploading = false);
-      if (!mounted) return;
-
+      debugPrint('Error picking image: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('เกิดข้อผิดพลาด: ${e.toString()}')),
       );
@@ -84,10 +76,7 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
             alignment: Alignment.center,
             children: [
               _buildProfileImage(state),
-              if (_isUploading)
-                const CircularProgressIndicator()
-              else
-                _buildCameraButton(),
+              _buildCameraButton(),
             ],
           ),
           const SizedBox(height: 48),
@@ -114,6 +103,8 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
   }
 
   Widget _buildProfileImage(HealthAssessmentPageState state) {
+    final imageToShow = _temporaryImageFile ?? state.selectedImage;
+
     return Container(
       width: 176,
       height: 176,
@@ -122,9 +113,9 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
         color: Colors.grey[200],
       ),
       child: ClipOval(
-        child: state.selectedImage != null
+        child: imageToShow != null
             ? Image.file(
-                state.selectedImage!,
+                imageToShow,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return _buildFallbackImage();

@@ -49,6 +49,9 @@ class HealthAssessmentPageBloc
     });
 
     on<ImagePicked>(_onImagePicked);
+    on<UpdateTemporaryImage>((event, emit) {
+      emit(state.copyWith(temporaryImageFile: event.imageFile));
+    });
   }
 
   Future<void> _onImagePicked(

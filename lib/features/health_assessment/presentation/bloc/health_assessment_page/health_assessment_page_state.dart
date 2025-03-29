@@ -21,8 +21,9 @@ class HealthAssessmentPageState extends Equatable {
   final int riskObesityScore;
   final int? recommendGoalStep;
   final int? recommendExStep;
-  final bool isLoading;
+
   final String? errorMessage;
+  final File? temporaryImageFile;
 
   const HealthAssessmentPageState({
     required this.currentStep,
@@ -44,8 +45,8 @@ class HealthAssessmentPageState extends Equatable {
     this.riskObesityScore = 0,
     this.recommendGoalStep,
     this.recommendExStep,
-    this.isLoading = false,
     this.errorMessage,
+    this.temporaryImageFile,
   });
 
   HealthAssessmentPageState copyWith({
@@ -76,6 +77,7 @@ class HealthAssessmentPageState extends Equatable {
     String? errorMessage,
     int? recommendGoalStep,
     int? recommendExStep,
+    File? temporaryImageFile,
   }) {
     return HealthAssessmentPageState(
       currentStep: currentStep ?? this.currentStep,
@@ -99,8 +101,8 @@ class HealthAssessmentPageState extends Equatable {
       riskObesityScore: riskObesityScore ?? this.riskObesityScore,
       recommendGoalStep: recommendGoalStep ?? this.recommendGoalStep,
       recommendExStep: recommendExStep ?? this.recommendExStep,
-      isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
+      temporaryImageFile: temporaryImageFile ?? this.temporaryImageFile,
     );
   }
 
@@ -123,9 +125,9 @@ class HealthAssessmentPageState extends Equatable {
         riskHypertensionScore,
         riskDyslipidemiaScore,
         riskObesityScore,
-        isLoading,
         errorMessage,
         recommendGoalStep,
         recommendExStep,
+        temporaryImageFile
       ];
 }

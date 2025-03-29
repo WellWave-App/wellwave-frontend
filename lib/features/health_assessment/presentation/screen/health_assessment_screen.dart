@@ -214,10 +214,21 @@ class AssessmentScreenView extends StatelessWidget {
                                     SubmitPersonalDataEvent(modelPersonalData));
                                 context.read<HealthAssessmentBloc>().add(
                                     SubmitHealthDataEvent(modelHealthData));
+
                                 context
                                     .read<HealthAssessmentPageBloc>()
                                     .add(StepContinue());
                               }
+                            } else if (state.currentStep == 9) {
+                              if (state.temporaryImageFile != null) {
+                                context.read<HealthAssessmentPageBloc>().add(
+                                      ImagePicked(state.temporaryImageFile!),
+                                    );
+                              }
+
+                              context
+                                  .read<HealthAssessmentPageBloc>()
+                                  .add(StepContinue());
                             } else if (state.currentStep == 10) {
                               context.read<HealthAssessmentBloc>().add(
                                   SubmitPersonalDataEvent(modelPersonalData));
@@ -277,7 +288,7 @@ class StepContent extends StatelessWidget {
           case 7:
             return const ResultAssessment();
           case 8:
-            return AddPicUsernameStep();
+            return RecommendScreen();
           case 9:
             return GoalStepScreen();
           case 10:
