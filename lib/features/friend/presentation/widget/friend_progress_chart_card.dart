@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_event.dart';
-import 'package:wellwave_frontend/features/friend/presentation/widget/period_selector.dart';
 
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/custom_dropdown.dart';
 

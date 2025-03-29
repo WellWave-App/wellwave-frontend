@@ -21,7 +21,6 @@ import 'package:wellwave_frontend/features/health_assessment/widget/result_and_g
 import 'package:wellwave_frontend/features/health_assessment/widget/result_and_goal_step/result_assessment.dart';
 import 'package:wellwave_frontend/features/health_assessment/widget/start_health_step.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
-import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 
 import '../../../home/presentation/bloc/home_event.dart';
 import '../../widget/health_assessment_step/add_pic_username_step.dart';

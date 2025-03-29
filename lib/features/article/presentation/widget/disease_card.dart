@@ -29,7 +29,7 @@ class DiseaseCard extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.25), // สีและความโปร่งแสงของเงา
                 spreadRadius: 2, // ความกว้างของเงา
                 blurRadius: 8, // ระยะเบลอของเงา
-                offset: Offset(0, 4), // ตำแหน่งของเงา (x, y)
+                offset: const Offset(0, 4), // ตำแหน่งของเงา (x, y)
               ),
             ],
           ),

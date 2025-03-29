@@ -27,9 +27,9 @@ class TopOfScreen extends StatelessWidget {
 
         if (state is HomeLoadedState &&
             state.profile?.imageUrl != null &&
-            state.profile!.imageUrl!.isNotEmpty) {
+            state.profile!.imageUrl.isNotEmpty) {
           profilePicture = Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
             ),
             child: ClipOval(

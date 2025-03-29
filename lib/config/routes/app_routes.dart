@@ -35,6 +35,7 @@ import '../../features/profile/presentation/screen/achievement_screen.dart';
 import '../../features/profile/presentation/screen/edit_profile_screen.dart';
 import '../../features/profile/presentation/screen/profile_screen.dart';
 import '../../features/profile/presentation/screen/set_weekly_goal_screen.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter goRouter = GoRouter(
@@ -256,7 +257,7 @@ final GoRouter goRouter = GoRouter(
           path: AppPages.findFriendPage,
           name: AppPages.findFriendName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return NoTransitionPage(child: FindFriendScreen());
+            return const NoTransitionPage(child: FindFriendScreen());
           },
         ),
         GoRoute(
