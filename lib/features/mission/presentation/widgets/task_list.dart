@@ -4,7 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_url.dart';
+import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
+import 'package:wellwave_frontend/features/mission/presentation/widgets/task_info_dialog.dart';
 
 import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
@@ -19,10 +21,13 @@ class TaskList extends StatelessWidget {
   final int? gemReward;
   final VoidCallback? onTap;
   final bool? isActive;
-  final double? progressPercentage;
+  final num? progressPercentage;
   final bool isQuest;
   final int? defaultDailyMinuteGoal;
   final int? defaultDaysGoal;
+  final String? adviceText;
+  final int? challengeId;
+  final String? category;
 
   const TaskList({
     super.key,
@@ -37,6 +42,9 @@ class TaskList extends StatelessWidget {
     this.isQuest = false,
     this.defaultDailyMinuteGoal,
     this.defaultDaysGoal,
+    this.adviceText,
+    this.challengeId,
+    this.category, // Add category parameter
   });
 
   void _handleAction(BuildContext context) {
@@ -45,7 +53,10 @@ class TaskList extends StatelessWidget {
         AppPages.questDetailName,
         pathParameters: {'questId': taskId.toString()},
       );
-    } else if (isActive == false) {
+      return;
+    }
+
+    if (isActive == false) {
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -60,15 +71,29 @@ class TaskList extends StatelessWidget {
           );
         },
       );
-    } else {
-      context.goNamed(
-        AppPages.missionRecordName,
-        pathParameters: {
-          'hid': taskId.toString(),
-        },
-        extra: taskName,
-      );
+      return;
     }
+
+    // Load habit data before showing dialog
+    context.read<MissionBloc>().add(LoadActiveHabitEvent(taskId: taskId));
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return TaskInfoDialog(
+          title: taskName,
+          totalDays:
+              defaultDaysGoal ?? 0, // This will be replaced by state data
+          expReward: expReward ?? 0,
+          taskId: taskId,
+          adviceText: adviceText ?? '',
+          minutesGoal: defaultDailyMinuteGoal ?? 30,
+          challengeId: challengeId ?? 0,
+          category: category ?? '',
+        );
+      },
+    );
   }
 
   @override

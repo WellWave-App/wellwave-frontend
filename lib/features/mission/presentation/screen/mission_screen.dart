@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
@@ -19,7 +20,9 @@ class _MissionScreenState extends State<MissionScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<MissionBloc>().add(getDailyTasksEvent());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAndLoadDailyTasks(context);
+    });
   }
 
   @override
@@ -137,5 +140,17 @@ class _MissionScreenState extends State<MissionScreen> {
         ),
       ),
     );
+  }
+}
+
+Future<void> _checkAndLoadDailyTasks(BuildContext context) async {
+  final prefs = await SharedPreferences.getInstance();
+  final lastCalledDate = prefs.getString('last_called_date');
+  final currentDate = DateTime.now().toIso8601String().split('T')[0];
+
+  if (lastCalledDate != currentDate) {
+    context.read<MissionBloc>().add(GetDailyTasksEvent());
+
+    await prefs.setString('last_called_date', currentDate);
   }
 }

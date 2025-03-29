@@ -76,8 +76,8 @@ class LoadDailyTasksEvent extends MissionEvent {
   List<Object?> get props => [];
 }
 
-class getDailyTasksEvent extends MissionEvent {
-  const getDailyTasksEvent();
+class GetDailyTasksEvent extends MissionEvent {
+  const GetDailyTasksEvent();
 
   @override
   List<Object?> get props => [];
@@ -119,4 +119,48 @@ class UpdateGemsEvent extends MissionEvent {
 
   @override
   List<Object> get props => [gemsToAdd];
+}
+
+class SubmitDailyTrackEvent extends MissionEvent {
+  final int challengeId;
+  final int? durationMinutes;
+  final String trackDate;
+
+  final bool completed;
+
+  const SubmitDailyTrackEvent({
+    required this.challengeId,
+    this.durationMinutes,
+    required this.trackDate,
+    required this.completed,
+  });
+
+  @override
+  List<Object> get props =>
+      [challengeId, durationMinutes!, trackDate, completed];
+}
+
+class SubmitMoodTrackEvent extends MissionEvent {
+  final int trackId;
+  final String? moodFeedback;
+
+  const SubmitMoodTrackEvent({
+    required this.trackId,
+    this.moodFeedback,
+  });
+
+  @override
+  List<Object> get props => [
+        trackId,
+        moodFeedback!,
+      ];
+}
+
+class LoadActiveHabitEvent extends MissionEvent {
+  final int taskId;
+
+  const LoadActiveHabitEvent({required this.taskId});
+
+  @override
+  List<Object> get props => [taskId];
 }

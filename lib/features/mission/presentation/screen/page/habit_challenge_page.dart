@@ -72,7 +72,6 @@ class _HabitChallengePageState extends State<HabitChallengePage> {
                           break;
                       }
                     });
-
                     context
                         .read<MissionBloc>()
                         .add(LoadHabitsEvent(category: category));
@@ -102,19 +101,57 @@ class _HabitChallengePageState extends State<HabitChallengePage> {
                               itemBuilder: (context, index) {
                                 final habit = habits[index];
                                 return TaskList(
-                                        imagePath: habit.thumbnailUrl,
-                                        taskId: habit.hid,
-                                        taskName: habit.title,
-                                        expReward: habit.expReward,
-                                        defaultDailyMinuteGoal:
-                                            habit.defaultDailyMinuteGoal,
-                                        defaultDaysGoal: habit.defaultDaysGoal,
-                                        progressPercentage: habit.challengeInfo
-                                                ?.percentageProgress
-                                                .toDouble() ??
-                                            0.0,
-                                        isActive: habit.isActive)
-                                    .also((_) {});
+                                  imagePath: habit.thumbnailUrl,
+                                  taskId: habit.hid,
+                                  taskName: habit.title,
+                                  expReward: habit.expReward,
+                                  defaultDailyMinuteGoal:
+                                      habit.defaultDailyMinuteGoal,
+                                  defaultDaysGoal: habit.defaultDaysGoal,
+                                  adviceText: habit.advice,
+                                  challengeId: habit.challengeInfo?.challengeId,
+                                  progressPercentage:
+                                      habit.challengeInfo?.percentageProgress ??
+                                          0.0,
+                                  isActive: habit.isActive,
+                                  category: habit.category,
+                                ).also((_) {});
+                              },
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                      BlocBuilder<MissionBloc, MissionState>(
+                        builder: (context, state) {
+                          if (state is HabitLoading) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                          if (state is HabitLoaded) {
+                            final habits = state.habits.habits
+                                .where((h) => h.category == category)
+                                .toList();
+                            return ListView.builder(
+                              itemCount: habits.length,
+                              itemBuilder: (context, index) {
+                                final habit = habits[index];
+                                return TaskList(
+                                  imagePath: habit.thumbnailUrl,
+                                  taskId: habit.hid,
+                                  taskName: habit.title,
+                                  expReward: habit.expReward,
+                                  defaultDailyMinuteGoal:
+                                      habit.defaultDailyMinuteGoal,
+                                  defaultDaysGoal: habit.defaultDaysGoal,
+                                  adviceText: habit.advice,
+                                  challengeId: habit.challengeInfo?.challengeId,
+                                  progressPercentage:
+                                      habit.challengeInfo?.percentageProgress ??
+                                          0.0,
+                                  isActive: habit.isActive,
+                                  category: habit.category,
+                                ).also((_) {});
                               },
                             );
                           }
@@ -134,19 +171,21 @@ class _HabitChallengePageState extends State<HabitChallengePage> {
                               itemBuilder: (context, index) {
                                 final habit = habits[index];
                                 return TaskList(
-                                        imagePath: habit.thumbnailUrl,
-                                        taskId: habit.hid,
-                                        taskName: habit.title,
-                                        expReward: habit.expReward,
-                                        defaultDailyMinuteGoal:
-                                            habit.defaultDailyMinuteGoal,
-                                        defaultDaysGoal: habit.defaultDaysGoal,
-                                        progressPercentage: habit.challengeInfo
-                                                ?.percentageProgress
-                                                .toDouble() ??
-                                            0.0,
-                                        isActive: habit.isActive)
-                                    .also((_) {});
+                                  imagePath: habit.thumbnailUrl,
+                                  taskId: habit.hid,
+                                  taskName: habit.title,
+                                  expReward: habit.expReward,
+                                  defaultDailyMinuteGoal:
+                                      habit.defaultDailyMinuteGoal,
+                                  defaultDaysGoal: habit.defaultDaysGoal,
+                                  adviceText: habit.advice,
+                                  challengeId: habit.challengeInfo?.challengeId,
+                                  progressPercentage:
+                                      habit.challengeInfo?.percentageProgress ??
+                                          0.0,
+                                  isActive: habit.isActive,
+                                  category: habit.category,
+                                ).also((_) {});
                               },
                             );
                           }
@@ -166,42 +205,21 @@ class _HabitChallengePageState extends State<HabitChallengePage> {
                               itemBuilder: (context, index) {
                                 final habit = habits[index];
                                 return TaskList(
-                                        imagePath: habit.thumbnailUrl,
-                                        taskId: habit.hid,
-                                        taskName: habit.title,
-                                        expReward: habit.expReward,
-                                        defaultDailyMinuteGoal:
-                                            habit.defaultDailyMinuteGoal,
-                                        defaultDaysGoal: habit.defaultDaysGoal,
-                                        isActive: habit.isActive)
-                                    .also((_) {});
-                              },
-                            );
-                          }
-                          return Container();
-                        },
-                      ),
-                      BlocBuilder<MissionBloc, MissionState>(
-                        builder: (context, state) {
-                          if (state is HabitLoading) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-                          if (state is HabitLoaded) {
-                            final habits = state.habits.habits;
-                            return ListView.builder(
-                              itemCount: habits.length,
-                              itemBuilder: (context, index) {
-                                final habit = habits[index];
-                                return TaskList(
-                                    imagePath: habit.thumbnailUrl,
-                                    taskId: habit.hid,
-                                    taskName: habit.title,
-                                    expReward: habit.expReward,
-                                    defaultDailyMinuteGoal:
-                                        habit.defaultDailyMinuteGoal,
-                                    defaultDaysGoal: habit.defaultDaysGoal,
-                                    isActive: habit.isActive);
+                                  imagePath: habit.thumbnailUrl,
+                                  taskId: habit.hid,
+                                  taskName: habit.title,
+                                  expReward: habit.expReward,
+                                  defaultDailyMinuteGoal:
+                                      habit.defaultDailyMinuteGoal,
+                                  defaultDaysGoal: habit.defaultDaysGoal,
+                                  adviceText: habit.advice,
+                                  challengeId: habit.challengeInfo?.challengeId,
+                                  progressPercentage:
+                                      habit.challengeInfo?.percentageProgress ??
+                                          0.0,
+                                  isActive: habit.isActive,
+                                  category: habit.category,
+                                );
                               },
                             );
                           }

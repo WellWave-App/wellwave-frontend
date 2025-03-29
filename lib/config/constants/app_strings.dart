@@ -302,4 +302,6 @@ class AppStrings {
   static const willReceievedText = 'จะได้รับ';
 
   static const minPerDayText = 'จำนวนนาทีในแต่ละวัน';
+  static const missionFinishText = 'ภารกิจสำเร็จ';
+  static const slideMissionText = 'สไลด์เมื่อเสร็จสิ้น';
 }

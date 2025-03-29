@@ -57,6 +57,9 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<LoginStreakRepository>(
           create: (context) => LoginStreakRepository(),
         ),
+        RepositoryProvider<HabitRepositories>(
+          create: (context) => HabitRepositories(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [

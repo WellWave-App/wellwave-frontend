@@ -111,6 +111,7 @@ class AppImages {
   ];
 
   static const clockIcon = 'assets/icons/clock_icon.svg';
+  static const clockBlackIcon = 'assets/icons/clock.svg';
   static const firstRankIcon = 'assets/icons/first_rank_icon.svg';
   static const cameraIcon = 'assets/icons/health_assessment/camera.svg';
   static const avatarDefaultIcon =
@@ -197,4 +198,12 @@ class AppImages {
   static const resumeMissionRecordIcon = 'assets/icons/resumeMissionRecord.svg';
   static const finishMissionRecordIcon = 'assets/icons/finishMissionRecord.svg';
   static const fireMissionRecordIcon = 'assets/icons/fire_mission.svg';
+  static const missionRecommendTextIcon =
+      'assets/icons/mission_recommend_text.svg';
+
+  static const caloriesIcon = 'assets/icons/calories_icon.svg';
+
+  static const frameTimeMissionIcon =
+      'assets/icons/frame_time_mission_popup.png';
+  static const keepGoingAvatar = 'assets/icons/keep_going_avatar.svg';
 }

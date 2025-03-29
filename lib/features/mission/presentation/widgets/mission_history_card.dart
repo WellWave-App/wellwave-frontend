@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
-import 'package:wellwave_frontend/config/constants/app_strings.dart';
+import 'package:wellwave_frontend/config/constants/app_images.dart';
+import 'package:wellwave_frontend/config/constants/app_url.dart';
 
 class MissionHistoryCard extends StatelessWidget {
-  final String svgPath;
+  final String imagePath;
   final String title;
   final String state;
 
   const MissionHistoryCard({
     Key? key,
-    required this.svgPath,
+    required this.imagePath,
     required this.title,
     required this.state,
   }) : super(key: key);
@@ -41,15 +42,23 @@ class MissionHistoryCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
+            width: 64,
+            height: 64,
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
               color: AppColors.whiteColor,
-              borderRadius: BorderRadius.circular(12),
             ),
-            padding: const EdgeInsets.all(8),
-            child: SvgPicture.asset(
-              svgPath,
-              width: 64,
-              height: 64,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                '$baseUrl${imagePath}',
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.error,
+                  size: 32,
+                  color: AppColors.darkGrayColor,
+                ),
+              ),
             ),
           ),
           const SizedBox(width: 16),

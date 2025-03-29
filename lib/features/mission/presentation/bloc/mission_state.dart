@@ -146,3 +146,53 @@ class GemsUpdateFailure extends MissionState {
 
   const GemsUpdateFailure(this.message);
 }
+
+// Add these states
+class DailyTrackSubmitting extends MissionState {}
+
+class DailyTrackSuccess extends MissionState {
+  final int trackId;
+  final HabitTrackRequestModel trackData;
+
+  const DailyTrackSuccess({
+    required this.trackId,
+    required this.trackData,
+  });
+
+  @override
+  List<Object> get props => [trackId, trackData];
+}
+
+// Add these states
+class MoodTrackSubmitting extends MissionState {}
+
+class MoodTrackSuccess extends MissionState {
+  final HabitTrackRequestModel trackData;
+
+  const MoodTrackSuccess(this.trackData);
+
+  @override
+  List<Object?> get props => [trackData];
+}
+
+class ActiveHabitLoaded extends MissionState {
+  final Map<String, dynamic> habitData;
+  final List<Map<String, dynamic>> dailyTracks;
+
+  const ActiveHabitLoaded({
+    required this.habitData,
+    required this.dailyTracks,
+  });
+
+  @override
+  List<Object> get props => [habitData, dailyTracks];
+}
+
+class ActiveHabitError extends MissionState {
+  final String message;
+
+  const ActiveHabitError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

@@ -78,7 +78,7 @@ class QuestProgressInfoModel {
   final String endDate;
   final int currentValue;
   final int targetValue;
-  final double progressPercentage;
+  final num progressPercentage;
   final int daysLeft;
 
   const QuestProgressInfoModel({
@@ -96,7 +96,7 @@ class QuestProgressInfoModel {
       endDate: json['endDate'] ?? '',
       currentValue: json['currentValue'] ?? 0,
       targetValue: json['targetValue'] ?? 0,
-      progressPercentage: json['progressPercentage']?.toDouble() ?? 0.0,
+      progressPercentage: json['progressPercentage'] ?? 0.0,
       daysLeft: json['daysLeft'] ?? 0,
     );
   }

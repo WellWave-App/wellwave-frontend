@@ -80,7 +80,6 @@ class _DailyTaskPageState extends State<DailyTaskPage> {
           }
           if (state is DailyTaskLoaded) {
             final habits = state.dailyTasks.data;
-            debugPrint('Total habits: ${habits.length}');
 
             final completedTasks = habits.where((habit) {
               return habit.dailyTracks.any((track) {
@@ -215,6 +214,13 @@ class _DailyTaskPageState extends State<DailyTaskPage> {
                             taskName: habit.habits.title,
                             exp: habit.habits.expReward,
                             isCompleted: isCompleted,
+                            defaultDailyMinuteGoal:
+                                habit.habits.defaultDailyMinuteGoal,
+                            category: habit.habits.category,
+                            adviceText: habit.habits.advice,
+                            expReward: habit.habits.expReward,
+                            challengeId: habit.challengeId,
+                            defaultDaysGoal: 1,
                           );
                         },
                       ),

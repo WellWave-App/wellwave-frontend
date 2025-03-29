@@ -30,10 +30,9 @@ class QuestDetailPage extends StatelessWidget {
             orElse: () => throw Exception('Quest not found'),
           );
 
-          final progressPercentage =
+          final num progressPercentage =
               quest.progressInfo?.progressPercentage ?? 0.0;
-          double progressValue =
-              (progressPercentage ?? 0.0).clamp(0.0, 100.0) / 100;
+          double progressValue = (progressPercentage).clamp(0.0, 100.0) / 100;
           return Scaffold(
             backgroundColor: AppColors.whiteColor,
             appBar: CustomAppBar(

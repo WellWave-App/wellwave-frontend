@@ -49,7 +49,7 @@ class MissionTypeAndCardWidget extends StatelessWidget {
               ...filteredDailyHabits.map((dailyHabit) => Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: MissionHistoryCard(
-                      svgPath: dailyHabit.thumbnailUrl,
+                      imagePath: dailyHabit.thumbnailUrl,
                       title: dailyHabit.title,
                       state: dailyHabit.status.habitStatus,
                     ),
@@ -65,7 +65,7 @@ class MissionTypeAndCardWidget extends StatelessWidget {
               ...filteredHabits.map((habit) => Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: MissionHistoryCard(
-                      svgPath: habit.thumbnailUrl,
+                      imagePath: habit.thumbnailUrl,
                       title: habit.title,
                       state: habit.status.habitStatus,
                     ),
@@ -82,7 +82,7 @@ class MissionTypeAndCardWidget extends StatelessWidget {
               ...filteredQuests.map((quest) => Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: MissionHistoryCard(
-                      svgPath: quest.thumbnailUrl,
+                      imagePath: quest.thumbnailUrl,
                       title: quest.title,
                       state: quest.status,
                     ),

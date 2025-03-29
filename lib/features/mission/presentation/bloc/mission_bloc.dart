@@ -6,6 +6,7 @@ import 'package:wellwave_frontend/features/mission/data/models/daily_task_list_m
 import 'package:wellwave_frontend/features/mission/data/models/get_dailly_habit_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/get_history_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/habit_track_request_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/quest_request_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/rec_habit_respone_model.dart';
 import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
@@ -35,7 +36,10 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     on<LoadDailyTasksEvent>(_onLoadDailyGetTasks);
     on<LoadHistoryEvent>(_onLoadHistory);
     on<StartQuestEvent>(_onStartQuest);
-    on<getDailyTasksEvent>(_onGetDailyTasks);
+    on<GetDailyTasksEvent>(_onGetDailyTasks);
+    on<SubmitDailyTrackEvent>(_onSubmitDailyTrack);
+    on<SubmitMoodTrackEvent>(_onSubmitMoodTrack);
+    on<LoadActiveHabitEvent>(_onLoadActiveHabit);
 
     on<UpdateGemsEvent>((event, emit) async {
       try {
@@ -234,7 +238,7 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
   }
 
   void _onGetDailyTasks(
-      getDailyTasksEvent event, Emitter<MissionState> emit) async {
+      GetDailyTasksEvent event, Emitter<MissionState> emit) async {
     try {
       emit(GetDailyTaskLoading());
       final getDailyTasks = await habitRepositories.getDaily();
@@ -290,6 +294,103 @@ class MissionBloc extends Bloc<MissionEvent, MissionState> {
     } catch (e) {
       debugPrint('Error in _onStartQuest: $e');
       emit(QuestError('Error starting quest: $e'));
+    }
+  }
+
+  void _onSubmitDailyTrack(
+    SubmitDailyTrackEvent event,
+    Emitter<MissionState> emit,
+  ) async {
+    emit(DailyTrackSubmitting());
+
+    try {
+      final result = await habitRepositories.postDailyTrack(
+        challengeId: event.challengeId,
+        durationMinutes: event.durationMinutes,
+        trackDate: event.trackDate,
+        completed: event.completed,
+      );
+
+      if (result != null) {
+        emit(DailyTrackSuccess(
+          trackId: result.trackId ?? 0,
+          trackData: result,
+        ));
+      }
+    } catch (e) {
+      debugPrint('Error submitting daily track: $e');
+    }
+  }
+
+  void _onSubmitMoodTrack(
+    SubmitMoodTrackEvent event,
+    Emitter<MissionState> emit,
+  ) async {
+    emit(MoodTrackSubmitting());
+
+    try {
+      final result = await habitRepositories.patchDailyTrack(
+        trackId: event.trackId,
+        moodFeedback: event.moodFeedback,
+      );
+
+      if (result != null) {
+        emit(MoodTrackSuccess(result));
+      }
+    } catch (e) {
+      debugPrint('Error submitting daily track: $e');
+    }
+  }
+
+  void _onLoadActiveHabit(
+      LoadActiveHabitEvent event, Emitter<MissionState> emit) async {
+    try {
+      final activeHabitResponse = await habitRepositories.getActiveHabit();
+
+      if (activeHabitResponse != null) {
+        // Find matching habit from data array
+        final matchingHabit = activeHabitResponse.data.firstWhere(
+          (habitData) => habitData.hid == event.taskId,
+          orElse: () => throw Exception('Habit not found'),
+        );
+
+        if (matchingHabit != null) {
+          emit(ActiveHabitLoaded(
+            habitData: {
+              'HID': matchingHabit.hid,
+              'DAYS_GOAL': matchingHabit.daysGoal,
+              'DAILY_MINUTE_GOAL': matchingHabit.dailyMinuteGoal,
+              'START_DATE': matchingHabit.startDate,
+              'END_DATE': matchingHabit.endDate,
+              'habits': {
+                'TITLE': matchingHabit.habits.title,
+                'DESCRIPTION': matchingHabit.habits.description,
+                'ADVICE': matchingHabit.habits.advice,
+                'CATEGORY': matchingHabit.habits.category,
+                'EXERCISE_TYPE': matchingHabit.habits.exerciseType,
+                'TRACKING_TYPE': matchingHabit.habits.trackingType,
+              },
+            },
+            dailyTracks: matchingHabit.dailyTracks
+                .map((track) => {
+                      'TRACK_ID': track.trackId,
+                      'CHALLENGE_ID': track.challengeId,
+                      'TRACK_DATE': track.trackDate,
+                      'COMPLETED': track.completed,
+                      'DURATION_MINUTES': track.durationMinutes,
+                      'DISTANCE_KM': track.distanceKm,
+                      'STEPS_CALCULATED': track.stepsCalculated,
+                      'CALORIES_BURNED': track.caloriesBurned,
+                      'HEART_RATE': track.heartRate,
+                      'MOOD_FEEDBACK': track.moodFeedback,
+                    })
+                .toList(),
+          ));
+        }
+      }
+    } catch (e) {
+      debugPrint('Error loading active habit: $e');
+      emit(const ActiveHabitError('Failed to load active habit'));
     }
   }
 }

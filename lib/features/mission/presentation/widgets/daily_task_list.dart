@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
-
+import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/app_url.dart';
-
 import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
+import 'package:wellwave_frontend/features/mission/presentation/widgets/task_info_dialog.dart';
 
 class DailyTaskList extends StatelessWidget {
   final String imagePath;
@@ -16,6 +16,12 @@ class DailyTaskList extends StatelessWidget {
   final String taskName;
   final int? exp;
   final bool isCompleted;
+  final int? defaultDailyMinuteGoal;
+  final int? defaultDaysGoal;
+  final int? expReward;
+  final String? category;
+  final String? adviceText;
+  final int? challengeId;
 
   const DailyTaskList({
     super.key,
@@ -24,7 +30,60 @@ class DailyTaskList extends StatelessWidget {
     required this.taskName,
     required this.exp,
     required this.isCompleted,
+    this.defaultDailyMinuteGoal,
+    this.defaultDaysGoal,
+    this.expReward,
+    this.category,
+    this.adviceText,
+    this.challengeId,
   });
+  void _handleAction(BuildContext context) {
+    if (isCompleted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('คุณได้ทำภารกิจนี้ไปแล้วในวันนี้'),
+        ),
+      );
+      return;
+    }
+
+    if (category == 'exercise') {
+      Navigator.of(context).pop();
+      context.goNamed(
+        AppPages.missionRecordName,
+        pathParameters: {'hid': taskId.toString()},
+        extra: {
+          'title': taskName,
+          'adviceText': adviceText ?? '',
+          'minutesGoal': defaultDailyMinuteGoal ?? 30,
+          'challengeId': challengeId ?? taskId,
+          'expReward': expReward ?? exp ?? 0,
+        },
+      );
+    } else {
+      context.read<MissionBloc>().add(LoadActiveHabitEvent(taskId: taskId));
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext dialogContext) {
+          return BlocListener<MissionBloc, MissionState>(
+            listener: (context, state) {},
+            child: TaskInfoDialog(
+              title: taskName,
+              totalDays: defaultDaysGoal ?? 0,
+              expReward: expReward ?? 0,
+              taskId: taskId,
+              adviceText: adviceText ?? '',
+              minutesGoal: defaultDailyMinuteGoal ?? 30,
+              challengeId: challengeId ?? taskId,
+              category: category ?? '',
+            ),
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,9 +178,7 @@ class DailyTaskList extends StatelessWidget {
                             ],
                           ),
                           child: ElevatedButton(
-                            onPressed: () {
-                              debugPrint('Task $taskId button pressed');
-                            },
+                            onPressed: () => _handleAction(context),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primaryColor,
                               minimumSize: const Size(64, 28),

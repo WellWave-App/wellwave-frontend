@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
@@ -15,6 +16,7 @@ import 'package:wellwave_frontend/features/home/presentation/screen/article_scre
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home/notification_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
+import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
 import 'package:wellwave_frontend/features/mission/presentation/screen/mission_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
@@ -198,10 +200,20 @@ final GoRouter goRouter = GoRouter(
                 path: 'record/:hid',
                 name: AppPages.missionRecordName,
                 pageBuilder: (BuildContext context, GoRouterState state) {
+                  final Map<String, dynamic> extras =
+                      state.extra as Map<String, dynamic>;
                   return NoTransitionPage(
-                    child: MissionRecordPage(
-                      hid: int.parse(state.pathParameters['hid']!),
-                      title: state.extra as String? ?? 'Mission Record',
+                    child: Provider<HabitRepositories>(
+                      create: (context) => HabitRepositories(),
+                      child: MissionRecordPage(
+                        hid: int.parse(state.pathParameters['hid'] ?? '0'),
+                        title: extras['title'] as String? ?? 'Mission Record',
+                        adviceText:
+                            extras['adviceText'] as String? ?? 'Advice Text',
+                        minutesGoal: extras['minutesGoal'] as int? ?? 1,
+                        challengeId: extras['challengeId'] as int? ?? 0,
+                        expReward: extras['expReward'] as int? ?? 0,
+                      ),
                     ),
                   );
                 },
