@@ -99,6 +99,13 @@ final GoRouter goRouter = GoRouter(
             },
             routes: [
               GoRoute(
+                path: AppPages.notificationPage,
+                name: AppPages.notificationName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(child: NotificationScreen());
+                },
+              ),
+              GoRoute(
                   path: AppPages.profilePage,
                   name: AppPages.profileName,
                   pageBuilder: (BuildContext context, GoRouterState state) {
@@ -199,12 +206,28 @@ final GoRouter goRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: AppPages.friendPage,
-          name: AppPages.friendName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const FriendScreen());
-          },
-        ),
+            path: AppPages.friendPage,
+            name: AppPages.friendName,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _buildPageWithNavBar(context, state, const FriendScreen());
+            },
+            routes: [
+              GoRoute(
+                path: AppPages.findFriendPage,
+                name: AppPages.findFriendName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(child: FindFriendScreen());
+                },
+              ),
+              GoRoute(
+                path: '${AppPages.profileFriendPage}/:uid',
+                name: AppPages.profileFriendName,
+                builder: (context, state) {
+                  final uid = state.pathParameters['uid'];
+                  return FriendProfileScreen(friendUid: uid ?? '-1');
+                },
+              ),
+            ]),
         GoRoute(
             path: AppPages.articlePage,
             name: AppPages.articleName,
@@ -240,32 +263,10 @@ final GoRouter goRouter = GoRouter(
           },
         ),
         GoRoute(
-          path: AppPages.notificationPage,
-          name: AppPages.notificationName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return const NoTransitionPage(child: NotificationScreen());
-          },
-        ),
-        GoRoute(
           path: AppPages.assessmentPage,
           name: AppPages.assessmentName,
           builder: (BuildContext context, GoRouterState state) {
             return const AssessmentScreen();
-          },
-        ),
-        GoRoute(
-          path: AppPages.findFriendPage,
-          name: AppPages.findFriendName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return const NoTransitionPage(child: FindFriendScreen());
-          },
-        ),
-        GoRoute(
-          path: '${AppPages.profileFriendPage}/:uid',
-          name: AppPages.profileFriendName,
-          builder: (context, state) {
-            final uid = state.pathParameters['uid'];
-            return FriendProfileScreen(friendUid: uid ?? '-1');
           },
         ),
       ],

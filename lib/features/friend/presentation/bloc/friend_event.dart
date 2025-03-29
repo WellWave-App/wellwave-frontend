@@ -6,9 +6,14 @@ abstract class FriendEvent extends Equatable {
 }
 
 class SearchFriendEvent extends FriendEvent {
-  final String searchId;
+  final String inputId;
+  final String? validId;
 
-  SearchFriendEvent(this.searchId);
+  SearchFriendEvent(this.inputId)
+      : validId = inputId.startsWith('UID') ? inputId : null;
+
+  @override
+  List<Object> get props => [inputId];
 }
 
 class ResetEvent extends FriendEvent {}
