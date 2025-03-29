@@ -16,6 +16,7 @@ class RoundedText extends StatelessWidget {
   final Color backgroundColor;
   final Color textColor;
   final Color? iconColor;
+  final double? boxWidth;
 
   const RoundedText({
     Key? key,
@@ -30,6 +31,7 @@ class RoundedText extends StatelessWidget {
     this.radius = 8,
     this.backgroundColor = AppColors.whiteColor,
     this.iconColor,
+    this.boxWidth = 200,
     this.textColor = AppColors.blackColor,
   }) : super(key: key);
 
@@ -37,6 +39,7 @@ class RoundedText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical),
+      width: boxWidth,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius),
         color: backgroundColor,

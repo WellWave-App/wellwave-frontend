@@ -85,18 +85,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //leaderboard
-                            Expanded(
-                              child: RoundedText(
-                                text: userLeague != -1
-                                    ? AppStrings.leagueList[userLeague]
-                                    : AppStrings.leaderboardText,
-                                svgPath: userLeague != -1
-                                    ? AppImages.leagueListIcon[userLeague]
-                                    : AppImages.firstRankIcon,
-                                isShowNavi: true,
-                                appPages: AppPages.leaderboardlPage,
-                                horizontal: 11,
-                              ),
+                            RoundedText(
+                              text: userLeague != -1
+                                  ? AppStrings.leagueList[userLeague]
+                                  : AppStrings.leaderboardText,
+                              boxWidth: 210,
+                              svgPath: userLeague != -1
+                                  ? AppImages.leagueListIcon[userLeague]
+                                  : AppImages.firstRankIcon,
+                              isShowNavi: true,
+                              appPages: AppPages.leaderboardlPage,
+                              horizontal: 6,
                             ),
                             const SizedBox(width: 16),
 
@@ -107,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 svgPath: AppImages.giftIcon,
                                 isShowNavi: true,
                                 appPages: AppPages.exchangeName,
-                                horizontal: 12,
+                                horizontal: 6,
                               ),
                             ),
                           ],
