@@ -292,7 +292,7 @@ class OverAllStats {
   OverAllStats({
     required this.uid,
     this.streakStartDate,
-    required this.lastLoginDate,
+    this.lastLoginDate,
     required this.currentStreak,
     required this.longestStreak,
     required this.totalPointsEarned,

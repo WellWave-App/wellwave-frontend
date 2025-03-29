@@ -35,8 +35,10 @@ class CheckInWidget extends StatelessWidget {
         loginStats.checkInStats.where((stat) => stat.isLogin).length;
 
     // Check if user can check in today
-    final lastLoginDate = DateTime.parse(
-        overallStats.lastLoginDate ?? DateTime.now().toIso8601String());
+    final lastLoginDate = overallStats.lastLoginDate != null
+        ? DateTime.parse(overallStats.lastLoginDate!)
+        : DateTime(
+            1900); // Use a past date to ensure first check-in is possible
     final today = DateTime.now();
     final canCheckInToday = lastLoginDate.year != today.year ||
         lastLoginDate.month != today.month ||
@@ -67,7 +69,7 @@ class CheckInWidget extends StatelessWidget {
               Navigator.of(context).pop();
               context.read<ProfileBloc>().add(EditUserProfile(
                     gem: newGemCount,
-                    username: profileState.userProfile.username,
+                    username: '',
                     yearOfBirth: profileState.userProfile.yearOfBirth,
                     gender: profileState.userProfile.gender,
                     height: profileState.userProfile.height,
