@@ -44,11 +44,9 @@ class FindFriendScreen extends StatelessWidget {
               textColor: AppColors.whiteColor,
               title: 'ค้นหา',
               onPressed: () {
-                final searchId = searchController.text;
-                if (searchId.isNotEmpty) {
-                  context.read<FriendBloc>().add(SearchFriendEvent(searchId));
-                } else {
-                  debugPrint('กรุณากรอกไอดี');
+                final input = searchController.text.trim();
+                if (input.isNotEmpty) {
+                  context.read<FriendBloc>().add(SearchFriendEvent(input));
                 }
               },
             ),
@@ -56,6 +54,7 @@ class FindFriendScreen extends StatelessWidget {
             BlocBuilder<FriendBloc, FriendState>(
               builder: (context, state) {
                 final searchId = searchController.text;
+                print('searchId $searchId');
                 if (state is FriendLoaded && searchId.isNotEmpty) {
                   return ProfileUserAdd(searchId: state.searchId);
                 } else if (state is FriendLoading) {
