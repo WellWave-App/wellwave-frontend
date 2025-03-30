@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_event.dart';
 
+import '../../../../../config/constants/app_url.dart';
 import '../../bloc/profile_bloc/profile_bloc.dart';
 import '../../bloc/profile_bloc/profile_state.dart';
 
@@ -199,7 +200,7 @@ Widget _buildProfileImage(ProfileState state) {
   if (state is ProfileLoaded && state.userProfile.imageUrl.isNotEmpty) {
     // Construct and sanitize the URL
     final imageUrl =
-        sanitizeImageUrl('http://10.0.2.2:3000', state.userProfile.imageUrl);
+        sanitizeImageUrl(baseUrl, state.userProfile.imageUrl);
 
     profileImage = ClipOval(
       child: Image.network(

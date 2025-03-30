@@ -6,6 +6,7 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_state.dart';
 
+import '../../../../config/constants/app_url.dart';
 import '../../data/models/article_model.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class ArticleDetailScreen extends StatelessWidget {
         children: [
           article?.thumbnailUrl.isNotEmpty == true
               ? Image.network(
-                  "http://10.0.2.2:3000${article!.thumbnailUrl}",
+                  "$baseUrl${article!.thumbnailUrl}",
                   width: double.infinity,
                   height: 250,
                   fit: BoxFit.cover,
@@ -30,11 +31,10 @@ class ArticleDetailScreen extends StatelessWidget {
                     return Container(
                       width: double.infinity,
                       height: 250,
-                      color: AppColors
-                          .blueGrayColor, // สีชมพูเมื่อไม่สามารถโหลดภาพได้
+                      color: AppColors.blueGrayColor,
                       child: const Center(
                         child: Icon(
-                          Icons.error, // ไอคอนแสดงข้อผิดพลาด
+                          Icons.error,
                           color: Colors.white,
                         ),
                       ),
@@ -100,17 +100,16 @@ class ArticleDetailScreen extends StatelessWidget {
             left: 8,
             child: IconButton(
               icon: Container(
-                padding:
-                    const EdgeInsets.all(10.0), // ระยะห่างระหว่างไอคอนและกรอบ
+                padding: const EdgeInsets.all(10.0),
                 decoration: const BoxDecoration(
-                  color: Colors.white, // สีของกรอบ
-                  shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
+                  color: Colors.white,
+                  shape: BoxShape.circle,
                 ),
-                width: 36, // กำหนดขนาดของกรอบวงกลม
+                width: 36,
                 child: const Center(
                   child: Icon(
                     Icons.arrow_back_ios,
-                    color: Colors.black, // สีของไอคอน
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -123,7 +122,6 @@ class ArticleDetailScreen extends StatelessWidget {
             builder: (context, state) {
               bool isBookmarked = false;
 
-              // ตรวจสอบสถานะของ Bookmark จาก state ที่ได้รับ
               if (state is BookmarkUpdated && state.aid == aid) {
                 isBookmarked = state.isBookmarked;
               }
@@ -144,11 +142,10 @@ class ArticleDetailScreen extends StatelessWidget {
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      // ส่ง event เพื่อเปลี่ยนสถานะ bookmark
                       context.read<ArticleBloc>().add(
                             ToggleBookmarkEvent(
                               aid: aid,
-                              isBookmark: isBookmarked, // สลับสถานะของ Bookmark
+                              isBookmark: isBookmarked,
                             ),
                           );
                     },
@@ -162,21 +159,19 @@ class ArticleDetailScreen extends StatelessWidget {
             right: 16,
             child: IconButton(
               icon: Container(
-                padding:
-                    const EdgeInsets.all(6.0), // ระยะห่างระหว่างไอคอนและกรอบ
+                padding: const EdgeInsets.all(6.0),
                 decoration: const BoxDecoration(
-                  color: Colors.white, // สีของกรอบ
-                  shape: BoxShape.circle, // ให้กรอบเป็นวงกลม
+                  color: Colors.white,
+                  shape: BoxShape.circle,
                 ),
-                width: 40, // กำหนดขนาดของกรอบวงกลม
+                width: 40,
                 child: const Icon(
                   Icons.share,
-                  color: Colors.black, // สีของไอคอน
+                  color: Colors.black,
                 ),
               ),
               onPressed: () {
-                String articleLink =
-                    "http://10.0.2.2:3000/$aid"; // แก้ไขลิงก์ตามต้องการ
+                String articleLink = "$baseUrl/$aid";
                 Share.share("อ่านบทความนี้ได้ที่: $articleLink");
               },
             ),

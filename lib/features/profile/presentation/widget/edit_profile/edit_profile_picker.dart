@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import '../../../../../config/constants/app_images.dart';
+import '../../../../../config/constants/app_url.dart';
 import '../../bloc/profile_bloc/profile_bloc.dart';
 import '../../bloc/profile_bloc/profile_event.dart';
 import '../../bloc/profile_bloc/profile_state.dart';
@@ -85,7 +86,7 @@ class _EditProfileImageState extends State<EditProfileImage> {
       } else if (state.userProfile.imageUrl.isNotEmpty) {
         return _buildImageWidget(
           type: ImageType.network,
-          source: "http://10.0.2.2:3000${state.userProfile.imageUrl}",
+          source: "$baseUrl${state.userProfile.imageUrl}",
         );
       }
     }

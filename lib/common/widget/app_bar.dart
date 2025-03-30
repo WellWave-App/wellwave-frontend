@@ -109,22 +109,6 @@ class CustomAppBarWithStep extends AppBar {
                         color: AppColors.blackColor,
                       ),
                 ),
-              // if (showStepIndicator)
-              //   Padding(
-              //     padding: const EdgeInsets.only(top: 4.0),
-              //     child: SizedBox(
-              //       width: 200,
-              //       height: 20,
-              //       child: StepProgressIndicator(
-              //         totalSteps: totalSteps,
-              //         currentStep: currentStep + 1,
-              //         size: 4,
-              //         padding: 0,
-              //         selectedColor: AppColors.primaryColor,
-              //         unselectedColor: AppColors.lightgrayColor,
-              //       ),
-              //     ),
-              //   ),
             ],
           ),
         );

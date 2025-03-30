@@ -18,6 +18,7 @@ extension HomeHealthDataRepository on HealthAssessmentRepository {
   Future<HealthAssessmentHealthDataRequestModel?> fetchHealthData() async {
     final token = await _secureStorage.read(key: _tokenKey);
     final uid = await _secureStorage.read(key: 'user_uid');
+    print('object${token} ${uid}');
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/risk-assessment/$uid"),

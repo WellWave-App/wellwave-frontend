@@ -95,12 +95,6 @@ class GradientCircularProgressWithText extends StatelessWidget {
             GradientCircularProgressIndicator(
               value: value,
             ),
-            // Text(
-            //   percentageText,
-            //   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            //         color: AppColors.secondaryDarkColor,
-            //       ),
-            // ),
           ],
         ),
       ],

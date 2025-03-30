@@ -63,7 +63,7 @@ class NotificationScreen extends StatelessWidget {
                           AppStrings.noNotiText,
                           style:
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.darkgrayColor,
+                                    color: AppColors.darkGrayColor,
                                   ),
                         ),
                       ],

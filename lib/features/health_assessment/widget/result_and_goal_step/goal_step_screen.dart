@@ -4,14 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
-
 import '../../presentation/bloc/health_assessment_page/health_assessment_page_bloc.dart';
 import '../../presentation/bloc/health_assessment_page/health_assessment_page_event.dart';
 import '../../presentation/bloc/health_assessment_page/health_assessment_page_state.dart';
 
 class GoalStepScreen extends StatefulWidget {
-  const GoalStepScreen({super.key});
-
   @override
   _GoalStepScreen createState() => _GoalStepScreen();
 }
@@ -69,6 +66,12 @@ class _GoalStepScreen extends State<GoalStepScreen> {
     super.dispose();
   }
 
+  String _calculateAverageStepsPerDay(String weeklySteps) {
+    final weekly = int.tryParse(weeklySteps) ?? 0;
+    final average = (weekly / 7).round();
+    return average.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HealthAssessmentPageBloc, HealthAssessmentPageState>(
@@ -91,8 +94,8 @@ class _GoalStepScreen extends State<GoalStepScreen> {
               const SizedBox(height: 64),
               if (userGoalStep == recommendGoalStep.toString())
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 4.0, horizontal: 24.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 4.0, horizontal: 24.0),
                   decoration: BoxDecoration(
                     color: AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(12),
@@ -106,8 +109,8 @@ class _GoalStepScreen extends State<GoalStepScreen> {
                 )
               else
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 4.0, horizontal: 24.0),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 4.0, horizontal: 24.0),
                   decoration: BoxDecoration(
                     color: AppColors.transparentColor,
                     borderRadius: BorderRadius.circular(12),
@@ -132,6 +135,22 @@ class _GoalStepScreen extends State<GoalStepScreen> {
                 onChanged: (value) => context
                     .read<HealthAssessmentPageBloc>()
                     .add(UpdateField('userGoalStepWeek', value)),
+              ),
+              const SizedBox(height: 16),
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: AppColors.blueGrayColor),
+                  children: [
+                    TextSpan(text: 'เฉลี่ย '),
+                    TextSpan(
+                      text: _calculateAverageStepsPerDay(userGoalStep),
+                    ),
+                    TextSpan(text: ' ก้าว/วัน'),
+                  ],
+                ),
               ),
             ],
           ),

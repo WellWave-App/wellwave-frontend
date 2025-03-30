@@ -46,7 +46,7 @@ class RegisterSuccess extends StatelessWidget {
               ),
             ),
             onPressed: () {
-              context.goNamed(AppPages.homeName);
+              context.goNamed(AppPages.loginName);
             },
             child: Text(
               'เข้าสู่ระบบ',

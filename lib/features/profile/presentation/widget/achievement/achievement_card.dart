@@ -7,6 +7,7 @@ import 'package:wellwave_frontend/config/constants/app_strings.dart';
 
 import '../../../../../config/constants/app_images.dart';
 import '../../../../../config/constants/app_pages.dart';
+import '../../../../../config/constants/app_url.dart';
 import '../../bloc/archeivement_bloc/archeivement_bloc.dart';
 import '../../bloc/archeivement_bloc/archeivement_event.dart';
 import '../../bloc/archeivement_bloc/archeivement_state.dart';
@@ -91,7 +92,7 @@ class AchievementCard extends StatelessWidget {
                               .firstWhere((level) =>
                                   level.level == earnedAchievement.level);
                           final levelIcon =
-                              "http://10.0.2.2:3000${selectedLevel.iconUrl}";
+                              "$baseUrl${selectedLevel.iconUrl}";
 
                           achievementWidgets.add(
                             Padding(
@@ -131,7 +132,7 @@ class AchievementCard extends StatelessWidget {
                           final level1Icon = achievement.levels
                               .firstWhere((level) => level.level == 1)
                               .iconUrl;
-                          final levelIcon = "http://10.0.2.2:3000$level1Icon";
+                          final levelIcon = "$baseUrl$level1Icon";
 
                           unearnedWidgets.add(
                             Padding(

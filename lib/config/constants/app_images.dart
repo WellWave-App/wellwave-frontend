@@ -140,20 +140,30 @@ class AppImages {
   static const famhistoryHyperIcon =
       'assets/icons/health_assessment/famhistory_hyper.svg';
   static const famhistoryParalysisIcon =
-      'assets/icons/famhistory_paralysis.svg';
-  static const goalHealthyIcon = 'assets/icons/goal_healthy.svg';
-  static const goalLoseweightIcon = 'assets/icons/goal_loseweight.svg';
-  static const goalMuscleIcon = 'assets/icons/goal_muscle.svg';
+      'assets/icons/health_assessment/famhistory_paralysis.svg';
+  static const goalHealthyIcon =
+      'assets/icons/health_assessment/goal_healthy.svg';
+  static const goalLoseweightIcon =
+      'assets/icons/health_assessment/goal_loseweight.svg';
+  static const goalMuscleIcon =
+      'assets/icons/health_assessment/goal_muscle.svg';
 
-  static const famhistoryVascularIcon = 'assets/icons/famhistory_vascular.svg';
-  static const smokeUedtoIcon = 'assets/icons/smoke_usedto.svg';
-  static const smokeNeverIcon = 'assets/icons/smoke_never.svg';
-  static const smokeUsuallyIcon = 'assets/icons/smoke_usually.svg';
-  static const healthassessmentIMG = 'assets/icons/health_assessment_step1.svg';
+  static const famhistoryVascularIcon =
+      'assets/icons/health_assessment/famhistory_vascular.svg';
+  static const smokeUedtoIcon =
+      'assets/icons/health_assessment/smoke_usedto.svg';
+  static const smokeNeverIcon =
+      'assets/icons/health_assessment/smoke_never.svg';
+  static const smokeUsuallyIcon =
+      'assets/icons/health_assessment/smoke_usually.svg';
+  static const healthassessmentIMG =
+      'assets/icons/health_assessment/health_assessment_step1.svg';
   static const healthassessmentBG = 'assets/images/health_assessment_bg.png';
-  static const recommendIcon = 'assets/icons/recommend.svg';
-  static const recommendPlanIcon = 'assets/icons/recommend_plan.svg';
-  static const healthconnectIcon = 'assets/icons/health_connect.svg';
+  static const recommendIcon = 'assets/icons/health_assessment/recommend.svg';
+  static const recommendPlanIcon =
+      'assets/icons/health_assessment/recommend_plan.svg';
+  static const healthconnectIcon =
+      'assets/icons/health_assessment/health_connect.svg';
 
   static const notiIcon = 'assets/icons/homepage/noti.svg';
   static const cloudImage = 'assets/icons/homepage/cloud.svg';

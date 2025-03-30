@@ -12,6 +12,7 @@ class AuthModel {
     return {
       'EMAIL': email,
       'PASSWORD': password,
+      'ROLE': "user", // กำหนดเป็น "user" ตลอดเวลา
     };
   }
 

@@ -36,6 +36,8 @@ import '../../features/profile/presentation/screen/edit_profile_screen.dart';
 import '../../features/profile/presentation/screen/profile_screen.dart';
 import '../../features/profile/presentation/screen/set_weekly_goal_screen.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 final GoRouter goRouter = GoRouter(
   initialLocation: AppPages.splashPath,
   routes: [
@@ -172,13 +174,6 @@ final GoRouter goRouter = GoRouter(
                       },
                     ),
                   ]),
-              // GoRoute(
-              //   path: AppPages.testNotiPage,
-              //   name: AppPages.testNotiName,
-              //   pageBuilder: (BuildContext context, GoRouterState state) {
-              //     return const NoTransitionPage(child: TestNotiScreen());
-              //   },
-              // ),
             ]),
         GoRoute(
             path: AppPages.logPage,
@@ -230,13 +225,6 @@ final GoRouter goRouter = GoRouter(
                     return const NoTransitionPage(child: AllArticlesScreen());
                   })
             ]),
-        // GoRoute(
-        //   path: AppPages.articlePage,
-        //   name: AppPages.articleName,
-        //   pageBuilder: (BuildContext context, GoRouterState state) {
-        //     return _buildPageWithNavBar(context, state, const ArticleScreen());
-        //   },
-        // ),
         GoRoute(
           path: AppPages.reassessmentPage,
           name: AppPages.reassessmentName,
