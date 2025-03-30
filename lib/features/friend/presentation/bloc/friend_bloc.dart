@@ -4,7 +4,6 @@ import 'package:wellwave_frontend/features/friend/data/models/friend_request_mod
 import 'package:wellwave_frontend/features/friend/data/repositories/friend_repositories.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_event.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_state.dart';
-import 'package:wellwave_frontend/features/friend/presentation/widget/profile_user_add.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
 class FriendBloc extends Bloc<FriendEvent, FriendState> {

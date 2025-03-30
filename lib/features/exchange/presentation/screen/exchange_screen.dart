@@ -68,8 +68,13 @@ class ExchangeScreen extends StatelessWidget {
                   } else if (state is ProfileLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else {
-                    return const Center(
-                        child: Text(AppStrings.noDataAvaliableText));
+                    return Center(
+                        child: Text(
+                      AppStrings.noDataAvaliableText,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkGrayColor,
+                          ),
+                    ));
                   }
                 },
               ),

@@ -8,7 +8,7 @@ import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/authentication/presentation/bloc/auth_bloc.dart';
 
-import 'package:wellwave_frontend/features/profile/presentation/widget/acievement/achievement_card.dart';
+import 'package:wellwave_frontend/features/profile/presentation/widget/achievement/achievement_card.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/chart_section_widget.dart';
 import 'package:wellwave_frontend/features/profile/presentation/widget/profile/check_in_card.dart';
 
@@ -85,18 +85,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //leaderboard
-                            Expanded(
-                              child: RoundedText(
-                                text: userLeague != -1
-                                    ? AppStrings.leagueList[userLeague]
-                                    : AppStrings.leaderboardText,
-                                svgPath: userLeague != -1
-                                    ? AppImages.leagueListIcon[userLeague]
-                                    : AppImages.firstRankIcon,
-                                isShowNavi: true,
-                                appPages: AppPages.leaderboardlPage,
-                                horizontal: 11,
-                              ),
+                            RoundedText(
+                              text: userLeague != -1
+                                  ? AppStrings.leagueList[userLeague]
+                                  : AppStrings.leaderboardText,
+                              boxWidth: 210,
+                              svgPath: userLeague != -1
+                                  ? AppImages.leagueListIcon[userLeague]
+                                  : AppImages.firstRankIcon,
+                              isShowNavi: true,
+                              appPages: AppPages.leaderboardlPage,
+                              horizontal: 6,
                             ),
                             const SizedBox(width: 16),
 
@@ -107,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 svgPath: AppImages.giftIcon,
                                 isShowNavi: true,
                                 appPages: AppPages.exchangeName,
-                                horizontal: 12,
+                                horizontal: 6,
                               ),
                             ),
                           ],
@@ -151,28 +150,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         const SizedBox(height: 16),
 
                         //noti
-                        const RoundedText(
-                          text: AppStrings.alertText,
-                          svgPath: AppImages.alarmIcon,
-                          isShowNavi: true,
-                          appPages: AppPages.reminderName,
-                          iconSize: 32,
-                          vertical: 16,
-                          radius: 16,
-                          isBold: true,
+                        const Row(
+                          children: [
+                            Expanded(
+                              child: RoundedText(
+                                text: AppStrings.alertText,
+                                svgPath: AppImages.alarmIcon,
+                                isShowNavi: true,
+                                appPages: AppPages.reminderName,
+                                iconSize: 32,
+                                vertical: 16,
+                                radius: 16,
+                                isBold: true,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 16),
 
                         //goal
-                        const RoundedText(
-                          text: AppStrings.goalText,
-                          svgPath: AppImages.goalIcon,
-                          isShowNavi: true,
-                          appPages: AppPages.setWeeklyGoalName,
-                          iconSize: 32,
-                          vertical: 16,
-                          radius: 16,
-                          isBold: true,
+                        const Row(
+                          children: [
+                            Expanded(
+                              child: RoundedText(
+                                text: AppStrings.goalText,
+                                svgPath: AppImages.goalIcon,
+                                isShowNavi: true,
+                                appPages: AppPages.setWeeklyGoalName,
+                                iconSize: 32,
+                                vertical: 16,
+                                radius: 16,
+                                isBold: true,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 36),
 
@@ -202,8 +213,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   } else if (state is ProfileLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else {
-                    return const Center(
-                        child: Text(AppStrings.noDataAvaliableText));
+                    return Center(
+                        child: Text(
+                      AppStrings.noDataAvaliableText,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkGrayColor,
+                          ),
+                    ));
                   }
                 },
               );

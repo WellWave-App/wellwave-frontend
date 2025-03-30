@@ -48,7 +48,6 @@ import '../../features/mission/presentation/screen/page/quest_detail_page.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter goRouter = GoRouter(
-  navigatorKey: navigatorKey,
   initialLocation: AppPages.splashPath,
   routes: [
     GoRoute(
@@ -333,7 +332,7 @@ final GoRouter goRouter = GoRouter(
           path: AppPages.findFriendPage,
           name: AppPages.findFriendName,
           pageBuilder: (BuildContext context, GoRouterState state) {
-            return NoTransitionPage(child: FindFriendScreen());
+            return const NoTransitionPage(child: FindFriendScreen());
           },
         ),
         GoRoute(

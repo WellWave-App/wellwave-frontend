@@ -13,7 +13,8 @@ class RecommendationCard extends StatelessWidget {
   final dynamic article;
   final int aid; // เพิ่ม aid ของบทความ
 
-  RecommendationCard({
+  const RecommendationCard({
+    super.key,
     required this.title,
     required this.readingTime,
     required this.imageUrl,
@@ -44,7 +45,7 @@ class RecommendationCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
-                    topLeft: const Radius.circular(10),
+                    topLeft: Radius.circular(10),
                     topRight: Radius.circular(10),
                   ),
                   child: Image.network(

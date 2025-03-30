@@ -23,9 +23,11 @@ class BarChart extends StatelessWidget {
         .toLocal()
         .copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
 
-    DateTime previousWeekSunday = thisWeekSunday.subtract(Duration(days: 8));
+    DateTime previousWeekSunday =
+        thisWeekSunday.subtract(const Duration(days: 8));
 
-    DateTime previousWeekSaturday = previousWeekSunday.add(Duration(days: 6));
+    DateTime previousWeekSaturday =
+        previousWeekSunday.add(const Duration(days: 6));
 
     List<Map<String, dynamic>> previousWeekData = sortedData.where((entry) {
       DateTime entryDate = DateTime.parse(entry['date'].toString())
@@ -33,7 +35,7 @@ class BarChart extends StatelessWidget {
           .copyWith(hour: 0, minute: 0, second: 0, millisecond: 0);
 
       return entryDate.isAfter(previousWeekSunday) &&
-          entryDate.isBefore(previousWeekSaturday.add(Duration(days: 1)));
+          entryDate.isBefore(previousWeekSaturday.add(const Duration(days: 1)));
     }).toList();
 
     return previousWeekData;
@@ -46,7 +48,7 @@ class BarChart extends StatelessWidget {
     return Column(
       children: [
         CustomPaint(
-          size: Size(double.infinity, 64),
+          size: const Size(double.infinity, 64),
           painter: weeklyAverages.length >= 5
               ? WeeklyBarChartPainter(
                   data: data,

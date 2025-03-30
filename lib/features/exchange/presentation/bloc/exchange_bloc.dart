@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/exchange/data/repositories/exchange_repositories.dart';
 import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_state.dart';
 
@@ -57,8 +58,8 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
       // debugPrint("UserExchange Data: $userExchange");
 
       if (userExchange == null || userExchange.items.isEmpty) {
-        debugPrint("No exchange items found.");
-        emit(const ExchangeError('No exchange items found.'));
+        // debugPrint("No exchange items found.");
+        emit(const ExchangeError(AppStrings.noExchangeItemFound));
         return;
       }
 

@@ -7,10 +7,8 @@ import 'package:wellwave_frontend/features/exchange/data/repositories/exchange_r
 import 'package:wellwave_frontend/features/exchange/presentation/bloc/exchange_bloc.dart';
 import 'package:wellwave_frontend/features/friend/data/repositories/friend_repositories.dart';
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
-import 'package:wellwave_frontend/features/article/data/models/article_bookmark.dart';
 import 'package:wellwave_frontend/features/article/data/repositories/article_repository.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
-import 'package:wellwave_frontend/features/article/presentation/screen/article_screen.dart';
 import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment/health_assessment_bloc.dart';
 import 'package:wellwave_frontend/features/leaderboard/data/repositories/leaderboard_repositories.dart';
 import 'package:wellwave_frontend/features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
@@ -26,6 +24,10 @@ import 'package:wellwave_frontend/features/start_overview/presentation/bloc/star
 
 import 'features/authentication/data/repositories/auth_repository.dart';
 import 'features/authentication/presentation/bloc/auth_bloc.dart';
+import 'features/health_assessment/data/repositories/health_assessment_repository.dart';
+import 'features/home/data/repositories/home_repository.dart';
+import 'features/home/presentation/bloc/home_bloc.dart';
+import 'features/home/presentation/bloc/home_event.dart';
 import 'features/notification/presentation/bloc/noti_bloc.dart';
 import 'features/mission/presentation/bloc/mission_bloc.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';

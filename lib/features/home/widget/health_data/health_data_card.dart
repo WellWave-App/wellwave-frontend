@@ -37,11 +37,11 @@ class HealthDataCard extends StatelessWidget {
             color: Colors.black.withOpacity(0.1),
             spreadRadius: 2,
             blurRadius: 8,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,12 +51,12 @@ class HealthDataCard extends StatelessWidget {
                   color: AppColors.blackColor,
                 ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           BarChart(
             data: chartData,
             weeklyAverages: weeklyAverages,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
         ],
       ),
     );

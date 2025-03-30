@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/features/friend/data/models/all_friends_request_model.dart';
 import 'package:wellwave_frontend/features/friend/data/models/friend_request_model.dart';
-import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 import 'package:wellwave_frontend/config/constants/app_url.dart';
-import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 const _secureStorage = FlutterSecureStorage();
@@ -19,7 +17,7 @@ class FriendRepositories {
 
     try {
       final url = '$baseUrl/friend/search/$uid';
-      print('Calling API: $url'); // Debug log
+      debugPrint('Calling API: $url'); // Debug log
 
       final response = await http.get(
         Uri.parse(url),
@@ -29,18 +27,18 @@ class FriendRepositories {
         },
       );
 
-      print('Response status: ${response.statusCode}'); // Debug log
-      print('Response body: ${response.body}'); // Debug log
+      debugPrint('Response status: ${response.statusCode}'); // Debug log
+      debugPrint('Response body: ${response.body}'); // Debug log
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
         return FriendRequestModel.fromJson(jsonData);
       } else {
-        print('Error response: ${response.body}'); // Debug log
+        debugPrint('Error response: ${response.body}'); // Debug log
         return null;
       }
     } catch (e) {
-      print('Error in getUserById: $e'); // Debug log
+      debugPrint('Error in getUserById: $e'); // Debug log
       throw Exception('Failed to get user: $e');
     }
   }
@@ -85,7 +83,7 @@ class FriendRepositories {
     }
 
     try {
-      final url = '$baseUrl/friend/user-friends';
+      const url = '$baseUrl/friend/user-friends';
       debugPrint('Calling API URL: $url');
 
       final response = await http.get(

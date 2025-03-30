@@ -57,7 +57,12 @@ class _DailyLogsState extends State<DailyLogs> {
                   children: [
                     Image.asset(AppImages.catNoItemimage, height: 128),
                     const SizedBox(height: 32),
-                    Text('${AppStrings.errorLoadingLogsText}: ${state.message}')
+                    Text(
+                      '${AppStrings.errorLoadingLogsText}: ${state.message}',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkGrayColor,
+                          ),
+                    ),
                   ],
                 ));
               }

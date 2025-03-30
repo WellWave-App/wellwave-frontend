@@ -34,22 +34,22 @@ class ProfileUserAdd extends StatelessWidget {
             return Column(
               children: [
                 CircleAvatar(
-                  backgroundImage: (imageUrl?.isNotEmpty ?? false)
+                  backgroundImage: (imageUrl.isNotEmpty ?? false)
                       ? NetworkImage('$baseUrl$imageUrl')
                       : null,
                   radius: 52.0,
-                  child: (imageUrl?.isEmpty ?? true)
+                  child: (imageUrl.isEmpty ?? true)
                       ? SvgPicture.asset(
                           AppImages.avatarDefaultIcon,
                         )
                       : null,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
-                  '${state.friends.username}',
+                  state.friends.username,
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 if (isFriend)
                   Text(
                     AppStrings.AlreadyFriendText,
@@ -57,7 +57,7 @@ class ProfileUserAdd extends StatelessWidget {
                           color: AppColors.darkGrayColor,
                         ),
                   ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 CustomButtonSmall(
                   bgColor: AppColors.transparentColor,
                   outlineColor: AppColors.primaryColor,

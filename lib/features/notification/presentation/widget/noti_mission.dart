@@ -238,7 +238,13 @@ class _NotificationMissionState extends State<NotificationMission> {
                   ],
                 ));
               } else {
-                return const Center(child: CircularProgressIndicator());
+                return Center(
+                    child: Text(
+                  'ไม่มีภารกิจที่กำลังทำ',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.darkGrayColor,
+                      ),
+                ));
               }
             },
           )

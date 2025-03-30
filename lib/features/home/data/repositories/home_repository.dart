@@ -13,12 +13,12 @@ import 'package:wellwave_frontend/features/home/data/models/recommend_habit_resp
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
 extension HomeHealthDataRepository on HealthAssessmentRepository {
-  static final _secureStorage = const FlutterSecureStorage();
+  static const _secureStorage = FlutterSecureStorage();
   static const _tokenKey = 'access_token';
   Future<HealthAssessmentHealthDataRequestModel?> fetchHealthData() async {
     final token = await _secureStorage.read(key: _tokenKey);
     final uid = await _secureStorage.read(key: 'user_uid');
-    print('object${token} ${uid}');
+    print('object$token $uid');
     try {
       final response = await http.get(
         Uri.parse("$baseUrl/risk-assessment/$uid"),
@@ -72,7 +72,7 @@ extension HomeHealthDataRepository on HealthAssessmentRepository {
 }
 
 extension HomePersonaDataRepository on ProfileRepositories {
-  static final _secureStorage = const FlutterSecureStorage();
+  static const _secureStorage = FlutterSecureStorage();
   static const _tokenKey = 'access_token';
   Future<bool> updateWeight(double? weight) async {
     final token = await _secureStorage.read(key: _tokenKey);

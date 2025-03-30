@@ -60,7 +60,7 @@ class _UserInformationState extends State<UserInformation> {
 
         Widget profileImage;
 
-        if (widget.imgUrl == null || widget.imgUrl.isEmpty) {
+        if (widget.imgUrl.isEmpty) {
           profileImage = CircleAvatar(
             radius: 52,
             backgroundColor: Colors.transparent,
@@ -148,7 +148,7 @@ class _UserInformationState extends State<UserInformation> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '$leagueText',
+                        leagueText,
                         style:
                             Theme.of(context).textTheme.bodySmall?.copyWith(),
                       ),

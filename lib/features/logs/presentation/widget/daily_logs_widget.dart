@@ -135,7 +135,12 @@ class DailyLogsWidget extends StatelessWidget {
                   children: [
                     Image.asset(AppImages.catNoItemimage, height: 128),
                     const SizedBox(height: 32),
-                    const Text(AppStrings.errorLoadingLogsText),
+                    Text(
+                      AppStrings.errorLoadingLogsText,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkGrayColor,
+                          ),
+                    ),
                   ],
                 ));
               }
@@ -144,7 +149,12 @@ class DailyLogsWidget extends StatelessWidget {
                 children: [
                   Image.asset(AppImages.catNoItemimage, height: 128),
                   const SizedBox(height: 32),
-                  const Text(AppStrings.noLogsAvailableText),
+                  Text(
+                    AppStrings.noLogsAvailableText,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.darkGrayColor,
+                        ),
+                  ),
                 ],
               ));
             },

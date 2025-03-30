@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -66,7 +65,8 @@ class _ArticleScreenState extends State<ArticleScreen> {
                     controller: _searchController,
                     decoration: InputDecoration(
                       hintText: 'ค้นหาบทความ',
-                      hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                      hintStyle:
+                          const TextStyle(fontSize: 14, color: Colors.grey),
                       prefixIcon: const Icon(Icons.search),
                       suffixIcon: _isSearching
                           ? IconButton(
@@ -79,12 +79,13 @@ class _ArticleScreenState extends State<ArticleScreen> {
                           : null,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
-                        borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                        borderSide:
+                            const BorderSide(color: Colors.grey, width: 1.0),
                       ),
                       filled: true,
                       fillColor: AppColors.whiteColor,
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
                     ),
                     style: const TextStyle(fontSize: 16, color: Colors.black),
                     onSubmitted: (searchQuery) {
