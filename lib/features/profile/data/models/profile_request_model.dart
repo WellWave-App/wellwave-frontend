@@ -284,7 +284,7 @@ class CheckInStats {
 class OverAllStats {
   final int uid;
   final String? streakStartDate;
-  final String lastLoginDate;
+  final String? lastLoginDate;
   final int currentStreak;
   final int longestStreak;
   final int totalPointsEarned;
@@ -292,7 +292,7 @@ class OverAllStats {
   OverAllStats({
     required this.uid,
     this.streakStartDate,
-    required this.lastLoginDate,
+    this.lastLoginDate,
     required this.currentStreak,
     required this.longestStreak,
     required this.totalPointsEarned,
@@ -301,8 +301,8 @@ class OverAllStats {
   factory OverAllStats.fromJson(Map<String, dynamic> json) {
     return OverAllStats(
       uid: json['UID'] as int,
-      streakStartDate: json['STREAK_START_DATE'] as String,
-      lastLoginDate: json['LAST_LOGIN_DATE'] as String,
+      streakStartDate: json['STREAK_START_DATE'] as String?,
+      lastLoginDate: json['LAST_LOGIN_DATE'] as String?,
       currentStreak: json['CURRENT_STREAK'] as int,
       longestStreak: json['LONGEST_STREAK'] as int,
       totalPointsEarned: json['TOTAL_POINTS_EARNED'] as int,
@@ -334,9 +334,11 @@ class UsersAchievement {
 
   factory UsersAchievement.fromJson(Map<String, dynamic> json) {
     return UsersAchievement(
-      imgPath: json['imgPath'] as String,
-      achTitle: json['achTitle'] as String,
-      dateAcheived: json['dateAcheived'] as DateTime,
+      imgPath: json['imgPath'] as String?,
+      achTitle: json['achTitle'] as String?,
+      dateAcheived: json['dateAcheived'] != null
+          ? DateTime.parse(json['dateAcheived'])
+          : null,
     );
   }
 }

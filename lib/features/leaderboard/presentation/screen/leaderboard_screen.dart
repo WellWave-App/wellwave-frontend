@@ -32,6 +32,27 @@ class LeaderboardScreen extends StatelessWidget {
           if (state is LeaderBoardLoaded) {
             final userBoard = state.userBoard;
             final userLeague = userBoard.league;
+
+            if (userLeague == -1) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(AppImages.catNoItemimage, height: 128),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      AppStrings.youNotInLeagueYet,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: AppColors.whiteColor,
+                          ),
+                    ),
+                  ],
+                ),
+              );
+            }
+
             final userImage = userBoard.userStats.user.imageUrl;
             final username = userBoard.userStats.user.username;
             final boardMembers = userBoard.boardMembers;

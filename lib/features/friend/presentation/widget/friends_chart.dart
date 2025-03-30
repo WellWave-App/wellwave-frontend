@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
 
+import '../../../../config/constants/app_colors.dart';
+
 class LineChartSample2 extends StatelessWidget {
   final String logType;
   final List<dynamic> logs;
@@ -26,7 +28,13 @@ class LineChartSample2 extends StatelessWidget {
               child: Text('${AppStrings.errorShow}: ${state.message}'));
         } else if (state is LogsLoadGraphSuccess) {
           if (logs.isEmpty) {
-            return const Center(child: Text(AppStrings.noLogsAvailableText));
+            return Center(
+                child: Text(
+              AppStrings.noLogsAvailableText,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.darkGrayColor,
+                  ),
+            ));
           }
 
           double minY = logs

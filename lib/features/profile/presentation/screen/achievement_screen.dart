@@ -95,6 +95,18 @@ class AchievementScreen extends StatelessWidget {
                       }
                     }
 
+                    if (achievementWidgets.isEmpty && unearnedWidgets.isEmpty) {
+                      return Center(
+                        child: Text(
+                          AppStrings.noDataAvaliableText,
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: AppColors.darkGrayColor,
+                                  ),
+                        ),
+                      );
+                    }
+
                     return Wrap(
                       spacing: 16,
                       runSpacing: 32,

@@ -6,6 +6,7 @@ import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart
 import 'package:wellwave_frontend/features/logs/presentation/widget/input_button.dart';
 import 'package:wellwave_frontend/features/logs/presentation/widget/weekly_logs_card.dart';
 
+import '../../../../config/constants/app_colors.dart';
 import '../../../../config/constants/app_images.dart';
 import '../../data/models/logs_request_model_weight.dart';
 
@@ -163,7 +164,12 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                   children: [
                     Image.asset(AppImages.catNoItemimage, height: 128),
                     const SizedBox(height: 32),
-                    const Text(AppStrings.errorLoadingLogsText),
+                    Text(
+                      AppStrings.errorLoadingLogsText,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: AppColors.darkGrayColor,
+                          ),
+                    ),
                   ],
                 ));
               }
@@ -173,7 +179,12 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                 children: [
                   Image.asset(AppImages.catNoItemimage, height: 128),
                   const SizedBox(height: 32),
-                  const Text(AppStrings.noLogsAvailableText),
+                  Text(
+                    AppStrings.noLogsAvailableText,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: AppColors.darkGrayColor,
+                        ),
+                  ),
                 ],
               ));
             },

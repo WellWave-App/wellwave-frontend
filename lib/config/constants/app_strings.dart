@@ -103,6 +103,7 @@ class AppStrings {
   //arcievement
   static const yourRecordText = 'สถิติของคุณ';
   static const medalText = 'เหรียญรางวัล';
+  static const haveNoAchievementYet = 'ยังไม่ได้รับเหรียญความสำเร็จ';
 
   //notification
   static const selectAllText = 'เลือกทั้งหมด';
@@ -119,8 +120,8 @@ class AppStrings {
 
   //Chart
   static const errorShow = 'Error';
-  static const noLogsAvailableText = 'No logs available';
-  static const errorLoadingLogsText = 'Error loading logs.';
+  static const noLogsAvailableText = 'ไม่มีข้อมูลที่บันทึก';
+  static const errorLoadingLogsText = 'เกิดข้อผิดพลาดในการดึงข้อมูลที่บันทึก';
   static const noDataForTodayText = 'ไม่มีข้อมูลสำหรับวันนี้';
   static const noDataForWeekText = 'ไม่มีข้อมูลสำหรับสัปดาห์นี้';
   static const stepNumber = 'ขั้นตอนที่';
@@ -155,12 +156,13 @@ class AppStrings {
   static const stepPerWeekText = 'ก้าวเดินต่อสัปดาห์';
   static const exercisePerWeekText = 'ออกกำลังกายต่อสัปดาห์';
 
-  static const noDataAvaliableText = 'No data available.';
+  static const noDataAvaliableText = 'ไม่มีข้อมูล';
   static const clickToEditText = 'กดเพื่อแก้ไข';
 
   //leaderboard
   static const leaderboardText = 'กระดานจัดอันดับ';
   static const healthAssessmentText = 'แบบประเมินสุขภาพ';
+  static const youNotInLeagueYet = 'คุณยังไม่ได้เข้าร่วมการแข่งขัน';
 
   //home
   static const stepTimeMessageLessThanPrevious =
@@ -277,6 +279,8 @@ class AppStrings {
   static const activeText = 'ไอเทมที่กำลังใช้งาน';
   static const myAllItemText = 'ไอเทมทั้งหมด';
   static const userNotFoundText = 'ไม่พบข้อมูลผู้ใช้';
+  static const noExchangeItemFound = 'ไม่พบไอเทม';
+
   // friends
   static const AlreadyFriendText = 'เป็นเพื่อนกับคุณแล้ว!';
   static const seeDetailsText = 'ดูข้อมูล';

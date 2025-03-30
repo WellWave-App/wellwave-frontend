@@ -62,13 +62,7 @@ class MyItemScreen extends StatelessWidget {
                                       child: CircularProgressIndicator());
                                 } else if (state is ExchangeError) {
                                   return Center(
-                                      child: Column(
-                                    children: [
-                                      Image.asset(AppImages.catNoItemimage,
-                                          height: 128),
-                                      Text(state.errorMessage),
-                                    ],
-                                  ));
+                                      child: Text(state.errorMessage));
                                 } else if (state is ExchangeUserItemLoaded) {
                                   final filteredItems = state.userExchange.items
                                       .where((item) =>
@@ -115,9 +109,16 @@ class MyItemScreen extends StatelessWidget {
                                     }).toList(),
                                   );
                                 } else {
-                                  return const Center(
-                                      child:
-                                          Text(AppStrings.noDataAvaliableText));
+                                  return Center(
+                                      child: Text(
+                                    AppStrings.noDataAvaliableText,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: AppColors.darkGrayColor,
+                                        ),
+                                  ));
                                 }
                               },
                             )),
@@ -218,8 +219,16 @@ class MyItemScreen extends StatelessWidget {
                               }).toList(),
                             );
                           } else {
-                            return const Center(
-                                child: Text(AppStrings.noDataAvaliableText));
+                            return Center(
+                                child: Text(
+                              AppStrings.noDataAvaliableText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: AppColors.darkGrayColor,
+                                  ),
+                            ));
                           }
                         },
                       )

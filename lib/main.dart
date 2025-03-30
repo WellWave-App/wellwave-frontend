@@ -9,25 +9,25 @@ import 'package:wellwave_frontend/features/friend/data/repositories/friend_repos
 import 'package:wellwave_frontend/features/friend/presentation/bloc/friend_bloc.dart';
 import 'package:wellwave_frontend/features/article/data/repositories/article_repository.dart';
 import 'package:wellwave_frontend/features/article/presentation/bloc/article_bloc.dart';
+import 'package:wellwave_frontend/features/health_assessment/presentation/bloc/health_assessment/health_assessment_bloc.dart';
+import 'package:wellwave_frontend/features/leaderboard/data/repositories/leaderboard_repositories.dart';
+import 'package:wellwave_frontend/features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
+import 'package:wellwave_frontend/features/logs/data/repositories/logs_repositories.dart';
+import 'package:wellwave_frontend/features/logs/presentation/bloc/logs_bloc.dart';
+import 'package:wellwave_frontend/features/notification/data/repositories/notification_repositories.dart';
+import 'package:wellwave_frontend/features/profile/data/repositories/archeivement_repositories.dart';
+import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/archeivement_bloc/archeivement_bloc.dart';
+import 'package:wellwave_frontend/features/profile/presentation/bloc/profile_bloc/profile_bloc.dart';
+import 'package:wellwave_frontend/features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
 import 'features/authentication/data/repositories/auth_repository.dart';
 import 'features/authentication/presentation/bloc/auth_bloc.dart';
 import 'features/health_assessment/data/repositories/health_assessment_repository.dart';
-import 'features/health_assessment/presentation/bloc/health_assessment/health_assessment_bloc.dart';
 import 'features/home/data/repositories/home_repository.dart';
 import 'features/home/presentation/bloc/home_bloc.dart';
 import 'features/home/presentation/bloc/home_event.dart';
-import 'features/leaderboard/data/repositories/leaderboard_repositories.dart';
-import 'features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
-import 'features/logs/data/repositories/logs_repositories.dart';
-import 'features/logs/presentation/bloc/logs_bloc.dart';
-import 'features/notification/data/repositories/notification_repositories.dart';
 import 'features/notification/presentation/bloc/noti_bloc.dart';
-import 'features/profile/data/repositories/archeivement_repositories.dart';
-import 'features/profile/data/repositories/profile_repositories.dart';
-import 'features/profile/presentation/bloc/archeivement_bloc/archeivement_bloc.dart';
-import 'features/profile/presentation/bloc/profile_bloc/profile_bloc.dart';
-import 'features/start_overview/presentation/bloc/start_overview_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

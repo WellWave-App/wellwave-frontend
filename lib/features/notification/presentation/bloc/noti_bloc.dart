@@ -421,7 +421,7 @@ class NotiBloc extends Bloc<NotiEvent, NotiState> {
             'Emitted new state with ${missions.length} missions'); // Add this debug line
       } else {
         debugPrint('Error: No missions fetched');
-        emit(NotiError(message: 'No missions found'));
+        emit(NotiError(message: 'ไม่พบภารกิจ'));
       }
     } catch (error) {
       debugPrint('Error fetching missions: $error');
