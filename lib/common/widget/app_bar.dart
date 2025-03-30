@@ -11,14 +11,18 @@ class CustomAppBar extends AppBar {
     required bool onLeading,
     Color? textColor,
     Function? onBackPressed,
+    Color? titleColor,
     Function? action,
     Widget? actionIcon,
   }) : super(
           title: Text(
             title ?? '',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: AppColors.blackColor,
-                ),
+            style: TextStyle(
+              fontFamily: 'NotoSansThai',
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: titleColor ?? textColor ?? AppColors.blackColor,
+            ),
           ),
           titleSpacing: 0,
           centerTitle: true,

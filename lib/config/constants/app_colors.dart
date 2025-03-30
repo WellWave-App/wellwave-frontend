@@ -50,5 +50,10 @@ class AppColors {
 
   static const darkerBlueColor = Color(0xfff446993);
   static const popUpSkyBlueColor = Color(0xfffb2d6e7);
-
+  static const baseGrayColor = Color(0xFFD9D9D9);
+  static const mintTabTextGrayColor = Color(0xFF179B8B);
+  static const skyBlueColor = Color(0xFF53C7FE);
+  static const grayProgressColor = Color(0xFFD8D8D8);
+  static const purpleGemColor = Color(0xFF8935D4);
+  static const darkGreyWithPurpleColor = Color(0xFF70728E);
 }

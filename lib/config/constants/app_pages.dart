@@ -32,6 +32,12 @@ class AppPages {
 
   static const String exchangePage = 'exchange';
   static const String myItemPage = 'myItem';
+  static const String dailyTaskPage = 'dailyTask';
+  static const String habitChallengePage = 'habitChallenge';
+  static const String questPage = 'quest';
+  static const String questDetailPage = 'questDetail';
+  static const String missionRecordPage = 'missionRecord';
+  static const String missionHistoryPage = 'missionHistory';
 
   static const String splashName = 'splash';
   static const String homeName = 'home';
@@ -41,7 +47,13 @@ class AppPages {
   static const String friendName = 'friend';
   static const String articleName = 'article';
   static const String startName = 'start';
+  static const String dailyTaskName = 'dailyTask';
+  static const String habitChallengeName = 'habitChallenge';
+  static const String questDetailName = 'questDetail';
+  static const String questName = 'quest';
+  static const String missionRecordName = 'missionRecord';
   static const String logHistoryName = 'loghistory';
+  static const String missionHistoryName = 'missionHistory';
   static const String editProfileName = 'editprofile';
   static const String reminderName = 'reminder';
   static const String achievementName = 'achievement';

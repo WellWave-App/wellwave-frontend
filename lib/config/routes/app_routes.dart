@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:wellwave_frontend/common/widget/custom_nav_bar.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/enums/navigation_enum.dart';
@@ -19,10 +20,16 @@ import 'package:wellwave_frontend/features/authentication/presentation/screen/pa
 import 'package:wellwave_frontend/features/home/presentation/screen/friend_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home/notification_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
-import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
+import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/mission_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/daily_task_page.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/habit_challenge_page.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/mission_history_screen.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/mission_record_page.dart';
+import 'package:wellwave_frontend/features/mission/presentation/screen/page/quest_page.dart';
 import 'package:wellwave_frontend/features/start_overview/presentation/screen/start_overview_screen.dart';
 
 import '../../features/article/presentation/screen/article_screen.dart';
@@ -35,6 +42,9 @@ import '../../features/profile/presentation/screen/achievement_screen.dart';
 import '../../features/profile/presentation/screen/edit_profile_screen.dart';
 import '../../features/profile/presentation/screen/profile_screen.dart';
 import '../../features/profile/presentation/screen/set_weekly_goal_screen.dart';
+
+import '../../features/mission/presentation/screen/page/quest_detail_page.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter goRouter = GoRouter(
@@ -101,7 +111,7 @@ final GoRouter goRouter = GoRouter(
                   path: AppPages.profilePage,
                   name: AppPages.profileName,
                   pageBuilder: (BuildContext context, GoRouterState state) {
-                    return const NoTransitionPage(child: ProfileScreen());
+                    return const NoTransitionPage(child: AssessmentScreen());
                   },
                   routes: [
                     GoRoute(
@@ -191,12 +201,79 @@ final GoRouter goRouter = GoRouter(
               ),
             ]),
         GoRoute(
-          path: AppPages.missionPage,
-          name: AppPages.missionName,
-          pageBuilder: (BuildContext context, GoRouterState state) {
-            return _buildPageWithNavBar(context, state, const MissionScreen());
-          },
-        ),
+            path: AppPages.missionPage,
+            name: AppPages.missionName,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _buildPageWithNavBar(
+                  context, state, const MissionScreen());
+            },
+            routes: [
+              GoRoute(
+                path: 'record/:hid',
+                name: AppPages.missionRecordName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  final Map<String, dynamic> extras =
+                      state.extra as Map<String, dynamic>;
+                  return NoTransitionPage(
+                    child: Provider<HabitRepositories>(
+                      create: (context) => HabitRepositories(),
+                      child: MissionRecordPage(
+                        hid: int.parse(state.pathParameters['hid'] ?? '0'),
+                        title: extras['title'] as String? ?? 'Mission Record',
+                        adviceText:
+                            extras['adviceText'] as String? ?? 'Advice Text',
+                        minutesGoal: extras['minutesGoal'] as int? ?? 1,
+                        challengeId: extras['challengeId'] as int? ?? 0,
+                        expReward: extras['expReward'] as int? ?? 0,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              GoRoute(
+                path: AppPages.dailyTaskPage,
+                name: AppPages.dailyTaskName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return NoTransitionPage(child: DailyTaskPage());
+                },
+              ),
+              GoRoute(
+                path: AppPages.habitChallengePage,
+                name: AppPages.habitChallengeName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return NoTransitionPage(child: HabitChallengePage());
+                },
+              ),
+              GoRoute(
+                path: AppPages.questPage,
+                name: AppPages.questName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(child: QuestPage());
+                },
+                routes: [
+                  GoRoute(
+                    path: ':questId',
+                    name: AppPages.questDetailName,
+                    pageBuilder: (BuildContext context, GoRouterState state) {
+                      final questId =
+                          int.parse(state.pathParameters['questId'] ?? '0');
+                      return NoTransitionPage(
+                        child: QuestDetailPage(
+                          questId: questId,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+              GoRoute(
+                path: AppPages.missionHistoryPage,
+                name: AppPages.missionHistoryName,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return const NoTransitionPage(child: MissionHistoryScreen());
+                },
+              ),
+            ]),
         GoRoute(
           path: AppPages.friendPage,
           name: AppPages.friendName,

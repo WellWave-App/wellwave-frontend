@@ -96,6 +96,8 @@ class AppImages {
   static const barCheckInSuccessImage =
       'assets/images/check_in_success_bar.png';
   static const barCongratsImage = 'assets/images/congrats_bar.png';
+  static const barSuccessImage = 'assets/images/success_bar.png';
+  static const barMissionSuccessImage = 'assets/images/bar_success.png';
   static const fireIcon = 'assets/icons/fire_icon.svg';
   static const waterIcon = 'assets/icons/water_icon.svg';
   static const sleepingIcon = 'assets/icons/sleeping_icon.svg';
@@ -112,6 +114,7 @@ class AppImages {
   ];
 
   static const clockIcon = 'assets/icons/clock_icon.svg';
+  static const clockBlackIcon = 'assets/icons/clock.svg';
   static const firstRankIcon = 'assets/icons/first_rank_icon.svg';
   static const cameraIcon = 'assets/icons/health_assessment/camera.svg';
   static const avatarDefaultIcon =
@@ -224,4 +227,29 @@ class AppImages {
   static const thirdLeagueIcon = 'assets/icons/third_league_icon.svg';
   static const forthLeagueIcon = 'assets/icons/forth_league_icon.svg';
   static const fifthLeagueIcon = 'assets/icons/fifth_league_icon.svg';
+
+  static const emptyComponentImage = 'assets/images/empty_component.png';
+  static const dailyTaskImage = 'assets/images/daily_task.png';
+  static const habitChallengeImage = 'assets/images/habit_challenge.png';
+  static const questImage = 'assets/images/quest.png';
+
+  static const calendarIcon = 'assets/icons/calendar.svg';
+  static const arrowForwardIcon = 'assets/icons/arrow_forward.svg';
+  static const closeBTIcon = 'assets/icons/close_btn.svg';
+  static const taskSuccessIcon = 'assets/icons/task_success_icon.svg';
+
+  static const processIcon = 'assets/icons/progress_icon.svg';
+  static const completeProcessIcon = 'assets/icons/task_success_icon.svg';
+  static const stopMissionRecordIcon = 'assets/icons/stopMissionRecord.svg';
+  static const resumeMissionRecordIcon = 'assets/icons/resumeMissionRecord.svg';
+  static const finishMissionRecordIcon = 'assets/icons/finishMissionRecord.svg';
+  static const fireMissionRecordIcon = 'assets/icons/fire_mission.svg';
+  static const missionRecommendTextIcon =
+      'assets/icons/mission_recommend_text.svg';
+
+  static const caloriesIcon = 'assets/icons/calories_icon.svg';
+
+  static const frameTimeMissionIcon =
+      'assets/icons/frame_time_mission_popup.png';
+  static const keepGoingAvatar = 'assets/icons/keep_going_avatar.svg';
 }
