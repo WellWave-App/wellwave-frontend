@@ -3,7 +3,7 @@ import 'package:wellwave_frontend/features/health_assessment/data/models/health_
 import 'package:wellwave_frontend/features/home/data/models/get_user_challenges_request_model.dart';
 import 'package:wellwave_frontend/features/home/data/models/login_streak_data_response_model.dart';
 import 'package:wellwave_frontend/features/home/data/models/notifications_data_response_model.dart';
-import 'package:wellwave_frontend/features/home/data/models/recommend_habit_response_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
 import 'package:equatable/equatable.dart';
@@ -47,7 +47,7 @@ class HomeLoadedState extends HomeState {
   final ProfileRequestModel? profile;
   final HealthAssessmentHealthDataRequestModel? healthData;
   final LoginStreakDataResponseModel? loginStreak;
-  final RecommendHabitResponseModel? recommendHabitData;
+  final HabitRequestModel? habitRequestData;
   final List<NotificationsDataResponseModel>? notiData;
   final HealthDataStepAndExResponseModel? healthStepAndExData;
   final GetUserChallengesRequestModel? userChallengesData;
@@ -61,7 +61,7 @@ class HomeLoadedState extends HomeState {
     this.notiData,
     this.healthStepAndExData,
     this.userChallengesData,
-    this.recommendHabitData,
+    this.habitRequestData,
     this.completionStatus = const {},
     Map<String, dynamic>? formDataReassessment,
   }) : super(homeStep: step, formDataReassessment: formDataReassessment);
@@ -75,7 +75,7 @@ class HomeLoadedState extends HomeState {
     HealthDataStepAndExResponseModel? healthStepAndExData,
     List<NotificationsDataResponseModel>? notiData,
     GetUserChallengesRequestModel? userChallengesData,
-    RecommendHabitResponseModel? recommendHabitData,
+    HabitRequestModel? habitRequestData,
     Map<String, Map<DateTime, bool>>? completionStatus,
     Map<String, dynamic>? formDataReassessment,
   }) {
@@ -87,7 +87,7 @@ class HomeLoadedState extends HomeState {
       notiData: notiData ?? this.notiData,
       healthStepAndExData: healthStepAndExData ?? this.healthStepAndExData,
       userChallengesData: userChallengesData ?? this.userChallengesData,
-      recommendHabitData: recommendHabitData ?? this.recommendHabitData,
+      habitRequestData: habitRequestData ?? this.habitRequestData,
       completionStatus: completionStatus ?? this.completionStatus,
       formDataReassessment: formDataReassessment ?? this.formDataReassessment,
     );
@@ -102,117 +102,7 @@ class HomeLoadedState extends HomeState {
       notiData,
       healthStepAndExData,
       userChallengesData,
-      recommendHabitData,
+      habitRequestData,
       completionStatus,
     ]);
 }
-
-
-// class HealthDataUpdatedState extends HomeState {
-//   final String message;
-
-//   HealthDataUpdatedState(
-//       {this.message = 'Health data updated successfully',
-//       required super.homeStep});
-
-//   @override
-//   List<Object> get props => [message];
-// }
-
-// class HealthDataUpdateFailedState extends HomeState {
-//   final String errorMessage;
-
-//   HealthDataUpdateFailedState(
-//       {this.errorMessage = 'Failed to update health data',
-//       required super.homeStep});
-
-//   @override
-//   List<Object> get props => [errorMessage];
-// }
-
-
-
-// class HomeLoadedState extends HomeState {
-//   final int exp;
-//   final int gem;
-//   final String imageUrl;
-//   final String username;
-//   final int userGoalStepWeek;
-//   final int userGoalExTimeWeek;
-//   final List<int> weeklyAverages;
-//   final List<String> readNotifications;
-//   final bool hasNewNotification;
-//   final int currentStreak;
-//   final double? weight;
-//   final double? diastolicBloodPressure;
-//   final double? systolicBloodPressure;
-//   final double? hdl;
-//   final double? ldl;
-//   final double? waistLine;
-//   final Map<String, dynamic>? formDataReassessment;
-
-//   HomeLoadedState({
-//     required this.exp,
-//     required this.gem,
-//     required this.imageUrl,
-//     required this.username,
-//     required this.userGoalStepWeek,
-//     required this.userGoalExTimeWeek,
-//     required this.weeklyAverages,
-//     required this.readNotifications,
-//     required this.hasNewNotification,
-//     required this.currentStreak,
-//     required int step,
-//     this.diastolicBloodPressure,
-//     this.hdl,
-//     this.ldl,
-//     this.systolicBloodPressure,
-//     this.waistLine,
-//     this.weight,
-//     this.formDataReassessment,
-//   }) : super(homeStep: step);
-
-//   HomeLoadedState copyWith({
-//     int? step,
-//     int? exp,
-//     int? gem,
-//     String? imageUrl,
-//     String? username,
-//     int? userGoalStepWeek,
-//     int? userGoalExTimeWeek,
-//     List<int>? weeklyAverages,
-//     List<String>? readNotifications,
-//     bool? hasNewNotification,
-//     int? currentStreak,
-//     double? weight,
-//     double? diastolicBloodPressure,
-//     double? systolicBloodPressure,
-//     double? hdl,
-//     double? ldl,
-//     double? waistLine,
-//     Map<String, dynamic>? formDataReassessment,
-//   }) {
-//     return HomeLoadedState(
-//       step: step ?? this.homeStep,
-//       exp: exp ?? this.exp,
-//       gem: gem ?? this.gem,
-//       imageUrl: imageUrl ?? this.imageUrl,
-//       username: username ?? this.username,
-//       userGoalStepWeek: userGoalStepWeek ?? this.userGoalStepWeek,
-//       userGoalExTimeWeek: userGoalExTimeWeek ?? this.userGoalExTimeWeek,
-//       weeklyAverages: weeklyAverages ?? this.weeklyAverages,
-//       readNotifications: readNotifications ?? this.readNotifications,
-//       hasNewNotification: hasNewNotification ?? this.hasNewNotification,
-//       currentStreak: currentStreak ?? this.currentStreak,
-//       weight: weight ?? this.weight,
-//       diastolicBloodPressure:
-//           diastolicBloodPressure ?? this.diastolicBloodPressure,
-//       systolicBloodPressure:
-//           systolicBloodPressure ?? this.systolicBloodPressure,
-//       hdl: hdl ?? this.hdl,
-//       ldl: ldl ?? this.ldl,
-//       waistLine: waistLine ?? this.waistLine,
-//       formDataReassessment: formDataReassessment ?? this.formDataReassessment,
-//     );
-//   }
-// }

@@ -7,10 +7,10 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/enums/greeting_message.dart';
-import 'package:wellwave_frontend/features/home/data/models/recommend_habit_response_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
 
 import '../../../config/constants/enums/calculate_weekly_averages.dart';
 import 'challenge_show_card.dart';
@@ -41,7 +41,8 @@ class _ProgressWidgetState extends State<ProgressWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
       if (state is HomeLoadedState) {
-        List<HabitSimpleModel> habits = state.recommendHabitData?.habits ?? [];
+        List<HabitItemRequestModel> habits =
+            state.habitRequestData?.habits ?? [];
         final challenges = state.userChallengesData?.data ?? [];
         return Column(
           children: [
@@ -120,60 +121,50 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                       ),
                                 ),
                               ),
-                        // ProgressShowCard(
-                        //     progressData: progressData!.data.first),
                         const SizedBox(
                           height: 32,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Text(
-                            AppStrings.challengeText,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(
-                                  color: AppColors.blackColor,
-                                ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        habits.isNotEmpty
-                            ? SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 24.0,
-                                    top: 8.0,
-                                    bottom: 8.0,
-                                    right: 24.0,
+                        (challenges.isNotEmpty)
+                            ? Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 24),
+                                    child: Text(
+                                      AppStrings.challengeText,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium
+                                          ?.copyWith(
+                                            color: AppColors.blackColor,
+                                          ),
+                                    ),
                                   ),
-                                  child: Row(
-                                    children: habits.map((habit) {
-                                      return Row(
-                                        children: [
-                                          HabitShowCard(habit: habit),
-                                          const SizedBox(width: 16),
-                                        ],
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                alignment: Alignment.center,
-                                height: 120,
-                                child: Text(
-                                  'ยังไม่มีรายการ',
-                                  textAlign: TextAlign.center,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(
-                                        color: AppColors.darkGrayColor,
+                                  const SizedBox(height: 16),
+                                  SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 24.0,
+                                        top: 8.0,
+                                        bottom: 8.0,
+                                        right: 24.0,
                                       ),
-                                ),
-                              ),
+                                      child: Row(
+                                        children: challenges.map((challenge) {
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 16.0),
+                                            child: HabitShowCard(
+                                                challenge: challenge),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : const SizedBox.shrink(),
                         const SizedBox(
                           height: 32,
                         ),

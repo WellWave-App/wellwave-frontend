@@ -21,7 +21,7 @@ import 'package:wellwave_frontend/features/home/presentation/screen/friend_scree
 import 'package:wellwave_frontend/features/home/presentation/screen/home/notification_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/home_screen.dart';
 import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
-import 'package:wellwave_frontend/features/mission/presentation/screen/mission_screen.dart';
+import 'package:wellwave_frontend/features/home/presentation/screen/mission_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_history_screen.dart';
 import 'package:wellwave_frontend/features/logs/presentation/screen/logs_screen.dart';
 import 'package:wellwave_frontend/features/home/presentation/screen/splash_screen.dart';
@@ -117,7 +117,7 @@ final GoRouter goRouter = GoRouter(
                   path: AppPages.profilePage,
                   name: AppPages.profileName,
                   pageBuilder: (BuildContext context, GoRouterState state) {
-                    return const NoTransitionPage(child: AssessmentScreen());
+                    return const NoTransitionPage(child: ProfileScreen());
                   },
                   routes: [
                     GoRoute(

@@ -5,6 +5,8 @@ import 'package:wellwave_frontend/features/health_assessment/data/repositories/h
 import 'package:wellwave_frontend/features/home/data/repositories/home_repository.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
+import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
+import 'package:wellwave_frontend/features/mission/data/repositories/habit_repositories.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
 import '../../../../config/constants/app_pages.dart';
@@ -19,6 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final RecommendHabitRepository recommendHabitRepository;
   final HealthDataRepository healthDataRepository;
   final UserChallengesRepository userChallengesRepository;
+  final HabitRepositories habitRepositories;
   final Map<String, Map<DateTime, bool>> completionStatus = {};
   List<int> weeklyAverages = [];
   List<String> readNotifications = [];
@@ -31,6 +34,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       required this.profileRepository,
       required this.recommendHabitRepository,
       required this.healthDataRepository,
+      required this.habitRepositories,
       required this.userChallengesRepository})
       : super(const HomeState(
           homeStep: 0,
@@ -64,7 +68,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           notiData: notiData,
           healthStepAndExData: healthStepAndExData,
           userChallengesData: userChallengesData,
-          recommendHabitData: recommendHabitData,
+          habitRequestData: recommendHabitData,
         ));
       } catch (e) {
         debugPrint("Error fetching home data: $e");
