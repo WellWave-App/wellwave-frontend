@@ -7,7 +7,6 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
-import 'package:wellwave_frontend/features/mission/presentation/bloc/mission_bloc.dart';
 
 import '../../widget/floating_button_with_shake.dart';
 import '../../widget/progress_widget.dart';
@@ -24,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeBloc>().add(FetchHomeEvent(context));
+    context.read<HomeBloc>().add(FetchChallengesDataEvent());
   }
 
   @override
@@ -68,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              // FloatingButtonWithShake(),
               FutureBuilder<bool>(
                 future: _checkShowFloatingButton(profileCreateAt),
                 builder: (context, snapshot) {
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         } else if (state is HomeError) {
-          return Center(child: Text('Error: ${state.message}'));
+          return Center(child: Text('Error:  ${state.message}'));
         } else {
           return Container();
         }

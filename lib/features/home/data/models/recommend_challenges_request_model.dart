@@ -1,14 +1,14 @@
-class GetUserChallengesRequestModel {
+class RecommendChallengesRequestModel {
   final List<Challenge> data;
   final Meta meta;
 
-  GetUserChallengesRequestModel({
+  RecommendChallengesRequestModel({
     required this.data,
     required this.meta,
   });
 
-  factory GetUserChallengesRequestModel.fromJson(Map<String, dynamic> json) {
-    return GetUserChallengesRequestModel(
+  factory RecommendChallengesRequestModel.fromJson(Map<String, dynamic> json) {
+    return RecommendChallengesRequestModel(
       data: (json['data'] as List)
           .map((e) => Challenge.fromJson(e as Map<String, dynamic>))
           .toList(),

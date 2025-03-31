@@ -57,7 +57,8 @@ class ProgressStepperWidget extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         final startDate = DateTime.parse(progressData.startDate);
-        final endDate = DateTime.parse(progressData.endDate);
+        final endDate = DateTime.parse(progressData.endDate)
+            .subtract(const Duration(days: 1));
 
         final dates = _generateDates(startDate, endDate);
 
@@ -115,7 +116,7 @@ class ProgressStepperWidget extends StatelessWidget {
                     return GradientButton(
                       text: AppStrings.doMissionText,
                       onPressed: () {
-                        context.goNamed(AppPages.missionPage);
+                        context.goNamed(AppPages.habitChallengeName);
                       },
                     );
                   }

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:wellwave_frontend/features/mission/data/models/daily_task_list_model.dart';
-import 'package:wellwave_frontend/features/mission/data/models/get_dailly_habit_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/get_daily_habit_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/get_history_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/habit_track_request_model.dart';

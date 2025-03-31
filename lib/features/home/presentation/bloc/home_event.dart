@@ -100,3 +100,8 @@ class FetchUserChallengesEvent extends HomeEvent {
   @override
   List<Object> get props => [];
 }
+
+class FetchChallengesDataEvent extends HomeEvent {
+  @override
+  List<Object> get props => [];
+}

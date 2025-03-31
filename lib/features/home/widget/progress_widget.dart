@@ -7,9 +7,11 @@ import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/config/constants/app_pages.dart';
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/config/constants/enums/greeting_message.dart';
+import 'package:wellwave_frontend/features/home/data/models/get_user_challenges_request_model.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wellwave_frontend/features/home/widget/recommended_habit_card.dart';
 import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
 
 import '../../../config/constants/enums/calculate_weekly_averages.dart';
@@ -41,9 +43,15 @@ class _ProgressWidgetState extends State<ProgressWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
       if (state is HomeLoadedState) {
-        List<HabitItemRequestModel> habits =
-            state.habitRequestData?.habits ?? [];
-        final challenges = state.userChallengesData?.data ?? [];
+        final challengesItems = state.userChallengesData?.data ?? [];
+
+        // กรองเฉพาะรายการที่มี IS_DAILY = false
+        final filteredChallengesItems = challengesItems
+            .where((challenge) => challenge.habits?.isDaily == false)
+            .toList();
+
+        final recommendedHabits = state.recData?.data ?? [];
+
         return Column(
           children: [
             Stack(
@@ -85,7 +93,8 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        challenges.isNotEmpty
+                        // ความก้าวหน้า - แสดงเฉพาะรายการที่ IS_DAILY = false
+                        filteredChallengesItems.isNotEmpty
                             ? SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Padding(
@@ -96,7 +105,8 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                     right: 24.0,
                                   ),
                                   child: Row(
-                                    children: challenges.map((challenge) {
+                                    children: filteredChallengesItems
+                                        .map((challenge) {
                                       return Padding(
                                         padding:
                                             const EdgeInsets.only(right: 16.0),
@@ -124,8 +134,9 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                         const SizedBox(
                           height: 32,
                         ),
-                        (challenges.isNotEmpty)
+                        (recommendedHabits.isNotEmpty)
                             ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -151,12 +162,13 @@ class _ProgressWidgetState extends State<ProgressWidget> {
                                         right: 24.0,
                                       ),
                                       child: Row(
-                                        children: challenges.map((challenge) {
+                                        children:
+                                            recommendedHabits.map((challenge) {
                                           return Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 16.0),
-                                            child: HabitShowCard(
-                                                challenge: challenge),
+                                            child: RecommendedHabitCard(
+                                                progressData: challenge),
                                           );
                                         }).toList(),
                                       ),

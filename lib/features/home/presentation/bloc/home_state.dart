@@ -3,7 +3,9 @@ import 'package:wellwave_frontend/features/health_assessment/data/models/health_
 import 'package:wellwave_frontend/features/home/data/models/get_user_challenges_request_model.dart';
 import 'package:wellwave_frontend/features/home/data/models/login_streak_data_response_model.dart';
 import 'package:wellwave_frontend/features/home/data/models/notifications_data_response_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/recommend_challenges_request_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/rec_daily_habit_model.dart';
 import 'package:wellwave_frontend/features/profile/data/models/profile_request_model.dart';
 
 import 'package:equatable/equatable.dart';
@@ -47,7 +49,7 @@ class HomeLoadedState extends HomeState {
   final ProfileRequestModel? profile;
   final HealthAssessmentHealthDataRequestModel? healthData;
   final LoginStreakDataResponseModel? loginStreak;
-  final HabitRequestModel? habitRequestData;
+  final RecommendChallengesRequestModel? recData;
   final List<NotificationsDataResponseModel>? notiData;
   final HealthDataStepAndExResponseModel? healthStepAndExData;
   final GetUserChallengesRequestModel? userChallengesData;
@@ -61,7 +63,7 @@ class HomeLoadedState extends HomeState {
     this.notiData,
     this.healthStepAndExData,
     this.userChallengesData,
-    this.habitRequestData,
+    this.recData,
     this.completionStatus = const {},
     Map<String, dynamic>? formDataReassessment,
   }) : super(homeStep: step, formDataReassessment: formDataReassessment);
@@ -75,7 +77,7 @@ class HomeLoadedState extends HomeState {
     HealthDataStepAndExResponseModel? healthStepAndExData,
     List<NotificationsDataResponseModel>? notiData,
     GetUserChallengesRequestModel? userChallengesData,
-    HabitRequestModel? habitRequestData,
+    RecommendChallengesRequestModel? recData,
     Map<String, Map<DateTime, bool>>? completionStatus,
     Map<String, dynamic>? formDataReassessment,
   }) {
@@ -87,7 +89,7 @@ class HomeLoadedState extends HomeState {
       notiData: notiData ?? this.notiData,
       healthStepAndExData: healthStepAndExData ?? this.healthStepAndExData,
       userChallengesData: userChallengesData ?? this.userChallengesData,
-      habitRequestData: habitRequestData ?? this.habitRequestData,
+      recData: recData ?? this.recData,
       completionStatus: completionStatus ?? this.completionStatus,
       formDataReassessment: formDataReassessment ?? this.formDataReassessment,
     );
@@ -102,7 +104,7 @@ class HomeLoadedState extends HomeState {
       notiData,
       healthStepAndExData,
       userChallengesData,
-      habitRequestData,
+      recData,
       completionStatus,
     ]);
 }

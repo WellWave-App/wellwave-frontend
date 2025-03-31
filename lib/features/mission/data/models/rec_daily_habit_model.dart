@@ -1,50 +1,23 @@
-class GetUserChallengesRequestModel {
-  final List<Challenge> data;
-  final Meta meta;
+class RecDaillyHabitModel {
+  final List<DailyHabitItemModel> data;
+  final DailyHabitMetaModel meta;
 
-  GetUserChallengesRequestModel({
+  const RecDaillyHabitModel({
     required this.data,
     required this.meta,
   });
 
-  factory GetUserChallengesRequestModel.fromJson(Map<String, dynamic> json) {
-    return GetUserChallengesRequestModel(
+  factory RecDaillyHabitModel.fromJson(Map<String, dynamic> json) {
+    return RecDaillyHabitModel(
       data: (json['data'] as List)
-          .map((e) => Challenge.fromJson(e as Map<String, dynamic>))
+          .map((e) => DailyHabitItemModel.fromJson(e))
           .toList(),
-      meta: Meta.fromJson(json['meta'] as Map<String, dynamic>),
+      meta: DailyHabitMetaModel.fromJson(json['meta']),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'data': data.map((e) => e.toJson()).toList(),
-      'meta': meta.toJson(),
-    };
   }
 }
 
-class Meta {
-  final int total;
-
-  Meta({
-    required this.total,
-  });
-
-  factory Meta.fromJson(Map<String, dynamic> json) {
-    return Meta(
-      total: (json['total'] as num).toInt(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'total': total,
-    };
-  }
-}
-
-class Challenge {
+class DailyHabitItemModel {
   final int challengeId;
   final int uid;
   final int hid;
@@ -55,12 +28,12 @@ class Challenge {
   final int daysGoal;
   final int streakCount;
   final bool isNotificationEnabled;
-  final Map<String, bool> weekdaysNoti;
+  final WeekdaysNotiModel weekdaysNoti;
   final String? notiTime;
-  final Habit habits;
-  final List<DailyTrack> dailyTracks;
+  final HabitDetailModel habits;
+  final List<DailyTrackModel> dailyTracks;
 
-  Challenge({
+  const DailyHabitItemModel({
     required this.challengeId,
     required this.uid,
     required this.hid,
@@ -77,8 +50,8 @@ class Challenge {
     required this.dailyTracks,
   });
 
-  factory Challenge.fromJson(Map<String, dynamic> json) {
-    return Challenge(
+  factory DailyHabitItemModel.fromJson(Map<String, dynamic> json) {
+    return DailyHabitItemModel(
       challengeId: (json['CHALLENGE_ID'] as num).toInt(),
       uid: (json['UID'] as num).toInt(),
       hid: (json['HID'] as num).toInt(),
@@ -91,38 +64,49 @@ class Challenge {
       daysGoal: (json['DAYS_GOAL'] as num).toInt(),
       streakCount: (json['STREAK_COUNT'] as num).toInt(),
       isNotificationEnabled: json['IS_NOTIFICATION_ENABLED'] ?? false,
-      weekdaysNoti: (json['WEEKDAYS_NOTI'] as Map<String, dynamic>).map(
-        (key, value) => MapEntry(key, value as bool),
-      ),
+      weekdaysNoti: WeekdaysNotiModel.fromJson(json['WEEKDAYS_NOTI']),
       notiTime: json['NOTI_TIME'],
-      habits: Habit.fromJson(json['habits'] as Map<String, dynamic>),
+      habits: HabitDetailModel.fromJson(json['habits']),
       dailyTracks: (json['dailyTracks'] as List)
-          .map((e) => DailyTrack.fromJson(e as Map<String, dynamic>))
+          .map((e) => DailyTrackModel.fromJson(e))
           .toList(),
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      'CHALLENGE_ID': challengeId,
-      'UID': uid,
-      'HID': hid,
-      'START_DATE': startDate,
-      'END_DATE': endDate,
-      'STATUS': status,
-      'DAILY_MINUTE_GOAL': dailyMinuteGoal,
-      'DAYS_GOAL': daysGoal,
-      'STREAK_COUNT': streakCount,
-      'IS_NOTIFICATION_ENABLED': isNotificationEnabled,
-      'WEEKDAYS_NOTI': weekdaysNoti,
-      'NOTI_TIME': notiTime,
-      'habits': habits.toJson(),
-      'dailyTracks': dailyTracks.map((e) => e.toJson()).toList(),
-    };
+class WeekdaysNotiModel {
+  final bool friday;
+  final bool monday;
+  final bool sunday;
+  final bool tuesday;
+  final bool saturday;
+  final bool thursday;
+  final bool wednesday;
+
+  const WeekdaysNotiModel({
+    required this.friday,
+    required this.monday,
+    required this.sunday,
+    required this.tuesday,
+    required this.saturday,
+    required this.thursday,
+    required this.wednesday,
+  });
+
+  factory WeekdaysNotiModel.fromJson(Map<String, dynamic> json) {
+    return WeekdaysNotiModel(
+      friday: json['Friday'] ?? false,
+      monday: json['Monday'] ?? false,
+      sunday: json['Sunday'] ?? false,
+      tuesday: json['Tuesday'] ?? false,
+      saturday: json['Saturday'] ?? false,
+      thursday: json['Thursday'] ?? false,
+      wednesday: json['Wednesday'] ?? false,
+    );
   }
 }
 
-class Habit {
+class HabitDetailModel {
   final int hid;
   final String title;
   final String description;
@@ -131,16 +115,16 @@ class Habit {
   final String? exerciseType;
   final String trackingType;
   final int expReward;
-  final int gemReward;
+  final int? gemReward;
   final int? defaultDailyMinuteGoal;
   final int defaultDaysGoal;
   final String thumbnailUrl;
   final bool isDaily;
-  final Conditions conditions;
+  final HabitConditionsModel conditions;
   final String createdAt;
   final String updatedAt;
 
-  Habit({
+  const HabitDetailModel({
     required this.hid,
     required this.title,
     required this.description,
@@ -149,7 +133,7 @@ class Habit {
     this.exerciseType,
     required this.trackingType,
     required this.expReward,
-    required this.gemReward,
+    this.gemReward,
     this.defaultDailyMinuteGoal,
     required this.defaultDaysGoal,
     required this.thumbnailUrl,
@@ -159,8 +143,8 @@ class Habit {
     required this.updatedAt,
   });
 
-  factory Habit.fromJson(Map<String, dynamic> json) {
-    return Habit(
+  factory HabitDetailModel.fromJson(Map<String, dynamic> json) {
+    return HabitDetailModel(
       hid: (json['HID'] as num).toInt(),
       title: json['TITLE'] ?? '',
       description: json['DESCRIPTION'] ?? '',
@@ -176,68 +160,37 @@ class Habit {
       defaultDaysGoal: (json['DEFAULT_DAYS_GOAL'] as num).toInt(),
       thumbnailUrl: json['THUMBNAIL_URL'] ?? '',
       isDaily: json['IS_DAILY'] ?? false,
-      conditions:
-          Conditions.fromJson(json['CONDITIONS'] as Map<String, dynamic>),
+      conditions: HabitConditionsModel.fromJson(json['CONDITIONS']),
       createdAt: json['CREATED_AT'] ?? '',
       updatedAt: json['UPDATED_AT'] ?? '',
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'HID': hid,
-      'TITLE': title,
-      'DESCRIPTION': description,
-      'ADVICE': advice,
-      'CATEGORY': category,
-      'EXERCISE_TYPE': exerciseType,
-      'TRACKING_TYPE': trackingType,
-      'EXP_REWARD': expReward,
-      'GEM_REWARD': gemReward,
-      'DEFAULT_DAILY_MINUTE_GOAL': defaultDailyMinuteGoal,
-      'DEFAULT_DAYS_GOAL': defaultDaysGoal,
-      'THUMBNAIL_URL': thumbnailUrl,
-      'IS_DAILY': isDaily,
-      'CONDITIONS': conditions.toJson(),
-      'CREATED_AT': createdAt,
-      'UPDATED_AT': updatedAt,
-    };
-  }
 }
 
-class Conditions {
+class HabitConditionsModel {
   final bool obesityCondition;
   final bool diabetesCondition;
   final bool dyslipidemiaCondition;
   final bool hypertensionCondition;
 
-  Conditions({
+  const HabitConditionsModel({
     required this.obesityCondition,
     required this.diabetesCondition,
     required this.dyslipidemiaCondition,
     required this.hypertensionCondition,
   });
 
-  factory Conditions.fromJson(Map<String, dynamic> json) {
-    return Conditions(
+  factory HabitConditionsModel.fromJson(Map<String, dynamic> json) {
+    return HabitConditionsModel(
       obesityCondition: json['OBESITY_CONDITION'] ?? false,
       diabetesCondition: json['DIABETES_CONDITION'] ?? false,
       dyslipidemiaCondition: json['DYSLIPIDEMIA_CONDITION'] ?? false,
       hypertensionCondition: json['HYPERTENSION_CONDITION'] ?? false,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'OBESITY_CONDITION': obesityCondition,
-      'DIABETES_CONDITION': diabetesCondition,
-      'DYSLIPIDEMIA_CONDITION': dyslipidemiaCondition,
-      'HYPERTENSION_CONDITION': hypertensionCondition,
-    };
-  }
 }
 
-class DailyTrack {
+class DailyTrackModel {
   final int trackId;
   final int challengeId;
   final String trackDate;
@@ -250,7 +203,7 @@ class DailyTrack {
   final int? heartRate;
   final String? moodFeedback;
 
-  DailyTrack({
+  const DailyTrackModel({
     required this.trackId,
     required this.challengeId,
     required this.trackDate,
@@ -264,8 +217,8 @@ class DailyTrack {
     this.moodFeedback,
   });
 
-  factory DailyTrack.fromJson(Map<String, dynamic> json) {
-    return DailyTrack(
+  factory DailyTrackModel.fromJson(Map<String, dynamic> json) {
+    return DailyTrackModel(
       trackId: (json['TRACK_ID'] as num).toInt(),
       challengeId: (json['CHALLENGE_ID'] as num).toInt(),
       trackDate: json['TRACK_DATE'] ?? '',
@@ -291,20 +244,16 @@ class DailyTrack {
       moodFeedback: json['MOOD_FEEDBACK'],
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      'TRACK_ID': trackId,
-      'CHALLENGE_ID': challengeId,
-      'TRACK_DATE': trackDate,
-      'COMPLETED': completed,
-      'DURATION_MINUTES': durationMinutes,
-      'DISTANCE_KM': distanceKm,
-      'COUNT_VALUE': countValue,
-      'STEPS_CALCULATED': stepsCalculated,
-      'CALORIES_BURNED': caloriesBurned,
-      'HEART_RATE': heartRate,
-      'MOOD_FEEDBACK': moodFeedback,
-    };
+class DailyHabitMetaModel {
+  final int total;
+
+  const DailyHabitMetaModel({required this.total});
+
+  factory DailyHabitMetaModel.fromJson(Map<String, dynamic> json) {
+    return DailyHabitMetaModel(
+      total: (json['total'] as num).toInt(),
+    );
   }
 }

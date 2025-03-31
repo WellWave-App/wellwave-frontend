@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wellwave_frontend/features/health_assessment/data/repositories/health_assessment_repository.dart';
+import 'package:wellwave_frontend/features/home/data/models/get_user_challenges_request_model.dart';
 import 'package:wellwave_frontend/features/home/data/repositories/home_repository.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
@@ -18,32 +19,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ProfileRepositories profileRepository;
   final NotificationsRepository notificationsRepository;
   final LoginStreakRepository loginStreakRepository;
-  final RecommendHabitRepository recommendHabitRepository;
   final HealthDataRepository healthDataRepository;
   final UserChallengesRepository userChallengesRepository;
+  final RecommendHabitRepository recommendHabitRepository; // เพิ่มบรรทัดนี้
   final HabitRepositories habitRepositories;
   final Map<String, Map<DateTime, bool>> completionStatus = {};
   List<int> weeklyAverages = [];
   List<String> readNotifications = [];
 
-  HomeBloc(
-      {required this.currentDate,
-      required this.healthAssessmentRepository,
-      required this.loginStreakRepository,
-      required this.notificationsRepository,
-      required this.profileRepository,
-      required this.recommendHabitRepository,
-      required this.healthDataRepository,
-      required this.habitRepositories,
-      required this.userChallengesRepository})
-      : super(const HomeState(
-          homeStep: 0,
-        )) {
+  HomeBloc({
+    required this.currentDate,
+    required this.healthAssessmentRepository,
+    required this.loginStreakRepository,
+    required this.notificationsRepository,
+    required this.profileRepository,
+    required this.healthDataRepository,
+    required this.userChallengesRepository,
+    required this.recommendHabitRepository, // เพิ่มบรรทัดนี้
+    required this.habitRepositories,
+  }) : super(const HomeState(homeStep: 0)) {
     on<FetchHomeEvent>((event, emit) async {
-      debugPrint("FetchHomeEvent called");
-
       emit(const HomeLoading(homeStep: 0));
-
       try {
         final profile = await profileRepository.getUSer();
         final healthData = await healthAssessmentRepository.fetchHealthData();
@@ -51,10 +47,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final notiData = await notificationsRepository.fetchNotiData();
         final healthStepAndExData =
             await healthDataRepository.fetchStepAndExTimeData();
+
         final userChallengesData =
             await userChallengesRepository.fetchUserChallengesData();
-        final recommendHabitData =
-            await recommendHabitRepository.fetchRecommendHabitData();
+
+        final recommendHabitData = await recommendHabitRepository
+            .fetchRecommendHabitData(); // เพิ่มบรรทัดนี้
         if (healthData == null) {
           debugPrint("No health data found, redirecting...");
           navigatorKey.currentContext?.goNamed(AppPages.assessmentName);
@@ -68,7 +66,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           notiData: notiData,
           healthStepAndExData: healthStepAndExData,
           userChallengesData: userChallengesData,
-          habitRequestData: recommendHabitData,
+          recData: recommendHabitData, // เพิ่มบรรทัดนี้
         ));
       } catch (e) {
         debugPrint("Error fetching home data: $e");
@@ -185,6 +183,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<MarkAsReadNotiEvent>(_onMarkAsReadNotiEvent);
     on<MarkAllAsReadNotiEvent>(_onMarkAllAsReadNotiEvent);
     on<UpdateCompletionStatusEvent>(_onUpdateCompletionStatus);
+
+    on<FetchChallengesDataEvent>(_onFetchChallengesDataEvent);
   }
 
   Future<void> _onMarkAsReadNotiEvent(
@@ -314,6 +314,30 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(currentState.copyWith(
         completionStatus: revertedStatus,
       ));
+    }
+  }
+
+  Future<void> _onFetchChallengesDataEvent(
+      FetchChallengesDataEvent event, Emitter<HomeState> emit) async {
+    try {
+      if (state is! HomeLoadedState) {
+        // ถ้าไม่ใช่ HomeLoadedState ให้สร้าง state ใหม่ก่อน
+        return;
+      }
+
+      final currentState = state as HomeLoadedState;
+
+      // เรียกใช้ฟังก์ชันดึงข้อมูล challenges
+      final userChallengesData =
+          await userChallengesRepository.fetchUserChallengesData();
+
+      // อัปเดต state ด้วยข้อมูลใหม่ แต่คงค่าเดิมของข้อมูลอื่นๆ
+      emit(currentState.copyWith(
+        userChallengesData: userChallengesData,
+      ));
+    } catch (e) {
+      debugPrint("Error fetching challenges data: $e");
+      // ไม่ต้องเปลี่ยน state กรณีเกิด error
     }
   }
 }
