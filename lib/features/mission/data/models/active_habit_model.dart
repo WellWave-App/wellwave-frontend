@@ -108,7 +108,7 @@ class HabitDetail {
   final int hid;
   final String title;
   final String description;
-  final String advice;
+  final String? advice; // เปลี่ยนเป็น nullable (?)
   final String category;
   final String? exerciseType;
   final String trackingType;
@@ -126,7 +126,7 @@ class HabitDetail {
     required this.hid,
     required this.title,
     required this.description,
-    required this.advice,
+    this.advice, // ไม่ต้อง required
     required this.category,
     this.exerciseType,
     required this.trackingType,
@@ -144,21 +144,30 @@ class HabitDetail {
   factory HabitDetail.fromJson(Map<String, dynamic> json) {
     return HabitDetail(
       hid: json['HID'],
-      title: json['TITLE'],
-      description: json['DESCRIPTION'],
-      advice: json['ADVICE'],
-      category: json['CATEGORY'],
+      title: json['TITLE'] ?? '', // ถ้าเป็น null ให้ใช้ค่าว่าง
+      description: json['DESCRIPTION'] ?? '',
+      advice: json['ADVICE'], // ตอนนี้เป็น nullable แล้ว ไม่ต้องตรวจสอบ null
+      category: json['CATEGORY'] ?? '',
       exerciseType: json['EXERCISE_TYPE'],
-      trackingType: json['TRACKING_TYPE'],
-      expReward: json['EXP_REWARD'],
+      trackingType: json['TRACKING_TYPE'] ?? '',
+      expReward: json['EXP_REWARD'] ?? 0,
       gemReward: json['GEM_REWARD'],
       defaultDailyMinuteGoal: json['DEFAULT_DAILY_MINUTE_GOAL'],
-      defaultDaysGoal: json['DEFAULT_DAYS_GOAL'],
-      thumbnailUrl: json['THUMBNAIL_URL'],
-      isDaily: json['IS_DAILY'],
-      conditions: Conditions.fromJson(json['CONDITIONS']),
-      createdAt: json['CREATED_AT'],
-      updatedAt: json['UPDATED_AT'],
+      defaultDaysGoal: (json['DEFAULT_DAYS_GOAL'] as num?)?.toInt() ??
+          1, // ถ้าเป็น null ให้ใช้ค่า 1
+      thumbnailUrl: json['THUMBNAIL_URL'] ?? '',
+      isDaily: json['IS_DAILY'] ?? false,
+      conditions: json['CONDITIONS'] != null
+          ? Conditions.fromJson(json['CONDITIONS'])
+          : Conditions(
+              // สร้าง conditions เริ่มต้นถ้าข้อมูลเป็น null
+              obesityCondition: false,
+              diabetesCondition: false,
+              dyslipidemiaCondition: false,
+              hypertensionCondition: false,
+            ),
+      createdAt: json['CREATED_AT'] ?? '',
+      updatedAt: json['UPDATED_AT'] ?? '',
     );
   }
 }
