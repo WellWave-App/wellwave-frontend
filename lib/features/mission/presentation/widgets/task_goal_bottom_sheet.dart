@@ -31,27 +31,29 @@ class TaskGoalBottomSheet extends StatelessWidget {
         ));
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.5,
-      padding: const EdgeInsets.all(24.0),
+      height: defaultDailyMinuteGoal != 0
+          ? MediaQuery.of(context).size.height * 0.5
+          : MediaQuery.of(context).size.height * 0.4,
+      padding: const EdgeInsets.all(24),
       decoration: const BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: 5,
-            width: 140,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            margin: const EdgeInsets.only(bottom: 8),
-          ),
           Column(
             children: [
-              const SizedBox(height: 8),
+              Container(
+                height: 5,
+                width: 140,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                margin: const EdgeInsets.only(bottom: 8),
+              ),
+              const SizedBox(height: 16),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -59,7 +61,10 @@ class TaskGoalBottomSheet extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              const SizedBox(height: 8),
+            ],
+          ),
+          Column(
+            children: [
               if (defaultDaysGoal != 0)
                 Column(
                   children: [
@@ -68,7 +73,7 @@ class TaskGoalBottomSheet extends StatelessWidget {
                         if (state is HabitChallengeState &&
                             state.dailyCount == defaultDaysGoal) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 22.0),
+                            padding: const EdgeInsets.only(right: 24.0),
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: Container(
@@ -131,7 +136,6 @@ class TaskGoalBottomSheet extends StatelessWidget {
                     ),
                   ],
                 ),
-              const SizedBox(height: 12),
               if (defaultDailyMinuteGoal != 0)
                 Column(
                   children: [
@@ -207,44 +211,43 @@ class TaskGoalBottomSheet extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 16.0),
                 child: const Divider(color: AppColors.lightgrayColor),
               ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.only(right: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      AppStrings.willReceievedText,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    BlocBuilder<MissionBloc, MissionState>(
+                        builder: (context, state) {
+                      final totalExp = state is HabitChallengeState
+                          ? expReward * state.dailyCount
+                          : expReward * defaultDaysGoal;
+
+                      return Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppImages.expIcon,
+                            width: 24,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            '$totalExp',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                        ],
+                      );
+                    }),
+                  ],
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: 8),
           Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  AppStrings.willReceievedText,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                BlocBuilder<MissionBloc, MissionState>(
-                    builder: (context, state) {
-                  final totalExp = state is HabitChallengeState
-                      ? expReward * state.dailyCount
-                      : expReward * defaultDaysGoal;
-
-                  return Row(
-                    children: [
-                      SvgPicture.asset(
-                        AppImages.expIcon,
-                        width: 24,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '$totalExp',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                    ],
-                  );
-                }),
-              ],
-            ),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
+            padding: const EdgeInsets.only(top: 6.0),
             child: NextButton(
               text: AppStrings.confirmText,
               onPressed: () async {

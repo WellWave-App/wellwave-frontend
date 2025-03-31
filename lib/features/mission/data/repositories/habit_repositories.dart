@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:wellwave_frontend/config/constants/app_strings.dart';
 import 'package:wellwave_frontend/features/mission/data/models/active_habit_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/daily_task_list_model.dart';
-import 'package:wellwave_frontend/features/mission/data/models/get_dailly_habit_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/get_daily_habit_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/get_history_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
 import 'package:wellwave_frontend/features/mission/data/models/habit_track_request_model.dart';

@@ -67,7 +67,7 @@ class HealthAssessmentPersonalDataRequestModel {
   factory HealthAssessmentPersonalDataRequestModel.fromJson(
       Map<String, dynamic> json) {
     return HealthAssessmentPersonalDataRequestModel(
-      imageUrl: json['imageUrl'] as String? ?? "",
+      imageUrl: json['IMAGE_URL'] as String? ?? "",
       username: json['username'] as String? ?? "",
       yearOfBirth: json['yearOfBirth'] as int? ?? 0,
       gender: json['gender'] as bool? ?? false,

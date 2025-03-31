@@ -22,6 +22,9 @@ class HealthAssessmentPageState extends Equatable {
   final int? recommendGoalStep;
   final int? recommendExStep;
 
+  final String? errorMessage;
+  final File? temporaryImageFile;
+
   const HealthAssessmentPageState({
     required this.currentStep,
     required this.formData,
@@ -42,6 +45,8 @@ class HealthAssessmentPageState extends Equatable {
     this.riskObesityScore = 0,
     this.recommendGoalStep,
     this.recommendExStep,
+    this.errorMessage,
+    this.temporaryImageFile,
   });
 
   HealthAssessmentPageState copyWith({
@@ -69,8 +74,10 @@ class HealthAssessmentPageState extends Equatable {
     int? riskDyslipidemiaScore,
     int? riskObesityScore,
     bool? isLoading,
+    String? errorMessage,
     int? recommendGoalStep,
     int? recommendExStep,
+    File? temporaryImageFile,
   }) {
     return HealthAssessmentPageState(
       currentStep: currentStep ?? this.currentStep,
@@ -85,15 +92,17 @@ class HealthAssessmentPageState extends Equatable {
       famhisChoose: famhisChoose ?? this.famhisChoose,
       isResultCompleted: isResultCompleted ?? this.isResultCompleted,
       showStartStep: showStartStep ?? this.showStartStep,
+      showRecommendStep: showRecommendStep ?? this.showRecommendStep,
       riskDiabetesScore: riskDiabetesScore ?? this.riskDiabetesScore,
       riskHypertensionScore:
           riskHypertensionScore ?? this.riskHypertensionScore,
       riskDyslipidemiaScore:
           riskDyslipidemiaScore ?? this.riskDyslipidemiaScore,
       riskObesityScore: riskObesityScore ?? this.riskObesityScore,
-      showRecommendStep: showRecommendStep ?? this.showRecommendStep,
       recommendGoalStep: recommendGoalStep ?? this.recommendGoalStep,
       recommendExStep: recommendExStep ?? this.recommendExStep,
+      errorMessage: errorMessage ?? this.errorMessage,
+      temporaryImageFile: temporaryImageFile ?? this.temporaryImageFile,
     );
   }
 
@@ -112,7 +121,13 @@ class HealthAssessmentPageState extends Equatable {
         isResultCompleted,
         showStartStep,
         showRecommendStep,
+        riskDiabetesScore,
+        riskHypertensionScore,
+        riskDyslipidemiaScore,
+        riskObesityScore,
+        errorMessage,
+        recommendGoalStep,
+        recommendExStep,
+        temporaryImageFile
       ];
-
-  get modelPersonalData => null;
 }

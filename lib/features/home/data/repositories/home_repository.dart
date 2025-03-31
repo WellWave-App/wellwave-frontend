@@ -9,7 +9,10 @@ import 'package:wellwave_frontend/features/home/data/models/get_user_challenges_
 import 'package:wellwave_frontend/features/home/data/models/health_data_step_and_ex_response_model.dart';
 import 'package:wellwave_frontend/features/home/data/models/login_streak_data_response_model.dart';
 import 'package:wellwave_frontend/features/home/data/models/notifications_data_response_model.dart';
-import 'package:wellwave_frontend/features/home/data/models/recommend_habit_response_model.dart';
+import 'package:wellwave_frontend/features/home/data/models/recommend_challenges_request_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/get_daily_habit_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/habit_request_model.dart';
+import 'package:wellwave_frontend/features/mission/data/models/rec_daily_habit_model.dart';
 import 'package:wellwave_frontend/features/profile/data/repositories/profile_repositories.dart';
 
 extension HomeHealthDataRepository on HealthAssessmentRepository {
@@ -34,7 +37,7 @@ extension HomeHealthDataRepository on HealthAssessmentRepository {
       }
       return null;
     } catch (e) {
-      debugPrint('Error: $e');
+      debugPrint('Error:  $e');
       return null;
     }
   }
@@ -254,32 +257,6 @@ class HealthDataRepository {
   }
 }
 
-class RecommendHabitRepository {
-  final _secureStorage = const FlutterSecureStorage();
-  final _tokenKey = 'access_token';
-
-  Future<RecommendHabitResponseModel?> fetchRecommendHabitData() async {
-    final token = await _secureStorage.read(key: _tokenKey);
-
-    try {
-      final response = await http.get(
-        Uri.parse("$baseUrl/get-rec/test-habits"),
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body);
-        return RecommendHabitResponseModel.fromJson(jsonData);
-      }
-      return null;
-    } catch (e) {
-      debugPrint('Error: $e');
-      return null;
-    }
-  }
-}
-
 class UserChallengesRepository {
   final _secureStorage = const FlutterSecureStorage();
   final _tokenKey = 'access_token';
@@ -300,7 +277,7 @@ class UserChallengesRepository {
       }
       return null;
     } catch (e) {
-      debugPrint('Error: $e');
+      debugPrint('Error: fetchUserChallengesData $e');
       return null;
     }
   }
@@ -331,6 +308,75 @@ class UserChallengesRepository {
     } catch (e) {
       debugPrint('Error: $e');
       throw Exception('Failed to update completion status');
+    }
+  }
+
+  Future<GetDailyHabitModel?> getHabitDailyTask({String? category}) async {
+    final token = await _secureStorage.read(key: 'access_token');
+    if (token == null) {
+      throw Exception("No access token found");
+    }
+
+    try {
+      final now = DateTime.now();
+      final tomorrow = now.add(const Duration(days: 1));
+
+      final startDate =
+          "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+      final endDate =
+          "${tomorrow.year}-${tomorrow.month.toString().padLeft(2, '0')}-${tomorrow.day.toString().padLeft(2, '0')}";
+
+      final uri = Uri.parse(baseUrl +
+          '/habit/user?isDaily=true&startDate=$startDate&endDate=$endDate');
+      debugPrint('Calling API URL: $uri');
+
+      final response = await http.get(
+        uri,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        return GetDailyHabitModel.fromJson(jsonData);
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Error: getHabitDailyTask $e');
+      return null;
+    }
+  }
+}
+
+class RecommendHabitRepository {
+  final _secureStorage = const FlutterSecureStorage();
+  final _tokenKey = 'access_token';
+
+  Future<RecommendChallengesRequestModel?> fetchRecommendHabitData() async {
+    final token = await _secureStorage.read(key: _tokenKey);
+
+    try {
+      final response = await http.get(
+        Uri.parse("$baseUrl/habit/user?category=rec"),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      debugPrint("Recommend habit response status: ${response.statusCode}");
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        debugPrint("Recommend habit data fetched successfully");
+        return RecommendChallengesRequestModel.fromJson(jsonData);
+      }
+
+      debugPrint("Failed to fetch recommend habits: ${response.statusCode}");
+      return null;
+    } catch (e) {
+      debugPrint('Error: fetchRecommendHabitData $e');
+      return null;
     }
   }
 }

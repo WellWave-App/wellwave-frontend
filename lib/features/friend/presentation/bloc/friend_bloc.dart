@@ -75,29 +75,31 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
 
   void _onSearchFriend(
       SearchFriendEvent event, Emitter<FriendState> emit) async {
-    if (event.searchId.isEmpty) {
-      emit(FriendError('Please enter ID'));
+    // ไม่ต้องแจ้งผู้ใช้หากรูปแบบไม่ถูกต้อง แค่ตรวจสอบเงียบๆ
+    if (event.validId == null) {
+      emit(FriendError('')); // ส่ง error message ว่างๆ
       return;
     }
 
     emit(FriendLoading());
     try {
-      final userId = int.tryParse(event.searchId) ?? -1;
+      final numericId = event.validId!.replaceAll(RegExp(r'[^0-9]'), '');
+      final userId = int.tryParse(numericId) ?? -1;
+
       if (userId == -1) {
-        emit(FriendError('ID is invalid'));
+        emit(FriendError(''));
         return;
       }
 
       final myUID = await profileRepositories?.getUSer();
-
       if (myUID?.uid == userId) {
-        emit(FriendError('Cannot add yourself'));
+        emit(FriendError(''));
         return;
       }
 
       final friends = await friendRepositories.getUserById(userId);
       if (friends == null) {
-        emit(FriendError('User Not found'));
+        emit(FriendError(''));
         return;
       }
 
@@ -105,10 +107,10 @@ class FriendBloc extends Bloc<FriendEvent, FriendState> {
       final isFriend =
           userFriends?.data.any((friend) => friend.uid == userId) ?? false;
 
-      emit(FriendLoaded(event.searchId, friends, userFriends,
+      emit(FriendLoaded(event.validId!, friends, userFriends,
           isFriend: isFriend));
     } catch (e) {
-      emit(FriendError('Error: $e'));
+      emit(FriendError(''));
     }
   }
 

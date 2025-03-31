@@ -30,6 +30,7 @@ class ProfileUserAdd extends StatelessWidget {
             final friends = state.friends;
             final searchId = state.searchId;
             final isFriend = state.isFriend;
+            final numericId = searchId.replaceAll(RegExp(r'[^0-9]'), '');
             String imageUrl = friends.imageUrl ?? '';
             return Column(
               children: [
@@ -68,15 +69,15 @@ class ProfileUserAdd extends StatelessWidget {
                       ? () {
                           context.goNamed(
                             AppPages.profileFriendName,
-                            pathParameters: {'uid': searchId},
+                            pathParameters: {'uid': numericId},
                           );
                         }
                       : () {
                           context.read<FriendBloc>().add(
-                              ToggleAddfriendButtonEvent(searchId: searchId));
+                              ToggleAddfriendButtonEvent(searchId: numericId));
                           context
                               .read<FriendBloc>()
-                              .add(SearchFriendEvent(searchId));
+                              .add(SearchFriendEvent(numericId));
                         },
                 ),
               ],

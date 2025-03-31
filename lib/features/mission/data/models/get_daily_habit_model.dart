@@ -153,9 +153,7 @@ class HabitDetailModel {
       exerciseType: json['EXERCISE_TYPE'],
       trackingType: json['TRACKING_TYPE'] ?? '',
       expReward: (json['EXP_REWARD'] as num).toInt(),
-      gemReward: json['GEM_REWARD'] != null
-          ? (json['GEM_REWARD'] as num).toInt()
-          : null,
+      gemReward: json['GEM_REWARD'] as int? ?? 0,
       defaultDailyMinuteGoal: json['DEFAULT_DAILY_MINUTE_GOAL'] != null
           ? (json['DEFAULT_DAILY_MINUTE_GOAL'] as num).toInt()
           : null,

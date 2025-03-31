@@ -80,9 +80,6 @@ class MainApp extends StatelessWidget {
         RepositoryProvider<UserChallengesRepository>(
           create: (context) => UserChallengesRepository(),
         ),
-        RepositoryProvider<RecommendHabitRepository>(
-          create: (context) => RecommendHabitRepository(),
-        ),
         RepositoryProvider<ArticleRepository>(
           create: (context) => ArticleRepository(),
         ),
@@ -140,6 +137,7 @@ class MainApp extends StatelessWidget {
               healthDataRepository: HealthDataRepository(),
               userChallengesRepository: UserChallengesRepository(),
               recommendHabitRepository: RecommendHabitRepository(),
+              habitRepositories: HabitRepositories(),
             )..add(FetchHomeEvent(context)),
           ),
           BlocProvider<AuthBloc>(

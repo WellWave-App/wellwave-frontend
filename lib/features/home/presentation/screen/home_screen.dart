@@ -6,13 +6,25 @@ import 'package:wellwave_frontend/config/constants/app_colors.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_bloc.dart';
 import 'package:wellwave_frontend/features/home/presentation/bloc/home_state.dart';
+import 'package:wellwave_frontend/features/home/presentation/bloc/home_event.dart';
 
 import '../../widget/floating_button_with_shake.dart';
 import '../../widget/progress_widget.dart';
 import '../../widget/top_of_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeBloc>().add(FetchChallengesDataEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +32,6 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: AppColors.primaryColor,
       body: BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
         if (state is HomeLoading) {
-          
           return const Center(child: CircularProgressIndicator());
         } else if (state is HomeLoadedState) {
           final notifications = state.notiData;
@@ -56,6 +67,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              // FloatingButtonWithShake(),
               FutureBuilder<bool>(
                 future: _checkShowFloatingButton(profileCreateAt),
                 builder: (context, snapshot) {
@@ -73,9 +85,9 @@ class HomeScreen extends StatelessWidget {
             ],
           );
         } else if (state is HomeError) {
-          return Center(child: Text('Error: ${state.message}'));
+          return Center(child: Text('Error:  ${state.message}'));
         } else {
-          return const Center(child: Text('data'));
+          return Container();
         }
       }),
     );
@@ -85,17 +97,13 @@ class HomeScreen extends StatelessWidget {
 Future<bool> _checkShowFloatingButton(DateTime? profileCreateAt) async {
   final prefs = await SharedPreferences.getInstance();
   final lastPressedTimestamp = prefs.getInt('last_button_pressed');
-
-  // ถ้าไม่เคยกดปุ่มมาก่อน
   if (lastPressedTimestamp == null) {
-    // ถ้ามีข้อมูล profile
     if (profileCreateAt != null) {
       return await isCreateAtDateWithin30Days(profileCreateAt);
     }
     return false;
   }
 
-  // ถ้าเคยกดปุ่มแล้ว ตรวจสอบว่าผ่านมา 30 วันหรือยัง
   final lastPressedDate =
       DateTime.fromMillisecondsSinceEpoch(lastPressedTimestamp);
   final currentDate = DateTime.now();

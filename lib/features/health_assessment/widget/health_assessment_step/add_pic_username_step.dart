@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wellwave_frontend/common/widget/custom_text_form_field.dart';
 import 'package:wellwave_frontend/config/constants/app_images.dart';
@@ -15,32 +15,45 @@ import '../../presentation/bloc/health_assessment_page/health_assessment_page_ev
 import '../../presentation/bloc/health_assessment_page/health_assessment_page_state.dart';
 
 class AddPicUsernameStep extends StatefulWidget {
-  final HealthAssessmentPageState state;
-
-  const AddPicUsernameStep({super.key, required this.state});
+  const AddPicUsernameStep({super.key});
 
   @override
   State<AddPicUsernameStep> createState() => _AddPicUsernameStepState();
 }
 
 class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
+  final ImagePicker _picker = ImagePicker();
+  File? _temporaryImageFile;
   Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? pickedFile =
-        await picker.pickImage(source: ImageSource.gallery);
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 800,
+        maxHeight: 800,
+        imageQuality: 85,
+      );
 
-    if (pickedFile != null) {
-      final File imageFile = File(pickedFile.path);
-      context.read<HealthAssessmentPageBloc>().add(ImagePicked(imageFile));
+      if (pickedFile != null) {
+        setState(() {
+          _temporaryImageFile = File(pickedFile.path);
+        });
+        debugPrint('Selected image path: ${_temporaryImageFile?.path}');
+      }
+    } catch (e) {
+      debugPrint('Error picking image: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('เกิดข้อผิดพลาด: ${e.toString()}')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.state.showStartStep) {
+    final state = context.watch<HealthAssessmentPageBloc>().state;
+
+    if (state.showStartStep) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.pop(
-          context,
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const StartHealthStep()),
         );
       });
@@ -49,45 +62,28 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Text(AppStrings.setNameandPicText,
-              style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            AppStrings.setNameandPicText,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
           const SizedBox(height: 8),
-          Text(AppStrings.callNameAskText,
-              style: Theme.of(context).textTheme.bodySmall),
+          Text(
+            AppStrings.callNameAskText,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
           const SizedBox(height: 64),
           Stack(
+            alignment: Alignment.center,
             children: [
-              widget.state.selectedImage != null
-                  ? ClipOval(
-                      child: SizedBox(
-                        width: 176,
-                        height: 176,
-                        child: Image.file(
-                          widget.state.selectedImage!,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    )
-                  : SvgPicture.asset(AppImages.avatarDefaultIcon),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: ElevatedButton(
-                  onPressed: _pickImage,
-                  style: ElevatedButton.styleFrom(
-                    shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(12),
-                  ),
-                  child: SvgPicture.asset(AppImages.cameraIcon),
-                ),
-              ),
+              _buildProfileImage(state),
+              _buildCameraButton(),
             ],
           ),
           const SizedBox(height: 48),
           CustomTextFormField(
             labelText: "ชื่อผู้ใช้*",
             hintText: AppStrings.usernameText,
-            initialValue: widget.state.formData['username'] ?? '',
+            initialValue: state.formData['username'] ?? '',
             inputFormatters: [
               LengthLimitingTextInputFormatter(16),
             ],
@@ -103,6 +99,59 @@ class _AddPicUsernameStepState extends State<AddPicUsernameStep> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildProfileImage(HealthAssessmentPageState state) {
+    final imageToShow = _temporaryImageFile ?? state.selectedImage;
+
+    return Container(
+      width: 176,
+      height: 176,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.grey[200],
+      ),
+      child: ClipOval(
+        child: imageToShow != null
+            ? Image.file(
+                imageToShow,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return _buildFallbackImage();
+                },
+              )
+            : _buildFallbackImage(),
+      ),
+    );
+  }
+
+  Widget _buildCameraButton() {
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      child: ElevatedButton(
+        onPressed: _pickImage,
+        style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          padding: const EdgeInsets.all(12),
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
+        child: SvgPicture.asset(
+          AppImages.cameraIcon,
+          colorFilter: ColorFilter.mode(
+            Theme.of(context).colorScheme.onPrimary,
+            BlendMode.srcIn,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFallbackImage() {
+    return SvgPicture.asset(
+      AppImages.avatarDefaultIcon,
+      fit: BoxFit.cover,
     );
   }
 }

@@ -57,3 +57,12 @@ class UpdateRiskScoreEvent {
 
   UpdateRiskScoreEvent(this.scoreType, this.scoreToAdd);
 }
+
+class UpdateTemporaryImage extends HealthAssessmentPageEvent {
+  final File imageFile;
+
+  UpdateTemporaryImage(this.imageFile);
+
+  @override
+  List<Object> get props => [imageFile];
+}
