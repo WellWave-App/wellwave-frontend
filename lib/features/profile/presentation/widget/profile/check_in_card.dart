@@ -21,8 +21,18 @@ class CheckInWidget extends StatelessWidget {
     final loginStats = profileState.userProfile.loginStats;
     final overallStats = profileState.userProfile.loginStats?.overAllStats;
 
+    if (profileState is ProfileLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     if (overallStats == null || loginStats == null) {
-      return const Center(child: Text("Error: Stats are missing or empty"));
+      // Trigger a profile refresh if stats are missing
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.read<ProfileBloc>().add(FetchUserProfile());
+      });
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     }
 
     List<bool> checkedInDays =

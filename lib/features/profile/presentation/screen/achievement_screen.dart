@@ -108,8 +108,8 @@ class AchievementScreen extends StatelessWidget {
                     }
 
                     return Wrap(
-                      spacing: 16,
-                      runSpacing: 32,
+                      spacing: 8,
+                      runSpacing: 16,
                       alignment: WrapAlignment.spaceBetween,
                       children: [
                         ...achievementWidgets,
@@ -132,8 +132,8 @@ class AchievementScreen extends StatelessWidget {
       BuildContext context, String iconUrl, String description,
       {bool isEarned = false}) {
     return Container(
-      width: 167,
-      height: 190,
+      width: 152,
+      height: 201,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),

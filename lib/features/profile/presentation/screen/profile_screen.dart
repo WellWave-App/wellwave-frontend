@@ -89,15 +89,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               text: userLeague != -1
                                   ? AppStrings.leagueList[userLeague]
                                   : AppStrings.leaderboardText,
-                              boxWidth: 210,
+                              boxWidth: 198,
                               svgPath: userLeague != -1
                                   ? AppImages.leagueListIcon[userLeague]
                                   : AppImages.firstRankIcon,
                               isShowNavi: true,
                               appPages: AppPages.leaderboardlPage,
-                              horizontal: 6,
+                              horizontal: 3,
                             ),
-                            const SizedBox(width: 16),
+                            const SizedBox(width: 4),
 
                             //exchange
                             const Expanded(
@@ -264,12 +264,9 @@ void _showSignOutDialog(BuildContext context) {
                 const SizedBox(height: 24),
                 ConfirmCancelButtons(
                   onConfirm: () {
-                    Navigator.pop(context);
                     context.read<AuthBloc>().add(LogoutEvent());
 
-                    Future.delayed(const Duration(milliseconds: 300), () {
-                      context.goNamed(AppPages.loginName);
-                    });
+                    context.goNamed(AppPages.loginName);
                   },
                   onCancel: () {
                     Navigator.pop(context);

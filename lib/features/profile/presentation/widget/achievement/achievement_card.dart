@@ -109,19 +109,19 @@ class AchievementCard extends StatelessWidget {
                                       );
                                     },
                                   ),
-                                  if (!earnedAchievement.isRead)
-                                    Positioned(
-                                      top: -2,
-                                      right: -2,
-                                      child: Container(
-                                        width: 8,
-                                        height: 8,
-                                        decoration: const BoxDecoration(
-                                          color: Colors.red,
-                                          shape: BoxShape.circle,
-                                        ),
-                                      ),
-                                    ),
+                                  // if (!earnedAchievement.isRead)
+                                  //   Positioned(
+                                  //     top: -2,
+                                  //     right: -2,
+                                  //     child: Container(
+                                  //       width: 8,
+                                  //       height: 8,
+                                  //       decoration: const BoxDecoration(
+                                  //         color: Colors.red,
+                                  //         shape: BoxShape.circle,
+                                  //       ),
+                                  //     ),
+                                  //   ),
                                 ],
                               ),
                             ),

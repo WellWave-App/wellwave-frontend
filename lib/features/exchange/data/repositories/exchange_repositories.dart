@@ -59,7 +59,7 @@ class ExchangeRepositories {
 
     try {
       final response = await http.get(
-        Uri.parse("$baseUrl/shop/items"),
+        Uri.parse("$baseUrl/shop/items?filter=notInBox"),
         headers: {
           'Authorization': 'Bearer $token',
         },
@@ -177,12 +177,14 @@ class ExchangeRepositories {
       );
 
       if (response.statusCode == 201) {
-        return jsonDecode(response.body) as Map<String, dynamic>;
+        // debugPrint('Mystery box response: ${response.body}');
+        final Map<String, dynamic> decodedResponse = jsonDecode(response.body);
+        return decodedResponse;
       }
-      return false;
+      throw Exception('Failed to open mystery box: ${response.statusCode}');
     } catch (e) {
-      debugPrint('Error: $e');
-      return false;
+      debugPrint('Error opening mystery box: $e');
+      throw Exception('Failed to open mystery box: $e');
     }
   }
 

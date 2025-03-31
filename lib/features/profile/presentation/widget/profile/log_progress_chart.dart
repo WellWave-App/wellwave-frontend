@@ -67,7 +67,7 @@ class LogProgressChart<T> extends StatelessWidget {
       case '14 วัน':
         return logs.length <= 14 ? logs : logs.sublist(logs.length - 14);
       case '1 เดือน':
-        return averageLogsByWeek(logs, DateTime.now(), 4);
+        return averageLogsByWeek(logs, DateTime.now(), 5);
       case '3 เดือน':
         return averageLogsByWeek(logs, DateTime.now(), 12);
       default:

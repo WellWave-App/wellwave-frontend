@@ -210,6 +210,7 @@ class AppImages {
   static const exchangeSuccessBar =
       'assets/icons/shop/bar_exchange_success.svg';
   static const catNoItemimage = 'assets/images/exchange/cat_no_item.png';
+  static const greyEXPIcon = 'assets/icons/shop/grey_exp_icon.svg';
 
   //profile
   static const catImg = 'assets/images/profile/cat.png';

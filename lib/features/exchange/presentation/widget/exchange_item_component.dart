@@ -93,7 +93,7 @@ class _ExchangeItemComponentState extends State<ExchangeItemComponent> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 160,
+      width: 145,
       height: 225,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),

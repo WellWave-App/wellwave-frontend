@@ -87,7 +87,7 @@ class _WeeklyLogsState extends State<WeeklyLogs> {
                         logsRecorded
                             ? Container(
                                 padding: const EdgeInsets.symmetric(
-                                    vertical: 8.0, horizontal: 16.0),
+                                    vertical: 4.0, horizontal: 8.0),
                                 decoration: BoxDecoration(
                                   color: Colors.grey[400],
                                   borderRadius: BorderRadius.circular(16.0),

@@ -56,21 +56,15 @@ class ExchangeResponseModel {
   });
 
   factory ExchangeResponseModel.fromJson(Map<String, dynamic> json) {
-    // Check if the item field exists as expected
     Map<String, dynamic> itemData;
     if (json['item'] != null) {
       if (json['item'] is Map) {
-        // Convert to Map<String, dynamic>
-        itemData = {};
-        (json['item'] as Map).forEach((key, value) {
-          itemData[key.toString()] = value;
-        });
+        itemData = Map<String, dynamic>.from(json['item']);
       } else {
-        itemData = {}; // Fallback empty map
+        itemData = {};
       }
     } else {
-      // Try to parse from the root if 'item' is missing
-      itemData = json;
+      itemData = Map<String, dynamic>.from(json);
     }
 
     return ExchangeResponseModel(
@@ -81,7 +75,7 @@ class ExchangeResponseModel {
           ? DateTime.parse(json['PURCHASE_DATE'].toString())
           : DateTime.now(),
       expireDate: json['EXPIRE_DATE'] != null
-          ? DateTime.tryParse(json['EXPIRE_DATE'].toString())
+          ? DateTime.parse(json['EXPIRE_DATE'].toString())
           : null,
       isActive: json['IS_ACTIVE'] ?? false,
       item: Item.fromJson(itemData),
@@ -92,8 +86,8 @@ class ExchangeResponseModel {
 class Item {
   final int itemId;
   final String itemType;
-  final String itemName;
-  final String description;
+  final String? itemName;
+  final String? description;
   final int priceGem;
   final int priceExp;
   final String? imageUrl;
@@ -106,8 +100,8 @@ class Item {
   const Item({
     required this.itemId,
     required this.itemType,
-    required this.itemName,
-    required this.description,
+    this.itemName,
+    this.description,
     required this.priceGem,
     required this.priceExp,
     this.imageUrl,
@@ -119,7 +113,7 @@ class Item {
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
-    // debugPrint('Parsing Item: $json');
+// debugPrint('Parsing Item: $json');
 
     // Debug the expBooster and gemExchange
     // debugPrint('expBooster data: ${json['expBooster']}');
@@ -134,14 +128,14 @@ class Item {
         ? GemExchange.fromJson(json['gemExchange'])
         : null;
 
-    // debugPrint(
+// debugPrint(
     // 'Parsed Item - Type: $itemType, ExpBooster: $expBooster, GemExchange: $gemExchange');
 
     return Item(
       itemId: json['ITEM_ID'] ?? 0,
       itemType: itemType,
-      itemName: json['ITEM_NAME'] ?? '',
-      description: json['DESCRIPTION'] ?? '',
+      itemName: json['ITEM_NAME'] != null ? json['ITEM_NAME'] : '',
+      description: json['DESCRIPTION'] != null ? json['ITEM_NAME'] : '',
       priceGem: json['PRICE_GEM'] ?? 0,
       priceExp: json['PRICE_EXP'] ?? 0,
       imageUrl: json['IMAGE_URL'],

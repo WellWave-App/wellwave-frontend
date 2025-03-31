@@ -68,13 +68,8 @@ class ExchangeScreen extends StatelessWidget {
                   } else if (state is ProfileLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else {
-                    return Center(
-                        child: Text(
-                      AppStrings.noDataAvaliableText,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppColors.darkGrayColor,
-                          ),
-                    ));
+                    return const Center(
+                        child: Text(AppStrings.noDataAvaliableText));
                   }
                 },
               ),
@@ -294,7 +289,9 @@ class ExchangeScreen extends StatelessWidget {
                                           ? canAfford
                                               ? AppImages.gemIcon
                                               : AppImages.gemNotCheckSvg
-                                          : AppImages.expCoinSvg,
+                                          : canAfford
+                                              ? AppImages.expCoinSvg
+                                              : AppImages.greyEXPIcon,
                                   itemValue:
                                       exchangeItem.item.itemType == "exp_boost"
                                           ? (exchangeItem.item.expBooster
@@ -446,7 +443,9 @@ class ExchangeScreen extends StatelessWidget {
                                           ? canAfford
                                               ? AppImages.gemIcon
                                               : AppImages.gemNotCheckSvg
-                                          : AppImages.expCoinSvg,
+                                          : canAfford
+                                              ? AppImages.expCoinSvg
+                                              : AppImages.greyEXPIcon,
                                   itemValue:
                                       exchangeItem.item.itemType == "exp_boost"
                                           ? (exchangeItem.item.expBooster

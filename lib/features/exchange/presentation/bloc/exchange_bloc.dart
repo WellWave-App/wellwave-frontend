@@ -123,42 +123,43 @@ class ExchangeBloc extends Bloc<ExchangeEvent, ExchangeState> {
     OpenMysteryBoxEvent event,
     Emitter<ExchangeState> emit,
   ) async {
-    // Capture current exchange items if available
+    // Store current exchange items
     ExchangeResponseModels? currentItems;
     if (state is ExchangeLoaded) {
       currentItems = (state as ExchangeLoaded).userExchange;
     }
 
-    // We'll use a different state specifically for mystery box loading
     emit(const MysteryBoxLoading());
 
     try {
       final result = await exchangeRepositories.openMysteryBox(
-        boxName: "main",
+        boxName: 'mainBox',
       );
 
-      final exchangeRequest =
-          ExchangeRequestModels.fromJson(result as Map<String, dynamic>);
+      debugPrint('Mystery box result: $result');
 
-      final itemName = exchangeRequest.item.itemName;
-      final description = exchangeRequest.item.description;
-      final itemType = exchangeRequest.item.itemType;
-      final userItemId = exchangeRequest.userItemId;
-      final boostMultiplier = exchangeRequest.item.expBooster?.boostMultiplier;
-      final gemReward = exchangeRequest.item.gemExchange?.gemReward;
-      final boostDays = exchangeRequest.item.expBooster?.boostDays;
+      if (result is Map<String, dynamic>) {
+        final data = result;
+        final item = data['item'] ?? {};
 
-      // Include the current items in the MysteryBoxOpened state
-      emit(MysteryBoxOpened(itemName, description, itemType, userItemId,
-          boostMultiplier, gemReward, boostDays,
-          previousExchangeItems: currentItems));
-    } catch (e) {
-      // If error, restore previous exchange items if available
-      if (currentItems != null) {
-        emit(ExchangeLoaded(currentItems));
+        emit(MysteryBoxOpened(
+          item['ITEM_NAME'] ?? '', // Handle null by providing empty string
+          item['DESCRIPTION'] ?? '', // Handle null by providing empty string
+          item['ITEM_TYPE'] ?? '',
+          data['USER_ITEM_ID'] ?? 0,
+          item['expBooster']?['BOOST_MULTIPLIER']?.toDouble(),
+          item['gemExchange']?['GEM_REWARD'],
+          item['expBooster']?['BOOST_DAYS'],
+          previousExchangeItems: currentItems,
+        ));
+
+        debugPrint('Emitted MysteryBoxOpened state');
       } else {
-        emit(const ExchangeError('Error opening mystery box'));
+        throw Exception('Invalid response format');
       }
+    } catch (e) {
+      debugPrint('Error in _onOpenMysteryBox: $e');
+      emit(ExchangeError(e.toString()));
     }
   }
 

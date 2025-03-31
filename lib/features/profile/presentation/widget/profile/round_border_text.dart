@@ -60,7 +60,7 @@ class RoundedText extends StatelessWidget {
                       svgPath,
                       height: iconSize,
                     ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
               Text(
                 text,
                 style: isBold
