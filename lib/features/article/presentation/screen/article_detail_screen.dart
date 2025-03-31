@@ -56,41 +56,44 @@ class ArticleDetailScreen extends StatelessWidget {
               ),
               child: article == null
                   ? const Center(child: Text("ไม่พบข้อมูลบทความ"))
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 16),
-                        Text(
-                          article.topic,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(Icons.menu_book_rounded,
-                                size: 20, color: Colors.grey),
-                            SizedBox(width: 4),
-                            Text(
-                              'readingTime',
-                              style:
-                                  TextStyle(fontSize: 14, color: Colors.grey),
+                  : SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 16),
+                          Text(
+                            article.topic,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            article.body,
-                            style: TextStyle(fontSize: 14, color: Colors.black),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                      ],
+                          SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Icon(Icons.menu_book_rounded,
+                                  size: 20, color: Colors.grey),
+                              SizedBox(width: 4),
+                              Text(
+                                '${article.estimatedReadTime} readingTime',
+                                style:
+                                    TextStyle(fontSize: 14, color: Colors.grey),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              article.body,
+                              style:
+                                  TextStyle(fontSize: 14, color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
             ),
           ),
