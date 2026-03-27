@@ -105,7 +105,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
       try {
         // เรียกใช้ fetchSearchArticle จาก repository โดยส่งคำค้นหาจาก event
         final articles = await articleRepository.searchArticles(event.query);
-        emit(ArticleRecommendLoaded(
+        emit(SearchArticleLoaded(
             articles)); // ส่งข้อมูลบทความที่ดึงมาในสถานะ ArticleRecommendLoaded
       } catch (e) {
         emit(ArticleError("ไม่สามารถดึงข้อมูลบทความ: ${e.toString()}"));

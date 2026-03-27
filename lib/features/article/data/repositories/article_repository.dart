@@ -24,7 +24,7 @@ import 'package:wellwave_frontend/features/article/data/models/article_model.dar
 import '../models/article_bookmark.dart';
 
 class ArticleRepository {
-  final String baseUrl = "http://10.0.2.2:3000/";
+  final String baseUrl = "http://ce67-16.cloud.ce.kmitl.ac.th/api/v1";
   final _secureStorage = const FlutterSecureStorage();
 
   // Future<List<ArticleModel>> fetchArticles() async {
@@ -193,7 +193,7 @@ class ArticleRepository {
   Future<List<ArticleModel>> searchArticles(String query) async {
     try {
       final response =
-          await http.get(Uri.parse('${baseUrl}article/search?search=$query'));
+          await http.get(Uri.parse('${baseUrl}/article/search?search=$query'));
 
       print('search :${response.statusCode}');
       print('search :${response.body}');
